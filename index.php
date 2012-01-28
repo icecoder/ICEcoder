@@ -74,7 +74,7 @@ shortURLStarts = "<?php echo $shortURLStarts;?>";
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract')">
 	<div class="account" id="account"><a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock-disabled.png" id="fmLock" style="margin-left: 232px; margin-top: 27px"></a></div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php"></iframe>
-	<div class="upload" style="display: none"><a href="javascript:alert('Doesn\'t do anything yet but will be a drag & drop style uploader')"><img src="images/upload.png"></a></div>
+	<div class="upload"><a href="javascript:alert('Doesn\'t do anything yet but will be a drag & drop style uploader')"><img src="images/upload.png"></a></div>
 </div>
 
 <div id="editor" class="editor">
