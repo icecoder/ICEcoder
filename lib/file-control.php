@@ -103,6 +103,7 @@ if ($_GET['action']=="save") {
 				// Reload file manager & stop CTRL+s being sticky
 				echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.filesFrame.src="files.php";</script>';
 			}
+			echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$file.'\');</script>';
 			echo '<script>action="doneSave";</script>';
 		} else {
 			echo '<script>alert(\'Sorry, you need to be logged in to save\');</script>';
@@ -124,13 +125,14 @@ if (action=="load") {
 		top.ICEcoder.switchMode();
 		cM = top.ICEcoder.getcMInstance();
 		cM.setValue(document.getElementById('loadedFile').value);
-		cM.clearHistory();
 		top.document.getElementById('content').style.visibility='visible';
 		top.ICEcoder.switchTab(top.ICEcoder.selectedTab);
 		cM.focus();
 
 		// Then clean it up, set the text cursor, update the display and get the character data
 		top.ICEcoder.contentCleanUp();
+		top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.selectedTab].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
+		top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.selectedTab].setLineClass(0, "cm-s-activeLine");
 	}
 
 	if (fileType=="image") {
