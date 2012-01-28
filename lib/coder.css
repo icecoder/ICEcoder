@@ -33,40 +33,17 @@ body {overflow: hidden}
 	-webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
 	-moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
 	box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
-	-webkit-transition: width 0.5s ease-in-out;
-	-moz-transition: width 0.5s ease-in-out;
-	-o-transition: width 0.5s ease-in-out;
-	-ms-transition: width 0.5s ease-in-out;	
-	transition: width 0.5s ease-in-out;
 }
 .files .account {display: inline-block; height: 50px; width: 250px; margin-top: 40px; background-color: #888888}
 .files .frame {display: inline-block; width: 250px}
 .files .upload {display: inline-block; height: 40px; width: 250px; background-color: #888888}
 .files .upload img {margin: 8px 0px 0px 15px}
 
-.editor {position: absolute; display: inline-block; top: 0px; left: 15px; width: 2400px; background-color: #fbfbfb;
-	-webkit-transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-o-transition: all 0.5s ease-in-out;
-	-ms-transition: all 0.5s ease-in-out;	
-	transition: all 0.5s ease-in-out;
-}
-.editor .tabsBar {display: inline-block; height: 21px; width: 2400px; margin-top: 40px; padding-left: 41px; border-bottom: solid 1px #888888; background-color: #eeeeee;
-	-webkit-transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-o-transition: all 0.5s ease-in-out;
-	-ms-transition: all 0.5s ease-in-out;	
-	transition: all 0.5s ease-in-out;
-}
+.editor {position: absolute; display: inline-block; top: 0px; left: 15px; width: 2400px; background-color: #fbfbfb;}
+.editor .tabsBar {display: inline-block; height: 21px; width: 2400px; margin-top: 40px; padding-left: 41px; border-bottom: solid 1px #888888; background-color: #eeeeee;}
 .tabsBar .tab {display: inline-block; display: none; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 4px 8px 2px 8px; font-size: 10px; border-left: solid 1px #ffffff; border-right: solid 1px #bbbbbb; color: #ffffff; cursor: pointer}
 .tabsBar .tab img {margin: 1px 0px 0px 5px}
-.tabsBar .newTab {display: inline-block; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 5px 5px 1px 5px; border-left: solid 1px #ffffff; border-right: solid 1px #bbbbbb; cursor: pointer;
-	-webkit-transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-o-transition: all 0.5s ease-in-out;
-	-ms-transition: all 0.5s ease-in-out;	
-	transition: all 0.5s ease-in-out;
-}
+.tabsBar .newTab {display: inline-block; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 5px 5px 1px 5px; border-left: solid 1px #ffffff; border-right: solid 1px #bbbbbb; cursor: pointer;}
 .editor .findBar {display: inline-block; height: 28px; width: 2400px; background-color: #eeeeee}
 .findBar .findReplace {position: absolute; z-index: 1}
 .findReplace select {position: relative; font-size: 10px; margin: 8px 2px 0px 2px; top: -2px;}
