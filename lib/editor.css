@@ -1,32 +1,40 @@
 html, body {margin: 0px}
 
-.cm-s-icecoder {font-size: 12px; color: #888; background: #fcfcfc}
-.cm-s-icecoder span.cm-keyword {color: #a0a;font-weight:bold}
-.cm-s-icecoder span.cm-atom {color: #219;}
+.cm-s-icecoder {font-size: 12px; color: #666; background: #1c1c19;}
+
+.cm-s-icecoder span.cm-keyword {color: #f8f8f8; font-weight:bold;}
+.cm-s-icecoder span.cm-atom {color: #ff0;}
 .cm-s-icecoder span.cm-number {color: #0a0;}
-.cm-s-icecoder span.cm-def {color: #00f;}
+.cm-s-icecoder span.cm-def {color: #bbf;}
+
 .cm-s-icecoder span.cm-variable {color: #a0a;}
-.cm-s-icecoder span.cm-variable-2 {color: #a0a;}
+.cm-s-icecoder span.cm-variable-2 {color: #f92672;}			
 .cm-s-icecoder span.cm-variable-3 {color: #0a0;}
-.cm-s-icecoder span.cm-property {color: #0a0;}
+
+.cm-s-icecoder span.cm-property {color: #a6e22e;}
 .cm-s-icecoder span.cm-operator {color: #0a0;}
-.cm-s-icecoder span.cm-comment {color: #bbb;}
-.cm-s-icecoder span.cm-string {color: #00c;}
-.cm-s-icecoder span.cm-string-2 {color: #f50;}
+.cm-s-icecoder span.cm-comment {color: #444;}
+
+.cm-s-icecoder span.cm-string {color: #fd0;}
+.cm-s-icecoder span.cm-string-2 {color: #f80;}
+
 .cm-s-icecoder span.cm-meta {color: #555;}
 .cm-s-icecoder span.cm-error {color: #f00;}
+
 .cm-s-icecoder span.cm-qualifier {color: #555;}
-.cm-s-icecoder span.cm-builtin {color: #30a;}
+.cm-s-icecoder span.cm-builtin {color: #06c;}
 .cm-s-icecoder span.cm-bracket {color: #cc7;}
-.cm-s-icecoder span.cm-tag {color: #c00;}
-.cm-s-icecoder span.cm-attribute {color: #333;}
+
+.cm-s-icecoder span.cm-tag {color: #e8e8e8;}
+.cm-s-icecoder span.cm-attribute {color: #f92672;}
+
 .cm-s-icecoder span.cm-header {color: #a0a;}
 .cm-s-icecoder span.cm-quote {color: #090;}
 .cm-s-icecoder span.cm-hr {color: #999;}
-.cm-s-icecoder span.cm-link {color: #00c;}
+.cm-s-icecoder span.cm-link {color: #ff0;}
 
-.cm-s-icecoder span.CodeMirror-selected {background: #ffff00 !important; color: #000 !important}
+.cm-s-icecoder span.CodeMirror-selected {background: #ff0000 !important;}
 .cm-s-icecoder .CodeMirror-gutter {background: #333; border-right: 1px solid #e8e8e8;}
-.cm-s-icecoder .CodeMirror-gutter-text {color: #999; width: 35px}
-.cm-s-icecoder .CodeMirror-cursor {border-left: 1px solid black !important;}
+.cm-s-icecoder .CodeMirror-gutter-text {color: #999; width: 35px;}
+.cm-s-icecoder .CodeMirror-cursor {border-left: 1px solid white !important;}
 .cm-s-icecoder .CodeMirror-matchingbracket{border: 1px solid grey; color: black !important;}
