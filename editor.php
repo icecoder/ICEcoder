@@ -17,6 +17,7 @@
 .CodeMirror-scroll {width: 100px; height: 100px;}
 .cm-s-visible {width: 100px}
 .cm-s-hidden {width: 0px}
+.cm-s-activeLine {background: #002 !important;}
 </style>
 </head>
 
@@ -38,6 +39,10 @@ var cM<?php echo $i;?> = CodeMirror(document.body, {
 	onCursorActivity: function() {
 		top.ICEcoder.getCaretPosition();
 		top.ICEcoder.updateCharDisplay();
+		cM<?php echo $i;?>.setLineClass(top.ICEcoder.cMActiveLine<?php echo $i;?>, null);
+		if(!cM<?php echo $i;?>.somethingSelected()) {
+			top.ICEcoder.cMActiveLine<?php echo $i;?> = cM<?php echo $i;?>.setLineClass(cM<?php echo $i;?>.getCursor().line, "cm-s-activeLine");
+		}
 	},
 	onChange: function() {
 		top.ICEcoder.getCaretPosition();
@@ -63,6 +68,10 @@ var cM<?php echo $i;?> = CodeMirror(document.body, {
 				canDoEndTag=false;
 				}
 			}
+			fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+			if (fileName.indexOf(".js")>0||fileName.indexOf(".css")>0) {
+				canDoEndTag=false;
+			}
 			contentType = top.ICEcoder.caretLocType;
 			if (canDoEndTag && (contentType!="JavaScript"||(contentType=="JavaScript"&&top.ICEcoder.tagString=="script"))) {
 				numTabs = top.ICEcoder.htmlTagArray.length;
@@ -73,9 +82,9 @@ var cM<?php echo $i;?> = CodeMirror(document.body, {
 				}
 				endTag = "</" + top.ICEcoder.htmlTagArray[top.ICEcoder.htmlTagArray.length-1] + ">";
 				if (top.ICEcoder.tagString=="script") {endTag="</"+"script>"};
-				if(top.ICEcoder.tagString=="title") {
+				if(top.ICEcoder.tagString=="title"||top.ICEcoder.tagString=="a") {
 					cM<?php echo $i;?>.replaceSelection(endTag);
-					cM<?php echo $i;?>.setCursor(cM<?php echo $i;?>.getCursor().line,top.ICEcoder.tagString.length+2);
+					cM<?php echo $i;?>.setCursor(cM<?php echo $i;?>.getCursor().line,cM<?php echo $i;?>.getCursor().ch-top.ICEcoder.tagString.length-3);
 				} else if(top.ICEcoder.tagString=="html"||top.ICEcoder.tagString=="head") {
 					cM<?php echo $i;?>.replaceSelection("\n\n"+endTag);
 					cM<?php echo $i;?>.setCursor(cM<?php echo $i;?>.getCursor().line-1,numTabs);
@@ -95,6 +104,7 @@ cM<?php echo $i;?>.getWrapperElement().getElementsByClassName("CodeMirror-lines"
 	}
 	top.ICEcoder.findMode = false;
 }, false);
+top.ICEcoder.cMActiveLine<?php echo $i;?> = cM<?php echo $i;?>.setLineClass(0, "cm-s-activeLine");
 <?php
 ;};
 ?>
