@@ -82,7 +82,7 @@ var cM<?php echo $i;?> = CodeMirror(document.body, {
 				}
 				endTag = "</" + top.ICEcoder.htmlTagArray[top.ICEcoder.htmlTagArray.length-1] + ">";
 				if (top.ICEcoder.tagString=="script") {endTag="</"+"script>"};
-				if(top.ICEcoder.tagString=="title"||top.ICEcoder.tagString=="a") {
+				if(top.ICEcoder.tagString=="title"||top.ICEcoder.tagString=="a"||top.ICEcoder.tagString=="span"||(top.ICEcoder.tagString.slice(0,1)=="h"&&parseInt(top.ICEcoder.tagString.slice(1,2),10)>=1&&parseInt(top.ICEcoder.tagString.slice(1,2),10)<=7)) {
 					cM<?php echo $i;?>.replaceSelection(endTag);
 					cM<?php echo $i;?>.setCursor(cM<?php echo $i;?>.getCursor().line,cM<?php echo $i;?>.getCursor().ch-top.ICEcoder.tagString.length-3);
 				} else if(top.ICEcoder.tagString=="html"||top.ICEcoder.tagString=="head") {
