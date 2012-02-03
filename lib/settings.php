@@ -1,5 +1,5 @@
 <?php
-$versionNo		= "v 0.5.1";
+$versionNo		= "v 0.5.2";
 $codeMirrorDir		= "CodeMirror-2.21";
 $cMThisVer		= 2.21;
 $testcMVersion		= false; // test if we're using the latest CodeMirror version
