@@ -33,7 +33,7 @@ html, body {margin: 0px}
 .cm-s-icecoder span.cm-hr {color: #999;}
 .cm-s-icecoder span.cm-link {color: #ff0;}
 
-.cm-s-icecoder span.CodeMirror-selected {background: #ff0000 !important;}
+.cm-s-icecoder .CodeMirror-selected {background: #000000 !important;}
 .cm-s-icecoder .CodeMirror-gutter {background: #333; border-right: 1px solid #e8e8e8;}
 .cm-s-icecoder .CodeMirror-gutter-text {color: #999; width: 35px;}
 .cm-s-icecoder .CodeMirror-cursor {border-left: 1px solid white !important;}
