@@ -29,7 +29,7 @@ if ($_GET['action']=="load") {
 		if ($_SESSION['userLevel'] == 10 || ($_SESSION['userLevel'] < 10 && $bannedFile==false)) {
 			echo '<script>fileType="text";</script>';
 			$loadedFile = file_get_contents($file);
-			echo '<textarea name="loadedFile" id="loadedFile">'.$loadedFile.'</textarea>';
+			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",$loadedFile).'</textarea>';
 		} else {
 			echo '<script>fileType="nothing";</script>';
 			echo '<script>alert(\'Sorry, you need a higher admin level to view this file\');</script>';
