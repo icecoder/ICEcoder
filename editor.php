@@ -24,10 +24,7 @@
 <body onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
 <script>
-<?php
-for ($i=1;$i<=10;$i++) {
-?>
-var cM<?php echo $i;?> = CodeMirror(document.body, {
+function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, {
         mode: "application/x-httpd-php",
 	theme: "icecoder",
         lineNumbers: true,
@@ -39,12 +36,17 @@ var cM<?php echo $i;?> = CodeMirror(document.body, {
 	onCursorActivity: function() {
 		top.ICEcoder.getCaretPosition();
 		top.ICEcoder.updateCharDisplay();
-		cM<?php echo $i;?>.setLineClass(top.ICEcoder.cMActiveLine<?php echo $i;?>, null);
-		if(!cM<?php echo $i;?>.somethingSelected()) {
-			top.ICEcoder.cMActiveLine<?php echo $i;?> = cM<?php echo $i;?>.setLineClass(cM<?php echo $i;?>.getCursor().line, "cm-s-activeLine");
+		window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
+		if(!window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].somethingSelected()) {
+			top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getCursor().line, "cm-s-activeLine");
 		}
 	},
 	onChange: function() {
+		// If we're not loading the file, it's a change, so update tab
+		if (!top.ICEcoder.loadingFile) {
+			top.ICEcoder.changedContent[top.ICEcoder.selectedTab-1] = 1;
+			top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
+		}
 		top.ICEcoder.getCaretPosition();
 		top.ICEcoder.updateCharDisplay();
 		top.ICEcoder.updateNestingIndicator();
@@ -59,7 +61,7 @@ var cM<?php echo $i;?> = CodeMirror(document.body, {
 		top.ICEcoder.findReplace('find',true);
 		top.ICEcoder.getCaretPosition();
 		top.ICEcoder.updateCharDisplay();
-		tok = cM<?php echo $i;?>.getTokenAt(cM<?php echo $i;?>.getCursor());
+		tok = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getTokenAt(window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getCursor());
 		if (tok.string!=">") {lastString=tok.string};
 		if (e.type=="keyup"&&e.keyCode=="16"&&lastKeyCode=="190") {
 			canDoEndTag=true;
@@ -82,15 +84,15 @@ var cM<?php echo $i;?> = CodeMirror(document.body, {
 				}
 				endTag = "</" + top.ICEcoder.htmlTagArray[top.ICEcoder.htmlTagArray.length-1] + ">";
 				if (top.ICEcoder.tagString=="script") {endTag="</"+"script>"};
-				if(top.ICEcoder.tagString=="title"||top.ICEcoder.tagString=="a"||top.ICEcoder.tagString=="span"||(top.ICEcoder.tagString.slice(0,1)=="h"&&parseInt(top.ICEcoder.tagString.slice(1,2),10)>=1&&parseInt(top.ICEcoder.tagString.slice(1,2),10)<=7)) {
-					cM<?php echo $i;?>.replaceSelection(endTag);
-					cM<?php echo $i;?>.setCursor(cM<?php echo $i;?>.getCursor().line,cM<?php echo $i;?>.getCursor().ch-top.ICEcoder.tagString.length-3);
+				if(top.ICEcoder.tagString=="title"||top.ICEcoder.tagString=="a"||top.ICEcoder.tagString=="li"||top.ICEcoder.tagString=="span"||(top.ICEcoder.tagString.slice(0,1)=="h"&&parseInt(top.ICEcoder.tagString.slice(1,2),10)>=1&&parseInt(top.ICEcoder.tagString.slice(1,2),10)<=7)) {
+					window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].replaceSelection(endTag);
+					window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setCursor(window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getCursor().line,window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getCursor().ch-top.ICEcoder.tagString.length-3);
 				} else if(top.ICEcoder.tagString=="html"||top.ICEcoder.tagString=="head") {
-					cM<?php echo $i;?>.replaceSelection("\n\n"+endTag);
-					cM<?php echo $i;?>.setCursor(cM<?php echo $i;?>.getCursor().line-1,numTabs);
+					window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].replaceSelection("\n\n"+endTag);
+					window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setCursor(window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getCursor().line-1,numTabs);
 				} else {
-					cM<?php echo $i;?>.replaceSelection("\n"+tabs+"\t\n"+tabs+endTag);
-					cM<?php echo $i;?>.setCursor(cM<?php echo $i;?>.getCursor().line-1,numTabs);
+					window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].replaceSelection("\n"+tabs+"\t\n"+tabs+endTag);
+					window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setCursor(window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getCursor().line-1,numTabs);
 				}
 			}
 		};
@@ -98,15 +100,22 @@ var cM<?php echo $i;?> = CodeMirror(document.body, {
 	},
 	extraKeys: {"Enter": false}
 });
-cM<?php echo $i;?>.getWrapperElement().getElementsByClassName("CodeMirror-lines")[0].addEventListener("click", function(){
-	if (top.ICEcoder.results) {
-		top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " results";
-	}
-	top.ICEcoder.findMode = false;
-}, false);
-top.ICEcoder.cMActiveLine<?php echo $i;?> = cM<?php echo $i;?>.setLineClass(0, "cm-s-activeLine");
+
+// Now create the active line for this CodeMirror object
+top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
+};
+
 <?php
-;};
+//for ($i=1;$i<=10;$i++) {
+?>
+//cM<?php echo $i;?>.getWrapperElement().getElementsByClassName("CodeMirror-lines")[0].addEventListener("click", function(){
+//	if (top.ICEcoder.results && top.ICEcoder.results.length>0) {
+//		top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " results";
+//	}
+//	top.ICEcoder.findMode = false;
+//}, false);
+<?php
+//;};
 ?>
 </script>
 
