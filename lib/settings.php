@@ -1,5 +1,5 @@
 <?php
-$versionNo		= "v 0.5.2";
+$versionNo		= "v 0.5.3";
 $codeMirrorDir		= "CodeMirror-2.21";
 $cMThisVer		= 2.21;
 $testcMVersion		= false; // test if we're using the latest CodeMirror version
@@ -12,15 +12,12 @@ $plugins		= array(
 			array("Backup","images/backup-open-files.png","margin-top: 3px","plugins/backupOpenFiles/index.php","pluginActions","10"),
 			array("Clipboard","images/clipboard.png","","javascript:alert('Doesn\'t do anything yet but will be a clipboard for copied text items, up to 100 levels')","_self","")
 			);
+$accountPassword	= "ev0lve";
 
+session_start();
 // Establish our user level
-if (!isset($_SESSION['userLevel'])) {
-	session_start();
-	$_SESSION['userLevel'] = 0;
-}
-
-if(isset($_GET['login']) && $_GET['login']=="acesHigh") {$_SESSION['userLevel'] = 10;};
-
+if (!isset($_SESSION['userLevel'])) {$_SESSION['userLevel'] = 0;};
+if(isset($_GET['login']) && $_GET['login']==$accountPassword) {$_SESSION['userLevel'] = 10;};
 $_SESSION['userLevel'] = $_SESSION['userLevel'];
 
 if (!isset($_SESSION['restrictedFiles'])) {$_SESSION['restrictedFiles'] = $restrictedFiles;}
