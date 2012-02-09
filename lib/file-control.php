@@ -115,11 +115,14 @@ if ($_GET['action']=="save") {
 <script>
 if (action=="load") {
 	if (fileType=="text") {
+		top.ICEcoder.loadingFile = true;
 		// Reset the various states back to their initial setting
 		selectedTab = top.ICEcoder.openFiles.length;	// The tab that's currently selected
 
 		// Finally, store all data, show tabs etc
 		top.ICEcoder.createNewTab();
+		top.ICEcoder.cMInstances.push(top.ICEcoder.nextcMInstance);
+		top.ICEcoder.content.contentWindow.createNewCMInstance(top.ICEcoder.nextcMInstance);
 
 		// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on _coder's load)
 		top.ICEcoder.switchMode();
@@ -131,8 +134,10 @@ if (action=="load") {
 
 		// Then clean it up, set the text cursor, update the display and get the character data
 		top.ICEcoder.contentCleanUp();
-		top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.selectedTab].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
-		top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.selectedTab].setLineClass(0, "cm-s-activeLine");
+		top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
+		top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
+		top.ICEcoder.nextcMInstance++;
+		top.ICEcoder.loadingFile = false;
 	}
 
 	if (fileType=="image") {
