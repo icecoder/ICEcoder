@@ -6,7 +6,7 @@ $file=$_GET['file'];
 $docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
 
 // Not done the first time we are on the save loop (ie, before the form posting reload)
-if ($_GET['action']=="load"||$_GET['action']=="rename"||$_GET['action']=="delete"||isset($_POST['contents'])) {
+if ($_GET['action']=="load"||$_GET['action']=="newFolder"||$_GET['action']=="rename"||$_GET['action']=="delete"||isset($_POST['contents'])) {
 	$file= str_replace("|","/",$file);
 }
 
@@ -41,6 +41,18 @@ if ($_GET['action']=="load") {
 	};
 };
 
+// If we're due to add a new folder...
+if ($_GET['action']=="newFolder") {
+	if ($_SESSION['userLevel'] > 0) {
+		mkdir($docRoot.$file, 0707);
+		// Reload file manager
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.filesFrame.src="files.php";action="newFolder";</script>';
+	} else {
+		echo '<script>alert(\'Sorry, you need to be logged in to add folders\');</script>';
+		echo '<script>action="nothing";</script>';
+	}
+}
+
 // If we're due to rename a file...
 if ($_GET['action']=="rename") {
 	if ($_SESSION['userLevel'] > 0) {
@@ -65,7 +77,7 @@ if ($_GET['action']=="delete") {
 			}
 		}
 		// Reload file manager
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.filesFrame.src="files.php";</script>';
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.filesFrame.src="files.php";action="delete";</script>';
 	} else {
 		echo '<script>alert(\'Sorry, you need to be logged in to delete\');</script>';
 		echo '<script>action="nothing";</script>';
