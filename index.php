@@ -58,6 +58,14 @@ shortURLStarts = "<?php echo $shortURLStarts;?>";
 	</div>
 </div>
 
+<div id="fileMenu" class="fileMenu" onMouseOut="this.style.display='none'" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract')">
+	<a href="javascript:top.ICEcoder.newFile()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New File</a>
+	<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New Folder</a>
+	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Delete</a>
+	<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Rename</a>
+	<a href="javascript:window.open(top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.indexOf(shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length))" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">View Webpage</a>
+</div>
+
 <div id="header" class="header" onContextMenu="return false">
 	<div class="plugins">
 	<?php
@@ -71,7 +79,7 @@ shortURLStarts = "<?php echo $shortURLStarts;?>";
 	<img src="images/ice-coder.gif" class="logo">
 </div>
 
-<div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract')">
+<div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.document.getElementById('fileMenu').style.display='none';">
 	<div class="account" id="account"><a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock-disabled.png" id="fmLock" style="margin-left: 232px; margin-top: 27px"></a></div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php"></iframe>
 	<div class="upload"><a href="javascript:alert('Doesn\'t do anything yet but will be a drag & drop style uploader')"><img src="images/upload.png"></a></div>
