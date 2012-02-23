@@ -1,5 +1,5 @@
 <?php
-$versionNo		= "v 0.5.4";
+$versionNo		= "v 0.5.5";
 $codeMirrorDir		= "CodeMirror-2.21";
 $cMThisVer		= 2.21;
 $testcMVersion		= false; // test if we're using the latest CodeMirror version
@@ -32,7 +32,7 @@ function generateHash($plainText,$salt=null) {
 session_start();
 // Establish our user level
 if (!isset($_SESSION['userLevel'])) {$_SESSION['userLevel'] = 0;};
-if(isset($_GET['login']) && generateHash($_GET['login'],$accountPassword)==$accountPassword) {$_SESSION['userLevel'] = 10;};
+if(isset($_POST['loginPassword']) && generateHash($_POST['loginPassword'],$accountPassword)==$accountPassword) {$_SESSION['userLevel'] = 10;};
 $_SESSION['userLevel'] = $_SESSION['userLevel'];
 
 if (!isset($_SESSION['restrictedFiles'])) {$_SESSION['restrictedFiles'] = $restrictedFiles;}
@@ -66,7 +66,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 			<img src="../images/ice-coder.gif">
 			<div class="version"><?php echo $versionNo;?></div>
 			<form name="settingsUpdate" action="../index.php" method="POST">
-			<input type="text" name="accountPassword" class="accountPassword">
+			<input type="password" name="accountPassword" class="accountPassword">
 			<input type="submit" name="submit" value="Set Password" class="button">
 			</form>
 			</div>
@@ -92,8 +92,10 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 			$fh = fopen($settingsFile, 'w') or die("can't update settings file");
 			fwrite($fh, $settingsContents);
 			fclose($fh);
+			// Set the session user level
+			$_SESSION['userLevel'] = 10;
 			// Finally, load again as now this file has changed and auto login
-			header('Location: index.php?login='.$_POST['accountPassword']);
+			header('Location: index.php');
 		} else {
 			// We need to set the password
 			header('Location: lib/settings.php?settings=set');
