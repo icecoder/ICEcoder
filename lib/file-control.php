@@ -3,6 +3,7 @@
 
 // Establish the full file path reference
 $file=$_GET['file'];
+if (isset($_GET['saveType'])) {$saveType = $_GET['saveType'];};
 $docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
 
 // Not done the first time we are on the save loop (ie, before the form posting reload)
@@ -167,7 +168,7 @@ if (action=="load") {
 <script>
 if (action=="save") {
 	<?php
-	if ($file=="|[NEW]") {
+	if ($file=="|[NEW]"||$saveType=="saveAs") {
 		echo 'newFileName = prompt(\'Enter Filename\',\'/\');';
 		echo 'document.saveFile.newFileName.value = newFileName;';
 	}
