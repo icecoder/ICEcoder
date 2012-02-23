@@ -21,7 +21,42 @@ body {overflow: hidden}
 
 .blackMask {position: fixed; display: table; width: 100%; height: 100%; top: 0px; left: 0px; visibility: hidden; background-color: rgba(0,0,0,0.8); text-align: center; z-index: 100}
 .blackMask .popupVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
-.popupVCenter .popup {#position: relative; #top: -50%; text-align: center}
+.popupVCenter .popup {#position: relative; #top: -50%; text-align: center; color: #ffffff; font-size: 10px}
+
+.circleOutside {background-color: rgba(0,0,0,0); border:5px solid rgba(0,183,229,0.9); opacity:.9; border-top:5px solid rgba(0,0,0,0); border-left:5px solid rgba(0,0,0,0); border-radius:50px; box-shadow: 0 0 35px #2187e7;
+	width:50px; height:50px; margin:0 auto; -moz-animation:spin .5s infinite linear; -webkit-animation:spin .5s infinite linear;
+}
+.circleInside {background-color: rgba(0,0,0,0); border:5px solid rgba(0,183,229,0.9); opacity:.9; border-top:5px solid rgba(0,0,0,0); border-left:5px solid rgba(0,0,0,0); border-radius:50px; box-shadow: 0 0 15px #2187e7;
+	width:30px; height:30px; margin:0 auto; position:relative; top:-50px; -moz-animation:spinoff .5s infinite linear; -webkit-animation:spinoff .5s infinite linear;
+}
+@-moz-keyframes spin {
+	0% { -moz-transform:rotate(0deg);}
+	100% { -moz-transform:rotate(360deg);}
+}
+@-moz-keyframes spinoff {
+	0% { -moz-transform:rotate(0deg);}
+	100% { -moz-transform:rotate(-360deg);}
+}
+@-webkit-keyframes spin {
+	0% { -webkit-transform:rotate(0deg);}
+	100% { -webkit-transform:rotate(360deg);}
+}
+@-webkit-keyframes spinoff {
+	0% { -webkit-transform:rotate(0deg); }
+	100% { -webkit-transform:rotate(-360deg);}
+}
+
+.progressBar {top: 0px; left: 0px; width:100%; height:1px; margin:2px 0; background:#2187e7; position:absolute; box-shadow:0px 0px 10px 1px rgba(0,198,255,0.7);
+	-moz-animation:fullexpand 10s ease-out; -webkit-animation:fullexpand 10s ease-out;
+}
+@-moz-keyframes fullexpand {
+	0%  { width:0px;}
+	100%{ width:100%;}	
+}
+@-webkit-keyframes fullexpand {
+	0%  { width:0px;}
+	100%{ width:100%;}	
+}
 
 .header {position: absolute; display: inline-block; width: 100%; height: 40px; background-color: #ffffff; text-align: right; z-index: 2}
 .header .plugins {position: absolute; display: inline-block; left: 27px; top: 3px}
@@ -35,6 +70,10 @@ body {overflow: hidden}
 	box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
 }
 .files .account {display: inline-block; height: 50px; width: 250px; margin-top: 40px; background-color: #888888}
+.files .accountPassword {position: relative; border: 1px solid #888888; background-color: #999999; height: 18px; width: 140px; margin-left: 14px; margin-top: 15px}
+.files .button {position: absolute; border: 0px; background: #999999; color: #555555; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
+.files .button:hover {background-color: #444444; color: #eeeeee}
+.files .lock {margin-left: 225px; margin-top: -20px}
 .files .frame {display: inline-block; width: 250px}
 .files .upload {display: inline-block; height: 40px; width: 250px; background-color: #888888}
 .files .upload img {margin: 8px 0px 0px 15px}
