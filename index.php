@@ -58,6 +58,18 @@ shortURLStarts = "<?php echo $shortURLStarts;?>";
 	</div>
 </div>
 
+
+<div id="loadingMask" class="blackMask" style="visibility: visible">
+	<span class="progressBar"></span>
+	<div class="popupVCenter">
+		<div class="popup">
+			<div class="circleOutside"></div>
+			<div class="circleInside"></div>
+			&nbsp;&nbsp;&nbsp;loading...
+		</div>
+	</div>
+</div>
+
 <div id="fileMenu" class="fileMenu" onMouseOut="this.style.display='none'" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract')">
 	<a href="javascript:top.ICEcoder.newFile()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New File</a>
 	<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New Folder</a>
@@ -80,7 +92,13 @@ shortURLStarts = "<?php echo $shortURLStarts;?>";
 </div>
 
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.document.getElementById('fileMenu').style.display='none';">
-	<div class="account" id="account"><a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock-disabled.png" id="fmLock" style="margin-left: 232px; margin-top: 27px"></a></div>
+	<div class="account" id="account">
+		<form name="login" action="index.php" method="POST">
+		<input type="password" name="loginPassword" class="accountPassword">
+		<input type="submit" name="submit" value="Login" class="button">
+		</form>
+		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock-disabled.png" id="fmLock" class="lock"></a>
+	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php"></iframe>
 	<div class="upload"><a href="javascript:alert('Doesn\'t do anything yet but will be a drag & drop style uploader')"><img src="images/upload.png"></a></div>
 </div>
