@@ -1,10 +1,10 @@
 <?php
-$versionNo		= "v 0.5.5";
-$codeMirrorDir		= "CodeMirror-2.21";
-$cMThisVer		= 2.21;
+$versionNo		= "v 0.5.6";
+$codeMirrorDir		= "CodeMirror-2.22";
+$cMThisVer		= 2.22;
 $testcMVersion		= false; // test if we're using the latest CodeMirror version
-$restrictedFiles	= array(".php",".asp",".aspx");
-$bannedFiles		= array("_coder","wp-",".exe");
+$restrictedFiles	= array("wp-",".php",".asp",".aspx");
+$bannedFiles		= array("_coder",".exe");
 $allowedIPs		= array("*"); // allowed IPs, * for any
 $plugins		= array(
 			array("Database Admin","images/database.png","margin-top: 3px","plugins/adminer/adminer-3.3.3-mysql-en.php","_blank",""),
@@ -60,19 +60,19 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 
 	<body>
 	
-	<div class="screenContainer">
-		<div class="screenVCenter">
+	<div class="screenContainer">
+		<div class="screenVCenter">
 			<div class="screenCenter">
 			<img src="../images/ice-coder.gif">
-			<div class="version"><?php echo $versionNo;?></div>
+			<div class="version"><?php echo $versionNo;?></div>
 			<form name="settingsUpdate" action="../index.php" method="POST">
 			<input type="password" name="accountPassword" class="accountPassword">
 			<input type="submit" name="submit" value="Set Password" class="button">
 			</form>
-			</div>
-		</div>
+			</div>
+		</div>
 	</div>
-
+
 	</body>
 
 	</html>
@@ -95,7 +95,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 			// Set the session user level
 			$_SESSION['userLevel'] = 10;
 			// Finally, load again as now this file has changed and auto login
-			header('Location: index.php');
+			header('Location: index.php');
 		} else {
 			// We need to set the password
 			header('Location: lib/settings.php?settings=set');
