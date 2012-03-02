@@ -47,7 +47,10 @@ if ($_GET['action']=="newFolder") {
 	if ($_SESSION['userLevel'] > 0) {
 		mkdir($docRoot.$file, 0707);
 		// Reload file manager
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.filesFrame.src="files.php";action="newFolder";</script>';
+		$fileName = substr($file,strrpos($file,"/")+1);
+		$fileLoc = substr($file,0,strrpos($file,"/"));
+		if ($fileLoc=="") {$fileLoc = "/";};
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');action="newFolder";</script>';
 	} else {
 		echo '<script>alert(\'Sorry, you need to be logged in to add folders\');</script>';
 		echo '<script>action="nothing";</script>';
@@ -59,7 +62,10 @@ if ($_GET['action']=="rename") {
 	if ($_SESSION['userLevel'] > 0) {
 		rename($_GET['oldFileName'],$docRoot.$file);
 		// Reload file manager
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.filesFrame.src="files.php";action="rename";</script>';
+		$fileName = substr($file,strrpos($file,"/")+1);
+		$fileLoc = substr($file,0,strrpos($file,"/"));
+		if ($fileLoc=="") {$fileLoc = "/";};
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\');action="rename";</script>';
 	} else {
 		echo '<script>alert(\'Sorry, you need to be logged in to rename\');</script>';
 		echo '<script>action="nothing";</script>';
@@ -78,7 +84,10 @@ if ($_GET['action']=="delete") {
 			}
 		}
 		// Reload file manager
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.filesFrame.src="files.php";action="delete";</script>';
+		$fileName = substr($file,strrpos($file,"/")+1);
+		$fileLoc = substr($file,0,strrpos($file,"/"));
+		if ($fileLoc=="") {$fileLoc = "/";};
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');action="delete";</script>';
 	} else {
 		echo '<script>alert(\'Sorry, you need to be logged in to delete\');</script>';
 		echo '<script>action="nothing";</script>';
@@ -114,7 +123,10 @@ if ($_GET['action']=="save") {
 			fclose($fh);
 			if (isset($_POST['newFileName'])&&$_POST['newFileName']!="") {
 				// Reload file manager & stop CTRL+s being sticky
-				echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.filesFrame.src="files.php";</script>';
+				$fileName = substr($file,strrpos($file,"/")+1);
+				$fileLoc = substr($file,0,strrpos($file,"/"));
+				if ($fileLoc=="") {$fileLoc = "/";};
+				echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\')</script>';
 			}
 			echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$file.'\');</script>';
 			echo '<script>action="doneSave";</script>';
@@ -169,10 +181,15 @@ if (action=="load") {
 if (action=="save") {
 	<?php
 	if ($file=="|[NEW]"||$saveType=="saveAs") {
-		echo 'newFileName = prompt(\'Enter Filename\',\'/\');';
-		echo 'document.saveFile.newFileName.value = newFileName;';
-	}
 	?>
+		if (top.ICEcoder.rightClickedFile) {
+			shortURL = top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.indexOf(top.shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length).replace(/\|/g,"/")+"/";
+			newFileName = prompt('Enter Filename',shortURL);
+		} else {
+			newFileName = prompt('Enter Filename','/');
+		}
+		document.saveFile.newFileName.value = newFileName;
+	<?php ;};?>
 	cM = top.ICEcoder.getcMInstance();
 	document.saveFile.contents.innerHTML = cM.getValue();
 	document.saveFile.submit();
