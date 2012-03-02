@@ -64,7 +64,7 @@ body {overflow: hidden}
 .header .version {position: relative; display: inline-block; margin-top: 25px; font-size: 10px; color: #bbbbbb}
 .header .logo {position: relative; margin: 5px 10px 0px 5px}
 
-.files {position: absolute; display: inline-block; height: 100%; width: 15px; background-color: #e0e0e0; background-image: url('../images/files-arrow.gif'); background-repeat: no-repeat; background-position: 100% 50%; overflow: hidden; z-index: 1;
+.files {position: absolute; display: inline-block; height: 100%; width: 250px; background-color: #e0e0e0; background-image: url('../images/files-arrow.gif'); background-repeat: no-repeat; background-position: 100% 50%; overflow: hidden; z-index: 1;
 	-webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
 	-moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
 	box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
