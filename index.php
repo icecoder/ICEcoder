@@ -40,6 +40,11 @@ if ($testcMVersion) {
 <link rel="stylesheet" type="text/css" href="lib/coder.css">
 <script>
 shortURLStarts = "<?php echo $shortURLStarts;?>";
+<?
+$docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
+if (strrpos($docRoot,"/")==strlen($docRoot)-1) {$docRoot = substr($docRoot,0,strlen($docRoot)-1);};
+echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
+?>
 </script>
 <script language="JavaScript" src="lib/coder.js"></script>
 </head><?php
@@ -97,9 +102,9 @@ shortURLStarts = "<?php echo $shortURLStarts;?>";
 		<input type="password" name="loginPassword" class="accountPassword">
 		<input type="submit" name="submit" value="Login" class="button">
 		</form>
-		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock-disabled.png" id="fmLock" class="lock"></a>
+		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock.png" id="fmLock" class="lock"></a>
 	</div>
-	<iframe id="filesFrame" class="frame" name="ff" src="files.php"></iframe>
+	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1'"></iframe>
 	<div class="upload"><a href="javascript:alert('Doesn\'t do anything yet but will be a drag & drop style uploader')"><img src="images/upload.png"></a></div>
 </div>
 
@@ -148,6 +153,10 @@ shortURLStarts = "<?php echo $shortURLStarts;?>";
 	<div class="nestDisplay" id="nestDisplay"></div>
 	<div class="charDisplay" id="charDisplay"><span id="char"></span></div>
 </div>
+
+<script>
+ICEcoder.setLayout('dontSetEditor');
+</script>
 
 </body>
 
