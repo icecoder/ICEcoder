@@ -11,12 +11,14 @@
 <script src="<?php echo $codeMirrorDir; ?>/mode/css/css.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/clike/clike.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/php/php.js"></script>
+<script src="<?php echo $codeMirrorDir; ?>/lib/util/searchcursor.js"></script>
+<script src="<?php echo $codeMirrorDir; ?>/lib/util/match-highlighter.js"></script>
 <link rel="stylesheet" href="lib/editor.css">
 <style type="text/css">
 .CodeMirror {position: absolute; width: 0px; background-color: #ffffff}
 .CodeMirror-scroll {width: 100px; height: 100px;}
-.cm-s-visible {width: 100px}
-.cm-s-hidden {width: 0px}
+.cm-s-visible {display: block; top: 0px}
+.cm-s-hidden {display: none; top: 4000px}
 .cm-s-activeLine {background: #002 !important;}
 </style>
 </head>
@@ -40,6 +42,7 @@ function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, 
 		if(!window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].somethingSelected()) {
 			top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getCursor().line, "cm-s-activeLine");
 		}
+		window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].matchHighlight("CodeMirror-matchhighlight");
 	},
 	onChange: function() {
 		// If we're not loading the file, it's a change, so update tab
