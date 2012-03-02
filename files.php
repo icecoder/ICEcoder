@@ -21,7 +21,7 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 	// Chop off trailing slash
 	if (strrpos($docRoot,"/")==strlen($docRoot)-1) {$docRoot = substr($docRoot,0,strlen($docRoot)-1);};
 	$fileManager = "";
-
+	
 	// Recursive function called by fileManager() to list directories/files
 	// Get and sort directories/files
 	if(function_exists("scandir")) {$file = scandir($directory);} else {$file = php4_scandir($directory);};
@@ -44,7 +44,6 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 			}
 		}
 	}
-	
 	if(count($file) > 2) { // To ignore . and .. directories
 		if($first_call) {
 			// Root Directory
@@ -52,11 +51,16 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 			$link = str_replace("[link]", "$dirRep/", $return_link);
 			$link = str_replace("//","/",$link);
 			$fileAtts = "";
+
 			if ($serverType=="Linux") {
-				$ownerInfo = posix_getpwuid(fileowner($link));
+
+				//$ownerInfo = posix_getpwuid(fileowner($link));
+				$ownerInfo = "ME";
+
 				$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
-				if ($ownerInfo['name']!="nobody"&&(substr($chmodInfo, -1)!=2&&substr($chmodInfo, -1)!=3&&substr($chmodInfo, -1)!=6&&substr($chmodInfo, -1)!=7)) {
-					$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" onClick=\"alert('Owner: ".$ownerInfo['name']."\\nCHMOD:".$chmodInfo."')\">";
+
+				if ($ownerInfo!="nobody"&&(substr($chmodInfo, -1)!=2&&substr($chmodInfo, -1)!=3&&substr($chmodInfo, -1)!=6&&substr($chmodInfo, -1)!=7)) {
+					$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" onClick=\"alert('Owner: ".$ownerInfo."\\nCHMOD:".$chmodInfo."')\">";
 				}
 			}
 			$fileManager = "<ul class=\"fileManager\">";
@@ -82,10 +86,10 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 					$link = str_replace("//","/",$link);
 					$fileAtts = "";
 					if ($serverType=="Linux") {
-						$ownerInfo = posix_getpwuid(fileowner($link));
+						//$ownerInfo = posix_getpwuid(fileowner($link));
 						$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
-						if ($ownerInfo['name']!="nobody"&&(substr($chmodInfo, -1)!=2&&substr($chmodInfo, -1)!=3&&substr($chmodInfo, -1)!=6&&substr($chmodInfo, -1)!=7)) {
-							$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" onClick=\"alert('Owner: ".$ownerInfo['name']."\\nCHMOD:".$chmodInfo."')\">";
+						if ($ownerInfo!="nobody"&&(substr($chmodInfo, -1)!=2&&substr($chmodInfo, -1)!=3&&substr($chmodInfo, -1)!=6&&substr($chmodInfo, -1)!=7)) {
+							$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" onClick=\"alert('Owner: ".$ownerInfo."\\nCHMOD:".$chmodInfo."')\">";
 						}
 					}
 					$fileManager .= "<li class=\"pft-directory\"><a href=\"#\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a>";
@@ -108,10 +112,10 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 					if ($_SESSION['userLevel'] == 10 || ($_SESSION['userLevel'] < 10 && $restrictedFile==false)) {
 						$fileAtts = "";
 						if ($serverType=="Linux") {
-							$ownerInfo = posix_getpwuid(fileowner($link));
+							//$ownerInfo = posix_getpwuid(fileowner($link));
 							$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
-							if ($ownerInfo['name']!="nobody"&&(substr($chmodInfo, -1)!=2&&substr($chmodInfo, -1)!=3&&substr($chmodInfo, -1)!=6&&substr($chmodInfo, -1)!=7)) {
-								$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" onClick=\"alert('Owner: ".$ownerInfo['name']."\\nCHMOD:".$chmodInfo."')\">";
+							if ($ownerInfo!="nobody"&&(substr($chmodInfo, -1)!=2&&substr($chmodInfo, -1)!=3&&substr($chmodInfo, -1)!=6&&substr($chmodInfo, -1)!=7)) {
+								$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" onClick=\"alert('Owner: ".$ownerInfo."\\nCHMOD:".$chmodInfo."')\">";
 							}
 						}
 						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\"><a nohref onMouseOver=\"top.ICEcoder.overFileFolder('file','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('file','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a></li>";
