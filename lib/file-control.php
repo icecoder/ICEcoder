@@ -128,7 +128,9 @@ if ($_GET['action']=="save") {
 				if ($fileLoc=="") {$fileLoc = "/";};
 				echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\')</script>';
 			}
-			echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$file.'\');</script>';
+			if (isset($_POST['newFileName'])&&$_POST['newFileName']!="") {
+				echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$file.'\');</script>';
+			}
 			echo '<script>action="doneSave";</script>';
 		} else {
 			echo '<script>alert(\'Sorry, you need to be logged in to save\');</script>';
