@@ -148,14 +148,14 @@ function php4_scandir($dir) {
 ?>
 <!DOCTYPE html>
 
-<html onContextMenu="top.ICEcoder.rightClickedFile=top.ICEcoder.thisFileFolderLink; top.ICEcoder.selectFileFolder(); return top.ICEcoder.showMenu()" onClick="top.document.getElementById('fileMenu').style.display='none'">
+<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="top.ICEcoder.getMouseXY(event);top.ICEcoder.canResizeFilesW()" onContextMenu="top.ICEcoder.rightClickedFile=top.ICEcoder.thisFileFolderLink; top.ICEcoder.selectFileFolder(); return top.ICEcoder.showMenu()" onClick="top.document.getElementById('fileMenu').style.display='none'">
 <head>
 <title>ICE Coder File Manager</title>
 <link rel="stylesheet" type="text/css" href="lib/files.css">
 <script src="lib/coder.js" type="text/javascript"></script>
 </head>
 
-<body onLoad="top.ICEcoder.fileManager()" onMouseMove="top.ICEcoder.getMouseXY(event)" onClick="top.ICEcoder.selectFileFolder()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<body onLoad="top.ICEcoder.fileManager()" onClick="top.ICEcoder.selectFileFolder()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 <?php
 	echo fileManager($_SERVER['DOCUMENT_ROOT'], "[link]");
 ?>
