@@ -17,7 +17,12 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	vertical-align: top;
 }
 
-body {overflow: hidden}
+body {overflow: hidden;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -o-user-select:none;
+   user-select: none;
+}
 
 .blackMask {position: fixed; display: table; width: 100%; height: 100%; top: 0px; left: 0px; visibility: hidden; background-color: rgba(0,0,0,0.8); text-align: center; z-index: 100}
 .blackMask .popupVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
@@ -75,12 +80,15 @@ body {overflow: hidden}
 .files .button:hover {background-color: #444444; color: #eeeeee}
 .files .lock {margin-left: 225px; margin-top: -20px}
 .files .frame {display: inline-block; width: 250px}
-.files .upload {display: inline-block; height: 40px; width: 250px; background-color: #888888}
-.files .upload img {margin: 8px 0px 0px 15px}
 
 .editor {position: absolute; display: inline-block; top: 0px; left: 15px; width: 2400px; background-color: #fbfbfb;}
 .editor .tabsBar {display: inline-block; height: 21px; width: 2400px; margin-top: 40px; padding-left: 41px; border-bottom: solid 1px #888888; background-color: #eeeeee;}
-.tabsBar .tab {display: inline-block; display: none; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 4px 8px 2px 8px; font-size: 10px; border-left: solid 1px #ffffff; border-right: solid 1px #bbbbbb; color: #ffffff; cursor: pointer}
+.tabsBar .tab {display: inline-block; display: none; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 4px 8px 2px 8px; font-size: 10px; border-left: solid 1px #ffffff; border-right: solid 1px #bbbbbb; color: #ffffff; cursor: pointer;
+	-webkit-transition: all 0.2s;
+	-moz-transition: all 0.2s;
+	-o-transition: all 0.2s;
+	transition: all 0.2s;
+}
 .tabsBar .tab img {margin: 1px 0px 0px 5px}
 .tabsBar .newTab {display: inline-block; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 5px 5px 1px 5px; border-left: solid 1px #ffffff; border-right: solid 1px #bbbbbb; cursor: pointer;}
 .editor .findBar {display: inline-block; height: 28px; width: 2400px; background-color: #eeeeee}
@@ -94,6 +102,8 @@ body {overflow: hidden}
 .findReplace .targetText {height: 21px; font-size: 10px; margin: 8px 2px 0px 2px}
 .findReplace .submit {position: relative; top: -2px; height: 17px; border: 1px solid #bbbbbb; background-color: #f8f8f8; font-size: 10px; cursor: pointer}
 .findReplace .results {position: relative; display: inline-block; width: 200px; height: 20px; font-size: 10px; margin: 8px 0px 0px 20px}
+.findBar .codeAssist {position: fixed; display: inline-block; width: 100px; right: 74px; top: 70px; height: 21px; font-size: 10px; z-index: 1}
+.findBar .codeAssist input {margin-top: -1px}
 .findBar .goLine {position: fixed; display: inline-block; width: 100px; right: -10px; top: 70px; height: 21px; font-size: 10px; z-index: 1}
 .goLine .goToLine {width: 25px; height: 16px; border: 0; font-size: 10px; margin: -3px 0px 0px 3px}
 .editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px; visibility: hidden}
