@@ -74,7 +74,7 @@ function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, 
 				}
 			}
 			fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-			if (fileName.indexOf(".js")>0||fileName.indexOf(".css")>0) {
+			if (!top.ICEcoder.codeAssist||fileName.indexOf(".js")>0||fileName.indexOf(".css")>0) {
 				canDoEndTag=false;
 			}
 			contentType = top.ICEcoder.caretLocType;
