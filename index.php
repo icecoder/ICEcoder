@@ -55,7 +55,7 @@ echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 		};
 	};
 ?>
-<body onLoad="ICEcoder.init()<?php echo $onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder', event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
+<body onLoad="ICEcoder.init()<?php echo $onLoadExtras;?>" onResize="ICEcoder.setLayout()" onMouseMove="top.ICEcoder.getMouseXY(event);top.ICEcoder.canResizeFilesW()" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onKeyDown="return ICEcoder.interceptKeys('coder', event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="ICEcoder.showHide('hide',this)">
 	<div class="popupVCenter">
@@ -105,7 +105,6 @@ echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock.png" id="fmLock" class="lock"></a>
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1'"></iframe>
-	<div class="upload"><a href="javascript:alert('Doesn\'t do anything yet but will be a drag & drop style uploader')"><img src="images/upload.png"></a></div>
 </div>
 
 <div id="editor" class="editor">
@@ -140,6 +139,7 @@ echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 			</div>
 		</form>
 		<form onSubmit="return ICEcoder.goToLine()">
+		<div class="codeAssist"><input type="checkbox" name="codeAssist" checked onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
 		<div class="goLine">Go to Line<input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 		</form>
 	</div>
