@@ -1,10 +1,10 @@
 <?php
-$versionNo		= "v 0.5.7";
+$versionNo		= "v 0.5.8";
 $codeMirrorDir		= "CodeMirror-2.22";
 $cMThisVer		= 2.22;
 $testcMVersion		= false; // test if we're using the latest CodeMirror version
 $restrictedFiles	= array("wp-",".php",".asp",".aspx");
-$bannedFiles		= array("_coder",".exe");
+$bannedFiles		= array("_coder","wp-",".exe");
 $allowedIPs		= array("*"); // allowed IPs, * for any
 $plugins		= array(
 			array("Database Admin","images/database.png","margin-top: 3px","plugins/adminer/adminer-3.3.3-mysql-en.php","_blank",""),
