@@ -7,20 +7,7 @@ for($i=0;$i<count($allowedIPs);$i++) {
 	}
 }
 if (!$allowedIP) {
-	// 404 the page
-	header('HTTP/1.0 404 Not Found');
-?>
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<html><head>
-<title>404 Not Found</title>
-</head><body>
-<h1>Not Found</h1>
-<p>The requested URL <?php echo str_replace("/index.php","",$_SERVER["SCRIPT_NAME"]);?> was not found on this server.</p>
-<hr>
-<address>Apache/2.2.3 (CentOS) Server at www.mattpass.com Port 80</address>
-</body></html>
-<?php
-	exit();
+	header('Location: /');
 };
 
 // Test for latest CodeMirror version
@@ -105,6 +92,7 @@ echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock.png" id="fmLock" class="lock"></a>
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1'"></iframe>
+	<div class="serverMessage" id="serverMessage"></div>
 </div>
 
 <div id="editor" class="editor">
