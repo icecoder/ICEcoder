@@ -53,15 +53,8 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 			$fileAtts = "";
 
 			if ($serverType=="Linux") {
-
-				//$ownerInfo = posix_getpwuid(fileowner($link));
-				$ownerInfo = "ME";
-
 				$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
-
-				if ($ownerInfo!="nobody"&&(substr($chmodInfo, -1)!=2&&substr($chmodInfo, -1)!=3&&substr($chmodInfo, -1)!=6&&substr($chmodInfo, -1)!=7)) {
-					$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" onClick=\"alert('Owner: ".$ownerInfo."\\nCHMOD:".$chmodInfo."')\">";
-				}
+				$fileAtts = '<span style="color: #888888; font-size: 8px">'.$chmodInfo.'</span>';
 			}
 			$fileManager = "<ul class=\"fileManager\">";
 			$fileManager .= "<li class=\"pft-directory\"><a href=\"#\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"|\">/ [ROOT]</span> ".$fileAtts."</a>";
@@ -84,17 +77,26 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 					$dirRep = str_replace("\\","/",$directory);
 					$link = str_replace("[link]", "$dirRep/" . urlencode($this_file), $return_link);
 					$link = str_replace("//","/",$link);
-					$fileAtts = "";
-					if ($serverType=="Linux") {
-						//$ownerInfo = posix_getpwuid(fileowner($link));
-						$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
-						if ($ownerInfo!="nobody"&&(substr($chmodInfo, -1)!=2&&substr($chmodInfo, -1)!=3&&substr($chmodInfo, -1)!=6&&substr($chmodInfo, -1)!=7)) {
-							$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" onClick=\"alert('Owner: ".$ownerInfo."\\nCHMOD:".$chmodInfo."')\">";
+
+					$restrictedFile=false;
+					for ($i=0;$i<count($restrictedFiles);$i++) {
+						if (strpos($link,$restrictedFiles[$i])!="") {
+							$restrictedFile=true;
 						}
 					}
-					$fileManager .= "<li class=\"pft-directory\"><a href=\"#\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a>";
-					$fileManager .= fileManager_dir("$directory/$this_file", $return_link , false);
-					$fileManager .= "</li>";
+
+					$fileAtts = "";
+					if ($serverType=="Linux") {
+						$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
+						$fileAtts = '<span style="color: #888888; font-size: 8px">'.$chmodInfo.'</span>';
+					}
+					if ($_SESSION['userLevel'] == 10 || ($_SESSION['userLevel'] < 10 && $restrictedFile==false)) {
+						$fileManager .= "<li class=\"pft-directory\"><a href=\"#\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a>";
+						$fileManager .= fileManager_dir("$directory/$this_file", $return_link , false);
+						$fileManager .= "</li>";
+					} else {
+						$fileManager .= "<li class=\"pft-directory\" style=\"cursor: default\"><span style=\"position: relative; left:-22px; color: #888888\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN] ".$fileAtts."</span></li>";
+					}
 				} else {
 					// File
 					// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
@@ -112,21 +114,13 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 					if ($_SESSION['userLevel'] == 10 || ($_SESSION['userLevel'] < 10 && $restrictedFile==false)) {
 						$fileAtts = "";
 						if ($serverType=="Linux") {
-							//$ownerInfo = posix_getpwuid(fileowner($link));
 							$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
-							if ($ownerInfo!="nobody"&&(substr($chmodInfo, -1)!=2&&substr($chmodInfo, -1)!=3&&substr($chmodInfo, -1)!=6&&substr($chmodInfo, -1)!=7)) {
-								$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" onClick=\"alert('Owner: ".$ownerInfo."\\nCHMOD:".$chmodInfo."')\">";
-							}
+							$fileAtts = '<span style="color: #888888; font-size: 8px">'.$chmodInfo.'</span>';
 						}
 						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\"><a nohref onMouseOver=\"top.ICEcoder.overFileFolder('file','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('file','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a></li>";
 					} else {
-						if ($_SESSION['userLevel'] == 0) {
-							$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" style=\"cursor: pointer\" onClick=\"alert('Sorry, you need higher admin level rights to view.')\">";
-							$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\" style=\"cursor: default\"><span style=\"position: relative; left:-22px; color: #888888\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN] ".$fileAtts."</span></li>";
-						} else {
-							$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" onClick=\"alert('Sorry, you need higher admin level rights to open.')\">";
-							$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\"><a nohref onMouseOver=\"top.ICEcoder.overFileFolder('file','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('file','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a></li>";
-						}
+						$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" style=\"cursor: pointer\" onClick=\"alert('Sorry, you need higher admin level rights to view.')\">";
+						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\" style=\"cursor: default\"><span style=\"position: relative; left:-22px; color: #888888\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN] ".$fileAtts."</span></li>";
 					}
 				}
 			}
