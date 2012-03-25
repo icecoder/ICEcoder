@@ -77,7 +77,6 @@ echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 		echo '<a href="'.$plugins[$i][3].'" target="'.$plugins[$i][4].'"><img src="'.$plugins[$i][1].'" style="'.$plugins[$i][2].'" alt="'.$plugins[$i][0].'"></a>';
 	};
 	?>
-	<iframe id="pluginActions" style="display: none"></iframe>
 	</div>
 	<div class="version"><?php echo $versionNo;?></div>
 	<img src="images/ice-coder.gif" class="logo">
