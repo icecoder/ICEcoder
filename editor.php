@@ -43,6 +43,7 @@ function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, 
 			top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getCursor().line, "cm-s-activeLine");
 		}
 		window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].matchHighlight("CodeMirror-matchhighlight");
+		top.ICEcoder.cssColorPreview();
 	},
 	onChange: function() {
 		// If we're not loading the file, it's a change, so update tab
