@@ -50,14 +50,14 @@ if ($_GET['action']=="newFolder") {
 		$fileName = substr($file,strrpos($file,"/")+1);
 		$fileLoc = substr($file,0,strrpos($file,"/"));
 		if ($fileLoc=="") {$fileLoc = "/";};
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();action="newFolder";</script>';
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="newFolder";</script>';
 	} else {
 		if (!is_writable($docRoot.$file)) {
 			echo "<script>alert('Sorry, cannot create folder at\\n".substr($file,0,strrpos($file,"/"))."');</script>";
 		} else {
 			echo '<script>alert(\'Sorry, you need to be logged in to add folders\');</script>';
 		}
-		echo '<script>top.ICEcoder.serverMessage();action="nothing";</script>';
+		echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 	}
 }
 
@@ -69,14 +69,14 @@ if ($_GET['action']=="rename") {
 		$fileName = substr($file,strrpos($file,"/")+1);
 		$fileLoc = substr($file,0,strrpos($file,"/"));
 		if ($fileLoc=="") {$fileLoc = "/";};
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();action="rename";</script>';
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="rename";</script>';
 	} else {
 		if (!is_writable($_GET['oldFileName'])) {
 			echo "<script>alert('Sorry, cannot rename\\n".$_GET['oldFileName']."');</script>";
 		} else {
 			echo '<script>alert(\'Sorry, you need to be logged in to rename\');</script>';
 		}
-		echo '<script>top.ICEcoder.serverMessage();action="nothing";</script>';
+		echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 	}
 }
 
@@ -95,11 +95,11 @@ if ($_GET['action']=="delete") {
 				$fileName = substr($file,strrpos($file,"/")+1);
 				$fileLoc = substr($file,0,strrpos($file,"/"));
 				if ($fileLoc=="") {$fileLoc = "/";};
-				echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();action="delete";</script>';
+				echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="delete";</script>';
 			} else {
 				echo "<script>alert('Sorry can\\'t delete\\n".$filesArray[$i]."');</script>";
 			}
-			echo '<script>top.ICEcoder.serverMessage();action="nothing";</script>';
+			echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 		}
 	} else {
 		if (!is_writable($docRoot.$filesArray[$i])) {
@@ -107,7 +107,7 @@ if ($_GET['action']=="delete") {
 		} else {
 			echo '<script>alert(\'Sorry, you need to be logged in to delete\');</script>';
 		}
-		echo '<script>top.ICEcoder.serverMessage();action="nothing";</script>';
+		echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 	}
 }
 
@@ -150,10 +150,10 @@ if ($_GET['action']=="save") {
 				if (isset($_POST['newFileName'])&&$_POST['newFileName']!="") {
 					echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$file.'\');</script>';
 				}
-				echo '<script>top.ICEcoder.serverMessage();action="doneSave";</script>';
+				echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="doneSave";</script>';
         		} else {
 				echo "<script>alert('Sorry, cannot write\\n".$file."');</script>";
-				echo '<script>top.ICEcoder.serverMessage();action="nothing";</script>';
+				echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 			}
 		} else {
 			if (!is_writable($saveFile)) {
@@ -161,7 +161,7 @@ if ($_GET['action']=="save") {
 			} else {
 				echo '<script>alert(\'Sorry, you need to be logged in to save\');</script>';
 			}
-			echo '<script>top.ICEcoder.serverMessage();action="nothing";</script>';
+			echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 		}
 	}
 };
@@ -192,6 +192,7 @@ if (action=="load") {
 		top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
 		top.ICEcoder.nextcMInstance++;
 		top.ICEcoder.serverMessage();
+		top.ICEcoder.serverQueue("del",0);
 		top.ICEcoder.loadingFile = false;
 	}
 
@@ -220,8 +221,7 @@ if (action=="save") {
 		}
 		document.saveFile.newFileName.value = newFileName;
 	<?php ;};?>
-	cM = top.ICEcoder.getcMInstance();
-	document.saveFile.contents.innerHTML = cM.getValue();
+	document.saveFile.contents.innerHTML = top.document.getElementById('saveTemp1').value;
 	document.saveFile.submit();
 }
 </script>
