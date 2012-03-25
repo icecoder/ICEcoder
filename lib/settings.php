@@ -1,5 +1,5 @@
 <?php
-$versionNo		= "v 0.5.8";
+$versionNo		= "v 0.5.9";
 $codeMirrorDir		= "CodeMirror-2.22";
 $cMThisVer		= 2.22;
 $testcMVersion		= false; // test if we're using the latest CodeMirror version
@@ -9,7 +9,7 @@ $allowedIPs		= array("*"); // allowed IPs, * for any
 $plugins		= array(
 			array("Database Admin","images/database.png","margin-top: 3px","plugins/adminer/adminer-3.3.3-mysql-en.php","_blank",""),
 			array("Batch Image Processor","images/images.png","margin-top: 5px","http://birme.net","_blank",""),
-			array("Backup","images/backup-open-files.png","margin-top: 3px","plugins/backupOpenFiles/index.php","pluginActions","10"),
+			array("Backup","images/backup-open-files.png","margin-top: 3px","plugins/backupOpenFiles/index.php","fileControl:<b>Zipping Open Files</b>","10"),
 			array("Clipboard","images/clipboard.png","","javascript:alert('Doesn\'t do anything yet but will be a clipboard for copied text items, up to 100 levels')","_self","")
 			);
 $accountPassword	= "";
