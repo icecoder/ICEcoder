@@ -135,7 +135,7 @@ if ($_GET['action']=="save") {
 			}
 			$saveFile = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']).$file;
 			$saveFile = str_replace("//","/",$saveFile);
-			if (is_writable($saveFile)) {
+			if ((file_exists($saveFile) && is_writable($saveFile)) || $_POST['newFileName']!="") {
 				$fh = fopen($saveFile, 'w') or die("can't open file");
 				fwrite($fh, $_POST['contents']);
 				fclose($fh);
