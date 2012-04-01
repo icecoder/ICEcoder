@@ -74,6 +74,9 @@ function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, 
 				canDoEndTag=false;
 				}
 			}
+			if(top.ICEcoder.tagString.slice(0,1)=="/"||top.ICEcoder.tagString.slice(0,1)=="?") {
+				canDoEndTag=false;
+			}
 			fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 			if (!top.ICEcoder.codeAssist||fileName.indexOf(".js")>0||fileName.indexOf(".css")>0) {
 				canDoEndTag=false;
@@ -86,7 +89,8 @@ function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, 
 				for (i=0;i<numTabs-1;i++) {
 					tabs += "\t";
 				}
-				endTag = "</" + top.ICEcoder.htmlTagArray[top.ICEcoder.htmlTagArray.length-1] + ">";
+				//endTag = "</" + top.ICEcoder.htmlTagArray[top.ICEcoder.htmlTagArray.length-1] + ">";
+				endTag = "</" + top.ICEcoder.tagString + ">";
 				if (top.ICEcoder.tagString=="script") {endTag="</"+"script>"};
 				if(top.ICEcoder.tagString=="title"||top.ICEcoder.tagString=="a"||top.ICEcoder.tagString=="li"||top.ICEcoder.tagString=="span"||(top.ICEcoder.tagString.slice(0,1)=="h"&&parseInt(top.ICEcoder.tagString.slice(1,2),10)>=1&&parseInt(top.ICEcoder.tagString.slice(1,2),10)<=7)) {
 					window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].replaceSelection(endTag);
@@ -102,25 +106,13 @@ function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, 
 		};
 		lastKeyCode = e.keyCode;
 	},
-	extraKeys: {"Enter": false}
+	extraKeys: {"Tab": "indentMore", "Shift-Tab": "indentLess"}
 });
 
 // Now create the active line for this CodeMirror object
 top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
 };
 
-<?php
-//for ($i=1;$i<=10;$i++) {
-?>
-//cM<?php echo $i;?>.getWrapperElement().getElementsByClassName("CodeMirror-lines")[0].addEventListener("click", function(){
-//	if (top.ICEcoder.results && top.ICEcoder.results.length>0) {
-//		top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " results";
-//	}
-//	top.ICEcoder.findMode = false;
-//}, false);
-<?php
-//;};
-?>
 </script>
 
 </body>
