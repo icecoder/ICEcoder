@@ -1,7 +1,7 @@
 <?php
-$versionNo		= "v 0.5.9";
-$codeMirrorDir		= "CodeMirror-2.22";
-$cMThisVer		= 2.22;
+$versionNo		= "v 0.6.0";
+$codeMirrorDir		= "CodeMirror-2.23";
+$cMThisVer		= 2.23;
 $testcMVersion		= false; // test if we're using the latest CodeMirror version
 $restrictedFiles	= array("wp-",".php",".asp",".aspx");
 $bannedFiles		= array("_coder","wp-",".exe");
