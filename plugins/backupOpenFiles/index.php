@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 
 <body>
+<script>
+top.ICEcoder.serverMessage("<b>Zipping Open Files</b>");
+</script>
 <?php
 // ------------------------------------
 // backupOpenFiles by Matt Pass
