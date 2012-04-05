@@ -35,7 +35,7 @@ body {margin: 0px; overflow: auto}
 .fileManager li {margin-left: 15px;}
 	
 /* Default file */
-.fileManager LI.pft-file { list-style-image: url(../images/file-manager-icons/file.png); cursor: pointer;}
+.fileManager LI.pft-file { list-style-image: url(../images/file-manager-icons/file.png); }
 
 /* Additional file types */
 .fileManager LI.ext-3gp { list-style-image: url(../images/file-manager-icons/film.png); }
