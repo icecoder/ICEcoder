@@ -95,7 +95,7 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 						$fileManager .= fileManager_dir("$directory/$this_file", $return_link , false);
 						$fileManager .= "</li>";
 					} else {
-						$fileManager .= "<li class=\"pft-directory\" style=\"cursor: default\"><span style=\"position: relative; left:-22px; color: #888888\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN] ".$fileAtts."</span></li>";
+						$fileManager .= "<li class=\"pft-directory\" style=\"cursor: pointer\"><span style=\"position: relative; left:-22px; color: #888888\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN] ".$fileAtts."</span></li>";
 					}
 				} else {
 					// File
@@ -117,7 +117,7 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 							$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
 							$fileAtts = '<span style="color: #888888; font-size: 8px">'.$chmodInfo.'</span>';
 						}
-						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\"><a nohref onMouseOver=\"top.ICEcoder.overFileFolder('file','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('file','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a></li>";
+						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\"><a nohref onMouseOver=\"top.ICEcoder.overFileFolder('file','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('file','')\" style=\"position: relative; left:-22px; cursor: pointer\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a></li>";
 					} else {
 						$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" style=\"cursor: pointer\" onClick=\"alert('Sorry, you need higher admin level rights to view.')\">";
 						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\" style=\"cursor: default\"><span style=\"position: relative; left:-22px; color: #888888\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN] ".$fileAtts."</span></li>";
@@ -142,14 +142,14 @@ function php4_scandir($dir) {
 ?>
 <!DOCTYPE html>
 
-<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="top.ICEcoder.getMouseXY(event);top.ICEcoder.canResizeFilesW()" onContextMenu="top.ICEcoder.rightClickedFile=top.ICEcoder.thisFileFolderLink; top.ICEcoder.selectFileFolder(); return top.ICEcoder.showMenu()" onClick="top.document.getElementById('fileMenu').style.display='none'">
+<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="top.ICEcoder.getMouseXY(event);top.ICEcoder.canResizeFilesW()" onContextMenu="top.ICEcoder.rightClickedFile=top.ICEcoder.thisFileFolderLink; top.ICEcoder.selectFileFolder(); return top.ICEcoder.showMenu()" onClick="top.ICEcoder.selectFileFolder()">
 <head>
 <title>ICE Coder File Manager</title>
 <link rel="stylesheet" type="text/css" href="lib/files.css">
 <script src="lib/coder.js" type="text/javascript"></script>
 </head>
 
-<body onLoad="top.ICEcoder.fileManager()" onClick="top.ICEcoder.selectFileFolder()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<body onLoad="top.ICEcoder.fileManager()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 <?php
 	echo fileManager($_SERVER['DOCUMENT_ROOT'], "[link]");
 ?>
