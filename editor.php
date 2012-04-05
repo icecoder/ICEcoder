@@ -106,11 +106,12 @@ function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, 
 		};
 		lastKeyCode = e.keyCode;
 	},
+	onGutterClick: top.ICEcoder.foldCode,
 	extraKeys: {"Tab": "indentMore", "Shift-Tab": "indentLess"}
-});
+	});
 
-// Now create the active line for this CodeMirror object
-top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
+	// Now create the active line for this CodeMirror object
+	top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
 };
 
 </script>
