@@ -87,11 +87,25 @@ echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.document.getElementById('fileMenu').style.display='none';">
 	<div class="account" id="account">
-		<form name="login" action="index.php" method="POST">
-		<input type="password" name="loginPassword" class="accountPassword">
-		<input type="submit" name="submit" value="Login" class="button">
-		</form>
-		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock.png" id="fmLock" class="lock"></a>
+		<?php if($_SESSION['userLevel']<10) {?>
+			<form name="login" action="index.php" method="POST">
+			<input type="password" name="loginPassword" class="accountPassword">
+			<input type="submit" name="submit" value="Login" class="button">
+			</form>
+		<?php } else {
+		$lockStyleExtra = ' style="margin-top: -22px"';
+		?>
+			<div class="accountOptions">
+			<a nohref title="Save" onClick="ICEcoder.fMIcon('save')"><img src="images/save.png" alt="Save" id="fMSave" style="opacity: 0.3"></a>
+			<a nohref title="Open" onClick="ICEcoder.fMIcon('open')"><img src="images/open.png" alt="Open" id="fMOpen" style="margin-left: 7px; opacity: 0.3"></a>
+			<a nohref title="New File" onClick="ICEcoder.fMIcon('newFile')"><img src="images/new-file.png" alt="New File" id="fMNewFile" style="margin: 8px 0px 0px 10px; opacity: 0.3"></a>
+			<a nohref title="New Folder" onClick="ICEcoder.fMIcon('newFolder')"><img src="images/new-folder.png" alt="New Folder" id="fMNewFolder" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
+			<a nohref title="Delete" onClick="ICEcoder.fMIcon('delete')"><img src="images/delete.png" alt="Delete" id="fMDelete" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
+			<a nohref title="Rename" onClick="ICEcoder.fMIcon('rename')"><img src="images/rename.png" alt="Rename" id="fMRename" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
+			<a nohref title="View" onClick="ICEcoder.fMIcon('view')"><img src="images/view.png" alt="View" id="fMView" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
+			</div>
+		<?php ;};?>
+		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock.png" id="fmLock" class="lock"<?php echo $lockStyleExtra; ?>></a>
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1'"></iframe>
 	<div class="serverMessage" id="serverMessage"></div>
