@@ -13,6 +13,7 @@
 <script src="<?php echo $codeMirrorDir; ?>/mode/php/php.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/searchcursor.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/match-highlighter.js"></script>
+<script src="<?php echo $codeMirrorDir; ?>/lib/util/foldcode.js"></script>
 <link rel="stylesheet" href="lib/editor.css">
 <style type="text/css">
 .CodeMirror {position: absolute; width: 0px; background-color: #ffffff}
@@ -26,7 +27,12 @@
 <body onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
 <script>
-function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, {
+function createNewCMInstance(num) {
+	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+	var codeFold = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
+	var codeFold_JS_PHP = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
+
+	window['cM'+num] = CodeMirror(document.body, {
         mode: "application/x-httpd-php",
 	theme: "icecoder",
         lineNumbers: true,
@@ -52,6 +58,7 @@ function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, 
 			top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
 		}
 		top.ICEcoder.getCaretPosition();
+		top.ICEcoder.dontUpdateNest = false;
 		top.ICEcoder.updateCharDisplay();
 		top.ICEcoder.updateNestingIndicator();
 		if (top.ICEcoder.findMode) {
@@ -77,7 +84,6 @@ function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, 
 			if(top.ICEcoder.tagString.slice(0,1)=="/"||top.ICEcoder.tagString.slice(0,1)=="?") {
 				canDoEndTag=false;
 			}
-			fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 			if (!top.ICEcoder.codeAssist||fileName.indexOf(".js")>0||fileName.indexOf(".css")>0) {
 				canDoEndTag=false;
 			}
@@ -106,7 +112,7 @@ function createNewCMInstance(num) {window['cM'+num] = CodeMirror(document.body, 
 		};
 		lastKeyCode = e.keyCode;
 	},
-	onGutterClick: top.ICEcoder.foldCode,
+	onGutterClick: !fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".php") == -1) ? codeFold : codeFold_JS_PHP,
 	extraKeys: {"Tab": "indentMore", "Shift-Tab": "indentLess"}
 	});
 
