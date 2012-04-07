@@ -219,10 +219,21 @@ if (action=="save") {
 		} else {
 			newFileName = prompt('Enter Filename','/');
 		}
+		if (newFileName && top.document.getElementById('filesFrame').contentWindow.document.getElementById(newFileName.replace(/\//g,"|"))) {
+			overwriteOK = confirm('That file exists already, overwrite?');
+		}
 		document.saveFile.newFileName.value = newFileName;
 	<?php ;};?>
-	document.saveFile.contents.innerHTML = top.document.getElementById('saveTemp1').value;
-	document.saveFile.submit();
+	if ("undefined" == typeof newFileName || (newFileName && "undefined" == typeof overwriteOK) || ("undefined" != typeof overwriteOK && overwriteOK)) {
+		if ("undefined" != typeof newFileName) {
+			top.ICEcoder.serverMessage('<b>Saving</b><br>'+newFileName);
+		}
+		document.saveFile.contents.innerHTML = top.document.getElementById('saveTemp1').value;
+		document.saveFile.submit();
+	} else {
+		top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);
+		action=="nothing";
+	}
 }
 </script>
 
