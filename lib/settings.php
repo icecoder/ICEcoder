@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $versionNo		= "v 0.6.3";
 $codeMirrorDir		= "CodeMirror-2.23";
 $cMThisVer		= 2.23;
@@ -16,6 +18,7 @@ $plugins		= array(
 $accountPassword	= "";
 $lastOpenedFiles	= "";
 $openLastFiles		= true;
+
 if ($_GET['saveFiles'] && $_SESSION['userLevel'] == 10) {
 	$settingsFile = 'settings.php';
 	$settingsContents = file_get_contents($settingsFile);
@@ -45,7 +48,6 @@ function generateHash($plainText,$salt=null) {
 	return $salt.sha1($salt.$plainText);
 }
 
-session_start();
 // Establish our user level
 if (!isset($_SESSION['userLevel'])) {$_SESSION['userLevel'] = 0;};
 if(isset($_POST['loginPassword']) && generateHash($_POST['loginPassword'],$accountPassword)==$accountPassword) {$_SESSION['userLevel'] = 10;};
