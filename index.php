@@ -32,6 +32,23 @@ $docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
 if (strrpos($docRoot,"/")==strlen($docRoot)-1) {$docRoot = substr($docRoot,0,strlen($docRoot)-1);};
 echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 ?>
+window.onbeforeunload = function() {
+	for (var i=0; i<=top.ICEcoder.changedContent.length; i++) {
+		if (top.ICEcoder.changedContent[i]==1) {
+			return "You have some unsaved changes.";
+		}
+	}
+}
+
+lastOpenFiles = [<?php
+	if ($lastOpenedFiles!="") {
+		$openFilesArray = explode(",",$lastOpenedFiles);
+		for ($i=0;$i<count($openFilesArray);$i++) {
+			echo "'".$openFilesArray[$i]."'";
+			if ($i<count($openFilesArray)-1) {echo ",";};
+		}
+	}
+?>];
 </script>
 <script language="JavaScript" src="lib/coder.js"></script>
 </head><?php
@@ -41,6 +58,9 @@ echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 			$onLoadExtras .= ";ICEcoder.startPluginIntervals('".$plugins[$i][3]."','".$plugins[$i][4]."','".$plugins[$i][5]."')";
 		};
 	};
+	if ($openLastFiles) {
+		$onLoadExtras .= ";ICEcoder.autoOpenFiles()";
+	}
 ?>
 <body onLoad="ICEcoder.init()<?php echo $onLoadExtras;?>" onResize="ICEcoder.setLayout()" onMouseMove="top.ICEcoder.getMouseXY(event);top.ICEcoder.canResizeFilesW()" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onKeyDown="return ICEcoder.interceptKeys('coder', event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
@@ -62,7 +82,7 @@ echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 	</div>
 </div>
 
-<div id="fileMenu" class="fileMenu" onMouseOut="this.style.display='none'" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract')">
+<div id="fileMenu" class="fileMenu" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract')">
 	<span id="folderMenuItems">
 		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New File</a>
 		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New Folder</a>
