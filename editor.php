@@ -11,6 +11,7 @@
 <script src="<?php echo $codeMirrorDir; ?>/mode/css/css.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/clike/clike.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/php/php.js"></script>
+<script src="<?php echo $codeMirrorDir; ?>/mode/ruby/ruby.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/searchcursor.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/match-highlighter.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/foldcode.js"></script>
@@ -21,6 +22,9 @@
 .cm-s-visible {display: block; top: 0px}
 .cm-s-hidden {display: none; top: 4000px}
 .cm-s-activeLine {background: #002 !important;}
+<?php if ($visibleTabs) {?>
+.cm-tab:after {position: relative; display: inline-block; width: 0px; left: -1.4em; overflow: visible; color: #aaa; content: "\21e5";}
+<?;};?>
 </style>
 </head>
 
@@ -29,8 +33,8 @@
 <script>
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	var codeFold = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
-	var codeFold_JS_PHP = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
+	var codeFold 		 = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
+	var codeFold_JS_PHP_Ruby = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
 
 	window['cM'+num] = CodeMirror(document.body, {
         mode: "application/x-httpd-php",
@@ -112,7 +116,7 @@ function createNewCMInstance(num) {
 		};
 		lastKeyCode = e.keyCode;
 	},
-	onGutterClick: !fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".php") == -1) ? codeFold : codeFold_JS_PHP,
+	onGutterClick: !fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".php") && fileName.indexOf(".rb") == -1) ? codeFold : codeFold_JS_PHP_Ruby,
 	extraKeys: {"Tab": "indentMore", "Shift-Tab": "indentLess"}
 	});
 
