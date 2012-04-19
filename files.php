@@ -142,7 +142,7 @@ function php4_scandir($dir) {
 ?>
 <!DOCTYPE html>
 
-<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="top.ICEcoder.getMouseXY(event);top.ICEcoder.canResizeFilesW()" onContextMenu="top.ICEcoder.rightClickedFile=top.ICEcoder.thisFileFolderLink; top.ICEcoder.selectFileFolder(); return top.ICEcoder.showMenu()" onClick="top.ICEcoder.selectFileFolder()">
+<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="top.ICEcoder.getMouseXY(event);top.ICEcoder.canResizeFilesW()" onContextMenu="top.ICEcoder.rightClickedFile=top.ICEcoder.thisFileFolderLink; return top.ICEcoder.showMenu()" onClick="top.ICEcoder.selectFileFolder()">
 <head>
 <title>ICE Coder File Manager</title>
 <link rel="stylesheet" type="text/css" href="lib/files.css">
@@ -150,6 +150,7 @@ function php4_scandir($dir) {
 </head>
 
 <body onLoad="top.ICEcoder.fileManager()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<div onClick="top.ICEcoder.refreshFileManager()" class="refresh"><img src="images/file-manager-icons/refresh.png"></div>
 <?php
 	echo fileManager($_SERVER['DOCUMENT_ROOT'], "[link]");
 ?>
