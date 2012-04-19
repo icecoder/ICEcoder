@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$versionNo		= "v 0.6.3";
+$versionNo		= "v 0.6.4";
 $codeMirrorDir		= "CodeMirror-2.23";
 $cMThisVer		= 2.23;
 $testcMVersion		= false; // test if we're using the latest CodeMirror version
@@ -12,24 +12,26 @@ $allowedIPs		= array("*"); // allowed IPs, * for any
 $plugins		= array(
 			array("Database Admin","images/database.png","margin-top: 3px","plugins/adminer/adminer-3.3.3-mysql-en.php","_blank",""),
 			array("Batch Image Processor","images/images.png","margin-top: 5px","http://birme.net","_blank",""),
-			array("Backup","images/backup-open-files.png","margin-top: 3px","plugins/backupOpenFiles/index.php","fileControl:<b>Zipping Open Files</b>","10"),
-			array("Clipboard","images/clipboard.png","","javascript:alert('Doesn\'t do anything yet but will be a clipboard for copied text items, up to 100 levels')","_self","")
+			array("Backup","images/backup-open-files.png","margin-top: 3px","plugins/backupOpenFiles/index.php","fileControl:<b>Zipping Open Files</b>","10")
 			);
 $accountPassword	= "";
 $lastOpenedFiles	= "";
 $openLastFiles		= true;
+$theme			= "default";
 
-if ($_GET['saveFiles'] && $_SESSION['userLevel'] == 10) {
-	$settingsFile = 'settings.php';
-	$settingsContents = file_get_contents($settingsFile);
-	// Replace our lastOpenedFiles var with the the current
-	$repPosStart = strpos($settingsContents,'lastOpenedFiles	= "')+19;
-	$repPosEnd = strpos($settingsContents,'";',$repPosStart)-$repPosStart;
-	$settingsContents = substr($settingsContents,0,$repPosStart).$_GET['saveFiles'].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
-	// Now update this file
-	$fh = fopen($settingsFile, 'w') or die("can't update settings file");
-	fwrite($fh, $settingsContents);
-	fclose($fh);
+if ($_GET['saveFiles']) {
+	if ($_SESSION['userLevel'] == 10) {
+		$settingsFile = 'settings.php';
+		$settingsContents = file_get_contents($settingsFile);
+		// Replace our lastOpenedFiles var with the the current
+		$repPosStart = strpos($settingsContents,'lastOpenedFiles	= "')+19;
+		$repPosEnd = strpos($settingsContents,'";',$repPosStart)-$repPosStart;
+		$settingsContents = substr($settingsContents,0,$repPosStart).$_GET['saveFiles'].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
+		// Now update this file
+		$fh = fopen($settingsFile, 'w') or die("can't update settings file");
+		fwrite($fh, $settingsContents);
+		fclose($fh);
+	}
 	echo '<script>top.ICEcoder.serverQueue("del",0);</script>';
 }
 
