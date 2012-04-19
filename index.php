@@ -27,6 +27,7 @@ if ($testcMVersion) {
 <link rel="stylesheet" type="text/css" href="lib/coder.css">
 <script>
 shortURLStarts = "<?php echo $shortURLStarts;?>";
+theme = "<?php echo $theme;?>";
 <?
 $docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
 if (strrpos($docRoot,"/")==strlen($docRoot)-1) {$docRoot = substr($docRoot,0,strlen($docRoot)-1);};
@@ -41,7 +42,7 @@ window.onbeforeunload = function() {
 }
 
 lastOpenFiles = [<?php
-	if ($lastOpenedFiles!="") {
+	if ($lastOpenedFiles!="" && $_SESSION['userLevel'] == 10) {
 		$openFilesArray = explode(",",$lastOpenedFiles);
 		for ($i=0;$i<count($openFilesArray);$i++) {
 			echo "'".$openFilesArray[$i]."'";
@@ -88,8 +89,10 @@ lastOpenFiles = [<?php
 		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New Folder</a>
 	</span>
 	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Delete</a>
-	<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Rename</a>
-	<a href="javascript:window.open(top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.indexOf(shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length))" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">View Webpage</a>
+	<span id="singleFileMenuItems">
+		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Rename</a>
+		<a href="javascript:window.open(top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.indexOf(shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length))" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">View Webpage</a>
+	</span>
 </div>
 
 <div id="header" class="header" onContextMenu="return false">
