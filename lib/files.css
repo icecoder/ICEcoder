@@ -19,6 +19,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 
 body {margin: 0px; overflow: auto}
 
+.refresh {float: right; margin-right: 15px; cursor: pointer}
+
 .fileManager {
 	margin: 15px 0px 15px 22px;
 	-webkit-user-select: none;
