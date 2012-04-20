@@ -28,13 +28,9 @@ if ($theme=="default") {
 .cm-s-visible {display: block; top: 0px}
 .cm-s-hidden {display: none; top: 4000px}
 .cm-s-activeLine {background: #002 !important;}
-
-.CodeMirror-selected {background: #037 !important;}
-.CodeMirror-gutter {background: #333; border-right: 1px solid #e8e8e8}
-.CodeMirror-gutter-text {color: #999; width: 35px; cursor: default}
-.CodeMirror-cursor {border-left: 1px solid white !important;}
-.CodeMirror-matchingbracket{border: 1px solid grey; color: black !important;}
-
+<?php if ($visibleTabs) {?>
+.cm-tab:after {position: relative; display: inline-block; width: 0px; left: -1.4em; overflow: visible; color: #aaa; content: "\21e5";}
+<?;};?>
 span.CodeMirror-matchhighlight {background: #555555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000000; background: #555555; !important}
 </style>
@@ -45,7 +41,7 @@ span.CodeMirror-matchhighlight {background: #555555}
 <script>
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	var codeFold = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
+	var codeFold	    = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
 	var codeFold_JS_PHP = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
 
 	window['cM'+num] = CodeMirror(document.body, {
