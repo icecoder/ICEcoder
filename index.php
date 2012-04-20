@@ -27,7 +27,7 @@ if ($testcMVersion) {
 <link rel="stylesheet" type="text/css" href="lib/coder.css">
 <script>
 shortURLStarts = "<?php echo $shortURLStarts;?>";
-theme = "<?php echo $theme;?>";
+theme = "<?php if ($theme=="default") {echo 'icecoder';} else {echo $theme;};?>";
 <?
 $docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
 if (strrpos($docRoot,"/")==strlen($docRoot)-1) {$docRoot = substr($docRoot,0,strlen($docRoot)-1);};
