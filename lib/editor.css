@@ -32,3 +32,9 @@
 .cm-s-icecoder span.cm-quote {color: #090;}
 .cm-s-icecoder span.cm-hr {color: #999;}
 .cm-s-icecoder span.cm-link {color: #ff0;}
+
+.cm-s-icecoder .CodeMirror-cursor {border-left: 1px solid white !important;}
+.cm-s-icecoder .CodeMirror-selected {background: #037 !important;}
+.cm-s-icecoder .CodeMirror-gutter {background: #333; border-right: 1px solid #e8e8e8}
+.cm-s-icecoder .CodeMirror-gutter-text {color: #999; width: 35px; cursor: default}
+.cm-s-icecoder .CodeMirror-matchingbracket {border: 1px solid grey; color: black !important;}
