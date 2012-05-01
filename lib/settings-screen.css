@@ -1,0 +1,45 @@
+/* First, reset everything to a standard */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	outline: 0px;
+	font-size: 12px;
+	vertical-align: top;
+}
+
+body {overflow: hidden;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -o-user-select:none;
+   user-select: none;
+}
+
+h1 {font-size: 36px; font-weight: normal; color: #888888; margin-bottom: 20px}
+h2 {font-size: 18px; font-weight: normal; color: #ffffff}
+
+.settings {font-family: arial, verdana, helvetica, sans-serif; background-color: #1c1c19; color: #ffffff}
+.settings .infoPane {position: relative; width: 230px; height: 560px; font-size: 10px; color: #bbbbbb; background-color: #ffffff; padding: 20px; float: left}
+.settings .infoPane a {color: #888888; text-decoration: none}
+.settings .infoPane a:hover {text-decoration: underline}
+.settings .logo {position: relative; margin-top: 2px}
+.settings .version {position: relative; display: block; margin-top: 5px; margin-bottom: 10px; font-size: 10px; color: #bbbbbb}
+.settings .settingsColumn1 {width: 220px; height: 560px; padding: 20px; float: left}
+.settings .settingsColumn2 {width: 420px; height: 560px; padding: 20px 20px 20px 0px; float: left}
+.settings input, .settings textarea {border: 1px solid #555555; background-color: #444444; color: #ffffff}
+.settings input:focus, .settings textarea:focus {
+	outline: none;
+	-webkit-box-shadow: 0px 0px 10px 1px rgba(0,198,255,0.7);
+	-moz-box-shadow: 0px 0px 10px 1px rgba(0,198,255,0.7);
+	box-shadow: 0px 0px 10px 1px rgba(0,198,255,0.7);
+}
+.settings .plugins {font-family: arial, verdana, helvetica, sans-serif; width: 410px; height: 123px; overflow: hidden}
+.settings .update {position: absolute; bottom: 0px; right: 20px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); opacity: 0.1; cursor: pointer}
