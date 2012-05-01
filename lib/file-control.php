@@ -152,7 +152,7 @@ if ($_GET['action']=="save") {
 				if (isset($_POST['newFileName'])&&$_POST['newFileName']!="") {
 					echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$file.'\');</script>';
 				}
-				echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="doneSave";</script>';
+				echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);if (top.ICEcoder.stickyTabWindow.location) {top.ICEcoder.stickyTabWindow.location.reload()};action="doneSave";</script>';
         		} else {
 				echo "<script>alert('Sorry, cannot write\\n".$file."');</script>";
 				echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
@@ -193,15 +193,16 @@ if (action=="load") {
 		top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
 		top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
 		top.ICEcoder.nextcMInstance++;
-		top.ICEcoder.serverMessage();
-		top.ICEcoder.serverQueue("del",0);
 		top.ICEcoder.loadingFile = false;
 	}
 
 	if (fileType=="image") {
 		top.document.getElementById('blackMask').style.visibility = "visible";
-		top.document.getElementById('mediaContainer').innerHTML = "<img src=\"<?php echo str_replace($docRoot,"",$file);?>\" style=\"border: solid 10px #ffffff; max-width: 700px; max-height: 500px\" onClick=\"return false\"><br><span style=\"border: solid 10px #ffffff; background-color: #ffffff\" onClick=\"return false\"><?php echo str_replace($docRoot,"",$file);?></span>";
+		top.document.getElementById('mediaContainer').innerHTML = "<img src=\"<?php echo str_replace($docRoot,"",$file);?>\" class=\"whiteGlow\" style=\"border: solid 10px #ffffff; max-width: 700px; max-height: 500px\" onClick=\"return false\"><br><span class=\"whiteGlow\" style=\"border: solid 10px #ffffff; color: #000000; background-color: #ffffff\" onClick=\"return false\"><?php echo str_replace($docRoot,"",$file);?></span>";
 	}
+
+	top.ICEcoder.serverMessage();
+	top.ICEcoder.serverQueue("del",0);
 }
 </script>
 
