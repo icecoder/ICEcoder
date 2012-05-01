@@ -1,8 +1,8 @@
 <?php
 include("lib/settings.php");
 $allowedIP = false;
-for($i=0;$i<count($allowedIPs);$i++) {
-	if ($allowedIPs[$i]==$_SERVER["REMOTE_ADDR"]||$allowedIPs[$i]=="*") {
+for($i=0;$i<count($_SESSION['allowedIPs']);$i++) {
+	if ($_SESSION['allowedIPs'][$i]==$_SERVER["REMOTE_ADDR"]||$_SESSION['allowedIPs'][$i]=="*") {
 		$allowedIP = true;
 	}
 }
@@ -28,6 +28,7 @@ if ($testcMVersion) {
 <script>
 shortURLStarts = "<?php echo $shortURLStarts;?>";
 theme = "<?php if ($theme=="default") {echo 'icecoder';} else {echo $theme;};?>";
+tabsIndent = <?php if ($tabsIndent) {echo 'true';} else {echo 'false';};?>;
 <?
 $docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
 if (strrpos($docRoot,"/")==strlen($docRoot)-1) {$docRoot = substr($docRoot,0,strlen($docRoot)-1);};
@@ -52,18 +53,9 @@ lastOpenFiles = [<?php
 ?>];
 </script>
 <script language="JavaScript" src="lib/coder.js"></script>
-</head><?php
-	$onLoadExtras = "";
-	for ($i=0;$i<count($plugins);$i++) {
-		if ($plugins[$i][5]!="") {
-			$onLoadExtras .= ";ICEcoder.startPluginIntervals('".$plugins[$i][3]."','".$plugins[$i][4]."','".$plugins[$i][5]."')";
-		};
-	};
-	if ($openLastFiles) {
-		$onLoadExtras .= ";ICEcoder.autoOpenFiles()";
-	}
-?>
-<body onLoad="ICEcoder.init()<?php echo $onLoadExtras;?>" onResize="ICEcoder.setLayout()" onMouseMove="top.ICEcoder.getMouseXY(event);top.ICEcoder.canResizeFilesW()" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onKeyDown="return ICEcoder.interceptKeys('coder', event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
+</head>
+
+<body onLoad="ICEcoder.init(<?php if ($_SESSION['userLevel'] == 10) {echo "'login'";} ?>)<?php echo $onLoadExtras;?>" onResize="ICEcoder.setLayout()" onMouseMove="top.ICEcoder.getMouseXY(event);top.ICEcoder.canResizeFilesW()" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onKeyDown="return ICEcoder.interceptKeys('coder', event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="ICEcoder.showHide('hide',this)">
 	<div class="popupVCenter">
@@ -78,7 +70,7 @@ lastOpenFiles = [<?php
 		<div class="popup">
 			<div class="circleOutside"></div>
 			<div class="circleInside"></div>
-			&nbsp;&nbsp;&nbsp;loading...
+			&nbsp;&nbsp;&nbsp;working...
 		</div>
 	</div>
 </div>
@@ -96,29 +88,24 @@ lastOpenFiles = [<?php
 </div>
 
 <div id="header" class="header" onContextMenu="return false">
-	<div class="plugins">
-	<?php
-	for ($i=0;$i<count($plugins);$i++) {
-		$target = explode(":",$plugins[$i][4]);
-		echo '<a href="'.$plugins[$i][3].'" target="'.$target[0].'"><img src="'.$plugins[$i][1].'" style="'.$plugins[$i][2].'" alt="'.$plugins[$i][0].'"></a>';
-	};
-	?>
+	<div class="plugins" id="pluginsContainer">
+	<?php echo $pluginsDisplay; ?>
 	</div>
 	<div class="version"><?php echo $versionNo;?></div>
-	<img src="images/ice-coder.gif" class="logo">
+	<img src="images/ice-coder.gif" class="logo" onContextMenu="ICEcoder.settingsScreen('show')">
 </div>
 
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.document.getElementById('fileMenu').style.display='none';">
 	<div class="account" id="account">
-		<?php if($_SESSION['userLevel']<10) {?>
-			<form name="login" action="index.php" method="POST">
-			<input type="password" name="loginPassword" class="accountPassword">
-			<input type="submit" name="submit" value="Login" class="button">
-			</form>
-		<?php } else {
-		$lockStyleExtra = ' style="margin-top: -22px"';
-		?>
-			<div class="accountOptions">
+		<div class="accountLoginContainer" id="accountLoginContainer">
+			<div class="accountLogin" id="accountLogin">
+				<form name="login" action="lib/settings.php" method="POST" target="ff">
+				<input type="password" name="loginPassword" class="accountPassword">
+				<input type="submit" name="submit" value="Login" class="button">
+				</form>
+			</div>
+		</div>
+		<div class="accountOptions">
 			<a nohref title="Save" onClick="ICEcoder.fMIcon('save')"><img src="images/save.png" alt="Save" id="fMSave" style="opacity: 0.3"></a>
 			<a nohref title="Open" onClick="ICEcoder.fMIcon('open')"><img src="images/open.png" alt="Open" id="fMOpen" style="margin-left: 7px; opacity: 0.3"></a>
 			<a nohref title="New File" onClick="ICEcoder.fMIcon('newFile')"><img src="images/new-file.png" alt="New File" id="fMNewFile" style="margin: 8px 0px 0px 10px; opacity: 0.3"></a>
@@ -126,9 +113,8 @@ lastOpenFiles = [<?php
 			<a nohref title="Delete" onClick="ICEcoder.fMIcon('delete')"><img src="images/delete.png" alt="Delete" id="fMDelete" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
 			<a nohref title="Rename" onClick="ICEcoder.fMIcon('rename')"><img src="images/rename.png" alt="Rename" id="fMRename" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
 			<a nohref title="View" onClick="ICEcoder.fMIcon('view')"><img src="images/view.png" alt="View" id="fMView" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
-			</div>
-		<?php ;};?>
-		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock.png" id="fmLock" class="lock"<?php echo $lockStyleExtra; ?>></a>
+		</div>
+		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock.png" id="fmLock" class="lock"></a>
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1'"></iframe>
 	<div class="serverMessage" id="serverMessage"></div>
@@ -166,7 +152,7 @@ lastOpenFiles = [<?php
 			</div>
 		</form>
 		<form onSubmit="return ICEcoder.goToLine()">
-		<div class="codeAssist"><input type="checkbox" name="codeAssist" checked onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
+		<div class="codeAssist"><input type="checkbox" name="codeAssist" id="codeAssist" checked onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
 		<div class="goLine">Go to Line<input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 		</form>
 	</div>
