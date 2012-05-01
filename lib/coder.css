@@ -24,9 +24,17 @@ body {overflow: hidden;
    user-select: none;
 }
 
+h1 {font-size: 36px; font-weight: normal; color: #888888; margin-bottom: 20px}
+h2 {font-size: 18px; font-weight: normal; color: #ffffff}
+
 .blackMask {position: fixed; display: table; width: 100%; height: 100%; top: 0px; left: 0px; visibility: hidden; background-color: rgba(0,0,0,0.8); text-align: center; z-index: 100}
 .blackMask .popupVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
 .popupVCenter .popup {#position: relative; #top: -50%; text-align: center; color: #ffffff; font-size: 10px}
+.whiteGlow {
+	-webkit-box-shadow: 0px 0px 8px 2px rgba(255,255,255,0.6);
+	-moz-box-shadow: 0px 0px 8px 2px rgba(255,255,255,0.6);
+	box-shadow: 0px 0px 8px 2px rgba(255,255,255,0.6);
+}
 
 .circleOutside {background-color: rgba(0,0,0,0); border:5px solid rgba(0,183,229,0.9); opacity:.9; border-top:5px solid rgba(0,0,0,0); border-left:5px solid rgba(0,0,0,0); border-radius:50px; box-shadow: 0 0 35px #2187e7;
 	width:50px; height:50px; margin:0 auto; -moz-animation:spin .5s infinite linear; -webkit-animation:spin .5s infinite linear;
@@ -67,7 +75,7 @@ body {overflow: hidden;
 .header .plugins {position: absolute; display: inline-block; left: 15px; top: 3px}
 .header .plugins img {position: relative; display: inline-block; margin-right: 15px}
 .header .version {position: relative; display: inline-block; margin-top: 25px; font-size: 10px; color: #bbbbbb}
-.header .logo {position: relative; margin: 5px 10px 0px 5px}
+.header .logo {position: relative; margin: 5px 10px 0px 5px; cursor: pointer}
 
 .files {position: absolute; display: inline-block; height: 100%; width: 250px; background-color: #e0e0e0; background-image: url('../images/files-arrow.gif'); background-repeat: no-repeat; background-position: 100% 50%; overflow: hidden; z-index: 1;
 	-webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
@@ -75,12 +83,25 @@ body {overflow: hidden;
 	box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
 }
 .files .account {display: inline-block; height: 50px; width: 250px; margin-top: 40px; background-color: #888888}
+.files .accountLoginContainer {position: absolute; width: 250px; height: 50px; z-index: 1}
+.files .accountLoginContainer .accountLogin {position: absolute; width: 250px; height: 50px; top: 0px; background-color: #666666;
+	-webkit-transition: top 0.3s;
+	-moz-transition: top 0.3s;
+	-o-transition: top 0.3s;
+	transition: top 0.3s;
+}
 .files .accountOptions {position: relative; height: 31px; width: 200px; margin-left: 15px; margin-top: 8px}
 .files .accountOptions img {cursor: pointer}
 .files .accountPassword {position: relative; border: 1px solid #888888; background-color: #999999; height: 18px; width: 140px; margin-left: 14px; margin-top: 15px}
+.files input:focus, .findReplace input:focus, .findReplace select:focus, .accountPassword:focus {
+	outline: none;
+	-webkit-box-shadow: 0px 0px 10px 1px rgba(0,198,255,0.7);
+	-moz-box-shadow: 0px 0px 10px 1px rgba(0,198,255,0.7);
+	box-shadow: 0px 0px 10px 1px rgba(0,198,255,0.7);
+}
 .files .button {position: absolute; border: 0px; background: #999999; color: #555555; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
 .files .button:hover {background-color: #444444; color: #eeeeee}
-.files .lock {margin-left: 225px; margin-top: -20px}
+.files .lock {position: relative; margin-left: 225px; margin-top: -20px; z-index: 1}
 .files .frame {display: inline-block; width: 250px}
 .files .serverMessage {position: absolute; display: inline-block; width: 180px; bottom: 0px; margin-bottom: 30px; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 7px 12px; opacity: 0;
 	-webkit-transition: all 0.2s;
@@ -138,4 +159,4 @@ body {overflow: hidden;
 .screenVCenter .screenCenter {#position: relative; #top: -50%; text-align: center; display: inline}
 .screenCenter .version {position: relative; display: block; margin: 5px 0px 15px 0px; font-size: 10px; color: #bbbbbb}
 .screenCenter .accountPassword {border: 1px solid #888888; height: 18px}
-.screenCenter .button {border: 0px; background: #666666; color: #ffffff; height: 22px}
+.screenCenter .button {border: 0px; background: #666666; color: #ffffff; height: 22px; cursor: pointer}
