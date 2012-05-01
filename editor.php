@@ -28,9 +28,8 @@ if ($theme=="default") {
 .cm-s-visible {display: block; top: 0px}
 .cm-s-hidden {display: none; top: 4000px}
 .cm-s-activeLine {background: #002 !important;}
-<?php if ($visibleTabs) {?>
-.cm-tab:after {position: relative; display: inline-block; width: 0px; left: -1.4em; overflow: visible; color: #aaa; content: "\21e5";}
-<?;};?>
+// Make sure this next one remains the 5th item, updated with JS
+.cm-tab:after {position: relative; display: inline-block; width: 0px; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if ($visibleTabs) {?>\21e5<?;};?>";}
 span.CodeMirror-matchhighlight {background: #555555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000000; background: #555555; !important}
 </style>
@@ -124,7 +123,10 @@ function createNewCMInstance(num) {
 		lastKeyCode = e.keyCode;
 	},
 	onGutterClick: !fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".php") && fileName.indexOf(".rb") == -1) ? codeFold : codeFold_JS_PHP_Ruby,
-	extraKeys: {"Tab": "indentMore", "Shift-Tab": "indentLess"}
+	extraKeys: {
+		"Tab": function(cm) {CodeMirror.commands[top.tabsIndent ? "defaultTab" : "insertTab"](cm);},
+		"Shift-Tab": "indentLess"
+	}
 	});
 
 	// Now create the active line for this CodeMirror object
