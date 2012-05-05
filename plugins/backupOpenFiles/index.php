@@ -74,9 +74,14 @@ Class zipIt {
 // Trigger the class
 $zipItDoZip = new zipIt();
 $zipItAddToZip = $zipItDoZip->zipFilesUp($zipItSaveLocation.$zipItFileName);
-if ($zipItAddToZip) {echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';};
+if (!$zipItAddToZip) {echo '<script>alert("Could not zip files up!");</script>';};
 ;};
 ?>
+
+<script>
+top.ICEcoder.serverMessage();
+top.ICEcoder.serverQueue("del",0);
+</script>
 </body>
 
 </html>
