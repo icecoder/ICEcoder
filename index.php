@@ -132,22 +132,28 @@ lastOpenFiles = [<?php
 		<form name="findAndReplace">
 			<div class="findReplace">
 				<div class="findText">Find</div>
-				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace('find',true)">
+				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace('find',true,false)">
 				<div class="findTextPlural">'s</div>
 				<select name="connector" onChange="ICEcoder.findReplaceOptions()">
 				<option>in</option>
 				<option>and</option>
 				</select>
-				<div class="replaceText" id="rText" style="display: none">replace with</div>
+				<div class="replaceText" id="rText" style="display: none">
+					<select name="replaceAction" class="replaceAction">
+					<option>replace</option>
+					<option>replace all</option>
+					</select>
+					 with
+				</div>
 				<input type="text" name="replace" value="" id="replace" class="textbox replace" style="display: none">
 				<div class="targetText" id="rTarget" style="display: none">in</div>
-				<select name="target">
+				<select name="target" onChange="ICEcoder.updateResultsDisplay(this.value=='this document' ? 'show' : 'hide')">
 				<option>this document</option>
 				<option>open documents</option>
 				<option>all files</option>
 				<option>all filenames</option>
 				</select>
-				<input type="button" name="submit" value="&gt;&gt;" class="submit" onClick="ICEcoder.findReplace('findReplace',false)">
+				<input type="button" name="submit" value="&gt;&gt;" class="submit" onClick="ICEcoder.findReplace('findReplace',false,true)">
 				<div class="results" id="results"></div>
 			</div>
 		</form>
