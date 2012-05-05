@@ -79,7 +79,7 @@ function createNewCMInstance(num) {
 	},
 	onKeyEvent: function(instance, e) {
 		top.ICEcoder.redoChangedContent(event);
-		top.ICEcoder.findReplace('find',true);
+		top.ICEcoder.findReplace('find',true,false);
 		top.ICEcoder.getCaretPosition();
 		top.ICEcoder.updateCharDisplay();
 		tok = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getTokenAt(window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getCursor());
