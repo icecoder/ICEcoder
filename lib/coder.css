@@ -127,6 +127,7 @@ h2 {font-size: 18px; font-weight: normal; color: #ffffff}
 .findReplace .findText {display: inline-block; height: 21px; font-size: 10px; margin: 8px 2px 0px 2px; margin-left: 43px}
 .findReplace .find {position: relative; width: 120px; height: 16px; border: 0; top: -2px; font-size: 10px; padding-left: 5px}
 .findReplace .findTextPlural {display: inline-block; height: 21px; font-size: 10px; margin: 8px 2px 0px 0px}
+.findReplace .replaceAction {margin: 0px 2px 0px 0px; top: -2px}
 .findReplace .replaceText {height: 21px; font-size: 10px; margin: 8px 2px 0px 2px}
 .findReplace .replace {position: relative; width: 120px; height: 16px; border: 0; top: -2px; font-size: 10px; padding-left: 5px}
 .findReplace .targetText {height: 21px; font-size: 10px; margin: 8px 2px 0px 2px}
