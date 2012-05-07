@@ -25,7 +25,7 @@ $openLastFiles		= true;
 $codeAssist		= true;
 $visibleTabs		= false;
 $lockedNav		= true;
-$accountPassword	= "c640d2e8f2ef763f35be2d825bd9480b39b7392d2e412c0a3";
+$accountPassword	= "";
 $restrictedFiles	= array("wp-",".php",".asp",".aspx");
 $bannedFiles		= array("_coder","wp-",".exe",".sql");
 $allowedIPs		= array("*");
@@ -35,7 +35,7 @@ $plugins		= array(
 			array("Backup","images/backup-open-files.png","margin-top: 3px","plugins/backupOpenFiles/index.php","fileControl:<b>Zipping Open Files</b>","10")
 			);
 $theme			= "default";
-$lastOpenedFiles	= "|index.php";
+$lastOpenedFiles	= "";
 
 // ---------------
 // End of settings
