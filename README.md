@@ -29,12 +29,12 @@ Early version of the web based IDE which allows for creation of websites in the 
 * Adds end tags as you type and in a context aware way
 * Can rename open files (whoaah!)
 * CTRL+Enter open current webpage in new tab
+* CTRL+S+Enter opens a sticky tab to show live edits
 * ESC = Comment/Uncomment line, incl partial lines
 * Image viewer
+* Colour preview block on CSS colours, ie red, #ff0000 or  RGBA(255,0,0,0.5)
 * MySQL Database management via Adminer plugin
 * Backs up files every 10 mins or on click of backup plugin icon
-* Colour preview block on CSS colours, ie red, #ff0000 or  RGBA(255,0,0,0.5)
-* CTRL+S+Enter opens a sticky tab to show live edits
 
 ###Installation
 
@@ -46,7 +46,7 @@ $git clone git@github:mattpass/ICEcoder
 
 ####Step 2: Upload all the files
 ```
-Linux or Windows hosting
+Linux or Windows hosting OK
 Upload to a new sub-dir URL such as yourdomain.com/_coder
 Set public write permissions on the lib/settings.php file
 ```
@@ -57,9 +57,9 @@ Visit the sub-dir URL in your browser and enter a password
 Now you're setup, auto-logged in too and ready to code
 ```
 
-Is fully open source and I'd encourage you to take it, make it your own and customise to your hearts content! :)
+Suitable for commercial & non-commercial projects, just let me know if it's useful to you and any cool customisations you make to it. I take no responsibility for anything, your usage is all down to you.
 
-Suitable for commercial & non-commercial projects, just let me know if it's useful to you and any cool customisations you make to it.
+Is fully open source and I'd encourage you to take it, make it your own and customise to your hearts content! :)
 
 Plenty of comments included in the code to assist with understanding, customising etc.
 
