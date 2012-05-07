@@ -25,7 +25,7 @@ $openLastFiles		= true;
 $codeAssist		= true;
 $visibleTabs		= false;
 $lockedNav		= true;
-$accountPassword	= "";
+$accountPassword	= "c640d2e8f2ef763f35be2d825bd9480b39b7392d2e412c0a3";
 $restrictedFiles	= array("wp-",".php",".asp",".aspx");
 $bannedFiles		= array("_coder","wp-",".exe",".sql");
 $allowedIPs		= array("*");
@@ -35,7 +35,7 @@ $plugins		= array(
 			array("Backup","images/backup-open-files.png","margin-top: 3px","plugins/backupOpenFiles/index.php","fileControl:<b>Zipping Open Files</b>","10")
 			);
 $theme			= "default";
-$lastOpenedFiles	= "";
+$lastOpenedFiles	= "|index.php";
 
 // ---------------
 // End of settings
@@ -43,7 +43,7 @@ $lastOpenedFiles	= "";
 
 
 // Update this settings file?
-if ($_POST["theme"] && $_SESSION['userLevel'] == 10) {
+if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$settingsFile = 'settings.php';
 	$settingsContents = file_get_contents($settingsFile);
 	// Replace our lastOpenedFiles var with the the current
@@ -97,7 +97,7 @@ if ($_POST["theme"] && $_SESSION['userLevel'] == 10) {
 }
 
 // Save the currently opened files for next time
-if ($_GET['saveFiles']) {
+if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 	if ($_SESSION['userLevel'] == 10) {
 		$settingsFile = 'settings.php';
 		$settingsContents = file_get_contents($settingsFile);
@@ -144,9 +144,9 @@ if ($shortURLStarts[count($shortURLStarts)-1]!="") {$trimArray=1;} else {$trimAr
 $shortURLStarts = $shortURLStarts[count($shortURLStarts)-$trimArray];
 
 // If we're updating or calling from the index.php page, do/redo plugins & last opened files
-if (($_POST["theme"] && $_SESSION['userLevel'] == 10) || strpos($_SERVER['PHP_SELF'],"index.php")>0) {
+if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) || strpos($_SERVER['PHP_SELF'],"index.php")>0) {
 	// If we're updating, we need to recreate the plugins array
-	if ($_POST["theme"] && $_SESSION['userLevel'] == 10) {
+	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 		$plugins = array();
 		$pluginsArray = explode("====================",str_replace("\"","",str_replace("\r","",str_replace("\n","",$_POST['plugins']))));
 		for ($i=0;$i<count($pluginsArray);$i++) {
@@ -162,7 +162,7 @@ if (($_POST["theme"] && $_SESSION['userLevel'] == 10) || strpos($_SERVER['PHP_SE
 	};
 
 	// If we're updating, replace the plugin display with our newly established one
-	if ($_POST["theme"] && $_SESSION['userLevel'] == 10) {
+	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 		echo "<script>top.document.getElementById('pluginsContainer').innerHTML = '".$pluginsDisplay."';</script>";
 	}
 
@@ -175,7 +175,7 @@ if (($_POST["theme"] && $_SESSION['userLevel'] == 10) || strpos($_SERVER['PHP_SE
 	};
 
 	// If we're updating our settings, clear existing setIntervals & the array refs, then start new ones
-	if ($_POST["theme"] && $_SESSION['userLevel'] == 10) {
+	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 		?>
 		<script>
 		for (i=0;i<=top.ICEcoder.pluginIntervalRefs.length-1;i++) {
@@ -205,7 +205,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 	</head>
 
 	<body>
-	
+
 	<div class="screenContainer">
 		<div class="screenVCenter">
 			<div class="screenCenter">
@@ -224,7 +224,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 	</html>
 <?php
 } else {
-	// If the password hasn't been set, set it, but only if we're including 
+	// If the password hasn't been set, set it, but only if we're including
 	// from the index.php file (as this file is included from multiple places)
 	if ($accountPassword == "" && strpos($_SERVER['PHP_SELF'],"index.php")>0) {
 		// If we're setting a password
@@ -233,7 +233,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 			$settingsFile = 'lib/settings.php';
 			$settingsContents = file_get_contents($settingsFile);
 			// Replace our empty password with the one submitted by user
-			$settingsContents = str_replace('$accountPassword	= "";','$accountPassword	= "'.$password.'";',$settingsContents);
+			$settingsContents = str_replace('$accountPassword	= "c640d2e8f2ef763f35be2d825bd9480b39b7392d2e412c0a3";','$accountPassword	= "'.$password.'";',$settingsContents);
 			// Now update this file
 			$fh = fopen($settingsFile, 'w') or die("can't update settings file");
 			fwrite($fh, $settingsContents);
