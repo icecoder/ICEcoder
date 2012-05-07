@@ -233,7 +233,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 			$settingsFile = 'lib/settings.php';
 			$settingsContents = file_get_contents($settingsFile);
 			// Replace our empty password with the one submitted by user
-			$settingsContents = str_replace('$accountPassword	= "c640d2e8f2ef763f35be2d825bd9480b39b7392d2e412c0a3";','$accountPassword	= "'.$password.'";',$settingsContents);
+			$settingsContents = str_replace('$accountPassword	= "";','$accountPassword	= "'.$password.'";',$settingsContents);
 			// Now update this file
 			$fh = fopen($settingsFile, 'w') or die("can't update settings file");
 			fwrite($fh, $settingsContents);
