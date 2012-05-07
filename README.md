@@ -41,7 +41,7 @@ Early version of the web based IDE which allows for creation of websites in the 
 ####Step 1: Clone the repo
 
 ```
-$git clone git@github:mattpass/ICEcoder
+$ git clone git@github:mattpass/ICEcoder
 ```
 
 ####Step 2: Upload all the files
