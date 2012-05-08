@@ -16,7 +16,7 @@ function generateHash($plainText,$salt=null) {
 // Start of settings
 // -----------------
 
-$versionNo		= "v 0.6.6";
+$versionNo		= "v 0.6.61";
 $codeMirrorDir		= "CodeMirror-2.24";
 $cMThisVer		= 2.24;
 $tabsIndent		= true;
@@ -26,8 +26,8 @@ $codeAssist		= true;
 $visibleTabs		= false;
 $lockedNav		= true;
 $accountPassword	= "";
-$restrictedFiles	= array("wp-",".php",".asp",".aspx");
-$bannedFiles		= array("_coder","wp-",".exe",".sql");
+$restrictedFiles	= array("wp-",".php",".asp",".aspx",".sql");
+$bannedFiles		= array("_coder","wp-",".exe");
 $allowedIPs		= array("*");
 $plugins		= array(
 			array("Database Admin","images/database.png","margin-top: 3px","plugins/adminer/adminer-3.3.3-mysql-en.php","_blank",""),
@@ -204,8 +204,8 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 	<link rel="stylesheet" type="text/css" href="coder.css">
 	</head>
 
-	<body>
-
+	<body style="background-color: #ffffff">
+	
 	<div class="screenContainer">
 		<div class="screenVCenter">
 			<div class="screenCenter">
