@@ -16,7 +16,7 @@ function generateHash($plainText,$salt=null) {
 // Start of settings
 // -----------------
 
-$versionNo		= "v 0.6.61";
+$versionNo		= "v 0.6.62";
 $codeMirrorDir		= "CodeMirror-2.24";
 $cMThisVer		= 2.24;
 $tabsIndent		= true;
@@ -110,7 +110,7 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 	}
-	echo '<script>top.ICEcoder.serverQueue("del",0);</script>';
+	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
 
 // Establish our user level
