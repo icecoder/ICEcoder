@@ -18,10 +18,11 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 
 body {overflow: hidden;
-   -webkit-user-select: none;
-   -moz-user-select: none;
-   -o-user-select:none;
-   user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	user-select: none;
+	background-color: #222222;
 }
 
 h1 {font-size: 36px; font-weight: normal; color: #888888; margin-bottom: 20px}
@@ -111,7 +112,7 @@ h2 {font-size: 18px; font-weight: normal; color: #ffffff}
 }
 .files .serverMessage b {font-size: 10px}
 
-.editor {position: absolute; display: inline-block; top: 0px; left: 15px; width: 2400px; background-color: #fbfbfb;}
+.editor {position: absolute; display: inline-block; top: 0px; left: 15px; width: 2400px}
 .editor .tabsBar {display: inline-block; height: 21px; width: 2400px; margin-top: 40px; padding-left: 41px; border-bottom: solid 1px #888888; background-color: #eeeeee;}
 .tabsBar .tab {display: inline-block; display: none; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 4px 8px 2px 8px; font-size: 10px; border-left: solid 1px #ffffff; border-right: solid 1px #bbbbbb; color: #ffffff; cursor: pointer;
 	-webkit-transition: all 0.2s;
