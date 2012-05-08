@@ -138,8 +138,8 @@ if ($_GET['action']=="save") {
 			$saveFile = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']).$file;
 			$saveFile = str_replace("//","/",$saveFile);
 			if ((file_exists($saveFile) && is_writable($saveFile)) || $_POST['newFileName']!="") {
-				if (filemtime($saveFile)==$_GET['fileMDT']) {
-					$fh = fopen($saveFile, 'w') or die("can't open file");
+				if (filemtime($saveFile)==$_GET['fileMDT']||!(isset($_GET['fileMDT']))) {
+					$fh = fopen($saveFile, 'w') or die("Sorry, cannot save");
 					fwrite($fh, $_POST['contents']);
 					fclose($fh);
 					clearstatcache();
@@ -214,7 +214,7 @@ if (action=="load") {
 }
 </script>
 
-<form name="saveFile" action="file-control.php?action=save&file=<?php if (isset($file)) {echo $file;}; if (isset($_GET['fileMDT'])) {echo "&fileMDT=".$_GET['fileMDT'];};?>" method="POST">
+<form name="saveFile" action="file-control.php?action=save&file=<?php if (isset($file)) {echo $file;}; if (isset($_GET['fileMDT']) && $_GET['fileMDT']!="undefined") {echo "&fileMDT=".$_GET['fileMDT'];};?>" method="POST">
 <textarea name="contents"></textarea>
 <input type="hidden" name="newFileName" value="">
 </form>
