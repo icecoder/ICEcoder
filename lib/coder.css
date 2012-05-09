@@ -78,7 +78,7 @@ h2 {font-size: 18px; font-weight: normal; color: #ffffff}
 .header .version {position: relative; display: inline-block; margin-top: 25px; font-size: 10px; color: #bbbbbb}
 .header .logo {position: relative; margin: 5px 10px 0px 5px; cursor: pointer}
 
-.files {position: absolute; display: inline-block; height: 100%; width: 250px; background-color: #e0e0e0; background-image: url('../images/files-arrow.gif'); background-repeat: no-repeat; background-position: 100% 50%; overflow: hidden; z-index: 1;
+.files {position: absolute; display: inline-block; height: 100%; width: 250px; background-color: #444444; background-image: url('../images/files-arrow.gif'); background-repeat: no-repeat; background-position: 100% 50%; overflow: hidden; z-index: 1;
 	-webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
 	-moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
 	box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.4);
@@ -104,7 +104,7 @@ h2 {font-size: 18px; font-weight: normal; color: #ffffff}
 .files .button:hover {background-color: #444444; color: #eeeeee}
 .files .lock {position: relative; margin-left: 225px; margin-top: -20px; z-index: 1}
 .files .frame {display: inline-block; width: 250px}
-.files .serverMessage {position: absolute; display: inline-block; width: 180px; bottom: 0px; margin-bottom: 30px; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 7px 12px; opacity: 0;
+.files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0px; margin-bottom: 30px; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 7px 12px; opacity: 0;
 	-webkit-transition: all 0.2s;
 	-moz-transition: all 0.2s;
 	-o-transition: all 0.2s;
@@ -113,16 +113,16 @@ h2 {font-size: 18px; font-weight: normal; color: #ffffff}
 .files .serverMessage b {font-size: 10px}
 
 .editor {position: absolute; display: inline-block; top: 0px; left: 15px; width: 2400px}
-.editor .tabsBar {display: inline-block; height: 21px; width: 2400px; margin-top: 40px; padding-left: 41px; border-bottom: solid 1px #888888; background-color: #eeeeee;}
-.tabsBar .tab {display: inline-block; display: none; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 4px 8px 2px 8px; font-size: 10px; border-left: solid 1px #ffffff; border-right: solid 1px #bbbbbb; color: #ffffff; cursor: pointer;
-	-webkit-transition: all 0.2s;
-	-moz-transition: all 0.2s;
-	-o-transition: all 0.2s;
-	transition: all 0.2s;
+.editor .tabsBar {display: inline-block; height: 22px; width: 2400px; margin-top: 40px; padding-left: 41px; background-color: #888888;}
+.tabsBar .tab {display: inline-block; display: none; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 5px 8px 2px 8px; font-size: 10px; border-left: solid 1px #ffffff; border-right: solid 1px #777777; color: #ffffff; cursor: pointer;
+	-webkit-transition: all 0.15s;
+	-moz-transition: all 0.15s;
+	-o-transition: all 0.15s;
+	transition: all 0.15s;
 }
 .tabsBar .tab img {margin: 1px 0px 0px 5px}
-.tabsBar .newTab {display: inline-block; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 5px 5px 1px 5px; border-left: solid 1px #ffffff; border-right: solid 1px #bbbbbb; cursor: pointer;}
-.editor .findBar {display: inline-block; height: 28px; width: 2400px; background-color: #eeeeee}
+.tabsBar .newTab {display: inline-block; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 6px 5px 1px 5px; border-left: solid 1px #ffffff; border-right: solid 1px #777777; cursor: pointer;}
+.editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #ffffff; background-color: #141414}
 .findBar .findReplace {position: absolute; z-index: 1}
 .findReplace select {position: relative; font-size: 10px; margin: 8px 2px 0px 2px; top: -2px;}
 .findReplace .findText {display: inline-block; height: 21px; font-size: 10px; margin: 8px 2px 0px 2px; margin-left: 43px}
