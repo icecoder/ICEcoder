@@ -30,7 +30,7 @@ body {margin: 0px; overflow: auto}
 }
 
 .fileManager span {font-family: helvetica, arial, swiss, verdana;}
-.fileManager a {color: #000000;	text-decoration: none;}
+.fileManager a {color: #eeeeee;	text-decoration: none;}
 .fileManager .open {font-style: italic;}
 .fileManager .closed {font-style: normal;}
 .fileManager .pft-directory {list-style-image: url(../images/file-manager-icons/directory.png);}
@@ -40,61 +40,24 @@ body {margin: 0px; overflow: auto}
 .fileManager LI.pft-file { list-style-image: url(../images/file-manager-icons/file.png); }
 
 /* Additional file types */
-.fileManager LI.ext-3gp { list-style-image: url(../images/file-manager-icons/film.png); }
-.fileManager LI.ext-afp { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-afpa { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-asp { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-aspx { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-avi { list-style-image: url(../images/file-manager-icons/film.png); }
-.fileManager LI.ext-bat { list-style-image: url(../images/file-manager-icons/application.png); }
-.fileManager LI.ext-bmp { list-style-image: url(../images/file-manager-icons/picture.png); }
-.fileManager LI.ext-c { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-cfm { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-cgi { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-com { list-style-image: url(../images/file-manager-icons/application.png); }
-.fileManager LI.ext-cpp { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-css { list-style-image: url(../images/file-manager-icons/css.png); }
-.fileManager LI.ext-doc { list-style-image: url(../images/file-manager-icons/doc.png); }
-.fileManager LI.ext-exe { list-style-image: url(../images/file-manager-icons/application.png); }
-.fileManager LI.ext-gif { list-style-image: url(../images/file-manager-icons/picture.png); }
-.fileManager LI.ext-fla { list-style-image: url(../images/file-manager-icons/flash.png); }
-.fileManager LI.ext-h { list-style-image: url(../images/file-manager-icons/code.png); }
+/*.fileManager LI.ext-css { list-style-image: url(../images/file-manager-icons/css.png); } */
+/*.fileManager LI.ext-doc { list-style-image: url(../images/file-manager-icons/doc.png); } */
+.fileManager LI.ext-gif { list-style-image: url(../images/file-manager-icons/gif.png); }
 .fileManager LI.ext-htm { list-style-image: url(../images/file-manager-icons/html.png); }
 .fileManager LI.ext-html { list-style-image: url(../images/file-manager-icons/html.png); }
-.fileManager LI.ext-jar { list-style-image: url(../images/file-manager-icons/java.png); }
-.fileManager LI.ext-jpg { list-style-image: url(../images/file-manager-icons/picture.png); }
-.fileManager LI.ext-jpeg { list-style-image: url(../images/file-manager-icons/picture.png); }
-.fileManager LI.ext-js { list-style-image: url(../images/file-manager-icons/script.png); }
-.fileManager LI.ext-lasso { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-log { list-style-image: url(../images/file-manager-icons/txt.png); }
-.fileManager LI.ext-m4p { list-style-image: url(../images/file-manager-icons/music.png); }
-.fileManager LI.ext-mov { list-style-image: url(../images/file-manager-icons/film.png); }
-.fileManager LI.ext-mp3 { list-style-image: url(../images/file-manager-icons/music.png); }
-.fileManager LI.ext-mp4 { list-style-image: url(../images/file-manager-icons/film.png); }
-.fileManager LI.ext-mpg { list-style-image: url(../images/file-manager-icons/film.png); }
-.fileManager LI.ext-mpeg { list-style-image: url(../images/file-manager-icons/film.png); }
-.fileManager LI.ext-ogg { list-style-image: url(../images/file-manager-icons/music.png); }
-.fileManager LI.ext-pcx { list-style-image: url(../images/file-manager-icons/picture.png); }
-.fileManager LI.ext-pdf { list-style-image: url(../images/file-manager-icons/pdf.png); }
+.fileManager LI.ext-jpg { list-style-image: url(../images/file-manager-icons/jpg.png); }
+.fileManager LI.ext-jpeg { list-style-image: url(../images/file-manager-icons/jpg.png); }
+.fileManager LI.ext-js { list-style-image: url(../images/file-manager-icons/js.png); }
+/*.fileManager LI.ext-pdf { list-style-image: url(../images/file-manager-icons/pdf.png); } */
 .fileManager LI.ext-php { list-style-image: url(../images/file-manager-icons/php.png); }
-.fileManager LI.ext-png { list-style-image: url(../images/file-manager-icons/picture.png); }
-.fileManager LI.ext-ppt { list-style-image: url(../images/file-manager-icons/ppt.png); }
-.fileManager LI.ext-psd { list-style-image: url(../images/file-manager-icons/psd.png); }
-.fileManager LI.ext-pl { list-style-image: url(../images/file-manager-icons/script.png); }
-.fileManager LI.ext-py { list-style-image: url(../images/file-manager-icons/script.png); }
+.fileManager LI.ext-png { list-style-image: url(../images/file-manager-icons/png.png); }
 .fileManager LI.ext-rb { list-style-image: url(../images/file-manager-icons/ruby.png); }
 .fileManager LI.ext-rbx { list-style-image: url(../images/file-manager-icons/ruby.png); }
 .fileManager LI.ext-rhtml { list-style-image: url(../images/file-manager-icons/ruby.png); }
-.fileManager LI.ext-rpm { list-style-image: url(../images/file-manager-icons/linux.png); }
 .fileManager LI.ext-ruby { list-style-image: url(../images/file-manager-icons/ruby.png); }
-.fileManager LI.ext-sql { list-style-image: url(../images/file-manager-icons/db.png); }
-.fileManager LI.ext-swf { list-style-image: url(../images/file-manager-icons/flash.png); }
-.fileManager LI.ext-tif { list-style-image: url(../images/file-manager-icons/picture.png); }
-.fileManager LI.ext-tiff { list-style-image: url(../images/file-manager-icons/picture.png); }
+/*.fileManager LI.ext-sql { list-style-image: url(../images/file-manager-icons/db.png); } */
+/*.fileManager LI.ext-swf { list-style-image: url(../images/file-manager-icons/flash.png); } */
 .fileManager LI.ext-txt { list-style-image: url(../images/file-manager-icons/txt.png); }
-.fileManager LI.ext-vb { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-wav { list-style-image: url(../images/file-manager-icons/music.png); }
-.fileManager LI.ext-wmv { list-style-image: url(../images/file-manager-icons/film.png); }
-.fileManager LI.ext-xls { list-style-image: url(../images/file-manager-icons/xls.png); }
-.fileManager LI.ext-xml { list-style-image: url(../images/file-manager-icons/code.png); }
-.fileManager LI.ext-zip { list-style-image: url(../images/file-manager-icons/zip.png); }
+/*.fileManager LI.ext-xls { list-style-image: url(../images/file-manager-icons/xls.png); } */
+/*.fileManager LI.ext-xml { list-style-image: url(../images/file-manager-icons/code.png); } */
+/*.fileManager LI.ext-zip { list-style-image: url(../images/file-manager-icons/zip.png); } */
