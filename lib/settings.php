@@ -16,7 +16,7 @@ function generateHash($plainText,$salt=null) {
 // Start of settings
 // -----------------
 
-$versionNo		= "v 0.6.62";
+$versionNo		= "v 0.6.63";
 $codeMirrorDir		= "CodeMirror-2.24";
 $cMThisVer		= 2.24;
 $tabsIndent		= true;
@@ -26,7 +26,7 @@ $codeAssist		= true;
 $visibleTabs		= false;
 $lockedNav		= true;
 $accountPassword	= "";
-$restrictedFiles	= array("wp-",".php",".asp",".aspx",".sql");
+$restrictedFiles	= array("wp-",".php",".rb",".sql");
 $bannedFiles		= array("_coder","wp-",".exe");
 $allowedIPs		= array("*");
 $plugins		= array(
