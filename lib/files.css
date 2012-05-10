@@ -40,8 +40,8 @@ body {margin: 0px; overflow: auto}
 .fileManager LI.pft-file { list-style-image: url(../images/file-manager-icons/file.png); }
 
 /* Additional file types */
-/*.fileManager LI.ext-css { list-style-image: url(../images/file-manager-icons/css.png); } */
-/*.fileManager LI.ext-doc { list-style-image: url(../images/file-manager-icons/doc.png); } */
+.fileManager LI.ext-css { list-style-image: url(../images/file-manager-icons/css.png); }
+.fileManager LI.ext-doc { list-style-image: url(../images/file-manager-icons/doc.png); }
 .fileManager LI.ext-gif { list-style-image: url(../images/file-manager-icons/gif.png); }
 .fileManager LI.ext-htm { list-style-image: url(../images/file-manager-icons/html.png); }
 .fileManager LI.ext-html { list-style-image: url(../images/file-manager-icons/html.png); }
@@ -55,9 +55,9 @@ body {margin: 0px; overflow: auto}
 .fileManager LI.ext-rbx { list-style-image: url(../images/file-manager-icons/ruby.png); }
 .fileManager LI.ext-rhtml { list-style-image: url(../images/file-manager-icons/ruby.png); }
 .fileManager LI.ext-ruby { list-style-image: url(../images/file-manager-icons/ruby.png); }
-/*.fileManager LI.ext-sql { list-style-image: url(../images/file-manager-icons/db.png); } */
-/*.fileManager LI.ext-swf { list-style-image: url(../images/file-manager-icons/flash.png); } */
+/*.fileManager LI.ext-sql { list-style-image: url(../images/file-manager-icons/sql.png); } */
+/*.fileManager LI.ext-swf { list-style-image: url(../images/file-manager-icons/swf.png); } */
 .fileManager LI.ext-txt { list-style-image: url(../images/file-manager-icons/txt.png); }
 /*.fileManager LI.ext-xls { list-style-image: url(../images/file-manager-icons/xls.png); } */
-/*.fileManager LI.ext-xml { list-style-image: url(../images/file-manager-icons/code.png); } */
+/*.fileManager LI.ext-xml { list-style-image: url(../images/file-manager-icons/xml.png); } */
 /*.fileManager LI.ext-zip { list-style-image: url(../images/file-manager-icons/zip.png); } */
