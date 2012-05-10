@@ -120,7 +120,7 @@ h2 {font-size: 18px; font-weight: normal; color: #ffffff}
 	-o-transition: all 0.15s;
 	transition: all 0.15s;
 }
-.tabsBar .tab img {margin: 1px 0px 0px 5px}
+.tabsBar .tab .closeTab {margin: 1px 0px 0px 5px; border-radius: 6px}
 .tabsBar .newTab {display: inline-block; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0px 0px; padding: 6px 5px 1px 5px; border-left: solid 1px #ffffff; border-right: solid 1px #777777; cursor: pointer;}
 .editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #ffffff; background-color: #141414}
 .findBar .findReplace {position: absolute; z-index: 1}
