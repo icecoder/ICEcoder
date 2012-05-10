@@ -16,17 +16,17 @@
 <span class="key">Delete</span> <span class="shortcut">Delete file</span><br><br>
 
 <h2>Within document</h2>
-<span class="key">CTRL+I</span> <span class="shortcut">Search selected text</span><br>
-<span class="key">Esc</span> <span class="shortcut">Comment/uncomment text</span><br>
-<span class="key">Tab</span> <span class="shortcut">Insert tab/indent selected text</span><br><br>
+<span class="key">CTRL <span class="plus">+</span> I</span> <span class="shortcut">Search selected text</span><br>
+<span class="key">Esc</span> <span class="shortcut">Comment / uncomment text</span><br>
+<span class="key">Tab</span> <span class="shortcut">Insert tab / indent selected text</span><br><br>
 
 <h2>Anywhere</h2>
-<span class="key">CTRL+F</span> <span class="shortcut">Find</span><br>
-<span class="key">CTRL+G</span> <span class="shortcut">Go to line</span><br>
-<span class="key">CTRL+S</span> <span class="shortcut">Save</span><br>
-<span class="key">CTRL+Shift+S</span> <span class="shortcut">Save as...</span><br>
-<span class="key">CTRL+Enter</span> <span class="shortcut">View webpage</span><br>
-<span class="key">CTRL+S+Enter</span> <span class="shortcut">Save & create sticky tab</span><br>
+<span class="key">CTRL <span class="plus">+</span> F</span> <span class="shortcut">Find</span><br>
+<span class="key">CTRL <span class="plus">+</span> G</span> <span class="shortcut">Go to line</span><br>
+<span class="key">CTRL <span class="plus">+</span> S</span> <span class="shortcut">Save</span><br>
+<span class="key">CTRL <span class="plus">+</span> Shift <span class="plus">+</span> S</span> <span class="shortcut">Save as...</span><br>
+<span class="key">CTRL <span class="plus">+</span> Enter</span> <span class="shortcut">View webpage</span><br>
+<span class="key">CTRL <span class="plus">+</span> S <span class="plus">+</span> Enter</span> <span class="shortcut">Save & create sticky tab</span><br>
 <span class="key">Esc</span> <span class="shortcut">Cancel tasks</span><br><br>
 
 <h2>Clicking logo</h2>
