@@ -1,7 +1,7 @@
 Copyright (C) 2012 Matt Pass
-Website: mattpass.com
-Email:   matt@mattpass.com
-Twitter: @mattpass
+Website: mattpass.com  
+Email:   matt@mattpass.com  
+Twitter: @mattpass  
 
 #ICEcoder License
 ##Standard Open Source Initiative MIT License
@@ -24,7 +24,5 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ```
-Please note that this LICENSE file covers the ICEcoder shell IDE only and 3rd
-party code, in subfolders such as CodeMirror and plugins, may contain their
-own LICENSE files, and may not also be an MIT licence.
+Please note that this LICENSE file covers the ICEcoder shell IDE only and 3rd party code, in subfolders such as CodeMirror and plugins, may contain their own LICENSE files, and may not also be an MIT licence.
 ```
