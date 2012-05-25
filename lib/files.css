@@ -40,6 +40,7 @@ body {margin: 0px; overflow: auto}
 .fileManager LI.pft-file { list-style-image: url(../images/file-manager-icons/file.png); }
 
 /* Additional file types */
+.fileManager LI.ext-coffee { list-style-image: url(../images/file-manager-icons/coffee.png); }
 .fileManager LI.ext-css { list-style-image: url(../images/file-manager-icons/css.png); }
 .fileManager LI.ext-doc { list-style-image: url(../images/file-manager-icons/doc.png); }
 .fileManager LI.ext-gif { list-style-image: url(../images/file-manager-icons/gif.png); }

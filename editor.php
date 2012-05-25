@@ -8,6 +8,7 @@
 <script src="<?php echo $codeMirrorDir; ?>/lib/codemirror.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/xml/xml.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/javascript/javascript.js"></script>
+<script src="<?php echo $codeMirrorDir; ?>/mode/coffeescript/coffeescript.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/css/css.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/clike/clike.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/php/php.js"></script>
@@ -41,7 +42,7 @@ span.CodeMirror-matchhighlight {background: #555}
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 	var codeFold		 = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #b00; color: #fff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
-	var codeFold_JS_PHP_Ruby = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #b00; color: #fff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
+	var codeFold_JS_Coffee_PHP_Ruby = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #b00; color: #fff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
 
 	window['cM'+num] = CodeMirror(document.body, {
         mode: "application/x-httpd-php",
@@ -122,7 +123,7 @@ function createNewCMInstance(num) {
 		};
 		lastKeyCode = e.keyCode;
 	},
-	onGutterClick: !fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".php") && fileName.indexOf(".rb") == -1) ? codeFold : codeFold_JS_PHP_Ruby,
+	onGutterClick: !fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".coffee") == -1 && fileName.indexOf(".php") && fileName.indexOf(".rb") == -1) ? codeFold : codeFold_JS_Coffee_PHP_Ruby,
 	extraKeys: {
 		"Tab": function(cm) {CodeMirror.commands[top.tabsIndent ? "defaultTab" : "insertTab"](cm);},
 		"Shift-Tab": "indentLess"
