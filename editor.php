@@ -23,15 +23,15 @@ if ($theme=="default") {
 }
 ?>
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0px; background-color: #ffffff}
+.CodeMirror {position: absolute; width: 0px; background-color: #fff}
 .CodeMirror-scroll {width: 100px; height: 100px;}
 .cm-s-visible {display: block; top: 0px}
 .cm-s-hidden {display: none; top: 4000px}
 .cm-s-activeLine {background: #002 !important;}
 // Make sure this next one remains the 5th item, updated with JS
 .cm-tab:after {position: relative; display: inline-block; width: 0px; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if ($visibleTabs) {?>\21e5<?;};?>";}
-span.CodeMirror-matchhighlight {background: #555555}
-.CodeMirror-focused span.CodeMirror-matchhighlight {color: #000000; background: #555555; !important}
+span.CodeMirror-matchhighlight {background: #555}
+.CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
 </style>
 </head>
 
@@ -40,8 +40,8 @@ span.CodeMirror-matchhighlight {background: #555555}
 <script>
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	var codeFold		 = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
-	var codeFold_JS_PHP_Ruby = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #bb0000; color: #ffffff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
+	var codeFold		 = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #b00; color: #fff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
+	var codeFold_JS_PHP_Ruby = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #b00; color: #fff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
 
 	window['cM'+num] = CodeMirror(document.body, {
         mode: "application/x-httpd-php",

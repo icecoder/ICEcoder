@@ -12,15 +12,15 @@
 <script src="../<?php echo $codeMirrorDir; ?>/mode/javascript/javascript.js"></script>
 
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0px; background-color: #ffffff; font-family: monospace}
+.CodeMirror {position: absolute; width: 0px; background-color: #fff; font-family: monospace}
 .CodeMirror-scroll {height: 220px; width: 420px; overflow: hidden}
 .cm-s-visible {display: block; top: 0px}
 .cm-s-hidden {display: none; top: 4000px}
 .cm-s-activeLine {background: #002 !important;}
 // Make sure this next one remains the 5th item, updated with JS
 .cm-tab:after {position: relative; display: inline-block; width: 0px; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\21e5';};?>";}
-span.CodeMirror-matchhighlight {background: #555555}
-.CodeMirror-focused span.CodeMirror-matchhighlight {color: #000000; background: #555555; !important}
+span.CodeMirror-matchhighlight {background: #555}
+.CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
 </style>
 
 <link rel="stylesheet" href="editor.css">
@@ -90,7 +90,7 @@ for ($i=0;$i<count($themeArray)-1;$i++) {
 <br>
 
 <h2>security</h2>
-new password <span style="font-size: 10px; color: #888888">8 chars</span><br>
+new password <span style="font-size: 10px; color: #888">8 chars</span><br>
 <input type="password" name="accountPassword" onkeydown="showButton()"><br>
 confirm password<br>
 <input type="password" name="confirmPassword" onkeydown="showButton()"><br>
@@ -108,7 +108,7 @@ ip addresses<br>
 
 <div class="settingsColumn2">
 <h2>plugins</h2>
-plugins array <span style="font-size: 10px; color: #888888">name, img src, style, url, target, setInterval (mins)</span><br>
+plugins array <span style="font-size: 10px; color: #888">name, img src, style, url, target, setInterval (mins)</span><br>
 <textarea name="plugins" class="plugins" onkeydown="showButton()"><?php
 for($i=0;$i<count($plugins);$i++) {
 	for($j=0;$j<count($plugins[$i]);$j++) {

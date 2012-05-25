@@ -23,11 +23,11 @@ body {overflow: hidden;
    user-select: none;
 }
 
-h1 {font-size: 36px; font-weight: normal; color: #888888; margin-bottom: 20px}
-h2 {font-size: 18px; font-weight: normal; color: #ffffff}
-hr {border: 0; height: 1px; background-color: #888888}
+h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
+h2 {font-size: 18px; font-weight: normal; color: #fff}
+hr {border: 0; height: 1px; background-color: #888}
 
-.results {font-family: arial, verdana, helvetica, sans-serif; background-color: #1c1c19; color: #ffffff}
+.results {font-family: arial, verdana, helvetica, sans-serif; background-color: #1c1c19; color: #fff}
 .results .resultsPane {position: relative; width: 660px; height: 560px; font-size: 10px; padding: 20px; float: left}
 .results .resultsPane a {color: rgba(0,198,255,0.7); text-decoration: none}
 .results .resultsPane a:hover {text-decoration: underline}

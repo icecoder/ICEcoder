@@ -206,7 +206,7 @@ if (action=="load") {
 
 	if (fileType=="image") {
 		top.document.getElementById('blackMask').style.visibility = "visible";
-		top.document.getElementById('mediaContainer').innerHTML = "<img src=\"<?php echo str_replace($docRoot,"",$file);?>\" class=\"whiteGlow\" style=\"border: solid 10px #ffffff; max-width: 700px; max-height: 500px\" onClick=\"return false\"><br><span class=\"whiteGlow\" style=\"border: solid 10px #ffffff; color: #000000; background-color: #ffffff\" onClick=\"return false\"><?php echo str_replace($docRoot,"",$file);?></span>";
+		top.document.getElementById('mediaContainer').innerHTML = "<img src=\"<?php echo str_replace($docRoot,"",$file);?>\" class=\"whiteGlow\" style=\"border: solid 10px #fff; max-width: 700px; max-height: 500px\" onClick=\"return false\"><br><span class=\"whiteGlow\" style=\"border: solid 10px #fff; color: #000; background-color: #fff\" onClick=\"return false\"><?php echo str_replace($docRoot,"",$file);?></span>";
 	}
 
 	top.ICEcoder.serverMessage();

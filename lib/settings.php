@@ -204,7 +204,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 	<link rel="stylesheet" type="text/css" href="coder.css">
 	</head>
 
-	<body style="background-color: #ffffff">
+	<body style="background-color: #fff">
 	
 	<div class="screenContainer">
 		<div class="screenVCenter">

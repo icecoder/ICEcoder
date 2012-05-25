@@ -30,7 +30,7 @@ body {margin: 0px; overflow: auto}
 }
 
 .fileManager span {font-family: helvetica, arial, swiss, verdana;}
-.fileManager a {color: #eeeeee;	text-decoration: none;}
+.fileManager a {color: #eee;	text-decoration: none;}
 .fileManager .open {font-style: italic;}
 .fileManager .closed {font-style: normal;}
 .fileManager .pft-directory {list-style-image: url(../images/file-manager-icons/directory.png);}
