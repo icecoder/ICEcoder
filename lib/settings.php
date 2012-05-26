@@ -16,9 +16,9 @@ function generateHash($plainText,$salt=null) {
 // Start of settings
 // -----------------
 
-$versionNo		= "v 0.6.7";
-$codeMirrorDir		= "CodeMirror-2.24";
-$cMThisVer		= 2.24;
+$versionNo		= "v 0.6.8";
+$codeMirrorDir		= "CodeMirror-2.25";
+$cMThisVer		= 2.25;
 $tabsIndent		= true;
 $testcMVersion		= false;
 $openLastFiles		= true;
