@@ -157,7 +157,31 @@ if ($_GET['action']=="save") {
 					}
 					echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);if (top.ICEcoder.stickyTabWindow.location) {top.ICEcoder.stickyTabWindow.location.reload()};action="doneSave";</script>';
 				} else {
-					echo "<script>alert('Sorry, this file has changed, cannot save\\n".$file."');</script>";
+					$loadedFile = file_get_contents($saveFile);
+					echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",$loadedFile).'</textarea>';
+					echo '<textarea name="userVersionFile" id="userVersionFile"></textarea>';
+					?>
+					<script>
+					var refreshFile = confirm('Sorry, this file has changed, cannot save\n<?php echo $file;?>\n\nReload this file and copy your version to a new document?');
+					if (refreshFile) {
+						var cM = top.ICEcoder.getcMInstance();
+						var thisTab = top.ICEcoder.selectedTab;
+						document.getElementById('userVersionFile').value = cM.getValue();
+						// Revert back to original
+						cM.setValue(document.getElementById('loadedFile').value);
+						top.ICEcoder.changedContent[thisTab-1] = 0;
+						top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo filemtime($saveFile); ?>";
+						cM.clearHistory();
+						// Now for the new file
+						top.ICEcoder.newTab();
+						cM = top.ICEcoder.getcMInstance();
+						cM.setValue(document.getElementById('userVersionFile').value);
+						cM.clearHistory();
+						// Finally, switch back to original tab
+						top.ICEcoder.switchTab(thisTab);
+					}
+					</script>
+					<?php
 					echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 				}
         		} else {
