@@ -12,39 +12,12 @@ function generateHash($plainText,$salt=null) {
 	return $salt.sha1($salt.$plainText);
 }
 
-// -----------------
-// Start of settings
-// -----------------
+// Settings are stored in this file
+include("config.php");
 
-$versionNo		= "v 0.6.8";
-$codeMirrorDir		= "CodeMirror-2.25";
-$cMThisVer		= 2.25;
-$tabsIndent		= true;
-$testcMVersion		= false;
-$openLastFiles		= true;
-$codeAssist		= true;
-$visibleTabs		= false;
-$lockedNav		= true;
-$accountPassword	= "";
-$restrictedFiles	= array("wp-",".php",".rb",".sql");
-$bannedFiles		= array("_coder","wp-",".exe");
-$allowedIPs		= array("*");
-$plugins		= array(
-			array("Database Admin","images/database.png","margin-top: 3px","plugins/adminer/adminer-3.3.3-mysql-en.php","_blank",""),
-			array("Batch Image Processor","images/images.png","margin-top: 5px","http://birme.net","_blank",""),
-			array("Backup","images/backup-open-files.png","margin-top: 3px","plugins/backupOpenFiles/index.php","fileControl:<b>Zipping Open Files</b>","10")
-			);
-$theme			= "default";
-$lastOpenedFiles	= "";
-
-// ---------------
-// End of settings
-// ---------------
-
-
-// Update this settings file?
+// Update this config file?
 if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
-	$settingsFile = 'settings.php';
+	$settingsFile = 'config.php';
 	$settingsContents = file_get_contents($settingsFile);
 	// Replace our lastOpenedFiles var with the the current
 	$repPosStart = strpos($settingsContents,'$tabsIndent');
@@ -54,6 +27,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	if ($_POST['tabsIndent'])		{$tabsIndent = "true";} else {$tabsIndent = "false";};
 	if ($_POST['testcMVersion'])		{$testcMVersion = "true";} else {$testcMVersion = "false";};
 	if ($_POST['openLastFiles'])		{$openLastFiles = "true";} else {$openLastFiles = "false";};
+	$findFilesExclude			= 'array("'.str_replace(', ','","',$_POST['findFilesExclude']).'")';
 	if ($_POST['codeAssist'])		{$codeAssist = "true";} else {$codeAssist = "false";};
 	if ($_POST['visibleTabs'])		{$visibleTabs = "true";} else {$visibleTabs = "false";};
 	if ($_POST['lockedNav'])		{$lockedNav = "true";} else {$lockedNav = "false";};
@@ -67,6 +41,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$settingsNew  = '$tabsIndent		= '.$tabsIndent.';'.PHP_EOL;
 	$settingsNew .= '$testcMVersion		= '.$testcMVersion.';'.PHP_EOL;
 	$settingsNew .= '$openLastFiles		= '.$openLastFiles.';'.PHP_EOL;
+	$settingsNew .= '$findFilesExclude	= '.$findFilesExclude.';'.PHP_EOL;
 	$settingsNew .= '$codeAssist		= '.$codeAssist.';'.PHP_EOL;
 	$settingsNew .= '$visibleTabs		= '.$visibleTabs.';'.PHP_EOL;
 	$settingsNew .= '$lockedNav		= '.$lockedNav.';'.PHP_EOL;
@@ -79,12 +54,13 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 
 	// Compile our new settings
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,($repPosEnd),strlen($settingsContents));
-	// Now update this file
+	// Now update the config file
 	$fh = fopen($settingsFile, 'w') or die("can't update settings file");
 	fwrite($fh, $settingsContents);
 	fclose($fh);
 
-	// OK, now this file is updated, update our current session with new arrays
+	// OK, now the config file has been updated, update our current session with new arrays
+	$_SESSION['findFilesExclude'] = $findFilesExclude = explode(", ",$_POST['findFilesExclude']);
 	$_SESSION['restrictedFiles'] = $restrictedFiles = explode(", ",$_POST['restrictedFiles']);
 	$_SESSION['bannedFiles'] = $bannedFiles = explode(", ",$_POST['bannedFiles']);
 	$_SESSION['allowedIPs'] = $allowedIPs = explode(", ",$_POST['allowedIPs']);
@@ -99,13 +75,13 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 // Save the currently opened files for next time
 if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 	if ($_SESSION['userLevel'] == 10) {
-		$settingsFile = 'settings.php';
+		$settingsFile = 'config.php';
 		$settingsContents = file_get_contents($settingsFile);
 		// Replace our lastOpenedFiles var with the the current
 		$repPosStart = strpos($settingsContents,'lastOpenedFiles	= "')+19;
 		$repPosEnd = strpos($settingsContents,'";',$repPosStart)-$repPosStart;
 		$settingsContents = substr($settingsContents,0,$repPosStart).$_GET['saveFiles'].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
-		// Now update this file
+		// Now update the config file
 		$fh = fopen($settingsFile, 'w') or die("can't update settings file");
 		fwrite($fh, $settingsContents);
 		fclose($fh);
@@ -118,6 +94,7 @@ if (!isset($_SESSION['userLevel'])) {$_SESSION['userLevel'] = 0;};
 if(isset($_POST['loginPassword']) && generateHash($_POST['loginPassword'],$accountPassword)==$accountPassword) {$_SESSION['userLevel'] = 10;};
 $_SESSION['userLevel'] = $_SESSION['userLevel'];
 
+if (!isset($_SESSION['findFilesExclude'])) {$_SESSION['findFilesExclude'] = $findFilesExclude;}
 if (!isset($_SESSION['restrictedFiles'])) {$_SESSION['restrictedFiles'] = $restrictedFiles;}
 if (!isset($_SESSION['bannedFiles'])) {$_SESSION['bannedFiles'] = $bannedFiles;}
 if (!isset($_SESSION['allowedIPs'])) {$_SESSION['allowedIPs'] = $allowedIPs;}
@@ -204,7 +181,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 	<link rel="stylesheet" type="text/css" href="coder.css">
 	</head>
 
-	<body style="background-color: #fff">
+	<body>
 	
 	<div class="screenContainer">
 		<div class="screenVCenter">
@@ -230,11 +207,11 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 		// If we're setting a password
 		if (isset($_POST['accountPassword'])) {
 			$password = generateHash($_POST['accountPassword']);
-			$settingsFile = 'lib/settings.php';
+			$settingsFile = 'lib/config.php';
 			$settingsContents = file_get_contents($settingsFile);
 			// Replace our empty password with the one submitted by user
 			$settingsContents = str_replace('$accountPassword	= "";','$accountPassword	= "'.$password.'";',$settingsContents);
-			// Now update this file
+			// Now update the config file
 			$fh = fopen($settingsFile, 'w') or die("can't update settings file");
 			fwrite($fh, $settingsContents);
 			fclose($fh);
