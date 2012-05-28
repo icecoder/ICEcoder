@@ -82,6 +82,9 @@ for ($i=0;$i<count($themeArray)-1;$i++) {
 <input type="checkbox" onclick="showButton()" name="testcMVersion" value="true"<?php if($testcMVersion) {echo ' checked';};?>> test codemirror version on load<br>
 <input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($openLastFiles) {echo ' checked';};?>> auto open last files on login<br>
 <br>
+when finding in files, exclude:<br>
+<input type="text" onkeydown="showButton()" name="findFilesExclude" value="<?php for($i=0;$i<=count($findFilesExclude)-1;$i++) {echo $findFilesExclude[$i]; if ($i<count($findFilesExclude)-1) {echo ', ';};}; ?>"><br>
+<br>
 
 <h2>assisting</h2>
 <input type="checkbox" onclick="showButton()" name="codeAssist" value="true"<?php if($codeAssist) {echo ' checked';};?>> code assist<br>
