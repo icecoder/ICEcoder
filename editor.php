@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html style="margin: 0px">
+<html style="margin: 0">
 <head>
 <title>CodeMirror 2: ICE Coders Editor of Choice</title>
 <?php include("lib/settings.php");?>
 <link rel="stylesheet" href="<?php echo $codeMirrorDir; ?>/lib/codemirror.css">
 <script src="<?php echo $codeMirrorDir; ?>/lib/codemirror.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/xml/xml.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/javascript/javascript.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/coffeescript/coffeescript.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/css/css.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/clike/clike.js"></script>
+<script src="<?php echo $codeMirrorDir; ?>/mode/css/css.js"></script>
+<script src="<?php echo $codeMirrorDir; ?>/mode/javascript/javascript.js"></script>
+<script src="<?php echo $codeMirrorDir; ?>/mode/xml/xml.js"></script>
+<script src="<?php echo $codeMirrorDir; ?>/mode/coffeescript/coffeescript.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/php/php.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/mode/ruby/ruby.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/searchcursor.js"></script>
@@ -24,19 +24,19 @@ if ($theme=="default") {
 }
 ?>
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0px; background-color: #fff}
+.CodeMirror {position: absolute; width: 0; background-color: #fff}
 .CodeMirror-scroll {width: 100px; height: 100px;}
-.cm-s-visible {display: block; top: 0px}
+.cm-s-visible {display: block; top: 0}
 .cm-s-hidden {display: none; top: 4000px}
 .cm-s-activeLine {background: #002 !important;}
 // Make sure this next one remains the 5th item, updated with JS
-.cm-tab:after {position: relative; display: inline-block; width: 0px; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if ($visibleTabs) {?>\21e5<?;};?>";}
+.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if ($visibleTabs) {?>\21e5<?;};?>";}
 span.CodeMirror-matchhighlight {background: #555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
 </style>
 </head>
 
-<body style="margin: 0px" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<body style="margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
 <script>
 function createNewCMInstance(num) {
