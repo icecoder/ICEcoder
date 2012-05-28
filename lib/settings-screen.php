@@ -12,20 +12,20 @@
 <script src="../<?php echo $codeMirrorDir; ?>/mode/javascript/javascript.js"></script>
 
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0px; background-color: #fff; font-family: monospace}
+.CodeMirror {position: absolute; width: 0; background-color: #fff; font-family: monospace}
 .CodeMirror-scroll {height: 220px; width: 420px; overflow: hidden}
-.cm-s-visible {display: block; top: 0px}
+.cm-s-visible {display: block; top: 0}
 .cm-s-hidden {display: none; top: 4000px}
 .cm-s-activeLine {background: #002 !important;}
 // Make sure this next one remains the 5th item, updated with JS
-.cm-tab:after {position: relative; display: inline-block; width: 0px; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\21e5';};?>";}
+.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\21e5';};?>";}
 span.CodeMirror-matchhighlight {background: #555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
 </style>
 
 <link rel="stylesheet" href="editor.css">
 <?php
-$themeArray = array("ambiance","blackboard","cobalt","eclipse","elegant","lesser-dark","monokai","neat","night","rubyblue","xq-dark");
+$themeArray = array("ambiance","blackboard","cobalt","eclipse","elegant","erlang-dark","lesser-dark","monokai","neat","night","rubyblue","xq-dark");
 for ($i=0;$i<count($themeArray)-1;$i++) {
 	echo '<link rel="stylesheet" href="../'.$codeMirrorDir.'/theme/'.$themeArray[$i].'.css">'.PHP_EOL;
 }
