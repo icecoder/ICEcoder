@@ -8,10 +8,10 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-	border: 0px;
-	margin: 0px;
-	padding: 0px;
-	outline: 0px;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	outline: 0;
 	font-size: 12px;
 	vertical-align: top;
 }
@@ -33,13 +33,13 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .settings .logo {position: relative; margin-top: 2px}
 .settings .version {position: relative; display: block; margin-top: 5px; margin-bottom: 10px; font-size: 10px; color: #bbb}
 .settings .settingsColumn1 {width: 220px; height: 560px; padding: 20px; float: left}
-.settings .settingsColumn2 {width: 420px; height: 560px; padding: 20px 20px 20px 0px; float: left}
+.settings .settingsColumn2 {width: 420px; height: 560px; padding: 20px 20px 20px 0; float: left}
 .settings input, .settings textarea {border: 1px solid #555; background-color: #444; color: #fff}
 .settings input:focus, .settings textarea:focus {
 	outline: none;
-	-webkit-box-shadow: 0px 0px 10px 1px rgba(0,198,255,0.7);
-	-moz-box-shadow: 0px 0px 10px 1px rgba(0,198,255,0.7);
-	box-shadow: 0px 0px 10px 1px rgba(0,198,255,0.7);
+	-webkit-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
+	-moz-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
+	box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
 }
 .settings .plugins {font-family: arial, verdana, helvetica, sans-serif; width: 410px; height: 123px; overflow: hidden}
-.settings .update {position: absolute; bottom: 0px; right: 20px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); opacity: 0.1; cursor: pointer}
+.settings .update {position: absolute; bottom: 0; right: 20px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); opacity: 0.1; cursor: pointer}

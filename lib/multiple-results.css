@@ -8,10 +8,10 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-	border: 0px;
-	margin: 0px;
-	padding: 0px;
-	outline: 0px;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	outline: 0;
 	font-size: 12px;
 	vertical-align: top;
 }
@@ -32,4 +32,4 @@ hr {border: 0; height: 1px; background-color: #888}
 .results .resultsPane a {color: rgba(0,198,255,0.7); text-decoration: none}
 .results .resultsPane a:hover {text-decoration: underline}
 .replace {position: absolute; margin-top: -28px; right: 20px; padding: 5px 10px; font-size: 14px; background-color: rgba(0,198,255,0.7); cursor: pointer}
-.replaceAll {position: absolute; bottom: 0px; right: 20px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); cursor: pointer}
+.replaceAll {position: absolute; bottom: 0; right: 20px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); cursor: pointer}

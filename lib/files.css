@@ -9,20 +9,20 @@ dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
 	font-family: arial, verdana, helvetica, sans-serif;
-	border: 0px;
-	margin: 0px;
-	padding: 0px;
-	outline: 0px;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	outline: 0;
 	font-size: 12px;
 	vertical-align: top;
 }
 
-body {margin: 0px; overflow: auto}
+body {margin: 0; overflow: auto}
 
 .refresh {float: right; margin-right: 15px; cursor: pointer}
 
 .fileManager {
-	margin: 15px 0px 15px 22px;
+	margin: 15px 0 15px 22px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-o-user-select: none;
