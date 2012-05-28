@@ -24,6 +24,7 @@ if ($testcMVersion) {
 <html>
 <head>
 <title>ICE Coder - <?php echo $versionNo;?></title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="lib/coder.css">
 <script>
 shortURLStarts = "<?php echo $shortURLStarts;?>";
@@ -108,11 +109,11 @@ lastOpenFiles = [<?php
 		<div class="accountOptions">
 			<a nohref title="Save" onClick="ICEcoder.fMIcon('save')"><img src="images/save.png" alt="Save" id="fMSave" style="opacity: 0.3"></a>
 			<a nohref title="Open" onClick="ICEcoder.fMIcon('open')"><img src="images/open.png" alt="Open" id="fMOpen" style="margin-left: 7px; opacity: 0.3"></a>
-			<a nohref title="New File" onClick="ICEcoder.fMIcon('newFile')"><img src="images/new-file.png" alt="New File" id="fMNewFile" style="margin: 8px 0px 0px 10px; opacity: 0.3"></a>
-			<a nohref title="New Folder" onClick="ICEcoder.fMIcon('newFolder')"><img src="images/new-folder.png" alt="New Folder" id="fMNewFolder" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
-			<a nohref title="Delete" onClick="ICEcoder.fMIcon('delete')"><img src="images/delete.png" alt="Delete" id="fMDelete" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
-			<a nohref title="Rename" onClick="ICEcoder.fMIcon('rename')"><img src="images/rename.png" alt="Rename" id="fMRename" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
-			<a nohref title="View" onClick="ICEcoder.fMIcon('view')"><img src="images/view.png" alt="View" id="fMView" style="margin: 9px 0px 0px 5px; opacity: 0.3"></a>
+			<a nohref title="New File" onClick="ICEcoder.fMIcon('newFile')"><img src="images/new-file.png" alt="New File" id="fMNewFile" style="margin: 8px 0 0 10px; opacity: 0.3"></a>
+			<a nohref title="New Folder" onClick="ICEcoder.fMIcon('newFolder')"><img src="images/new-folder.png" alt="New Folder" id="fMNewFolder" style="margin: 9px 0 0 5px; opacity: 0.3"></a>
+			<a nohref title="Delete" onClick="ICEcoder.fMIcon('delete')"><img src="images/delete.png" alt="Delete" id="fMDelete" style="margin: 9px 0 0 5px; opacity: 0.3"></a>
+			<a nohref title="Rename" onClick="ICEcoder.fMIcon('rename')"><img src="images/rename.png" alt="Rename" id="fMRename" style="margin: 9px 0 0 5px; opacity: 0.3"></a>
+			<a nohref title="View" onClick="ICEcoder.fMIcon('view')"><img src="images/view.png" alt="View" id="fMView" style="margin: 9px 0 0 5px; opacity: 0.3"></a>
 		</div>
 		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock.png" id="fmLock" class="lock"></a>
 	</div>
