@@ -186,7 +186,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 	<div class="screenContainer">
 		<div class="screenVCenter">
 			<div class="screenCenter">
-			<img src="../images/ice-coder.gif">
+			<img src="../images/ice-coder.png">
 			<div class="version"><?php echo $versionNo;?></div>
 			<form name="settingsUpdate" action="../index.php" method="POST">
 			<input type="password" name="accountPassword" class="accountPassword">
