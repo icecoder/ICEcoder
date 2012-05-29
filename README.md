@@ -44,17 +44,16 @@ Early version of the web based IDE which allows for creation of websites in the 
 $ git clone git@github:mattpass/ICEcoder
 ```
 
-####Step 2: Upload all the files
+####Step 2: Upload the files (Linux or Windows hosting OK)
 ```
-Linux or Windows hosting OK
 Upload to a new sub-dir URL such as yourdomain.com/_coder
-Set public write permissions on the lib/settings.php file
+Set public write permissions on the lib/config.php file
 ```
 
 ####Step 3: Start coding
 ```
 Visit the sub-dir URL in your browser and enter a password
-Now you're setup, auto-logged in too and ready to code
+Now you're setup, auto-logged in and ready to code!
 ```
 
 Suitable for commercial & non-commercial projects, just let me know if it's useful to you and any cool customisations you make to it. I take no responsibility for anything, your usage is all down to you.
