@@ -93,7 +93,7 @@ lastOpenFiles = [<?php
 	<?php echo $pluginsDisplay; ?>
 	</div>
 	<div class="version"><?php echo $versionNo;?></div>
-	<img src="images/ice-coder.gif" class="logo" onClick="ICEcoder.helpScreen('show')" onContextMenu="ICEcoder.settingsScreen('show')">
+	<img src="images/ice-coder.png" class="logo" onClick="ICEcoder.helpScreen('show')" onContextMenu="ICEcoder.settingsScreen('show')">
 </div>
 
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.document.getElementById('fileMenu').style.display='none';">
