@@ -79,7 +79,7 @@ function createNewCMInstance(num) {
 		}
 	},
 	onKeyEvent: function(instance, e) {
-		top.ICEcoder.redoChangedContent(event);
+		top.ICEcoder.redoChangedContent(e);
 		top.ICEcoder.findReplace('find',true,false);
 		top.ICEcoder.getCaretPosition();
 		top.ICEcoder.updateCharDisplay();
