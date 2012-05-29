@@ -175,6 +175,7 @@ lastOpenFiles = [<?php
 </div>
 
 <script>
+ICEcoder.initAliases();
 ICEcoder.setLayout('dontSetEditor');
 </script>
 
