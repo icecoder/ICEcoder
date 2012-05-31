@@ -115,7 +115,7 @@ lastOpenFiles = [<?php
 			<a nohref title="Rename" onClick="ICEcoder.fMIcon('rename')"><img src="images/rename.png" alt="Rename" id="fMRename" style="margin: 9px 0 0 5px; opacity: 0.3"></a>
 			<a nohref title="View" onClick="ICEcoder.fMIcon('view')"><img src="images/view.png" alt="View" id="fMView" style="margin: 9px 0 0 5px; opacity: 0.3"></a>
 		</div>
-		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/file-manager-icons/padlock.png" id="fmLock" class="lock"></a>
+		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/padlock.png" id="fmLock" class="lock"></a>
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1'"></iframe>
 	<div class="serverMessage" id="serverMessage"></div>
