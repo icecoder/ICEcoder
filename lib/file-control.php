@@ -263,7 +263,7 @@ if (action=="save") {
 		if ("undefined" != typeof newFileName) {
 			top.ICEcoder.serverMessage('<b>Saving</b><br>'+newFileName);
 		}
-		document.saveFile.contents.innerHTML = top.document.getElementById('saveTemp1').value;
+		document.saveFile.contents.value = top.document.getElementById('saveTemp1').value;
 		document.saveFile.submit();
 	} else {
 		top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);
