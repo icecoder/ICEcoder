@@ -24,7 +24,7 @@ if ($theme=="default") {
 }
 ?>
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0; background-color: #fff}
+.CodeMirror {position: absolute; width: 0; background-color: #fff; top: 0px; z-index: 1}
 .CodeMirror-scroll {width: 100px; height: 100px;}
 .cm-s-visible {display: block; top: 0}
 .cm-s-hidden {display: none; top: 4000px}
@@ -36,7 +36,30 @@ span.CodeMirror-matchhighlight {background: #555}
 </style>
 </head>
 
-<body style="margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+
+<div style="margin: 35px 43px; font-family: arial; font-size: 10px; color: #dddddd">
+<?php if($_SESSION['userLevel'] == 10) {
+	echo '<span style="color:#888">Server name:</span><br>'.PHP_EOL;
+	echo $_SERVER['SERVER_NAME'].'<br><br>'.PHP_EOL;
+	echo '<span style="color:#888">Server OS:</span><br>'.PHP_EOL;
+	echo $_SERVER['SERVER_SOFTWARE'].'<br><br>'.PHP_EOL;
+	echo '<span style="color:#888">Server IP:</span><br>'.PHP_EOL;
+	echo $_SERVER['SERVER_ADDR'].'<br><br>'.PHP_EOL;
+	echo '<span style="color:#888">Root:</span><br>'.PHP_EOL;
+	echo $_SERVER['DOCUMENT_ROOT'].'<br><br>'.PHP_EOL;
+	echo '<span style="color:#888">PHP version:</span><br>'.PHP_EOL;
+	echo phpversion().'<br><br><br>'.PHP_EOL;
+
+	echo '<span style="color:#888">Browser:</span><br>'.PHP_EOL;
+	echo $_SERVER['HTTP_USER_AGENT'].'<br><br>'.PHP_EOL;
+	echo '<span style="color:#888">Your IP:</span><br>'.PHP_EOL;
+	echo $_SERVER['REMOTE_ADDR'].'<br><br><br>'.PHP_EOL;
+
+	echo '<span style="color:#888">Date & time:</span><br>'.PHP_EOL;
+	echo date("D jS M Y g:i:sa").'<br><br>'.PHP_EOL;
+}; ?>
+</div>
 
 <script>
 function createNewCMInstance(num) {
