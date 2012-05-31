@@ -119,7 +119,7 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 						}
 						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\"><a nohref onMouseOver=\"top.ICEcoder.overFileFolder('file','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('file','')\" style=\"position: relative; left:-22px; cursor: pointer\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a></li>";
 					} else {
-						$fileAtts = "<img src=\"images/file-manager-icons/padlock.png\" style=\"cursor: pointer\" onClick=\"alert('Sorry, you need higher admin level rights to view.')\">";
+						$fileAtts = "<img src=\"images/padlock.png\" style=\"cursor: pointer\" onClick=\"alert('Sorry, you need higher admin level rights to view.')\">";
 						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\" style=\"cursor: default\"><span style=\"position: relative; left:-22px; color: #888\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN] ".$fileAtts."</span></li>";
 					}
 				}
@@ -146,11 +146,18 @@ function php4_scandir($dir) {
 <head>
 <title>ICE Coder File Manager</title>
 <link rel="stylesheet" type="text/css" href="lib/files.css">
+<!--[if IE]>
+<style type="text/css">
+.fileManager LI.pft-directory:before, .fileManager LI.pft-file:before {
+	margin-top: -2px;
+}
+</style>
+<![endif]-->
 <script src="lib/coder.js" type="text/javascript"></script>
 </head>
 
 <body onLoad="top.ICEcoder.fileManager()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
-<div onClick="top.ICEcoder.refreshFileManager()" class="refresh"><img src="images/file-manager-icons/refresh.png"></div>
+<div onClick="top.ICEcoder.refreshFileManager()" class="refresh"><img src="images/refresh.png"></div>
 <?php
 	echo fileManager($_SERVER['DOCUMENT_ROOT'], "[link]");
 ?>
