@@ -29,36 +29,37 @@ body {margin: 0; overflow: auto}
 	user-select: none;
 }
 
-.fileManager span {font-family: helvetica, arial, swiss, verdana;}
-.fileManager a {color: #eee;	text-decoration: none;}
-.fileManager .open {font-style: italic;}
-.fileManager .closed {font-style: normal;}
-.fileManager .pft-directory {list-style-image: url(../images/file-manager-icons/directory.png);}
-.fileManager li {margin-left: 15px;}
+.fileManager span {font-family: helvetica, arial, swiss, verdana}
+.fileManager a {color: #eee;	text-decoration: none}
+.fileManager .open {font-style: italic}
+.fileManager .closed {font-style: normal}
+.fileManager .pft-directory, .fileManager .pft-file {list-style-image: url(../images/blank.gif)}
+.fileManager li {margin-left: 15px}
 	
 /* Default file */
-.fileManager LI.pft-file { list-style-image: url(../images/file-manager-icons/file.png); }
+.fileManager LI.pft-directory:before, .fileManager LI.pft-file:before {
+	position: absolute; display: block; width: 16px; height: 16px; content: ""; margin-top: -19px; margin-left: -23px; background:url(../images/file-manager-icons.png) no-repeat 0 0;
+}
+.fileManager LI.pft-file:before {background-position: -16px 0}
 
 /* Additional file types */
-.fileManager LI.ext-coffee { list-style-image: url(../images/file-manager-icons/coffee.png); }
-.fileManager LI.ext-css { list-style-image: url(../images/file-manager-icons/css.png); }
-.fileManager LI.ext-doc { list-style-image: url(../images/file-manager-icons/doc.png); }
-.fileManager LI.ext-gif { list-style-image: url(../images/file-manager-icons/gif.png); }
-.fileManager LI.ext-htm { list-style-image: url(../images/file-manager-icons/html.png); }
-.fileManager LI.ext-html { list-style-image: url(../images/file-manager-icons/html.png); }
-.fileManager LI.ext-jpg { list-style-image: url(../images/file-manager-icons/jpg.png); }
-.fileManager LI.ext-jpeg { list-style-image: url(../images/file-manager-icons/jpg.png); }
-.fileManager LI.ext-js { list-style-image: url(../images/file-manager-icons/js.png); }
-/*.fileManager LI.ext-pdf { list-style-image: url(../images/file-manager-icons/pdf.png); } */
-.fileManager LI.ext-php { list-style-image: url(../images/file-manager-icons/php.png); }
-.fileManager LI.ext-png { list-style-image: url(../images/file-manager-icons/png.png); }
-.fileManager LI.ext-rb { list-style-image: url(../images/file-manager-icons/ruby.png); }
-.fileManager LI.ext-rbx { list-style-image: url(../images/file-manager-icons/ruby.png); }
-.fileManager LI.ext-rhtml { list-style-image: url(../images/file-manager-icons/ruby.png); }
-.fileManager LI.ext-ruby { list-style-image: url(../images/file-manager-icons/ruby.png); }
-/*.fileManager LI.ext-sql { list-style-image: url(../images/file-manager-icons/sql.png); } */
-/*.fileManager LI.ext-swf { list-style-image: url(../images/file-manager-icons/swf.png); } */
-.fileManager LI.ext-txt { list-style-image: url(../images/file-manager-icons/txt.png); }
-/*.fileManager LI.ext-xls { list-style-image: url(../images/file-manager-icons/xls.png); } */
-/*.fileManager LI.ext-xml { list-style-image: url(../images/file-manager-icons/xml.png); } */
-/*.fileManager LI.ext-zip { list-style-image: url(../images/file-manager-icons/zip.png); } */
+.fileManager LI.ext-coffee:before {background-position: -32px 0}
+.fileManager LI.ext-css:before {background-position: -48px 0}
+.fileManager LI.ext-gif:before {background-position: -64px 0}
+.fileManager LI.ext-htm:before {background-position: -80px 0}
+.fileManager LI.ext-html:before {background-position: -80px 0}
+.fileManager LI.ext-jpg:before {background-position: -96px 0}
+.fileManager LI.ext-jpeg:before {background-position: -96px 0}
+.fileManager LI.ext-js:before {background-position: -112px 0}
+/*.fileManager LI.ext-pdf:before {background-position: -???px 0} */
+.fileManager LI.ext-php:before {background-position: -128px 0}
+.fileManager LI.ext-png:before {background-position: -144px 0}
+.fileManager LI.ext-rb:before {background-position: -160px 0}
+.fileManager LI.ext-rbx:before {background-position: -160px 0}
+.fileManager LI.ext-rhtml:before {background-position: -160px 0}
+.fileManager LI.ext-ruby:before {background-position: -160px 0}
+/*.fileManager LI.ext-sql:before {background-position: -???px 0} */
+/*.fileManager LI.ext-swf:before {background-position: -???px 0} */
+.fileManager LI.ext-txt:before {background-position: -176px 0}
+/*.fileManager LI.ext-xml:before {background-position: -???px 0} */
+.fileManager LI.ext-zip:before {background-position: -192px 0}
