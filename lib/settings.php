@@ -55,7 +55,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	// Compile our new settings
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,($repPosEnd),strlen($settingsContents));
 	// Now update the config file
-	$fh = fopen($settingsFile, 'w') or die("can't update settings file");
+	$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php");
 	fwrite($fh, $settingsContents);
 	fclose($fh);
 
@@ -82,7 +82,7 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 		$repPosEnd = strpos($settingsContents,'";',$repPosStart)-$repPosStart;
 		$settingsContents = substr($settingsContents,0,$repPosStart).$_GET['saveFiles'].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 		// Now update the config file
-		$fh = fopen($settingsFile, 'w') or die("can't update settings file");
+		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php");
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 	}
@@ -168,6 +168,11 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 	if ($openLastFiles) {
 		$onLoadExtras .= ";top.ICEcoder.autoOpenFiles()";
 	}
+
+	// Show server data if we're logged in
+	if ($_SESSION['userLevel'] == 10) {
+		$onLoadExtras .= ";top.ICEcoder.content.style.visibility='visible'";
+	}
 }
 
 // If we're due to show the settings screen
@@ -212,7 +217,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 			// Replace our empty password with the one submitted by user
 			$settingsContents = str_replace('$accountPassword	= "";','$accountPassword	= "'.$password.'";',$settingsContents);
 			// Now update the config file
-			$fh = fopen($settingsFile, 'w') or die("can't update settings file");
+			$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php");
 			fwrite($fh, $settingsContents);
 			fclose($fh);
 			// Set the session user level
