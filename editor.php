@@ -38,8 +38,9 @@ span.CodeMirror-matchhighlight {background: #555}
 
 <body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
-<div style="margin: 35px 43px; font-family: arial; font-size: 10px; color: #dddddd">
+<div style="margin: 32px 43px; font-family: arial; font-size: 10px; color: #dddddd">
 <?php if($_SESSION['userLevel'] == 10) {
+	echo '<h2 style="color: rgba(0,198,255,0.7)">server</h2>'.PHP_EOL;
 	echo '<span style="color:#888">Server name:</span><br>'.PHP_EOL;
 	echo $_SERVER['SERVER_NAME'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">Server OS:</span><br>'.PHP_EOL;
@@ -51,11 +52,13 @@ span.CodeMirror-matchhighlight {background: #555}
 	echo '<span style="color:#888">PHP version:</span><br>'.PHP_EOL;
 	echo phpversion().'<br><br><br>'.PHP_EOL;
 
+	echo '<h2 style="color: rgba(0,198,255,0.7)">your device</h2>'.PHP_EOL;
 	echo '<span style="color:#888">Browser:</span><br>'.PHP_EOL;
 	echo $_SERVER['HTTP_USER_AGENT'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">Your IP:</span><br>'.PHP_EOL;
 	echo $_SERVER['REMOTE_ADDR'].'<br><br><br>'.PHP_EOL;
 
+	echo '<h2 style="color: rgba(0,198,255,0.7)">general</h2>'.PHP_EOL;
 	echo '<span style="color:#888">Date & time:</span><br>'.PHP_EOL;
 	echo date("D jS M Y g:i:sa").'<br><br>'.PHP_EOL;
 }; ?>
