@@ -74,6 +74,7 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 			if( $this_file != "." && $this_file != ".." && $bannedFile == false) {
 				if( is_dir("$directory/$this_file") ) {
 					// Directory
+					$dirCount++;
 					$dirRep = str_replace("\\","/",$directory);
 					$link = str_replace("[link]", "$dirRep/" . urlencode($this_file), $return_link);
 					$link = str_replace("//","/",$link);
@@ -99,6 +100,8 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 					}
 				} else {
 					// File
+					$fileCount++;
+					$fileBytes+=filesize($link);
 					// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
 					$ext = "ext-" . substr($this_file, strrpos($this_file, ".") + 1);
 					$dirRep = str_replace("\\","/",$directory);
@@ -127,7 +130,12 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 		}
 		$fileManager .= "</ul>";
 	}
-	return $fileManager;
+	$varOutput = "";
+	if ($dirCount) {$varOutput .= "top.ICEcoder.dirCount+=".$dirCount.";".PHP_EOL;};
+	if ($fileCount) {$varOutput .= "top.ICEcoder.fileCount+=".$fileCount.";".PHP_EOL;};
+	if ($fileBytes) {$varOutput .= "top.ICEcoder.fileBytes+=".$fileBytes.";".PHP_EOL;};
+	// After outputting the fileManager, output the JS vars, but only the first time
+	return $fileManager."<script>if (top.ICEcoder.dirCount==0) {".PHP_EOL.$varOutput."}</script>";
 }
 
 // For PHP4 compatibility
@@ -156,9 +164,15 @@ function php4_scandir($dir) {
 <script src="lib/coder.js" type="text/javascript"></script>
 </head>
 
-<body onLoad="top.ICEcoder.fileManager()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<body onLoad="top.ICEcoder.fileManager();top.ICEcoder.updateFileFolderCount()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 <div onClick="top.ICEcoder.refreshFileManager()" class="refresh"><img src="images/refresh.png"></div>
+<script>
+top.ICEcoder.dirCount = 0;
+top.ICEcoder.fileCount = 0;
+top.ICEcoder.fileBytes = 0;
+</script>
 <?php
+
 	echo fileManager($_SERVER['DOCUMENT_ROOT'], "[link]");
 ?>
 
