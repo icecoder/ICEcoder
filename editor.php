@@ -50,7 +50,9 @@ span.CodeMirror-matchhighlight {background: #555}
 	echo '<span style="color:#888">Root:</span><br>'.PHP_EOL;
 	echo $_SERVER['DOCUMENT_ROOT'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">PHP version:</span><br>'.PHP_EOL;
-	echo phpversion().'<br><br><br>'.PHP_EOL;
+	echo phpversion().'<br><br>'.PHP_EOL;
+	echo '<span style="color:#888">File & folder count:</span><br>'.PHP_EOL;
+	echo '<div id="fileFolderCounts"></div><br><br><br>'.PHP_EOL;
 
 	echo '<h2 style="color: rgba(0,198,255,0.7)">your device</h2>'.PHP_EOL;
 	echo '<span style="color:#888">Browser:</span><br>'.PHP_EOL;
