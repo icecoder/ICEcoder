@@ -154,17 +154,11 @@ function php4_scandir($dir) {
 <head>
 <title>ICE Coder File Manager</title>
 <link rel="stylesheet" type="text/css" href="lib/files.css">
-<!--[if IE]>
-<style type="text/css">
-.fileManager LI.pft-directory:before, .fileManager LI.pft-file:before {
-	margin-top: -2px;
-}
-</style>
-<![endif]-->
+
 <script src="lib/coder.js" type="text/javascript"></script>
 </head>
 
-<body onLoad="top.ICEcoder.fileManager();top.ICEcoder.updateFileFolderCount()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<body onLoad="top.ICEcoder.fileManager()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 <div onClick="top.ICEcoder.refreshFileManager()" class="refresh"><img src="images/refresh.png"></div>
 <script>
 top.ICEcoder.dirCount = 0;
