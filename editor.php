@@ -36,7 +36,7 @@ span.CodeMirror-matchhighlight {background: #555}
 </style>
 </head>
 
-<body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<body onLoad="top.ICEcoder.updateFileFolderCount()" style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
 <div style="margin: 32px 43px; font-family: arial; font-size: 10px; color: #dddddd">
 <?php if($_SESSION['userLevel'] == 10) {
