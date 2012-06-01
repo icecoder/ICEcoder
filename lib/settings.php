@@ -80,7 +80,8 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 		// Replace our lastOpenedFiles var with the the current
 		$repPosStart = strpos($settingsContents,'lastOpenedFiles	= "')+19;
 		$repPosEnd = strpos($settingsContents,'";',$repPosStart)-$repPosStart;
-		$settingsContents = substr($settingsContents,0,$repPosStart).$_GET['saveFiles'].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
+		if ($_GET['saveFiles']!="CLEAR") {$saveFiles=$_GET['saveFiles'];} else {$saveFiles="";};
+		$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 		// Now update the config file
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php");
 		fwrite($fh, $settingsContents);
