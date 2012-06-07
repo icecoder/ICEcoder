@@ -92,7 +92,7 @@ lastOpenFiles = [<?php
 	<div class="plugins" id="pluginsContainer">
 	<?php echo $pluginsDisplay; ?>
 	</div>
-	<div class="version"><?php echo $versionNo;?></div>
+	<div class="version"><?php echo $versionNo;?></div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
 	<img src="images/ice-coder.png" class="logo" onClick="ICEcoder.helpScreen('show')" onContextMenu="ICEcoder.settingsScreen('show')">
 </div>
 
