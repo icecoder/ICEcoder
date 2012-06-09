@@ -19,5 +19,6 @@ $plugins		= array(
 			array("Backup","images/backup-open-files.png","margin-top: 3px","plugins/backupOpenFiles/index.php","fileControl:<b>Zipping Open Files</b>","10")
 			);
 $theme			= "default";
-$lastOpenedFiles	= "";
+$previousFiles		= "";
+$last10Files		= "";
 ?>
