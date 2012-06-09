@@ -43,9 +43,9 @@ window.onbeforeunload = function() {
 	}
 }
 
-lastOpenFiles = [<?php
-	if ($lastOpenedFiles!="" && $_SESSION['userLevel'] == 10) {
-		$openFilesArray = explode(",",$lastOpenedFiles);
+previousFiles = [<?php
+	if ($previousFiles!="" && $_SESSION['userLevel'] == 10) {
+		$openFilesArray = explode(",",$previousFiles);
 		for ($i=0;$i<count($openFilesArray);$i++) {
 			echo "'".$openFilesArray[$i]."'";
 			if ($i<count($openFilesArray)-1) {echo ",";};
