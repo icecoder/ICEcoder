@@ -40,30 +40,46 @@ span.CodeMirror-matchhighlight {background: #555}
 
 <div style="margin: 32px 43px; font-family: arial; font-size: 10px; color: #dddddd">
 <?php if($_SESSION['userLevel'] == 10) {
+	echo '<div style="float: left; margin-right: 50px">'.PHP_EOL;
 	echo '<h2 style="color: rgba(0,198,255,0.7)">server</h2>'.PHP_EOL;
-	echo '<span style="color:#888">Server name:</span><br>'.PHP_EOL;
-	echo $_SERVER['SERVER_NAME'].'<br><br>'.PHP_EOL;
-	echo '<span style="color:#888">Server OS:</span><br>'.PHP_EOL;
-	echo $_SERVER['SERVER_SOFTWARE'].'<br><br>'.PHP_EOL;
-	echo '<span style="color:#888">Server IP:</span><br>'.PHP_EOL;
-	echo $_SERVER['SERVER_ADDR'].'<br><br>'.PHP_EOL;
+	echo '<span style="color:#888">Server name, OS & IP:</span><br>'.PHP_EOL;
+	echo $_SERVER['SERVER_NAME'].' &nbsp;&nbsp; '.$_SERVER['SERVER_SOFTWARE'].' &nbsp;&nbsp; '.$_SERVER['SERVER_ADDR'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">Root:</span><br>'.PHP_EOL;
 	echo $_SERVER['DOCUMENT_ROOT'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">PHP version:</span><br>'.PHP_EOL;
 	echo phpversion().'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">File & folder count:</span><br>'.PHP_EOL;
-	echo '<div id="fileFolderCounts"></div><br><br><br>'.PHP_EOL;
+	echo '<div id="fileFolderCounts"></div><br>'.PHP_EOL;
+	echo '<span style="color:#888">Date & time:</span><br>'.PHP_EOL;
+	echo '<span id="serverDT"></span><br><br><br>'.PHP_EOL;
+	echo '</div>'.PHP_EOL;
 
+	echo '<div style="float: left">'.PHP_EOL;
+	echo '<h2 style="color: rgba(0,198,255,0.7)">files</h2>'.PHP_EOL;
+	echo '<span style="color:#888">Last 10 files opened:</span><br>'.PHP_EOL;
+	echo str_replace("|","/",str_replace(",","<br>",$last10Files)).'<br><br><br>'.PHP_EOL;
+	echo '</div>'.PHP_EOL;
+
+	echo '<div style="clear: both">'.PHP_EOL;
 	echo '<h2 style="color: rgba(0,198,255,0.7)">your device</h2>'.PHP_EOL;
 	echo '<span style="color:#888">Browser:</span><br>'.PHP_EOL;
 	echo $_SERVER['HTTP_USER_AGENT'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">Your IP:</span><br>'.PHP_EOL;
-	echo $_SERVER['REMOTE_ADDR'].'<br><br><br>'.PHP_EOL;
-
-	echo '<h2 style="color: rgba(0,198,255,0.7)">general</h2>'.PHP_EOL;
-	echo '<span style="color:#888">Date & time:</span><br>'.PHP_EOL;
-	echo date("D jS M Y g:i:sa").'<br><br>'.PHP_EOL;
+	echo $_SERVER['REMOTE_ADDR'].PHP_EOL;
+	echo '</div>'.PHP_EOL;
 }; ?>
+<script>
+var nDT=<?php echo time()*1000;?>;
+setInterval(function(){
+	var s=(new Date(nDT+=1000)+'').split(' '),
+	d=s[2]*1,
+	t=s[4].split(':'),
+	p=t[0]>11?'pm':'am',
+	e=d%20==1|d==31?'st':d%20==2?'nd':d%20==3?'rd':'th';
+	t[0]=--t[0]%12+1;
+	document.getElementById('serverDT').innerHTML=[s[0],d+e,s[1],s[3],t.join(':')+p].join(' ');
+},1000);
+</script>
 </div>
 
 <script>
