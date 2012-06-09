@@ -19,9 +19,9 @@ include("config.php");
 if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$settingsFile = 'config.php';
 	$settingsContents = file_get_contents($settingsFile);
-	// Replace our lastOpenedFiles var with the the current
+	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'$tabsIndent');
-	$repPosEnd = strpos($settingsContents,'$lastOpenedFiles');
+	$repPosEnd = strpos($settingsContents,'$previousFiles');
 
 	// Prepare all our vars
 	if ($_POST['tabsIndent'])		{$tabsIndent = "true";} else {$tabsIndent = "false";};
@@ -77,14 +77,32 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 	if ($_SESSION['userLevel'] == 10) {
 		$settingsFile = 'config.php';
 		$settingsContents = file_get_contents($settingsFile);
-		// Replace our lastOpenedFiles var with the the current
-		$repPosStart = strpos($settingsContents,'lastOpenedFiles	= "')+19;
+
+		// Replace our previousFiles var with the the current
+		$repPosStart = strpos($settingsContents,'previousFiles		= "')+18;
 		$repPosEnd = strpos($settingsContents,'";',$repPosStart)-$repPosStart;
 		if ($_GET['saveFiles']!="CLEAR") {$saveFiles=$_GET['saveFiles'];} else {$saveFiles="";};
-		$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
+		$settingsContents1 = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 		// Now update the config file
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php");
-		fwrite($fh, $settingsContents);
+		fwrite($fh, $settingsContents1);
+
+		// Update our top10Files var?
+		$saveFilesArray = explode(",",$saveFiles);
+		$last10FilesArray = explode(",",$last10Files);
+		for ($i=0;$i<count($saveFilesArray);$i++) {
+			$inLast10Files = in_array($saveFilesArray[$i],$last10FilesArray);
+			if (!$inLast10Files && $saveFilesArray[$i] !="") {
+				$repPosStart = strpos($settingsContents1,'last10Files		= "')+16;
+				$repPosEnd = strpos($settingsContents1,'";',$repPosStart)-$repPosStart;
+				if ($last10Files!="") {$commaExtra=",";} else {$commaExtra="";};
+				if (count($last10FilesArray)>=10) {$last10Files=substr($last10Files,0,strrpos($last10Files,','));};
+				$settingsContents2 = substr($settingsContents1,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$last10Files.substr($settingsContents1,($repPosStart+$repPosEnd),strlen($settingsContents1));
+				// Now update the config file
+				$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php");
+				fwrite($fh, $settingsContents2);
+			}
+		}
 		fclose($fh);
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
