@@ -48,8 +48,6 @@ span.CodeMirror-matchhighlight {background: #555}
 	echo $_SERVER['DOCUMENT_ROOT'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">PHP version:</span><br>'.PHP_EOL;
 	echo phpversion().'<br><br>'.PHP_EOL;
-	echo '<span style="color:#888">File & folder count:</span><br>'.PHP_EOL;
-	echo '<div id="fileFolderCounts"></div><br>'.PHP_EOL;
 	echo '<span style="color:#888">Date & time:</span><br>'.PHP_EOL;
 	echo '<span id="serverDT"></span><br><br><br>'.PHP_EOL;
 	echo '</div>'.PHP_EOL;
@@ -57,7 +55,19 @@ span.CodeMirror-matchhighlight {background: #555}
 	echo '<div style="float: left">'.PHP_EOL;
 	echo '<h2 style="color: rgba(0,198,255,0.7)">files</h2>'.PHP_EOL;
 	echo '<span style="color:#888">Last 10 files opened:</span><br>'.PHP_EOL;
-	echo str_replace("|","/",str_replace(",","<br>",$last10Files)).'<br><br><br>'.PHP_EOL;
+	$last10FilesArray = explode(",",$last10Files);
+	for ($i=0;$i<count($last10FilesArray);$i++) {
+		if ($last10Files=="") {
+			echo '[none]<br><br>';
+		} else {
+			echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(top.fullPath+\''.str_replace("|","/",$last10FilesArray[$i]).'\')">';
+			echo str_replace("|","/",$last10FilesArray[$i]);
+			echo '</a><br>'.PHP_EOL;
+			if ($i==count($last10FilesArray)-1) {echo '<br>'.PHP_EOL;};
+		}
+	}
+	echo '<span style="color:#888">File & folder count:</span><br>'.PHP_EOL;
+	echo '<div id="fileFolderCounts"></div><br><br><br>'.PHP_EOL;
 	echo '</div>'.PHP_EOL;
 
 	echo '<div style="clear: both">'.PHP_EOL;
@@ -71,13 +81,15 @@ span.CodeMirror-matchhighlight {background: #555}
 <script>
 var nDT=<?php echo time()*1000;?>;
 setInterval(function(){
-	var s=(new Date(nDT+=1000)+'').split(' '),
+	var s=(new Date(nDT+=1e3)+'').split(' '),
 	d=s[2]*1,
 	t=s[4].split(':'),
 	p=t[0]>11?'pm':'am',
-	e=d%20==1|d==31?'st':d%20==2?'nd':d%20==3?'rd':'th';
+	e=d%20==1|d>30?'st':d%20==2?'nd':d%20==3?'rd':'th';
 	t[0]=--t[0]%12+1;
-	document.getElementById('serverDT').innerHTML=[s[0],d+e,s[1],s[3],t.join(':')+p].join(' ');
+	if (document.getElementById('serverDT')) {
+		document.getElementById('serverDT').innerHTML=[s[0],d+e,s[1],s[3],t.join(':')+p].join(' ');
+	}
 },1000);
 </script>
 </div>
