@@ -79,7 +79,7 @@ for ($i=0;$i<count($themeArray)-1;$i++) {
 <h1>settings</h1>
 <h2>functionality</h2>
 <input type="checkbox" onclick="showButton()" name="tabsIndent" value="true"<?php if($tabsIndent) {echo ' checked';};?>> tab indents selection<br>
-<input type="checkbox" onclick="showButton()" name="testcMVersion" value="true"<?php if($testcMVersion) {echo ' checked';};?>> test codemirror version on load<br>
+<input type="checkbox" onclick="showButton()" name="checkUpdates" value="true"<?php if($checkUpdates) {echo ' checked';};?>> check for updates on load<br>
 <input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($openLastFiles) {echo ' checked';};?>> auto open last files on login<br>
 <br>
 when finding in files, exclude:<br>

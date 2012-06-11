@@ -25,7 +25,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 
 	// Prepare all our vars
 	if ($_POST['tabsIndent'])		{$tabsIndent = "true";} else {$tabsIndent = "false";};
-	if ($_POST['testcMVersion'])		{$testcMVersion = "true";} else {$testcMVersion = "false";};
+	if ($_POST['checkUpdates'])		{$checkUpdates = "true";} else {$checkUpdates = "false";};
 	if ($_POST['openLastFiles'])		{$openLastFiles = "true";} else {$openLastFiles = "false";};
 	$findFilesExclude			= 'array("'.str_replace(', ','","',$_POST['findFilesExclude']).'")';
 	if ($_POST['codeAssist'])		{$codeAssist = "true";} else {$codeAssist = "false";};
@@ -39,7 +39,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$theme					= $_POST['theme'];
 
 	$settingsNew  = '$tabsIndent		= '.$tabsIndent.';'.PHP_EOL;
-	$settingsNew .= '$testcMVersion		= '.$testcMVersion.';'.PHP_EOL;
+	$settingsNew .= '$checkUpdates		= '.$checkUpdates.';'.PHP_EOL;
 	$settingsNew .= '$openLastFiles		= '.$openLastFiles.';'.PHP_EOL;
 	$settingsNew .= '$findFilesExclude	= '.$findFilesExclude.';'.PHP_EOL;
 	$settingsNew .= '$codeAssist		= '.$codeAssist.';'.PHP_EOL;
