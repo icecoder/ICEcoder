@@ -36,6 +36,7 @@ if ($checkUpdates) {
 shortURLStarts = "<?php echo $shortURLStarts;?>";
 theme = "<?php if ($theme=="default") {echo 'icecoder';} else {echo $theme;};?>";
 tabsIndent = <?php if ($tabsIndent) {echo 'true';} else {echo 'false';};?>;
+tabWidth = <?php echo $tabWidth; ?>;
 <?
 $docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
 if (strrpos($docRoot,"/")==strlen($docRoot)-1) {$docRoot = substr($docRoot,0,strlen($docRoot)-1);};
@@ -92,6 +93,7 @@ previousFiles = [<?php
 		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Rename</a>
 		<a href="javascript:window.open(top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.indexOf(shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length))" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">View Webpage</a>
 	</span>
+	<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Zip It!</a>
 </div>
 
 <div id="header" class="header" onContextMenu="return false">
