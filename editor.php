@@ -1,3 +1,4 @@
+<?php include("lib/config.php");?>
 <!DOCTYPE html>
 
 <html style="margin: 0">
@@ -28,7 +29,7 @@ if ($theme=="default") {
 .CodeMirror-scroll {width: 100px; height: 100px;}
 .cm-s-visible {display: block; top: 0}
 .cm-s-hidden {display: none; top: 4000px}
-.cm-s-activeLine {background: #002 !important;}
+.cm-s-activeLine {background: #000 !important;}
 // Make sure this next one remains the 5th item, updated with JS
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if ($visibleTabs) {?>\21e5<?;};?>";}
 span.CodeMirror-matchhighlight {background: #555}
@@ -104,8 +105,8 @@ function createNewCMInstance(num) {
         mode: "application/x-httpd-php",
         lineNumbers: true,
 	lineWrapping: true,
-	indentUnit: 4,
-	tabSize: 4,
+	indentUnit: top.tabWidth,
+	tabSize: top.tabWidth,
         indentWithTabs: true,
 	electricChars: false,
 	onCursorActivity: function() {
