@@ -37,6 +37,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$allowedIPs				= 'array("'.str_replace(', ','","',$_POST['allowedIPs']).'")';
 	$plugins				= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
 	$theme					= $_POST['theme'];
+	$tabWidth				= $_POST['tabWidth']*1;
 
 	$settingsNew  = '$tabsIndent		= '.$tabsIndent.';'.PHP_EOL;
 	$settingsNew .= '$checkUpdates		= '.$checkUpdates.';'.PHP_EOL;
@@ -51,6 +52,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$settingsNew .= '$allowedIPs		= '.$allowedIPs.';'.PHP_EOL;
 	$settingsNew .= '$plugins		= '.$plugins.';'.PHP_EOL;
 	$settingsNew .= '$theme			= "'.$theme.'";'.PHP_EOL;
+	$settingsNew .= '$tabWidth		= '.$tabWidth.';'.PHP_EOL;
 
 	// Compile our new settings
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,($repPosEnd),strlen($settingsContents));
@@ -69,7 +71,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	// Do we need a file manager refresh?
 	if ($_POST['changedFileSettings']=="true") {$refreshFM="true";} else {$refreshFM="false";};
 	// With all that worked out, we can now hide the settings screen and apply the new settings
-	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$tabsIndent.",".$codeAssist.",".$lockedNav.",".$visibleTabs.",".$refreshFM.");</script>";
+	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$tabsIndent.",".$codeAssist.",".$lockedNav.",".$visibleTabs.",".$tabWidth.",".$refreshFM.");</script>";
 }
 
 // Save the currently opened files for next time
@@ -154,7 +156,7 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 	$pluginsDisplay = "";
 	for ($i=0;$i<count($plugins);$i++) {
 		$target = explode(":",$plugins[$i][4]);
-		$pluginsDisplay .= '<a href="'.$plugins[$i][3].'" target="'.$target[0].'"><img src="'.$plugins[$i][1].'" style="'.$plugins[$i][2].'" alt="'.$plugins[$i][0].'"></a>';
+		$pluginsDisplay .= '<a href="'.$plugins[$i][3].'" title="'.$plugins[$i][0].'" target="'.$target[0].'"><img src="'.$plugins[$i][1].'" style="'.$plugins[$i][2].'" alt="'.$plugins[$i][0].'"></a>';
 	};
 
 	// If we're updating, replace the plugin display with our newly established one
