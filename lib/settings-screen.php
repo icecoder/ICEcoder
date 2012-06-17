@@ -156,11 +156,19 @@ function findSequence(goal) {
 	}
 	return find(1,"1");
 }</textarea>
+<br>
+
+<span style="position: absolute; top: 520px">
+	tab width <span style="font-size: 10px; color: #888">chars</span><br>
+	<input type="text" name="tabWidth" id="tabWidth" style="width: 30px" onkeydown="showButton()" onkeyup="changeTabWidth()" value="<?php echo $tabWidth;?>">
+</span>
 
 <script>
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	lineNumbers: true,
 	readOnly: "nocursor",
+	indentUnit: top.tabWidth,
+	tabSize: top.tabWidth,
 	theme: "<?php if ($theme=="default") {echo 'icecoder';} else {echo $theme;}; ?>"
 	});
 
@@ -169,6 +177,12 @@ function selectTheme() {
 	var theme = input.options[input.selectedIndex].innerHTML;
 	if (theme=="default") {theme = "icecoder"};
 	editor.setOption("theme", theme);
+}
+
+function changeTabWidth() {
+	var tabWidth = document.getElementById("tabWidth").value;
+	editor.setOption("indentUnit", tabWidth);
+	editor.setOption("tabSize", tabWidth);
 }
 
 var showButton = function() {
