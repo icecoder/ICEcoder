@@ -133,7 +133,7 @@ previousFiles = [<?php
 	<div id="tabsBar" class="tabsBar" onContextMenu="return false">
 		<?php
 		for ($i=1;$i<=10;$i++) {
-			echo '<div id="tab'.$i.'" class="tab" onClick="if(ICEcoder.canSwitchTabs) {ICEcoder.switchTab('.$i.')} else {ICEcoder.canSwitchTabs=true}"></div>';
+			echo '<div id="tab'.$i.'" class="tab" draggable="true" onClick="if(ICEcoder.canSwitchTabs) {ICEcoder.switchTab('.$i.')} else {ICEcoder.canSwitchTabs=true}"></div>';
 		}
 		?><div class="newTab" onClick="ICEcoder.newTab()"><img src="images/nav-new.png"></div>
 	</div>
