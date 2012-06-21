@@ -112,9 +112,9 @@ function createNewCMInstance(num) {
 	onCursorActivity: function() {
 		top.ICEcoder.getCaretPosition();
 		top.ICEcoder.updateCharDisplay();
-		window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
-		if(!window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].somethingSelected()) {
-			top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].getCursor().line, "cm-s-activeLine");
+		window['cM'+num].setLineClass(top.ICEcoder['cMActiveLine'+num], null);
+		if(!window['cM'+num].somethingSelected()) {
+			top.ICEcoder['cMActiveLine'+num] = window['cM'+num].setLineClass(window['cM'+num].getCursor().line, "cm-s-activeLine");
 		}
 		window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].matchHighlight("CodeMirror-matchhighlight");
 		top.ICEcoder.cssColorPreview();
@@ -188,7 +188,7 @@ function createNewCMInstance(num) {
 	});
 
 	// Now create the active line for this CodeMirror object
-	top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = window['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
+	top.ICEcoder['cMActiveLine'+num] = window['cM'+num].setLineClass(0, "cm-s-activeLine");
 };
 
 </script>
