@@ -1,5 +1,5 @@
 <?php
-$versionNo		= "v 0.7.3";
+$versionNo		= "v 0.7.4";
 $codeMirrorDir		= "CodeMirror-2.25";
 $cMThisVer		= 2.25;
 $tabsIndent		= true;
