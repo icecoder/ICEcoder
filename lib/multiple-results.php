@@ -22,7 +22,7 @@
 var resultsDisplay = "";
 var foundTabArray = [];
 var startTab = top.ICEcoder.selectedTab;
-var rExp = new RegExp("<?php echo $_GET['find']; ?>","g");
+var rExp = new RegExp("<?php echo strClean($_GET['find']); ?>","g");
 for (var i=1;i<=top.ICEcoder.openFiles.length;i++) {
 	top.ICEcoder.switchTab(i);
 	var cM = top.ICEcoder.getcMInstance();
@@ -46,7 +46,7 @@ if (foundTabArray.length==0) {alert('No matches found')};
 if (foundTabArray.length!=0) {document.getElementById('replaceAll').style.opacity = 1};
 <?php ;}; ?>
 foundTabArray.length >= 2 ? plural = "s" : plural = "";
-document.getElementById('title').innerHTML = "'<?php echo $_GET['find']; ?>' found in "+foundTabArray.length+" file"+plural;
+document.getElementById('title').innerHTML = "'<?php echo strClean($_GET['find']); ?>' found in "+foundTabArray.length+" file"+plural;
 document.getElementById('results').innerHTML = resultsDisplay;
 
 var gotoTab = function(tab) {
