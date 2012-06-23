@@ -2,8 +2,8 @@
 <?php
 
 // Establish the full file path reference
-$file=$_GET['file'];
-if (isset($_GET['saveType'])) {$saveType = $_GET['saveType'];};
+$file=strClean($_GET['file']);
+if (isset($_GET['saveType'])) {$saveType = strClean($_GET['saveType']);};
 $docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
 
 // Not done the first time we are on the save loop (ie, before the form posting reload)
@@ -66,7 +66,7 @@ if ($_GET['action']=="newFolder") {
 // If we're due to rename a file...
 if ($_GET['action']=="rename") {
 	if ($_SESSION['userLevel'] > 0 && is_writable($_GET['oldFileName'])) {
-		rename($_GET['oldFileName'],$docRoot.$file);
+		rename(strClean($_GET['oldFileName']),$docRoot.$file);
 		// Reload file manager
 		$fileName = substr($file,strrpos($file,"/")+1);
 		$fileLoc = substr($file,0,strrpos($file,"/"));
@@ -74,7 +74,7 @@ if ($_GET['action']=="rename") {
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="rename";</script>';
 	} else {
 		if (!is_writable($_GET['oldFileName'])) {
-			echo "<script>alert('Sorry, cannot rename\\n".$_GET['oldFileName']."');</script>";
+			echo "<script>alert('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."');</script>";
 		} else {
 			echo '<script>alert(\'Sorry, you need to be logged in to rename\');</script>';
 		}
@@ -133,7 +133,7 @@ if ($_GET['action']=="save") {
 	if (isset($_POST['contents'])) {
 		if ($_SESSION['userLevel'] > 0) {
 			if (isset($_POST['newFileName'])&&$_POST['newFileName']!="") {
-				$file = $_POST['newFileName'];
+				$file = strClean($_POST['newFileName']);
 			}
 			$saveFile = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']).$file;
 			$saveFile = str_replace("//","/",$saveFile);
@@ -238,7 +238,7 @@ if (action=="load") {
 }
 </script>
 
-<form name="saveFile" action="file-control.php?action=save&file=<?php if (isset($file)) {echo $file;}; if (isset($_GET['fileMDT']) && $_GET['fileMDT']!="undefined") {echo "&fileMDT=".$_GET['fileMDT'];};?>" method="POST">
+<form name="saveFile" action="file-control.php?action=save&file=<?php if (isset($file)) {echo $file;}; if (isset($_GET['fileMDT']) && $_GET['fileMDT']!="undefined") {echo "&fileMDT=".numClean($_GET['fileMDT']);};?>" method="POST">
 <textarea name="contents"></textarea>
 <input type="hidden" name="newFileName" value="">
 </form>
