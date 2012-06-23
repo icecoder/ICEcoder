@@ -6,14 +6,8 @@
 <title>CodeMirror 2: ICE Coders Editor of Choice</title>
 <?php include("lib/settings.php");?>
 <link rel="stylesheet" href="<?php echo $codeMirrorDir; ?>/lib/codemirror.css">
-<script src="<?php echo $codeMirrorDir; ?>/lib/codemirror.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/clike/clike.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/css/css.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/javascript/javascript.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/xml/xml.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/coffeescript/coffeescript.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/php/php.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/mode/ruby/ruby.js"></script>
+<!--codemirror-compressed.js includes codemirror.js plus the mode files for clike, coffeescript, css, javascript, php, ruby & xml //-->
+<script src="<?php echo $codeMirrorDir; ?>/lib/codemirror-compressed.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/searchcursor.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/match-highlighter.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/foldcode.js"></script>
