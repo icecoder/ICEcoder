@@ -8,8 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="settings-screen.css">
 <link rel="stylesheet" href="../<?php echo $codeMirrorDir; ?>/lib/codemirror.css">
-<script src="../<?php echo $codeMirrorDir; ?>/lib/codemirror.js"></script>
-<script src="../<?php echo $codeMirrorDir; ?>/mode/javascript/javascript.js"></script>
+<script src="../<?php echo $codeMirrorDir; ?>/lib/codemirror-compressed.js"></script>
 
 <style type="text/css">
 .CodeMirror {position: absolute; width: 0; background-color: #fff; font-family: monospace}
