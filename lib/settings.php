@@ -12,6 +12,16 @@ function generateHash($plainText,$salt=null) {
 	return $salt.sha1($salt.$plainText);
 }
 
+// returns converted entities which have HTML entity equivalents
+function strClean($var) {
+	return htmlentities($var, ENT_QUOTES, "UTF-8");
+}
+
+// returns a number, whole or decimal or null
+function numClean($var) {
+	return is_numeric($var) ? floatval($var) : false;
+}
+
 // Settings are stored in this file
 include("config.php");
 
@@ -27,17 +37,17 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	if ($_POST['tabsIndent'])		{$tabsIndent = "true";} else {$tabsIndent = "false";};
 	if ($_POST['checkUpdates'])		{$checkUpdates = "true";} else {$checkUpdates = "false";};
 	if ($_POST['openLastFiles'])		{$openLastFiles = "true";} else {$openLastFiles = "false";};
-	$findFilesExclude			= 'array("'.str_replace(', ','","',$_POST['findFilesExclude']).'")';
+	$findFilesExclude			= 'array("'.str_replace(', ','","',strClean($_POST['findFilesExclude'])).'")';
 	if ($_POST['codeAssist'])		{$codeAssist = "true";} else {$codeAssist = "false";};
 	if ($_POST['visibleTabs'])		{$visibleTabs = "true";} else {$visibleTabs = "false";};
 	if ($_POST['lockedNav'])		{$lockedNav = "true";} else {$lockedNav = "false";};
-	if ($_POST['accountPassword']!="")	{$accountPassword = generateHash($_POST['accountPassword']);} else {$accountPassword = $_POST['oldPassword'];};
-	$restrictedFiles			= 'array("'.str_replace(', ','","',$_POST['restrictedFiles']).'")';
-	$bannedFiles				= 'array("'.str_replace(', ','","',$_POST['bannedFiles']).'")';
-	$allowedIPs				= 'array("'.str_replace(', ','","',$_POST['allowedIPs']).'")';
-	$plugins				= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
-	$theme					= $_POST['theme'];
-	$tabWidth				= $_POST['tabWidth']*1;
+	if ($_POST['accountPassword']!="")	{$accountPassword = generateHash(strClean($_POST['accountPassword']));} else {$accountPassword = strClean($_POST['oldPassword']);};
+	$restrictedFiles			= 'array("'.str_replace(', ','","',strClean($_POST['restrictedFiles'])).'")';
+	$bannedFiles				= 'array("'.str_replace(', ','","',strClean($_POST['bannedFiles'])).'")';
+	$allowedIPs				= 'array("'.str_replace(', ','","',strClean($_POST['allowedIPs'])).'")';
+	$plugins				= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',strClean($_POST['plugins'])).'))';
+	$theme					= strClean($_POST['theme']);
+	$tabWidth				= numClean($_POST['tabWidth']);
 
 	$settingsNew  = '$tabsIndent		= '.$tabsIndent.';'.PHP_EOL;
 	$settingsNew .= '$checkUpdates		= '.$checkUpdates.';'.PHP_EOL;
@@ -62,10 +72,10 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	fclose($fh);
 
 	// OK, now the config file has been updated, update our current session with new arrays
-	$_SESSION['findFilesExclude'] = $findFilesExclude = explode(", ",$_POST['findFilesExclude']);
-	$_SESSION['restrictedFiles'] = $restrictedFiles = explode(", ",$_POST['restrictedFiles']);
-	$_SESSION['bannedFiles'] = $bannedFiles = explode(", ",$_POST['bannedFiles']);
-	$_SESSION['allowedIPs'] = $allowedIPs = explode(", ",$_POST['allowedIPs']);
+	$_SESSION['findFilesExclude'] = $findFilesExclude = explode(", ",strClean($_POST['findFilesExclude']));
+	$_SESSION['restrictedFiles'] = $restrictedFiles = explode(", ",strClean($_POST['restrictedFiles']));
+	$_SESSION['bannedFiles'] = $bannedFiles = explode(", ",strClean($_POST['bannedFiles']));
+	$_SESSION['allowedIPs'] = $allowedIPs = explode(", ",strClean($_POST['allowedIPs']));
 	// Work out the theme to use now
 	if ($theme=="default") {$themeURL="lib/editor.css";} else {$themeURL=$codeMirrorDir."/theme/".$theme.".css";};
 	// Do we need a file manager refresh?
@@ -83,7 +93,7 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 		// Replace our previousFiles var with the the current
 		$repPosStart = strpos($settingsContents,'previousFiles		= "')+18;
 		$repPosEnd = strpos($settingsContents,'";',$repPosStart)-$repPosStart;
-		if ($_GET['saveFiles']!="CLEAR") {$saveFiles=$_GET['saveFiles'];} else {$saveFiles="";};
+		if ($_GET['saveFiles']!="CLEAR") {$saveFiles=strClean($_GET['saveFiles']);} else {$saveFiles="";};
 		$settingsContents1 = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 		// Now update the config file
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php");
@@ -112,7 +122,7 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 
 // Establish our user level
 if (!isset($_SESSION['userLevel'])) {$_SESSION['userLevel'] = 0;};
-if(isset($_POST['loginPassword']) && generateHash($_POST['loginPassword'],$accountPassword)==$accountPassword) {$_SESSION['userLevel'] = 10;};
+if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$accountPassword)==$accountPassword) {$_SESSION['userLevel'] = 10;};
 $_SESSION['userLevel'] = $_SESSION['userLevel'];
 
 if (!isset($_SESSION['findFilesExclude'])) {$_SESSION['findFilesExclude'] = $findFilesExclude;}
@@ -146,7 +156,7 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 	// If we're updating, we need to recreate the plugins array
 	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 		$plugins = array();
-		$pluginsArray = explode("====================",str_replace("\"","",str_replace("\r","",str_replace("\n","",$_POST['plugins']))));
+		$pluginsArray = explode("====================",str_replace("\"","",str_replace("\r","",str_replace("\n","",strClean($_POST['plugins'])))));
 		for ($i=0;$i<count($pluginsArray);$i++) {
 			array_push($plugins, explode(",",$pluginsArray[$i]));
 		}
@@ -232,7 +242,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 	if ($accountPassword == "" && strpos($_SERVER['PHP_SELF'],"index.php")>0) {
 		// If we're setting a password
 		if (isset($_POST['accountPassword'])) {
-			$password = generateHash($_POST['accountPassword']);
+			$password = generateHash(strClean($_POST['accountPassword']));
 			$settingsFile = 'lib/config.php';
 			$settingsContents = file_get_contents($settingsFile);
 			// Replace our empty password with the one submitted by user
@@ -253,7 +263,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 
 	// If we're logging in, refresh the file manager and show icons if login is correct
 	if(isset($_POST['loginPassword'])) {
-		if(isset($_POST['loginPassword']) && generateHash($_POST['loginPassword'],$accountPassword)==$accountPassword) {
+		if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$accountPassword)==$accountPassword) {
 			$loginAttempt = 'loginOK';
 		} else {
 			$loginAttempt = 'loginFailed';
