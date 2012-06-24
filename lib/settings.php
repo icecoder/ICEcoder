@@ -45,7 +45,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$restrictedFiles			= 'array("'.str_replace(', ','","',strClean($_POST['restrictedFiles'])).'")';
 	$bannedFiles				= 'array("'.str_replace(', ','","',strClean($_POST['bannedFiles'])).'")';
 	$allowedIPs				= 'array("'.str_replace(', ','","',strClean($_POST['allowedIPs'])).'")';
-	$plugins				= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',strClean($_POST['plugins'])).'))';
+	$plugins				= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
 	$theme					= strClean($_POST['theme']);
 	$tabWidth				= numClean($_POST['tabWidth']);
 
@@ -156,7 +156,7 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 	// If we're updating, we need to recreate the plugins array
 	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 		$plugins = array();
-		$pluginsArray = explode("====================",str_replace("\"","",str_replace("\r","",str_replace("\n","",strClean($_POST['plugins'])))));
+		$pluginsArray = explode("====================",str_replace("\"","",str_replace("\r","",str_replace("\n","",$_POST['plugins']))));
 		for ($i=0;$i<count($pluginsArray);$i++) {
 			array_push($plugins, explode(",",$pluginsArray[$i]));
 		}
