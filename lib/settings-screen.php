@@ -13,13 +13,7 @@
 <style type="text/css">
 .CodeMirror {position: absolute; width: 0; background-color: #fff; font-family: monospace}
 .CodeMirror-scroll {height: 220px; width: 420px; overflow: hidden}
-.cm-s-visible {display: block; top: 0}
-.cm-s-hidden {display: none; top: 4000px}
-.cm-s-activeLine {background: #002 !important;}
-// Make sure this next one remains the 5th item, updated with JS
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\21e5';};?>";}
-span.CodeMirror-matchhighlight {background: #555}
-.CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
 </style>
 
 <link rel="stylesheet" href="editor.css">
@@ -60,7 +54,7 @@ for ($i=0;$i<count($themeArray)-1;$i++) {
 
 		Thanks go to the following people who have inspired me to create this and in the odd case, provided feedback or code:<br>
 		<?php
-			$peopleArray = array("marijnjh", "maettig", "wimtibackx", "jakubvrana", "davidwalshblog", "kuvos", "paul_irish", "mathias", "rem");
+			$peopleArray = array("marijnjh", "maettig", "wimtibackx", "jakubvrana", "_higg_", "yandle", "davidwalshblog", "kuvos", "mathias", "rem");
 			for ($i=0;$i<count($peopleArray)-1;$i++) {
 				echo '<a href="http://www.twitter.com/'.$peopleArray[$i].'" style="font-size: 10px" target="_blank">@'.$peopleArray[$i].'</a>';
 				if ($i<count($peopleArray)-2) {
@@ -168,6 +162,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	readOnly: "nocursor",
 	indentUnit: top.tabWidth,
 	tabSize: top.tabWidth,
+	mode: "javascript",
 	theme: "<?php if ($theme=="default") {echo 'icecoder';} else {echo $theme;}; ?>"
 	});
 
@@ -189,8 +184,9 @@ var showButton = function() {
 }
 
 var showHideTabs = function() {
-	document.all ? strCSS = 'rules' : strCSS = 'cssRules';
-	document.settings.visibleTabs.checked ? document.styleSheets[2][strCSS][5].style['content'] = '"\\21e5"' : document.styleSheets[2][strCSS][5].style['content'] = '" "';
+	console.log('TO FIX');
+	//document.all ? strCSS = 'rules' : strCSS = 'cssRules';
+	//document.settings.visibleTabs.checked ? document.styleSheets[2][strCSS][5].style['content'] = '"\\21e5"' : document.styleSheets[2][strCSS][5].style['content'] = '" "';
 }
 
 var validatePasswords = function() {
