@@ -90,7 +90,6 @@ new password <span style="font-size: 10px; color: #888">8 chars</span><br>
 <input type="password" name="accountPassword" onkeydown="showButton()"><br>
 confirm password<br>
 <input type="password" name="confirmPassword" onkeydown="showButton()"><br>
-<input type="hidden" name="oldPassword" value="<?php echo $accountPassword; ?>">
 <br>
 restricted files/folders<br>
 <input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="restrictedFiles" value="<?php for($i=0;$i<=count($restrictedFiles)-1;$i++) {echo $restrictedFiles[$i]; if ($i<count($restrictedFiles)-1) {echo ', ';};}; ?>"><br>

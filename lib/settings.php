@@ -41,7 +41,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	if ($_POST['codeAssist'])		{$codeAssist = "true";} else {$codeAssist = "false";};
 	if ($_POST['visibleTabs'])		{$visibleTabs = "true";} else {$visibleTabs = "false";};
 	if ($_POST['lockedNav'])		{$lockedNav = "true";} else {$lockedNav = "false";};
-	if ($_POST['accountPassword']!="")	{$accountPassword = generateHash(strClean($_POST['accountPassword']));} else {$accountPassword = strClean($_POST['oldPassword']);};
+	if ($_POST['accountPassword']!="")	{$accountPassword = generateHash(strClean($_POST['accountPassword']));};
 	$restrictedFiles			= 'array("'.str_replace(', ','","',strClean($_POST['restrictedFiles'])).'")';
 	$bannedFiles				= 'array("'.str_replace(', ','","',strClean($_POST['bannedFiles'])).'")';
 	$allowedIPs				= 'array("'.str_replace(', ','","',strClean($_POST['allowedIPs'])).'")';
