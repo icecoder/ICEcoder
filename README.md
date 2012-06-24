@@ -5,7 +5,7 @@ Early version of the web based IDE which allows for creation of websites in the 
 
 ###Features you'd expect
 * Context aware code highlighting
-* Supports HTML, CSS, JavaScript, PHP & Ruby
+* Supports HTML, CSS, LESS, JavaScript, CoffeeScript, PHP & Ruby
 * Smart tab key system (selected text indents line)
 * File manager
 * Find & replace/replace all
