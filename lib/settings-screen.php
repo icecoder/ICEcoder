@@ -184,7 +184,8 @@ var showButton = function() {
 
 var showHideTabs = function() {
 	console.log('TO FIX');
-	//document.all ? strCSS = 'rules' : strCSS = 'cssRules';
+	//cMCSS = ICEcoder.content.contentWindow.document;
+	//cMCSS.styleSheets[2].rules ? strCSS = 'rules' : strCSS = 'cssRules';
 	//document.settings.visibleTabs.checked ? document.styleSheets[2][strCSS][5].style['content'] = '"\\21e5"' : document.styleSheets[2][strCSS][5].style['content'] = '" "';
 }
 
