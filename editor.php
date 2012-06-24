@@ -6,7 +6,7 @@
 <title>CodeMirror 2: ICE Coders Editor of Choice</title>
 <?php include("lib/settings.php");?>
 <link rel="stylesheet" href="<?php echo $codeMirrorDir; ?>/lib/codemirror.css">
-<!--codemirror-compressed.js includes codemirror.js plus the mode files for clike, coffeescript, css, javascript, php, ruby & xml //-->
+<!--codemirror-compressed.js includes codemirror.js plus the mode files for clike, coffeescript, css, javascript, less, php, ruby & xml //-->
 <script src="<?php echo $codeMirrorDir; ?>/lib/codemirror-compressed.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/searchcursor.js"></script>
 <script src="<?php echo $codeMirrorDir; ?>/lib/util/match-highlighter.js"></script>
@@ -146,7 +146,7 @@ function createNewCMInstance(num) {
 			if(top.ICEcoder.tagString.slice(0,1)=="/"||top.ICEcoder.tagString.slice(0,1)=="?") {
 				canDoEndTag=false;
 			}
-			if (!top.ICEcoder.codeAssist||fileName.indexOf(".js")>0||fileName.indexOf(".css")>0) {
+			if (!top.ICEcoder.codeAssist||fileName.indexOf(".js")>0||fileName.indexOf(".css")>0||fileName.indexOf(".less")>0) {
 				canDoEndTag=false;
 			}
 			contentType = top.ICEcoder.caretLocType;
