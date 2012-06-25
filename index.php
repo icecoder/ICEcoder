@@ -38,8 +38,6 @@ theme = "<?php if ($theme=="default") {echo 'icecoder';} else {echo $theme;};?>"
 tabsIndent = <?php if ($tabsIndent) {echo 'true';} else {echo 'false';};?>;
 tabWidth = <?php echo $tabWidth; ?>;
 <?
-$docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
-if (strrpos($docRoot,"/")==strlen($docRoot)-1) {$docRoot = substr($docRoot,0,strlen($docRoot)-1);};
 echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 ?>
 window.onbeforeunload = function() {
@@ -83,7 +81,7 @@ previousFiles = [<?php
 	</div>
 </div>
 
-<div id="fileMenu" class="fileMenu" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract')">
+<div id="fileMenu" class="fileMenu" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract');this.style.display='none'">
 	<span id="folderMenuItems">
 		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New File</a>
 		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New Folder</a>
@@ -94,6 +92,7 @@ previousFiles = [<?php
 		<a href="javascript:window.open(top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.indexOf(shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length))" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">View Webpage</a>
 	</span>
 	<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Zip It!</a>
+	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Properties</a>
 </div>
 
 <div id="header" class="header" onContextMenu="return false">
@@ -101,7 +100,7 @@ previousFiles = [<?php
 	<?php echo $pluginsDisplay; ?>
 	</div>
 	<div class="version"><?php echo $versionNo;?></div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
-	<img src="images/ice-coder.png" class="logo" onClick="ICEcoder.helpScreen('show')" onContextMenu="ICEcoder.settingsScreen('show')">
+	<img src="images/ice-coder.png" class="logo" onClick="ICEcoder.helpScreen" onContextMenu="ICEcoder.settingsScreen">
 </div>
 
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.document.getElementById('fileMenu').style.display='none';">
