@@ -25,6 +25,9 @@ function numClean($var) {
 // Settings are stored in this file
 include("config.php");
 
+$docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
+if (strrpos($docRoot,"/")==strlen($docRoot)-1) {$docRoot = substr($docRoot,0,strlen($docRoot)-1);};
+
 // Update this config file?
 if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$settingsFile = 'config.php';
