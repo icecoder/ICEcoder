@@ -53,8 +53,8 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 			$fileAtts = "";
 
 			if ($serverType=="Linux") {
-				$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
-				$fileAtts = '<span style="color: #888; font-size: 8px">'.$chmodInfo.'</span>';
+				$chmodInfo = substr(sprintf('%o', fileperms($link)), -3);
+				$fileAtts = '<span style="color: #888; font-size: 8px" id="|_perms">'.$chmodInfo.'</span>';
 			}
 			$fileManager = "<ul class=\"fileManager\">";
 			$fileManager .= "<li class=\"pft-directory\"><a href=\"#\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"|\">/ [ROOT]</span> ".$fileAtts."</a>";
@@ -88,8 +88,8 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 
 					$fileAtts = "";
 					if ($serverType=="Linux") {
-						$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
-						$fileAtts = '<span style="color: #888; font-size: 8px">'.$chmodInfo.'</span>';
+						$chmodInfo = substr(sprintf('%o', fileperms($link)), -3);
+						$fileAtts = '<span style="color: #888; font-size: 8px" id="'.str_replace("/","|",str_replace($docRoot,"",$link)).'_perms">'.$chmodInfo.'</span>';
 					}
 					if ($_SESSION['userLevel'] == 10 || ($_SESSION['userLevel'] < 10 && $restrictedFile==false)) {
 						$fileManager .= "<li class=\"pft-directory\"><a href=\"#\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a>";
@@ -117,8 +117,8 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 					if ($_SESSION['userLevel'] == 10 || ($_SESSION['userLevel'] < 10 && $restrictedFile==false)) {
 						$fileAtts = "";
 						if ($serverType=="Linux") {
-							$chmodInfo = substr(sprintf('%o', fileperms($link)), -4);
-							$fileAtts = '<span style="color: #888; font-size: 8px">'.$chmodInfo.'</span>';
+							$chmodInfo = substr(sprintf('%o', fileperms($link)), -3);
+							$fileAtts = '<span style="color: #888; font-size: 8px" id="'.str_replace("/","|",str_replace($docRoot,"",$link)).'_perms">'.$chmodInfo.'</span>';
 						}
 						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\"><a nohref onMouseOver=\"top.ICEcoder.overFileFolder('file','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('file','')\" style=\"position: relative; left:-22px; cursor: pointer\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a></li>";
 					} else {
