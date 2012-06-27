@@ -100,7 +100,7 @@ previousFiles = [<?php
 	<?php echo $pluginsDisplay; ?>
 	</div>
 	<div class="version"><?php echo $versionNo;?></div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
-	<img src="images/ice-coder.png" class="logo" onClick="ICEcoder.helpScreen" onContextMenu="ICEcoder.settingsScreen">
+	<img src="images/ice-coder.png" class="logo" onClick="ICEcoder.helpScreen()" onContextMenu="ICEcoder.settingsScreen()">
 </div>
 
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.document.getElementById('fileMenu').style.display='none';">
