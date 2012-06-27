@@ -64,7 +64,7 @@ if($_SESSION['userLevel']==10) {
 	echo '<script>top.ICEcoder.serverMessage("<b>Zipping Files</b>");</script>';
 	$zipItAddToZip = $zipItDoZip->zipFilesUp($zipItSaveLocation.$zipItFileName);
 	if (!$zipItAddToZip) {
-		echo '<script>alert("Could not zip files up!");</script>';
+		echo '<script>top.ICEcoder.message("Could not zip files up!");</script>';
 	} else {
 		echo '<script>setTimeout(function(){top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);},500);</script>';
 	}

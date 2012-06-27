@@ -35,7 +35,7 @@ if ($_GET['action']=="load") {
 			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",$loadedFile).'</textarea>';
 		} else {
 			echo '<script>fileType="nothing";</script>';
-			echo '<script>alert(\'Sorry, you need a higher admin level to view this file\');</script>';
+			echo '<script>top.ICEcoder.message(\'Sorry, you need a higher admin level to view this file\');</script>';
 		}
 	};
 
@@ -55,9 +55,9 @@ if ($_GET['action']=="newFolder") {
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="newFolder";</script>';
 	} else {
 		if (!is_writable($docRoot.$file)) {
-			echo "<script>alert('Sorry, cannot create folder at\\n".substr($file,0,strrpos($file,"/"))."');</script>";
+			echo "<script>top.ICEcoder.message('Sorry, cannot create folder at\\n".substr($file,0,strrpos($file,"/"))."');</script>";
 		} else {
-			echo '<script>alert(\'Sorry, you need to be logged in to add folders\');</script>';
+			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to add folders\');</script>';
 		}
 		echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 	}
@@ -74,9 +74,9 @@ if ($_GET['action']=="rename") {
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="rename";</script>';
 	} else {
 		if (!is_writable($_GET['oldFileName'])) {
-			echo "<script>alert('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."');</script>";
+			echo "<script>top.ICEcoder.message('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."');</script>";
 		} else {
-			echo '<script>alert(\'Sorry, you need to be logged in to rename\');</script>';
+			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to rename\');</script>';
 		}
 		echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 	}
@@ -93,9 +93,9 @@ if ($_GET['action']=="perms") {
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="perms";</script>';
 	} else {
 		if (!is_writable($docRoot.$file)) {
-			echo "<script>alert('Sorry, cannot change permissions on \\n".strClean($docRoot.$file)."');</script>";
+			echo "<script>top.ICEcoder.message('Sorry, cannot change permissions on \\n".strClean($docRoot.$file)."');</script>";
 		} else {
-			echo '<script>alert(\'Sorry, you need to be logged in to change permissions\');</script>';
+			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to change permissions\');</script>';
 		}
 		echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 	}
@@ -118,15 +118,15 @@ if ($_GET['action']=="delete") {
 				if ($fileLoc=="") {$fileLoc = "/";};
 				echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="delete";</script>';
 			} else {
-				echo "<script>alert('Sorry can\\'t delete\\n".$filesArray[$i]."');</script>";
+				echo "<script>top.ICEcoder.message('Sorry can\\'t delete\\n".$filesArray[$i]."');</script>";
 			}
 			echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 		}
 	} else {
 		if (!is_writable($docRoot.$filesArray[$i])) {
-			echo "<script>alert('Sorry, cannot delete\\n".$docRoot.$filesArray[$i]."');</script>";
+			echo "<script>top.ICEcoder.message('Sorry, cannot delete\\n".$docRoot.$filesArray[$i]."');</script>";
 		} else {
-			echo '<script>alert(\'Sorry, you need to be logged in to delete\');</script>';
+			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to delete\');</script>';
 		}
 		echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 	}
@@ -181,7 +181,7 @@ if ($_GET['action']=="save") {
 					echo '<textarea name="userVersionFile" id="userVersionFile"></textarea>';
 					?>
 					<script>
-					var refreshFile = confirm('Sorry, this file has changed, cannot save\n<?php echo $file;?>\n\nReload this file and copy your version to a new document?');
+					var refreshFile = top.ICEcoder.ask('Sorry, this file has changed, cannot save\n<?php echo $file;?>\n\nReload this file and copy your version to a new document?');
 					if (refreshFile) {
 						var cM = top.ICEcoder.getcMInstance();
 						var thisTab = top.ICEcoder.selectedTab;
@@ -204,14 +204,14 @@ if ($_GET['action']=="save") {
 					echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 				}
         		} else {
-				echo "<script>alert('Sorry, cannot write\\n".$file."');</script>";
+				echo "<script>top.ICEcoder.message('Sorry, cannot write\\n".$file."');</script>";
 				echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 			}
 		} else {
 			if (!is_writable($saveFile)) {
-				echo "<script>alert('Sorry, cannot write\\n".$file."');</script>";
+				echo "<script>top.ICEcoder.message('Sorry, cannot write\\n".$file."');</script>";
 			} else {
-				echo '<script>alert(\'Sorry, you need to be logged in to save\');</script>';
+				echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to save\');</script>';
 			}
 			echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 		}
@@ -269,12 +269,12 @@ if (action=="save") {
 	?>
 		if (top.ICEcoder.rightClickedFile) {
 			shortURL = top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.indexOf(top.shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length).replace(/\|/g,"/")+"/";
-			newFileName = prompt('Enter Filename',shortURL);
+			newFileName = top.ICEcoder.getInput('Enter Filename',shortURL);
 		} else {
-			newFileName = prompt('Enter Filename','/');
+			newFileName = top.ICEcoder.getInput('Enter Filename','/');
 		}
 		if (newFileName && top.document.getElementById('filesFrame').contentWindow.document.getElementById(newFileName.replace(/\//g,"|"))) {
-			overwriteOK = confirm('That file exists already, overwrite?');
+			overwriteOK = top.ICEcoder.ask('That file exists already, overwrite?');
 		}
 		document.saveFile.newFileName.value = newFileName;
 	<?php ;};?>

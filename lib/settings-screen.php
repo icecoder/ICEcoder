@@ -192,16 +192,16 @@ var showHideTabs = function() {
 var validatePasswords = function() {
 	<?php if($_SESSION['userLevel']==10) { ?>
 	if (document.settings.accountPassword.value != 0 && document.settings.accountPassword.value.length<8) {
-		alert('Please use at least 8 chars in the password');
+		top.ICEcoder.message('Please use at least 8 chars in the password');
 	} else {
 		if (document.settings.accountPassword.value != document.settings.confirmPassword.value) {
-			alert('Sorry, your passwords don\'t match')
+			top.ICEcoder.message('Sorry, your passwords don\'t match')
 		} else {
 			document.settings.submit();
 		}
 	}
 	<?php } else { ?>
-		alert('Sorry, you need to be logged in to change settings');
+		top.ICEcoder.message('Sorry, you need to be logged in to change settings');
 	<?php ;}; ?>
 }
 </script>

@@ -122,7 +122,7 @@ function fileManager_dir($directory, $return_link, $first_call=true) {
 						}
 						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\"><a nohref onMouseOver=\"top.ICEcoder.overFileFolder('file','$link')\" onMouseOut=\"top.ICEcoder.overFileFolder('file','')\" style=\"position: relative; left:-22px; cursor: pointer\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",str_replace($docRoot,"",$link))."\">" . htmlspecialchars($this_file) . "</span> ".$fileAtts."</a></li>";
 					} else {
-						$fileAtts = "<img src=\"images/padlock.png\" style=\"cursor: pointer\" onClick=\"alert('Sorry, you need higher admin level rights to view.')\">";
+						$fileAtts = "<img src=\"images/padlock.png\" style=\"cursor: pointer\" onClick=\"top.ICEcoder.message('Sorry, you need higher admin level rights to view.')\">";
 						$fileManager .= "<li class=\"pft-file " . strtolower($ext) . "\" style=\"cursor: default\"><span style=\"position: relative; left:-22px; color: #888\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN] ".$fileAtts."</span></li>";
 					}
 				}

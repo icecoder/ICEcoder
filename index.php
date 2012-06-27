@@ -15,12 +15,12 @@ if ($checkUpdates) {
 	$ICEcoderLatestVer = json_encode(file_get_contents("http://icecoder.net/latest-version.txt"));
 	$ICEcoderLatestVer = rtrim(ltrim($ICEcoderLatestVer,"\""),"\"\\n");
 	if (ltrim($versionNo,"v ")<ltrim($ICEcoderLatestVer,"v ")) {
-		echo '<script>alert(\'ICEcoder '.$ICEcoderLatestVer.' now released\n\nPlease upgrade\');</script>';
+		echo '<script>top.ICEcoder.message(\'ICEcoder '.$ICEcoderLatestVer.' now released\n\nPlease upgrade\');</script>';
 	} else {
 		$cMLatestVer = json_encode(file_get_contents("http://codemirror.net/latest-version.txt"));
 		$cMLatestVer = rtrim(ltrim($cMLatestVer,"\""),"\"\\n");
 		if ($cMThisVer<$cMLatestVer) {
-			echo '<script>alert(\'Code Mirror '.$cMLatestVer.' now released\n\nPlease upgrade\');</script>';
+			echo '<script>top.ICEcoder.message(\'Code Mirror '.$cMLatestVer.' now released\n\nPlease upgrade\');</script>';
 		}
 	}
 }

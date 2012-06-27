@@ -41,7 +41,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 }
 foundTabArray.length==0 ? showHide = "hide" : showHide = "show";
 top.ICEcoder.showHide(showHide,top.document.getElementById('blackMask'));
-if (foundTabArray.length==0) {alert('No matches found')};
+if (foundTabArray.length==0) {top.ICEcoder.message('No matches found')};
 <?php if (isset($_GET['replace'])) { ?>
 if (foundTabArray.length!=0) {document.getElementById('replaceAll').style.opacity = 1};
 <?php ;}; ?>
