@@ -7,7 +7,7 @@ if (isset($_GET['saveType'])) {$saveType = strClean($_GET['saveType']);};
 $docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
 
 // Not done the first time we are on the save loop (ie, before the form posting reload)
-if ($_GET['action']=="load"||$_GET['action']=="newFolder"||$_GET['action']=="rename"||$_GET['action']=="delete"||isset($_POST['contents'])) {
+if ($_GET['action']=="load"||$_GET['action']=="newFolder"||$_GET['action']=="rename"||$_GET['action']=="delete"||$_GET['action']=="perms"||isset($_POST['contents'])) {
 	$file= str_replace("|","/",$file);
 }
 
@@ -77,6 +77,25 @@ if ($_GET['action']=="rename") {
 			echo "<script>alert('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."');</script>";
 		} else {
 			echo '<script>alert(\'Sorry, you need to be logged in to rename\');</script>';
+		}
+		echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
+	}
+}
+
+// If we're due to change permissions on a file/folder...
+if ($_GET['action']=="perms") {
+	if ($_SESSION['userLevel'] > 0 && is_writable($docRoot.$file)) {
+		chmod($docRoot.$file,octdec(numClean($_GET['perms'])));
+		// Reload file manager
+		$fileName = substr($file,strrpos($file,"/")+1);
+		$fileLoc = substr($file,0,strrpos($file,"/"));
+		if ($fileLoc=="") {$fileLoc = "/";};
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="perms";</script>';
+	} else {
+		if (!is_writable($docRoot.$file)) {
+			echo "<script>alert('Sorry, cannot change permissions on \\n".strClean($docRoot.$file)."');</script>";
+		} else {
+			echo '<script>alert(\'Sorry, you need to be logged in to change permissions\');</script>';
 		}
 		echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
 	}
