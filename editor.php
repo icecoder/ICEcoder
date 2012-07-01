@@ -24,8 +24,8 @@ if ($theme=="default") {
 .cm-s-visible {display: block; top: 0}
 .cm-s-hidden {display: none; top: 4000px}
 .cm-s-activeLine {background: #000 !important;}
-// Make sure this next one remains the 5th item, updated with JS
-.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if ($visibleTabs) {?>\21e5<?;};?>";}
+/* Make sure this next one remains the 5th item, updated with JS */
+.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\\21e5';};?>";}
 span.CodeMirror-matchhighlight {background: #555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
 </style>
@@ -146,7 +146,7 @@ function createNewCMInstance(num) {
 			if(top.ICEcoder.tagString.slice(0,1)=="/"||top.ICEcoder.tagString.slice(0,1)=="?") {
 				canDoEndTag=false;
 			}
-			if (!top.ICEcoder.codeAssist||fileName.indexOf(".js")>0||fileName.indexOf(".css")>0||fileName.indexOf(".less")>0) {
+			if (!top.ICEcoder.codeAssist||fileName && (fileName.indexOf(".js")>0||fileName.indexOf(".css")>0||fileName.indexOf(".less")>0)) {
 				canDoEndTag=false;
 			}
 			contentType = top.ICEcoder.caretLocType;
