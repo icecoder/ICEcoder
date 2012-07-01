@@ -13,6 +13,7 @@
 <style type="text/css">
 .CodeMirror {position: absolute; width: 0; background-color: #fff; font-family: monospace}
 .CodeMirror-scroll {height: 220px; width: 420px; overflow: hidden}
+/* Make sure this next one remains the 3rd item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\21e5';};?>";}
 </style>
 
@@ -183,10 +184,9 @@ var showButton = function() {
 }
 
 var showHideTabs = function() {
-	console.log('TO FIX');
-	//cMCSS = ICEcoder.content.contentWindow.document;
-	//cMCSS.styleSheets[2].rules ? strCSS = 'rules' : strCSS = 'cssRules';
-	//document.settings.visibleTabs.checked ? document.styleSheets[2][strCSS][5].style['content'] = '"\\21e5"' : document.styleSheets[2][strCSS][5].style['content'] = '" "';
+	cMCSS = document.styleSheets[2];
+	cMCSS.rules ? strCSS = 'rules' : strCSS = 'cssRules';
+	document.settings.visibleTabs.checked ? cMCSS[strCSS][2].style['content'] = '"\\21e5"' : cMCSS[strCSS][2].style['content'] = '" "';
 }
 
 var validatePasswords = function() {
