@@ -19,15 +19,13 @@ if ($theme=="default") {
 }
 ?>
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0; background-color: #fff; top: 0px; z-index: 1}
-.CodeMirror-scroll {width: 100px; height: 100px;}
-.cm-s-visible {display: block; top: 0}
-.cm-s-hidden {display: none; top: 4000px}
+.CodeMirror {position: absolute; width: 0; background-color: #fff; top: 0px; width: 100px; z-index: 1}
+.CodeMirror-scroll {height: 100px;}
 .cm-s-activeLine {background: #000 !important;}
-/* Make sure this next one remains the 5th item, updated with JS */
-.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\\21e5';};?>";}
 span.CodeMirror-matchhighlight {background: #555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
+/* Make sure this next one remains the 6th item, updated with JS */
+.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\\21e5';};?>";}
 </style>
 </head>
 
