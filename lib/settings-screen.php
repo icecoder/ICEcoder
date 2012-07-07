@@ -11,15 +11,15 @@
 <script src="../<?php echo $codeMirrorDir; ?>/lib/codemirror-compressed.js"></script>
 
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0; background-color: #fff; font-family: monospace}
-.CodeMirror-scroll {height: 220px; width: 420px; overflow: hidden}
+.CodeMirror {position: absolute; width: 0; background-color: #fff; font-family: monospace; width: 420px}
+.CodeMirror-scroll {height: 220px; overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\21e5';};?>";}
 </style>
 
 <link rel="stylesheet" href="editor.css">
 <?php
-$themeArray = array("ambiance","blackboard","cobalt","eclipse","elegant","erlang-dark","lesser-dark","monokai","neat","night","rubyblue","xq-dark");
+$themeArray = array("ambiance","blackboard","cobalt","eclipse","elegant","erlang-dark","lesser-dark","monokai","neat","night","rubyblue","vibrant-ink","xq-dark");
 for ($i=0;$i<count($themeArray)-1;$i++) {
 	echo '<link rel="stylesheet" href="../'.$codeMirrorDir.'/theme/'.$themeArray[$i].'.css">'.PHP_EOL;
 }
