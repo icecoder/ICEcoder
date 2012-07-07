@@ -1,7 +1,7 @@
 <?php
-$versionNo		= "v 0.7.6";
-$codeMirrorDir		= "CodeMirror-2.25";
-$cMThisVer		= 2.25;
+$versionNo		= "v 0.7.7";
+$codeMirrorDir		= "CodeMirror-2.3";
+$cMThisVer		= 2.3;
 $tabsIndent		= true;
 $checkUpdates		= false;
 $openLastFiles		= true;
