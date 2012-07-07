@@ -81,7 +81,7 @@ if ($serverType=="Linux") {
 	$chmodInfo = substr(sprintf('%o', fileperms($path)), -3);
 	$fileAtts = '<span style="color: #888; font-size: 8px" id="|_perms">'.$chmodInfo.'</span>';
 }
-echo "<ul class=\"fileManager\">\n<li class=\"pft-directory\"><a href=\"#\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','$path/')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"|\">/ [ROOT]</span> ".$fileAtts."</a></li>\n";
+echo "<ul class=\"fileManager\">\n<li class=\"pft-directory\"><a href=\"#\" title=\"/\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','$path/')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"|\">/ [ROOT]</span> ".$fileAtts."</a></li>\n";
 $lastPath="";
 for ($i=0;$i<count($finalArray);$i++) {
 	$fileFolderName = str_replace("\\","/",$finalArray[$i]);
@@ -112,7 +112,7 @@ for ($i=0;$i<count($finalArray);$i++) {
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
 	if ($_SESSION['userLevel'] == 10 || ($_SESSION['userLevel'] < 10 && !$restrictedFile)) {
-		echo "<li class=\"".$class."\"><a href=\"#\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','$path$fileFolderName')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",$fileFolderName)."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
+		echo "<li class=\"".$class."\"><a href=\"#\" title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','$path$fileFolderName')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace("/","|",$fileFolderName)."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
 	} else {
 		if ($type == "file") {$fileAtts = "<img src=\"images/padlock.png\" style=\"cursor: pointer\" onClick=\"top.ICEcoder.message('Sorry, you need higher admin level rights to view.')\">";}
 		echo "<li class=\"".$class."\" style=\"cursor: default\"><span style=\"position: relative; left:-22px; color: #888\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN] ".$fileAtts."</span>\n";
