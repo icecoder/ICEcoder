@@ -222,9 +222,9 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 	<link rel="stylesheet" type="text/css" href="coder.css">
 	</head>
 
-	<body>
+	<body onLoad="document.settingsUpdate.accountPassword.focus()">
 	
-	<div class="screenContainer">
+	<div class="screenContainer" style="background-color: #141414">
 		<div class="screenVCenter">
 			<div class="screenCenter">
 			<img src="../images/ice-coder.png">
