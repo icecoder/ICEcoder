@@ -141,7 +141,7 @@ previousFiles = [<?php
 			<div class="findReplace">
 				<div class="findText">Find</div>
 				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace('find',true,false)">
-				<div class="findTextPlural">'s</div>
+				
 				<select name="connector" onChange="ICEcoder.findReplaceOptions()">
 				<option>in</option>
 				<option>and</option>
