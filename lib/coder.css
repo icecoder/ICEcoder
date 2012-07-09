@@ -94,15 +94,15 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 }
 .files .accountOptions {position: relative; height: 31px; width: 200px; margin-left: 15px; margin-top: 8px}
 .files .accountOptions img {cursor: pointer}
-.files .accountPassword {position: relative; border: 1px solid #888; background-color: #999; height: 18px; width: 140px; margin-left: 14px; margin-top: 15px}
+.files .accountPassword {position: relative; border: 0; background-color: #333; color: #fff; height: 18px; width: 140px; margin-left: 14px; margin-top: 16px}
 .files input:focus, .findReplace input:focus, .findReplace select:focus, .accountPassword:focus {
 	outline: none;
 	-webkit-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
 	-moz-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
 	box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
 }
-.files .button {position: absolute; border: 0; background: #999; color: #555; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
-.files .button:hover {background-color: #444; color: #eee}
+.files .button {position: absolute; border: 0; background: #444; color: #eee; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
+.files .button:hover {background-color: #222; color: #eee}
 .files .lock {position: relative; margin-left: 225px; margin-top: -20px; z-index: 1}
 .files .frame {display: inline-block; width: 250px}
 .files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; margin-bottom: 30px; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 7px 12px; opacity: 0;
@@ -127,8 +127,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findBar .findReplace {position: absolute; z-index: 1}
 .findReplace select {position: relative; font-size: 10px; margin: 8px 2px 0 2px; top: -2px;}
 .findReplace .findText {display: inline-block; height: 21px; font-size: 10px; margin: 8px 2px 0 2px; margin-left: 43px}
-.findReplace .find {position: relative; width: 120px; height: 16px; border: 0; top: -2px; font-size: 10px; padding-left: 5px}
-.findReplace .findTextPlural {display: inline-block; height: 21px; font-size: 10px; margin: 8px 2px 0 0}
+.findReplace .find {position: relative; width: 120px; height: 14px; border: 0; top: -2px; font-size: 10px; padding-left: 5px; margin-right: 3px}
 .findReplace .replaceAction {margin: 0 2px 0 0; top: -2px}
 .findReplace .replaceText {height: 21px; font-size: 10px; margin: 8px 2px 0 2px}
 .findReplace .replace {position: relative; width: 120px; height: 16px; border: 0; top: -2px; font-size: 10px; padding-left: 5px}
@@ -161,5 +160,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .screenContainer .screenVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
 .screenVCenter .screenCenter {#position: relative; #top: -50%; text-align: center; display: inline}
 .screenCenter .version {position: relative; display: block; margin: 5px 0 15px 0; font-size: 10px; color: #bbb}
-.screenCenter .accountPassword {border: 1px solid #888; height: 18px}
-.screenCenter .button {border: 0; background: #666; color: #fff; height: 22px; cursor: pointer}
+.screenCenter .accountPassword {border: 0; background-color: #333; color: #fff; height: 20px}
+.screenCenter .button {border: 0; background: #444; color: #eee; height: 22px; cursor: pointer}
+.screenCenter .button:hover {background-color: #333; color: #eee}
