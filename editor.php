@@ -1,7 +1,7 @@
 <?php include("lib/config.php");?>
 <!DOCTYPE html>
 
-<html style="margin: 0">
+<html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="top.ICEcoder.getMouseXY(event,'editor');top.ICEcoder.canResizeFilesW()">
 <head>
 <title>CodeMirror 2: ICE Coders Editor of Choice</title>
 <?php include("lib/settings.php");?>
