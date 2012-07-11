@@ -27,7 +27,7 @@ if ($checkUpdates) {
 ?>
 <!DOCTYPE html>
 
-<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()">
+<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}">
 <head>
 <title>ICE Coder - <?php echo $versionNo;?></title>
 <meta name="robots" content="noindex, nofollow">
