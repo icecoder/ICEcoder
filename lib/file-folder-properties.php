@@ -3,7 +3,7 @@
 
 <html onContextMenu="return false">
 <head>
-<title>ICE Coder - <?php echo $versionNo;?> :: File/Folder Properties</title>
+<title>ICE Coder - <?php echo $ICEcoder["versionNo"];?> :: File/Folder Properties</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="file-folder-properties.css">
 </head>

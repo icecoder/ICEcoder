@@ -22,8 +22,8 @@ if ($_GET['action']=="load") {
 
 	if ($fileType=="text") {
 		$bannedFile=false;
-		for ($i=0;$i<count($restrictedFiles);$i++) {
-			if (strpos($file,$restrictedFiles[$i])!="") {
+		for ($i=0;$i<count($ICEcoder["restrictedFiles"]);$i++) {
+			if (strpos($file,$ICEcoder["restrictedFiles"][$i])!="") {
 				$bannedFile=true;
 			}
 		}

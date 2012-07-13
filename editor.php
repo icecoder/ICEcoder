@@ -5,17 +5,17 @@
 <head>
 <title>CodeMirror 2: ICE Coders Editor of Choice</title>
 <?php include("lib/settings.php");?>
-<link rel="stylesheet" href="<?php echo $codeMirrorDir; ?>/lib/codemirror.css">
+<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
 <!--codemirror-compressed.js includes codemirror.js plus the mode files for clike, coffeescript, css, javascript, less, php, ruby & xml //-->
-<script src="<?php echo $codeMirrorDir; ?>/lib/codemirror-compressed.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/lib/util/searchcursor.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/lib/util/match-highlighter.js"></script>
-<script src="<?php echo $codeMirrorDir; ?>/lib/util/foldcode.js"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/util/searchcursor.js"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/util/match-highlighter.js"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/util/foldcode.js"></script>
 <?php
-if ($theme=="default") {
+if ($ICEcoder["theme"]=="default") {
 	echo '<link rel="stylesheet" href="lib/editor.css">';
 } else {
-	echo '<link rel="stylesheet" href="'.$codeMirrorDir.'/theme/'.$theme.'.css">';
+	echo '<link rel="stylesheet" href="'.$ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css">';
 }
 ?>
 <style type="text/css">
@@ -25,7 +25,7 @@ if ($theme=="default") {
 span.CodeMirror-matchhighlight {background: #555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
 /* Make sure this next one remains the 6th item, updated with JS */
-.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\\21e5';};?>";}
+.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\\21e5';};?>";}
 </style>
 </head>
 
@@ -48,9 +48,9 @@ span.CodeMirror-matchhighlight {background: #555}
 	echo '<div style="float: left">'.PHP_EOL;
 	echo '<h2 style="color: rgba(0,198,255,0.7)">files</h2>'.PHP_EOL;
 	echo '<span style="color:#888">Last 10 files opened:</span><br>'.PHP_EOL;
-	$last10FilesArray = explode(",",$last10Files);
+	$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
 	for ($i=0;$i<count($last10FilesArray);$i++) {
-		if ($last10Files=="") {
+		if ($ICEcoder["last10Files"]=="") {
 			echo '[none]<br><br>';
 		} else {
 			echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(top.fullPath+\''.str_replace("|","/",$last10FilesArray[$i]).'\')">';

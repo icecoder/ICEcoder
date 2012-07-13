@@ -12,8 +12,8 @@
 
 <?php
 include("lib/settings.php");
-$restrictedFiles  = $_SESSION['restrictedFiles'];
-$bannedFiles  = $_SESSION['bannedFiles'];
+$ICEcoder["restrictedFiles"]  = $_SESSION['restrictedFiles'];
+$ICEcoder["bannedFiles"]  = $_SESSION['bannedFiles'];
 strrpos($_SERVER['DOCUMENT_ROOT'],":") ? $serverType = "Windows" : $serverType = "Linux";
 
 // Function to sort given values alphabetically
@@ -45,8 +45,8 @@ $finalArray = $tempArray =  array();
 foreach ($objectList as $objectRef) {
 	$fileFolderName = rtrim(substr($objectRef->getPathname(), strlen($path)),"..");
 	$canAdd = true;
-	for ($i=0;$i<count($bannedFiles);$i++) {
-		if(strpos($fileFolderName,$bannedFiles[$i])!==false) {$canAdd = false;}
+	for ($i=0;$i<count($ICEcoder["bannedFiles"]);$i++) {
+		if(strpos($fileFolderName,$ICEcoder["bannedFiles"][$i])!==false) {$canAdd = false;}
 	}
 	if ($objectRef->getFilename()!="." && $fileFolderName[strlen($fileFolderName)-1]!="/" && $canAdd) {
 		$fileFolderName!="/" && is_dir($path.$fileFolderName) ? array_push($finalArray,$fileFolderName) : array_push($tempArray,$fileFolderName);
@@ -101,8 +101,8 @@ for ($i=0;$i<count($finalArray);$i++) {
 		}
 	}
 	$restrictedFile=false;
-	for ($j=0;$j<count($restrictedFiles);$j++) {
-		if (strpos($fileFolderName,$restrictedFiles[$j])!="") {
+	for ($j=0;$j<count($ICEcoder["restrictedFiles"]);$j++) {
+		if (strpos($fileFolderName,$ICEcoder["restrictedFiles"][$j])!="") {
 			$restrictedFile=true;
 		}
 	}

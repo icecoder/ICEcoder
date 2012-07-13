@@ -11,15 +11,15 @@ if (!$allowedIP) {
 };
 
 // Check for updates of ICEcoder & CodeMirror
-if ($checkUpdates) {
+if ($ICEcoder["checkUpdates"]) {
 	$ICEcoderLatestVer = json_encode(file_get_contents("http://icecoder.net/latest-version.txt"));
 	$ICEcoderLatestVer = rtrim(ltrim($ICEcoderLatestVer,"\""),"\"\\n");
-	if (ltrim($versionNo,"v ")<ltrim($ICEcoderLatestVer,"v ")) {
+	if (ltrim($ICEcoder["versionNo"],"v ")<ltrim($ICEcoderLatestVer,"v ")) {
 		echo '<script>top.ICEcoder.message(\'ICEcoder '.$ICEcoderLatestVer.' now released\n\nPlease upgrade\');</script>';
 	} else {
 		$cMLatestVer = json_encode(file_get_contents("http://codemirror.net/latest-version.txt"));
 		$cMLatestVer = rtrim(ltrim($cMLatestVer,"\""),"\"\\n");
-		if ($cMThisVer<$cMLatestVer) {
+		if ($ICEcoder["cMThisVer"]<$cMLatestVer) {
 			echo '<script>top.ICEcoder.message(\'Code Mirror '.$cMLatestVer.' now released\n\nPlease upgrade\');</script>';
 		}
 	}
@@ -29,14 +29,14 @@ if ($checkUpdates) {
 
 <html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}">
 <head>
-<title>ICE Coder - <?php echo $versionNo;?></title>
+<title>ICE Coder - <?php echo $ICEcoder["versionNo"];?></title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="lib/coder.css">
 <script>
 shortURLStarts = "<?php echo $shortURLStarts;?>";
-theme = "<?php if ($theme=="default") {echo 'icecoder';} else {echo $theme;};?>";
-tabsIndent = <?php if ($tabsIndent) {echo 'true';} else {echo 'false';};?>;
-tabWidth = <?php echo $tabWidth; ?>;
+theme = "<?php if ($ICEcoder["theme"]=="default") {echo 'icecoder';} else {echo $ICEcoder["theme"];};?>";
+tabsIndent = <?php if ($ICEcoder["tabsIndent"]) {echo 'true';} else {echo 'false';};?>;
+tabWidth = <?php echo $ICEcoder["tabWidth"]; ?>;
 <?
 echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
 ?>
@@ -49,8 +49,8 @@ window.onbeforeunload = function() {
 }
 
 previousFiles = [<?php
-	if ($previousFiles!="" && $_SESSION['userLevel'] == 10) {
-		$openFilesArray = explode(",",$previousFiles);
+	if ($ICEcoder["previousFiles"]!="" && $_SESSION['userLevel'] == 10) {
+		$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
 		for ($i=0;$i<count($openFilesArray);$i++) {
 			echo "'".$openFilesArray[$i]."'";
 			if ($i<count($openFilesArray)-1) {echo ",";};
@@ -99,7 +99,7 @@ previousFiles = [<?php
 	<div class="plugins" id="pluginsContainer">
 	<?php echo $pluginsDisplay; ?>
 	</div>
-	<div class="version"><?php echo $versionNo;?></div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
+	<div class="version"><?php echo $ICEcoder["versionNo"];?></div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
 	<img src="images/ice-coder.png" class="logo" onClick="ICEcoder.helpScreen()" onContextMenu="ICEcoder.settingsScreen()">
 </div>
 

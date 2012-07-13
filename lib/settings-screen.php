@@ -4,24 +4,24 @@
 
 <html>
 <head>
-<title>ICE Coder - <?php echo $versionNo;?> :: Settings Screen</title>
+<title>ICE Coder - <?php echo $ICEcoder["versionNo"];?> :: Settings Screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="settings-screen.css">
-<link rel="stylesheet" href="../<?php echo $codeMirrorDir; ?>/lib/codemirror.css">
-<script src="../<?php echo $codeMirrorDir; ?>/lib/codemirror-compressed.js"></script>
+<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
+<script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 
 <style type="text/css">
 .CodeMirror {position: absolute; width: 0; background-color: #fff; font-family: monospace; width: 420px}
 .CodeMirror-scroll {height: 220px; overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
-.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($visibleTabs) {echo '\21e5';};?>";}
+.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\21e5';};?>";}
 </style>
 
 <link rel="stylesheet" href="editor.css">
 <?php
 $themeArray = array("ambiance","blackboard","cobalt","eclipse","elegant","erlang-dark","lesser-dark","monokai","neat","night","rubyblue","vibrant-ink","xq-dark");
 for ($i=0;$i<count($themeArray)-1;$i++) {
-	echo '<link rel="stylesheet" href="../'.$codeMirrorDir.'/theme/'.$themeArray[$i].'.css">'.PHP_EOL;
+	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css">'.PHP_EOL;
 }
 ?>
 </head>
@@ -30,7 +30,7 @@ for ($i=0;$i<count($themeArray)-1;$i++) {
 
 <div class="infoPane">
 	<img src="../images/ice-coder.gif" class="logo">
-	<div class="version"><?php echo $versionNo;?></div>
+	<div class="version"><?php echo $ICEcoder["versionNo"];?></div>
 
 	<p>
 	git:<br>
@@ -38,11 +38,11 @@ for ($i=0;$i<count($themeArray)-1;$i++) {
 	<br><br>
 
 	codemirror dir:<br>
-	<?php echo $codeMirrorDir; ?>
+	<?php echo $ICEcoder["codeMirrorDir"]; ?>
 	<br><br>
 
 	codemirror version:<br>
-	<?php echo $cMThisVer; ?>
+	<?php echo $ICEcoder["cMThisVer"]; ?>
 	<br><br>
 
 	doc root:<br>
@@ -72,18 +72,18 @@ for ($i=0;$i<count($themeArray)-1;$i++) {
 <div class="settingsColumn1">
 <h1>settings</h1>
 <h2>functionality</h2>
-<input type="checkbox" onclick="showButton()" name="tabsIndent" value="true"<?php if($tabsIndent) {echo ' checked';};?>> tab indents selection<br>
-<input type="checkbox" onclick="showButton()" name="checkUpdates" value="true"<?php if($checkUpdates) {echo ' checked';};?>> check for updates on load<br>
-<input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($openLastFiles) {echo ' checked';};?>> auto open last files on login<br>
+<input type="checkbox" onclick="showButton()" name="tabsIndent" value="true"<?php if($ICEcoder["tabsIndent"]) {echo ' checked';};?>> tab indents selection<br>
+<input type="checkbox" onclick="showButton()" name="checkUpdates" value="true"<?php if($ICEcoder["checkUpdates"]) {echo ' checked';};?>> check for updates on load<br>
+<input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($ICEcoder["openLastFiles"]) {echo ' checked';};?>> auto open last files on login<br>
 <br>
 when finding in files, exclude:<br>
-<input type="text" onkeydown="showButton()" name="findFilesExclude" value="<?php for($i=0;$i<=count($findFilesExclude)-1;$i++) {echo $findFilesExclude[$i]; if ($i<count($findFilesExclude)-1) {echo ', ';};}; ?>"><br>
+<input type="text" onkeydown="showButton()" name="findFilesExclude" value="<?php for($i=0;$i<=count($ICEcoder["findFilesExclude"])-1;$i++) {echo $ICEcoder["findFilesExclude"][$i]; if ($i<count($ICEcoder["findFilesExclude"])-1) {echo ', ';};}; ?>"><br>
 <br>
 
 <h2>assisting</h2>
-<input type="checkbox" onclick="showButton()" name="codeAssist" value="true"<?php if($codeAssist) {echo ' checked';};?>> code assist<br>
-<input type="checkbox" onclick="showButton();showHideTabs()" name="visibleTabs" value="true"<?php if($visibleTabs) {echo ' checked';};?>> visible tabs<br>
-<input type="checkbox" onclick="showButton()" name="lockedNav" value="true"<?php if($lockedNav) {echo ' checked';};?>> locked nav<br>
+<input type="checkbox" onclick="showButton()" name="codeAssist" value="true"<?php if($ICEcoder["codeAssist"]) {echo ' checked';};?>> code assist<br>
+<input type="checkbox" onclick="showButton();showHideTabs()" name="visibleTabs" value="true"<?php if($ICEcoder["visibleTabs"]) {echo ' checked';};?>> visible tabs<br>
+<input type="checkbox" onclick="showButton()" name="lockedNav" value="true"<?php if($ICEcoder["lockedNav"]) {echo ' checked';};?>> locked nav<br>
 <br>
 
 <h2>security</h2>
@@ -93,29 +93,29 @@ confirm password<br>
 <input type="password" name="confirmPassword" onkeydown="showButton()"><br>
 <br>
 restricted files/folders<br>
-<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="restrictedFiles" value="<?php for($i=0;$i<=count($restrictedFiles)-1;$i++) {echo $restrictedFiles[$i]; if ($i<count($restrictedFiles)-1) {echo ', ';};}; ?>"><br>
+<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="restrictedFiles" value="<?php for($i=0;$i<=count($ICEcoder["restrictedFiles"])-1;$i++) {echo $ICEcoder["restrictedFiles"][$i]; if ($i<count($ICEcoder["restrictedFiles"])-1) {echo ', ';};}; ?>"><br>
 banned files/folders<br>
-<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" value="<?php for($i=0;$i<=count($bannedFiles)-1;$i++) {echo $bannedFiles[$i]; if ($i<count($bannedFiles)-1) {echo ', ';};}; ?>"><br>
+<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" value="<?php for($i=0;$i<=count($ICEcoder["bannedFiles"])-1;$i++) {echo $ICEcoder["bannedFiles"][$i]; if ($i<count($ICEcoder["bannedFiles"])-1) {echo ', ';};}; ?>"><br>
 <input type="hidden" name="changedFileSettings" value="false">
 <br>
 ip addresses<br>
-<input type="text" onkeydown="showButton()" name="allowedIPs" value="<?php for($i=0;$i<=count($allowedIPs)-1;$i++) {echo $allowedIPs[$i]; if ($i<count($allowedIPs)-1) {echo ', ';};}; ?>"><br>
+<input type="text" onkeydown="showButton()" name="allowedIPs" value="<?php for($i=0;$i<=count($ICEcoder["allowedIPs"])-1;$i++) {echo $ICEcoder["allowedIPs"][$i]; if ($i<count($ICEcoder["allowedIPs"])-1) {echo ', ';};}; ?>"><br>
 </div>
 
 <div class="settingsColumn2">
 <h2>plugins</h2>
 plugins array <span style="font-size: 10px; color: #888">name, img src, style, url, target, setInterval (mins)</span><br>
 <textarea name="plugins" class="plugins" onkeydown="showButton()"><?php
-for($i=0;$i<count($plugins);$i++) {
-	for($j=0;$j<count($plugins[$i]);$j++) {
-		echo '"'.$plugins[$i][$j].'"';
-		if ($j<count($plugins[$i])-1) {
+for($i=0;$i<count($ICEcoder["plugins"]);$i++) {
+	for($j=0;$j<count($ICEcoder["plugins"][$i]);$j++) {
+		echo '"'.$ICEcoder["plugins"][$i][$j].'"';
+		if ($j<count($ICEcoder["plugins"][$i])-1) {
 			echo ',';
 		};
-		if (!($i==count($plugins)-1 && $j==count($plugins[$i])-1)) {
+		if (!($i==count($ICEcoder["plugins"])-1 && $j==count($ICEcoder["plugins"][$i])-1)) {
 			echo PHP_EOL;
 		}
-		if (($i<count($plugins)-1 && $j==count($plugins[$i])-1)) {
+		if (($i<count($ICEcoder["plugins"])-1 && $j==count($ICEcoder["plugins"][$i])-1)) {
 			echo "====================".PHP_EOL;
 		}
 	}
@@ -126,10 +126,10 @@ for($i=0;$i<count($plugins);$i++) {
 <h2>style</h2>
 theme<br>
 <select onchange="selectTheme();showButton()" id="select" name="theme">
-    <option<?php if ($theme=="default") {echo ' selected';}; ?>>default</option>
+    <option<?php if ($ICEcoder["theme"]=="default") {echo ' selected';}; ?>>default</option>
 <?php
 for ($i=0;$i<count($themeArray)-1;$i++) {
-	if ($theme==$themeArray[$i]) {$optionSelected = ' selected';} else {$optionSelected = '';};
+	if ($ICEcoder["theme"]==$themeArray[$i]) {$optionSelected = ' selected';} else {$optionSelected = '';};
 	echo '<option'.$optionSelected.'>'.$themeArray[$i].'</option>'.PHP_EOL;
 }
 ?>
@@ -153,7 +153,7 @@ function findSequence(goal) {
 
 <span style="position: absolute; top: 520px">
 	tab width <span style="font-size: 10px; color: #888">chars</span><br>
-	<input type="text" name="tabWidth" id="tabWidth" style="width: 30px" onkeydown="showButton()" onkeyup="changeTabWidth()" value="<?php echo $tabWidth;?>">
+	<input type="text" name="tabWidth" id="tabWidth" style="width: 30px" onkeydown="showButton()" onkeyup="changeTabWidth()" value="<?php echo $ICEcoder["tabWidth"];?>">
 </span>
 
 <script>
@@ -163,7 +163,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	indentUnit: top.tabWidth,
 	tabSize: top.tabWidth,
 	mode: "javascript",
-	theme: "<?php if ($theme=="default") {echo 'icecoder';} else {echo $theme;}; ?>"
+	theme: "<?php if ($ICEcoder["theme"]=="default") {echo 'icecoder';} else {echo $ICEcoder["theme"];}; ?>"
 	});
 
 var input = document.getElementById("select");

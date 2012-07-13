@@ -33,58 +33,58 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$settingsFile = 'config.php';
 	$settingsContents = file_get_contents($settingsFile);
 	// Replace our settings vars
-	$repPosStart = strpos($settingsContents,'$tabsIndent');
-	$repPosEnd = strpos($settingsContents,'$previousFiles');
+	$repPosStart = strpos($settingsContents,'"tabsIndent"');
+	$repPosEnd = strpos($settingsContents,'"previousFiles"');
 
 	// Prepare all our vars
-	if ($_POST['tabsIndent'])		{$tabsIndent = "true";} else {$tabsIndent = "false";};
-	if ($_POST['checkUpdates'])		{$checkUpdates = "true";} else {$checkUpdates = "false";};
-	if ($_POST['openLastFiles'])		{$openLastFiles = "true";} else {$openLastFiles = "false";};
-	$findFilesExclude			= 'array("'.str_replace(', ','","',strClean($_POST['findFilesExclude'])).'")';
-	if ($_POST['codeAssist'])		{$codeAssist = "true";} else {$codeAssist = "false";};
-	if ($_POST['visibleTabs'])		{$visibleTabs = "true";} else {$visibleTabs = "false";};
-	if ($_POST['lockedNav'])		{$lockedNav = "true";} else {$lockedNav = "false";};
-	if ($_POST['accountPassword']!="")	{$accountPassword = generateHash(strClean($_POST['accountPassword']));};
-	$restrictedFiles			= 'array("'.str_replace(', ','","',strClean($_POST['restrictedFiles'])).'")';
-	$bannedFiles				= 'array("'.str_replace(', ','","',strClean($_POST['bannedFiles'])).'")';
-	$allowedIPs				= 'array("'.str_replace(', ','","',strClean($_POST['allowedIPs'])).'")';
-	$plugins				= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
-	$theme					= strClean($_POST['theme']);
-	$tabWidth				= numClean($_POST['tabWidth']);
+	if ($_POST['tabsIndent'])		{$ICEcoder["tabsIndent"] = "true";} else {$ICEcoder["tabsIndent"] = "false";};
+	if ($_POST['checkUpdates'])		{$ICEcoder["checkUpdates"] = "true";} else {$ICEcoder["checkUpdates"] = "false";};
+	if ($_POST['openLastFiles'])		{$ICEcoder["openLastFiles"] = "true";} else {$ICEcoder["openLastFiles"] = "false";};
+	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(', ','","',strClean($_POST['findFilesExclude'])).'")';
+	if ($_POST['codeAssist'])		{$ICEcoder["codeAssist"] = "true";} else {$ICEcoder["codeAssist"] = "false";};
+	if ($_POST['visibleTabs'])		{$ICEcoder["visibleTabs"] = "true";} else {$ICEcoder["visibleTabs"] = "false";};
+	if ($_POST['lockedNav'])		{$ICEcoder["lockedNav"] = "true";} else {$ICEcoder["lockedNav"] = "false";};
+	if ($_POST['accountPassword']!="")	{$ICEcoder["accountPassword"] = generateHash(strClean($_POST['accountPassword']));};
+	$ICEcoder["restrictedFiles"]		= 'array("'.str_replace(', ','","',strClean($_POST['restrictedFiles'])).'")';
+	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(', ','","',strClean($_POST['bannedFiles'])).'")';
+	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(', ','","',strClean($_POST['allowedIPs'])).'")';
+	$ICEcoder["plugins"]			= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
+	$ICEcoder["theme"]			= strClean($_POST['theme']);
+	$ICEcoder["tabWidth"]			= numClean($_POST['tabWidth']);
 
-	$settingsNew  = '$tabsIndent		= '.$tabsIndent.';'.PHP_EOL;
-	$settingsNew .= '$checkUpdates		= '.$checkUpdates.';'.PHP_EOL;
-	$settingsNew .= '$openLastFiles		= '.$openLastFiles.';'.PHP_EOL;
-	$settingsNew .= '$findFilesExclude	= '.$findFilesExclude.';'.PHP_EOL;
-	$settingsNew .= '$codeAssist		= '.$codeAssist.';'.PHP_EOL;
-	$settingsNew .= '$visibleTabs		= '.$visibleTabs.';'.PHP_EOL;
-	$settingsNew .= '$lockedNav		= '.$lockedNav.';'.PHP_EOL;
-	$settingsNew .= '$accountPassword	= "'.$accountPassword.'";'.PHP_EOL;
-	$settingsNew .= '$restrictedFiles	= '.$restrictedFiles.';'.PHP_EOL;
-	$settingsNew .= '$bannedFiles		= '.$bannedFiles.';'.PHP_EOL;
-	$settingsNew .= '$allowedIPs		= '.$allowedIPs.';'.PHP_EOL;
-	$settingsNew .= '$plugins		= '.$plugins.';'.PHP_EOL;
-	$settingsNew .= '$theme			= "'.$theme.'";'.PHP_EOL;
-	$settingsNew .= '$tabWidth		= '.$tabWidth.';'.PHP_EOL;
+	$settingsNew  = '"tabsIndent"		=> '.$ICEcoder["tabsIndent"].','.PHP_EOL;
+	$settingsNew .= '"checkUpdates"		=> '.$ICEcoder["checkUpdates"].','.PHP_EOL;
+	$settingsNew .= '"openLastFiles"	=> '.$ICEcoder["openLastFiles"].','.PHP_EOL;
+	$settingsNew .= '"findFilesExclude"	=> '.$ICEcoder["findFilesExclude"].','.PHP_EOL;
+	$settingsNew .= '"codeAssist"		=> '.$ICEcoder["codeAssist"].','.PHP_EOL;
+	$settingsNew .= '"visibleTabs"		=> '.$ICEcoder["visibleTabs"].','.PHP_EOL;
+	$settingsNew .= '"lockedNav"		=> '.$ICEcoder["lockedNav"].','.PHP_EOL;
+	$settingsNew .= '"accountPassword"	=> "'.$ICEcoder["accountPassword"].'",'.PHP_EOL;
+	$settingsNew .= '"restrictedFiles"	=> '.$ICEcoder["restrictedFiles"].','.PHP_EOL;
+	$settingsNew .= '"bannedFiles"		=> '.$ICEcoder["bannedFiles"].','.PHP_EOL;
+	$settingsNew .= '"allowedIPs"		=> '.$ICEcoder["allowedIPs"].','.PHP_EOL;
+	$settingsNew .= '"plugins"		=> '.$ICEcoder["plugins"].','.PHP_EOL;
+	$settingsNew .= '"theme"		=> "'.$ICEcoder["theme"].'",'.PHP_EOL;
+	$settingsNew .= '"tabWidth"		=> '.$ICEcoder["tabWidth"].','.PHP_EOL;
 
 	// Compile our new settings
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,($repPosEnd),strlen($settingsContents));
 	// Now update the config file
-	$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php");
+	$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php and press refresh");
 	fwrite($fh, $settingsContents);
 	fclose($fh);
 
 	// OK, now the config file has been updated, update our current session with new arrays
-	$_SESSION['findFilesExclude'] = $findFilesExclude = explode(", ",strClean($_POST['findFilesExclude']));
-	$_SESSION['restrictedFiles'] = $restrictedFiles = explode(", ",strClean($_POST['restrictedFiles']));
-	$_SESSION['bannedFiles'] = $bannedFiles = explode(", ",strClean($_POST['bannedFiles']));
-	$_SESSION['allowedIPs'] = $allowedIPs = explode(", ",strClean($_POST['allowedIPs']));
+	$_SESSION['findFilesExclude'] = $ICEcoder["findFilesExclude"] = explode(", ",strClean($_POST['findFilesExclude']));
+	$_SESSION['restrictedFiles'] = $ICEcoder["restrictedFiles"] = explode(", ",strClean($_POST['restrictedFiles']));
+	$_SESSION['bannedFiles'] = $ICEcoder["bannedFiles"] = explode(", ",strClean($_POST['bannedFiles']));
+	$_SESSION['allowedIPs'] = $ICEcoder["allowedIPs"] = explode(", ",strClean($_POST['allowedIPs']));
 	// Work out the theme to use now
-	if ($theme=="default") {$themeURL="lib/editor.css";} else {$themeURL=$codeMirrorDir."/theme/".$theme.".css";};
+	if ($ICEcoder["theme"]=="default") {$themeURL="lib/editor.css";} else {$themeURL=$ICEcoder["codeMirrorDir"]."/theme/".$ICEcoder["theme"].".css";};
 	// Do we need a file manager refresh?
 	if ($_POST['changedFileSettings']=="true") {$refreshFM="true";} else {$refreshFM="false";};
 	// With all that worked out, we can now hide the settings screen and apply the new settings
-	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$tabsIndent.",".$codeAssist.",".$lockedNav.",".$visibleTabs.",".$tabWidth.",".$refreshFM.");</script>";
+	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["tabsIndent"].",".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",".$ICEcoder["visibleTabs"].",".$ICEcoder["tabWidth"].",".$refreshFM.");</script>";
 }
 
 // Save the currently opened files for next time
@@ -94,8 +94,8 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 		$settingsContents = file_get_contents($settingsFile);
 
 		// Replace our previousFiles var with the the current
-		$repPosStart = strpos($settingsContents,'previousFiles		= "')+18;
-		$repPosEnd = strpos($settingsContents,'";',$repPosStart)-$repPosStart;
+		$repPosStart = strpos($settingsContents,'previousFiles"		=> "')+20;
+		$repPosEnd = strpos($settingsContents,'",',$repPosStart)-$repPosStart;
 		if ($_GET['saveFiles']!="CLEAR") {
 			$saveFiles=strClean($_GET['saveFiles']);
 			$settingsContents1 = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
@@ -105,15 +105,15 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 
 			// Update our last10Files var?
 			$saveFilesArray = explode(",",$saveFiles);
-			$last10FilesArray = explode(",",$last10Files);
+			$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
 			for ($i=0;$i<count($saveFilesArray);$i++) {
 				$inLast10Files = in_array($saveFilesArray[$i],$last10FilesArray);
 				if (!$inLast10Files && $saveFilesArray[$i] !="") {
-					$repPosStart = strpos($settingsContents1,'last10Files		= "')+16;
-					$repPosEnd = strpos($settingsContents1,'";',$repPosStart)-$repPosStart;
-					if ($last10Files!="") {$commaExtra=",";} else {$commaExtra="";};
-					if (count($last10FilesArray)>=10) {$last10Files=substr($last10Files,0,strrpos($last10Files,','));};
-					$settingsContents2 = substr($settingsContents1,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$last10Files.substr($settingsContents1,($repPosStart+$repPosEnd),strlen($settingsContents1));
+					$repPosStart = strpos($settingsContents1,'last10Files"		=> "')+18;
+					$repPosEnd = strpos($settingsContents1,'"',$repPosStart)-$repPosStart;
+					if ($ICEcoder["last10Files"]!="") {$commaExtra=",";} else {$commaExtra="";};
+					if (count($last10FilesArray)>=10) {$ICEcoder["last10Files"]=substr($ICEcoder["last10Files"],0,strrpos($ICEcoder["last10Files"],','));};
+					$settingsContents2 = substr($settingsContents1,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$ICEcoder["last10Files"].substr($settingsContents1,($repPosStart+$repPosEnd),strlen($settingsContents1));
 					// Now update the config file
 					$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php");
 					fwrite($fh, $settingsContents2);
@@ -127,13 +127,13 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 
 // Establish our user level
 if (!isset($_SESSION['userLevel'])) {$_SESSION['userLevel'] = 0;};
-if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$accountPassword)==$accountPassword) {$_SESSION['userLevel'] = 10;};
+if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {$_SESSION['userLevel'] = 10;};
 $_SESSION['userLevel'] = $_SESSION['userLevel'];
 
-if (!isset($_SESSION['findFilesExclude'])) {$_SESSION['findFilesExclude'] = $findFilesExclude;}
-if (!isset($_SESSION['restrictedFiles'])) {$_SESSION['restrictedFiles'] = $restrictedFiles;}
-if (!isset($_SESSION['bannedFiles'])) {$_SESSION['bannedFiles'] = $bannedFiles;}
-if (!isset($_SESSION['allowedIPs'])) {$_SESSION['allowedIPs'] = $allowedIPs;}
+if (!isset($_SESSION['findFilesExclude'])) {$_SESSION['findFilesExclude'] = $ICEcoder["findFilesExclude"];}
+if (!isset($_SESSION['restrictedFiles'])) {$_SESSION['restrictedFiles'] = $ICEcoder["restrictedFiles"];}
+if (!isset($_SESSION['bannedFiles'])) {$_SESSION['bannedFiles'] = $ICEcoder["bannedFiles"];}
+if (!isset($_SESSION['allowedIPs'])) {$_SESSION['allowedIPs'] = $ICEcoder["allowedIPs"];}
 
 // Determin our allowed IP addresses
 $allowedIP = false;
@@ -160,18 +160,18 @@ $shortURLStarts = $shortURLStarts[count($shortURLStarts)-$trimArray];
 if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) || strpos($_SERVER['PHP_SELF'],"index.php")>0) {
 	// If we're updating, we need to recreate the plugins array
 	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
-		$plugins = array();
+		$ICEcoder["plugins"] = array();
 		$pluginsArray = explode("====================",str_replace("\"","",str_replace("\r","",str_replace("\n","",$_POST['plugins']))));
 		for ($i=0;$i<count($pluginsArray);$i++) {
-			array_push($plugins, explode(",",$pluginsArray[$i]));
+			array_push($ICEcoder["plugins"], explode(",",$pluginsArray[$i]));
 		}
 	}
 
 	// Work out the plugins to display to the user
 	$pluginsDisplay = "";
-	for ($i=0;$i<count($plugins);$i++) {
-		$target = explode(":",$plugins[$i][4]);
-		$pluginsDisplay .= '<a href="'.$plugins[$i][3].'" title="'.$plugins[$i][0].'" target="'.$target[0].'"><img src="'.$plugins[$i][1].'" style="'.$plugins[$i][2].'" alt="'.$plugins[$i][0].'"></a>';
+	for ($i=0;$i<count($ICEcoder["plugins"]);$i++) {
+		$target = explode(":",$ICEcoder["plugins"][$i][4]);
+		$pluginsDisplay .= '<a href="'.$ICEcoder["plugins"][$i][3].'" title="'.$ICEcoder["plugins"][$i][0].'" target="'.$target[0].'"><img src="'.$ICEcoder["plugins"][$i][1].'" style="'.$ICEcoder["plugins"][$i][2].'" alt="'.$ICEcoder["plugins"][$i][0].'"></a>';
 	};
 
 	// If we're updating, replace the plugin display with our newly established one
@@ -181,9 +181,9 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 
 	// Work out what plugins we'll need to set on a setInterval
 	$onLoadExtras = "";
-	for ($i=0;$i<count($plugins);$i++) {
-		if ($plugins[$i][5]!="") {
-			$onLoadExtras .= ";top.ICEcoder.startPluginIntervals(".$i.",'".$plugins[$i][3]."','".$plugins[$i][4]."','".$plugins[$i][5]."')";
+	for ($i=0;$i<count($ICEcoder["plugins"]);$i++) {
+		if ($ICEcoder["plugins"][$i][5]!="") {
+			$onLoadExtras .= ";top.ICEcoder.startPluginIntervals(".$i.",'".$ICEcoder["plugins"][$i][3]."','".$ICEcoder["plugins"][$i][4]."','".$ICEcoder["plugins"][$i][5]."')";
 		};
 	};
 
@@ -201,7 +201,7 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 	}
 
 	// Finally, open last opened files if we need to (applies to index.php only)
-	if ($openLastFiles) {
+	if ($ICEcoder["openLastFiles"]) {
 		$onLoadExtras .= ";top.ICEcoder.autoOpenFiles()";
 	}
 
@@ -212,13 +212,13 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 }
 
 // If we're due to show the settings screen
-if ($accountPassword == "" && isset($_GET['settings'])) {
+if ($ICEcoder["accountPassword"] == "" && isset($_GET['settings'])) {
 ?>
 	<!DOCTYPE html>
 
 	<html>
 	<head>
-	<title>ICE Coder - <?php echo $versionNo;?> :: Settings</title>
+	<title>ICE Coder - <?php echo $ICEcoder["versionNo"];?> :: Settings</title>
 	<link rel="stylesheet" type="text/css" href="coder.css">
 	</head>
 
@@ -228,7 +228,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 		<div class="screenVCenter">
 			<div class="screenCenter">
 			<img src="../images/ice-coder.png">
-			<div class="version"><?php echo $versionNo;?></div>
+			<div class="version"><?php echo $ICEcoder["versionNo"];?></div>
 			<form name="settingsUpdate" action="../index.php" method="POST">
 			<input type="password" name="accountPassword" class="accountPassword">
 			<input type="submit" name="submit" value="Set Password" class="button">
@@ -244,14 +244,15 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 } else {
 	// If the password hasn't been set, set it, but only if we're including
 	// from the index.php file (as this file is included from multiple places)
-	if ($accountPassword == "" && strpos($_SERVER['PHP_SELF'],"index.php")>0) {
+	if ($ICEcoder["accountPassword"] == "" && strpos($_SERVER['PHP_SELF'],"index.php")>0) {
 		// If we're setting a password
+
 		if (isset($_POST['accountPassword'])) {
 			$password = generateHash(strClean($_POST['accountPassword']));
 			$settingsFile = 'lib/config.php';
 			$settingsContents = file_get_contents($settingsFile);
 			// Replace our empty password with the one submitted by user
-			$settingsContents = str_replace('$accountPassword	= "";','$accountPassword	= "'.$password.'";',$settingsContents);
+			$settingsContents = str_replace('"accountPassword"	=> "",','"accountPassword"	=> "'.$password.'",',$settingsContents);
 			// Now update the config file
 			$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/config.php");
 			fwrite($fh, $settingsContents);
@@ -268,7 +269,7 @@ if ($accountPassword == "" && isset($_GET['settings'])) {
 
 	// If we're logging in, refresh the file manager and show icons if login is correct
 	if(isset($_POST['loginPassword'])) {
-		if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$accountPassword)==$accountPassword) {
+		if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {
 			$loginAttempt = 'loginOK';
 		} else {
 			$loginAttempt = 'loginFailed';
