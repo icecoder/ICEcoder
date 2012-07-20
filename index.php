@@ -34,11 +34,11 @@ if ($ICEcoder["checkUpdates"]) {
 <link rel="stylesheet" type="text/css" href="lib/coder.css">
 <script>
 shortURLStarts = "<?php echo $shortURLStarts;?>";
-theme = "<?php if ($ICEcoder["theme"]=="default") {echo 'icecoder';} else {echo $ICEcoder["theme"];};?>";
-tabsIndent = <?php if ($ICEcoder["tabsIndent"]) {echo 'true';} else {echo 'false';};?>;
+theme = "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>";
+tabsIndent = <?php echo $ICEcoder["tabsIndent"] ? 'true' : 'false';?>;
 tabWidth = <?php echo $ICEcoder["tabWidth"]; ?>;
 <?
-echo 'fullPath = "'.$docRoot.'";'.PHP_EOL;
+echo 'fullPath = "'.$serverRoot.'";'.PHP_EOL;
 ?>
 window.onbeforeunload = function() {
 	for (var i=0; i<=top.ICEcoder.changedContent.length; i++) {
