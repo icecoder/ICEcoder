@@ -6,18 +6,17 @@
 <title>CodeMirror 2: ICE Coders Editor of Choice</title>
 <?php include("lib/settings.php");?>
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
-<!--codemirror-compressed.js includes codemirror.js plus the mode files for clike, coffeescript, css, javascript, less, php, ruby & xml //-->
+<!--
+codemirror-compressed.js
+includes:
+codemirror.js
+modes:
+clike, coffeescript, css, javascript, less, php, ruby & xml
+utils:
+foldcode, searchcursor, match-highlighter
+//-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
-<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/util/searchcursor.js"></script>
-<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/util/match-highlighter.js"></script>
-<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/util/foldcode.js"></script>
-<?php
-if ($ICEcoder["theme"]=="default") {
-	echo '<link rel="stylesheet" href="lib/editor.css">';
-} else {
-	echo '<link rel="stylesheet" href="'.$ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css">';
-}
-?>
+<link rel="stylesheet" href="<?php echo $ICEcoder["theme"]=="default" ? 'lib/editor.css' : '{$ICEcoder["codeMirrorDir"]}/theme/{$ICEcoder["theme"]}.css';?>">
 <style type="text/css">
 .CodeMirror {position: absolute; width: 0; background-color: #fff; top: 0px; width: 100px; z-index: 1}
 .CodeMirror-scroll {height: 100px;}
@@ -39,6 +38,8 @@ span.CodeMirror-matchhighlight {background: #555}
 	echo $_SERVER['SERVER_NAME'].' &nbsp;&nbsp; '.$_SERVER['SERVER_SOFTWARE'].' &nbsp;&nbsp; '.$_SERVER['SERVER_ADDR'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">Root:</span><br>'.PHP_EOL;
 	echo $_SERVER['DOCUMENT_ROOT'].'<br><br>'.PHP_EOL;
+	echo '<span style="color:#888">ICEcoder Root:</span><br>'.PHP_EOL;
+	echo $ICEcoder['root'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">PHP version:</span><br>'.PHP_EOL;
 	echo phpversion().'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">Date & time:</span><br>'.PHP_EOL;
