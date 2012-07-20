@@ -1,8 +1,9 @@
 <?php
 $ICEcoder = array(
 "versionNo"		=> "v 0.7.8",
-"codeMirrorDir"		=> "CodeMirror-2.3",
-"cMThisVer"		=> 2.3,
+"codeMirrorDir"		=> "CodeMirror-2.31",
+"cMThisVer"		=> 2.31,
+"root"			=> $_SERVER['DOCUMENT_ROOT']."", // set your own root here
 "tabsIndent"		=> true,
 "checkUpdates"		=> false,
 "openLastFiles"		=> true,
