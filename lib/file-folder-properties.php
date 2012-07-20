@@ -45,11 +45,11 @@ if ($_SESSION['userLevel'] == 10) {
 	echo '[HIDDEN]';
 }
 ?></span>
-<span class="column">Relative path: <?php echo str_replace($docRoot,"",$fileName);?></span>
+<span class="column">Relative path: <?php echo str_replace($serverRoot,"",$fileName);?></span>
 <span style="font-size:10px">
 <br><br>
 Absolute path:<br><?php
-if ($_SESSION['userLevel'] == 10) {echo $fileName;} else {echo '[HIDDEN]';}
+echo $_SESSION['userLevel'] == 10 ? $fileName : '[HIDDEN]';
 ?>
 <br><br>
 </span>
@@ -147,7 +147,7 @@ var validatePerms = function() {
 	<?php
 	if ($_SESSION['userLevel'] == 10) {
 	?>
-	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace($docRoot,"",$fileName);?>',permText)};
+	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace($serverRoot,"",$fileName);?>',permText)};
 	<?php
 	;};
 	?>
