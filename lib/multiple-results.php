@@ -15,7 +15,7 @@
 	<div id="results"></div>
 </div>
 <?php if (isset($_GET['replace'])) { ?>
-<div class="replaceAll" id="replaceAll" onClick="<?php if (isset($_GET['target'])) {echo 'renameAll()';} else {echo 'replaceAll()';}; ?>" style="opacity: 0.1"><?php if (isset($_GET['target'])) {echo 'rename all';} else {echo 'replace all';}; ?></div>
+<div class="replaceAll" id="replaceAll" onClick="<?php echo isset($_GET['target']) ? 'renameAll()' : 'replaceAll()';?>" style="opacity: 0.1"><?php echo isset($_GET['target']) ? 'rename all' : 'replace all';?></div>
 <?php ;}; ?>
 
 <script>
