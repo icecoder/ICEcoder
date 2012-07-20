@@ -4,7 +4,7 @@
 // Establish the full file path reference
 $file=strClean($_GET['file']);
 if (isset($_GET['saveType'])) {$saveType = strClean($_GET['saveType']);};
-$docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
+$docRoot = str_replace("\\","/",$ICEcoder['root']);
 
 // Not done the first time we are on the save loop (ie, before the form posting reload)
 if ($_GET['action']=="load"||$_GET['action']=="newFolder"||$_GET['action']=="rename"||$_GET['action']=="delete"||$_GET['action']=="perms"||isset($_POST['contents'])) {
@@ -154,7 +154,7 @@ if ($_GET['action']=="save") {
 			if (isset($_POST['newFileName'])&&$_POST['newFileName']!="") {
 				$file = strClean($_POST['newFileName']);
 			}
-			$saveFile = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']).$file;
+			$saveFile = $docRoot.$file;
 			$saveFile = str_replace("//","/",$saveFile);
 			if ((file_exists($saveFile) && is_writable($saveFile)) || $_POST['newFileName']!="") {
 				if (filemtime($saveFile)==$_GET['fileMDT']||!(isset($_GET['fileMDT']))) {
