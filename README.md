@@ -47,7 +47,7 @@ $ git clone git@github:mattpass/ICEcoder
 ####Step 2: Upload the files (Linux or Windows hosting OK)
 ```
 Upload to a new sub-dir URL such as yourdomain.com/_coder
-Set public write permissions on the lib/config.php file
+Set public write permissions on the backups folder and lib/config.php file
 ```
 
 ####Step 3: Start coding
