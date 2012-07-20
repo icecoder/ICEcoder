@@ -45,8 +45,8 @@ for ($i=0;$i<count($themeArray)-1;$i++) {
 	<?php echo $ICEcoder["cMThisVer"]; ?>
 	<br><br>
 
-	doc root:<br>
-	<?php if($_SESSION['userLevel']==10) { echo $_SERVER['DOCUMENT_ROOT']; } else { echo '[HIDDEN]'; }; ?>
+	file manager root:<br>
+	<?php echo $_SESSION['userLevel']==10 ? $ICEcoder['root'] : '[HIDDEN]';?>
 	<br><br><br><br>
 
 	<div style="font-size: 10px; line-height: 12px">ICE coder by Matt Pass (<a href="http://www.twitter.com/mattpass" style="font-size: 10px" target="_blank">@mattpass</a>)<br><br>
@@ -129,7 +129,7 @@ theme<br>
     <option<?php if ($ICEcoder["theme"]=="default") {echo ' selected';}; ?>>default</option>
 <?php
 for ($i=0;$i<count($themeArray)-1;$i++) {
-	if ($ICEcoder["theme"]==$themeArray[$i]) {$optionSelected = ' selected';} else {$optionSelected = '';};
+	$optionSelected = $ICEcoder["theme"]==$themeArray[$i] ? ' selected' : '';
 	echo '<option'.$optionSelected.'>'.$themeArray[$i].'</option>'.PHP_EOL;
 }
 ?>
@@ -163,7 +163,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	indentUnit: top.tabWidth,
 	tabSize: top.tabWidth,
 	mode: "javascript",
-	theme: "<?php if ($ICEcoder["theme"]=="default") {echo 'icecoder';} else {echo $ICEcoder["theme"];}; ?>"
+	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
 	});
 
 var input = document.getElementById("select");
