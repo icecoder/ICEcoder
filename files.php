@@ -43,12 +43,12 @@ $finalArray = $tempArray =  array();
 
 // To start, push folders from object into finalArray, files into tempArray
 foreach ($objectList as $objectRef) {
-	$fileFolderName = rtrim(substr($objectRef->getPathname(), strlen($path)),"..");
+	$fileFolderName = substr($objectRef->getPathname(), strlen($path));
 	$canAdd = true;
 	for ($i=0;$i<count($ICEcoder["bannedFiles"]);$i++) {
 		if(strpos($fileFolderName,$ICEcoder["bannedFiles"][$i])!==false) {$canAdd = false;}
 	}
-	if ($objectRef->getFilename()!="." && $fileFolderName[strlen($fileFolderName)-1]!="/" && $canAdd) {
+	if ($objectRef->getFilename()!="." && $objectRef->getFilename()!=".." && $fileFolderName[strlen($fileFolderName)-1]!="/" && $canAdd) {
 		$fileFolderName!="/" && is_dir($path.$fileFolderName) ? array_push($finalArray,$fileFolderName) : array_push($tempArray,$fileFolderName);
 	}
 }
