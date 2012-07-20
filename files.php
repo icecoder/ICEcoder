@@ -14,7 +14,7 @@
 include("lib/settings.php");
 $ICEcoder["restrictedFiles"]  = $_SESSION['restrictedFiles'];
 $ICEcoder["bannedFiles"]  = $_SESSION['bannedFiles'];
-strrpos($_SERVER['DOCUMENT_ROOT'],":") ? $serverType = "Windows" : $serverType = "Linux";
+$serverType = strrpos($_SERVER['DOCUMENT_ROOT'],":") ? "Windows" : "Linux";
 
 // Function to sort given values alphabetically
 function alphasort($a, $b) {
@@ -35,7 +35,7 @@ class SortingIterator implements IteratorAggregate {
 }
 
 // Get a full list of dirs & files and begin sorting using above class & function
-$path = $_SERVER['DOCUMENT_ROOT'];
+$path = $ICEcoder["root"];
 $objectList = new SortingIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST), 'alphasort');
 
 // With that done, create arrays for out final ordered list and a temp container of files
@@ -81,11 +81,20 @@ if ($serverType=="Linux") {
 	$chmodInfo = substr(sprintf('%o', fileperms($path)), -3);
 	$fileAtts = '<span style="color: #888; font-size: 8px" id="|_perms">'.$chmodInfo.'</span>';
 }
-echo "<ul class=\"fileManager\">\n<li class=\"pft-directory\"><a href=\"#\" title=\"/\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','$path/')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"|\">/ [ROOT]</span> ".$fileAtts."</a></li>\n";
+echo "<ul class=\"fileManager\">\n";
+echo "<li class=\"pft-directory\">";
+echo "<a href=\"#\" title=\"/\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','$path/')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">";
+echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ";
+echo "<span id=\"|\">/ ";
+echo $path == $_SERVER['DOCUMENT_ROOT'] ? "[ROOT]" : str_replace($_SERVER['DOCUMENT_ROOT']."/","",$path);
+echo "</span> ";
+echo $fileAtts;
+echo "</a>";
+echo "</li>\n";
 $lastPath="";
 for ($i=0;$i<count($finalArray);$i++) {
 	$fileFolderName = str_replace("\\","/",$finalArray[$i]);
-	is_dir($path.$fileFolderName) ? $type="folder" : $type="file";
+	$type = is_dir($path.$fileFolderName) ? "folder" : "file";
 	$type=="folder" ? $dirCount++ : $fileCount++;
 	if (!is_dir($path.$fileFolderName)) {
 		$fileBytes+=filesize($path.$fileFolderName);
