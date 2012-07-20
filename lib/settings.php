@@ -25,8 +25,8 @@ function numClean($var) {
 // Settings are stored in this file
 include("config.php");
 
-$docRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
-if (strrpos($docRoot,"/")==strlen($docRoot)-1) {$docRoot = substr($docRoot,0,strlen($docRoot)-1);};
+$serverRoot = str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']);
+if (strrpos($serverRoot,"/")==strlen($serverRoot)-1) {$serverRoot = substr($serverRoot,0,strlen($serverRoot)-1);};
 
 // Update this config file?
 if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
@@ -37,13 +37,13 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$repPosEnd = strpos($settingsContents,'"previousFiles"');
 
 	// Prepare all our vars
-	if ($_POST['tabsIndent'])		{$ICEcoder["tabsIndent"] = "true";} else {$ICEcoder["tabsIndent"] = "false";};
-	if ($_POST['checkUpdates'])		{$ICEcoder["checkUpdates"] = "true";} else {$ICEcoder["checkUpdates"] = "false";};
-	if ($_POST['openLastFiles'])		{$ICEcoder["openLastFiles"] = "true";} else {$ICEcoder["openLastFiles"] = "false";};
+	$ICEcoder["tabsIndent"]			= $_POST['tabsIndent'] ? "true" : "false";	
+	$ICEcoder["checkUpdates"]		= $_POST['checkUpdates'] ? "true" : "false";
+	$ICEcoder["openLastFiles"]		= $_POST['openLastFiles'] ? "true" : "false";
 	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(', ','","',strClean($_POST['findFilesExclude'])).'")';
-	if ($_POST['codeAssist'])		{$ICEcoder["codeAssist"] = "true";} else {$ICEcoder["codeAssist"] = "false";};
-	if ($_POST['visibleTabs'])		{$ICEcoder["visibleTabs"] = "true";} else {$ICEcoder["visibleTabs"] = "false";};
-	if ($_POST['lockedNav'])		{$ICEcoder["lockedNav"] = "true";} else {$ICEcoder["lockedNav"] = "false";};
+	$ICEcoder["codeAssist"]			= $_POST['codeAssist'] ? "true" : "false";
+	$ICEcoder["visibleTabs"]		= $_POST['visibleTabs'] ? "true" : "false";
+	$ICEcoder["lockedNav"]			= $_POST['lockedNav'] ? "true" : "false";
 	if ($_POST['accountPassword']!="")	{$ICEcoder["accountPassword"] = generateHash(strClean($_POST['accountPassword']));};
 	$ICEcoder["restrictedFiles"]		= 'array("'.str_replace(', ','","',strClean($_POST['restrictedFiles'])).'")';
 	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(', ','","',strClean($_POST['bannedFiles'])).'")';
@@ -80,9 +80,9 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$_SESSION['bannedFiles'] = $ICEcoder["bannedFiles"] = explode(", ",strClean($_POST['bannedFiles']));
 	$_SESSION['allowedIPs'] = $ICEcoder["allowedIPs"] = explode(", ",strClean($_POST['allowedIPs']));
 	// Work out the theme to use now
-	if ($ICEcoder["theme"]=="default") {$themeURL="lib/editor.css";} else {$themeURL=$ICEcoder["codeMirrorDir"]."/theme/".$ICEcoder["theme"].".css";};
+	$ICEcoder["theme"]=="default" ? $themeURL = 'lib/editor.css' : $themeURL = $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';
 	// Do we need a file manager refresh?
-	if ($_POST['changedFileSettings']=="true") {$refreshFM="true";} else {$refreshFM="false";};
+	$refreshFM = $_POST['changedFileSettings']=="true" ? "true" : "false";
 	// With all that worked out, we can now hide the settings screen and apply the new settings
 	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["tabsIndent"].",".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",".$ICEcoder["visibleTabs"].",".$ICEcoder["tabWidth"].",".$refreshFM.");</script>";
 }
@@ -111,7 +111,7 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 				if (!$inLast10Files && $saveFilesArray[$i] !="") {
 					$repPosStart = strpos($settingsContents1,'last10Files"		=> "')+18;
 					$repPosEnd = strpos($settingsContents1,'"',$repPosStart)-$repPosStart;
-					if ($ICEcoder["last10Files"]!="") {$commaExtra=",";} else {$commaExtra="";};
+					$commaExtra = $ICEcoder["last10Files"]!="" ? "," : "";
 					if (count($last10FilesArray)>=10) {$ICEcoder["last10Files"]=substr($ICEcoder["last10Files"],0,strrpos($ICEcoder["last10Files"],','));};
 					$settingsContents2 = substr($settingsContents1,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$ICEcoder["last10Files"].substr($settingsContents1,($repPosStart+$repPosEnd),strlen($settingsContents1));
 					// Now update the config file
@@ -148,12 +148,12 @@ if (!$allowedIP) {
 };
 
 // Establish our shortened URL, explode the path based on server type (Linux or Windows)
-if (strpos($_SERVER['DOCUMENT_ROOT'],"/")>-1) {$slashType = "/";} else {$slashType = "\\";};
-$shortURLStarts = explode($slashType,$_SERVER['DOCUMENT_ROOT']);
+$slashType = strpos($_SERVER['DOCUMENT_ROOT'],"/")>-1  ? "/" : "\\";
+$shortURLStarts = explode($slashType,$ICEcoder['root']);
 
 // Then clear item at the end if there is one, plus trailing slash
 // We end up with the directory name of the server root
-if ($shortURLStarts[count($shortURLStarts)-1]!="") {$trimArray=1;} else {$trimArray=2;}
+$trimArray = $shortURLStarts[count($shortURLStarts)-1]!="" ? 1 : 2;
 $shortURLStarts = $shortURLStarts[count($shortURLStarts)-$trimArray];
 
 // If we're updating or calling from the index.php page, do/redo plugins & last opened files
