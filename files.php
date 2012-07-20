@@ -92,6 +92,9 @@ echo $fileAtts;
 echo "</a>";
 echo "</li>\n";
 $lastPath="";
+$fileCount=0;
+$fileBytes=0;
+$dirCount=0;
 for ($i=0;$i<count($finalArray);$i++) {
 	$fileFolderName = str_replace("\\","/",$finalArray[$i]);
 	$type = is_dir($path.$fileFolderName) ? "folder" : "file";
