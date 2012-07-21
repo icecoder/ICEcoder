@@ -18,8 +18,8 @@ foldcode, searchcursor, match-highlighter
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 <link rel="stylesheet" href="<?php echo $ICEcoder["theme"]=="default" ? 'lib/editor.css' : '{$ICEcoder["codeMirrorDir"]}/theme/{$ICEcoder["theme"]}.css';?>">
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0; background-color: #fff; top: 0px; width: 100px; z-index: 1}
-.CodeMirror-scroll {height: 100px;}
+.CodeMirror {position: absolute; width: 0; background-color: #fff; top: 0px; width: 100%; z-index: 1}
+.CodeMirror-scroll {height: 100%}
 .cm-s-activeLine {background: #000 !important;}
 span.CodeMirror-matchhighlight {background: #555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
@@ -30,7 +30,7 @@ span.CodeMirror-matchhighlight {background: #555}
 
 <body onLoad="top.ICEcoder.updateFileFolderCount()" style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
-<div style="margin: 32px 43px; font-family: arial; font-size: 10px; color: #dddddd">
+<div style="margin: 32px 43px; font-family: arial; font-size: 10px; color: #ddd">
 <?php if($_SESSION['userLevel'] == 10) {
 	echo '<div style="float: left; margin-right: 50px">'.PHP_EOL;
 	echo '<h2 style="color: rgba(0,198,255,0.7)">server</h2>'.PHP_EOL;
