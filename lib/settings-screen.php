@@ -12,7 +12,7 @@
 
 <style type="text/css">
 .CodeMirror {position: absolute; width: 0; background-color: #fff; font-family: monospace; width: 420px}
-.CodeMirror-scroll {height: 220px; overflow: hidden}
+.CodeMirror-scroll {height: 240px; overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\21e5';};?>";}
 </style>
@@ -134,6 +134,11 @@ for ($i=0;$i<count($themeArray)-1;$i++) {
 }
 ?>
 </select>
+
+<span style="position: absolute; margin: -18px 0 0 30px">
+	tab width <span style="font-size: 10px; color: #888">chars</span><br>
+	<input type="text" name="tabWidth" id="tabWidth" style="width: 30px" onkeydown="showButton()" onkeyup="changeTabWidth()" value="<?php echo $ICEcoder["tabWidth"];?>">
+</span>
 <br><br>
 
 <textarea id="code" name="code">
@@ -151,9 +156,10 @@ function findSequence(goal) {
 }</textarea>
 <br>
 
-<span style="position: absolute; top: 520px">
-	tab width <span style="font-size: 10px; color: #888">chars</span><br>
-	<input type="text" name="tabWidth" id="tabWidth" style="width: 30px" onkeydown="showButton()" onkeyup="changeTabWidth()" value="<?php echo $ICEcoder["tabWidth"];?>">
+<span style="position: absolute; top: 510px">
+	<h2>file manager</h2>
+	root <span style="font-size: 10px; color: #888">slash prefixed</span><br>
+	<input type="text" name="root" style="width: 250px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo str_replace($_SERVER["DOCUMENT_ROOT"],"",$ICEcoder["root"]);?>">
 </span>
 
 <script>
