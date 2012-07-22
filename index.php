@@ -37,8 +37,8 @@ shortURLStarts = "<?php echo $shortURLStarts;?>";
 theme = "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>";
 tabsIndent = <?php echo $ICEcoder["tabsIndent"] ? 'true' : 'false';?>;
 tabWidth = <?php echo $ICEcoder["tabWidth"]; ?>;
-<?
-echo 'fullPath = "'.$serverRoot.'";'.PHP_EOL;
+<?php
+echo 'fullPath = "'.$ICEcoder["root"].'";'.PHP_EOL;
 ?>
 window.onbeforeunload = function() {
 	for (var i=0; i<=top.ICEcoder.changedContent.length; i++) {
