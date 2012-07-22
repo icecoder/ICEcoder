@@ -135,12 +135,12 @@ for ($i=0;$i<count($finalArray);$i++) {
 echo "</ul>\n</ul>\n";
 
 	echo "<script>\n";
-	$varOutput =  "top.ICEcoder.dirCount=";
-	$dirCount  ? $varOutput .= $dirCount.";\n"  : "0;\n";
+	$varOutput = "top.ICEcoder.dirCount=";
+	$dirCount ? $varOutput .= $dirCount.";\n" : $varOutput .= "0;\n";
 	$varOutput .= "top.ICEcoder.fileCount=";
-	$fileCount ? $varOutput .= $fileCount.";\n" : "0;\n";
+	$fileCount ? $varOutput .= $fileCount.";\n" : $varOutput .= "0;\n";
 	$varOutput .= "top.ICEcoder.fileBytes=";
-	$fileBytes ? $varOutput .= $fileBytes.";\n" : "0;\n";
+	$fileBytes ? $varOutput .= $fileBytes.";\n" : $varOutput .= "0;\n";
 	// Output the JS vars
 	echo $varOutput;
 	echo "</script>\n";
