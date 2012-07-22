@@ -33,11 +33,12 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$settingsFile = 'config.php';
 	$settingsContents = file_get_contents($settingsFile);
 	// Replace our settings vars
-	$repPosStart = strpos($settingsContents,'"tabsIndent"');
+	$repPosStart = strpos($settingsContents,'"root"');
 	$repPosEnd = strpos($settingsContents,'"previousFiles"');
 
 	// Prepare all our vars
-	$ICEcoder["tabsIndent"]			= $_POST['tabsIndent'] ? "true" : "false";	
+	$ICEcoder["root"]			= strClean($_POST['root']);
+	$ICEcoder["tabsIndent"]			= $_POST['tabsIndent'] ? "true" : "false";
 	$ICEcoder["checkUpdates"]		= $_POST['checkUpdates'] ? "true" : "false";
 	$ICEcoder["openLastFiles"]		= $_POST['openLastFiles'] ? "true" : "false";
 	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(', ','","',strClean($_POST['findFilesExclude'])).'")';
@@ -52,7 +53,8 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$ICEcoder["theme"]			= strClean($_POST['theme']);
 	$ICEcoder["tabWidth"]			= numClean($_POST['tabWidth']);
 
-	$settingsNew  = '"tabsIndent"		=> '.$ICEcoder["tabsIndent"].','.PHP_EOL;
+	$settingsNew  = '"root"			=> $_SERVER[\'DOCUMENT_ROOT\']."'.$ICEcoder["root"].'",'.PHP_EOL;
+	$settingsNew .= '"tabsIndent"		=> '.$ICEcoder["tabsIndent"].','.PHP_EOL;
 	$settingsNew .= '"checkUpdates"		=> '.$ICEcoder["checkUpdates"].','.PHP_EOL;
 	$settingsNew .= '"openLastFiles"	=> '.$ICEcoder["openLastFiles"].','.PHP_EOL;
 	$settingsNew .= '"findFilesExclude"	=> '.$ICEcoder["findFilesExclude"].','.PHP_EOL;
