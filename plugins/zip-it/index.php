@@ -15,10 +15,12 @@ include("../../lib/settings.php");
 $zipItSaveLocation = '../../backups/';
 if ($_GET['zip']=="|") {$zipItFileName = "root";} else {$zipItFileName = str_replace("|","_",strClean($_GET['zip']));};
 $zipItFileName .= '-'.time().'.zip';
+$keepLastDays = 7;
 
 if (!is_dir($zipItSaveLocation)) {mkdir($zipItSaveLocation, 0777);}
 Class zipIt {
-	public function zipFilesUp($zipName='') {
+	public function zipFilesUp($zipDir,$zipFile,$keepLastDays) {
+		$zipName = $zipDir.$zipFile;
 		$zipFiles = array();
 		$_GET['zip']=="|" ? $zipTgt = "" : $zipTgt = str_replace("|","/",strClean($_GET['zip']));
 		if (strpos($_GET['zip'],"/")!==0) {$zipTgt = "/".$zipTgt;};
@@ -39,6 +41,17 @@ Class zipIt {
 		} else {
 			if(file_exists($addItem)) {$zipFiles[] = $addItem;}
 		}
+		if ($backupsDir = opendir($zipDir)) {
+			$keepTime = $keepLastDays*60*60*24;
+			while (false !== ($backup = readdir($backupsDir))) {
+				if ($backup != "." && $backup != "..") {
+					if ((time()-filemtime($zipDir.$backup)) > $keepTime) {
+						unlink($zipDir.$entry) or DIE("couldn't delete $zipDir$backup<br>");
+					}
+				}
+			}
+			closedir($backupsDir);
+		}
 		if(count($zipFiles)) {
 			$zip = new ZipArchive();
 	    		if($zip->open($zipName,ZIPARCHIVE::CREATE)!== true) {return false;}
@@ -53,6 +66,7 @@ Class zipIt {
 				}
 			}
 			$zip->close();
+			chmod($zipName, 0777);
 			return file_exists($zipName);
 		} else {
 			return false;
@@ -62,7 +76,7 @@ Class zipIt {
 if($_SESSION['userLevel']==10) {
 	$zipItDoZip = new zipIt();
 	echo '<script>top.ICEcoder.serverMessage("<b>Zipping Files</b>");</script>';
-	$zipItAddToZip = $zipItDoZip->zipFilesUp($zipItSaveLocation.$zipItFileName);
+	$zipItAddToZip = $zipItDoZip->zipFilesUp($zipItSaveLocation,$zipItFileName,$keepLastDays);
 	if (!$zipItAddToZip) {
 		echo '<script>top.ICEcoder.message("Could not zip files up!");</script>';
 	} else {
