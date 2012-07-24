@@ -1,6 +1,6 @@
 <?php
 // -----------------------------------------------
-// Zip-It! for ICEcoder v0.9.1 by Matt Pass
+// Zip-It! for ICEcoder v0.9.2 by Matt Pass
 // Will backup requested files/folders in ICEcoder
 // -----------------------------------------------
 include("../../lib/settings.php");
@@ -46,7 +46,8 @@ Class zipIt {
 			while (false !== ($backup = readdir($backupsDir))) {
 				if ($backup != "." && $backup != "..") {
 					if ((time()-filemtime($zipDir.$backup)) > $keepTime) {
-						unlink($zipDir.$entry) or DIE("couldn't delete $zipDir$backup<br>");
+						chmod($zipDir.$backup, 0777);
+						unlink($zipDir.$backup) or DIE("couldn't delete $zipDir$backup<br>");
 					}
 				}
 			}
