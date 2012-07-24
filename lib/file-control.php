@@ -30,7 +30,7 @@ if ($_GET['action']=="load") {
 		if ($_SESSION['userLevel'] == 10 || ($_SESSION['userLevel'] < 10 && $bannedFile==false)) {
 			echo '<script>fileType="text";top.ICEcoder.rightClickedFile=top.ICEcoder.thisFileFolderLink=\''.$file.'\';';
 			echo 'shortURL = top.ICEcoder.thisFileFolderLink.replace(/\|/g,"/");';
-			echo 'top.ICEcoder.shortURL = shortURL.substr((shortURL.indexOf(top.shortURLStarts)+top.shortURLStarts.length),shortURL.length);</script>';
+			echo 'top.ICEcoder.shortURL = shortURL.substr((shortURL.lastIndexOf(top.shortURLStarts)+top.shortURLStarts.length),shortURL.length);</script>';
 			$loadedFile = file_get_contents($file);
 			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",$loadedFile).'</textarea>';
 		} else {
@@ -268,7 +268,7 @@ if (action=="save") {
 	if ($file=="|[NEW]"||$saveType=="saveAs") {
 	?>
 		if (top.ICEcoder.rightClickedFile) {
-			shortURL = top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.indexOf(top.shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length).replace(/\|/g,"/")+"/";
+			shortURL = top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.lastIndexOf(top.shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length).replace(/\|/g,"/")+"/";
 			newFileName = top.ICEcoder.getInput('Enter Filename',shortURL);
 		} else {
 			newFileName = top.ICEcoder.getInput('Enter Filename','/');
