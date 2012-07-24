@@ -16,7 +16,9 @@ utils:
 foldcode, searchcursor, match-highlighter
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
-<link rel="stylesheet" href="<?php echo $ICEcoder["theme"]=="default" ? 'lib/editor.css' : '{$ICEcoder["codeMirrorDir"]}/theme/{$ICEcoder["theme"]}.css';?>">
+<link rel="stylesheet" href="<?php
+if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+?>">
 <style type="text/css">
 .CodeMirror {position: absolute; width: 0; background-color: #fff; top: 0px; width: 100%; z-index: 1}
 .CodeMirror-scroll {height: 100%}
