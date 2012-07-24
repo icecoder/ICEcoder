@@ -1,8 +1,8 @@
 <?php
 $ICEcoder = array(
-"versionNo"		=> "v 0.7.8",
-"codeMirrorDir"		=> "CodeMirror-2.31",
-"cMThisVer"		=> 2.31,
+"versionNo"		=> "v 0.7.9",
+"codeMirrorDir"		=> "CodeMirror-2.32",
+"cMThisVer"		=> 2.32,
 "root"			=> $_SERVER['DOCUMENT_ROOT']."",
 "tabsIndent"		=> true,
 "checkUpdates"		=> false,
