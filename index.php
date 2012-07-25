@@ -36,6 +36,7 @@ if ($ICEcoder["checkUpdates"]) {
 shortURLStarts = "<?php echo $shortURLStarts;?>";
 theme = "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>";
 tabsIndent = <?php echo $ICEcoder["tabsIndent"] ? 'true' : 'false';?>;
+openLastFiles = <?php echo $ICEcoder["openLastFiles"] ? 'true' : 'false';?>;
 tabWidth = <?php echo $ICEcoder["tabWidth"]; ?>;
 <?php
 echo 'fullPath = "'.$ICEcoder["root"].'";'.PHP_EOL;
