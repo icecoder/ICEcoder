@@ -40,6 +40,7 @@ openLastFiles = <?php echo $ICEcoder["openLastFiles"] ? 'true' : 'false';?>;
 tabWidth = <?php echo $ICEcoder["tabWidth"]; ?>;
 <?php
 echo 'fullPath = "'.$ICEcoder["root"].'";'.PHP_EOL;
+echo 'basePath = "'.$_SERVER['DOCUMENT_ROOT'].'";'.PHP_EOL;
 ?>
 window.onbeforeunload = function() {
 	for (var i=0; i<=top.ICEcoder.changedContent.length; i++) {
