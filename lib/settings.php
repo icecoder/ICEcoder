@@ -158,7 +158,7 @@ $shortURLStarts = explode($slashType,$ICEcoder['root']);
 $trimArray = $shortURLStarts[count($shortURLStarts)-1]!="" ? 1 : 2;
 $shortURLStarts = $shortURLStarts[count($shortURLStarts)-$trimArray];
 
-// If we're updating or calling from the index.php page, do/redo plugins & last opened files
+// If we're updating or calling from the index.php page, do/redo plugins
 if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) || strpos($_SERVER['PHP_SELF'],"index.php")>0) {
 	// If we're updating, we need to recreate the plugins array
 	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
@@ -202,12 +202,7 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 		<?php
 	}
 
-	// Finally, open last opened files if we need to (applies to index.php only)
-	if ($ICEcoder["openLastFiles"]) {
-		$onLoadExtras .= ";top.ICEcoder.autoOpenFiles()";
-	}
-
-	// Show server data if we're logged in
+	// Finally, show server data if we're logged in
 	if ($_SESSION['userLevel'] == 10) {
 		$onLoadExtras .= ";top.ICEcoder.content.style.visibility='visible'";
 	}
@@ -273,6 +268,17 @@ if ($ICEcoder["accountPassword"] == "" && isset($_GET['settings'])) {
 	if(isset($_POST['loginPassword'])) {
 		if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {
 			$loginAttempt = 'loginOK';
+			if ($ICEcoder["previousFiles"]!="") {
+				$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
+				echo '<script>';
+				echo 'top.previousFiles = [';
+				for ($i=0;$i<count($openFilesArray);$i++) {
+					echo "'".$openFilesArray[$i]."'";
+					if ($i<count($openFilesArray)-1) {echo ",";};
+				}
+				echo '];';
+				echo '</script>';
+			}
 		} else {
 			$loginAttempt = 'loginFailed';
 		}
