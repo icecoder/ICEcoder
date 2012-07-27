@@ -1,10 +1,9 @@
-<?php include("lib/config.php");?>
+<?php include("lib/settings.php");?>
 <!DOCTYPE html>
 
 <html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor');top.ICEcoder.canResizeFilesW()}">
 <head>
-<title>CodeMirror 2: ICE Coders Editor of Choice</title>
-<?php include("lib/settings.php");?>
+<title>ICEcoder editor</title>
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
 <!--
 codemirror-compressed.js
@@ -39,9 +38,9 @@ span.CodeMirror-matchhighlight {background: #555}
 	echo '<span style="color:#888">Server name, OS & IP:</span><br>'.PHP_EOL;
 	echo $_SERVER['SERVER_NAME'].' &nbsp;&nbsp; '.$_SERVER['SERVER_SOFTWARE'].' &nbsp;&nbsp; '.$_SERVER['SERVER_ADDR'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">Root:</span><br>'.PHP_EOL;
-	echo $_SERVER['DOCUMENT_ROOT'].'<br><br>'.PHP_EOL;
-	echo '<span style="color:#888">ICEcoder Root:</span><br>'.PHP_EOL;
-	echo $ICEcoder['root'].'<br><br>'.PHP_EOL;
+	echo $docRoot.'<br><br>'.PHP_EOL;
+	echo '<span style="color:#888">ICEcoder root:</span><br>'.PHP_EOL;
+	echo $docRoot.$ICEcoder['root'].'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">PHP version:</span><br>'.PHP_EOL;
 	echo phpversion().'<br><br>'.PHP_EOL;
 	echo '<span style="color:#888">Date & time:</span><br>'.PHP_EOL;
@@ -56,8 +55,8 @@ span.CodeMirror-matchhighlight {background: #555}
 		if ($ICEcoder["last10Files"]=="") {
 			echo '[none]<br><br>';
 		} else {
-			echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(top.fullPath+\''.str_replace("|","/",$last10FilesArray[$i]).'\')">';
-			echo str_replace("|","/",$last10FilesArray[$i]);
+			echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(\''.str_replace("|","/",$last10FilesArray[$i]).'\')">';
+			echo str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i]));
 			echo '</a><br>'.PHP_EOL;
 			if ($i==count($last10FilesArray)-1) {echo '<br>'.PHP_EOL;};
 		}
@@ -93,7 +92,7 @@ setInterval(function(){
 <script>
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	var codeFold		 = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #b00; color: #fff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
+	var codeFold		 	= CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #b00; color: #fff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
 	var codeFold_JS_Coffee_PHP_Ruby = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,'<span style=\"display: inline-block; width: 13px; height: 13px; background-color: #b00; color: #fff; text-align: center; cursor: pointer\"><span style="position: relative; top: -1px">+</span></span> %N%');
 
 	window['cM'+num] = CodeMirror(document.body, {
