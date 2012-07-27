@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<title>ICE Coder - <?php echo $ICEcoder["versionNo"];?> :: Settings Screen</title>
+<title>ICEcoder settings screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="settings-screen.css">
 <link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
@@ -159,7 +159,7 @@ function findSequence(goal) {
 <span style="position: absolute; top: 510px">
 	<h2>file manager</h2>
 	root <span style="font-size: 10px; color: #888">slash prefixed</span><br>
-	<input type="text" name="root" style="width: 250px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo str_replace($_SERVER["DOCUMENT_ROOT"],"",$ICEcoder["root"]);?>">
+	<input type="text" name="root" style="width: 250px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["root"];?>">
 </span>
 
 <script>
