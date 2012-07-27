@@ -13,7 +13,7 @@
 <h1 id="title">properties</h1>
 
 <?php
-$fileName=str_replace("|","/",strClean($_GET['fileName']));
+$fileName=$docRoot.$iceRoot.str_replace("|","/",strClean($_GET['fileName']));
 ?>
 <h2><?php echo basename($fileName); ?></h2><br>
 <span class="column" style="width: 180px">Size: <?php
@@ -45,7 +45,7 @@ if ($_SESSION['userLevel'] == 10) {
 	echo '[HIDDEN]';
 }
 ?></span>
-<span class="column">Relative path: <?php echo str_replace($serverRoot,"",$fileName);?></span>
+<span class="column">Relative path: <?php echo str_replace($docRoot,"",$fileName);?></span>
 <span style="font-size:10px">
 <br><br>
 Absolute path:<br><?php
@@ -147,7 +147,7 @@ var validatePerms = function() {
 	<?php
 	if ($_SESSION['userLevel'] == 10) {
 	?>
-	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace($serverRoot,"",$fileName);?>',permText)};
+	if (canUpdate) {top.ICEcoder.chmod('<?php echo $fileName;?>',permText)};
 	<?php
 	;};
 	?>
