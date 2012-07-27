@@ -1,7 +1,8 @@
 <?php
 // -----------------------------------------------
-// Zip-It! for ICEcoder v0.9.2 by Matt Pass
+// Zip-It! for ICEcoder v0.9.3 by Matt Pass
 // Will backup requested files/folders in ICEcoder
+// and remove old backups older than $keepLastDays
 // -----------------------------------------------
 include("../../lib/settings.php");
 ?>
@@ -24,7 +25,7 @@ Class zipIt {
 		$zipFiles = array();
 		$_GET['zip']=="|" ? $zipTgt = "" : $zipTgt = str_replace("|","/",strClean($_GET['zip']));
 		if (strpos($_GET['zip'],"/")!==0) {$zipTgt = "/".$zipTgt;};
-		$addItem = $_SERVER['DOCUMENT_ROOT'].$zipTgt;
+		$addItem = $docRoot.$zipTgt;
 		if (is_dir($addItem)) {
 			$dirStack = array($addItem);
 			while (!empty($dirStack)) {
@@ -63,7 +64,7 @@ Class zipIt {
 					if(strpos($file,$excludeFilesFolders[$i])!==false) {$canAdd=false;};
 				}
 				if ($canAdd==true) {
-					$zip->addFile($file,str_replace($_SERVER['DOCUMENT_ROOT']."/","",$file));
+					$zip->addFile($file,str_replace($docRoot."/","",$file));
 				}
 			}
 			$zip->close();
