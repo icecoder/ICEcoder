@@ -20,7 +20,7 @@ if ($ICEcoder["checkUpdates"]) {
 		$cMLatestVer = json_encode(file_get_contents("http://codemirror.net/latest-version.txt"));
 		$cMLatestVer = rtrim(ltrim($cMLatestVer,"\""),"\"\\n");
 		if ($ICEcoder["cMThisVer"]<$cMLatestVer) {
-			echo '<script>top.ICEcoder.message(\'Code Mirror '.$cMLatestVer.' now released\n\nPlease upgrade\');</script>';
+			echo '<script>top.ICEcoder.message(\'CodeMirror '.$cMLatestVer.' now released\n\nPlease upgrade\');</script>';
 		}
 	}
 }
@@ -29,18 +29,16 @@ if ($ICEcoder["checkUpdates"]) {
 
 <html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}">
 <head>
-<title>ICE Coder - <?php echo $ICEcoder["versionNo"];?></title>
+<title>ICEcoder <?php echo $ICEcoder["versionNo"];?></title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="lib/coder.css">
 <script>
-shortURLStarts = "<?php echo $shortURLStarts;?>";
 theme = "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>";
 tabsIndent = <?php echo $ICEcoder["tabsIndent"] ? 'true' : 'false';?>;
 openLastFiles = <?php echo $ICEcoder["openLastFiles"] ? 'true' : 'false';?>;
 tabWidth = <?php echo $ICEcoder["tabWidth"]; ?>;
 <?php
-echo 'fullPath = "'.$ICEcoder["root"].'";'.PHP_EOL;
-echo 'basePath = "'.$_SERVER['DOCUMENT_ROOT'].'";'.PHP_EOL;
+echo 'iceRoot = "'.$ICEcoder["root"].'";'.PHP_EOL;
 ?>
 window.onbeforeunload = function() {
 	for (var i=0; i<=top.ICEcoder.changedContent.length; i++) {
@@ -91,7 +89,7 @@ previousFiles = [<?php
 	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Delete</a>
 	<span id="singleFileMenuItems">
 		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Rename</a>
-		<a href="javascript:window.open(top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.lastIndexOf(shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length))" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">View Webpage</a>
+		<a href="javascript:window.open(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">View Webpage</a>
 	</span>
 	<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Zip It!</a>
 	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Properties</a>
