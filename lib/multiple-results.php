@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title>ICE Coder - <?php echo $ICEcoder["versionNo"];?> :: Multiple Results Screen</title>
+<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> multiple results screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="multiple-results.css">
 </head>
@@ -63,7 +63,7 @@ $targetName = "file/folder";
 				}
 			}
 			if (userTarget.indexOf("all")>-1 || (userTarget.indexOf("selected")>-1 && foundInSelected)) {
-				resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\''+top.fullPath+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.document.getElementById(\'blackMask\'))">'+ targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strClean($_GET['find'])); ?>/g,"<b><?php echo strClean($_GET['find']); ?></b>")+ '</a><br><div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strClean($_GET['find'])); ?>/g,"<b><?php echo strClean($_GET['replace']);?></b>")+'</div>';
+				resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.document.getElementById(\'blackMask\'))">'+ targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strClean($_GET['find'])); ?>/g,"<b><?php echo strClean($_GET['find']); ?></b>")+ '</a><br><div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strClean($_GET['find'])); ?>/g,"<b><?php echo strClean($_GET['replace']);?></b>")+'</div>';
 				<?php if (isset($_GET['replace'])) { ?>
 				resultsDisplay += '<div class="replace" id="replace" onClick="renameSingle('+i+');this.style.display=\'none\'">rename</div>';
 				<?php ;}; ?>
@@ -108,7 +108,7 @@ var replaceAll = function() {
 }
 
 var renameSingle = function(arrayRef) {
-	fileRef = top.fullPath+spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"");
+	fileRef = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"");
 	newName = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strClean($_GET['find'])); ?>/g,"<?php echo strClean($_GET['replace']); ?>");
 	top.ICEcoder.renameFile(fileRef,newName);
 }
