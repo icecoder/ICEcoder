@@ -55,7 +55,7 @@ if ($_GET['action']=="newFolder") {
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="newFolder";</script>';
 	} else {
 		if (!is_writable($docRoot.$iceRoot.$file)) {
-			echo "<script>top.ICEcoder.message('Sorry, cannot create folder at\\n".rtrim($file)."');</script>";
+			echo "<script>top.ICEcoder.message('Sorry, cannot create folder at\\n".$file."');</script>";
 		} else {
 			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to add folders\');</script>';
 		}
