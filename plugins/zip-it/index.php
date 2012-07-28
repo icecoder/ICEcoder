@@ -20,12 +20,13 @@ $keepLastDays = 7;
 
 if (!is_dir($zipItSaveLocation)) {mkdir($zipItSaveLocation, 0777);}
 Class zipIt {
-	public function zipFilesUp($zipDir,$zipFile,$keepLastDays) {
+	public function zipFilesUp($zipDir,$zipFile,$keepLastDays,$docRoot) {
 		$zipName = $zipDir.$zipFile;
 		$zipFiles = array();
 		$_GET['zip']=="|" ? $zipTgt = "" : $zipTgt = str_replace("|","/",strClean($_GET['zip']));
 		if (strpos($_GET['zip'],"/")!==0) {$zipTgt = "/".$zipTgt;};
 		$addItem = $docRoot.$zipTgt;
+
 		if (is_dir($addItem)) {
 			$dirStack = array($addItem);
 			while (!empty($dirStack)) {
@@ -57,7 +58,7 @@ Class zipIt {
 		if(count($zipFiles)) {
 			$zip = new ZipArchive();
 	    		if($zip->open($zipName,ZIPARCHIVE::CREATE)!== true) {return false;}
-			$excludeFilesFolders = explode(",",strClean($_GET['exclude']));
+			$excludeFilesFolders = explode("*",strClean($_GET['exclude']));
 			foreach($zipFiles as $file) {
 				$canAdd=true;
 				for ($i=0;$i<count($excludeFilesFolders);$i++) {
@@ -78,7 +79,7 @@ Class zipIt {
 if($_SESSION['userLevel']==10) {
 	$zipItDoZip = new zipIt();
 	echo '<script>top.ICEcoder.serverMessage("<b>Zipping Files</b>");</script>';
-	$zipItAddToZip = $zipItDoZip->zipFilesUp($zipItSaveLocation,$zipItFileName,$keepLastDays);
+	$zipItAddToZip = $zipItDoZip->zipFilesUp($zipItSaveLocation,$zipItFileName,$keepLastDays,$docRoot);
 	if (!$zipItAddToZip) {
 		echo '<script>top.ICEcoder.message("Could not zip files up!");</script>';
 	} else {
