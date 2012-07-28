@@ -32,7 +32,7 @@ if ($_GET['action']=="load") {
 			echo "top.ICEcoder.shortURL = '".str_replace($docRoot,"",str_replace("|","/",$file))."';";
 			echo '</script>';
 			$loadedFile = file_get_contents($file);
-			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",$loadedFile).'</textarea>';
+			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
 		} else {
 			echo '<script>fileType="nothing";</script>';
 			echo '<script>top.ICEcoder.message(\'Sorry, you need a higher admin level to view this file\');</script>';
