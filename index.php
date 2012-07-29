@@ -69,7 +69,6 @@ previousFiles = [<?php
 	</div>
 </div>
 
-
 <div id="loadingMask" class="blackMask" style="visibility: visible">
 	<span class="progressBar"></span>
 	<div class="popupVCenter">
@@ -114,15 +113,16 @@ previousFiles = [<?php
 			</div>
 		</div>
 		<div class="accountOptions">
-			<a nohref title="Save" onClick="ICEcoder.fMIcon('save')"><img src="images/save.png" alt="Save" id="fMSave" style="opacity: 0.3"></a>
-			<a nohref title="Open" onClick="ICEcoder.fMIcon('open')"><img src="images/open.png" alt="Open" id="fMOpen" style="margin-left: 7px; opacity: 0.3"></a>
-			<a nohref title="New File" onClick="ICEcoder.fMIcon('newFile')"><img src="images/new-file.png" alt="New File" id="fMNewFile" style="margin: 8px 0 0 10px; opacity: 0.3"></a>
-			<a nohref title="New Folder" onClick="ICEcoder.fMIcon('newFolder')"><img src="images/new-folder.png" alt="New Folder" id="fMNewFolder" style="margin: 9px 0 0 5px; opacity: 0.3"></a>
-			<a nohref title="Delete" onClick="ICEcoder.fMIcon('delete')"><img src="images/delete.png" alt="Delete" id="fMDelete" style="margin: 9px 0 0 5px; opacity: 0.3"></a>
-			<a nohref title="Rename" onClick="ICEcoder.fMIcon('rename')"><img src="images/rename.png" alt="Rename" id="fMRename" style="margin: 9px 0 0 5px; opacity: 0.3"></a>
-			<a nohref title="View" onClick="ICEcoder.fMIcon('view')"><img src="images/view.png" alt="View" id="fMView" style="margin: 9px 0 0 5px; opacity: 0.3"></a>
+			<div title="Save" onClick="ICEcoder.fMIcon('save')" id="fMSave" style="width: 30px; height: 32px; opacity: 0.3"></div>
+			<div title="Open" onClick="ICEcoder.fMIcon('open')" id="fMOpen" style="width: 25px; height: 32px; background-position: -32px -3px; margin: 3px 0 0 7px; opacity: 0.3"></div>
+			<div title="New File" onClick="ICEcoder.fMIcon('newFile')" id="fMNewFile" style="width: 15px; height: 16px; background-position: -64px 0; margin: 8px 0 0 10px; opacity: 0.3"></div>
+			<div title="New Folder" onClick="ICEcoder.fMIcon('newFolder')" id="fMNewFolder" style="width: 20px; height: 16px; background-position: -80px 0; margin: 8px 0 0 5px; opacity: 0.3"></div>
+			<div title="Delete" onClick="ICEcoder.fMIcon('delete')" id="fMDelete" style="width: 16px; height: 16px; background-position: -100px 0; margin: 8px 0 0 5px; opacity: 0.3"></div>
+			<div title="Rename" onClick="ICEcoder.fMIcon('rename')" id="fMRename" style="width: 16px; height: 16px; background-position: -116px 0; margin: 8px 0 0 5px; opacity: 0.3"></div>
+			<div title="View" onClick="ICEcoder.fMIcon('view')" id="fMView" style="width: 16px; height: 16px; background-position: -132px 0; margin: 8px 0 0 5px; opacity: 0.3"></div>
+
+			<div title="Lock" onClick="ICEcoder.lockUnlockNav()" id="fmLock" style="position: relative; margin-left: 208px; margin-top: -27px; width: 12px; height: 16px; background-position: -64px -16px; z-index: 1"></div>
 		</div>
-		<a nohref style="cursor: pointer" onClick="ICEcoder.lockUnlockNav()"><img src="images/padlock.png" id="fmLock" class="lock"></a>
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1'"></iframe>
 	<div class="serverMessage" id="serverMessage"></div>
