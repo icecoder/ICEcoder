@@ -19,7 +19,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 
 body {margin: 0; overflow: auto}
 
-.refresh {position: fixed; right: 0; margin-right: 15px; cursor: pointer}
+.refresh {position: fixed; display: inline-block; width: 14px; height: 14px; background: url('../images/file-manager-icons.png') -100px -16px no-repeat; right: 0; margin-right: 15px; cursor: pointer}
 
 .fileManager {
 	margin: 15px 0 15px 22px;
@@ -36,7 +36,7 @@ body {margin: 0; overflow: auto}
 	
 /* Default file */
 .fileManager LI.pft-directory:before, .fileManager LI.pft-file:before {
-	position: absolute; display: block; width: 16px; height: 16px; content: ""; margin-top: -2px; margin-left: -23px; background:url(../images/file-manager-icons.png) no-repeat 0 0;
+	position: absolute; display: block; width: 16px; height: 16px; content: ""; margin-top: -2px; margin-left: -23px; background:url(../images/file-folder-icons.png) no-repeat 0 0;
 }
 .fileManager LI.dirOpen:before {background-position: -16px 0}
 

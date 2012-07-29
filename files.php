@@ -9,7 +9,7 @@
 </head>
 
 <body onLoad="top.ICEcoder.fileManager()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
-<div class="refresh" onClick="top.ICEcoder.refreshFileManager()"><img src="images/refresh.png"></div>
+<div title="Refresh" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
 
 <?php
 $ICEcoder["restrictedFiles"] = $_SESSION['restrictedFiles'];
@@ -142,7 +142,7 @@ echo "</ul>\n</ul>\n";
 	$varOutput .= $fileBytes ? $fileBytes : "0";
 	// Output the JS vars
 	echo $varOutput;
-	echo ";\n</script>\n";
+	echo ";\n</script>";
 ?>
 
 <iframe name="fileControl" style="display: none"></iframe>
