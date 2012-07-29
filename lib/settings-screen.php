@@ -29,7 +29,7 @@ for ($i=0;$i<count($themeArray)-1;$i++) {
 <body class="settings">
 
 <div class="infoPane">
-	<img src="../images/ice-coder.gif" class="logo">
+	<img src="../images/ice-coder.png" class="logo">
 	<div class="version"><?php echo $ICEcoder["versionNo"];?></div>
 
 	<p>
