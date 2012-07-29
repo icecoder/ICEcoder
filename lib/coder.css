@@ -92,8 +92,8 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 	-o-transition: top 0.3s;
 	transition: top 0.3s;
 }
-.files .accountOptions {position: relative; height: 31px; width: 200px; margin-left: 15px; margin-top: 8px}
-.files .accountOptions img {cursor: pointer}
+.files .accountOptions {position: relative; height: 32px; width: 100%; margin-left: 15px; margin-top: 8px}
+.files .accountOptions div {display: inline-block; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer}
 .files .accountPassword {position: relative; border: 0; background-color: #333; color: #fff; height: 18px; width: 140px; margin-left: 14px; margin-top: 16px}
 .files input:focus, .findReplace input:focus, .findReplace select:focus, .accountPassword:focus {
 	outline: none;
@@ -103,7 +103,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 }
 .files .button {position: absolute; border: 0; background: #444; color: #eee; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
 .files .button:hover {background-color: #222; color: #eee}
-.files .lock {position: relative; margin-left: 225px; margin-top: -20px; z-index: 1}
 .files .frame {display: inline-block; width: 250px}
 .files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; margin-bottom: 30px; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 7px 12px; opacity: 0;
 	-webkit-transition: all 0.2s;
