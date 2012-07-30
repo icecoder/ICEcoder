@@ -52,7 +52,7 @@ if ($_GET['action']=="newFolder") {
 		$fileName = substr($file,strrpos($file,"/")+1);
 		$fileLoc = substr($file,0,strrpos($file,"/"));
 		if ($fileLoc=="") {$fileLoc = "/";};
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="newFolder";</script>';
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.str_replace($docRoot,"",$fileLoc).'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="newFolder";</script>';
 	} else {
 		if (!is_writable($docRoot.$iceRoot.$file)) {
 			echo "<script>top.ICEcoder.message('Sorry, cannot create folder at\\n".$file."');</script>";
@@ -71,7 +71,7 @@ if ($_GET['action']=="rename") {
 		$fileName = substr($file,strrpos($file,"/")+1);
 		$fileLoc = substr($file,0,strrpos($file,"/"));
 		if ($fileLoc=="") {$fileLoc = "/";};
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="rename";</script>';
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.str_replace($docRoot,"",$fileLoc).'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="rename";</script>';
 	} else {
 		if (!is_writable($_GET['oldFileName'])) {
 			echo "<script>top.ICEcoder.message('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."');</script>";
@@ -90,7 +90,7 @@ if ($_GET['action']=="perms") {
 		$fileName = substr($file,strrpos($file,"/")+1);
 		$fileLoc = substr($file,0,strrpos($file,"/"));
 		if ($fileLoc=="") {$fileLoc = "/";};
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="perms";</script>';
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.str_replace($docRoot,"",$fileLoc).'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="perms";</script>';
 	} else {
 		if (!is_writable($file)) {
 			echo "<script>top.ICEcoder.message('Sorry, cannot change permissions on \\n".strClean($file)."');</script>";
@@ -117,7 +117,7 @@ if ($_GET['action']=="delete") {
 				$fileName = substr($file,strrpos($file,"/")+1);
 				$fileLoc = substr($file,0,strrpos($file,"/"));
 				if ($fileLoc=="") {$fileLoc = "/";};
-				echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="delete";</script>';
+				echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.str_replace($docRoot,"",$fileLoc).'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="delete";</script>';
 			} else {
 				echo "<script>top.ICEcoder.message('Sorry can\\'t delete\\n".$filesArray[$i]."');</script>";
 			}
@@ -171,7 +171,7 @@ if ($_GET['action']=="save") {
 						$fileName = substr($file,strrpos($file,"/")+1);
 						$fileLoc = substr($file,0,strrpos($file,"/"));
 						if ($fileLoc=="") {$fileLoc = "/";};
-						echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\')</script>';
+						echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.str_replace($docRoot,"",$fileLoc).'\',\''.$fileName.'\')</script>';
 					}
 					if (isset($_POST['newFileName'])&&$_POST['newFileName']!="") {
 						echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$file.'\');</script>';
@@ -270,7 +270,7 @@ if (action=="save") {
 	if ($file=="|[NEW]"||$saveType=="saveAs") {
 	?>
 		if (top.ICEcoder.rightClickedFile) {
-			shortURL = top.ICEcoder.rightClickedFile.substr((top.ICEcoder.rightClickedFile.lastIndexOf(top.shortURLStarts)+top.shortURLStarts.length),top.ICEcoder.rightClickedFile.length).replace(/\|/g,"/")+"/";
+			shortURL = top.ICEcoder.rightClickedFile.replace(/\|/g,"/")+"/";
 			newFileName = top.ICEcoder.getInput('Enter Filename',shortURL);
 		} else {
 			newFileName = top.ICEcoder.getInput('Enter Filename','/');
