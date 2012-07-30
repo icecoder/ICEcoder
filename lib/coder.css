@@ -20,7 +20,6 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 body {overflow: hidden;
 	-webkit-user-select: none;
 	-moz-user-select: none;
-	-o-user-select:none;
 	user-select: none;
 	background-color: #222;
 }
@@ -31,11 +30,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .blackMask {position: fixed; display: table; width: 100%; height: 100%; top: 0; left: 0; visibility: hidden; background-color: rgba(0,0,0,0.8); text-align: center; z-index: 100}
 .blackMask .popupVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
 .popupVCenter .popup {#position: relative; #top: -50%; text-align: center; color: #fff; font-size: 10px}
-.whiteGlow {
-	-webkit-box-shadow: 0 0 8px 2px rgba(255,255,255,0.6);
-	-moz-box-shadow: 0 0 8px 2px rgba(255,255,255,0.6);
-	box-shadow: 0 0 8px 2px rgba(255,255,255,0.6);
-}
+.whiteGlow {box-shadow: 0 0 8px 2px rgba(255,255,255,0.6)}
 
 .circleOutside {background-color: rgba(0,0,0,0); border:5px solid rgba(0,183,229,0.9); opacity:.9; border-top:5px solid rgba(0,0,0,0); border-left:5px solid rgba(0,0,0,0); border-radius:50px; box-shadow: 0 0 35px #2187e7;
 	width:50px; height:50px; margin:0 auto; -moz-animation:spin .5s infinite linear; -webkit-animation:spin .5s infinite linear;
@@ -80,8 +75,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .header .logo {position: relative; margin: 5px 10px 0 5px; cursor: pointer}
 
 .files {position: absolute; display: inline-block; top: 0; left: 0; height: 100%; width: 250px; background-color: #444; background-image: url('../images/files-arrow.gif'); background-repeat: no-repeat; background-position: 100% 50%; overflow: hidden; z-index: 1;
-	-webkit-box-shadow: 0 0 10px 4px rgba(0,0,0,0.4);
-	-moz-box-shadow: 0 0 10px 4px rgba(0,0,0,0.4);
 	box-shadow: 0 0 10px 4px rgba(0,0,0,0.4);
 }
 .files .account {display: inline-block; height: 50px; width: 250px; margin-top: 40px; background-color: #888}
@@ -89,25 +82,18 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .accountLoginContainer .accountLogin {position: absolute; width: 250px; height: 50px; top: 0; background-color: #666;
 	-webkit-transition: top 0.3s;
 	-moz-transition: top 0.3s;
-	-o-transition: top 0.3s;
 	transition: top 0.3s;
 }
 .files .accountOptions {position: relative; height: 32px; width: 100%; margin-left: 15px; margin-top: 8px}
 .files .accountOptions div {display: inline-block; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer}
 .files .accountPassword {position: relative; border: 0; background-color: #333; color: #fff; height: 18px; width: 140px; margin-left: 14px; margin-top: 16px}
-.files input:focus, .findReplace input:focus, .findReplace select:focus, .accountPassword:focus {
-	outline: none;
-	-webkit-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
-	-moz-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
-	box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
-}
+.files input:focus, .findReplace input:focus, .findReplace select:focus, .accountPassword:focus {outline: none; box-shadow: 0 0 10px 1px rgba(0,198,255,0.7)}
 .files .button {position: absolute; border: 0; background: #444; color: #eee; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
 .files .button:hover {background-color: #222; color: #eee}
 .files .frame {display: inline-block; width: 250px}
 .files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; margin-bottom: 30px; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 7px 12px; opacity: 0;
 	-webkit-transition: all 0.2s;
 	-moz-transition: all 0.2s;
-	-o-transition: all 0.2s;
 	transition: all 0.2s;
 }
 .files .serverMessage b {font-size: 10px}
@@ -117,7 +103,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .tabsBar .tab {display: inline-block; display: none; background-image: url('../images/nav-bg.gif'); background-repeat: repeat-x; background-position: 0 0; padding: 5px 8px 2px 8px; font-size: 10px; border-left: solid 1px #fff; border-right: solid 1px #777; color: #fff; cursor: pointer;
 	-webkit-transition: all 0.15s;
 	-moz-transition: all 0.15s;
-	-o-transition: all 0.15s;
 	transition: all 0.15s;
 }
 .tabsBar .tab .closeTab {margin: 1px 0 0 5px; border-radius: 6px}
@@ -145,11 +130,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .footer .nestDisplay {position: absolute; display: inline-block; padding: 5px 0 0 8px; margin-top: 3px; left: 255px; font-size: 12px; color: #fff; text-align: right}
 .footer .charDisplay {position: absolute; display: inline-block; padding: 5px 0 0 8px; margin-top: 3px; left: 100%; font-weight: bold; font-size: 12px; color: #fff; text-align: right; width: 200px; text-align: right; margin-left: -220px}
 
-.textbox {
-	-webkit-box-shadow: inset 1px 1px 2px 0 rgba(0,0,0,0.4);
-	-moz-box-shadow: inset 1px 1px 2px 0 rgba(0,0,0,0.4);
-	box-shadow: inset 1px 1px 2px 0 rgba(0,0,0,0.4);
-}
+.textbox {box-shadow: inset 1px 1px 2px 0 rgba(0,0,0,0.4)}
 
 .fileMenu {position: absolute; display: none; left: 0; top: 0; background-color: #333; z-index: 10}
 .fileMenu a {display: block; padding: 2px 5px; background-color: #333; color: #eee; text-decoration: none}
