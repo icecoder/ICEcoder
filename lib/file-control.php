@@ -47,7 +47,7 @@ if ($_GET['action']=="load") {
 // If we're due to add a new folder...
 if ($_GET['action']=="newFolder") {
 	if ($_SESSION['userLevel'] > 0) {
-		mkdir($docRoot.$iceRoot.$file, 0707);
+		mkdir(rtrim($docRoot,"/").$iceRoot.$file, 0705);
 		// Reload file manager
 		$fileName = substr($file,strrpos($file,"/")+1);
 		$fileLoc = substr($file,0,strrpos($file,"/"));
@@ -270,7 +270,7 @@ if (action=="save") {
 	if ($file=="|[NEW]"||$saveType=="saveAs") {
 	?>
 		if (top.ICEcoder.rightClickedFile) {
-			shortURL = top.ICEcoder.rightClickedFile.replace(/\|/g,"/")+"/";
+			shortURL = (top.ICEcoder.rightClickedFile.replace(/\|/g,"/")+"/").replace(/\/\//,"/");
 			newFileName = top.ICEcoder.getInput('Enter Filename',shortURL);
 		} else {
 			newFileName = top.ICEcoder.getInput('Enter Filename','/');
