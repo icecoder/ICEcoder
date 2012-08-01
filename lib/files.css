@@ -30,7 +30,7 @@ body {margin: 0; overflow: auto}
 }
 
 .fileManager span {font-family: helvetica, arial, swiss, verdana}
-.fileManager a {color: #eee;	text-decoration: none}
+.fileManager a {color: #eee; text-decoration: none; cursor: pointer}
 .fileManager .pft-directory, .fileManager .pft-file {list-style-image: url(../images/blank.gif)}
 .fileManager ul, .fileManager li  {margin-left: 15px}
 	
