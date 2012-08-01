@@ -147,7 +147,7 @@ var validatePerms = function() {
 	<?php
 	if ($_SESSION['userLevel'] == 10) {
 	?>
-	if (canUpdate) {top.ICEcoder.chmod('<?php echo $fileName;?>',permText)};
+	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace($docRoot,"",$fileName);?>',permText)};
 	<?php
 	;};
 	?>
