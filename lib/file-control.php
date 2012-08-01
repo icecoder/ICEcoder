@@ -46,16 +46,17 @@ if ($_GET['action']=="load") {
 
 // If we're due to add a new folder...
 if ($_GET['action']=="newFolder") {
+	if (strpos($file,$docRoot)===false) {$file=$docRoot.$iceRoot.$file;};
+	$fileName = substr($file,strrpos($file,"/")+1);
+	$fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
 	if ($_SESSION['userLevel'] > 0) {
-		mkdir(rtrim($docRoot,"/").$iceRoot.$file, 0705);
+		mkdir($file, 0705);
 		// Reload file manager
-		$fileName = substr($file,strrpos($file,"/")+1);
-		$fileLoc = substr($file,0,strrpos($file,"/"));
 		if ($fileLoc=="") {$fileLoc = "/";};
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.str_replace($docRoot,"",$fileLoc).'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="newFolder";</script>';
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="newFolder";</script>';
 	} else {
-		if (!is_writable($docRoot.$iceRoot.$file)) {
-			echo "<script>top.ICEcoder.message('Sorry, cannot create folder at\\n".$file."');</script>";
+		if (!is_writable($file)) {
+			echo "<script>top.ICEcoder.message('Sorry, cannot create folder at\\n".$fileLoc."');</script>";
 		} else {
 			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to add folders\');</script>';
 		}
@@ -84,13 +85,16 @@ if ($_GET['action']=="rename") {
 
 // If we're due to change permissions on a file/folder...
 if ($_GET['action']=="perms") {
+	if (strpos($file,$docRoot)===false) {$file=$docRoot.$iceRoot.$file;};
+	$fileName = substr($file,strrpos($file,"/")+1);
+	$fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
 	if ($_SESSION['userLevel'] > 0 && is_writable($file)) {
 		chmod($file,octdec(numClean($_GET['perms'])));
 		// Reload file manager
 		$fileName = substr($file,strrpos($file,"/")+1);
 		$fileLoc = substr($file,0,strrpos($file,"/"));
 		if ($fileLoc=="") {$fileLoc = "/";};
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.str_replace($docRoot,"",$fileLoc).'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="perms";</script>';
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="perms";</script>';
 	} else {
 		if (!is_writable($file)) {
 			echo "<script>top.ICEcoder.message('Sorry, cannot change permissions on \\n".strClean($file)."');</script>";
@@ -155,31 +159,28 @@ if ($_GET['action']=="save") {
 			if (isset($_POST['newFileName'])&&$_POST['newFileName']!="") {
 				$file = strClean($_POST['newFileName']);
 			}
-			$saveFile = $iceRoot.$file;
-			if (strpos($saveFile,$docRoot)===false) {$saveFile=$docRoot.$iceRoot.$file;};
-			$saveFile = str_replace("//","/",$saveFile);
-			if ((file_exists($saveFile) && is_writable($saveFile)) || $_POST['newFileName']!="") {
-				if (filemtime($saveFile)==$_GET['fileMDT']||!(isset($_GET['fileMDT']))) {
-					$fh = fopen($saveFile, 'w') or die("Sorry, cannot save");
+			if (strpos($file,$docRoot)===false) {$file=$docRoot.$iceRoot.$file;};
+			$fileName = substr($file,strrpos($file,"/")+1);
+			$fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
+
+			if ((file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && $_POST['newFileName']!="") {
+				if (filemtime($file)==$_GET['fileMDT']||!(isset($_GET['fileMDT']))) {
+					$fh = fopen($file, 'w') or die("Sorry, cannot save");
 					fwrite($fh, $_POST['contents']);
 					fclose($fh);
 					clearstatcache();
-					echo '<script>top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.filemtime($saveFile).'";</script>';
-
+					echo '<script>top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.filemtime($file).'";</script>';
+					// Reload file manager & rename tab if it was a new file
 					if (isset($_POST['newFileName'])&&$_POST['newFileName']!="") {
-						// Reload file manager & stop CTRL+s being sticky
-						$fileName = substr($file,strrpos($file,"/")+1);
-						$fileLoc = substr($file,0,strrpos($file,"/"));
-						if ($fileLoc=="") {$fileLoc = "/";};
-						echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.str_replace($docRoot,"",$fileLoc).'\',\''.$fileName.'\')</script>';
+						if ($fileLoc == "") {$fileLoc = "/";};
+						echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');</script>';
+						echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$fileLoc.$fileName.'\');</script>';
 					}
-					if (isset($_POST['newFileName'])&&$_POST['newFileName']!="") {
-						echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$file.'\');</script>';
-					}
-					echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);if (top.ICEcoder.stickyTabWindow.location) {top.ICEcoder.stickyTabWindow.location.reload()};action="doneSave";</script>';
+					// Reload stickytab window
+					echo '<script>if (top.ICEcoder.stickyTabWindow.location) {top.ICEcoder.stickyTabWindow.location.reload()};action="doneSave";</script>';
 				} else {
-					$loadedFile = file_get_contents($saveFile);
-					echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",$loadedFile).'</textarea>';
+					$loadedFile = file_get_contents($file);
+					echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
 					echo '<textarea name="userVersionFile" id="userVersionFile"></textarea>';
 					?>
 					<script>
@@ -191,7 +192,7 @@ if ($_GET['action']=="save") {
 						// Revert back to original
 						cM.setValue(document.getElementById('loadedFile').value);
 						top.ICEcoder.changedContent[thisTab-1] = 0;
-						top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo filemtime($saveFile); ?>";
+						top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo filemtime($file); ?>";
 						cM.clearHistory();
 						// Now for the new file
 						top.ICEcoder.newTab();
@@ -203,20 +204,15 @@ if ($_GET['action']=="save") {
 					}
 					</script>
 					<?php
-					echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
+					echo "<script>action='nothing';</script>";
 				}
         		} else {
-				echo "<script>top.ICEcoder.message('Sorry, cannot write\\n".$file."');</script>";
-				echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
+				echo "<script>top.ICEcoder.message('Sorry, cannot write\\n".$file."');action='nothing';</script>";
 			}
 		} else {
-			if (!is_writable($saveFile)) {
-				echo "<script>top.ICEcoder.message('Sorry, cannot write\\n".$file."');</script>";
-			} else {
-				echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to save\');</script>';
-			}
-			echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);action="nothing";</script>';
+			echo "<script>top.ICEcoder.message('Sorry, you need to be logged in to save');action='nothing';</script>";
 		}
+	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 	}
 };
 ?>
@@ -268,22 +264,30 @@ if (action=="load") {
 if (action=="save") {
 	<?php
 	if ($file=="|[NEW]"||$saveType=="saveAs") {
-	?>
-		if (top.ICEcoder.rightClickedFile) {
-			shortURL = (top.ICEcoder.rightClickedFile.replace(/\|/g,"/")+"/").replace(/\/\//,"/");
-			newFileName = top.ICEcoder.getInput('Enter Filename',shortURL);
+		if (strpos($file,$docRoot)===false) {$fileRef=str_replace("|","/",$docRoot.$iceRoot.$file);};
+		$fileName = substr($file,strrpos($fileRef,"/")+1);
+		$fileLoc = substr(str_replace($docRoot,"",$fileRef),0,strrpos(str_replace($docRoot,"",$fileRef),"/"));
+		if ($saveType=="saveAs") {
+			echo "fileLoc = '".$fileLoc."';";
+			
 		} else {
-			newFileName = top.ICEcoder.getInput('Enter Filename','/');
+			echo "fileLoc = '';";
+		}
+	?>
+		newFileName = top.ICEcoder.getInput(fileLoc != ""
+			? 'Enter filename to save at '+fileLoc
+			: 'Enter filename (including path, prefixed with /)'
+			,'');
+		if (newFileName) {
+			newFileName = fileLoc == "" ? newFileName : fileLoc + "/" + fileName;
 		}
 		if (newFileName && top.document.getElementById('filesFrame').contentWindow.document.getElementById(newFileName.replace(/\//g,"|"))) {
 			overwriteOK = top.ICEcoder.ask('That file exists already, overwrite?');
 		}
-		document.saveFile.newFileName.value = newFileName;
+		document.saveFile.newFileName.value = '<?php echo $docRoot; ?>' + newFileName;
 	<?php ;};?>
 	if ("undefined" == typeof newFileName || (newFileName && "undefined" == typeof overwriteOK) || ("undefined" != typeof overwriteOK && overwriteOK)) {
-		if ("undefined" != typeof newFileName) {
-			top.ICEcoder.serverMessage('<b>Saving</b><br>'+newFileName);
-		}
+		top.ICEcoder.serverMessage('<b>Saving</b><br>'+ <?php echo $file=="|[NEW]" ? "newFileName" : "'$file'"; ?>);
 		document.saveFile.contents.value = top.document.getElementById('saveTemp1').value;
 		document.saveFile.submit();
 	} else {
