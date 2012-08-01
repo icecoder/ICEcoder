@@ -82,7 +82,7 @@ if ($serverType=="Linux") {
 }
 echo "<ul class=\"fileManager\">\n";
 echo "<li class=\"pft-directory\">";
-echo "<a href=\"#\" title=\"/\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','/')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">";
+echo "<a nohref title=\"/\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','/')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ";
 echo "<span id=\"|\">/ ";
 echo $iceRoot == "" ? "[ROOT]" : trim($iceRoot,"/");
@@ -123,7 +123,7 @@ for ($i=0;$i<count($finalArray);$i++) {
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
 	if ($_SESSION['userLevel'] == 10 || ($_SESSION['userLevel'] < 10 && !$restrictedFile)) {
-		echo "<li class=\"".$class."\"><a href=\"#\" title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
+		echo "<li class=\"".$class."\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
 	} else {
 		if ($type == "file") {$fileAtts = "<img src=\"images/padlock.png\" style=\"cursor: pointer\" onClick=\"top.ICEcoder.message('Sorry, you need higher admin level rights to view.')\">";}
 		echo "<li class=\"".$class."\" style=\"cursor: default\"><span style=\"position: relative; left:-22px; color: #888\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN] ".$fileAtts."</span>";
