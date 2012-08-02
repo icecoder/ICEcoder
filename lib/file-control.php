@@ -216,23 +216,26 @@ if (action=="load") {
 		// Finally, store all data, show tabs etc
 		top.ICEcoder.createNewTab();
 		top.ICEcoder.cMInstances.push(top.ICEcoder.nextcMInstance);
-		window.onload=top.ICEcoder.content.contentWindow.createNewCMInstance(top.ICEcoder.nextcMInstance);
+		top.ICEcoder.setLayout();
+		setTimeout(function() {
+			top.ICEcoder.content.contentWindow.createNewCMInstance(top.ICEcoder.nextcMInstance);
 
-		// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on _coder's load)
-		top.ICEcoder.switchMode();
-		cM = top.ICEcoder.getcMInstance();
-		cM.setValue(document.getElementById('loadedFile').value);
-		top.document.getElementById('content').style.visibility='visible';
-		top.ICEcoder.switchTab(top.ICEcoder.selectedTab);
-		cM.focus();
+			// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on _coder's load)
+			top.ICEcoder.switchMode();
+			cM = top.ICEcoder.getcMInstance();
+			cM.setValue(document.getElementById('loadedFile').value);
+			top.document.getElementById('content').style.visibility='visible';
+			top.ICEcoder.switchTab(top.ICEcoder.selectedTab);
+			cM.focus();
 
-		// Then clean it up, set the text cursor, update the display and get the character data
-		top.ICEcoder.contentCleanUp();
-		top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
-		top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
-		top.ICEcoder.nextcMInstance++;
-		top.ICEcoder.openFileMDTs.push('<?php echo filemtime($file); ?>');
-		top.ICEcoder.loadingFile = false;
+			// Then clean it up, set the text cursor, update the display and get the character data
+			top.ICEcoder.contentCleanUp();
+			top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
+			top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
+			top.ICEcoder.nextcMInstance++;
+			top.ICEcoder.openFileMDTs.push('<?php echo filemtime($file); ?>');
+			top.ICEcoder.loadingFile = false;
+		},4);
 	}
 
 	if (fileType=="image") {
