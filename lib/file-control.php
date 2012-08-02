@@ -253,13 +253,13 @@ if (action=="load") {
 if (action=="save") {
 	<?php
 	if (strpos($file,"[NEW]")>0||$saveType=="saveAs") {
-		$saveLoc = $saveType=="saveAs" ? $fileLoc : "";
-		echo "fileLoc = '".$saveLoc."';"
+		if (strpos($fileName,"[NEW]")>0) {echo "fileLoc = '".$fileLoc."';";} else {echo "fileLoc = '';";};
 	?>
 		newFileName = top.ICEcoder.getInput(fileLoc != ""
 			? 'Enter filename to save at '+fileLoc
 			: 'Enter filename (including path, prefixed with /)'
 			,'');
+		if (newFileName.substr(0,1)!="/") {newFileName = "/" + newFileName}
 		if (newFileName) {
 			newFileName = fileLoc == "" ? newFileName : fileLoc + "/" + fileName;
 		}
