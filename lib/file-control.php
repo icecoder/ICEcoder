@@ -209,32 +209,37 @@ if ($_GET['action']=="save") {
 <script>
 if (action=="load") {
 	if (fileType=="text") {
-		top.ICEcoder.loadingFile = true;
-		// Reset the various states back to their initial setting
-		selectedTab = top.ICEcoder.openFiles.length;	// The tab that's currently selected
-
-		// Finally, store all data, show tabs etc
-		top.ICEcoder.createNewTab();
-		top.ICEcoder.cMInstances.push(top.ICEcoder.nextcMInstance);
-		top.ICEcoder.setLayout();
 		setTimeout(function() {
-			top.ICEcoder.content.contentWindow.createNewCMInstance(top.ICEcoder.nextcMInstance);
+			if (!top.ICEcoder.content.contentWindow.createNewCMInstance) {
+				console.log('There was tech hiccup, likely something wasn\'t quite ready. So ICEcoder reloaded it\'s file control again.');
+				window.location.reload();
+			} else {
+				top.ICEcoder.loadingFile = true;
+				// Reset the various states back to their initial setting
+				selectedTab = top.ICEcoder.openFiles.length;	// The tab that's currently selected
 
-			// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on _coder's load)
-			top.ICEcoder.switchMode();
-			cM = top.ICEcoder.getcMInstance();
-			cM.setValue(document.getElementById('loadedFile').value);
-			top.document.getElementById('content').style.visibility='visible';
-			top.ICEcoder.switchTab(top.ICEcoder.selectedTab);
-			cM.focus();
+				// Finally, store all data, show tabs etc
+				top.ICEcoder.createNewTab();
+				top.ICEcoder.cMInstances.push(top.ICEcoder.nextcMInstance);
+				top.ICEcoder.setLayout();
+				top.ICEcoder.content.contentWindow.createNewCMInstance(top.ICEcoder.nextcMInstance);
 
-			// Then clean it up, set the text cursor, update the display and get the character data
-			top.ICEcoder.contentCleanUp();
-			top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
-			top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
-			top.ICEcoder.nextcMInstance++;
-			top.ICEcoder.openFileMDTs.push('<?php echo filemtime($file); ?>');
-			top.ICEcoder.loadingFile = false;
+				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on _coder's load)
+				top.ICEcoder.switchMode();
+				cM = top.ICEcoder.getcMInstance();
+				cM.setValue(document.getElementById('loadedFile').value);
+				top.document.getElementById('content').style.visibility='visible';
+				top.ICEcoder.switchTab(top.ICEcoder.selectedTab);
+				cM.focus();
+
+				// Then clean it up, set the text cursor, update the display and get the character data
+				top.ICEcoder.contentCleanUp();
+				top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
+				top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
+				top.ICEcoder.nextcMInstance++;
+				top.ICEcoder.openFileMDTs.push('<?php echo filemtime($file); ?>');
+				top.ICEcoder.loadingFile = false;
+			}
 		},4);
 	}
 
