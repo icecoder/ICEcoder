@@ -70,7 +70,7 @@ previousFiles = [<?php
 </div>
 
 <div id="loadingMask" class="blackMask" style="visibility: visible">
-	<span class="progressBar"></span>
+	<span class="progressBar" id="progressBar" style="-webkit-animation:fullexpand 10s ease-out; -moz-animation:fullexpand 10s ease-out"></span>
 	<div class="popupVCenter">
 		<div class="popup">
 			<div class="circleOutside"></div>
