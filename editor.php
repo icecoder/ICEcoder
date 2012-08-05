@@ -177,7 +177,9 @@ function createNewCMInstance(num) {
 	onGutterClick: !fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".coffee") == -1 && fileName.indexOf(".php") && fileName.indexOf(".rb") == -1) ? codeFold : codeFold_JS_Coffee_PHP_Ruby,
 	extraKeys: {
 		"Tab": function(cm) {CodeMirror.commands[top.tabsIndent ? "defaultTab" : "insertTab"](cm);},
-		"Shift-Tab": "indentLess"
+		"Shift-Tab": "indentLess",
+		"Ctrl-Up": function() {},
+		"Ctrl-Down": function() {}
 	}
 	});
 
