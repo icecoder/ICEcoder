@@ -17,11 +17,13 @@ foldcode, searchcursor, match-highlighter
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 <link rel="stylesheet" href="<?php
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+$activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" || $ICEcoder["theme"]=="neat" ? "#ccc" : "#000";
 ?>">
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0; background-color: #fff; top: 0px; width: 100%; z-index: 1}
+.CodeMirror {position: absolute; width: 0; background-color: #fff; color: #000; top: 0px; width: 100%; z-index: 1}
 .CodeMirror-scroll {height: 100%}
-.cm-s-activeLine {background: #000 !important;}
+/* Make sure this next one remains the 3rd item, updated with JS */
+.cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
 span.CodeMirror-matchhighlight {background: #555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
 /* Make sure this next one remains the 6th item, updated with JS */
