@@ -1,6 +1,6 @@
 /* ICE coder default theme: Based VERY loosely on Monokai */
 
-.cm-s-icecoder {font-size: 12px; color: #666; background: #1c1c19;}
+.cm-s-icecoder {color: #666; background: #1c1c19;}
 
 .cm-s-icecoder span.cm-keyword {color: #f8f8f8; font-weight:bold;}
 .cm-s-icecoder span.cm-atom {color: #ae81ff;}
