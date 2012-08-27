@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="editor.css">
 <?php
-$themeArray = array("ambiance","blackboard","cobalt","eclipse","elegant","erlang-dark","lesser-dark","monokai","neat","night","rubyblue","vibrant-ink","xq-dark");
+$themeArray = array("blackboard","cobalt","eclipse","elegant","erlang-dark","lesser-dark","monokai","neat","night","rubyblue","vibrant-ink","xq-dark");
 for ($i=0;$i<count($themeArray)-1;$i++) {
 	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css">'.PHP_EOL;
 }
