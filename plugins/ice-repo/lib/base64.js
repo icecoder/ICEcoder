@@ -1,0 +1,5 @@
+// This code was written by Tyler Akins and has been placed in the
+// public domain.  It would be nice if you left this header intact.
+// Base64 code from Tyler Akins -- http://rumkin.com
+
+var Base64=function(){var e="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",t={encode:function(t){var n="",r,i,s,o,u,a,f,l=0;do r=t.charCodeAt(l++),i=t.charCodeAt(l++),s=t.charCodeAt(l++),o=r>>2,u=(r&3)<<4|i>>4,a=(i&15)<<2|s>>6,f=s&63,isNaN(i)?a=f=64:isNaN(s)&&(f=64),n=n+e.charAt(o)+e.charAt(u)+e.charAt(a)+e.charAt(f);while(l<t.length);return n},decode:function(t){var n="",r,i,s,o,u,a,f,l=0;t=t.replace(/[^A-Za-z0-9\+\/\=]/g,"");do o=e.indexOf(t.charAt(l++)),u=e.indexOf(t.charAt(l++)),a=e.indexOf(t.charAt(l++)),f=e.indexOf(t.charAt(l++)),r=o<<2|u>>4,i=(u&15)<<4|a>>2,s=(a&3)<<6|f,n+=String.fromCharCode(r),a!=64&&(n+=String.fromCharCode(i)),f!=64&&(n+=String.fromCharCode(s));while(l<t.length);return n}};return t}();window.Base64=Base64
