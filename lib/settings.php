@@ -29,9 +29,9 @@ include($settingsFile);
 
 // Add ICEcoder settings to beginning of $ICEcoder array
 $ICEcoder = array(
-	"versionNo"		=> "v 0.8.1",
-	"codeMirrorDir"		=> "CodeMirror-2.32",
-	"cMThisVer"		=> 2.32
+	"versionNo"		=> "v 0.8.2",
+	"codeMirrorDir"		=> "CodeMirror-2.33",
+	"cMThisVer"		=> 2.33
 )+$ICEcoder;
 
 // Update this config file?
