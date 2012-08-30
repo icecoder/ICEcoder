@@ -15,7 +15,15 @@
 	<div id="results"></div>
 </div>
 <?php if (isset($_GET['replace'])) { ?>
-<div class="replaceAll" id="replaceAll" onClick="<?php echo isset($_GET['target']) ? 'renameAll()' : 'replaceAll()';?>" style="opacity: 0.1"><?php echo isset($_GET['target']) ? 'rename all' : 'replace all';?></div>
+	<div class="replaceAll" id="replaceAll" onClick="<?php
+	if (strpos($_GET['target'],"filenames")) {
+		echo 'renameAll()';
+	} else if (strpos($_GET['target'],"files")) {
+		echo 'replaceInFilesAll()';
+	} else {
+		echo 'replaceAll()';
+	}
+	?>" style="opacity: 0.1"><?php echo strpos($_GET['target'],"filenames") ? 'rename all' : 'replace all';?></div>
 <?php ;}; ?>
 
 <script>
@@ -49,31 +57,74 @@ if (startTab!=top.ICEcoder.selectedTab) {
 <?php
 // Find in files or filenames
 } else {
-$targetName = "file/folder";
+	if (strpos($_GET['target'],"filenames")>0) {
+	$targetName = "file/folder";
 ?>
-	var spansArray = top.ICEcoder.filesFrame.contentWindow.document.getElementsByTagName('span');
-	for (var i=0;i<spansArray.length;i++) {
-		targetURL = spansArray[i].id.replace(/\|/g,"/");
-		if (targetURL.indexOf('<?php echo strClean($_GET['find']); ?>')>-1 && targetURL.indexOf('_perms')>-1) {
-			if (userTarget.indexOf("selected")>-1) {
-				for (var j=0;j<top.ICEcoder.selectedFiles.length;j++) {
-					if (top.ICEcoder.selectedFiles[j].indexOf(targetURL.replace(/\//g,"|").replace(/_perms/g,""))>-1) {
-						foundInSelected = true;
+		var spansArray = top.ICEcoder.filesFrame.contentWindow.document.getElementsByTagName('span');
+		for (var i=0;i<spansArray.length;i++) {
+			targetURL = spansArray[i].id.replace(/\|/g,"/");
+			if (targetURL.indexOf('<?php echo strClean($_GET['find']); ?>')>-1 && targetURL.indexOf('_perms')>-1) {
+				if (userTarget.indexOf("selected")>-1) {
+					for (var j=0;j<top.ICEcoder.selectedFiles.length;j++) {
+						if (top.ICEcoder.selectedFiles[j].indexOf(targetURL.replace(/\//g,"|").replace(/_perms/g,""))>-1) {
+							foundInSelected = true;
+						}
 					}
 				}
-			}
-			if (userTarget.indexOf("all")>-1 || (userTarget.indexOf("selected")>-1 && foundInSelected)) {
-				resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.document.getElementById(\'blackMask\'))">'+ targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strClean($_GET['find'])); ?>/g,"<b><?php echo strClean($_GET['find']); ?></b>")+ '</a><br><div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strClean($_GET['find'])); ?>/g,"<b><?php echo strClean($_GET['replace']);?></b>")+'</div>';
-				<?php if (isset($_GET['replace'])) { ?>
-				resultsDisplay += '<div class="replace" id="replace" onClick="renameSingle('+i+');this.style.display=\'none\'">rename</div>';
-				<?php ;}; ?>
-				resultsDisplay += '<hr>';
-				foundArray.push(i);
+				if (userTarget.indexOf("all")>-1 || (userTarget.indexOf("selected")>-1 && foundInSelected)) {
+					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.document.getElementById(\'blackMask\'))">'+ targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strClean($_GET['find'])); ?>/g,"<b><?php echo strClean($_GET['find']); ?></b>")+ '</a><br><div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strClean($_GET['find'])); ?>/g,"<b><?php echo strClean($_GET['replace']);?></b>")+'</div>';
+					<?php if (isset($_GET['replace'])) { ?>
+					resultsDisplay += '<div class="replace" id="replace" onClick="renameSingle('+i+');this.style.display=\'none\'">rename</div>';
+					<?php ;}; ?>
+					resultsDisplay += '<hr>';
+					foundArray.push(i);
+				}
 			}
 		}
-	}
 <?php
-;}
+	} else {
+	$targetName = "file";
+	$r = 0;
+	function phpGrep($q, $path, $base) {
+		$fp = opendir($path);
+		$slash = $serverType == "Windows" ? "\\" : "/";
+		global $r;
+		while($f = readdir($fp)) {
+			if(preg_match("#^\.+$#", $f)) continue;
+			$fullPath = $path.$slash.$f;
+			if(is_dir($fullPath)) {
+				$ret .= phpGrep($q, $fullPath, $base);
+			} else if(stristr(file_get_contents($fullPath), $q)) {
+				$rFile = false;
+				$bFile = false;
+				for ($i=0;$i<count($ICEcoder["restrictedFiles"]);$i++) {
+					//if (strpos($ICEcoder['restrictedFiles'][$i],$f)>0) {$rFile = true;};
+					echo ';console.log(1);';
+				}
+				for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
+					if (strpos($ICEcoder['bannedFiles'][$i],$f)>0) {$bFile = true;};
+				}
+				if (!$rFile && !$bFile) {
+					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))\\\">";
+					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">Found X times</div>";
+					if (isset($_GET['replace'])) {
+						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle($r);this.style.display=\'none\'\\\">replace</div>";
+					};
+					$ret .= '<hr>';
+					echo 'foundArray.push("'.$fullPath.'");';
+					$r++;
+				}
+			}
+		}
+		return $ret;
+	}
+
+	$results = phpGrep(strClean($_GET['find']), $docRoot.$ICEroot, $docRoot.$ICEroot);
+	echo 'resultsDisplay += "'.$results.'";';
+?>
+<?php
+	}
+}
 ?>
 foundArray.length==0 ? showHide = "hide" : showHide = "show";
 top.ICEcoder.showHide(showHide,top.document.getElementById('blackMask'));
@@ -105,6 +156,23 @@ var replaceAll = function() {
 		replaceSingle(foundArray[i]);
 	}
 	top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'));
+}
+
+var replaceInFileSingle = function(fileNum) {
+	console.log(fileNum + "::" + foundArray[fileNum]);
+	//top.ICEcoder.switchTab(tab);
+	//cM = top.ICEcoder.getcMInstance();
+	//content = cM.getValue();
+	//cM.setValue(cM.getValue().replace(rExp,top.document.getElementById('replace').value));
+	//document.getElementById('foundCount'+tab).innerHTML = document.getElementById('foundCount'+tab).innerHTML.replace('Found','Replaced');
+}
+
+var replaceInFilesAll = function() {
+	//for (var i=0;i<=foundArray.length-1;i++) {
+	//	replaceSingle(foundArray[i]);
+	//}
+	//top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'));
+	console.log('REPLACE IN ALL FILES');
 }
 
 var renameSingle = function(arrayRef) {
