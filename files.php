@@ -14,7 +14,6 @@
 <?php
 $ICEcoder["restrictedFiles"] = $_SESSION['restrictedFiles'];
 $ICEcoder["bannedFiles"] = $_SESSION['bannedFiles'];
-$serverType = strrpos($docRoot,":") ? "Windows" : "Linux";
 
 // Function to sort given values alphabetically
 function alphasort($a, $b) {

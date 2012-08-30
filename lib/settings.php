@@ -89,6 +89,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 // Define the docRoot & iceRoot
 $docRoot = rtrim(str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']));
 $iceRoot = rtrim(str_replace("\\","/",$ICEcoder["root"]));
+$serverType = stristr($_SERVER[SERVER_SOFTWARE], "win") ? "Windows" : "Linux";
 
 // Establish our user level
 if (!isset($_SESSION['userLevel'])) {$_SESSION['userLevel'] = 0;};
