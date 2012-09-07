@@ -87,6 +87,27 @@ if ($_GET['action']=="rename") {
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
 
+// If we're due to replace text in a file...
+if ($_GET['action']=="replaceText") {
+	if ($_SESSION['userLevel'] > 0 && is_writable(str_replace("|","/",strClean($_GET['fileRef'])))) {
+		$file = str_replace("|","/",strClean($_GET['fileRef']));
+		$loadedFile = file_get_contents($file);
+		$newContent = str_replace(strClean($_GET['find']),strClean($_GET['replace']),$loadedFile);
+		$fh = fopen($file, 'w') or die("Sorry, cannot save");
+		fwrite($fh, $newContent);
+		fclose($fh);
+		echo '<script>action="replaceText";</script>';
+	} else {
+		if (!is_writable(str_replace("|","/",strClean($_GET['fileRef'])))) {
+			echo "<script>top.ICEcoder.message('Sorry, cannot replace text in\\n".strClean($_GET['fileRef'])."');</script>";
+		} else {
+			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to rename\');</script>';
+		}
+		echo '<script>action="nothing";</script>';
+	}
+	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
+}
+
 // If we're due to change permissions on a file/folder...
 if ($_GET['action']=="perms") {
 	if ($_SESSION['userLevel'] > 0 && is_writable($file)) {
