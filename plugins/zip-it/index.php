@@ -1,6 +1,6 @@
 <?php
 // -----------------------------------------------
-// Zip-It! for ICEcoder v0.9.4 by Matt Pass
+// Zip-It! for ICEcoder v0.9.5 by Matt Pass
 // Will backup requested files/folders in ICEcoder
 // and remove old backups older than $keepLastDays
 // -----------------------------------------------
@@ -13,12 +13,12 @@ include("../../lib/settings.php");
 </head>
 <body>
 <?
-$zipItSaveLocation = '../../backups/';
-if ($_GET['zip']=="|") {$zipItFileName = "root";} else {$zipItFileName = str_replace("|","_",strClean($_GET['zip']));};
-$zipItFileName .= '-'.time().'.zip';
+$saveLocation = '../../backups/';
+$_GET['zip']=="|" ? $fileName = "root" : $fileName = str_replace("|","_",strClean($_GET['zip']));
+$fileName .= '-'.time().'.zip';
 $keepLastDays = 7;
 
-if (!is_dir($zipItSaveLocation)) {mkdir($zipItSaveLocation, 0777);}
+if (!is_dir($saveLocation)) {mkdir($saveLocation, 0777);}
 Class zipIt {
 	public function zipFilesUp($zipDir,$zipFile,$keepLastDays,$docRoot) {
 		$zipName = $zipDir.$zipFile;
@@ -77,14 +77,14 @@ Class zipIt {
 	}
 }
 if($_SESSION['userLevel']==10) {
-	$zipItDoZip = new zipIt();
+	$doZip = new zipIt();
 	echo '<script>top.ICEcoder.serverMessage("<b>Zipping Files</b>");</script>';
-	$zipItAddToZip = $zipItDoZip->zipFilesUp($zipItSaveLocation,$zipItFileName,$keepLastDays,$docRoot);
-	if (!$zipItAddToZip) {
-		echo '<script>top.ICEcoder.message("Could not zip files up!");</script>';
-	} else {
-		echo '<script>setTimeout(function(){top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);},500);</script>';
-	}
+	$addToZip = $doZip->zipFilesUp($saveLocation,$fileName,$keepLastDays,$docRoot);
+	echo '<script>';
+	echo !$addToZip
+		? 'top.ICEcoder.message("Could not zip files up!");'
+		: 'setTimeout(function(){top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);},500);';
+	echo '</script>';
 }
 ?>
 </body>
