@@ -29,7 +29,7 @@ include($settingsFile);
 
 // Add ICEcoder settings to beginning of $ICEcoder array
 $ICEcoder = array(
-	"versionNo"		=> "v 0.8.3",
+	"versionNo"		=> "0.8.3",
 	"codeMirrorDir"		=> "CodeMirror-2.33",
 	"cMThisVer"		=> 2.33
 )+$ICEcoder;
@@ -227,7 +227,7 @@ if ($ICEcoder["accountPassword"] == "" && isset($_GET['settings'])) {
 		<div class="screenVCenter">
 			<div class="screenCenter">
 			<img src="../images/ice-coder.png">
-			<div class="version"><?php echo $ICEcoder["versionNo"];?></div>
+			<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
 			<form name="settingsUpdate" action="../" method="POST">
 			<input type="password" name="accountPassword" class="accountPassword">
 			<input type="submit" name="submit" value="Set Password" class="button">

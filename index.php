@@ -10,7 +10,7 @@ if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*"
 if ($ICEcoder["checkUpdates"]) {
 	$icv = json_encode(file_get_contents("http://icecoder.net/latest-version.txt"));
 	$icv = rtrim(ltrim($icv,'"'),'"\\n');
-	if (ltrim($ICEcoder["versionNo"],"v ")<$icv) {
+	if ($ICEcoder["versionNo"]<$icv) {
 		$updateMsg = ';top.ICEcoder.message(\'ICEcoder '.$icv.' now released\n\nPlease upgrade\')';
 	} else {
 		$cmv = json_encode(file_get_contents("http://codemirror.net/latest-version.txt"));
@@ -95,7 +95,7 @@ previousFiles = [<?php
 	<div class="plugins" id="pluginsContainer">
 	<?php echo $pluginsDisplay; ?>
 	</div>
-	<div class="version"><?php echo $ICEcoder["versionNo"];?></div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
+	<div class="version">v <?php echo $ICEcoder["versionNo"];?></div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
 	<img src="images/ice-coder.png" class="logo" onClick="ICEcoder.helpScreen()" onContextMenu="ICEcoder.settingsScreen()">
 </div>
 

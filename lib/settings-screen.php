@@ -36,7 +36,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 <div class="infoPane">
 	<img src="../images/ice-coder.png" class="logo">
-	<div class="version"><?php echo $ICEcoder["versionNo"];?></div>
+	<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
 
 	<p>
 	git:<br>
