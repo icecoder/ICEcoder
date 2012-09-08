@@ -25,7 +25,7 @@ if ($ICEcoder["checkUpdates"]) {
 
 <html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}">
 <head>
-<title>ICEcoder <?php echo $ICEcoder["versionNo"];?></title>
+<title>ICEcoder v <?php echo $ICEcoder["versionNo"];?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="lib/coder.css">
@@ -48,10 +48,7 @@ window.onbeforeunload = function() {
 previousFiles = [<?php
 	if ($ICEcoder["previousFiles"]!="" && $_SESSION['userLevel'] == 10) {
 		$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
-		for ($i=0;$i<count($openFilesArray);$i++) {
-			echo "'".$openFilesArray[$i]."'";
-			if ($i<count($openFilesArray)-1) {echo ",";};
-		}
+		echo "'".implode("','",$openFilesArray)."'";
 	}
 ?>];
 </script>
