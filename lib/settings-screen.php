@@ -1,5 +1,4 @@
 <?php include("settings.php");?>
-
 <!DOCTYPE html>
 
 <html>
@@ -19,8 +18,15 @@
 
 <link rel="stylesheet" href="editor.css">
 <?php
-$themeArray = array("blackboard","cobalt","eclipse","elegant","erlang-dark","lesser-dark","monokai","neat","night","rubyblue","vibrant-ink","xq-dark");
-for ($i=0;$i<count($themeArray)-1;$i++) {
+$themeArray = array();
+$handle = opendir('../'.$ICEcoder["codeMirrorDir"].'/theme/');
+while (false !== ($file = readdir($handle))) {
+	if ($file !== "." && $file != "..") {
+		array_push($themeArray,basename($file,".css"));
+	}
+}
+sort($themeArray);
+for ($i=0;$i<count($themeArray);$i++) {
 	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css">'.PHP_EOL;
 }
 ?>
@@ -128,7 +134,7 @@ theme<br>
 <select onchange="selectTheme();showButton()" id="select" name="theme">
     <option<?php if ($ICEcoder["theme"]=="default") {echo ' selected';}; ?>>default</option>
 <?php
-for ($i=0;$i<count($themeArray)-1;$i++) {
+for ($i=0;$i<count($themeArray);$i++) {
 	$optionSelected = $ICEcoder["theme"]==$themeArray[$i] ? ' selected' : '';
 	echo '<option'.$optionSelected.'>'.$themeArray[$i].'</option>'.PHP_EOL;
 }
