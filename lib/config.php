@@ -2,7 +2,7 @@
 $ICEcoder = array(
 "root"			=> "",
 "tabsIndent"		=> true,
-"checkUpdates"		=> false,
+"checkUpdates"		=> true,
 "openLastFiles"		=> true,
 "findFilesExclude"	=> array("_coder",".doc",".gif",".jpg",".jpeg",".pdf",".png",".swf",".xml",".zip"),
 "codeAssist"		=> true,
