@@ -10,11 +10,11 @@ if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*"
 if ($ICEcoder["checkUpdates"]) {
 	$icv = json_encode(file_get_contents("http://icecoder.net/latest-version.txt"));
 	$icv = rtrim(ltrim($icv,'"'),'"\\n');
-	if (ltrim($ICEcoder["versionNo"],"v ")<ltrim($icv,"v ")) {
+	if ($ICEcoder["versionNo"]<$icv) {
 		$updateMsg = ';top.ICEcoder.message(\'ICEcoder '.$icv.' now released\n\nPlease upgrade\')';
 	} else {
 		$cmv = json_encode(file_get_contents("http://codemirror.net/latest-version.txt"));
-		$cmv = rtrim(ltrim($cmv,"\""),"\"\\n");
+		$cmv = rtrim(ltrim($cmv,'"'),'"\\n');
 		if ($ICEcoder["cMThisVer"]<$cmv) {
 			$updateMsg = ';top.ICEcoder.message(\'CodeMirror '.$cmv.' now released\n\nPlease upgrade\')';
 		}
