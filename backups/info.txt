@@ -1,1 +1,0 @@
-Backups are stored in this folder every 10 mins by default
