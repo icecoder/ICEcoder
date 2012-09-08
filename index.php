@@ -1,26 +1,22 @@
 <?php
 include("lib/settings.php");
-$allowedIP = false;
-for($i=0;$i<count($_SESSION['allowedIPs']);$i++) {
-	if ($_SESSION['allowedIPs'][$i]==$_SERVER["REMOTE_ADDR"]||$_SESSION['allowedIPs'][$i]=="*") {
-		$allowedIP = true;
-	}
-}
-if (!$allowedIP) {
+
+// Check IP permissions
+if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*", $_SESSION['allowedIPs'])) {
 	header('Location: /');
 };
 
 // Check for updates of ICEcoder & CodeMirror
 if ($ICEcoder["checkUpdates"]) {
-	$ICEcoderLatestVer = json_encode(file_get_contents("http://icecoder.net/latest-version.txt"));
-	$ICEcoderLatestVer = rtrim(ltrim($ICEcoderLatestVer,"\""),"\"\\n");
-	if (ltrim($ICEcoder["versionNo"],"v ")<ltrim($ICEcoderLatestVer,"v ")) {
-		echo '<script>top.ICEcoder.message(\'ICEcoder '.$ICEcoderLatestVer.' now released\n\nPlease upgrade\');</script>';
+	$icv = json_encode(file_get_contents("http://icecoder.net/latest-version.txt"));
+	$icv = rtrim(ltrim($icv,'"'),'"\\n');
+	if (ltrim($ICEcoder["versionNo"],"v ")<ltrim($icv,"v ")) {
+		$updateMsg = ';top.ICEcoder.message(\'ICEcoder '.$icv.' now released\n\nPlease upgrade\')';
 	} else {
-		$cMLatestVer = json_encode(file_get_contents("http://codemirror.net/latest-version.txt"));
-		$cMLatestVer = rtrim(ltrim($cMLatestVer,"\""),"\"\\n");
-		if ($ICEcoder["cMThisVer"]<$cMLatestVer) {
-			echo '<script>top.ICEcoder.message(\'CodeMirror '.$cMLatestVer.' now released\n\nPlease upgrade\');</script>';
+		$cmv = json_encode(file_get_contents("http://codemirror.net/latest-version.txt"));
+		$cmv = rtrim(ltrim($cmv,"\""),"\"\\n");
+		if ($ICEcoder["cMThisVer"]<$cmv) {
+			$updateMsg = ';top.ICEcoder.message(\'CodeMirror '.$cmv.' now released\n\nPlease upgrade\')';
 		}
 	}
 }
@@ -30,6 +26,7 @@ if ($ICEcoder["checkUpdates"]) {
 <html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}">
 <head>
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="lib/coder.css">
 <script>
@@ -61,7 +58,7 @@ previousFiles = [<?php
 <script language="JavaScript" src="lib/coder.js"></script>
 </head>
 
-<body onLoad="ICEcoder.init(<?php if ($_SESSION['userLevel'] == 10) {echo "'login'";} ?>)<?php echo $onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder', event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
+<body onLoad="ICEcoder.init(<?php if ($_SESSION['userLevel'] == 10) {echo "'login'";} ?>)<?php echo $updateMsg;?><?php echo $onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder', event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="ICEcoder.showHide('hide',this)">
 	<div class="popupVCenter">
