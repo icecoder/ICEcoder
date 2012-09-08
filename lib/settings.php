@@ -46,14 +46,14 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	$ICEcoder["tabsIndent"]			= $_POST['tabsIndent'] ? "true" : "false";
 	$ICEcoder["checkUpdates"]		= $_POST['checkUpdates'] ? "true" : "false";
 	$ICEcoder["openLastFiles"]		= $_POST['openLastFiles'] ? "true" : "false";
-	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(', ','","',strClean($_POST['findFilesExclude'])).'")';
+	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['findFilesExclude']))).'")';
 	$ICEcoder["codeAssist"]			= $_POST['codeAssist'] ? "true" : "false";
 	$ICEcoder["visibleTabs"]		= $_POST['visibleTabs'] ? "true" : "false";
 	$ICEcoder["lockedNav"]			= $_POST['lockedNav'] ? "true" : "false";
 	if ($_POST['accountPassword']!="")	{$ICEcoder["accountPassword"] = generateHash(strClean($_POST['accountPassword']));};
-	$ICEcoder["restrictedFiles"]		= 'array("'.str_replace(', ','","',strClean($_POST['restrictedFiles'])).'")';
-	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(', ','","',strClean($_POST['bannedFiles'])).'")';
-	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(', ','","',strClean($_POST['allowedIPs'])).'")';
+	$ICEcoder["restrictedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['restrictedFiles']))).'")';
+	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
+	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
 	$ICEcoder["plugins"]			= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
 	$ICEcoder["theme"]			= strClean($_POST['theme']);
 	$ICEcoder["tabWidth"]			= numClean($_POST['tabWidth']);
@@ -76,7 +76,7 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 	// OK, now the config file has been updated, update our current session with new arrays
 	$settingsArray = array("findFilesExclude","restrictedFiles","bannedFiles","allowedIPs");
 	for ($i=0;$i<count($settingsArray);$i++) {
-		$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]] = explode(", ",strClean($_POST[$settingsArray[$i]]));
+		$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]] = explode(",",str_replace(" ","",strClean($_POST[$settingsArray[$i]])));
 	}
 	// Work out the theme to use now
 	$ICEcoder["theme"]=="default" ? $themeURL = 'lib/editor.css' : $themeURL = $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';
