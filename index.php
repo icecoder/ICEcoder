@@ -6,7 +6,7 @@ if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*"
 	header('Location: /');
 };
 
-// Check for updates of ICEcoder & CodeMirror
+// Check for updates
 if ($ICEcoder["checkUpdates"]) {
 	$icv = json_encode(file_get_contents("http://icecoder.net/latest-version.txt"));
 	$icv = rtrim(ltrim($icv,'"'),'"\\n');
@@ -34,14 +34,11 @@ theme = "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["them
 tabsIndent = <?php echo $ICEcoder["tabsIndent"] ? 'true' : 'false';?>;
 openLastFiles = <?php echo $ICEcoder["openLastFiles"] ? 'true' : 'false';?>;
 tabWidth = <?php echo $ICEcoder["tabWidth"]; ?>;
-<?php
-echo 'iceRoot = "'.$ICEcoder["root"].'";'.PHP_EOL;
-?>
+iceRoot = "<?php echo $ICEcoder["root"]; ?>";
+
 window.onbeforeunload = function() {
-	for (var i=0; i<=top.ICEcoder.changedContent.length; i++) {
-		if (top.ICEcoder.changedContent[i]==1) {
-			return "You have some unsaved changes.";
-		}
+	if (top.ICEcoder.changedContent.indexOf(1)>-1) {
+		return "You have some unsaved changes.";
 	}
 }
 
@@ -51,11 +48,17 @@ previousFiles = [<?php
 		echo "'".implode("','",$openFilesArray)."'";
 	}
 ?>];
+showFileMenu = function() {
+	document.getElementById('fileMenu').style.display='inline-block';
+}
 </script>
 <script language="JavaScript" src="lib/coder.js"></script>
 </head>
 
-<body onLoad="ICEcoder.init(<?php if ($_SESSION['userLevel'] == 10) {echo "'login'";} ?>)<?php echo $updateMsg;?><?php echo $onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder', event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
+<body onLoad="ICEcoder.init(<?php
+if ($_SESSION['userLevel'] == 10) {echo "'login'";};
+echo ")".$updateMsg.$onLoadExtras;
+?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="ICEcoder.showHide('hide',this)">
 	<div class="popupVCenter">
@@ -76,16 +79,16 @@ previousFiles = [<?php
 
 <div id="fileMenu" class="fileMenu" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract');this.style.display='none'">
 	<span id="folderMenuItems">
-		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New File</a>
-		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">New Folder</a>
+		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="showFileMenu()">New File</a>
+		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="showFileMenu()">New Folder</a>
 	</span>
-	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Delete</a>
+	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="showFileMenu()">Delete</a>
 	<span id="singleFileMenuItems">
-		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Rename</a>
-		<a href="javascript:window.open(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">View Webpage</a>
+		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="showFileMenu()">Rename</a>
+		<a href="javascript:window.open(top.ICEcoder.rightClickedFile)" onMouseOver="showFileMenu()">View Webpage</a>
 	</span>
-	<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Zip It!</a>
-	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.rightClickedFile)" onMouseOver="document.getElementById('fileMenu').style.display='inline-block'">Properties</a>
+	<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="showFileMenu()">Zip It!</a>
+	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.rightClickedFile)" onMouseOver="showFileMenu()">Properties</a>
 </div>
 
 <div id="header" class="header" onContextMenu="return false">
@@ -107,15 +110,15 @@ previousFiles = [<?php
 			</div>
 		</div>
 		<div class="accountOptions">
-			<div title="Save" onClick="ICEcoder.fMIcon('save')" id="fMSave" style="width: 30px; height: 32px; opacity: 0.3"></div>
-			<div title="Open" onClick="ICEcoder.fMIcon('open')" id="fMOpen" style="width: 25px; height: 32px; background-position: -32px -3px; margin: 3px 0 0 7px; opacity: 0.3"></div>
-			<div title="New File" onClick="ICEcoder.fMIcon('newFile')" id="fMNewFile" style="width: 15px; height: 16px; background-position: -64px 0; margin: 8px 0 0 10px; opacity: 0.3"></div>
-			<div title="New Folder" onClick="ICEcoder.fMIcon('newFolder')" id="fMNewFolder" style="width: 20px; height: 16px; background-position: -80px 0; margin: 8px 0 0 5px; opacity: 0.3"></div>
-			<div title="Delete" onClick="ICEcoder.fMIcon('delete')" id="fMDelete" style="width: 16px; height: 16px; background-position: -100px 0; margin: 8px 0 0 5px; opacity: 0.3"></div>
-			<div title="Rename" onClick="ICEcoder.fMIcon('rename')" id="fMRename" style="width: 16px; height: 16px; background-position: -116px 0; margin: 8px 0 0 5px; opacity: 0.3"></div>
-			<div title="View" onClick="ICEcoder.fMIcon('view')" id="fMView" style="width: 16px; height: 16px; background-position: -132px 0; margin: 8px 0 0 5px; opacity: 0.3"></div>
+			<div title="Save" onClick="ICEcoder.fMIcon('save')" id="fMSave" class="save"></div>
+			<div title="Open" onClick="ICEcoder.fMIcon('open')" id="fMOpen" class="open"></div>
+			<div title="New File" onClick="ICEcoder.fMIcon('newFile')" id="fMNewFile" class="newFile"></div>
+			<div title="New Folder" onClick="ICEcoder.fMIcon('newFolder')" id="fMNewFolder" class="newFolder"></div>
+			<div title="Delete" onClick="ICEcoder.fMIcon('delete')" id="fMDelete" class="delete"></div>
+			<div title="Rename" onClick="ICEcoder.fMIcon('rename')" id="fMRename" class="rename"></div>
+			<div title="View" onClick="ICEcoder.fMIcon('view')" id="fMView" class="view"></div>
 
-			<div title="Lock" onClick="ICEcoder.lockUnlockNav()" id="fmLock" style="position: relative; margin-left: 208px; margin-top: -27px; width: 12px; height: 16px; background-position: -64px -16px; z-index: 1"></div>
+			<div title="Lock" onClick="ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
 		</div>
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1'"></iframe>
@@ -126,7 +129,7 @@ previousFiles = [<?php
 	<div id="tabsBar" class="tabsBar" onContextMenu="return false">
 		<?php
 		for ($i=1;$i<=10;$i++) {
-			echo '<div id="tab'.$i.'" class="tab" draggable="true" onClick="if(ICEcoder.canSwitchTabs) {ICEcoder.switchTab('.$i.')} else {ICEcoder.canSwitchTabs=true}"></div>';
+			echo '<div id="tab'.$i.'" class="tab" draggable="true" onClick="ICEcoder.canSwitchTabs ? ICEcoder.switchTab('.$i.') : ICEcoder.canSwitchTabs=true"></div>';
 		}
 		?><div class="newTab" onClick="ICEcoder.newTab()"><img src="images/nav-new.png"></div>
 	</div>
