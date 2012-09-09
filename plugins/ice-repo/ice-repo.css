@@ -36,7 +36,7 @@ textarea, input {font-family: arial, verdana, helvetica, sans-serif; padding: 4p
 
 .row {position: relative; display: inline-block; background: #ccc; color: #000; width: 880px; padding: 10px 7px; margin-bottom: 2px; cursor: pointer; padding-left: 35px}
 .row:hover {background: #888; color: #fff}
-.row .icon {display: inline-block; width: 16px; height: 16px; margin-right: 7px; background-image:url(images/file-folder-icons.png); background-repeat: no-repeat}
+.row .icon {display: inline-block; width: 16px; height: 16px; margin-right: 7px; background-image:url('../../images/file-folder-icons.png'); background-repeat: no-repeat}
 .row .checkbox {position: absolute; display: inline-block; height: 38px; width: 30px; top: -4px; left: 0px}
 .rowContent {position: relative; display: none; background: #eee; width: 100%; height: 300px; padding: 7px; margin-bottom: 10px; overflow: auto}
 .pullGithub {position: absolute; display: inline-block; top: 7px; left: 822px; padding: 5px; background: #bbb; color: #444; font-size: 10px; cursor: pointer}
@@ -48,26 +48,27 @@ textarea, input {font-family: arial, verdana, helvetica, sans-serif; padding: 4p
 .infoPane {position: fixed; width: 270px; height: 100px; left: 960px; top: 340px; padding: 20px 10px 10px 10px; z-index: 100}
 
 /* Folder */
-.ext-folder {background-position: -16px 0}
+.ext-folder {background-position: 0 0}
 
 /* Additional file types */
-.ext-coffee {background-position: -32px 0}
-.ext-css {background-position: -48px 0}
-.ext-gif {background-position: -64px 0}
-.ext-htm {background-position: -80px 0}
-.ext-html {background-position: -80px 0}
-.ext-jpg {background-position: -96px 0}
-.ext-jpeg {background-position: -96px 0}
-.ext-js {background-position: -112px 0}
-.ext-less {background-position: -128px 0}
-.ext-php {background-position: -144px 0}
-.ext-png {background-position: -160px 0}
-.ext-rb {background-position: -176px 0}
-.ext-rbx {background-position: -176px 0}
-.ext-rhtml {background-position: -176px 0}
-.ext-ruby {background-position: -176px 0}
-.ext-txt {background-position: -192px 0}
-.ext-zip {background-position: -208px 0}
+.ext-coffee {background-position: -48px 0}
+.ext-css {background-position: -64px 0}
+.ext-gif {background-position: -80px 0}
+.ext-htm {background-position: -96px 0}
+.ext-html {background-position: -96px 0}
+.ext-jpg {background-position: -112px 0}
+.ext-jpeg {background-position: -112px 0}
+.ext-js {background-position: -128px 0}
+.ext-less {background-position: -144px 0}
+.ext-php {background-position: -160px 0}
+.ext-png {background-position: -176px 0}
+.ext-rb {background-position: -192px 0}
+.ext-rbx {background-position: -192px 0}
+.ext-rhtml {background-position: -192px 0}
+.ext-ruby {background-position: -192px 0}
+.ext-txt {background-position: -208px 0}
+.ext-zip {background-position: -224px 0}
+.ext-file {background-position: -32px 0}
 
 table.diff {color: #888; border: 0; white-space: pre-wrap}
 table.diff tbody th {color:#888; font-size: 11px; font-weight: normal; padding: 2px; vertical-align:top}
