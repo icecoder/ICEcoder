@@ -4,6 +4,7 @@
 <html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor');top.ICEcoder.canResizeFilesW()}">
 <head>
 <title>ICEcoder editor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
 <!--
 codemirror-compressed.js
@@ -16,7 +17,7 @@ foldcode, searchcursor, match-highlighter
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 <link rel="stylesheet" href="<?php
-if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+$ICEcoder["theme"]=="default" ? echo 'lib/editor.css' : echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';
 $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" || $ICEcoder["theme"]=="neat" ? "#ccc" : "#000";
 ?>">
 <style type="text/css">
@@ -145,12 +146,13 @@ function createNewCMInstance(num) {
 				canDoEndTag=false;
 				}
 			}
-			if(top.ICEcoder.tagString.slice(0,1)=="/"||top.ICEcoder.tagString.slice(0,1)=="?") {
-				canDoEndTag=false;
-			}
-			if (!top.ICEcoder.codeAssist||fileName && (fileName.indexOf(".js")>0||fileName.indexOf(".css")>0||fileName.indexOf(".less")>0)) {
-				canDoEndTag=false;
-			}
+			if	(
+				top.ICEcoder.tagString.slice(0,1)=="/"||
+				top.ICEcoder.tagString.slice(0,1)=="?"||
+				!top.ICEcoder.codeAssist||
+				fileName && (fileName.indexOf(".js")>0||fileName.indexOf(".css")>0||fileName.indexOf(".less")>0)
+				) {canDoEndTag=false}
+
 			contentType = top.ICEcoder.caretLocType;
 			if (canDoEndTag && (contentType!="JavaScript"||(contentType=="JavaScript"&&top.ICEcoder.tagString=="script"))) {
 				numTabs = top.ICEcoder.htmlTagArray.length;
@@ -159,7 +161,6 @@ function createNewCMInstance(num) {
 				for (i=0;i<numTabs-1;i++) {
 					tabs += "\t";
 				}
-				//endTag = "</" + top.ICEcoder.htmlTagArray[top.ICEcoder.htmlTagArray.length-1] + ">";
 				endTag = "</" + top.ICEcoder.tagString + ">";
 				if (top.ICEcoder.tagString=="script") {endTag="</"+"script>"};
 				if(top.ICEcoder.tagString=="title"||top.ICEcoder.tagString=="a"||top.ICEcoder.tagString=="li"||top.ICEcoder.tagString=="span"||(top.ICEcoder.tagString.slice(0,1)=="h"&&parseInt(top.ICEcoder.tagString.slice(1,2),10)>=1&&parseInt(top.ICEcoder.tagString.slice(1,2),10)<=7)) {
