@@ -17,7 +17,7 @@ foldcode, searchcursor, match-highlighter
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 <link rel="stylesheet" href="<?php
-$ICEcoder["theme"]=="default" ? echo 'lib/editor.css' : echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';
+if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
 $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" || $ICEcoder["theme"]=="neat" ? "#ccc" : "#000";
 ?>">
 <style type="text/css">
