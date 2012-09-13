@@ -22,7 +22,7 @@ $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" |
 ?>">
 <style type="text/css">
 .CodeMirror {position: absolute; width: 0; background-color: #fff; color: #000; top: 0px; width: 100%; z-index: 1}
-.CodeMirror-scroll {height: 100%}
+.CodeMirror-scroll {height: auto; overflow: visible}
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
 span.CodeMirror-matchhighlight {background: #555}
