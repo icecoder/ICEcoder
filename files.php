@@ -66,7 +66,7 @@ for ($i=0;$i<count($tempArray);$i++) {
 	for ($j=$insertAt;$j<count($finalArray);$j++) {
 		if (	strcasecmp(dirname($finalArray[$j]), dirname($tempArray[$i]))==0 &&
 			strcasecmp(basename($finalArray[$j]), basename($tempArray[$i]))<0 ||
-			strstr(dirname($finalArray[$j]),dirname($tempArray[$i]))) {
+			strpos(dirname($finalArray[$j]),dirname($tempArray[$i]))===0) {
 			$insertAt++;
 		}
 	}
