@@ -52,7 +52,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 	<br><br>
 
 	file manager root:<br>
-	<?php echo $_SESSION['userLevel']==10 ? $ICEcoder['root'] : '[HIDDEN]';?>
+	<?php echo $_SESSION['loggedIn'] ? $ICEcoder['root'] : '[HIDDEN]';?>
 	<br><br><br><br>
 
 	<div style="font-size: 10px; line-height: 12px">ICE coder by Matt Pass (<a href="http://www.twitter.com/mattpass" style="font-size: 10px" target="_blank">@mattpass</a>)<br><br>
@@ -202,7 +202,7 @@ var showHideTabs = function() {
 }
 
 var validatePasswords = function() {
-	<?php if($_SESSION['userLevel']==10) { ?>
+	<?php if($_SESSION['loggedIn']) { ?>
 	if (document.settings.accountPassword.value != 0 && document.settings.accountPassword.value.length<8) {
 		top.ICEcoder.message('Please use at least 8 chars in the password');
 	} else {

@@ -31,7 +31,7 @@ if ($_GET['action']=="load") {
 				$bannedFile=true;
 			}
 		}
-		if (file_exists($file) && ($_SESSION['userLevel'] > 0 || ($_SESSION['userLevel'] == 0 && !$bannedFile))) {
+		if (file_exists($file) && ($_SESSION['loggedIn'] || (!$_SESSION['loggedIn'] && !$bannedFile))) {
 			echo '<script>fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.rightClickedFile = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 			echo '</script>';
@@ -53,7 +53,7 @@ if ($_GET['action']=="load") {
 
 // If we're due to add a new folder...
 if ($_GET['action']=="newFolder") {
-	if (is_writable($docRoot.$fileLoc) && $_SESSION['userLevel'] > 0) {
+	if (is_writable($docRoot.$fileLoc) && $_SESSION['loggedIn']) {
 		mkdir($file, 0705);
 		// Reload file manager
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');action="newFolder";</script>';
@@ -71,7 +71,7 @@ if ($_GET['action']=="newFolder") {
 
 // If we're due to rename a file/folder...
 if ($_GET['action']=="rename") {
-	if ($_SESSION['userLevel'] > 0 && is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
+	if ($_SESSION['loggedIn'] && is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
 		rename($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])),$docRoot.$fileLoc."/".$fileName);
 		// Reload file manager
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
@@ -89,7 +89,7 @@ if ($_GET['action']=="rename") {
 
 // If we're due to replace text in a file...
 if ($_GET['action']=="replaceText") {
-	if ($_SESSION['userLevel'] > 0 && is_writable(str_replace("|","/",strClean($_GET['fileRef'])))) {
+	if ($_SESSION['loggedIn'] && is_writable(str_replace("|","/",strClean($_GET['fileRef'])))) {
 		$file = str_replace("|","/",strClean($_GET['fileRef']));
 		$loadedFile = file_get_contents($file);
 		$newContent = str_replace(strClean($_GET['find']),strClean($_GET['replace']),$loadedFile);
@@ -110,7 +110,7 @@ if ($_GET['action']=="replaceText") {
 
 // If we're due to change permissions on a file/folder...
 if ($_GET['action']=="perms") {
-	if ($_SESSION['userLevel'] > 0 && is_writable($file)) {
+	if ($_SESSION['loggedIn'] && is_writable($file)) {
 		chmod($file,octdec(numClean($_GET['perms'])));
 		// Reload file manager
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
@@ -128,7 +128,7 @@ if ($_GET['action']=="perms") {
 
 // If we're due to delete a file...
 if ($_GET['action']=="delete") {
-	if ($_SESSION['userLevel'] > 0) {
+	if ($_SESSION['loggedIn']) {
 		$filesArray = split(";",$file); // May contain more than one file here
 		for ($i=0;$i<=count($filesArray)-1;$i++) {
 			if (is_writable($iceRoot.$filesArray[$i])) {
@@ -174,7 +174,7 @@ if ($_GET['action']=="save") {
 	echo '<script>action="save";</script>';
 	// on the form posting via a reload, save the file
 	if (isset($_POST['contents'])) {
-		if ($_SESSION['userLevel'] > 0) {
+		if ($_SESSION['loggedIn']) {
 			if ((file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 				if (filemtime($file)==$_GET['fileMDT']||!(isset($_GET['fileMDT']))) {
 					$fh = fopen($file, 'w') or die("Sorry, cannot save");

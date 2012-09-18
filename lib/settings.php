@@ -35,7 +35,7 @@ $ICEcoder = array(
 )+$ICEcoder;
 
 // Update this config file?
-if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
+if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) {
 	$settingsContents = file_get_contents($settingsFile);
 	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'"root"');
@@ -89,15 +89,15 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
 // Define the docRoot & iceRoot
 $docRoot = rtrim(str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']));
 $iceRoot = rtrim(str_replace("\\","/",$ICEcoder["root"]));
-if ($_SESSION['userLevel'] == 10) {
+if ($_SESSION['loggedIn']) {
 	echo "<script>top.docRoot='".$docRoot."';top.iceRoot='".$iceRoot."'</script>";
 }
 $serverType = stristr($_SERVER[SERVER_SOFTWARE], "win") ? "Windows" : "Linux";
 
 // Establish our user level
-if (!isset($_SESSION['userLevel'])) {$_SESSION['userLevel'] = 0;};
-if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {$_SESSION['userLevel'] = 10;};
-$_SESSION['userLevel'] = $_SESSION['userLevel'];
+if (!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn'] = false;};
+if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {$_SESSION['loggedIn'] = true;};
+$_SESSION['loggedIn'] = $_SESSION['loggedIn'];
 
 // Setup our file security vars
 $settingsArray = array("findFilesExclude","restrictedFiles","bannedFiles","allowedIPs");
@@ -119,7 +119,7 @@ if (!$allowedIP) {
 
 // Save the currently opened files for next time
 if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
-	if ($_SESSION['userLevel'] == 10) {
+	if ($_SESSION['loggedIn']) {
 		$settingsContents = file_get_contents($settingsFile);
 
 		// Replace our previousFiles var with the the current
@@ -161,9 +161,9 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 }
 
 // If we're updating or calling from the index.php page, do/redo plugins
-if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) || strpos($_SERVER['PHP_SELF'],"index.php")>0) {
+if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) || strpos($_SERVER['PHP_SELF'],"index.php")>0) {
 	// If we're updating, we need to recreate the plugins array
-	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
+	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) {
 		$ICEcoder["plugins"] = array();
 		$pluginsArray = explode("====================",str_replace("\"","",str_replace("\r","",str_replace("\n","",$_POST['plugins']))));
 		for ($i=0;$i<count($pluginsArray);$i++) {
@@ -179,7 +179,7 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 	};
 
 	// If we're updating, replace the plugin display with our newly established one
-	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
+	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) {
 		echo "<script>top.document.getElementById('pluginsContainer').innerHTML = '".$pluginsDisplay."';</script>";
 	}
 
@@ -192,7 +192,7 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 	};
 
 	// If we're updating our settings, clear existing setIntervals & the array refs, then start new ones
-	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) {
+	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) {
 		?>
 		<script>
 		for (i=0;i<=top.ICEcoder.pluginIntervalRefs.length-1;i++) {
@@ -205,7 +205,7 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['userLevel'] == 10) 
 	}
 
 	// Finally, show server data if we're logged in
-	if ($_SESSION['userLevel'] == 10) {
+	if ($_SESSION['loggedIn']) {
 		$onLoadExtras .= ";top.ICEcoder.content.style.visibility='visible'";
 	}
 }
@@ -257,7 +257,7 @@ if ($ICEcoder["accountPassword"] == "" && isset($_GET['settings'])) {
 			fwrite($fh, $settingsContents);
 			fclose($fh);
 			// Set the session user level
-			$_SESSION['userLevel'] = 10;
+			$_SESSION['loggedIn'] = true;
 			// Finally, load again as now this file has changed and auto login
 			header('Location: index.php');
 		} else {

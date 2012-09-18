@@ -39,7 +39,7 @@ echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($byte
 <br><br>
 <span class="column" style="width: 180px">Type: <?php echo is_dir($fileName) ? "Folder" : "File"; ?></span>
 <span class="column" style="margin: 0 10px">Readable / Writeable: <?php
-if ($_SESSION['userLevel'] == 10) {
+if ($_SESSION['loggedIn']) {
 	echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writeable($fileName) ? "Yes" : "No";
 } else {
 	echo '[HIDDEN]';
@@ -49,7 +49,7 @@ if ($_SESSION['userLevel'] == 10) {
 <span style="font-size:10px">
 <br><br>
 Absolute path:<br><?php
-echo $_SESSION['userLevel'] == 10 ? $fileName : '[HIDDEN]';
+echo $_SESSION['loggedIn'] ? $fileName : '[HIDDEN]';
 ?>
 <br><br>
 </span>
@@ -145,7 +145,7 @@ var validatePerms = function() {
 		canUpdate = false;
 	}
 	<?php
-	if ($_SESSION['userLevel'] == 10) {
+	if ($_SESSION['loggedIn']) {
 	?>
 	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace($docRoot,"",$fileName);?>',permText)};
 	<?php

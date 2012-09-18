@@ -76,7 +76,7 @@ Class zipIt {
 		}
 	}
 }
-if($_SESSION['userLevel']==10) {
+if($_SESSION['loggedIn']) {
 	$doZip = new zipIt();
 	echo '<script>top.ICEcoder.serverMessage("<b>Zipping Files</b>");</script>';
 	$addToZip = $doZip->zipFilesUp($saveLocation,$fileName,$keepLastDays,$docRoot);

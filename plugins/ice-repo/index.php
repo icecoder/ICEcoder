@@ -1,7 +1,7 @@
 <?php
 session_start();
-// $_SESSION['userLevel'] = 10;
-if ($_SESSION['userLevel'] == 0) {
+// $_SESSION['loggedIn'] = true;
+if (!$_SESSION['loggedIn']) {
 	die("Sorry, you need to be logged in to use ICErepo");
 }
 

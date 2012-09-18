@@ -35,7 +35,7 @@ span.CodeMirror-matchhighlight {background: #555}
 <body onLoad="top.ICEcoder.updateFileFolderCount()" style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
 <div style="margin: 32px 43px; font-family: arial; font-size: 10px; color: #ddd">
-<?php if($_SESSION['userLevel'] == 10) {
+<?php if($_SESSION['loggedIn']) {
 	echo '<div style="float: left; margin-right: 50px">'.PHP_EOL;
 	echo '<h2 style="color: rgba(0,198,255,0.7)">server</h2>'.PHP_EOL;
 	echo '<span style="color:#888">Server name, OS & IP:</span><br>'.PHP_EOL;

@@ -121,7 +121,7 @@ for ($i=0;$i<count($finalArray);$i++) {
 		$fileAtts = '<span style="color: #888; font-size: 8px" id="'.str_replace($docRoot,"",str_replace("/","|",$fileFolderName)).'_perms">'.$chmodInfo.'</span>';
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
-	if ($_SESSION['userLevel'] == 10 || ($_SESSION['userLevel'] < 10 && !$restrictedFile)) {
+	if ($_SESSION['loggedIn'] || (!$_SESSION['loggedIn'] && !$restrictedFile)) {
 		echo "<li class=\"".$class."\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
 	} else {
 		echo "<li class=\"".$class."\" style=\"cursor: default\"><span style=\"position: relative; left:-22px; color: #888\" onClick=\"top.ICEcoder.message('Sorry, you need higher admin level rights to view.')\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [HIDDEN]</span>";

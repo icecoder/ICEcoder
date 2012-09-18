@@ -43,7 +43,7 @@ window.onbeforeunload = function() {
 }
 
 previousFiles = [<?php
-	if ($ICEcoder["previousFiles"]!="" && $_SESSION['userLevel'] == 10) {
+	if ($ICEcoder["previousFiles"]!="" && $_SESSION['loggedIn']) {
 		$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
 		echo "'".implode("','",$openFilesArray)."'";
 	}
@@ -56,7 +56,7 @@ showFileMenu = function() {
 </head>
 
 <body onLoad="ICEcoder.init(<?php
-if ($_SESSION['userLevel'] == 10) {echo "'login'";};
+if ($_SESSION['loggedIn']) {echo "'login'";};
 echo ")".$updateMsg.$onLoadExtras;
 ?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
