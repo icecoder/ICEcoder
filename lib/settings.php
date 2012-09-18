@@ -35,7 +35,7 @@ $ICEcoder = array(
 )+$ICEcoder;
 
 // Update this config file?
-if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) {
+if ($_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
 	$settingsContents = file_get_contents($settingsFile);
 	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'"root"');
@@ -86,18 +86,18 @@ if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) {
 	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["tabsIndent"].",".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",".$ICEcoder["visibleTabs"].",".$ICEcoder["tabWidth"].",".$refreshFM.");</script>";
 }
 
-// Define the docRoot & iceRoot
+// Establish our user level
+if (!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn'] = false;};
+if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {$_SESSION['loggedIn'] = true; header('Location: ../');};
+$_SESSION['loggedIn'] = $_SESSION['loggedIn'];
+
+// Define the serverType, docRoot & iceRoot
+$serverType = stristr($_SERVER[SERVER_SOFTWARE], "win") ? "Windows" : "Linux";
 $docRoot = rtrim(str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']));
 $iceRoot = rtrim(str_replace("\\","/",$ICEcoder["root"]));
 if ($_SESSION['loggedIn']) {
 	echo "<script>top.docRoot='".$docRoot."';top.iceRoot='".$iceRoot."'</script>";
 }
-$serverType = stristr($_SERVER[SERVER_SOFTWARE], "win") ? "Windows" : "Linux";
-
-// Establish our user level
-if (!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn'] = false;};
-if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {$_SESSION['loggedIn'] = true;};
-$_SESSION['loggedIn'] = $_SESSION['loggedIn'];
 
 // Setup our file security vars
 $settingsArray = array("findFilesExclude","restrictedFiles","bannedFiles","allowedIPs");
@@ -118,41 +118,39 @@ if (!$allowedIP) {
 };
 
 // Save the currently opened files for next time
-if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
-	if ($_SESSION['loggedIn']) {
-		$settingsContents = file_get_contents($settingsFile);
+if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
+	$settingsContents = file_get_contents($settingsFile);
 
-		// Replace our previousFiles var with the the current
-		$repPosStart = strpos($settingsContents,'previousFiles"		=> "')+20;
-		$repPosEnd = strpos($settingsContents,'",',$repPosStart)-$repPosStart;
-		if ($_GET['saveFiles']!="CLEAR") {
-			$saveFiles=strClean($_GET['saveFiles']);
-			$saveFilesArray = explode(",",$saveFiles);
-			$saveFiles="";
-			for ($i=0;$i<count($saveFilesArray);$i++) {
-				$saveFilesArray[$i] = str_replace("/","|",$docRoot).$saveFilesArray[$i];
-				$saveFiles .= $saveFilesArray[$i].",";
-			}
-			$saveFiles = rtrim($saveFiles,",");
-			$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
-			// Now update the config file
-			$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile);
-			fwrite($fh, $settingsContents);
+	// Replace our previousFiles var with the the current
+	$repPosStart = strpos($settingsContents,'previousFiles"		=> "')+20;
+	$repPosEnd = strpos($settingsContents,'",',$repPosStart)-$repPosStart;
+	if ($_GET['saveFiles']!="CLEAR") {
+		$saveFiles=strClean($_GET['saveFiles']);
+		$saveFilesArray = explode(",",$saveFiles);
+		$saveFiles="";
+		for ($i=0;$i<count($saveFilesArray);$i++) {
+			$saveFilesArray[$i] = str_replace("/","|",$docRoot).$saveFilesArray[$i];
+			$saveFiles .= $saveFilesArray[$i].",";
+		}
+		$saveFiles = rtrim($saveFiles,",");
+		$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
+		// Now update the config file
+		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile);
+		fwrite($fh, $settingsContents);
 
-			// Update our last10Files var?
-			$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
-			for ($i=0;$i<count($saveFilesArray);$i++) {
-				$inLast10Files = in_array($saveFilesArray[$i],$last10FilesArray);
-				if (!$inLast10Files && $saveFilesArray[$i] !="") {
-					$repPosStart = strpos($settingsContents,'last10Files"		=> "')+18;
-					$repPosEnd = strpos($settingsContents,'"',$repPosStart)-$repPosStart;
-					$commaExtra = $ICEcoder["last10Files"]!="" ? "," : "";
-					if (count($last10FilesArray)>=10) {$ICEcoder["last10Files"]=substr($ICEcoder["last10Files"],0,strrpos($ICEcoder["last10Files"],','));};
-					$settingsContents = substr($settingsContents,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$ICEcoder["last10Files"].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
-					// Now update the config file
-					$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile);
-					fwrite($fh, $settingsContents);
-				}
+		// Update our last10Files var?
+		$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
+		for ($i=0;$i<count($saveFilesArray);$i++) {
+			$inLast10Files = in_array($saveFilesArray[$i],$last10FilesArray);
+			if (!$inLast10Files && $saveFilesArray[$i] !="") {
+				$repPosStart = strpos($settingsContents,'last10Files"		=> "')+18;
+				$repPosEnd = strpos($settingsContents,'"',$repPosStart)-$repPosStart;
+				$commaExtra = $ICEcoder["last10Files"]!="" ? "," : "";
+				if (count($last10FilesArray)>=10) {$ICEcoder["last10Files"]=substr($ICEcoder["last10Files"],0,strrpos($ICEcoder["last10Files"],','));};
+				$settingsContents = substr($settingsContents,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$ICEcoder["last10Files"].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
+				// Now update the config file
+				$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile);
+				fwrite($fh, $settingsContents);
 			}
 		}
 		fclose($fh);
@@ -160,10 +158,10 @@ if (isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
 
-// If we're updating or calling from the index.php page, do/redo plugins
-if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) || strpos($_SERVER['PHP_SELF'],"index.php")>0) {
+// If we're updating, do/redo plugins
+if ($_SESSION['loggedIn']) {
 	// If we're updating, we need to recreate the plugins array
-	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) {
+	if (isset($_POST["theme"]) && $_POST["theme"]) {
 		$ICEcoder["plugins"] = array();
 		$pluginsArray = explode("====================",str_replace("\"","",str_replace("\r","",str_replace("\n","",$_POST['plugins']))));
 		for ($i=0;$i<count($pluginsArray);$i++) {
@@ -179,9 +177,7 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) || strp
 	};
 
 	// If we're updating, replace the plugin display with our newly established one
-	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) {
-		echo "<script>top.document.getElementById('pluginsContainer').innerHTML = '".$pluginsDisplay."';</script>";
-	}
+	echo "<script>top.document.getElementById('pluginsContainer').innerHTML = '".$pluginsDisplay."';</script>";
 
 	// Work out what plugins we'll need to set on a setInterval
 	$onLoadExtras = "";
@@ -192,7 +188,7 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) || strp
 	};
 
 	// If we're updating our settings, clear existing setIntervals & the array refs, then start new ones
-	if (isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) {
+	if (isset($_POST["theme"]) && $_POST["theme"]) {
 		?>
 		<script>
 		for (i=0;i<=top.ICEcoder.pluginIntervalRefs.length-1;i++) {
@@ -204,14 +200,28 @@ if ((isset($_POST["theme"]) && $_POST["theme"] && $_SESSION['loggedIn']) || strp
 		<?php
 	}
 
-	// Finally, show server data if we're logged in
-	if ($_SESSION['loggedIn']) {
-		$onLoadExtras .= ";top.ICEcoder.content.style.visibility='visible'";
-	}
+	// Finally, show server data
+	$onLoadExtras .= ";top.ICEcoder.content.style.visibility='visible'";
 }
 
 // If we're due to show the settings screen
-if ($ICEcoder["accountPassword"] == "" && isset($_GET['settings'])) {
+if (!$_SESSION['loggedIn']) {
+	// If the password hasn't been set and we're setting it
+	if ($ICEcoder["accountPassword"] == "" && isset($_POST['accountPassword'])) {
+		$password = generateHash(strClean($_POST['accountPassword']));
+		$settingsFile = $settingsFile;
+		$settingsContents = file_get_contents($settingsFile);
+		// Replace our empty password with the one submitted by user
+		$settingsContents = str_replace('"accountPassword"	=> "",','"accountPassword"	=> "'.$password.'",',$settingsContents);
+		// Now update the config file
+		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile);
+		fwrite($fh, $settingsContents);
+		fclose($fh);
+		// Set the session user level
+		$_SESSION['loggedIn'] = true;
+		// Finally, load again as now this file has changed and auto login
+		header('Location: ../');
+	}
 ?>
 	<!DOCTYPE html>
 
@@ -221,16 +231,16 @@ if ($ICEcoder["accountPassword"] == "" && isset($_GET['settings'])) {
 	<link rel="stylesheet" type="text/css" href="coder.css">
 	</head>
 
-	<body onLoad="document.settingsUpdate.accountPassword.focus()">
+	<body onLoad="document.settingsUpdate.<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password.focus()">
 	
 	<div class="screenContainer" style="background-color: #141414">
 		<div class="screenVCenter">
 			<div class="screenCenter">
 			<img src="../images/ice-coder.png">
 			<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
-			<form name="settingsUpdate" action="../" method="POST">
-			<input type="password" name="accountPassword" class="accountPassword">
-			<input type="submit" name="submit" value="Set Password" class="button">
+			<form name="settingsUpdate" action="settings.php" method="POST">
+			<input type="password" name="<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password" class="accountPassword">
+			<input type="submit" name="submit" value="<?php echo $ICEcoder["accountPassword"] == "" ? "Set Password" : "Login"; ?>" class="button">
 			</form>
 			</div>
 		</div>
@@ -240,51 +250,9 @@ if ($ICEcoder["accountPassword"] == "" && isset($_GET['settings'])) {
 
 	</html>
 <?php
-} else {
-	// If the password hasn't been set, set it, but only if we're including
-	// from the index.php file (as this file is included from multiple places)
-	if ($ICEcoder["accountPassword"] == "" && strpos($_SERVER['PHP_SELF'],"index.php")>0) {
-		// If we're setting a password
+}
 
-		if (isset($_POST['accountPassword'])) {
-			$password = generateHash(strClean($_POST['accountPassword']));
-			$settingsFile = 'lib/'.$settingsFile;
-			$settingsContents = file_get_contents($settingsFile);
-			// Replace our empty password with the one submitted by user
-			$settingsContents = str_replace('"accountPassword"	=> "",','"accountPassword"	=> "'.$password.'",',$settingsContents);
-			// Now update the config file
-			$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile);
-			fwrite($fh, $settingsContents);
-			fclose($fh);
-			// Set the session user level
-			$_SESSION['loggedIn'] = true;
-			// Finally, load again as now this file has changed and auto login
-			header('Location: index.php');
-		} else {
-			// We need to set the password
-			header('Location: lib/settings.php?settings=set');
-		}
-	}
-
-	// If we're logging in, refresh the file manager and show icons if login is correct
-	if(isset($_POST['loginPassword'])) {
-		if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {
-			$loginAttempt = 'loginOK';
-			if ($ICEcoder["previousFiles"]!="") {
-				$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
-				echo '<script>';
-				echo 'top.previousFiles = [';
-				for ($i=0;$i<count($openFilesArray);$i++) {
-					echo "'".$openFilesArray[$i]."'";
-					if ($i<count($openFilesArray)-1) {echo ",";};
-				}
-				echo '];';
-				echo '</script>';
-			}
-		} else {
-			$loginAttempt = 'loginFailed';
-		}
-		echo "<script>top.ICEcoder.refreshFileManager('".$loginAttempt."');</script>";
-	}
+if ((!$_SESSION['loggedIn'] || $ICEcoder["accountPassword"] == "") && !strpos($_SERVER['SCRIPT_NAME'],"lib/settings.php")) {
+	header('Location: lib/settings.php');
 }
 ?>
