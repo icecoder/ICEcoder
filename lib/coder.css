@@ -121,7 +121,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findBar .codeAssist input {margin-top: -1px}
 .findBar .goLine {position: fixed; display: inline-block; width: 100px; right: -10px; top: 70px; height: 21px; font-size: 10px; z-index: 1}
 .goLine .goToLine {width: 25px; height: 16px; border: 0; font-size: 10px; margin: -3px 0 0 3px}
-.editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px; visibility: hidden}
+.editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px}
 
 .footer {position: fixed; display: inline-block; width: 100%; height: 30px; bottom: 0; background-color: rgba(0,0,0,0.7); left: 0; z-index: 2}
 .footer .nesting {display: inline-block; padding: 5px 8px; margin: 4px 0 0 15px; font-weight: bold; font-size: 10px; color: #fff; background-color: #0b0}
