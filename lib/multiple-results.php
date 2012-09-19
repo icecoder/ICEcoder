@@ -101,15 +101,11 @@ if (startTab!=top.ICEcoder.selectedTab) {
 			if(is_dir($fullPath)) {
 				$ret .= phpGrep($q, $fullPath, $base);
 			} else if(stristr(file_get_contents($fullPath), $q)) {
-				$rFile = false;
 				$bFile = false;
-				for ($i=0;$i<count($ICEcoder["restrictedFiles"]);$i++) {
-					if (strpos($f,$ICEcoder['restrictedFiles'][$i])>0) {$rFile = true;};
-				}
 				for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
 					if (strpos($f,$ICEcoder['bannedFiles'][$i])>0) {$bFile = true;};
 				}
-				if (!$rFile && !$bFile) {
+				if (!$bFile) {
 					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))\\\">";
 					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">Found ".substr_count(strtolower(file_get_contents($fullPath)),$q)." times</div>";
 					if (isset($_GET['replace'])) {

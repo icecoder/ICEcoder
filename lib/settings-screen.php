@@ -98,8 +98,6 @@ new password <span style="font-size: 10px; color: #888">8 chars</span><br>
 confirm password<br>
 <input type="password" name="confirmPassword" onkeydown="showButton()"><br>
 <br>
-restricted files/folders<br>
-<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="restrictedFiles" value="<?php for($i=0;$i<=count($ICEcoder["restrictedFiles"])-1;$i++) {echo $ICEcoder["restrictedFiles"][$i]; if ($i<count($ICEcoder["restrictedFiles"])-1) {echo ', ';};}; ?>"><br>
 banned files/folders<br>
 <input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" value="<?php for($i=0;$i<=count($ICEcoder["bannedFiles"])-1;$i++) {echo $ICEcoder["bannedFiles"][$i]; if ($i<count($ICEcoder["bannedFiles"])-1) {echo ', ';};}; ?>"><br>
 <input type="hidden" name="changedFileSettings" value="false">

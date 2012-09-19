@@ -25,12 +25,6 @@ if ($_GET['action']=="load") {
 	if (strpos($fileName,".jpg")>0||strpos($fileName,".jpeg")>0||strpos($fileName,".gif")>0||strpos($fileName,".png")>0) {$fileType="image";};
 
 	if ($fileType=="text") {
-		$bannedFile=false;
-		for ($i=0;$i<count($ICEcoder["restrictedFiles"]);$i++) {
-			if (strpos($fileName,$ICEcoder["restrictedFiles"][$i])!="") {
-				$bannedFile=true;
-			}
-		}
 		if (file_exists($file)) {
 			echo '<script>fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.rightClickedFile = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';

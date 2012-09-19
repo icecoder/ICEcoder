@@ -12,7 +12,6 @@
 <div title="Refresh" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
 
 <?php
-$ICEcoder["restrictedFiles"] = $_SESSION['restrictedFiles'];
 $ICEcoder["bannedFiles"] = $_SESSION['bannedFiles'];
 
 // Function to sort given values alphabetically
@@ -108,12 +107,6 @@ for ($i=0;$i<count($finalArray);$i++) {
 	if ($thisDepth < $lastDepth) {
 		for ($j=$lastDepth;$j>$thisDepth;$j--) {
 			echo "</ul>\n";
-		}
-	}
-	$restrictedFile=false;
-	for ($j=0;$j<count($ICEcoder["restrictedFiles"]);$j++) {
-		if (strpos($fileFolderName,$ICEcoder["restrictedFiles"][$j])!="") {
-			$restrictedFile=true;
 		}
 	}
 	if ($serverType=="Linux") {

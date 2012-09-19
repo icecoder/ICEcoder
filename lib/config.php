@@ -9,7 +9,6 @@ $ICEcoder = array(
 "visibleTabs"		=> false,
 "lockedNav"		=> true,
 "accountPassword"	=> "",
-"restrictedFiles"	=> array("wp-",".php",".rb",".sql",".zip"),
 "bannedFiles"		=> array("_coder","ICEcoder"),
 "allowedIPs"		=> array("*"),
 "plugins"		=> array(

@@ -51,14 +51,13 @@ if ($_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
 	$ICEcoder["visibleTabs"]		= $_POST['visibleTabs'] ? "true" : "false";
 	$ICEcoder["lockedNav"]			= $_POST['lockedNav'] ? "true" : "false";
 	if ($_POST['accountPassword']!="")	{$ICEcoder["accountPassword"] = generateHash(strClean($_POST['accountPassword']));};
-	$ICEcoder["restrictedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['restrictedFiles']))).'")';
 	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
 	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
 	$ICEcoder["plugins"]			= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
 	$ICEcoder["theme"]			= strClean($_POST['theme']);
 	$ICEcoder["tabWidth"]			= numClean($_POST['tabWidth']);
 
-	$settingsArray = array("root","tabsIndent","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","accountPassword","restrictedFiles","bannedFiles","allowedIPs","plugins","theme","tabWidth");
+	$settingsArray = array("root","tabsIndent","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","accountPassword","bannedFiles","allowedIPs","plugins","theme","tabWidth");
 	$settingsNew = "";
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"'.PHP_EOL.'	=> ';
@@ -74,7 +73,7 @@ if ($_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
 	fclose($fh);
 
 	// OK, now the config file has been updated, update our current session with new arrays
-	$settingsArray = array("findFilesExclude","restrictedFiles","bannedFiles","allowedIPs");
+	$settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]] = explode(",",str_replace(" ","",strClean($_POST[$settingsArray[$i]])));
 	}
@@ -100,7 +99,7 @@ if ($_SESSION['loggedIn']) {
 }
 
 // Setup our file security vars
-$settingsArray = array("findFilesExclude","restrictedFiles","bannedFiles","allowedIPs");
+$settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
 for ($i=0;$i<count($settingsArray);$i++) {
 	if (!isset($_SESSION[$settingsArray[$i]])) {$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]];}
 }
@@ -177,7 +176,7 @@ if ($_SESSION['loggedIn']) {
 	};
 
 	// If we're updating, replace the plugin display with our newly established one
-	echo "<script>top.document.getElementById('pluginsContainer').innerHTML = '".$pluginsDisplay."';</script>";
+	echo "<script>if(top.document.getElementById('pluginsContainer')) {top.document.getElementById('pluginsContainer').innerHTML = '".$pluginsDisplay."'};</script>";
 
 	// Work out what plugins we'll need to set on a setInterval
 	$onLoadExtras = "";
@@ -227,7 +226,10 @@ if (!$_SESSION['loggedIn']) {
 
 	<html>
 	<head>
-	<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> setup</title>
+	<title>ICEcoder <?php
+echo $ICEcoder["versionNo"]." : ";
+echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
+?></title>
 	<link rel="stylesheet" type="text/css" href="coder.css">
 	</head>
 
