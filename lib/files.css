@@ -51,21 +51,12 @@ body {margin: 0; overflow: auto}
 .fileManager LI.ext-coffee:before {background-position: -48px 0}
 .fileManager LI.ext-css:before {background-position: -64px 0}
 .fileManager LI.ext-gif:before {background-position: -80px 0}
-.fileManager LI.ext-htm:before {background-position: -96px 0}
-.fileManager LI.ext-html:before {background-position: -96px 0}
-.fileManager LI.ext-jpg:before {background-position: -112px 0}
-.fileManager LI.ext-jpeg:before {background-position: -112px 0}
+.fileManager LI.ext-htm:before, .fileManager LI.ext-html:before {background-position: -96px 0}
+.fileManager LI.ext-jpg:before, .fileManager LI.ext-jpeg:before {background-position: -112px 0}
 .fileManager LI.ext-js:before {background-position: -128px 0}
-/*.fileManager LI.ext-pdf:before {background-position: -???px 0} */
 .fileManager LI.ext-less:before {background-position: -144px 0}
 .fileManager LI.ext-php:before {background-position: -160px 0}
 .fileManager LI.ext-png:before {background-position: -176px 0}
-.fileManager LI.ext-rb:before {background-position: -192px 0}
-.fileManager LI.ext-rbx:before {background-position: -192px 0}
-.fileManager LI.ext-rhtml:before {background-position: -192px 0}
-.fileManager LI.ext-ruby:before {background-position: -192px 0}
-/*.fileManager LI.ext-sql:before {background-position: -???px 0} */
-/*.fileManager LI.ext-swf:before {background-position: -???px 0} */
+.fileManager LI.ext-rb:before, .fileManager LI.ext-ruby:before {background-position: -192px 0}
 .fileManager LI.ext-txt:before {background-position: -208px 0}
-/*.fileManager LI.ext-xml:before {background-position: -???px 0} */
 .fileManager LI.ext-zip:before {background-position: -224px 0}
