@@ -3,17 +3,16 @@
 
 <html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'files');top.ICEcoder.canResizeFilesW()}" onContextMenu="top.ICEcoder.rightClickedFile=top.ICEcoder.thisFileFolderLink; return top.ICEcoder.showMenu()" onClick="top.ICEcoder.selectFileFolder()">
 <head>
-<title>ICEcoder file manager</title>
+<title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> file manager</title>
 <link rel="stylesheet" type="text/css" href="lib/files.css">
 <script src="lib/coder.js" type="text/javascript"></script>
 </head>
 
 <body onLoad="top.ICEcoder.fileManager()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+
 <div title="Refresh" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
 
 <?php
-$ICEcoder["bannedFiles"] = $_SESSION['bannedFiles'];
-
 // Function to sort given values alphabetically
 function alphasort($a, $b) {
 	return strcasecmp($a->getPathname(), $b->getPathname());
@@ -42,11 +41,13 @@ $finalArray = $tempArray =  array();
 foreach ($objectList as $objectRef) {
 	$fileFolderName = substr($objectRef->getPathname(), strlen($docRoot.$iceRoot));
 	$canAdd = true;
-	for ($i=0;$i<count($ICEcoder["bannedFiles"]);$i++) {
-		if(strpos($fileFolderName,$ICEcoder["bannedFiles"][$i])!==false) {$canAdd = false;}
+	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
+		if(strpos($fileFolderName,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
 	}
 	if ($objectRef->getFilename()!="." && $objectRef->getFilename()!=".." && $fileFolderName[strlen($fileFolderName)-1]!="/" && $canAdd) {
-		$fileFolderName!="/" && is_dir($docRoot.$iceRoot.$fileFolderName) ? array_push($finalArray,$fileFolderName) : array_push($tempArray,$fileFolderName);
+		$fileFolderName!="/" && is_dir($docRoot.$iceRoot.$fileFolderName)
+		? array_push($finalArray,$fileFolderName)
+		: array_push($tempArray,$fileFolderName);
 	}
 }
 
@@ -78,16 +79,18 @@ if ($serverType=="Linux") {
 	$chmodInfo = substr(sprintf('%o', fileperms($docRoot.$iceRoot)), -3);
 	$fileAtts = '<span style="color: #888; font-size: 8px" id="|_perms">'.$chmodInfo.'</span>';
 }
-echo "<ul class=\"fileManager\">\n";
-echo "<li class=\"pft-directory\">";
-echo "<a nohref title=\"/\" onMouseOver=\"top.ICEcoder.overFileFolder('folder','/')\" onMouseOut=\"top.ICEcoder.overFileFolder('folder','')\" style=\"position: relative; left:-22px\">";
-echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ";
-echo "<span id=\"|\">/ ";
-echo $iceRoot == "" ? "[ROOT]" : trim($iceRoot,"/");
-echo "</span> ";
-echo $fileAtts;
-echo "</a>";
-echo "</li>\n";
+?>
+<ul class="fileManager">
+<li class="pft-directory">
+<a nohref title="/" onMouseOver="top.ICEcoder.overFileFolder('folder','/')" onMouseOut="top.ICEcoder.overFileFolder('folder','')" style="position: relative; left:-22px">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<span id="|">/ 
+<?php echo $iceRoot == "" ? "[ROOT]" : trim($iceRoot,"/");?>
+</span> 
+<?php echo $fileAtts;?>
+</a>
+</li>
+<?php
 $lastPath="";
 $fileCount=0;
 $fileBytes=0;
@@ -120,15 +123,14 @@ for ($i=0;$i<count($finalArray);$i++) {
 }
 echo "</ul>\n</ul>\n";
 
-	echo "<script>\n";
-	$varOutput = "top.ICEcoder.dirCount=";
-	$varOutput .= $dirCount ? $dirCount : "0";
-	$varOutput .= ";\ntop.ICEcoder.fileCount=";
-	$varOutput .= $fileCount ? $fileCount : "0";
-	$varOutput .= ";\ntop.ICEcoder.fileBytes=";
-	$varOutput .= $fileBytes ? $fileBytes : "0";
 	// Output the JS vars
-	echo $varOutput;
+	echo "<script>\n";
+	echo "top.ICEcoder.dirCount=";
+	echo $dirCount ? $dirCount : "0";
+	echo ";\ntop.ICEcoder.fileCount=";
+	echo $fileCount ? $fileCount : "0";
+	echo ";\ntop.ICEcoder.fileBytes=";
+	echo $fileBytes ? $fileBytes : "0";
 	echo ";\n</script>";
 ?>
 
