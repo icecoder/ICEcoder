@@ -98,14 +98,6 @@ showFileMenu = function() {
 
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.document.getElementById('fileMenu').style.display='none';">
 	<div class="account" id="account">
-		<div class="accountLoginContainer" id="accountLoginContainer">
-			<div class="accountLogin" id="accountLogin">
-				<form name="login" action="lib/settings.php" method="POST" target="ff">
-				<input type="password" name="loginPassword" class="accountPassword">
-				<input type="submit" name="submit" value="Login" class="button">
-				</form>
-			</div>
-		</div>
 		<div class="accountOptions">
 			<div title="Save" onClick="ICEcoder.fMIcon('save')" id="fMSave" class="save"></div>
 			<div title="Open" onClick="ICEcoder.fMIcon('open')" id="fMOpen" class="open"></div>
