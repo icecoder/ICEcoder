@@ -134,7 +134,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 		$saveFiles = rtrim($saveFiles,",");
 		$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 		// Now update the config file
-		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile);
+		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile." and press refresh");
 		fwrite($fh, $settingsContents);
 
 		// Update our last10Files var?
@@ -148,7 +148,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 				if (count($last10FilesArray)>=10) {$ICEcoder["last10Files"]=substr($ICEcoder["last10Files"],0,strrpos($ICEcoder["last10Files"],','));};
 				$settingsContents = substr($settingsContents,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$ICEcoder["last10Files"].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 				// Now update the config file
-				$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile);
+				$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile." and press refresh");
 				fwrite($fh, $settingsContents);
 			}
 		}
@@ -198,9 +198,6 @@ if ($_SESSION['loggedIn']) {
 		</script>
 		<?php
 	}
-
-	// Finally, show server data
-	$onLoadExtras .= ";top.ICEcoder.content.style.visibility='visible'";
 }
 
 // If we're due to show the settings screen
@@ -213,7 +210,7 @@ if (!$_SESSION['loggedIn']) {
 		// Replace our empty password with the one submitted by user
 		$settingsContents = str_replace('"accountPassword"	=> "",','"accountPassword"	=> "'.$password.'",',$settingsContents);
 		// Now update the config file
-		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile);
+		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 		// Set the session user level
@@ -222,35 +219,35 @@ if (!$_SESSION['loggedIn']) {
 		header('Location: ../');
 	}
 ?>
-	<!DOCTYPE html>
+<!DOCTYPE html>
 
-	<html>
-	<head>
-	<title>ICEcoder <?php
+<html>
+<head>
+<title>ICEcoder <?php
 echo $ICEcoder["versionNo"]." : ";
 echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 ?></title>
-	<link rel="stylesheet" type="text/css" href="coder.css">
-	</head>
+<link rel="stylesheet" type="text/css" href="coder.css">
+</head>
 
-	<body onLoad="document.settingsUpdate.<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password.focus()">
+<body onLoad="document.settingsUpdate.<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password.focus()">
 	
-	<div class="screenContainer" style="background-color: #141414">
-		<div class="screenVCenter">
-			<div class="screenCenter">
-			<img src="../images/ice-coder.png">
-			<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
-			<form name="settingsUpdate" action="settings.php" method="POST">
-			<input type="password" name="<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password" class="accountPassword">
-			<input type="submit" name="submit" value="<?php echo $ICEcoder["accountPassword"] == "" ? "Set Password" : "Login"; ?>" class="button">
-			</form>
-			</div>
+<div class="screenContainer" style="background-color: #141414">
+	<div class="screenVCenter">
+		<div class="screenCenter">
+		<img src="../images/ice-coder.png">
+		<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
+		<form name="settingsUpdate" action="settings.php" method="POST">
+		<input type="password" name="<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password" class="accountPassword">
+		<input type="submit" name="submit" value="<?php echo $ICEcoder["accountPassword"] == "" ? "Set Password" : "Login"; ?>" class="button">
+		</form>
 		</div>
 	</div>
+</div>
 
-	</body>
+</body>
 
-	</html>
+</html>
 <?php
 }
 
