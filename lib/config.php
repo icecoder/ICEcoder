@@ -10,7 +10,7 @@ $ICEcoder = array(
 "lockedNav"		=> true,
 "accountPassword"	=> "",
 "restrictedFiles"	=> array("wp-",".php",".rb",".sql",".zip"),
-"bannedFiles"		=> array("_coder","wp-",".exe"),
+"bannedFiles"		=> array("_coder","ICEcoder"),
 "allowedIPs"		=> array("*"),
 "plugins"		=> array(
 			array("Adminer","plugins/adminer/icon.png","margin-top: 3px","plugins/adminer/adminer-3.4.0-mysql-en.php","_blank",""),
