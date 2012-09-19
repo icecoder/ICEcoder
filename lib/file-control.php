@@ -31,18 +31,15 @@ if ($_GET['action']=="load") {
 				$bannedFile=true;
 			}
 		}
-		if (file_exists($file) && ($_SESSION['loggedIn'] || (!$_SESSION['loggedIn'] && !$bannedFile))) {
+		if (file_exists($file)) {
 			echo '<script>fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.rightClickedFile = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 			echo '</script>';
 			$loadedFile = file_get_contents($file);
 			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
-		} else if (!file_exists($file)) {
-			echo '<script>fileType="nothing";</script>';
-			echo '<script>top.ICEcoder.message(\'Sorry, '.$fileLoc."/".$fileName.' doesn\\\'t seem to exist on the server\');</script>';
 		} else {
 			echo '<script>fileType="nothing";</script>';
-			echo '<script>top.ICEcoder.message(\'Sorry, you need a higher admin level to view this file\');</script>';
+			echo '<script>top.ICEcoder.message(\'Sorry, '.$fileLoc."/".$fileName.' doesn\\\'t seem to exist on the server\');</script>';
 		}
 	};
 
@@ -53,35 +50,25 @@ if ($_GET['action']=="load") {
 
 // If we're due to add a new folder...
 if ($_GET['action']=="newFolder") {
-	if (is_writable($docRoot.$fileLoc) && $_SESSION['loggedIn']) {
+	if (is_writable($docRoot.$fileLoc)) {
 		mkdir($file, 0705);
 		// Reload file manager
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');action="newFolder";</script>';
 	} else {
-		echo "<script>top.ICEcoder.message('";
-		if (!is_writable($docRoot.$fileLoc)) {
-			echo "Sorry, cannot create folder at\\n".$fileLoc;
-		} else {
-			echo "Sorry, you need to be logged in to add folders";
-		}
-		echo "');action='nothing';</script>";
+		echo "<script>top.ICEcoder.message('Sorry, cannot create folder at\\n".$fileLoc."');action='nothing';</script>";
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
 
 // If we're due to rename a file/folder...
 if ($_GET['action']=="rename") {
-	if ($_SESSION['loggedIn'] && is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
+	if (is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
 		rename($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])),$docRoot.$fileLoc."/".$fileName);
 		// Reload file manager
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
 		echo 'action="rename";</script>';
 	} else {
-		if (!is_writable($_GET['oldFileName'])) {
-			echo "<script>top.ICEcoder.message('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."');</script>";
-		} else {
-			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to rename\');</script>';
-		}
+		echo "<script>top.ICEcoder.message('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."');</script>";
 		echo '<script>action="nothing";</script>';
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
@@ -89,7 +76,7 @@ if ($_GET['action']=="rename") {
 
 // If we're due to replace text in a file...
 if ($_GET['action']=="replaceText") {
-	if ($_SESSION['loggedIn'] && is_writable(str_replace("|","/",strClean($_GET['fileRef'])))) {
+	if (is_writable(str_replace("|","/",strClean($_GET['fileRef'])))) {
 		$file = str_replace("|","/",strClean($_GET['fileRef']));
 		$loadedFile = file_get_contents($file);
 		$newContent = str_replace(strClean($_GET['find']),strClean($_GET['replace']),$loadedFile);
@@ -98,11 +85,7 @@ if ($_GET['action']=="replaceText") {
 		fclose($fh);
 		echo '<script>action="replaceText";</script>';
 	} else {
-		if (!is_writable(str_replace("|","/",strClean($_GET['fileRef'])))) {
-			echo "<script>top.ICEcoder.message('Sorry, cannot replace text in\\n".strClean($_GET['fileRef'])."');</script>";
-		} else {
-			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to rename\');</script>';
-		}
+		echo "<script>top.ICEcoder.message('Sorry, cannot replace text in\\n".strClean($_GET['fileRef'])."');</script>";
 		echo '<script>action="nothing";</script>';
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
@@ -110,17 +93,13 @@ if ($_GET['action']=="replaceText") {
 
 // If we're due to change permissions on a file/folder...
 if ($_GET['action']=="perms") {
-	if ($_SESSION['loggedIn'] && is_writable($file)) {
+	if (is_writable($file)) {
 		chmod($file,octdec(numClean($_GET['perms'])));
 		// Reload file manager
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
 		echo 'action="perms";</script>';
 	} else {
-		if (!is_writable($file)) {
-			echo "<script>top.ICEcoder.message('Sorry, cannot change permissions on \\n".strClean($file)."');</script>";
-		} else {
-			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to change permissions\');</script>';
-		}
+		echo "<script>top.ICEcoder.message('Sorry, cannot change permissions on \\n".strClean($file)."');</script>";
 		echo '<script>action="nothing";</script>';
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
@@ -128,28 +107,19 @@ if ($_GET['action']=="perms") {
 
 // If we're due to delete a file...
 if ($_GET['action']=="delete") {
-	if ($_SESSION['loggedIn']) {
-		$filesArray = split(";",$file); // May contain more than one file here
-		for ($i=0;$i<=count($filesArray)-1;$i++) {
-			if (is_writable($iceRoot.$filesArray[$i])) {
-				if (is_dir($iceRoot.$filesArray[$i])) { 
-					rrmdir($iceRoot.$filesArray[$i]);
-				} else {
-					unlink($iceRoot.$filesArray[$i]);
-				}
-				// Reload file manager
-				echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
-				echo 'action="delete";</script>';
+	$filesArray = split(";",$file); // May contain more than one file here
+	for ($i=0;$i<=count($filesArray)-1;$i++) {
+		if (is_writable($iceRoot.$filesArray[$i])) {
+			if (is_dir($iceRoot.$filesArray[$i])) { 
+				rrmdir($iceRoot.$filesArray[$i]);
 			} else {
-				echo "<script>top.ICEcoder.message('Sorry can\\'t delete\\n".$filesArray[$i]."');</script>";
+				unlink($iceRoot.$filesArray[$i]);
 			}
-			echo '<script>action="nothing";</script>';
-		}
-	} else {
-		if (!is_writable($iceRoot.$filesArray[$i])) {
-			echo "<script>top.ICEcoder.message('Sorry, cannot delete\\n".$iceRoot.$filesArray[$i]."');</script>";
+			// Reload file manager
+			echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
+			echo 'action="delete";</script>';
 		} else {
-			echo '<script>top.ICEcoder.message(\'Sorry, you need to be logged in to delete\');</script>';
+			echo "<script>top.ICEcoder.message('Sorry can\\'t delete\\n".$filesArray[$i]."');</script>";
 		}
 		echo '<script>action="nothing";</script>';
 	}
@@ -174,54 +144,50 @@ if ($_GET['action']=="save") {
 	echo '<script>action="save";</script>';
 	// on the form posting via a reload, save the file
 	if (isset($_POST['contents'])) {
-		if ($_SESSION['loggedIn']) {
-			if ((file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && $_POST['newFileName']!="") {
-				if (filemtime($file)==$_GET['fileMDT']||!(isset($_GET['fileMDT']))) {
-					$fh = fopen($file, 'w') or die("Sorry, cannot save");
-					fwrite($fh, $_POST['contents']);
-					fclose($fh);
-					clearstatcache();
-					echo '<script>top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.filemtime($file).'";</script>';
-					// Reload file manager & rename tab if it was a new file
-					if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
-						echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');</script>';
-						echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$fileLoc."/".$fileName.'\');</script>';
-					}
-					// Reload stickytab window
-					echo '<script>if (top.ICEcoder.stickyTabWindow.location) {top.ICEcoder.stickyTabWindow.location.reload()};action="doneSave";</script>';
-				} else {
-					$loadedFile = file_get_contents($file);
-					echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
-					echo '<textarea name="userVersionFile" id="userVersionFile"></textarea>';
-					?>
-					<script>
-					var refreshFile = top.ICEcoder.ask('Sorry, this file has changed, cannot save\n<?php echo $file;?>\n\nReload this file and copy your version to a new document?');
-					if (refreshFile) {
-						var cM = top.ICEcoder.getcMInstance();
-						var thisTab = top.ICEcoder.selectedTab;
-						document.getElementById('userVersionFile').value = cM.getValue();
-						// Revert back to original
-						cM.setValue(document.getElementById('loadedFile').value);
-						top.ICEcoder.changedContent[thisTab-1] = 0;
-						top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo filemtime($file); ?>";
-						cM.clearHistory();
-						// Now for the new file
-						top.ICEcoder.newTab();
-						cM = top.ICEcoder.getcMInstance();
-						cM.setValue(document.getElementById('userVersionFile').value);
-						cM.clearHistory();
-						// Finally, switch back to original tab
-						top.ICEcoder.switchTab(thisTab);
-					}
-					</script>
-					<?php
-					echo "<script>action='nothing';</script>";
+		if ((file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && $_POST['newFileName']!="") {
+			if (filemtime($file)==$_GET['fileMDT']||!(isset($_GET['fileMDT']))) {
+				$fh = fopen($file, 'w') or die("Sorry, cannot save");
+				fwrite($fh, $_POST['contents']);
+				fclose($fh);
+				clearstatcache();
+				echo '<script>top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.filemtime($file).'";</script>';
+				// Reload file manager & rename tab if it was a new file
+				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
+					echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');</script>';
+					echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$fileLoc."/".$fileName.'\');</script>';
 				}
-        		} else {
-				echo "<script>top.ICEcoder.message('Sorry, cannot write\\n".$file."');action='nothing';</script>";
+				// Reload stickytab window
+				echo '<script>if (top.ICEcoder.stickyTabWindow.location) {top.ICEcoder.stickyTabWindow.location.reload()};action="doneSave";</script>';
+			} else {
+				$loadedFile = file_get_contents($file);
+				echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
+				echo '<textarea name="userVersionFile" id="userVersionFile"></textarea>';
+				?>
+				<script>
+				var refreshFile = top.ICEcoder.ask('Sorry, this file has changed, cannot save\n<?php echo $file;?>\n\nReload this file and copy your version to a new document?');
+				if (refreshFile) {
+					var cM = top.ICEcoder.getcMInstance();
+					var thisTab = top.ICEcoder.selectedTab;
+					document.getElementById('userVersionFile').value = cM.getValue();
+					// Revert back to original
+					cM.setValue(document.getElementById('loadedFile').value);
+					top.ICEcoder.changedContent[thisTab-1] = 0;
+					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo filemtime($file); ?>";
+					cM.clearHistory();
+					// Now for the new file
+					top.ICEcoder.newTab();
+					cM = top.ICEcoder.getcMInstance();
+					cM.setValue(document.getElementById('userVersionFile').value);
+					cM.clearHistory();
+					// Finally, switch back to original tab
+					top.ICEcoder.switchTab(thisTab);
+				}
+				</script>
+				<?php
+				echo "<script>action='nothing';</script>";
 			}
-		} else {
-			echo "<script>top.ICEcoder.message('Sorry, you need to be logged in to save');action='nothing';</script>";
+        	} else {
+			echo "<script>top.ICEcoder.message('Sorry, cannot write\\n".$file."');action='nothing';</script>";
 		}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 	}
