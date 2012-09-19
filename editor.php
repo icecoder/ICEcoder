@@ -35,47 +35,47 @@ span.CodeMirror-matchhighlight {background: #555}
 <body onLoad="top.ICEcoder.updateFileFolderCount()" style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
 <div style="margin: 32px 43px; font-family: arial; font-size: 10px; color: #ddd">
-<?php if($_SESSION['loggedIn']) {
-	echo '<div style="float: left; margin-right: 50px">'.PHP_EOL;
-	echo '<h2 style="color: rgba(0,198,255,0.7)">server</h2>'.PHP_EOL;
-	echo '<span style="color:#888">Server name, OS & IP:</span><br>'.PHP_EOL;
-	echo $_SERVER['SERVER_NAME'].' &nbsp;&nbsp; '.$_SERVER['SERVER_SOFTWARE'].' &nbsp;&nbsp; '.$_SERVER['SERVER_ADDR'].'<br><br>'.PHP_EOL;
-	echo '<span style="color:#888">Root:</span><br>'.PHP_EOL;
-	echo $docRoot.'<br><br>'.PHP_EOL;
-	echo '<span style="color:#888">ICEcoder root:</span><br>'.PHP_EOL;
-	echo $docRoot.$ICEcoder['root'].'<br><br>'.PHP_EOL;
-	echo '<span style="color:#888">PHP version:</span><br>'.PHP_EOL;
-	echo phpversion().'<br><br>'.PHP_EOL;
-	echo '<span style="color:#888">Date & time:</span><br>'.PHP_EOL;
-	echo '<span id="serverDT"></span><br><br><br>'.PHP_EOL;
-	echo '</div>'.PHP_EOL;
+<?php
+echo '<div style="float: left; margin-right: 50px">'.PHP_EOL;
+echo '<h2 style="color: rgba(0,198,255,0.7)">server</h2>'.PHP_EOL;
+echo '<span style="color:#888">Server name, OS & IP:</span><br>'.PHP_EOL;
+echo $_SERVER['SERVER_NAME'].' &nbsp;&nbsp; '.$_SERVER['SERVER_SOFTWARE'].' &nbsp;&nbsp; '.$_SERVER['SERVER_ADDR'].'<br><br>'.PHP_EOL;
+echo '<span style="color:#888">Root:</span><br>'.PHP_EOL;
+echo $docRoot.'<br><br>'.PHP_EOL;
+echo '<span style="color:#888">ICEcoder root:</span><br>'.PHP_EOL;
+echo $docRoot.$ICEcoder['root'].'<br><br>'.PHP_EOL;
+echo '<span style="color:#888">PHP version:</span><br>'.PHP_EOL;
+echo phpversion().'<br><br>'.PHP_EOL;
+echo '<span style="color:#888">Date & time:</span><br>'.PHP_EOL;
+echo '<span id="serverDT"></span><br><br><br>'.PHP_EOL;
+echo '</div>'.PHP_EOL;
 
-	echo '<div style="float: left">'.PHP_EOL;
-	echo '<h2 style="color: rgba(0,198,255,0.7)">files</h2>'.PHP_EOL;
-	echo '<span style="color:#888">Last 10 files opened:</span><br>'.PHP_EOL;
-	$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
-	for ($i=0;$i<count($last10FilesArray);$i++) {
-		if ($ICEcoder["last10Files"]=="") {
-			echo '[none]<br><br>';
-		} else {
-			echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(\''.str_replace("|","/",$last10FilesArray[$i]).'\')">';
-			echo str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i]));
-			echo '</a><br>'.PHP_EOL;
-			if ($i==count($last10FilesArray)-1) {echo '<br>'.PHP_EOL;};
-		}
+echo '<div style="float: left">'.PHP_EOL;
+echo '<h2 style="color: rgba(0,198,255,0.7)">files</h2>'.PHP_EOL;
+echo '<span style="color:#888">Last 10 files opened:</span><br>'.PHP_EOL;
+$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
+for ($i=0;$i<count($last10FilesArray);$i++) {
+	if ($ICEcoder["last10Files"]=="") {
+		echo '[none]<br><br>';
+	} else {
+		echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(\''.str_replace("|","/",$last10FilesArray[$i]).'\')">';
+		echo str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i]));
+		echo '</a><br>'.PHP_EOL;
+		if ($i==count($last10FilesArray)-1) {echo '<br>'.PHP_EOL;};
 	}
-	echo '<span style="color:#888">File & folder count:</span><br>'.PHP_EOL;
-	echo '<div id="fileFolderCounts"></div><br><br><br>'.PHP_EOL;
-	echo '</div>'.PHP_EOL;
+}
+echo '<span style="color:#888">File & folder count:</span><br>'.PHP_EOL;
+echo '<div id="fileFolderCounts"></div><br><br><br>'.PHP_EOL;
+echo '</div>'.PHP_EOL;
 
-	echo '<div style="clear: both">'.PHP_EOL;
-	echo '<h2 style="color: rgba(0,198,255,0.7)">your device</h2>'.PHP_EOL;
-	echo '<span style="color:#888">Browser:</span><br>'.PHP_EOL;
-	echo $_SERVER['HTTP_USER_AGENT'].'<br><br>'.PHP_EOL;
-	echo '<span style="color:#888">Your IP:</span><br>'.PHP_EOL;
-	echo $_SERVER['REMOTE_ADDR'].PHP_EOL;
-	echo '</div>'.PHP_EOL;
-}; ?>
+echo '<div style="clear: both">'.PHP_EOL;
+echo '<h2 style="color: rgba(0,198,255,0.7)">your device</h2>'.PHP_EOL;
+echo '<span style="color:#888">Browser:</span><br>'.PHP_EOL;
+echo $_SERVER['HTTP_USER_AGENT'].'<br><br>'.PHP_EOL;
+echo '<span style="color:#888">Your IP:</span><br>'.PHP_EOL;
+echo $_SERVER['REMOTE_ADDR'].PHP_EOL;
+echo '</div>'.PHP_EOL;
+?>
 <script>
 var nDT=<?php echo time()*1000;?>;
 setInterval(function(){

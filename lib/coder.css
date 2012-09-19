@@ -76,15 +76,8 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 	box-shadow: 0 0 10px 4px rgba(0,0,0,0.4);
 }
 .files .account {display: inline-block; height: 50px; width: 250px; margin-top: 40px; background-color: #888}
-.files .accountLoginContainer {position: absolute; width: 250px; height: 50px; z-index: 1}
-.files .accountLoginContainer .accountLogin {position: absolute; width: 250px; height: 50px; top: 0; background-color: #666;
-	-webkit-transition: top 0.3s;
-	-moz-transition: top 0.3s;
-	transition: top 0.3s;
-}
 .files .accountOptions {position: relative; height: 32px; width: 100%; margin-left: 15px; margin-top: 8px}
 .files .accountOptions div {display: inline-block; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer}
-.files .accountPassword {position: relative; border: 0; background-color: #333; color: #fff; height: 18px; width: 140px; margin-left: 14px; margin-top: 16px}
 .files .accountOptions .save {width: 30px; height: 32px; opacity: 0.3}
 .files .accountOptions .open {width: 25px; height: 32px; background-position: -32px -3px; margin: 3px 0 0 7px; opacity: 0.3}
 .files .accountOptions .newFile {width: 15px; height: 16px; background-position: -64px 0; margin: 8px 0 0 10px; opacity: 0.3}
