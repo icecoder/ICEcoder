@@ -32,7 +32,7 @@ Early version of the web based IDE which allows for creation of websites in the 
 * CTRL+S+Enter opens a sticky tab to show live edits
 * ESC = Comment/Uncomment line, incl partial lines
 * Image viewer
-* Colour preview block on CSS colours, ie red, #ff0000 or  RGBA(255,0,0,0.5)
+* Colour preview block on CSS colours, ie red, #f00 or  RGBA(255,0,0,0.5)
 * MySQL Database management via Adminer plugin
 * Backs up files every 10 mins or on click of backup plugin icon
 
