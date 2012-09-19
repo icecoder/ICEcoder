@@ -42,7 +42,7 @@ if (!isset($_GET['target'])) {
 $targetName = "document";
 ?>
 var startTab = top.ICEcoder.selectedTab;
-var rExp = new RegExp(decodeURIComponent(findText),"g");
+var rExp = new RegExp(findText,"g");
 for (var i=1;i<=top.ICEcoder.openFiles.length;i++) {
 	top.ICEcoder.switchTab(i);
 	var cM = top.ICEcoder.getcMInstance();
