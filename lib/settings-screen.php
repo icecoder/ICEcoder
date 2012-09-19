@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title>ICEcoder settings screen</title>
+<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> settings screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="settings-screen.css">
 <link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
@@ -111,17 +111,9 @@ ip addresses<br>
 plugins array <span style="font-size: 10px; color: #888">name, img src, style, url, target, setInterval (mins)</span><br>
 <textarea name="plugins" class="plugins" onkeydown="showButton()"><?php
 for($i=0;$i<count($ICEcoder["plugins"]);$i++) {
-	for($j=0;$j<count($ICEcoder["plugins"][$i]);$j++) {
-		echo '"'.$ICEcoder["plugins"][$i][$j].'"';
-		if ($j<count($ICEcoder["plugins"][$i])-1) {
-			echo ',';
-		};
-		if (!($i==count($ICEcoder["plugins"])-1 && $j==count($ICEcoder["plugins"][$i])-1)) {
-			echo PHP_EOL;
-		}
-		if (($i<count($ICEcoder["plugins"])-1 && $j==count($ICEcoder["plugins"][$i])-1)) {
-			echo "====================".PHP_EOL;
-		}
+	echo '"'.implode('",'.PHP_EOL.'"', $ICEcoder["plugins"][$i]).'"';
+	if ($i<count($ICEcoder["plugins"])-1) {
+		echo PHP_EOL."====================".PHP_EOL;
 	}
 }
 ?></textarea>
