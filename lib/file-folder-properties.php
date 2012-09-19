@@ -39,17 +39,13 @@ echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($byte
 <br><br>
 <span class="column" style="width: 180px">Type: <?php echo is_dir($fileName) ? "Folder" : "File"; ?></span>
 <span class="column" style="margin: 0 10px">Readable / Writeable: <?php
-if ($_SESSION['loggedIn']) {
-	echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writeable($fileName) ? "Yes" : "No";
-} else {
-	echo '[HIDDEN]';
-}
+echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writeable($fileName) ? "Yes" : "No";
 ?></span>
 <span class="column">Relative path: <?php echo str_replace($docRoot,"",$fileName);?></span>
 <span style="font-size:10px">
 <br><br>
 Absolute path:<br><?php
-echo $_SESSION['loggedIn'] ? $fileName : '[HIDDEN]';
+echo $fileName;
 ?>
 <br><br>
 </span>
@@ -144,13 +140,7 @@ var validatePerms = function() {
 		permText.split("")[2]*1 <0 || permText.split("")[2]*1 >7) {
 		canUpdate = false;
 	}
-	<?php
-	if ($_SESSION['loggedIn']) {
-	?>
 	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace($docRoot,"",$fileName);?>',permText)};
-	<?php
-	;};
-	?>
 }
 </script>
 
