@@ -57,13 +57,13 @@ showFileMenu = function() {
 
 <body onLoad="ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
-<div id="blackMask" class="blackMask" onClick="ICEcoder.showHide('hide',this)">
+<div id="blackMask" class="blackMask" onClick="ICEcoder.showHide('hide',this)" onContextMenu="return false">
 	<div class="popupVCenter">
 		<div class="popup" id="mediaContainer"></div>
 	</div>
 </div>
 
-<div id="loadingMask" class="blackMask" style="visibility: visible">
+<div id="loadingMask" class="blackMask" style="visibility: visible" onContextMenu="return false">
 	<span class="progressBar" id="progressBar" style="-webkit-animation:fullexpand 10s ease-out; -moz-animation:fullexpand 10s ease-out"></span>
 	<div class="popupVCenter">
 		<div class="popup">
@@ -74,7 +74,7 @@ showFileMenu = function() {
 	</div>
 </div>
 
-<div id="fileMenu" class="fileMenu" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract');this.style.display='none'">
+<div id="fileMenu" class="fileMenu" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract');this.style.display='none'" onContextMenu="return false">
 	<span id="folderMenuItems">
 		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="showFileMenu()">New File</a>
 		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="showFileMenu()">New Folder</a>
@@ -156,8 +156,7 @@ showFileMenu = function() {
 		<div class="goLine">Go to Line<input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 		</form>
 	</div>
-	<iframe name="contentFrame" id="content" src="editor.php" class="code">
-	</iframe>
+	<iframe name="contentFrame" id="content" src="editor.php" class="code"></iframe>
 </div>
 
 <div class="footer" id="footer" onContextMenu="return false">
