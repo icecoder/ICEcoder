@@ -43,7 +43,7 @@ window.onbeforeunload = function() {
 }
 
 previousFiles = [<?php
-	if ($ICEcoder["previousFiles"]!="" && $_SESSION['loggedIn']) {
+	if ($ICEcoder["previousFiles"]!="") {
 		$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
 		echo "'".implode("','",$openFilesArray)."'";
 	}
@@ -55,10 +55,7 @@ showFileMenu = function() {
 <script language="JavaScript" src="lib/coder.js"></script>
 </head>
 
-<body onLoad="ICEcoder.init(<?php
-if ($_SESSION['loggedIn']) {echo "'login'";};
-echo ")".$updateMsg.$onLoadExtras;
-?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
+<body onLoad="ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="ICEcoder.showHide('hide',this)">
 	<div class="popupVCenter">
