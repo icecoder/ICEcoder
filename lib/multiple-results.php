@@ -103,10 +103,8 @@ if (startTab!=top.ICEcoder.selectedTab) {
 			} else if(stristr(file_get_contents($fullPath), $q)) {
 				$rFile = false;
 				$bFile = false;
-				if (!$_SESSION['loggedIn']) {
-					for ($i=0;$i<count($ICEcoder["restrictedFiles"]);$i++) {
-						if (strpos($f,$ICEcoder['restrictedFiles'][$i])>0) {$rFile = true;};
-					}
+				for ($i=0;$i<count($ICEcoder["restrictedFiles"]);$i++) {
+					if (strpos($f,$ICEcoder['restrictedFiles'][$i])>0) {$rFile = true;};
 				}
 				for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
 					if (strpos($f,$ICEcoder['bannedFiles'][$i])>0) {$bFile = true;};
