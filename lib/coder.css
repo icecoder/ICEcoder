@@ -105,7 +105,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 	transition: all 0.15s;
 }
 .tabsBar .tab .closeTab {margin: 1px 0 0 5px; border-radius: 6px}
-.tabsBar .newTab {display: inline-block; background-image: url('../images/nav-bg.jpg'); background-repeat: repeat-x; background-position: 0 0; padding: 6px 5px 1px 5px; border-left: solid 1px #fff; border-right: solid 1px #777; cursor: pointer;}
+.tabsBar .newTab {display: inline-block; background-image: url('../images/nav-bg.jpg'); background-repeat: repeat-x; background-position: 0 0; padding: 6px 5px 5px 5px; border-left: solid 1px #fff; border-right: solid 1px #777; cursor: pointer;}
 .editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #141414}
 .findBar .findReplace {position: absolute; z-index: 1}
 .findReplace select {position: relative; font-size: 10px; margin: 8px 2px 0 2px; top: -2px;}
