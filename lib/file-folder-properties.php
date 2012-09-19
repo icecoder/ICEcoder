@@ -3,7 +3,7 @@
 
 <html onContextMenu="return false">
 <head>
-<title>ICE Coder - <?php echo $ICEcoder["versionNo"];?> :: File/Folder Properties</title>
+<title>ICE Coder <?php echo $ICEcoder["versionNo"];?> file/folder properties</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="file-folder-properties.css">
 </head>
@@ -38,20 +38,18 @@ echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($byte
 <span class="column">Last access: <?php echo date( "D d M Y g:i:sa", fileatime($fileName)); ?></span>
 <br><br>
 <span class="column" style="width: 180px">Type: <?php echo is_dir($fileName) ? "Folder" : "File"; ?></span>
-<span class="column" style="margin: 0 10px">Readable / Writeable: <?php
-echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writeable($fileName) ? "Yes" : "No";
-?></span>
+<span class="column" style="margin: 0 10px">Readable / Writeable: 
+<?php echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writeable($fileName) ? "Yes" : "No";?>
+</span>
 <span class="column">Relative path: <?php echo str_replace($docRoot,"",$fileName);?></span>
 <span style="font-size:10px">
 <br><br>
-Absolute path:<br><?php
-echo $fileName;
-?>
+Absolute path:<br><?php echo $fileName;?>
 <br><br>
 </span>
 <span class="column" style="width: 180px">
 Permissions:
-<?
+<?php
 $chmodInfo = substr(sprintf('%o', fileperms($fileName)), -4);
 echo $chmodInfo;
 ?>
