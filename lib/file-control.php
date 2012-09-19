@@ -32,8 +32,7 @@ if ($_GET['action']=="load") {
 			$loadedFile = file_get_contents($file);
 			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
 		} else {
-			echo '<script>fileType="nothing";</script>';
-			echo '<script>top.ICEcoder.message(\'Sorry, '.$fileLoc."/".$fileName.' doesn\\\'t seem to exist on the server\');</script>';
+			echo '<script>fileType="nothing"; top.ICEcoder.message(\'Sorry, '.$fileLoc."/".$fileName.' doesn\\\'t seem to exist on the server\');</script>';
 		}
 	};
 
@@ -49,7 +48,7 @@ if ($_GET['action']=="newFolder") {
 		// Reload file manager
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');action="newFolder";</script>';
 	} else {
-		echo "<script>top.ICEcoder.message('Sorry, cannot create folder at\\n".$fileLoc."');action='nothing';</script>";
+		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot create folder at\\n".$fileLoc."')</script>";
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
@@ -62,8 +61,7 @@ if ($_GET['action']=="rename") {
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
 		echo 'action="rename";</script>';
 	} else {
-		echo "<script>top.ICEcoder.message('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."');</script>";
-		echo '<script>action="nothing";</script>';
+		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."');</script>";
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
@@ -79,8 +77,7 @@ if ($_GET['action']=="replaceText") {
 		fclose($fh);
 		echo '<script>action="replaceText";</script>';
 	} else {
-		echo "<script>top.ICEcoder.message('Sorry, cannot replace text in\\n".strClean($_GET['fileRef'])."');</script>";
-		echo '<script>action="nothing";</script>';
+		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot replace text in\\n".strClean($_GET['fileRef'])."');</script>";
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
@@ -93,8 +90,7 @@ if ($_GET['action']=="perms") {
 		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
 		echo 'action="perms";</script>';
 	} else {
-		echo "<script>top.ICEcoder.message('Sorry, cannot change permissions on \\n".strClean($file)."');</script>";
-		echo '<script>action="nothing";</script>';
+		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot change permissions on \\n".strClean($file)."');</script>";
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
@@ -104,11 +100,9 @@ if ($_GET['action']=="delete") {
 	$filesArray = split(";",$file); // May contain more than one file here
 	for ($i=0;$i<=count($filesArray)-1;$i++) {
 		if (is_writable($iceRoot.$filesArray[$i])) {
-			if (is_dir($iceRoot.$filesArray[$i])) { 
-				rrmdir($iceRoot.$filesArray[$i]);
-			} else {
-				unlink($iceRoot.$filesArray[$i]);
-			}
+			is_dir($iceRoot.$filesArray[$i])
+				? rrmdir($iceRoot.$filesArray[$i])
+				: unlink($iceRoot.$filesArray[$i]);
 			// Reload file manager
 			echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
 			echo 'action="delete";</script>';
@@ -126,7 +120,9 @@ function rrmdir($dir) {
 		$objects = scandir($dir); 
 		foreach ($objects as $object) { 
 			if ($object != "." && $object != "..") { 
-				if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+				filetype($dir."/".$object) == "dir" 
+					? rrmdir($dir."/".$object)
+					: unlink($dir."/".$object); 
 			} 
 		} 
 		reset($objects); 
@@ -147,8 +143,8 @@ if ($_GET['action']=="save") {
 				echo '<script>top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.filemtime($file).'";</script>';
 				// Reload file manager & rename tab if it was a new file
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
-					echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');</script>';
-					echo '<script>top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$fileLoc."/".$fileName.'\');</script>';
+					echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');';
+					echo 'top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$fileLoc."/".$fileName.'\');</script>';
 				}
 				// Reload stickytab window
 				echo '<script>if (top.ICEcoder.stickyTabWindow.location) {top.ICEcoder.stickyTabWindow.location.reload()};action="doneSave";</script>';
@@ -176,12 +172,12 @@ if ($_GET['action']=="save") {
 					// Finally, switch back to original tab
 					top.ICEcoder.switchTab(thisTab);
 				}
+				action='nothing';
 				</script>
 				<?php
-				echo "<script>action='nothing';</script>";
 			}
         	} else {
-			echo "<script>top.ICEcoder.message('Sorry, cannot write\\n".$file."');action='nothing';</script>";
+			echo "<script>action='nothing';top.ICEcoder.message('Sorry, cannot write\\n".$file."')</script>";
 		}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 	}
@@ -234,8 +230,8 @@ if (action=="load") {
 </script>
 
 <form name="saveFile" action="file-control.php?action=save&file=<?php if (isset($file)) {echo $file;}; if (isset($_GET['fileMDT']) && $_GET['fileMDT']!="undefined") {echo "&fileMDT=".numClean($_GET['fileMDT']);};?>" method="POST">
-<textarea name="contents"></textarea>
-<input type="hidden" name="newFileName" value="">
+	<textarea name="contents"></textarea>
+	<input type="hidden" name="newFileName" value="">
 </form>
 
 <script>
