@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="multiple-results.css">
 </head>
 
-<body class="results">
+<body class="results" onLoad="top.document.getElementById('loadingMask').style.visibility = 'hidden'">
 
 <h1 id="title"></h1>
 <div class="resultsPane" id="resultsPane">
@@ -127,15 +127,15 @@ if (startTab!=top.ICEcoder.selectedTab) {
 	}
 }
 ?>
-foundArray.length==0 ? showHide = "hide" : showHide = "show";
+showHide = foundArray.length==0 ? "hide" : "show";
 top.ICEcoder.showHide(showHide,top.document.getElementById('blackMask'));
 if (foundArray.length==0) {top.ICEcoder.message('No matches found')};
 <?php if (isset($_GET['replace'])) { ?>
 if (foundArray.length!=0) {document.getElementById('replaceAll').style.opacity = 1};
 <?php ;}; ?>
-foundArray.length >= 2 ? plural = "s" : plural = "";
+plural = foundArray.length >= 2 ? "s" : "";
 targetName = "<?php echo $targetName;?>";
-foundInSelected ? selectedText = "selected " : selectedText = "";
+selectedText = foundInSelected ? "selected " : "";
 document.getElementById('title').innerHTML = findText.replace(/&/g,"&amp;").replace(/>/g,"&gt;").replace(/</g,"&lt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;")+" found in "+foundArray.length+" "+selectedText+targetName+plural;
 document.getElementById('results').innerHTML = resultsDisplay;
 
