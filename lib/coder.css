@@ -39,30 +39,30 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 	width:30px; height:30px; margin:0 auto; position:relative; top:-50px; -moz-animation:spinoff .5s infinite linear; -webkit-animation:spinoff .5s infinite linear;
 }
 @-moz-keyframes spin {
-	0% { -moz-transform:rotate(0deg);}
-	100% { -moz-transform:rotate(360deg);}
+	0% {-moz-transform:rotate(0deg)}
+	100% {-moz-transform:rotate(360deg)}
 }
 @-moz-keyframes spinoff {
-	0% { -moz-transform:rotate(0deg);}
-	100% { -moz-transform:rotate(-360deg);}
+	0% {-moz-transform:rotate(0deg)}
+	100% {-moz-transform:rotate(-360deg)}
 }
 @-webkit-keyframes spin {
-	0% { -webkit-transform:rotate(0deg);}
-	100% { -webkit-transform:rotate(360deg);}
+	0% {-webkit-transform:rotate(0deg)}
+	100% {-webkit-transform:rotate(360deg)}
 }
 @-webkit-keyframes spinoff {
-	0% { -webkit-transform:rotate(0deg); }
-	100% { -webkit-transform:rotate(-360deg);}
+	0% {-webkit-transform:rotate(0deg)}
+	100% {-webkit-transform:rotate(-360deg)}
 }
 
-.progressBar {top: 0; left: 0; width:100%; height:1px; margin:2px 0; background:#2187e7; position:absolute; box-shadow:0 0 10px 1px rgba(0,198,255,0.7)}
+.progressBar {position:absolute; top: 0; left: 0; width:100%; height:1px; margin:2px 0; background:#2187e7; box-shadow:0 0 10px 1px rgba(0,198,255,0.7)}
 @-moz-keyframes fullexpand {
-	0%  { width:0;}
-	100%{ width:100%;}	
+	0%  {width:0}
+	100%{width:100%}	
 }
 @-webkit-keyframes fullexpand {
-	0%  { width:0;}
-	100%{ width:100%;}	
+	0%  {width:0}
+	100%{width:100%}	
 }
 
 .header {position: absolute; display: inline-block; top: 0; left: 0; width: 100%; height: 40px; background-color: #fff; text-align: right; z-index: 2}
