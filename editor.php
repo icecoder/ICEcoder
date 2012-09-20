@@ -35,7 +35,7 @@ span.CodeMirror-matchhighlight {background: #555}
 	<div style="float: left; margin-right: 50px">
 		<h2 style="color: rgba(0,198,255,0.7)">server</h2>
 		<span style="color:#888">Server name, OS & IP:</span><br>
-		<?php echo $_SERVER['SERVER_NAME'];?> &nbsp;&nbsp; <?php echo $_SERVER['SERVER_SOFTWARE'];?> &nbsp;&nbsp; <?php echo $_SERVER['SERVER_ADDR'];?><br><br>
+		<?php echo $_SERVER['SERVER_NAME']." &nbsp;&nbsp ".$_SERVER['SERVER_SOFTWARE']." &nbsp;&nbsp ".$_SERVER['SERVER_ADDR'];?><br><br>
 		<span style="color:#888">Root:</span><br>
 		<?php echo $docRoot;?><br><br>
 		<span style="color:#888">ICEcoder root:</span><br>
