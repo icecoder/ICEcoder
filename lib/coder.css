@@ -86,7 +86,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .accountOptions .rename {width: 16px; height: 16px; background-position: -116px 0; margin: 8px 0 0 5px; opacity: 0.3}
 .files .accountOptions .view {width: 16px; height: 16px; background-position: -132px 0; margin: 8px 0 0 5px; opacity: 0.3}
 .files .accountOptions .lock {position: relative; margin-left: 208px; margin-top: -27px; width: 12px; height: 16px; background-position: -64px -16px; z-index: 1}
-.files input:focus, .findReplace input:focus, .findReplace select:focus, .accountPassword:focus {outline: none; box-shadow: 0 0 10px 1px rgba(0,198,255,0.7)}
+.files input:focus, .findReplace input:focus, .findReplace select:focus, .accountPassword:focus {outline: none; box-shadow: 0 0 10px 1px rgba(0,198,255,1)}
 .files .button {position: absolute; border: 0; background: #444; color: #eee; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
 .files .button:hover {background-color: #222; color: #eee}
 .files .frame {display: inline-block; width: 250px}
@@ -121,6 +121,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findBar .codeAssist input {margin-top: -1px}
 .findBar .goLine {position: fixed; display: inline-block; width: 100px; right: -10px; top: 70px; height: 21px; font-size: 10px; z-index: 1}
 .goLine .goToLine {width: 25px; height: 16px; border: 0; font-size: 10px; margin: -3px 0 0 3px}
+.goLine .goToLine:focus {outline: none; box-shadow: 0 0 10px 1px rgba(0,198,255,1)}
 .editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px}
 
 .footer {position: fixed; display: inline-block; width: 100%; height: 30px; bottom: 0; background-color: rgba(0,0,0,0.7); left: 0; z-index: 2}
