@@ -198,6 +198,9 @@ if ($_SESSION['loggedIn']) {
 		</script>
 		<?php
 	}
+
+	// Finally, show server data
+	$onLoadExtras .= ";top.ICEcoder.content.style.visibility='visible'";
 }
 
 // If we're due to show the settings screen
