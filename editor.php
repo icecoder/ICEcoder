@@ -139,10 +139,8 @@ function createNewCMInstance(num) {
 			if (tok.string!=">") {lastString=tok.string};
 			if (e.type=="keyup"&&e.keyCode=="16"&&lastKeyCode=="190") {
 				canDoEndTag=true;
-				for (i=0;i<top.ICEcoder.tagNestExceptions.length;i++) {
-					if(top.ICEcoder.tagString!="script" && top.ICEcoder.tagString==top.ICEcoder.tagNestExceptions[i]) {
+				if (top.ICEcoder.tagString!="script" && top.ICEcoder.tagNestExceptions.indexOf(top.ICEcoder.tagString)>-1) {
 					canDoEndTag=false;
-					}
 				}
 				if	(
 					top.ICEcoder.tagString.slice(0,1)=="/"||
