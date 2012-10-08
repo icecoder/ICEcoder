@@ -1,4 +1,4 @@
-#ICEcoder
+#ICEcoder v0.9.0 alpha
 ##Web based IDE for smart web development
 
 Early version of the web based IDE which allows for creation of websites in the web browser. Uses the brilliant CodeMirror for code highlighting & editing, with a slick IDE wrapped around it to make the whole thing work.
@@ -35,6 +35,7 @@ Early version of the web based IDE which allows for creation of websites in the 
 * Colour preview block on CSS colours, ie red, #f00 or  RGBA(255,0,0,0.5)
 * MySQL Database management via Adminer plugin
 * Backs up files every 10 mins or on click of backup plugin icon
+* Github repo syncing with ICErepo plugin
 
 ###Installation
 

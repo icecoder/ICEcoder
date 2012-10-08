@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> multiple results screen</title>
+<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> alpha multiple results screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="multiple-results.css">
 </head>
