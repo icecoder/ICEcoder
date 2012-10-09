@@ -5,7 +5,7 @@
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> alpha file manager</title>
 <link rel="stylesheet" type="text/css" href="lib/files.css">
-<script src="lib/coder.js" type="text/javascript"></script>
+<script src="lib/ice-coder.js" type="text/javascript"></script>
 </head>
 
 <body onLoad="top.ICEcoder.fileManager()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
