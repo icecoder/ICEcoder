@@ -5,7 +5,7 @@
 <head>
 <title>ICE Coder <?php echo $ICEcoder["versionNo"];?> alpha file/folder properties</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="file-folder-properties.css">
+<link rel="stylesheet" type="text/css" href="properties.css">
 </head>
 
 <body class="properties">
