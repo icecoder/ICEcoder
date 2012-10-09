@@ -230,7 +230,8 @@ if (!$_SESSION['loggedIn']) {
 echo $ICEcoder["versionNo"]." alpha : ";
 echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 ?></title>
-<link rel="stylesheet" type="text/css" href="coder.css">
+<link rel="stylesheet" type="text/css" href="ice-coder.css">
+<link rel="icon" type="image/png" href="../favicon.png">
 </head>
 
 <body onLoad="document.settingsUpdate.<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password.focus()">

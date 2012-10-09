@@ -28,7 +28,8 @@ if ($ICEcoder["checkUpdates"]) {
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> alpha</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="lib/coder.css">
+<link rel="stylesheet" type="text/css" href="lib/ice-coder.css">
+<link rel="icon" type="image/png" href="favicon.png">
 <script>
 theme = "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>";
 tabsIndent = <?php echo $ICEcoder["tabsIndent"] ? 'true' : 'false';?>;
@@ -52,7 +53,7 @@ showFileMenu = function() {
 	document.getElementById('fileMenu').style.display='inline-block';
 }
 </script>
-<script language="JavaScript" src="lib/coder.js"></script>
+<script language="JavaScript" src="lib/ice-coder.js"></script>
 </head>
 
 <body onLoad="ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
