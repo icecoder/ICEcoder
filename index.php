@@ -31,10 +31,6 @@ if ($ICEcoder["checkUpdates"]) {
 <link rel="stylesheet" type="text/css" href="lib/ice-coder.css">
 <link rel="icon" type="image/png" href="favicon.png">
 <script>
-theme = "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>";
-tabsIndent = <?php echo $ICEcoder["tabsIndent"] ? 'true' : 'false';?>;
-openLastFiles = <?php echo $ICEcoder["openLastFiles"] ? 'true' : 'false';?>;
-tabWidth = <?php echo $ICEcoder["tabWidth"]; ?>;
 iceRoot = "<?php echo $ICEcoder["root"]; ?>";
 
 window.onbeforeunload = function() {
@@ -43,20 +39,26 @@ window.onbeforeunload = function() {
 	}
 }
 
-previousFiles = [<?php
-	if ($ICEcoder["previousFiles"]!="") {
-		$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
-		echo "'".implode("','",$openFilesArray)."'";
-	}
-?>];
-showFileMenu = function() {
-	document.getElementById('fileMenu').style.display='inline-block';
-}
 </script>
 <script language="JavaScript" src="lib/ice-coder.js"></script>
 </head>
 
-<body onLoad="ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
+<body onLoad="<?php
+	echo 'top.ICEcoder.previousFiles = [';
+	if ($ICEcoder["previousFiles"]!="") {
+		$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
+		echo "'".implode("','",$openFilesArray)."'";
+	}
+	echo "];top.ICEcoder.theme = '";
+	echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];
+	echo "'";
+	echo ';top.ICEcoder.tabsIndent = ';
+	echo $ICEcoder["tabsIndent"] ? 'true' : 'false';
+	echo ';top.ICEcoder.openLastFiles = ';
+	echo $ICEcoder["openLastFiles"] ? 'true' : 'false';
+	echo ';top.ICEcoder.tabWidth = ';
+	echo $ICEcoder["tabWidth"];
+?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="ICEcoder.showHide('hide',this)" onContextMenu="return false">
 	<div class="popupVCenter">
@@ -77,16 +79,16 @@ showFileMenu = function() {
 
 <div id="fileMenu" class="fileMenu" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract');this.style.display='none'" onContextMenu="return false">
 	<span id="folderMenuItems">
-		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="showFileMenu()">New File</a>
-		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="showFileMenu()">New Folder</a>
+		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="ICEcoder.showFileMenu()">New File</a>
+		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="ICEcoder.showFileMenu()">New Folder</a>
 	</span>
-	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="showFileMenu()">Delete</a>
+	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Delete</a>
 	<span id="singleFileMenuItems">
-		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="showFileMenu()">Rename</a>
-		<a href="javascript:window.open(top.ICEcoder.rightClickedFile)" onMouseOver="showFileMenu()">View Webpage</a>
+		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Rename</a>
+		<a href="javascript:window.open(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">View Webpage</a>
 	</span>
-	<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="showFileMenu()">Zip It!</a>
-	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.rightClickedFile)" onMouseOver="showFileMenu()">Properties</a>
+	<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Zip It!</a>
+	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Properties</a>
 </div>
 
 <div id="header" class="header" onContextMenu="return false">

@@ -92,16 +92,16 @@ span.CodeMirror-matchhighlight {background: #555}
 <script>
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	top.foldStyle = '<span style="position: absolute; display: inline-block; width: 13px; height: 13px; left: 0; background-color: #b00; color: #fff; text-align: center; cursor: pointer"><span style="position: relative; left: -1px">+</span></span> %N%';
-	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,top.foldStyle);
-	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,top.foldStyle);
+	top.ICEcoder.foldStyle = '<span style="position: absolute; display: inline-block; width: 13px; height: 13px; left: 0; background-color: #b00; color: #fff; text-align: center; cursor: pointer"><span style="position: relative; left: -1px">+</span></span> %N%';
+	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,top.ICEcoder.foldStyle);
+	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,top.ICEcoder.foldStyle);
 
 	window['cM'+num] = CodeMirror(document.body, {
 		mode: "application/x-httpd-php",
 		lineNumbers: true,
 		lineWrapping: true,
-		indentUnit: top.tabWidth,
-		tabSize: top.tabWidth,
+		indentUnit: top.ICEcoder.tabWidth,
+		tabSize: top.ICEcoder.tabWidth,
 		indentWithTabs: true,
 		electricChars: false,
 		onCursorActivity: function(thisCM) {
@@ -175,7 +175,7 @@ function createNewCMInstance(num) {
 		},
 		onGutterClick: !fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".coffee") == -1 && fileName.indexOf(".php") && fileName.indexOf(".rb") == -1) ? codeFoldTag : codeFoldBrace,
 		extraKeys: {
-			"Tab": function(cm) {CodeMirror.commands[top.tabsIndent ? "defaultTab" : "insertTab"](cm);},
+			"Tab": function(cm) {CodeMirror.commands[top.ICEcoder.tabsIndent ? "defaultTab" : "insertTab"](cm);},
 			"Shift-Tab": "indentLess",
 			"Ctrl-Up": function() {},
 			"Ctrl-Down": function() {}

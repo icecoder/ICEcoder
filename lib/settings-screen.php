@@ -162,8 +162,8 @@ function findSequence(goal) {
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	lineNumbers: true,
 	readOnly: "nocursor",
-	indentUnit: top.tabWidth,
-	tabSize: top.tabWidth,
+	indentUnit: top.ICEcoder.tabWidth,
+	tabSize: top.ICEcoder.tabWidth,
 	mode: "javascript",
 	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
 	});
