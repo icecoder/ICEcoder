@@ -147,7 +147,7 @@ if ($_GET['action']=="save") {
 					echo 'top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$fileLoc."/".$fileName.'\');</script>';
 				}
 				// Reload stickytab window
-				echo '<script>if (top.ICEcoder.stickyTabWindow.location) {top.ICEcoder.stickyTabWindow.location.reload()};action="doneSave";</script>';
+				echo '<script>if (top.ICEcoder.stickyTab.location) {top.ICEcoder.stickyTab.location.reload()};action="doneSave";</script>';
 			} else {
 				$loadedFile = file_get_contents($file);
 				echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
