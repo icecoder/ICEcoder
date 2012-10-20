@@ -29,7 +29,7 @@ include($settingsFile);
 
 // Add ICEcoder settings to beginning of $ICEcoder array
 $ICEcoder = array(
-	"versionNo"		=> "0.9.0",
+	"versionNo"		=> "0.9.1",
 	"codeMirrorDir"		=> "CodeMirror-2.34",
 	"cMThisVer"		=> 2.34
 )+$ICEcoder;
@@ -227,7 +227,7 @@ if (!$_SESSION['loggedIn']) {
 <html>
 <head>
 <title>ICEcoder <?php
-echo $ICEcoder["versionNo"]." alpha : ";
+echo $ICEcoder["versionNo"]." beta : ";
 echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 ?></title>
 <link rel="stylesheet" type="text/css" href="ice-coder.css">
@@ -240,7 +240,7 @@ echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 	<div class="screenVCenter">
 		<div class="screenCenter">
 		<img src="../images/ice-coder.png">
-		<div class="version">v <?php echo $ICEcoder["versionNo"];?> alpha</div>
+		<div class="version">v <?php echo $ICEcoder["versionNo"];?> beta</div>
 		<form name="settingsUpdate" action="settings.php" method="POST">
 		<input type="password" name="<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password" class="accountPassword">
 		<input type="submit" name="submit" value="<?php echo $ICEcoder["accountPassword"] == "" ? "Set Password" : "Login"; ?>" class="button">

@@ -25,7 +25,7 @@ if ($ICEcoder["checkUpdates"]) {
 
 <html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}">
 <head>
-<title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> alpha</title>
+<title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> beta</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="lib/ice-coder.css">
@@ -93,7 +93,7 @@ showFileMenu = function() {
 	<div class="plugins" id="pluginsContainer">
 	<?php echo $pluginsDisplay; ?>
 	</div>
-	<div class="version">v <?php echo $ICEcoder["versionNo"];?> alpha</div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
+	<div class="version">v <?php echo $ICEcoder["versionNo"];?> beta</div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
 	<img src="images/ice-coder.png" class="logo" onClick="ICEcoder.helpScreen()" onContextMenu="ICEcoder.settingsScreen()">
 </div>
 

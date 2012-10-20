@@ -3,7 +3,7 @@
 
 <html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor');top.ICEcoder.canResizeFilesW()}">
 <head>
-<title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> alpha editor</title>
+<title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> beta editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
 <!--

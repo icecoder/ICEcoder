@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> alpha settings screen</title>
+<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> beta settings screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="settings-screen.css">
 <link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
@@ -36,7 +36,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 <div class="infoPane">
 	<img src="../images/ice-coder.png" class="logo">
-	<div class="version">v <?php echo $ICEcoder["versionNo"];?> alpha</div>
+	<div class="version">v <?php echo $ICEcoder["versionNo"];?> beta</div>
 
 	<p>
 	git:<br>
