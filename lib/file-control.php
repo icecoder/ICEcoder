@@ -1,6 +1,7 @@
 <?php include("settings.php");?>
 <?php
 // Get the save type if any
+$saveType = "";
 if (isset($_GET['saveType'])) {$saveType = strClean($_GET['saveType']);};
 
 // Establish the filename/new filename
@@ -97,7 +98,7 @@ if ($_GET['action']=="perms") {
 
 // If we're due to delete a file...
 if ($_GET['action']=="delete") {
-	$filesArray = split(";",$file); // May contain more than one file here
+	$filesArray = explode(";",$file); // May contain more than one file here
 	for ($i=0;$i<=count($filesArray)-1;$i++) {
 		if (is_writable($iceRoot.$filesArray[$i])) {
 			is_dir($iceRoot.$filesArray[$i])
