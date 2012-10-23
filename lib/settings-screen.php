@@ -48,7 +48,9 @@ for ($i=0;$i<count($themeArray);$i++) {
 	<br><br>
 
 	codemirror version:<br>
-	<?php echo $ICEcoder["cMThisVer"]; ?>
+	<script>
+	document.write(CodeMirror.version);
+	</script>
 	<br><br>
 
 	file manager root:<br>
