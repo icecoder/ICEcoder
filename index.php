@@ -12,12 +12,6 @@ if ($ICEcoder["checkUpdates"]) {
 	$icv = rtrim(ltrim($icv,'"'),'"\\n');
 	if ($ICEcoder["versionNo"]<$icv) {
 		$updateMsg = ';top.ICEcoder.message(\'ICEcoder '.$icv.' now released\n\nPlease upgrade\')';
-	} else {
-		$cmv = json_encode(file_get_contents("http://codemirror.net/latest-version.txt"));
-		$cmv = rtrim(ltrim($cmv,'"'),'"\\n');
-		if ($ICEcoder["cMThisVer"]<$cmv) {
-			$updateMsg = ';top.ICEcoder.message(\'CodeMirror '.$cmv.' now released\n\nPlease upgrade\')';
-		}
 	}
 }
 ?>
