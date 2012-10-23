@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
-ini_set('error_log', dirname(__FILE__) . '/error_log.txt');
+ini_set('error_log', dirname(__FILE__).'/../error_log.txt');
 error_reporting(-1);
 // Start a session if we haven't already
 if(!isset($_SESSION)) {session_start();}
