@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', dirname(__FILE__) . '/error_log.txt');
+error_reporting(-1);
 // Start a session if we haven't already
 if(!isset($_SESSION)) {session_start();}
 
@@ -33,8 +37,11 @@ $ICEcoder = array(
 	"codeMirrorDir"		=> "CodeMirror-2.34"
 )+$ICEcoder;
 
+$onLoadExtras = "";
+$pluginsDisplay = "";
+
 // Update this config file?
-if ($_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
+if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
 	$settingsContents = file_get_contents($settingsFile);
 	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'"root"');
@@ -42,13 +49,13 @@ if ($_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
 
 	// Prepare all our vars
 	$ICEcoder["root"]			= strClean($_POST['root']);
-	$ICEcoder["tabsIndent"]			= $_POST['tabsIndent'] ? "true" : "false";
-	$ICEcoder["checkUpdates"]		= $_POST['checkUpdates'] ? "true" : "false";
-	$ICEcoder["openLastFiles"]		= $_POST['openLastFiles'] ? "true" : "false";
+	$ICEcoder["tabsIndent"]			= isset($_POST['tabsIndent']) && $_POST['tabsIndent'] ? "true" : "false";
+	$ICEcoder["checkUpdates"]		= isset($_POST['checkUpdates']) && $_POST['checkUpdates'] ? "true" : "false";
+	$ICEcoder["openLastFiles"]		= isset($_POST['openLastFiles']) && $_POST['openLastFiles'] ? "true" : "false";
 	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['findFilesExclude']))).'")';
-	$ICEcoder["codeAssist"]			= $_POST['codeAssist'] ? "true" : "false";
-	$ICEcoder["visibleTabs"]		= $_POST['visibleTabs'] ? "true" : "false";
-	$ICEcoder["lockedNav"]			= $_POST['lockedNav'] ? "true" : "false";
+	$ICEcoder["codeAssist"]			= isset($_POST['codeAssist']) && $_POST['codeAssist'] ? "true" : "false";
+	$ICEcoder["visibleTabs"]		= isset($_POST['visibleTabs']) && $_POST['visibleTabs'] ? "true" : "false";
+	$ICEcoder["lockedNav"]			= isset($_POST['lockedNav']) && $_POST['lockedNav'] ? "true" : "false";
 	if ($_POST['accountPassword']!="")	{$ICEcoder["accountPassword"] = generateHash(strClean($_POST['accountPassword']));};
 	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
 	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
@@ -90,7 +97,7 @@ if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword
 $_SESSION['loggedIn'] = $_SESSION['loggedIn'];
 
 // Define the serverType, docRoot & iceRoot
-$serverType = stristr($_SERVER[SERVER_SOFTWARE], "win") ? "Windows" : "Linux";
+$serverType = stristr($_SERVER['SERVER_SOFTWARE'], "win") ? "Windows" : "Linux";
 $docRoot = rtrim(str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']));
 $iceRoot = rtrim(str_replace("\\","/",$ICEcoder["root"]));
 if ($_SESSION['loggedIn']) {
