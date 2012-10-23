@@ -77,7 +77,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					}
 				}
 				if (userTarget.indexOf("all")>-1 || (userTarget.indexOf("selected")>-1 && foundInSelected)) {
-					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.document.getElementById(\'blackMask\'))">'+ targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",$findText); ?>/g,"<b>"+findText+"</b>")+ '</a><br><div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",$findText); ?>/g,"<b><?php echo strClean($_GET['replace']);?></b>")+'</div>';
+					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.document.getElementById(\'blackMask\'))">'+ targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",$findText); ?>/g,"<b>"+findText+"</b>")+ '</a><br><div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",$findText); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strClean($_GET['replace']);};?></b>")+'</div>';
 					<?php if (isset($_GET['replace'])) { ?>
 					resultsDisplay += '<div class="replace" id="replace" onClick="renameSingle('+i+');this.style.display=\'none\'">rename</div>';
 					<?php ;}; ?>
@@ -92,9 +92,11 @@ if (startTab!=top.ICEcoder.selectedTab) {
 	$r = 0;
 	function phpGrep($q, $path, $base) {
 		$fp = opendir($path);
-		$slash = $serverType == "Windows" ? "\\" : "/";
 		global $r;
 		global $ICEcoder;
+		global $serverType;
+		if (!isset($ret)) {$ret="";};
+		$slash = $serverType == "Windows" ? "\\" : "/";
 		while($f = readdir($fp)) {
 			if(preg_match("#^\.+$#", $f)) continue;
 			$fullPath = $path.$slash.$f;
@@ -120,7 +122,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 		return $ret;
 	}
 
-	$results = phpGrep($findText, $docRoot.$ICEroot, $docRoot.$ICEroot);
+	$results = phpGrep($findText, $docRoot.$iceRoot, $docRoot.$iceRoot);
 	echo 'resultsDisplay += "'.$results.'";';
 ?>
 <?php
@@ -160,7 +162,7 @@ var replaceAll = function() {
 }
 
 var replaceInFileSingle = function(fileRef) {
-	top.ICEcoder.replaceInFile(fileRef,findText,'<?php echo strClean($_GET['replace']); ?>');
+	top.ICEcoder.replaceInFile(fileRef,findText,'<?php if(isset($_GET['replace'])) {echo strClean($_GET['replace']);}; ?>');
 }
 
 var replaceInFilesAll = function() {
@@ -172,7 +174,7 @@ var replaceInFilesAll = function() {
 
 var renameSingle = function(arrayRef) {
 	fileRef = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"");
-	newName = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"").replace(find,"<?php echo strClean($_GET['replace']); ?>");
+	newName = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"").replace(find,"<?php if(isset($_GET['replace'])) {echo strClean($_GET['replace']);}; ?>");
 	top.ICEcoder.renameFile(fileRef,newName);
 }
 
