@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title>ICE Coder <?php echo $ICEcoder["versionNo"];?> beta help</title>
+<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> help</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="help.css">
 </head>

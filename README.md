@@ -1,4 +1,4 @@
-#ICEcoder v0.9.1 beta
+#ICEcoder
 ##Web based IDE for smart web development
 
 Early version of the web based IDE which allows for creation of websites in the web browser. Uses the brilliant CodeMirror for code highlighting & editing, with a slick IDE wrapped around it to make the whole thing work.
