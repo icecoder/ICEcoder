@@ -1,11 +1,11 @@
-<?php
-include("lib/settings.php");
+<?php include("lib/settings.php");
 
 // Check IP permissions
 if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*", $_SESSION['allowedIPs'])) {
 	header('Location: /');
 };
 
+$updateMsg = '';
 // Check for updates
 if ($ICEcoder["checkUpdates"]) {
 	$icv = json_encode(file_get_contents("http://icecoder.net/latest-version.txt"));
