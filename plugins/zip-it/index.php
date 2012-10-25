@@ -62,7 +62,7 @@ Class zipIt {
 			foreach($zipFiles as $file) {
 				$canAdd=true;
 				for ($i=0;$i<count($excludeFilesFolders);$i++) {
-					if(strpos($file,$excludeFilesFolders[$i])!==false) {$canAdd=false;};
+					if($excludeFilesFolders[$i] && strpos($file,$excludeFilesFolders[$i])!==false) {$canAdd=false;};
 				}
 				if ($canAdd==true) {
 					$zip->addFile($file,str_replace($docRoot."/","",$file));
