@@ -107,7 +107,7 @@ window.onbeforeunload = function() {
 			<div title="Lock" onClick="ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
 		</div>
 	</div>
-	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1'"></iframe>
+	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1';this.contentWindow.onscroll=function(){top.ICEcoder.mouseDown=false}"></iframe>
 	<div class="serverMessage" id="serverMessage"></div>
 </div>
 
