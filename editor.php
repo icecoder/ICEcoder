@@ -173,6 +173,9 @@ function createNewCMInstance(num) {
 			};
 			lastKeyCode = e.keyCode;
 		},
+		onScroll: function() {
+			top.ICEcoder.mouseDown=false;
+		},
 		onGutterClick: !fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".coffee") == -1 && fileName.indexOf(".php") && fileName.indexOf(".rb") == -1) ? codeFoldTag : codeFoldBrace,
 		extraKeys: {
 			"Tab": function(cm) {CodeMirror.commands[top.ICEcoder.tabsIndent ? "defaultTab" : "insertTab"](cm);},
