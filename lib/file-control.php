@@ -20,12 +20,9 @@ $fileName = basename($file);
 if ($_GET['action']=="load") {
 	echo '<script>action="load";</script>';
 
-	// Determine what to do based on filename
-	// Everything is opened as text in the editor unless specified otherwise
-	$fileType="text";
-	if (strpos($fileName,".jpg")>0||strpos($fileName,".jpeg")>0||strpos($fileName,".gif")>0||strpos($fileName,".png")>0) {$fileType="image";};
-
-	if ($fileType=="text") {
+	// Determine what to do based on mime type
+	$finfo = finfo_open(FILEINFO_MIME_TYPE);
+	if (strpos(finfo_file($finfo, $file),"text")===0) {
 		if (file_exists($file)) {
 			echo '<script>fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.rightClickedFile = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
@@ -35,11 +32,12 @@ if ($_GET['action']=="load") {
 		} else {
 			echo '<script>fileType="nothing"; top.ICEcoder.message(\'Sorry, '.$fileLoc."/".$fileName.' doesn\\\'t seem to exist on the server\');</script>';
 		}
-	};
-
-	if ($fileType=="image") {
+	} else if (strpos(finfo_file($finfo, $file),"image")===0) {
 		echo '<script>fileType="image";fileName=\''.$fileLoc."/".$fileName.'\'</script>';
+	} else {
+		echo '<script>fileType="other";window.open(\'http://'.$_SERVER['SERVER_NAME'].$fileLoc."/".$fileName.'\');</script>';
 	};
+	finfo_close($finfo);
 };
 
 // If we're due to add a new folder...
