@@ -1,8 +1,13 @@
 <?php
+// Display & log all errors
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
-ini_set('error_log', dirname(__FILE__).'/../error_log.txt');
+ini_set('error_log', dirname(__FILE__).'/../error-log.txt');
 error_reporting(-1);
+
+// Set our default timezone and supress warning with @
+@date_default_timezone_set(date_default_timezone_get());
+
 // Start a session if we haven't already
 if(!isset($_SESSION)) {session_start();}
 
