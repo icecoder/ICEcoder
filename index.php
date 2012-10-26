@@ -120,7 +120,7 @@ window.onbeforeunload = function() {
 		?><div class="newTab" onClick="ICEcoder.newTab()"><img src="images/nav-new.png"></div>
 	</div>
 	<div id="findBar" class="findBar" onContextMenu="return false">
-		<form name="findAndReplace">
+		<form name="findAndReplace" onSubmit="ICEcoder.findReplace('findReplace',false,true);return false">
 			<div class="findReplace">
 				<div class="findText">Find</div>
 				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace('find',true,false)">
@@ -144,7 +144,7 @@ window.onbeforeunload = function() {
 				<option>all files</option>
 				<option>all filenames</option>
 				</select>
-				<input type="button" name="submit" value="&gt;&gt;" class="submit" onClick="ICEcoder.findReplace('findReplace',false,true)">
+				<input type="submit" name="submit" value="&gt;&gt;" class="submit">
 				<div class="results" id="results"></div>
 			</div>
 		</form>
