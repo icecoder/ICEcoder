@@ -113,7 +113,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findReplace .find {position: relative; width: 120px; height: 16px; border: 0; top: -3px; font-size: 10px; padding-left: 5px; margin-right: 3px}
 .findReplace .replaceAction {margin: 0 2px 0 0; top: -2px}
 .findReplace .replaceText {height: 21px; font-size: 10px; margin: 8px 2px 0 2px}
-.findReplace .replace {position: relative; width: 120px; height: 16px; border: 0; top: -2px; font-size: 10px; padding-left: 5px}
+.findReplace .replace {position: relative; width: 120px; height: 16px; border: 0; top: -3px; font-size: 10px; padding-left: 5px}
 .findReplace .targetText {height: 21px; font-size: 10px; margin: 8px 2px 0 2px}
 .findReplace .submit {position: relative; top: -2px; height: 17px; border: 0; background-color: #444; color: #eee; font-size: 10px; margin-left: 2px; cursor: pointer}
 .findReplace .submit:hover {background-color: #2187e7; color: #eee}
