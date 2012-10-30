@@ -16,14 +16,14 @@
 </div>
 <?php if (isset($_GET['replace'])) { ?>
 	<div class="replaceAll" id="replaceAll" onClick="<?php
-	if (strpos($_GET['target'],"filenames")) {
+	if (isset($_GET['target']) && strpos($_GET['target'],"filenames")) {
 		echo 'renameAll()';
-	} else if (strpos($_GET['target'],"files")) {
+	} else if (isset($_GET['target']) && strpos($_GET['target'],"files")) {
 		echo 'replaceInFilesAll()';
 	} else {
 		echo 'replaceAll()';
 	}
-	?>" style="opacity: 0.1"><?php echo strpos($_GET['target'],"filenames") ? 'rename all' : 'replace all';?></div>
+	?>" style="opacity: 0.1"><?php echo isset($_GET['target']) && strpos($_GET['target'],"filenames") ? 'rename all' : 'replace all';?></div>
 <?php ;}; ?>
 
 <script>
@@ -34,7 +34,7 @@ var resultsDisplay = "";
 var foundArray = [];
 foundInSelected = false;
 userTarget = top.document.findAndReplace.target.value;
-findText = top.findAndReplace.find.value;
+findText = top.findAndReplace.find.value.toLowerCase();
 <?php
 $findText = str_replace("ICEcoder:","",str_replace("&#39;","\'",$_GET['find']));
 // Find in open docs?
@@ -42,7 +42,7 @@ if (!isset($_GET['target'])) {
 $targetName = "document";
 ?>
 var startTab = top.ICEcoder.selectedTab;
-var rExp = new RegExp(findText,"g");
+var rExp = new RegExp(findText,"gi");
 for (var i=1;i<=top.ICEcoder.openFiles.length;i++) {
 	top.ICEcoder.switchTab(i);
 	var cM = top.ICEcoder.getcMInstance();
@@ -68,7 +68,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 		var spansArray = top.ICEcoder.filesFrame.contentWindow.document.getElementsByTagName('span');
 		for (var i=0;i<spansArray.length;i++) {
 			targetURL = spansArray[i].id.replace(/\|/g,"/");
-			if (targetURL.indexOf(findText)>-1 && targetURL.indexOf('_perms')>-1) {
+			if (targetURL.toLowerCase().indexOf(findText.toLowerCase())>-1 && targetURL.indexOf('_perms')>-1) {
 				if (userTarget.indexOf("selected")>-1) {
 					for (var j=0;j<top.ICEcoder.selectedFiles.length;j++) {
 						if (top.ICEcoder.selectedFiles[j].indexOf(targetURL.replace(/\//g,"|").replace(/_perms/g,""))>-1) {
@@ -77,8 +77,16 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					}
 				}
 				if (userTarget.indexOf("all")>-1 || (userTarget.indexOf("selected")>-1 && foundInSelected)) {
-					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.document.getElementById(\'blackMask\'))">'+ targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",$findText); ?>/g,"<b>"+findText+"</b>")+ '</a><br><div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",$findText); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strClean($_GET['replace']);};?></b>")+'</div>';
-					<?php if (isset($_GET['replace'])) { ?>
+					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.document.getElementById(\'blackMask\'))">';
+					resultsDisplay += targetURL.toLowerCase().replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b>"+findText.toLowerCase()+"</b>");
+					resultsDisplay += '</a><br>';
+					<?php if (!isset($_GET['replace'])) { ?>
+						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+'</div>';
+					<?php ;} else { ?>
+						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.toLowerCase().replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strtolower(strClean($_GET['replace']));};?></b>")+'</div>';
+					<?php
+					;};
+					if (isset($_GET['replace'])) { ?>
 					resultsDisplay += '<div class="replace" id="replace" onClick="renameSingle('+i+');this.style.display=\'none\'">rename</div>';
 					<?php ;}; ?>
 					resultsDisplay += '<hr>';
