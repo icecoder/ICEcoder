@@ -66,7 +66,7 @@ for ($i=0;$i<count($tempArray);$i++) {
 	for ($j=$insertAt;$j<count($finalArray);$j++) {
 		if (	strcasecmp(dirname($finalArray[$j]), dirname($tempArray[$i]))==0 &&
 			strcasecmp(basename($finalArray[$j]), basename($tempArray[$i]))<0 ||
-			strpos(dirname($finalArray[$j]),dirname($tempArray[$i]))===0) {
+			(strpos(dirname($finalArray[$j]),dirname($tempArray[$i]))===0 && substr($finalArray[$j],strlen(dirname($tempArray[$i])),1)=="/")) {
 			$insertAt++;
 		}
 	}
