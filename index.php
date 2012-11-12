@@ -75,9 +75,11 @@ window.onbeforeunload = function() {
 	<span id="folderMenuItems">
 		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="ICEcoder.showFileMenu()">New File</a>
 		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="ICEcoder.showFileMenu()">New Folder</a>
+		<a href="javascript:top.ICEcoder.pasteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Paste</a>
 	</span>
 	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Delete</a>
 	<span id="singleFileMenuItems">
+		<a href="javascript:top.ICEcoder.copyFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Copy</a>
 		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Rename</a>
 		<a href="javascript:window.open(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">View Webpage</a>
 	</span>
