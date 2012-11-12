@@ -52,6 +52,19 @@ if ($_GET['action']=="newFolder") {
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
 
+// If we're due to paste a new file...
+if ($_GET['action']=="paste") {
+	$location = $docRoot.strClean(str_replace("|","/",$_GET['location']));
+	if (is_writable($location)) {
+		copy($file, $location."/".basename($file));
+		// Reload file manager
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.str_replace($docRoot,"",$location).'\',\''.$fileName.'\');action="pasteFile";</script>';
+	} else {
+		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot copy file into \\n".$location."')</script>";
+	}
+	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
+}
+
 // If we're due to rename a file/folder...
 if ($_GET['action']=="rename") {
 	if (is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
