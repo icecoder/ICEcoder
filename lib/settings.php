@@ -39,14 +39,18 @@ include($settingsFile);
 // Add ICEcoder settings to beginning of $ICEcoder array
 $ICEcoder = array(
 	"versionNo"		=> "1.1",
-	"codeMirrorDir"		=> "CodeMirror-2.35"
+	"codeMirrorDir"		=> "CodeMirror-2.35",
+	"demoMode"		=> false
 )+$ICEcoder;
 
 $onLoadExtras = "";
 $pluginsDisplay = "";
 
+if ($ICEcoder['demoMode'] && $ICEcoder['accountPassword']!="") {$_SESSION['loggedIn']=true;};
+$demoMode = $ICEcoder['demoMode'];
+
 // Update this config file?
-if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
+if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
 	$settingsContents = file_get_contents($settingsFile);
 	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'"root"');
