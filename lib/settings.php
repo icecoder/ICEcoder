@@ -138,7 +138,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 	// Replace our previousFiles var with the the current
 	$repPosStart = strpos($settingsContents,'previousFiles"		=> "')+20;
 	$repPosEnd = strpos($settingsContents,'",',$repPosStart)-$repPosStart;
-	if ($_GET['saveFiles']!="CLEAR") {
+	if (!$demoMode && $_GET['saveFiles']!="CLEAR") {
 		$saveFiles=strClean($_GET['saveFiles']);
 		$saveFilesArray = explode(",",$saveFiles);
 		$saveFiles="";
