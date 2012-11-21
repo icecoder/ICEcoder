@@ -9,9 +9,9 @@ error_reporting(E_ALL);
 
 if (isset($_SERVER['PHP_AUTH_USER'])) {
 	$_SESSION['user'] = $_SERVER['PHP_AUTH_USER'];
-	$_SESSION['pass'] = $_SERVER['PHP_AUTH_PW'];
+	$_SESSION['pass'] = generateHash(strClean($_SERVER['PHP_AUTH_PW']),$ICEcoder["accountPassword"]);
 }
-$passwd = array($_SESSION['user'] => $_SESSION['pass']);
+$passwd = array($_SESSION['user'] => $ICEcoder["accountPassword"]);
 $aliases = array('la' 	=> 'ls -la',
 		'll' 	=> 'ls -lvhF',
 		'dir'	=> 'ls' );
@@ -29,7 +29,7 @@ class phpTerm {
 		if(	!isset($_SERVER['PHP_AUTH_USER'])||
 			!isset($_SERVER['PHP_AUTH_PW']) ||
 			!isset($passwd[$_SERVER['PHP_AUTH_USER']]) ||
-			$passwd[$_SERVER['PHP_AUTH_USER']] != $_SERVER['PHP_AUTH_PW']) 	{
+			$passwd[$_SERVER['PHP_AUTH_USER']] != $_SESSION['pass']) 	{
 			return false;
 		} else {
 			return true;
