@@ -1,0 +1,28 @@
+/* First, reset everything to a standard */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, input, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	font-family: verdana, arial, monospace, sans-serif;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	font-size: 12px;
+	vertical-align: top;
+}
+
+html, body {width: 100%; height: 100%; background: #000}
+
+.head {position: fixed; top: 0; padding: 2px; background: rgba(124,124,124,0.8); color: #fff; font-weight: bold; z-index: 1}
+textarea {position: absolute; display: block; top: 0; padding: 0; width: 100%; height: 100%; min-height: 100%; border: 0; background: #000; color: #0c0}
+textarea:focus {outline: none}
+p {color: #0c0}
+.commandLine {position: fixed; width: 100%; bottom: 0; padding: 2px; background: rgba(32,32,32,0.9); z-index: 1}
+.command {width: 95%; font-family: verdana, arial, monospace, sans-serif; border: none; background: transparent; color: #0c0}
+.command:focus {outline: none}
