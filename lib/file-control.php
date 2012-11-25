@@ -54,13 +54,30 @@ if ($_GET['action']=="newFolder") {
 
 // If we're due to paste a new file...
 if ($_GET['action']=="paste") {
-	$location = $docRoot.strClean(str_replace("|","/",$_GET['location']));
-	if (!$demoMode && is_writable($location)) {
-		copy($file, $location."/".basename($file));
+	$source = $file;
+	$dest = $docRoot.strClean(str_replace("|","/",$_GET['location']))."/".basename($source);
+	if (!$demoMode && is_writable(dirname($dest))) {
+		if (is_dir($source)) {
+			if (!is_dir($dest)) {
+				mkdir($dest, 0705);
+			}
+			foreach ($iterator = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
+				RecursiveIteratorIterator::SELF_FIRST) as $item
+				) {
+				if ($item->isDir()) {
+					mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0705);
+				} else {
+					copy($item, $dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName());
+				}
+			}
+		} else {
+			copy($source, $dest);
+		}
 		// Reload file manager
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.str_replace($docRoot,"",$location).'\',\''.$fileName.'\');action="pasteFile";</script>';
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.$fileName.'\');action="pasteFile";</script>';
 	} else {
-		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot copy file into \\n".$location."')</script>";
+		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot copy \\n".str_replace($docRoot,"",$source)."\\n into \\n".str_replace($docRoot,"",$dest)."')</script>";
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
