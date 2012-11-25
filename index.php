@@ -116,7 +116,7 @@ window.onbeforeunload = function() {
 <div id="editor" class="editor">
 	<div id="tabsBar" class="tabsBar" onContextMenu="return false">
 		<?php
-		for ($i=1;$i<=10;$i++) {
+		for ($i=1;$i<=100;$i++) {
 			echo '<div id="tab'.$i.'" class="tab" draggable="true" onClick="ICEcoder.canSwitchTabs ? ICEcoder.switchTab('.$i.') : ICEcoder.canSwitchTabs=true"></div>';
 		}
 		?><div class="newTab" onClick="ICEcoder.newTab()"><img src="images/nav-new.png"></div>
