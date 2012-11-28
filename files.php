@@ -31,8 +31,26 @@ class SortingIterator implements IteratorAggregate {
 	}
 }
 
+class IgnorantRecursiveDirectoryIterator extends RecursiveDirectoryIterator {
+  function getChildren() {
+    try {
+//      echo "<pre>".var_export( $this->key(), true )."</pre>";
+//      echo "<pre>".var_export( $this->getSubPath(), true )."</pre>";
+//      echo "<pre>".var_export( $this->getSubPathname(), true )."</pre>";
+      if ( (!isset($GLOBALS['ICEcoder']['bannedPaths'])) || 
+           (! (in_array( $this->key(), $GLOBALS['ICEcoder']['bannedPaths'] ))) ) {
+             return parent::getChildren();
+	} else {
+          return new RecursiveArrayIterator(array());
+	}
+    } catch(UnexpectedValueException $e) {
+      return new RecursiveArrayIterator(array());
+    }
+  }
+}
+
 // Get a full list of dirs & files and begin sorting using above class & function
-$objectList = new SortingIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($docRoot.$iceRoot), RecursiveIteratorIterator::SELF_FIRST), 'alphasort');
+$objectList = new SortingIterator(new RecursiveIteratorIterator(new IgnorantRecursiveDirectoryIterator($docRoot.$iceRoot), RecursiveIteratorIterator::SELF_FIRST), 'alphasort');
 
 // With that done, create arrays for out final ordered list and a temp container of files
 $finalArray = $tempArray =  array();
