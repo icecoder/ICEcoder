@@ -10,6 +10,7 @@ $ICEcoder = array(
 "lockedNav"		=> true,
 "accountPassword"	=> "",
 "bannedFiles"		=> array("_coder","ICEcoder"),
+"bannedPaths"		=> array("/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"),
 "allowedIPs"		=> array("*"),
 "plugins"		=> array(
 			array("Adminer","plugins/adminer/icon.png","margin-top: 3px","plugins/adminer/adminer-3.4.0-mysql-en.php","_blank",""),
