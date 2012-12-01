@@ -38,7 +38,7 @@ include($settingsFile);
 
 // Add ICEcoder settings to beginning of $ICEcoder array
 $ICEcoder = array(
-	"versionNo"		=> "1.1",
+	"versionNo"		=> "1.2",
 	"codeMirrorDir"		=> "CodeMirror-2.36",
 	"demoMode"		=> false
 )+$ICEcoder;
