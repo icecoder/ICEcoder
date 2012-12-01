@@ -160,7 +160,7 @@ window.onbeforeunload = function() {
 
 <div class="footer" id="footer" onContextMenu="return false">
 	<div class="nesting" id="nestValid">Nesting OK</div>
-	<div class="nestLoc">Cursor nest location</div>
+	<div class="nestLoc">cursor nest location</div>
 	<div class="nestDisplay" id="nestDisplay"></div>
 	<div class="charDisplay" id="charDisplay"><span id="char"></span></div>
 </div>
