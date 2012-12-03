@@ -240,8 +240,8 @@ if (action=="load") {
 
 				// Then clean it up, set the text cursor, update the display and get the character data
 				top.ICEcoder.contentCleanUp();
-				top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], null);
-				top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].setLineClass(0, "cm-s-activeLine");
+				top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].removeLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], "background");
+				top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].addLineClass(0, "background", "cm-s-activeLine");
 				top.ICEcoder.nextcMInstance++;
 				top.ICEcoder.openFileMDTs.push('<?php echo filemtime($file); ?>');
 				top.ICEcoder.loadingFile = false;
