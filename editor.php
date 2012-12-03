@@ -18,8 +18,8 @@ if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder
 $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" || $ICEcoder["theme"]=="neat" ? "#ccc" : "#000";
 ?>">
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0; background-color: #fff; color: #000; top: 0px; width: 100%; font-size: 13px; z-index: 1}
-.CodeMirror-scroll {height: auto; overflow: visible}
+.CodeMirror {position: absolute; width: 0; top: 0px; width: 100%; font-size: 13px; z-index: 1}
+.CodeMirror-scroll {} // was: height: auto; overflow: visible
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
 span.CodeMirror-matchhighlight {background: #555}
@@ -104,32 +104,6 @@ function createNewCMInstance(num) {
 		tabSize: top.ICEcoder.tabWidth,
 		indentWithTabs: true,
 		electricChars: false,
-		onCursorActivity: function(thisCM) {
-			top.ICEcoder.getCaretPosition();
-			top.ICEcoder.updateCharDisplay();
-			window['cM'+num].setLineClass(top.ICEcoder['cMActiveLine'+num], null);
-			if(!window['cM'+num].somethingSelected()) {
-				top.ICEcoder['cMActiveLine'+num] = window['cM'+num].setLineClass(window['cM'+num].getCursor().line, "cm-s-activeLine");
-			}
-			thisCM.matchHighlight("CodeMirror-matchhighlight");
-			top.ICEcoder.cssColorPreview();
-		},
-		onChange: function() {
-			// If we're not loading the file, it's a change, so update tab
-			if (!top.ICEcoder.loadingFile) {
-				top.ICEcoder.changedContent[top.ICEcoder.selectedTab-1] = 1;
-				top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
-			}
-			top.ICEcoder.getCaretPosition();
-			top.ICEcoder.dontUpdateNest = false;
-			top.ICEcoder.updateCharDisplay();
-			top.ICEcoder.updateNestingIndicator();
-			if (top.ICEcoder.findMode) {
-				top.ICEcoder.results.splice(top.ICEcoder.findResult,1);
-				top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " results";
-				top.ICEcoder.findMode = false;
-			}
-		},
 		onKeyEvent: function(thisCM, e) {
 			top.ICEcoder.redoChangedContent(e);
 			top.ICEcoder.findReplace('find',true,false);
@@ -173,10 +147,6 @@ function createNewCMInstance(num) {
 			};
 			lastKeyCode = e.keyCode;
 		},
-		onScroll: function() {
-			top.ICEcoder.mouseDown=false;
-		},
-		onGutterClick: !fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".coffee") == -1 && fileName.indexOf(".php") && fileName.indexOf(".rb") == -1) ? codeFoldTag : codeFoldBrace,
 		extraKeys: {
 			"Tab": function(cm) {CodeMirror.commands[top.ICEcoder.tabsIndent ? "defaultTab" : "insertTab"](cm);},
 			"Shift-Tab": "indentLess",
@@ -185,10 +155,51 @@ function createNewCMInstance(num) {
 		}
 	});
 
-	// Now create the active line for this CodeMirror object
-	top.ICEcoder['cMActiveLine'+num] = window['cM'+num].setLineClass(0, "cm-s-activeLine");
-};
+	window['cM'+num].on("cursorActivity", function(thisCM) {
+			top.ICEcoder.getCaretPosition();
+			top.ICEcoder.updateCharDisplay();
+			window['cM'+num].removeLineClass(top.ICEcoder['cMActiveLine'+num], "background");
+			if(!window['cM'+num].somethingSelected()) {
+				top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(window['cM'+num].getCursor().line, "background","cm-s-activeLine");
+			}
+			thisCM.matchHighlight("CodeMirror-matchhighlight");
+			top.ICEcoder.cssColorPreview();
+		}
+	);
 
+	window['cM'+num].on("change", function(thisCM, changeObj) {
+			// If we're not loading the file, it's a change, so update tab
+			if (!top.ICEcoder.loadingFile) {
+				top.ICEcoder.changedContent[top.ICEcoder.selectedTab-1] = 1;
+				top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
+			}
+			top.ICEcoder.getCaretPosition();
+			top.ICEcoder.dontUpdateNest = false;
+			top.ICEcoder.updateCharDisplay();
+			top.ICEcoder.updateNestingIndicator();
+			if (top.ICEcoder.findMode) {
+				top.ICEcoder.results.splice(top.ICEcoder.findResult,1);
+				top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " results";
+				top.ICEcoder.findMode = false;
+			}
+		}
+	);
+
+	window['cM'+num].on("scroll", function(thisCM) {
+			top.ICEcoder.mouseDown=false;
+		}
+	);
+
+	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
+			!fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".coffee") == -1 && fileName.indexOf(".php") && fileName.indexOf(".rb") == -1)
+			//? codeFoldTag : codeFoldBrace;
+			? console.log(1) : codeFoldBrace;
+		}
+	);
+
+	// Now create the active line for this CodeMirror object
+	top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
+};
 </script>
 
 </body>
