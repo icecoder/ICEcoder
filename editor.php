@@ -92,9 +92,6 @@ span.CodeMirror-matchhighlight {background: #555}
 <script>
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	top.ICEcoder.foldStyle = '<span style="position: absolute; display: inline-block; width: 13px; height: 13px; left: 0; background-color: #b00; color: #fff; text-align: center; cursor: pointer"><span style="position: relative; left: -1px">+</span></span> %N%';
-	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,top.ICEcoder.foldStyle);
-	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,top.ICEcoder.foldStyle);
 
 	window['cM'+num] = CodeMirror(document.body, {
 		mode: "application/x-httpd-php",
@@ -191,15 +188,17 @@ function createNewCMInstance(num) {
 	);
 
 	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
-			!fileName || (fileName && fileName.indexOf(".js") == -1 && fileName.indexOf(".coffee") == -1 && fileName.indexOf(".php") && fileName.indexOf(".rb") == -1)
-			//? codeFoldTag : codeFoldBrace;
-			? console.log(1) : codeFoldBrace;
+			["JavaScript","CoffeeScript","PHP","Ruby"].indexOf(top.ICEcoder.caretLocType) > -1
+			? codeFoldBrace(window['cM'+num], line) : codeFoldTag(window['cM'+num], line);
 		}
 	);
 
 	// Now create the active line for this CodeMirror object
 	top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
 };
+
+	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
+	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder);
 </script>
 
 </body>
