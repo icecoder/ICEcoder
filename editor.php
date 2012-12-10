@@ -26,6 +26,8 @@ span.CodeMirror-matchhighlight {background: #555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
 /* Make sure this next one remains the 6th item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\\21e5';};?>";}
+.lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 2px 5px 3px}
+.lint-error-icon {color: white; background-color: #b00; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 7px;}
 </style>
 </head>
 
@@ -92,6 +94,8 @@ span.CodeMirror-matchhighlight {background: #555}
 <script>
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+	top.ICEcoder['cM'+num+'waiting'] = "";
+	top.ICEcoder['cM'+num+'widgets'] = [];
 
 	window['cM'+num] = CodeMirror(document.body, {
 		mode: "application/x-httpd-php",
@@ -179,6 +183,8 @@ function createNewCMInstance(num) {
 				top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " results";
 				top.ICEcoder.findMode = false;
 			}
+			clearTimeout(window['cM'+num+'waiting']);
+			window['cM'+num+'waiting'] = setTimeout(top.ICEcoder.updateHints, 100);
 		}
 	);
 
