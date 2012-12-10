@@ -35,6 +35,7 @@ window.onbeforeunload = function() {
 
 </script>
 <script language="JavaScript" src="lib/ice-coder.js"></script>
+<script src="plugins/jshint/jshint.js"></script>
 </head>
 
 <body onLoad="<?php
