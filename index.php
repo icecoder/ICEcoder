@@ -51,6 +51,8 @@ window.onbeforeunload = function() {
 	echo $ICEcoder["tabsIndent"] ? 'true' : 'false';
 	echo ';top.ICEcoder.openLastFiles = ';
 	echo $ICEcoder["openLastFiles"] ? 'true' : 'false';
+	echo ';top.ICEcoder.lineWrapping = ';
+	echo $ICEcoder["lineWrapping"] ? 'true' : 'false';
 	echo ';top.ICEcoder.tabWidth = ';
 	echo $ICEcoder["tabWidth"];
 ?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">

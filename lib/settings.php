@@ -67,12 +67,14 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["lockedNav"]			= isset($_POST['lockedNav']) && $_POST['lockedNav'] ? "true" : "false";
 	if ($_POST['accountPassword']!="")	{$ICEcoder["accountPassword"] = generateHash(strClean($_POST['accountPassword']));};
 	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
+	$ICEcoder["bannedPaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedPaths']))).'")';
 	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
 	$ICEcoder["plugins"]			= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
 	$ICEcoder["theme"]			= strClean($_POST['theme']);
+	$ICEcoder["lineWrapping"]		= strClean($_POST['lineWrapping']);
 	$ICEcoder["tabWidth"]			= numClean($_POST['tabWidth']);
 
-	$settingsArray = array("root","tabsIndent","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","accountPassword","bannedFiles","allowedIPs","plugins","theme","tabWidth");
+	$settingsArray = array("root","tabsIndent","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","accountPassword","bannedFiles","bannedPaths","allowedIPs","plugins","theme","lineWrapping","tabWidth");
 	$settingsNew = "";
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"'.PHP_EOL.'	=> ';
@@ -97,7 +99,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	// Do we need a file manager refresh?
 	$refreshFM = $_POST['changedFileSettings']=="true" ? "true" : "false";
 	// With all that worked out, we can now hide the settings screen and apply the new settings
-	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["tabsIndent"].",".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",".$ICEcoder["visibleTabs"].",".$ICEcoder["tabWidth"].",".$refreshFM.");</script>";
+	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["tabsIndent"].",".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",".$ICEcoder["visibleTabs"].",".$ICEcoder["lineWrapping"].",".$ICEcoder["tabWidth"].",".$refreshFM.");</script>";
 }
 
 // Establish our user level
@@ -257,7 +259,7 @@ echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 		<img src="../images/ice-coder.png">
 		<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
 		<form name="settingsUpdate" action="settings.php" method="POST">
-		<input type="password" name="<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password" class="accountPassword">
+		<input type="password" name="<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password" class="accountPassword"><br><br>
 		<input type="submit" name="submit" value="<?php echo $ICEcoder["accountPassword"] == "" ? "Set Password" : "Login"; ?>" class="button">
 		</form>
 		</div>

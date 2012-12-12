@@ -100,7 +100,7 @@ function createNewCMInstance(num) {
 	window['cM'+num] = CodeMirror(document.body, {
 		mode: "application/x-httpd-php",
 		lineNumbers: true,
-		lineWrapping: true,
+		lineWrapping: top.ICEcoder.lineWrapping,
 		indentUnit: top.ICEcoder.tabWidth,
 		tabSize: top.ICEcoder.tabWidth,
 		indentWithTabs: true,

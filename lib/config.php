@@ -21,6 +21,7 @@ $ICEcoder = array(
 			array("JS Hint","plugins/jshint/icon.png","margin-top: 3px","http://www.jshint.com","_blank","")
 			),
 "theme"			=> "default",
+"lineWrapping"		=> true,
 "tabWidth"		=> 4,
 "previousFiles"		=> "",
 "last10Files"		=> ""

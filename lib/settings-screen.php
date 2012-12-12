@@ -102,8 +102,9 @@ confirm password<br>
 <br>
 banned files/folders<br>
 <input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" value="<?php for($i=0;$i<=count($ICEcoder["bannedFiles"])-1;$i++) {echo $ICEcoder["bannedFiles"][$i]; if ($i<count($ICEcoder["bannedFiles"])-1) {echo ', ';};}; ?>"><br>
+banned paths<br>
+<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedPaths" value="<?php for($i=0;$i<=count($ICEcoder["bannedPaths"])-1;$i++) {echo $ICEcoder["bannedPaths"][$i]; if ($i<count($ICEcoder["bannedPaths"])-1) {echo ', ';};}; ?>"><br>
 <input type="hidden" name="changedFileSettings" value="false">
-<br>
 ip addresses<br>
 <input type="text" onkeydown="showButton()" name="allowedIPs" value="<?php for($i=0;$i<=count($ICEcoder["allowedIPs"])-1;$i++) {echo $ICEcoder["allowedIPs"][$i]; if ($i<count($ICEcoder["allowedIPs"])-1) {echo ', ';};}; ?>"><br>
 </div>
@@ -133,7 +134,15 @@ for ($i=0;$i<count($themeArray);$i++) {
 ?>
 </select>
 
-<span style="position: absolute; margin: -18px 0 0 30px">
+<span style="position: absolute; margin: -15px 0 0 20px">
+	line wrapping<br>
+	<select onchange="selectTheme();showButton()" name="lineWrapping">
+		<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";};?>>yes</option>
+		<option value="false"<?php if(!$ICEcoder["lineWrapping"]) {echo " selected";};?>>no</option>
+	</select>
+</span>
+
+<span style="position: absolute; margin: -15px 0 0 120px">
 	tab width <span style="font-size: 10px; color: #888">chars</span><br>
 	<input type="text" name="tabWidth" id="tabWidth" style="width: 30px" onkeydown="showButton()" onkeyup="changeTabWidth()" value="<?php echo $ICEcoder["tabWidth"];?>">
 </span>
