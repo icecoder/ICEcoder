@@ -26,8 +26,8 @@ span.CodeMirror-matchhighlight {background: #555}
 .CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
 /* Make sure this next one remains the 6th item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\\21e5';};?>";}
-.lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 2px 5px 3px}
-.lint-error-icon {color: white; background-color: #b00; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 7px;}
+.lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 3px 5px}
+.lint-error-icon {background-color: #b00; color: #fff; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 5px}
 </style>
 </head>
 
@@ -203,8 +203,9 @@ function createNewCMInstance(num) {
 	top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
 };
 
-	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
-	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder);
+	// var top.ICEcoder.foldStyle = '<span style="position: absolute; display: inline-block; width: 13px; height: 13px; left: 0; background-color: #b00; color: #fff; text-align: center; cursor: pointer"><span style="position: relative; left: -1px">+</span></span> %N%';
+	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder); // did have 2nd argument of top.ICEcoder.foldStyle
+	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder); // did have 2nd argument of top.ICEcoder.foldStyle
 </script>
 
 </body>
