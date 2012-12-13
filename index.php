@@ -35,7 +35,11 @@ window.onbeforeunload = function() {
 
 </script>
 <script language="JavaScript" src="lib/ice-coder.js"></script>
-<script src="plugins/jshint/jshint.js"></script>
+<?php
+if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
+	echo '<script src="plugins/jshint/jshint.js"></script>';
+}
+?>
 </head>
 
 <body onLoad="<?php
