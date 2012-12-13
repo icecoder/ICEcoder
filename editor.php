@@ -183,8 +183,10 @@ function createNewCMInstance(num) {
 				top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " results";
 				top.ICEcoder.findMode = false;
 			}
-			clearTimeout(window['cM'+num+'waiting']);
-			window['cM'+num+'waiting'] = setTimeout(top.ICEcoder.updateHints, 100);
+			if (top.ICEcoder.codeAssist) {
+				clearTimeout(window['cM'+num+'waiting']);
+				window['cM'+num+'waiting'] = setTimeout(top.ICEcoder.updateHints, 100);
+			}
 		}
 	);
 
