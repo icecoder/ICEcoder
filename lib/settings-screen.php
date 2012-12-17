@@ -5,6 +5,7 @@
 <head>
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> settings screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="settings-screen.css">
 <link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
 <script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
@@ -136,7 +137,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 <span style="position: absolute; margin: -15px 0 0 20px">
 	line wrapping<br>
-	<select onchange="selectTheme();showButton()" name="lineWrapping">
+	<select onchange="showButton()" name="lineWrapping">
 		<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";};?>>yes</option>
 		<option value="false"<?php if(!$ICEcoder["lineWrapping"]) {echo " selected";};?>>no</option>
 	</select>
