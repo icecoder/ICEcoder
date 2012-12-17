@@ -247,6 +247,8 @@ if (!$_SESSION['loggedIn']) {
 echo $ICEcoder["versionNo"]." : ";
 echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 ?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="ice-coder.css">
 <link rel="icon" type="image/png" href="../favicon.png">
 </head>
