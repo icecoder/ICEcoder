@@ -11,6 +11,7 @@
 <head>
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> multiple results screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="multiple-results.css">
 </head>
 
@@ -111,6 +112,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 	} else {
 	$targetName = "file";
 	$r = 0;
+	echo ";console.log('HERE');";
 	function phpGrep($q, $path, $base) {
 		$fp = opendir($path);
 		global $r, $ICEcoder, $serverType, $selectedFiles;
@@ -128,6 +130,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 				}
 				$findPath = str_replace($base,"",$fullPath);
 				for ($i=0;$i<count($selectedFiles);$i++) {
+					echo ";console.log('FIND: ".$findPath." in ".str_replace("|","/",$selectedFiles[$i])." : ".strpos($findPath,str_replace("|","/",$selectedFiles[$i]))."');";
 					if (strpos($findPath,str_replace("|","/",$selectedFiles[$i]))!==0) {
 						$bFile = true;
 					}
