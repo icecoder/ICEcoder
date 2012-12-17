@@ -5,6 +5,7 @@
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
 <!--
 codemirror-compressed.js
@@ -198,6 +199,10 @@ function createNewCMInstance(num) {
 	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
 			["JavaScript","CoffeeScript","PHP","Ruby"].indexOf(top.ICEcoder.caretLocType) > -1
 			? codeFoldBrace(window['cM'+num], line) : codeFoldTag(window['cM'+num], line);
+			window['cM'+num].setGutterMarker(line, "CodeMirror-linenumbers", document.createTextNode("+ "+(line+1)));
+			setTimeout(function() {
+				window['cM'+num].setGutterMarker(line, "CodeMirror-linenumbers", null);
+			},1000);
 		}
 	);
 
@@ -206,8 +211,8 @@ function createNewCMInstance(num) {
 };
 
 	// var top.ICEcoder.foldStyle = '<span style="position: absolute; display: inline-block; width: 13px; height: 13px; left: 0; background-color: #b00; color: #fff; text-align: center; cursor: pointer"><span style="position: relative; left: -1px">+</span></span> %N%';
-	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder); // did have 2nd argument of top.ICEcoder.foldStyle
-	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder); // did have 2nd argument of top.ICEcoder.foldStyle
+	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder); // did have 2nd arg of top.ICEcoder.foldStyle, 2nd arg is now placeholder between tags/braces
+	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder); // did have 2nd arg of top.ICEcoder.foldStyle, 2nd arg is now placeholder between tags/braces
 </script>
 
 </body>
