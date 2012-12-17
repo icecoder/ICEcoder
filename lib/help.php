@@ -5,6 +5,7 @@
 <head>
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> help</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="help.css">
 </head>
 
