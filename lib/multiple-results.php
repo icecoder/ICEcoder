@@ -1,4 +1,10 @@
 <?php include("settings.php");?>
+<?php
+	if(isset($_GET['selectedFiles'])) {
+		$selectedFiles=explode(":",$_GET['selectedFiles']);
+		echo $selectedFiles[0].".....".$selectedFiles[1];
+	}
+?>
 <!DOCTYPE html>
 
 <html>
@@ -67,23 +73,30 @@ if (startTab!=top.ICEcoder.selectedTab) {
 ?>
 		var spansArray = top.ICEcoder.filesFrame.contentWindow.document.getElementsByTagName('span');
 		for (var i=0;i<spansArray.length;i++) {
-			targetURL = spansArray[i].id.replace(/\|/g,"/");
-			if (targetURL.toLowerCase().indexOf(findText.toLowerCase())>-1 && targetURL.indexOf('_perms')>-1) {
+			foundInSelected = false;
+			targetURL = spansArray[i].id.replace(/\|/g,"/").toLowerCase();
+			if (	targetURL.lastIndexOf(findText.toLowerCase()) > targetURL.lastIndexOf("/") 
+				&& targetURL.indexOf(findText.toLowerCase())>-1 && targetURL.indexOf('_perms')>-1) {
 				if (userTarget.indexOf("selected")>-1) {
 					for (var j=0;j<top.ICEcoder.selectedFiles.length;j++) {
-						if (top.ICEcoder.selectedFiles[j].indexOf(targetURL.replace(/\//g,"|").replace(/_perms/g,""))>-1) {
+						if (
+							targetURL.replace(/\//g,"|").indexOf(top.ICEcoder.selectedFiles[j].replace(/\//g,"|").replace(/_perms/g,""))==0
+							&& (
+								targetURL.replace(/\|/g,"/").replace(/_perms/g,"")==top.ICEcoder.selectedFiles[j].replace(/\|/g,"/").replace(/_perms/g,"")
+								||
+								(targetURL.replace(/\|/g,"/").split("/").length > top.ICEcoder.selectedFiles[j].replace(/\|/g,"/").split("/").length && targetURL.charAt(top.ICEcoder.selectedFiles[j].length)=="/"))) {
 							foundInSelected = true;
 						}
 					}
 				}
 				if (userTarget.indexOf("all")>-1 || (userTarget.indexOf("selected")>-1 && foundInSelected)) {
 					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.document.getElementById(\'blackMask\'))">';
-					resultsDisplay += targetURL.toLowerCase().replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b>"+findText.toLowerCase()+"</b>");
+					resultsDisplay += targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b>"+findText.toLowerCase()+"</b>");
 					resultsDisplay += '</a><br>';
 					<?php if (!isset($_GET['replace'])) { ?>
 						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+'</div>';
 					<?php ;} else { ?>
-						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.toLowerCase().replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strtolower(strClean($_GET['replace']));};?></b>")+'</div>';
+						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strtolower(strClean($_GET['replace']));};?></b>")+'</div>';
 					<?php
 					;};
 					if (isset($_GET['replace'])) { ?>
@@ -100,9 +113,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 	$r = 0;
 	function phpGrep($q, $path, $base) {
 		$fp = opendir($path);
-		global $r;
-		global $ICEcoder;
-		global $serverType;
+		global $r, $ICEcoder, $serverType, $selectedFiles;
 		if (!isset($ret)) {$ret="";};
 		$slash = $serverType == "Windows" ? "\\" : "/";
 		while($f = readdir($fp)) {
@@ -114,6 +125,12 @@ if (startTab!=top.ICEcoder.selectedTab) {
 				$bFile = false;
 				for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
 					if (strpos($f,$ICEcoder['bannedFiles'][$i])>0) {$bFile = true;};
+				}
+				$findPath = str_replace($base,"",$fullPath);
+				for ($i=0;$i<count($selectedFiles);$i++) {
+					if (strpos($findPath,str_replace("|","/",$selectedFiles[$i]))!==0) {
+						$bFile = true;
+					}
 				}
 				if (!$bFile) {
 					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))\\\">";
