@@ -20,23 +20,23 @@ $fileName = basename($file);
 if ($_GET['action']=="load") {
 	echo '<script>action="load";</script>';
 
-	// Determine what to do based on mime type
-	$finfo = finfo_open(FILEINFO_MIME_TYPE);
-	if (strpos(finfo_file($finfo, $file),"text")===0) {
-		if (file_exists($file)) {
+	if (file_exists($file)) {
+		// Determine what to do based on mime type
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		if (strpos(finfo_file($finfo, $file),"text")===0) {
 			echo '<script>fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.rightClickedFile = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 			echo '</script>';
 			$loadedFile = file_get_contents($file);
 			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
+		} else if (strpos(finfo_file($finfo, $file),"image")===0) {
+			echo '<script>fileType="image";fileName=\''.$fileLoc."/".$fileName.'\'</script>';
 		} else {
-			echo '<script>fileType="nothing"; top.ICEcoder.message(\'Sorry, '.$fileLoc."/".$fileName.' doesn\\\'t seem to exist on the server\');</script>';
-		}
-	} else if (strpos(finfo_file($finfo, $file),"image")===0) {
-		echo '<script>fileType="image";fileName=\''.$fileLoc."/".$fileName.'\'</script>';
+			echo '<script>fileType="other";window.open(\'http://'.$_SERVER['SERVER_NAME'].$fileLoc."/".$fileName.'\');</script>';
+		};
 	} else {
-		echo '<script>fileType="other";window.open(\'http://'.$_SERVER['SERVER_NAME'].$fileLoc."/".$fileName.'\');</script>';
-	};
+		echo '<script>fileType="nothing"; top.ICEcoder.message(\'Sorry, '.$fileLoc."/".$fileName.' doesn\\\'t seem to exist on the server\');</script>';
+	}
 	finfo_close($finfo);
 };
 
@@ -219,6 +219,9 @@ if (action=="load") {
 			if (!top.ICEcoder.content.contentWindow.createNewCMInstance) {
 				console.log('There was tech hiccup, likely something wasn\'t quite ready. So ICEcoder reloaded it\'s file control again.');
 				window.location.reload();
+			<?php
+			if (file_exists($file)) {
+			?>
 			} else {
 				top.ICEcoder.loadingFile = true;
 				// Reset the various states back to their initial setting
@@ -245,6 +248,9 @@ if (action=="load") {
 				top.ICEcoder.nextcMInstance++;
 				top.ICEcoder.openFileMDTs.push('<?php echo filemtime($file); ?>');
 				top.ICEcoder.loadingFile = false;
+			<?php
+			;};
+			?>
 			}
 		},4);
 	}
