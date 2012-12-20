@@ -29,6 +29,7 @@ span.CodeMirror-matchhighlight {background: #555}
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\\21e5';};?>";}
 .lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 3px 5px}
 .lint-error-icon {background-color: #b00; color: #fff; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 5px}
+.snippetFrame {border: 1px; width: 100%}
 </style>
 </head>
 
@@ -214,6 +215,8 @@ function createNewCMInstance(num) {
 	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
 	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder);
 </script>
+
+<iframe name="snippetLoader" src="snippets/snippet-display.php" style="display: none"></iframe>
 
 </body>
 
