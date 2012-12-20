@@ -211,8 +211,8 @@ function createNewCMInstance(num) {
 };
 
 	// var top.ICEcoder.foldStyle = '<span style="position: absolute; display: inline-block; width: 13px; height: 13px; left: 0; background-color: #b00; color: #fff; text-align: center; cursor: pointer"><span style="position: relative; left: -1px">+</span></span> %N%';
-	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder); // did have 2nd arg of top.ICEcoder.foldStyle, 2nd arg is now placeholder between tags/braces
-	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder); // did have 2nd arg of top.ICEcoder.foldStyle, 2nd arg is now placeholder between tags/braces
+	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
+	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder);
 </script>
 
 </body>

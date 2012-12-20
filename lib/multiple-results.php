@@ -1,7 +1,7 @@
 <?php include("settings.php");?>
 <?php
 	if(isset($_GET['selectedFiles'])) {
-		$selectedFiles=explode(":",$_GET['selectedFiles']);
+		$selectedFiles=explode(":",strClean($_GET['selectedFiles']));
 		echo $selectedFiles[0].".....".$selectedFiles[1];
 	}
 ?>
@@ -112,7 +112,6 @@ if (startTab!=top.ICEcoder.selectedTab) {
 	} else {
 	$targetName = "file";
 	$r = 0;
-	echo ";console.log('HERE');";
 	function phpGrep($q, $path, $base) {
 		$fp = opendir($path);
 		global $r, $ICEcoder, $serverType, $selectedFiles;
@@ -130,7 +129,6 @@ if (startTab!=top.ICEcoder.selectedTab) {
 				}
 				$findPath = str_replace($base,"",$fullPath);
 				for ($i=0;$i<count($selectedFiles);$i++) {
-					echo ";console.log('FIND: ".$findPath." in ".str_replace("|","/",$selectedFiles[$i])." : ".strpos($findPath,str_replace("|","/",$selectedFiles[$i]))."');";
 					if (strpos($findPath,str_replace("|","/",$selectedFiles[$i]))!==0) {
 						$bFile = true;
 					}
