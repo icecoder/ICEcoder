@@ -38,6 +38,8 @@ Early version of the web based IDE which allows for creation of websites in the 
 * MySQL Database management via Adminer plugin
 * Backs up files every 10 mins or on click of backup plugin icon
 * Github repo syncing with ICErepo plugin
+* Shell terminal
+* JS Hint validation as you type
 
 ###Installation
 
