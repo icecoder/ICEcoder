@@ -73,7 +73,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .header .logo {position: relative; margin: 5px 10px 0 5px; cursor: pointer}
 
 .files {position: absolute; display: inline-block; top: 0; left: 0; height: 100%; width: 250px; background-color: #444; background-image: url('../images/files-arrow.png'); background-repeat: no-repeat; background-position: 100% 50%; overflow: hidden; z-index: 1;
-	box-shadow: 0 0 10px 4px rgba(0,0,0,0.4);
+	box-shadow: 0 80px 10px 4px rgba(0,0,0,0.4);
 }
 .files .account {display: inline-block; height: 50px; width: 250px; margin-top: 40px; background-color: #888}
 .files .accountOptions {position: relative; height: 32px; width: 100%; margin-left: 15px; margin-top: 8px}
@@ -98,14 +98,14 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .serverMessage b {font-size: 10px}
 
 .editor {position: absolute; display: inline-block; top: 0; left: 15px; width: 2400px}
-.editor .tabsBar {display: inline-block; height: 22px; width: 2400px; margin-top: 40px; padding-left: 41px; background-color: #888;}
-.tabsBar .tab {display: none; background-image: url('../images/nav-bg.jpg'); background-repeat: repeat-x; background-position: 0 0; padding: 5px 8px 2px 8px; font-size: 10px; border-left: solid 1px #fff; border-right: solid 1px #777; color: #fff; direction: rtl; text-align: right; white-space: nowrap; overflow: hidden; cursor: pointer;
+.editor .tabsBar {display: inline-block; height: 22px; width: 2400px; margin-top: 40px; padding-left: 41px; background: #ccc}
+.tabsBar .tab {display: none; background-image: url('../images/nav-bg.jpg'); background-repeat: repeat-x; background-position: 0 0; padding: 5px 8px 2px 8px; font-size: 10px; border-left: solid 1px #fff; border-right: solid 1px #777; border-radius: 4px 4px 0 0; color: #fff; direction: rtl; text-align: right; white-space: nowrap; overflow: hidden; cursor: pointer;
 	-webkit-transition: all 0.15s;
 	-moz-transition: all 0.15s;
 	transition: all 0.15s;
 }
 .tabsBar .tab .closeTab {margin: 1px 0 0 5px; border-radius: 6px}
-.tabsBar .newTab {display: inline-block; background-image: url('../images/nav-bg.jpg'); background-repeat: repeat-x; background-position: 0 0; padding: 6px 5px 5px 5px; border-left: solid 1px #fff; border-right: solid 1px #777; cursor: pointer;}
+.tabsBar .newTab {display: inline-block; background-image: url('../images/nav-bg.jpg'); background-repeat: repeat-x; background-position: 0 0; padding: 6px 5px 5px 5px; border-left: solid 1px #fff; border-right: solid 1px #777; border-radius: 4px 4px 0 0; cursor: pointer;}
 .editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #141414}
 .findBar .findReplace {position: absolute; z-index: 1}
 .findReplace select {position: relative; font-size: 10px; margin: 8px 2px 0 2px; top: -2px;}
