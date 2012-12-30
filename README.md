@@ -3,7 +3,7 @@
 
 Early version of the web based IDE which allows for creation of websites in the web browser. Uses the brilliant CodeMirror for code highlighting & editing, with a slick IDE wrapped around it to make the whole thing work.
 
-<img src="http://icecoder.net/images/icecoder-1pt3-web-ide.jpg" alt="ICEcoder web IDE">
+<img src="http://icecoder.net/images/icecoder-v1pt3-web-ide.jpg" alt="ICEcoder web IDE">
 
 ###Features you'd expect
 * Context aware code highlighting
