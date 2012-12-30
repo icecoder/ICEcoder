@@ -18,7 +18,8 @@ $ICEcoder = array(
 			array("ICErepo","plugins/ice-repo/icon.png","margin-top: 3px","plugins/ice-repo","_blank",""),
 			array("Dochub","plugins/dochub/icon.png","margin-top: 3px","http://dochub.io","_blank",""),
 			array("Terminal","plugins/terminal/icon.gif","margin-top: 3px","plugins/terminal","_blank",""),
-			array("JS Hint","plugins/jshint/icon.png","margin-top: 3px","http://www.jshint.com","_blank","")
+			array("JS Hint","plugins/jshint/icon.png","margin-top: 3px","http://www.jshint.com","_blank",""),
+			array("Emmet","plugins/emmet/icon.png","margin-top: 3px","http://docs.emmet.io","_blank","")
 			),
 "theme"			=> "default",
 "lineWrapping"		=> true,
