@@ -2,7 +2,6 @@
 <?php
 	if(isset($_GET['selectedFiles'])) {
 		$selectedFiles=explode(":",strClean($_GET['selectedFiles']));
-		echo $selectedFiles[0].".....".$selectedFiles[1];
 	}
 ?>
 <!DOCTYPE html>
@@ -124,23 +123,24 @@ if (startTab!=top.ICEcoder.selectedTab) {
 				$ret .= phpGrep($q, $fullPath, $base);
 			} else if(stristr(file_get_contents($fullPath), $q)) {
 				$bFile = false;
+				$foundInSelFile = false;
 				for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
-					if (strpos($f,$ICEcoder['bannedFiles'][$i])>0) {$bFile = true;};
+					if (strpos($f,$ICEcoder['bannedFiles'][$i])!==false) {$bFile = true;};
 				}
 				$findPath = str_replace($base,"",$fullPath);
 				for ($i=0;$i<count($selectedFiles);$i++) {
-					if (strpos($findPath,str_replace("|","/",$selectedFiles[$i]))!==0) {
-						$bFile = true;
+					if (strpos($findPath,str_replace("|","/",$selectedFiles[$i]))===0) {
+						$foundInSelFile = true;
 					}
 				}
-				if (!$bFile) {
+				if (!$bFile && (count($selectedFiles)==0 || count($selectedFiles)>0 && $foundInSelFile)) {
 					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))\\\">";
 					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">Found ".substr_count(strtolower(file_get_contents($fullPath)),$q)." times</div>";
 					if (isset($_GET['replace'])) {
-						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('".$fullPath."');this.style.display=\'none\'\\\">replace</div>";
+						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('".$fullPath."');this.style.display=\'none\'\\\">replace</div>".PHP_EOL;
 					};
 					$ret .= '<hr>';
-					echo 'foundArray.push("'.$fullPath.'");';
+					echo 'foundArray.push("'.$fullPath.'");'.PHP_EOL;
 					$r++;
 				}
 			}
