@@ -23,6 +23,8 @@ body {font-family: arial; font-size: 10px; background: #ccc}
 Tip: If you have Emmet installed, also try tab key after your abbreviation
 </script>
 
+<span onClick="top.ICEcoder.removeSnippet()" style="position: absolute; top: 5px; right: 5px; height: 11px; background: #444; margin: 1px 0 0 5px; border-radius: 6px; cursor: pointer"><img src="../images/nav-close.gif"></span>
+
 </body>
 
 </html>
