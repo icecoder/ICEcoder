@@ -223,8 +223,6 @@ function createNewCMInstance(num) {
 	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder);
 </script>
 
-<iframe name="snippetLoader" src="snippets/snippet-display.php" style="display: none"></iframe>
-
 </body>
 
 </html>
