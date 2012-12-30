@@ -14,6 +14,10 @@ modes:	clike, coffeescript, css, javascript, less, php, ruby & xml
 utils:	foldcode, searchcursor, match-highlighter
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
+<?php
+if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
+	echo '<script src="plugins/emmet/emmet.min.js"></script>';
+};?>
 <link rel="stylesheet" href="<?php
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
 $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" || $ICEcoder["theme"]=="neat" ? "#ccc" : "#000";
@@ -94,6 +98,14 @@ span.CodeMirror-matchhighlight {background: #555}
 </div>
 
 <script>
+	CodeMirror.keyMap.ICEcoder = {
+		"Tab": function(cm) {CodeMirror.commands[top.ICEcoder.tabsIndent ? "defaultTab" : "insertTab"](cm);},
+		"Shift-Tab": "indentLess",
+		"Ctrl-Up": function() {},
+		"Ctrl-Down": function() {},
+		fallthrough: ["default"]
+	};
+
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 	top.ICEcoder['cM'+num+'waiting'] = "";
@@ -107,6 +119,7 @@ function createNewCMInstance(num) {
 		tabSize: top.ICEcoder.tabWidth,
 		indentWithTabs: true,
 		electricChars: false,
+		keyMap: "ICEcoder",
 		onKeyEvent: function(thisCM, e) {
 			top.ICEcoder.redoChangedContent(e);
 			top.ICEcoder.findReplace('find',true,false);
@@ -149,12 +162,6 @@ function createNewCMInstance(num) {
 				}
 			};
 			lastKeyCode = e.keyCode;
-		},
-		extraKeys: {
-			"Tab": function(cm) {CodeMirror.commands[top.ICEcoder.tabsIndent ? "defaultTab" : "insertTab"](cm);},
-			"Shift-Tab": "indentLess",
-			"Ctrl-Up": function() {},
-			"Ctrl-Down": function() {}
 		}
 	});
 
