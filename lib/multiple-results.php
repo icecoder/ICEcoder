@@ -129,7 +129,8 @@ if (startTab!=top.ICEcoder.selectedTab) {
 				}
 				$findPath = str_replace($base,"",$fullPath);
 				for ($i=0;$i<count($selectedFiles);$i++) {
-					if (strpos($findPath,str_replace("|","/",$selectedFiles[$i]))===0) {
+					$stringExtra = $selectedFiles[$i] != "|" ? "/" : "";
+					if (strpos($findPath.$stringExtra,str_replace("|","/",$selectedFiles[$i]).$stringExtra)===0) {
 						$foundInSelFile = true;
 					}
 				}
