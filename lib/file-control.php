@@ -55,7 +55,7 @@ if ($_GET['action']=="newFolder") {
 // If we're due to paste a new file...
 if ($_GET['action']=="paste") {
 	$source = $file;
-	$dest = $docRoot.strClean(str_replace("|","/",$_GET['location']))."/".basename($source);
+	$dest = str_replace("//","/",$docRoot.strClean(str_replace("|","/",$_GET['location']))."/".basename($source));
 	if (!$demoMode && is_writable(dirname($dest))) {
 		if (is_dir($source)) {
 			if (!is_dir($dest)) {
@@ -72,10 +72,20 @@ if ($_GET['action']=="paste") {
 				}
 			}
 		} else {
-			copy($source, $dest);
+			if (!file_exists($dest)) {
+				copy($source, $dest);
+			} else {
+				for ($i=2; $i<1000000000; $i++) {
+					if (!file_exists($dest." (".$i.")")) {
+						$dest = $dest." (".$i.")";
+						copy($source, $dest);
+						$i=1000000000;
+					}
+				}
+			}
 		}
 		// Reload file manager
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.$fileName.'\');action="pasteFile";</script>';
+		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.basename($dest).'\');action="pasteFile";</script>';
 	} else {
 		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot copy \\n".str_replace($docRoot,"",$source)."\\n into \\n".str_replace($docRoot,"",$dest)."')</script>";
 	}
