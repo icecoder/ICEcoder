@@ -138,15 +138,20 @@ if ($_GET['action']=="perms") {
 if ($_GET['action']=="delete") {
 	$filesArray = explode(";",$file); // May contain more than one file here
 	for ($i=0;$i<=count($filesArray)-1;$i++) {
-		if (!$demoMode && is_writable($iceRoot.$filesArray[$i])) {
-			is_dir($iceRoot.$filesArray[$i])
-				? rrmdir($iceRoot.$filesArray[$i])
-				: unlink($iceRoot.$filesArray[$i]);
+		$fullPath = str_replace($docRoot,"",$filesArray[$i]);
+		$fullPath = str_replace($iceRoot,"",$fullPath);
+		$fullPath = $docRoot.$iceRoot.$fullPath;
+		if (!$demoMode && is_writable($fullPath)) {
+			is_dir($fullPath)
+				? rrmdir($fullPath)
+				: unlink($fullPath);
+			$fileName = basename($fullPath);
+			$fileLoc = dirname(str_replace($docRoot,"",$fullPath));
 			// Reload file manager
 			echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
 			echo 'action="delete";</script>';
 		} else {
-			echo "<script>top.ICEcoder.message('Sorry can\\'t delete\\n".$filesArray[$i]."');</script>";
+			echo "<script>top.ICEcoder.message('Sorry can\\'t delete\\n".str_replace($docRoot,"",$fullPath)."');</script>";
 		}
 		echo '<script>action="nothing";</script>';
 	}
