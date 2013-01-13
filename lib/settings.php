@@ -11,6 +11,13 @@ error_reporting(-1);
 // Start a session if we haven't already
 if(!isset($_SESSION)) {session_start();}
 
+// Logout if that's the action we're taking
+if (isset($_GET['logout'])) {
+	$_SESSION['loggedIn']=false;
+	session_destroy();
+	header("Location: dirname(__FILE__)./?loggedOut");
+}
+
 // Function to handle salted hashing
 define('SALT_LENGTH',9);
 function generateHash($plainText,$salt=null) {
@@ -262,7 +269,7 @@ echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 		<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
 		<form name="settingsUpdate" action="settings.php" method="POST">
 		<input type="password" name="<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password" class="accountPassword"><br><br>
-		<input type="submit" name="submit" value="<?php echo $ICEcoder["accountPassword"] == "" ? "Set Password" : "Login"; ?>" class="button">
+		<input type="submit" name="submit" value="<?php echo $ICEcoder["accountPassword"] == "" ? "set password" : "login"; ?>" class="button">
 		</form>
 		</div>
 	</div>
