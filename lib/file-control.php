@@ -98,7 +98,7 @@ if ($_GET['action']=="upload") {
 		class fileUploader {  
 			public function __construct($uploads) {  
 				global $docRoot;
-				$uploadDir=$docRoot.$iceRoot.str_replace("|","/",strClean($_POST['folder'])."/");
+				$uploadDir=$docRoot.$iceRoot.str_replace("..","",str_replace("|","/",strClean($_POST['folder'])."/"));
 				foreach($uploads as $current) {  
 					$this->uploadFile=$uploadDir.$current->name;
 					$fileName = $current->name;
