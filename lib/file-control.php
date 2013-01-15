@@ -92,6 +92,52 @@ if ($_GET['action']=="paste") {
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
 
+// If we're due to upload files...
+if ($_GET['action']=="upload") {
+	if (!$demoMode) {
+		class fileUploader {  
+			public function __construct($uploads) {  
+				global $docRoot;
+				$uploadDir=$docRoot.$iceRoot.str_replace("|","/",strClean($_POST['folder'])."/");
+				foreach($uploads as $current) {  
+					$this->uploadFile=$uploadDir.$current->name;
+					$fileName = $current->name;
+					if ($this->upload($current,$this->uploadFile)) {
+						echo '<script>action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.rightClickedFile.replace(/\|/g,\'/\'),\''.$fileName.'\');</script>';
+					} else {
+						echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot upload \\n".$fileName."\\n into \\n'+top.ICEcoder.rightClickedFile.replace(/\|/g,'/'))</script>";
+					}
+				}  
+			}  
+
+			public function upload($current,$uploadFile){ 
+				if(move_uploaded_file($current->tmp_name,$uploadFile)){  
+					return true;  
+				}  
+			}  
+		}
+
+		function getDetails($fileArr) {
+			foreach($fileArr['name'] as $keyee => $info) {
+				$uploads[$keyee]->name=$fileArr['name'][$keyee];  
+				$uploads[$keyee]->type=$fileArr['type'][$keyee];  
+				$uploads[$keyee]->tmp_name=$fileArr['tmp_name'][$keyee];  
+				$uploads[$keyee]->error=$fileArr['error'][$keyee];  
+			}  
+			return $uploads;  
+		}
+
+		if($_FILES['filesInput']){  
+			$uploads = getDetails($_FILES['filesInput']);
+			$fileUploader=new fileUploader($uploads);
+		}
+	} else {
+		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot upload whilst in demo mode');</script>";
+	}
+
+	echo "<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.hideFileMenu();top.ICEcoder.showHide('hide',top.document.getElementById('loadingMask'));</script>";
+}
+
 // If we're due to rename a file/folder...
 if ($_GET['action']=="rename") {
 	if (!$demoMode && is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
