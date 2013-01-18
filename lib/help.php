@@ -13,6 +13,8 @@
 
 <h1 id="title">help</h1>
 
+<a href="javascript:top.ICEcoder.showManual(<?php echo $ICEcoder["versionNo"];?>)" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #2187e7; color: #fff; font-size: 18px">ICEcoder manual</div></a>
+
 <h2>In file manager</h2>
 <span class="key">Delete</span> <span class="shortcut">Delete file</span><br><br>
 
