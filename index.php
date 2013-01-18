@@ -130,6 +130,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 
 <div id="editor" class="editor">
 	<div id="tabsBar" class="tabsBar" onContextMenu="return false">
+		<a nohref onClick="top.ICEcoder.closeAllTabs()"><img src="images/nav-close.gif" class="closeAllTabs"></a>
 		<?php
 		for ($i=1;$i<=100;$i++) {
 			echo '<div id="tab'.$i.'" class="tab" draggable="true" onClick="ICEcoder.canSwitchTabs ? ICEcoder.switchTab('.$i.') : ICEcoder.canSwitchTabs=true; thisColor=\'#000\'" onMouseOver="thisColor=this.style.color;this.style.color=\'#000\'" onMouseOut="this.style.color=thisColor"></div>';
