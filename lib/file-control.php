@@ -103,7 +103,7 @@ if ($_GET['action']=="upload") {
 					$this->uploadFile=$uploadDir.$current->name;
 					$fileName = $current->name;
 					if ($this->upload($current,$this->uploadFile)) {
-						echo '<script>action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.rightClickedFile.replace(/\|/g,\'/\'),\''.$fileName.'\');</script>';
+						echo '<script>action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.rightClickedFile.replace(/\|/g,\'/\'),\''.$fileName.'\',false,false,true);</script>';
 					} else {
 						echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot upload \\n".$fileName."\\n into \\n'+top.ICEcoder.rightClickedFile.replace(/\|/g,'/'))</script>";
 					}
@@ -135,7 +135,7 @@ if ($_GET['action']=="upload") {
 		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot upload whilst in demo mode');</script>";
 	}
 
-	echo "<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.hideFileMenu();top.ICEcoder.showHide('hide',top.document.getElementById('loadingMask'));</script>";
+	echo "<script>top.ICEcoder.hideFileMenu();top.ICEcoder.showHide('hide',top.document.getElementById('loadingMask'));</script>";
 }
 
 // If we're due to rename a file/folder...
