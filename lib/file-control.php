@@ -103,7 +103,7 @@ if ($_GET['action']=="upload") {
 					$this->uploadFile=$uploadDir.$current->name;
 					$fileName = $current->name;
 					if ($this->upload($current,$this->uploadFile)) {
-						echo '<script>action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.rightClickedFile.replace(/\|/g,\'/\'),\''.$fileName.'\',false,false,true);</script>';
+						echo '<script>action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.rightClickedFile.replace(/\|/g,\'/\'),\''.$fileName.'\',false,false,true); top.ICEcoder.serverMessage("Uploaded file(s) OK");setTimeout(function(){top.ICEcoder.serverMessage();},2000);</script>';
 					} else {
 						echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot upload \\n".$fileName."\\n into \\n'+top.ICEcoder.rightClickedFile.replace(/\|/g,'/'))</script>";
 					}
