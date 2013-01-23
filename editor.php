@@ -7,11 +7,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
+<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/hint/simple-hint.css">
 <!--
 codemirror-compressed.js
 incls:	codemirror.js
 modes:	clike, coffeescript, css, javascript, less, php, ruby & xml
-utils:	foldcode, searchcursor, match-highlighter
+utils:	foldcode, searchcursor, match-highlighter, simple-hint, javascript-hint
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 <?php
@@ -101,10 +102,14 @@ span.CodeMirror-matchhighlight {background: #555}
 	CodeMirror.keyMap.ICEcoder = {
 		"Tab": function(cm) {CodeMirror.commands[top.ICEcoder.tabsIndent ? "defaultTab" : "insertTab"](cm);},
 		"Shift-Tab": "indentLess",
-		"Ctrl-Up": function() {},
-		"Ctrl-Down": function() {},
+		"Ctrl-Space": "autocomplete",
 		fallthrough: ["default"]
 	};
+	CodeMirror.commands.autocomplete = function(cm) {
+		if (top.ICEcoder.caretLocType=="JavaScript") {
+			CodeMirror.simpleHint(cm, CodeMirror.javascriptHint);
+		}
+	}
 
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
