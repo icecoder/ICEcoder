@@ -150,7 +150,7 @@ if ($_GET['action']=="rename") {
 			$renamed=false;
 		}
 	} else {
-		$didntRename=false;
+		$renamed=false;
 	}
 	if (!$renamed) {
 		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."\\n\\nMaybe public write permissions needed on this or parent folder?');</script>";
