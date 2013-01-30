@@ -11,6 +11,8 @@ $ICEcoder = array(
 "accountPassword"	=> "",
 "bannedFiles"		=> array("_coder","ICEcoder"),
 "bannedPaths"		=> array("/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"),
+"cachedPathsFile"		=> "/var/www/_coder/PATHCACHE.ser",
+"cachedULFile"		=> "/var/www/_coder/ULCACHE.html",
 "allowedIPs"		=> array("*"),
 "plugins"		=> array(
 			array("Terminal","plugins/terminal/icon.gif","margin-top: 3px","plugins/terminal","_blank",""),

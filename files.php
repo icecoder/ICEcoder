@@ -47,6 +47,11 @@ class IgnorantRecursiveDirectoryIterator extends RecursiveDirectoryIterator {
 	}
 }
 
+if ( isset($GLOBALS['ICEcoder']['cachedPathsFile']) && file_exists ($GLOBALS['ICEcoder']['cachedPathsFile'] ) ) {
+
+  $finalArray = unserialize( file_get_contents ( $GLOBALS['ICEcoder']['cachedPathsFile'] ) );
+
+} else {
 // Get a full list of dirs & files and begin sorting using above class & function
 $objectList = new SortingIterator(new RecursiveIteratorIterator(new IgnorantRecursiveDirectoryIterator($docRoot.$iceRoot), RecursiveIteratorIterator::SELF_FIRST), 'alphasort');
 
@@ -89,6 +94,23 @@ for ($i=0;$i<count($tempArray);$i++) {
 	array_splice($finalArray, $insertAt, 0, $tempArray[$i]);
 }
 
+if ( isset($GLOBALS['ICEcoder']['cachedPathsFile']) ) {
+  file_put_contents ( $GLOBALS['ICEcoder']['cachedPathsFile'], serialize( $finalArray ) );
+}
+
+}
+
+if ( isset($GLOBALS['ICEcoder']['cachedULFile']) && file_exists ($GLOBALS['ICEcoder']['cachedULFile'] ) ) {
+
+    echo( file_get_contents ( $GLOBALS['ICEcoder']['cachedULFile'] ) );
+
+} else {
+
+if ( isset($GLOBALS['ICEcoder']['cachedULFile']) ) {
+  ob_start();
+}
+
+
 // Finally, we have our ordered list, so display in a UL
 $fileAtts = "";
 if ($serverType=="Linux") {
@@ -107,6 +129,7 @@ if ($serverType=="Linux") {
 </a>
 </li>
 <?php
+
 $lastPath="";
 $fileCount=0;
 $fileBytes=0;
@@ -139,6 +162,19 @@ for ($i=0;$i<count($finalArray);$i++) {
 }
 echo "</ul>\n</ul>\n";
 
+if ( isset($GLOBALS['ICEcoder']['cachedULFile']) ) {
+  $metrics_values = 
+    "<script>\n" . "top.ICEcoder.dirCount=" . ($dirCount ? $dirCount : "0") .
+	";\ntop.ICEcoder.fileCount=" .
+    ($fileCount ? $fileCount : "0") .
+	";\ntop.ICEcoder.fileBytes=" .
+    ($fileBytes ? $fileBytes : "0") .
+	";\n</script>";
+
+  $ob_ul_contents = $metrics_values . ob_get_contents();
+  file_put_contents ( $GLOBALS['ICEcoder']['cachedULFile'], $ob_ul_contents );
+  ob_end_clean();
+}
 	// Output the JS vars
 	echo "<script>\n";
 	echo "top.ICEcoder.dirCount=";
@@ -148,6 +184,13 @@ echo "</ul>\n</ul>\n";
 	echo ";\ntop.ICEcoder.fileBytes=";
 	echo $fileBytes ? $fileBytes : "0";
 	echo ";\n</script>";
+
+if ( isset($GLOBALS['ICEcoder']['cachedULFile']) ) {
+  echo $ob_ul_contents;
+}
+
+}
+
 ?>
 
 <iframe name="fileControl" style="display: none"></iframe>
