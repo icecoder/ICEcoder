@@ -147,15 +147,20 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 	// Replace our previousFiles var with the the current
 	$repPosStart = strpos($settingsContents,'previousFiles"		=> "')+20;
 	$repPosEnd = strpos($settingsContents,'",',$repPosStart)-$repPosStart;
-	if (!$demoMode && $_GET['saveFiles']!="CLEAR") {
-		$saveFiles=strClean($_GET['saveFiles']);
-		$saveFilesArray = explode(",",$saveFiles);
-		$saveFiles="";
-		for ($i=0;$i<count($saveFilesArray);$i++) {
-			$saveFilesArray[$i] = str_replace("/","|",$docRoot).$saveFilesArray[$i];
-			$saveFiles .= $saveFilesArray[$i].",";
+	if (!$demoMode) {
+		if ($_GET['saveFiles']!="CLEAR") {
+			$saveFiles=strClean($_GET['saveFiles']);
+			$saveFilesArray = explode(",",$saveFiles);
+			$saveFiles="";
+			for ($i=0;$i<count($saveFilesArray);$i++) {
+				$saveFilesArray[$i] = str_replace("/","|",$docRoot).$saveFilesArray[$i];
+				$saveFiles .= $saveFilesArray[$i].",";
+			}
+			$saveFiles = rtrim($saveFiles,",");
+		} else {
+			$saveFilesArray = array();
+			$saveFiles = "";
 		}
-		$saveFiles = rtrim($saveFiles,",");
 		$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 		// Now update the config file
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile." and press refresh");
