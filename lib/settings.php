@@ -232,6 +232,9 @@ if ($_SESSION['loggedIn']) {
 	$onLoadExtras .= ";top.ICEcoder.content.style.visibility='visible'";
 }
 
+if ((!$_SESSION['loggedIn'] || $ICEcoder["accountPassword"] == "") && !strpos($_SERVER['SCRIPT_NAME'],"lib/settings.php")) {
+	header('Location: lib/settings.php');
+}
 // If we're due to show the settings screen
 if (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it
@@ -284,9 +287,5 @@ echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 
 </html>
 <?php
-}
-
-if ((!$_SESSION['loggedIn'] || $ICEcoder["accountPassword"] == "") && !strpos($_SERVER['SCRIPT_NAME'],"lib/settings.php")) {
-	header('Location: lib/settings.php');
 }
 ?>
