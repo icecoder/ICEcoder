@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php include("lib/settings.php");
 
 // Check IP permissions
@@ -16,7 +15,7 @@ if ($ICEcoder["checkUpdates"]) {
 	}
 }
 ?>
-
+<!DOCTYPE html>
 <html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?></title>
