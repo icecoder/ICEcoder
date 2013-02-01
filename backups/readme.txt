@@ -1,1 +1,0 @@
-Zip It! backups are stored in this folder
