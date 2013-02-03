@@ -16,7 +16,7 @@ if ($ICEcoder["checkUpdates"]) {
 }
 ?>
 <!DOCTYPE html>
-<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}">
+<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false;top.ICEcoder.tabDragEnd()" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -132,9 +132,9 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 		<a nohref onClick="top.ICEcoder.closeAllTabs()"><img src="images/nav-close.gif" class="closeAllTabs"></a>
 		<?php
 		for ($i=1;$i<=100;$i++) {
-			echo '<div id="tab'.$i.'" class="tab" draggable="true" onClick="ICEcoder.canSwitchTabs ? ICEcoder.switchTab('.$i.') : ICEcoder.canSwitchTabs=true; thisColor=\'#000\'" onMouseOver="thisColor=this.style.color;this.style.color=\'#000\'" onMouseOut="this.style.color=thisColor"></div>';
+			echo '<div id="tab'.$i.'" class="tab" onMouseDown="ICEcoder.canSwitchTabs ? ICEcoder.switchTab('.$i.') : ICEcoder.canSwitchTabs=true; thisColor=\'#000\'; ICEcoder.tabDragStart('.$i.')" onMouseUp="ICEcoder.tabDragEnd('.$i.')" onMouseOver="thisColor=this.style.color;this.style.color=\'#000\'" onMouseOut="this.style.color=thisColor"></div>';
 		}
-		?><div class="newTab" onClick="ICEcoder.newTab()"><img src="images/nav-new.png"></div>
+		?><div class="newTab" onClick="ICEcoder.newTab()" id="newTab"><img src="images/nav-new.png"></div>
 	</div>
 	<div id="findBar" class="findBar" onContextMenu="return false">
 		<form name="findAndReplace" onSubmit="ICEcoder.findReplace('findReplace',false,true);return false">
