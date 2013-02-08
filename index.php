@@ -24,7 +24,7 @@ if ($ICEcoder["checkUpdates"]) {
 <link rel="stylesheet" type="text/css" href="lib/ice-coder.css">
 <link rel="icon" type="image/png" href="favicon.png">
 <script>
-iceRoot = "<?php echo $ICEcoder["root"]; ?>";
+iceRoot = "<?php echo $ICEcoder['root']; ?>";
 
 window.onbeforeunload = function() {
 	if (top.ICEcoder.changedContent.indexOf(1)>-1) {
