@@ -28,7 +28,7 @@ if ($_GET['action']=="load") {
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.rightClickedFile = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 			echo '</script>';
 			$loadedFile = file_get_contents($file);
-			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",$loadedFile).'</textarea>';
+			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea>';
 		} else if (strpos(finfo_file($finfo, $file),"image")===0) {
 			echo '<script>fileType="image";fileName=\''.$fileLoc."/".$fileName.'\'</script>';
 		} else {
