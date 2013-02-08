@@ -1,7 +1,7 @@
 <?php include("lib/settings.php");?>
 <!DOCTYPE html>
 
-<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'files');top.ICEcoder.canResizeFilesW()}" onContextMenu="top.ICEcoder.rightClickedFile=top.ICEcoder.thisFileFolderLink; return top.ICEcoder.showMenu()" onClick="top.ICEcoder.selectFileFolder()">
+<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.tabDragEnd()" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'files');top.ICEcoder.canResizeFilesW()}" onContextMenu="top.ICEcoder.rightClickedFile=top.ICEcoder.thisFileFolderLink; return top.ICEcoder.showMenu()" onClick="top.ICEcoder.selectFileFolder()">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> file manager</title>
 <meta name="robots" content="noindex, nofollow">
