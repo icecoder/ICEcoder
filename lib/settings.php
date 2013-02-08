@@ -234,9 +234,8 @@ if ($_SESSION['loggedIn']) {
 
 if ((!$_SESSION['loggedIn'] || $ICEcoder["accountPassword"] == "") && !strpos($_SERVER['SCRIPT_NAME'],"lib/settings.php")) {
 	header('Location: lib/settings.php');
-}
 // If we're due to show the settings screen
-elseif (!$_SESSION['loggedIn']) {
+} elseif (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it
 	if ($ICEcoder["accountPassword"] == "" && isset($_POST['accountPassword'])) {
 		$password = generateHash(strClean($_POST['accountPassword']));
