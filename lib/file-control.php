@@ -23,7 +23,7 @@ if ($_GET['action']=="load") {
 	if (file_exists($file)) {
 		// Determine what to do based on mime type
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
-		if (strpos(finfo_file($finfo, $file),"text")===0 || strpos(finfo_file($finfo, $file),"empty")>=0) {
+		if (strpos(finfo_file($finfo, $file),"text")===0 || strpos(finfo_file($finfo, $file),"empty")!==false) {
 			echo '<script>fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.rightClickedFile = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 			echo '</script>';
