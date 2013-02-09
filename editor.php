@@ -12,7 +12,7 @@
 codemirror-compressed.js
 incls:	codemirror.js
 modes:	clike, coffeescript, css, javascript, less, php, ruby & xml
-utils:	foldcode, searchcursor, match-highlighter, simple-hint, javascript-hint
+utils:	foldcode, searchcursor, match-highlighter, simple-hint, javascript-hint, closetag
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 <?php
@@ -28,13 +28,12 @@ $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" |
 .CodeMirror-scroll {} // was: height: auto; overflow: visible
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
-span.CodeMirror-matchhighlight {background: #555}
-.CodeMirror-focused span.CodeMirror-matchhighlight {color: #000; background: #555; !important}
+.cm-matchhighlight {background: #037}
+.CodeMirror-focused .cm-matchhighlight {background: #037; !important}
 /* Make sure this next one remains the 6th item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\\21e5';};?>";}
 .lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 3px 5px}
 .lint-error-icon {background-color: #b00; color: #fff; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 5px}
-.snippetFrame {border: 1px; width: 100%}
 </style>
 </head>
 
@@ -124,6 +123,8 @@ function createNewCMInstance(num) {
 		tabSize: top.ICEcoder.tabWidth,
 		indentWithTabs: true,
 		electricChars: false,
+		autoCloseTags: true,
+		highlightSelectionMatches: true,
 		keyMap: "ICEcoder",
 		onKeyEvent: function(thisCM, e) {
 			top.ICEcoder.redoChangedContent(e);
@@ -132,7 +133,7 @@ function createNewCMInstance(num) {
 			top.ICEcoder.updateCharDisplay();
 			tok = thisCM.getTokenAt(thisCM.getCursor());
 			if (tok.string!=">") {lastString=tok.string};
-			if (e.type=="keyup"&&e.keyCode=="16"&&lastKeyCode=="190") {
+			if (1==2 && e.type=="keyup"&&e.keyCode=="16"&&lastKeyCode=="190") {
 				canDoEndTag=true;
 				if (top.ICEcoder.tagString!="script" && top.ICEcoder.tagNestExceptions.indexOf(top.ICEcoder.tagString)>-1) {
 					canDoEndTag=false;
@@ -177,7 +178,6 @@ function createNewCMInstance(num) {
 			if(!window['cM'+num].somethingSelected()) {
 				top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(window['cM'+num].getCursor().line, "background","cm-s-activeLine");
 			}
-			thisCM.matchHighlight("CodeMirror-matchhighlight");
 			top.ICEcoder.cssColorPreview();
 		}
 	);
