@@ -28,8 +28,8 @@ $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" |
 .CodeMirror-scroll {} // was: height: auto; overflow: visible
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
-.cm-matchhighlight {background: #037}
-.CodeMirror-focused .cm-matchhighlight {background: #037; !important}
+.cm-matchhighlight {color: #fff !important; background: #037 !important}
+.CodeMirror-focused .cm-matchhighlight {color: #fff !important; background: #037 !important}
 /* Make sure this next one remains the 6th item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\\21e5';};?>";}
 .lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 3px 5px}
@@ -132,42 +132,6 @@ function createNewCMInstance(num) {
 			top.ICEcoder.getCaretPosition();
 			top.ICEcoder.updateCharDisplay();
 			tok = thisCM.getTokenAt(thisCM.getCursor());
-			if (tok.string!=">") {lastString=tok.string};
-			if (1==2 && e.type=="keyup"&&e.keyCode=="16"&&lastKeyCode=="190") {
-				canDoEndTag=true;
-				if (top.ICEcoder.tagString!="script" && top.ICEcoder.tagNestExceptions.indexOf(top.ICEcoder.tagString)>-1) {
-					canDoEndTag=false;
-				}
-				if	(
-					top.ICEcoder.tagString.slice(0,1)=="/"||
-					top.ICEcoder.tagString.slice(0,1)=="?"||
-					!top.ICEcoder.codeAssist||
-					fileName && (fileName.indexOf(".js")>0||fileName.indexOf(".css")>0||fileName.indexOf(".less")>0)
-					) {canDoEndTag=false}
-
-				contentType = top.ICEcoder.caretLocType;
-				if (canDoEndTag && (contentType!="JavaScript"||(contentType=="JavaScript"&&top.ICEcoder.tagString=="script"))) {
-					numTabs = top.ICEcoder.htmlTagArray.length;
-					if (top.ICEcoder.htmlTagArray[0]=="html") {numTabs--};
-					tabs = "";
-					for (i=0;i<numTabs-1;i++) {
-						tabs += "\t";
-					}
-					endTag = "</" + top.ICEcoder.tagString + ">";
-					if (top.ICEcoder.tagString=="script") {endTag="</"+"script>"};
-					if(top.ICEcoder.tagString=="title"||top.ICEcoder.tagString=="a"||top.ICEcoder.tagString=="li"||top.ICEcoder.tagString=="span"||(top.ICEcoder.tagString.slice(0,1)=="h"&&parseInt(top.ICEcoder.tagString.slice(1,2),10)>=1&&parseInt(top.ICEcoder.tagString.slice(1,2),10)<=7)) {
-						thisCM.replaceSelection(endTag);
-						thisCM.setCursor(thisCM.getCursor().line,thisCM.getCursor().ch-top.ICEcoder.tagString.length-3);
-					} else if(top.ICEcoder.tagString=="html"||top.ICEcoder.tagString=="head") {
-						thisCM.replaceSelection("\n\n"+endTag);
-						thisCM.setCursor(thisCM.getCursor().line-1,numTabs);
-					} else {
-						thisCM.replaceSelection("\n"+tabs+"\t\n"+tabs+endTag);
-						thisCM.setCursor(thisCM.getCursor().line-1,numTabs);
-					}
-				}
-			};
-			lastKeyCode = e.keyCode;
 		}
 	});
 
