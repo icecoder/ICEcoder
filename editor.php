@@ -25,12 +25,11 @@ $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" |
 ?>">
 <style type="text/css">
 .CodeMirror {position: absolute; top: 0px; width: 100%; font-size: 13px; z-index: 1}
-.CodeMirror-scroll {} // was: height: auto; overflow: visible
+.CodeMirror-scroll {} /* was: height: auto; overflow: visible */
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
-.cm-matchhighlight {color: #fff !important; background: #037 !important}
-.CodeMirror-focused .cm-matchhighlight {color: #fff !important; background: #037 !important}
-/* Make sure this next one remains the 6th item, updated with JS */
+.cm-matchhighlight, .CodeMirror-focused .cm-matchhighlight {color: #fff !important; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQI12NgYGBgkKzc8x9CMDAwAAAmhwSbidEoSQAAAABJRU5ErkJggg==); background-position: bottom; background-repeat: repeat-x}
+/* Make sure this next one remains the 5th item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\\21e5';};?>";}
 .lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 3px 5px}
 .lint-error-icon {background-color: #b00; color: #fff; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 5px}
