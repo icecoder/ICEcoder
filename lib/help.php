@@ -16,7 +16,11 @@
 <a href="javascript:top.ICEcoder.showManual(<?php echo $ICEcoder["versionNo"];?>)" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #2187e7; color: #fff; font-size: 18px">ICEcoder manual</div></a>
 
 <h2>In file manager</h2>
-<span class="key">Delete</span> <span class="shortcut">Delete file</span><br><br>
+<span class="key">Left click</span> <span class="shortcut">Select file / folder</span><br>
+<span class="key">Double click</span> <span class="shortcut">Open file</span><br>
+<span class="key">CTRL <span class="plus">+</span> click</span> <span class="shortcut">Multiple select</span><br>
+<span class="key">Right click</span> <span class="shortcut">Options for selected</span><br>
+<span class="key">Delete</span> <span class="shortcut">Delete selected</span><br><br>
 
 <h2>Within document</h2>
 <span class="key">CTRL <span class="plus">+</span> &uarr;</span> <span class="shortcut">Move line up</span><br>
