@@ -11,7 +11,7 @@ if ($ICEcoder["checkUpdates"]) {
 	$icv = json_encode(file_get_contents("http://icecoder.net/latest-version.txt"));
 	$icv = rtrim(ltrim($icv,'"'),'"\\n');
 	if ($ICEcoder["versionNo"]<$icv) {
-		$updateMsg = ';top.ICEcoder.message(\'ICEcoder '.$icv.' now released\n\nPlease upgrade\')';
+		$updateMsg = ";top.ICEcoder.dataMessage('<b>UPDATE INFO:</b> ICEcoder v ".$icv." now available. (Your version is v ".$ICEcoder["versionNo"]."). Get it free from <a href=\\'http://icecoder.net\\' target=\\'_blank\\' style=\\'color:#ddd\\'>icecoder.net</a>');";
 	}
 }
 ?>
