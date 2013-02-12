@@ -38,7 +38,13 @@ $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" |
 
 <body onLoad="top.ICEcoder.updateFileFolderCount()" style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
-<div style="margin: 32px 43px; font-family: arial; font-size: 10px; color: #ddd">
+<?php if ($ICEcoder['demoMode']) {?>
+<div style="position: absolute; display: inline-block; width: 99px; height: 50px; top: 0; right: 30px; background: url('images/big-arrow.gif') 0 -10px no-repeat; text-align: center; font-family: arial; font-size: 10px; padding-top: 60px"><b>Click logo<br>for help &amp;<br>usage info</b></div>
+<?php ;}; ?>
+
+<div style="display: none; margin: 32px 43px 0 43px; padding: 10px; width: 500px; font-family: arial; font-size: 10px; color: #ddd; background: #333" id="dataMessage"></div>
+
+<div style="margin: 20px 43px 32px 43px; font-family: arial; font-size: 10px; color: #ddd">
 	<div style="float: left; margin-right: 50px">
 		<h2 style="color: rgba(0,198,255,0.7)">server</h2>
 		<span style="color:#888">Server name, OS & IP:</span><br>
