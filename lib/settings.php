@@ -40,7 +40,13 @@ function numClean($var) {
 }
 
 // Settings are stored in this file
+$settingsTemplate = 'config-template.php';
 $settingsFile = 'config.php';
+if (!file_exists(dirname(__FILE__)."/".$settingsFile)) {
+	if (!copy(dirname(__FILE__)."/".$settingsTemplate, dirname(__FILE__)."/".$settingsFile)) {
+		die("Couldn't create $settingsFile. Maybe you need write permissions on the lib folder?");
+	}
+}
 include($settingsFile);
 
 // Add ICEcoder settings to beginning of $ICEcoder array
