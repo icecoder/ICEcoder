@@ -135,7 +135,7 @@ if ($_GET['action']=="upload") {
 		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot upload whilst in demo mode');</script>";
 	}
 
-	echo "<script>top.ICEcoder.hideFileMenu();top.ICEcoder.showHide('hide',top.document.getElementById('loadingMask'));</script>";
+	echo "<script>top.ICEcoder.hideFileMenu();top.document.getElementById('fileInput').value='';top.ICEcoder.showHide('hide',top.document.getElementById('loadingMask'));</script>";
 }
 
 // If we're due to rename a file/folder...
