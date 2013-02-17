@@ -55,7 +55,7 @@ $ git clone git@github:mattpass/ICEcoder
 ####Step 2: Upload the files (Linux or Windows hosting OK)
 ```
 Upload to a new sub-dir URL such as yourdomain.com/_coder
-Set public write permissions (757 recommended) on the 'backups' and 'lib' folder
+Set public write permissions (757 recommended) on the 'backups' and 'lib' folders
 ```
 
 ####Step 3: Start coding
