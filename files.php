@@ -12,7 +12,7 @@
 <body onLoad="top.ICEcoder.fileManager()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
 <div title="Refresh" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
-
+ 
 <?php
 // Function to sort given values alphabetically
 function alphasort($a, $b) {
