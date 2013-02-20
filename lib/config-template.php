@@ -27,6 +27,7 @@ $ICEcoder = array(
 "lineWrapping"		=> true,
 "tabWidth"		=> 4,
 "previousFiles"		=> "",
-"last10Files"		=> ""
+"last10Files"		=> "",
+"treeType"		=> "full"
 );
 ?>
