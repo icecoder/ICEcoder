@@ -9,7 +9,7 @@
 <script src="lib/ice-coder.js" type="text/javascript"></script>
 </head>
 
-<body onLoad="top.ICEcoder.fileManager()" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<body onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
 <div title="Refresh" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
 
@@ -98,8 +98,8 @@ if ($serverType=="Linux") {
 }
 ?>
 <ul class="fileManager">
-<li class="pft-directory">
-<a nohref title="/" onMouseOver="top.ICEcoder.overFileFolder('folder','/')" onMouseOut="top.ICEcoder.overFileFolder('folder','')" style="position: relative; left:-22px">
+<li class="pft-directory dirOpen">
+<a nohref title="/" onMouseOver="top.ICEcoder.overFileFolder('folder','/')" onMouseOut="top.ICEcoder.overFileFolder('folder','')" onClick="top.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 <span id="|">/ 
 <?php echo $iceRoot == "" ? "[ROOT]" : trim($iceRoot,"/");?>
@@ -123,7 +123,8 @@ for ($i=0;$i<count($finalArray);$i++) {
 	}
 	$thisDepth = count(explode("/",$fileFolderName));
 	$lastDepth = count(explode("/",$lastPath));
-	if ($thisDepth > $lastDepth) {echo "<ul>\n";}
+	$ulDisplay = $i==0 ?  ' style="display: block"' : ' style="display: none"';
+	if ($thisDepth > $lastDepth) {echo "<ul".$ulDisplay.">\n";}
 	if ($thisDepth < $lastDepth) {
 		for ($j=$lastDepth;$j>$thisDepth;$j--) {
 			echo "</ul>\n";
@@ -134,7 +135,7 @@ for ($i=0;$i<count($finalArray);$i++) {
 		$fileAtts = '<span style="color: #888; font-size: 8px" id="'.str_replace($docRoot,"",str_replace("/","|",$fileFolderName)).'_perms">'.$chmodInfo.'</span>';
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
-	echo "<li class=\"".$class."\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
+	echo "<li class=\"".$class."\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" onClick=\"top.ICEcoder.openCloseDir(this)\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
 	if ($i<count($finalArray)) {echo "</li>\n";}
 	$lastPath = $fileFolderName;
 }
