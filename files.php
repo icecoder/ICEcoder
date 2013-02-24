@@ -48,46 +48,49 @@ class IgnorantRecursiveDirectoryIterator extends RecursiveDirectoryIterator {
 	}
 }
 
-// Get a full list of dirs & files and begin sorting using above class & function
-$objectList = new SortingIterator(new RecursiveIteratorIterator(new IgnorantRecursiveDirectoryIterator($docRoot.$iceRoot), RecursiveIteratorIterator::SELF_FIRST), 'alphasort');
+if ($ICEcoder['treeType']=="full") {
 
-// With that done, create arrays for out final ordered list and a temp container of files
-$finalArray = $tempArray =  array();
+	// Get a full list of dirs & files and begin sorting using above class & function
+	$objectList = new SortingIterator(new RecursiveIteratorIterator(new IgnorantRecursiveDirectoryIterator($docRoot.$iceRoot), RecursiveIteratorIterator::SELF_FIRST), 'alphasort');
 
-// To start, push folders from object into finalArray, files into tempArray
-foreach ($objectList as $objectRef) {
-	$fileFolderName = substr($objectRef->getPathname(), strlen($docRoot.$iceRoot));
-	$canAdd = true;
-	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
-		if(strpos($fileFolderName,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
-	}
-	if ($objectRef->getFilename()!="." && $objectRef->getFilename()!=".." && $fileFolderName[strlen($fileFolderName)-1]!="/" && $canAdd) {
-		$fileFolderName!="/" && is_dir($docRoot.$iceRoot.$fileFolderName)
-		? array_push($finalArray,$fileFolderName)
-		: array_push($tempArray,$fileFolderName);
-	}
-}
+	// With that done, create arrays for out final ordered list and a temp container of files
+	$finalArray = $tempArray = array();
 
-// Now push root files onto the end of finalArray and splice from the temp, leaving only files that reside in subdirs
-for ($i=0;$i<count($tempArray);$i++) {
-	if (count(explode("/",$tempArray[$i]))==2) {
-		array_push($finalArray,$tempArray[$i]);
-		array_splice($tempArray,$i,1);
-		$i--;
-	}
-}
-
-// Lastly we push remaining files into the right subdirs in finalArray
-for ($i=0;$i<count($tempArray);$i++) {
-	$insertAt = array_search(dirname($tempArray[$i]),$finalArray)+1;
-	for ($j=$insertAt;$j<count($finalArray);$j++) {
-		if (	strcasecmp(dirname($finalArray[$j]), dirname($tempArray[$i]))==0 &&
-			strcasecmp(basename($finalArray[$j]), basename($tempArray[$i]))<0 ||
-			(strpos(dirname($finalArray[$j]),dirname($tempArray[$i]))===0 && substr($finalArray[$j],strlen(dirname($tempArray[$i])),1)=="/")) {
-			$insertAt++;
+	// To start, push folders from object into finalArray, files into tempArray
+	foreach ($objectList as $objectRef) {
+		$fileFolderName = substr($objectRef->getPathname(), strlen($docRoot.$iceRoot));
+		$canAdd = true;
+		for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
+			if(strpos($fileFolderName,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
+		}
+		if ($objectRef->getFilename()!="." && $objectRef->getFilename()!=".." && $fileFolderName[strlen($fileFolderName)-1]!="/" && $canAdd) {
+			$fileFolderName!="/" && is_dir($docRoot.$iceRoot.$fileFolderName)
+			? array_push($finalArray,$fileFolderName)
+			: array_push($tempArray,$fileFolderName);
 		}
 	}
-	array_splice($finalArray, $insertAt, 0, $tempArray[$i]);
+
+	// Now push root files onto the end of finalArray and splice from the temp, leaving only files that reside in subdirs
+	for ($i=0;$i<count($tempArray);$i++) {
+		if (count(explode("/",$tempArray[$i]))==2) {
+			array_push($finalArray,$tempArray[$i]);
+			array_splice($tempArray,$i,1);
+			$i--;
+		}
+	}
+
+	// Lastly we push remaining files into the right subdirs in finalArray
+	for ($i=0;$i<count($tempArray);$i++) {
+		$insertAt = array_search(dirname($tempArray[$i]),$finalArray)+1;
+		for ($j=$insertAt;$j<count($finalArray);$j++) {
+			if (	strcasecmp(dirname($finalArray[$j]), dirname($tempArray[$i]))==0 &&
+				strcasecmp(basename($finalArray[$j]), basename($tempArray[$i]))<0 ||
+				(strpos(dirname($finalArray[$j]),dirname($tempArray[$i]))===0 && substr($finalArray[$j],strlen(dirname($tempArray[$i])),1)=="/")) {
+				$insertAt++;
+			}
+		}
+		array_splice($finalArray, $insertAt, 0, $tempArray[$i]);
+	}
 }
 
 include("lib/get-tree.php");
