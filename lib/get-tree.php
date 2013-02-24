@@ -1,4 +1,36 @@
 <?php
+include_once("lib/settings.php");
+
+if (!$_SESSION['loggedIn']) {
+	header("Location: ../");
+}
+
+// If we're just getting a branch, get that and set as the finalArray
+if ($ICEcoder['treeType'] == "branch" || $ICEcoder['treeType'] == "branchReload") {
+	$scanDir = ($docRoot && $iceRoot) ? $docRoot.$iceRoot : $_SERVER['DOCUMENT_ROOT'];
+	$location = "";
+	if (isset($_GET['location'])) {
+		$location = str_replace("|","/",$_GET['location']);
+	}
+
+	$dirArray = $filesArray = $finalArray = array();
+	$finalArray = scanDir($scanDir.$location);
+	foreach($finalArray as $entry) {
+		$canAdd = true;
+		for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
+			if(strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
+		}
+		if ($entry != "." && $entry != ".." && $canAdd) {
+			is_dir($docRoot.$iceRoot."/".$entry)
+			? array_push($dirArray,"/".$entry)
+			: array_push($filesArray,"/".$entry);
+		}
+	}
+	natcasesort($dirArray);
+	natcasesort($filesArray);
+	$finalArray = array_merge($dirArray,$filesArray);
+}
+
 // Finally, we have our ordered list, so display in a UL
 $fileAtts = "";
 if ($serverType=="Linux") {
