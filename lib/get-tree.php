@@ -31,28 +31,6 @@ if ($ICEcoder['treeType'] == "branch" || $ICEcoder['treeType'] == "branchReload"
 	$finalArray = array_merge($dirArray,$filesArray);
 }
 
-// Finally, we have our ordered list, so display in a UL
-$fileAtts = "";
-if ($serverType=="Linux") {
-	$chmodInfo = substr(sprintf('%o', fileperms($docRoot.$iceRoot)), -3);
-	$fileAtts = '<span style="color: #888; font-size: 8px" id="|_perms">'.$chmodInfo.'</span>';
-}
-?>
-<ul class="fileManager">
-<li class="pft-directory dirOpen">
-<a nohref title="/" onMouseOver="top.ICEcoder.overFileFolder('folder','/')" onMouseOut="top.ICEcoder.overFileFolder('folder','')" onClick="top.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-<span id="|">/ 
-<?php echo $iceRoot == "" ? "[ROOT]" : trim($iceRoot,"/");?>
-</span> 
-<?php echo $fileAtts;?>
-</a>
-</li>
-<?php
-$lastPath="";
-$fileCount=0;
-$fileBytes=0;
-$dirCount=0;
 for ($i=0;$i<count($finalArray);$i++) {
 	$fileFolderName = str_replace("\\","/",$finalArray[$i]);
 	$type = is_dir($docRoot.$iceRoot.$fileFolderName) ? "folder" : "file";
@@ -80,5 +58,4 @@ for ($i=0;$i<count($finalArray);$i++) {
 	if ($i<count($finalArray)) {echo "</li>\n";}
 	$lastPath = $fileFolderName;
 }
-echo "</ul>\n</ul>\n";
 ?>
