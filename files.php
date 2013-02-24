@@ -110,10 +110,6 @@ if ($serverType=="Linux") {
 </a>
 </li>
 <?php
-$lastPath="";
-$fileCount=0;
-$fileBytes=0;
-$dirCount=0;
 include("lib/get-tree.php");
 ?>
 </ul>
