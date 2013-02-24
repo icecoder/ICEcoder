@@ -1,10 +1,18 @@
 <?php
-include_once("lib/settings.php");
-
-if (!$_SESSION['loggedIn']) {
-	header("Location: ../");
+if (!isset($ICEcoder['treeType'])) {
+	include("settings.php");
 }
 
+if (!$_SESSION['loggedIn']) {
+//	header("Location: ../");
+}
+$lastPath="";
+$fileCount=0;
+$fileBytes=0;
+$dirCount=0;
+?>
+<div id="branch">
+<?php
 // If we're just getting a branch, get that and set as the finalArray
 if ($ICEcoder['treeType'] == "branch" || $ICEcoder['treeType'] == "branchReload") {
 	$scanDir = ($docRoot && $iceRoot) ? $docRoot.$iceRoot : $_SERVER['DOCUMENT_ROOT'];
@@ -21,9 +29,9 @@ if ($ICEcoder['treeType'] == "branch" || $ICEcoder['treeType'] == "branchReload"
 			if(strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
 		}
 		if ($entry != "." && $entry != ".." && $canAdd) {
-			is_dir($docRoot.$iceRoot."/".$entry)
-			? array_push($dirArray,"/".$entry)
-			: array_push($filesArray,"/".$entry);
+			is_dir($docRoot.$iceRoot.$location."/".$entry)
+			? array_push($dirArray,$location."/".$entry)
+			: array_push($filesArray,$location."/".$entry);
 		}
 	}
 	natcasesort($dirArray);
@@ -54,8 +62,28 @@ for ($i=0;$i<count($finalArray);$i++) {
 		$fileAtts = '<span style="color: #888; font-size: 8px" id="'.str_replace($docRoot,"",str_replace("/","|",$fileFolderName)).'_perms">'.$chmodInfo.'</span>';
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
-	echo "<li class=\"".$class."\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" onClick=\"top.ICEcoder.openCloseDir(this)\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
+	$loadParam = $type == "folder" && ($ICEcoder['treeType'] == "branch" || $ICEcoder['treeType'] == "branchReload") ? "true" : "false";
+	echo "<li class=\"".$class."\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" onClick=\"top.ICEcoder.openCloseDir(this,$loadParam)\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
 	if ($i<count($finalArray)) {echo "</li>\n";}
 	$lastPath = $fileFolderName;
 }
+?>
+</div>
+<?php
+if (isset($_GET['location'])) {
+?>
+	<script>
+	targetElem = top.ICEcoder.filesFrame.contentWindow.document.getElementById('<?php echo $_GET['location'];?>');
+	newUL = document.createElement("ul");
+	newUL.style = "display: block";
+	locNest = targetElem.parentNode.parentNode;
+	if(locNest.nextSibling.tagName=="UL") {
+		x = locNest.nextSibling;
+		x.parentNode.removeChild(x);
+	}
+	newUL.innerHTML = document.getElementById('branch').innerHTML.slice(29).slice(0,-6);
+	locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
+	</script>
+<?php
+;};
 ?>
