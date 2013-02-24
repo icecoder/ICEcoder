@@ -71,6 +71,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 	// Prepare all our vars
 	$ICEcoder["root"]			= strClean($_POST['root']);
+	$ICEcoder["treeType"]			= strClean($_POST['treeType']);
 	$ICEcoder["tabsIndent"]			= isset($_POST['tabsIndent']) && $_POST['tabsIndent'] ? "true" : "false";
 	$ICEcoder["checkUpdates"]		= isset($_POST['checkUpdates']) && $_POST['checkUpdates'] ? "true" : "false";
 	$ICEcoder["openLastFiles"]		= isset($_POST['openLastFiles']) && $_POST['openLastFiles'] ? "true" : "false";
@@ -87,11 +88,11 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["lineWrapping"]		= strClean($_POST['lineWrapping']);
 	$ICEcoder["tabWidth"]			= numClean($_POST['tabWidth']);
 
-	$settingsArray = array("root","tabsIndent","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","accountPassword","bannedFiles","bannedPaths","allowedIPs","plugins","theme","lineWrapping","tabWidth");
+	$settingsArray = array("root","treeType","tabsIndent","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","accountPassword","bannedFiles","bannedPaths","allowedIPs","plugins","theme","lineWrapping","tabWidth");
 	$settingsNew = "";
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"'.PHP_EOL.'	=> ';
-		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="accountPassword"||$settingsArray[$i]=="theme" ? '"' : '';
+		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="treeType"||$settingsArray[$i]=="accountPassword"||$settingsArray[$i]=="theme" ? '"' : '';
 		$settingsNew .= $settingWrap.$ICEcoder[$settingsArray[$i]].$settingWrap.','.PHP_EOL.PHP_EOL;
 	}
 
