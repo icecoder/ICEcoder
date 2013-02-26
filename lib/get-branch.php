@@ -14,7 +14,7 @@ $dirCount=0;
 <div id="branch">
 <?php
 // If we're just getting a branch, get that and set as the finalArray
-$scanDir = ($docRoot && $iceRoot) ? $docRoot.$iceRoot : $_SERVER['DOCUMENT_ROOT'];
+$scanDir = $docRoot.$iceRoot;
 $location = "";
 if (isset($_GET['location'])) {
 	$location = str_replace("|","/",$_GET['location']);
