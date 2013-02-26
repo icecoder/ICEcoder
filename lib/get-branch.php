@@ -4,7 +4,7 @@ if (!isset($ICEcoder['root'])) {
 }
 
 if (!$_SESSION['loggedIn']) {
-//	header("Location: ../");
+	header("Location: ../");
 }
 $lastPath="";
 $fileCount=0;
