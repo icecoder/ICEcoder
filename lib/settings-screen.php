@@ -168,15 +168,6 @@ function findSequence(goal) {
 	<h2>file manager</h2>
 	root <span style="font-size: 10px; color: #888">slash prefixed</span><br>
 	<input type="text" name="root" style="width: 200px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["root"];?>">
-
-	<span style="position: absolute; margin: -39px 0 0 210px">
-		tree type<br>
-		<select onchange="document.settings.changedFileSettings.value='true';showButton()" name="treeType">
-			<option value="full"<?php if($ICEcoder["treeType"]=="full") {echo " selected";};?>>full</option>
-			<option value="branch"<?php if($ICEcoder["treeType"]=="branch") {echo " selected";};?>>branch</option>
-			<option value="branchReload"<?php if($ICEcoder["treeType"]=="branchReload") {echo " selected";};?>>branch reload</option>
-		</select>
-	</span>
 </span>
 
 <script>

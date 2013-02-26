@@ -1,7 +1,6 @@
 <?php
 $ICEcoder = array(
 "root"			=> "",
-"treeType"		=> "full",
 "tabsIndent"		=> true,
 "checkUpdates"		=> true,
 "openLastFiles"		=> true,
