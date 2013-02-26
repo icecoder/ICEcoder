@@ -27,6 +27,6 @@ h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
 a {color: #fff; text-decoration: none}
 
 .help {font-family: arial, verdana, helvetica, sans-serif; background-color: #1c1c19; color: #fff; padding: 20px}
-.help .key {display: inline-block; width: 175px; text-align: right; margin-right: 5px; float: left}
-.help .key .plus {color: #888}
-.help .shortcut {display: inline-block; width: 175px; color: #888; margin-left: 5px; float: left}
+.key {display: inline-block; width: 175px; text-align: right; margin-right: 5px; float: left}
+.key .plus {color: #888}
+.shortcut {display: inline-block; width: 175px; color: #888; margin-left: 5px; float: left}
