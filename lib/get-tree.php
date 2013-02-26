@@ -1,5 +1,5 @@
 <?php
-if (!isset($ICEcoder['treeType'])) {
+if (!isset($ICEcoder['root'])) {
 	include("settings.php");
 }
 
@@ -14,30 +14,28 @@ $dirCount=0;
 <div id="branch">
 <?php
 // If we're just getting a branch, get that and set as the finalArray
-if ($ICEcoder['treeType'] == "branch" || $ICEcoder['treeType'] == "branchReload") {
-	$scanDir = ($docRoot && $iceRoot) ? $docRoot.$iceRoot : $_SERVER['DOCUMENT_ROOT'];
-	$location = "";
-	if (isset($_GET['location'])) {
-		$location = str_replace("|","/",$_GET['location']);
-	}
-
-	$dirArray = $filesArray = $finalArray = array();
-	$finalArray = scanDir($scanDir.$location);
-	foreach($finalArray as $entry) {
-		$canAdd = true;
-		for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
-			if(strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
-		}
-		if ($entry != "." && $entry != ".." && $canAdd) {
-			is_dir($docRoot.$iceRoot.$location."/".$entry)
-			? array_push($dirArray,$location."/".$entry)
-			: array_push($filesArray,$location."/".$entry);
-		}
-	}
-	natcasesort($dirArray);
-	natcasesort($filesArray);
-	$finalArray = array_merge($dirArray,$filesArray);
+$scanDir = ($docRoot && $iceRoot) ? $docRoot.$iceRoot : $_SERVER['DOCUMENT_ROOT'];
+$location = "";
+if (isset($_GET['location'])) {
+	$location = str_replace("|","/",$_GET['location']);
 }
+
+$dirArray = $filesArray = $finalArray = array();
+$finalArray = scanDir($scanDir.$location);
+foreach($finalArray as $entry) {
+	$canAdd = true;
+	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
+		if(strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
+	}
+	if ($entry != "." && $entry != ".." && $canAdd) {
+		is_dir($docRoot.$iceRoot.$location."/".$entry)
+		? array_push($dirArray,$location."/".$entry)
+		: array_push($filesArray,$location."/".$entry);
+	}
+}
+natcasesort($dirArray);
+natcasesort($filesArray);
+$finalArray = array_merge($dirArray,$filesArray);
 
 for ($i=0;$i<count($finalArray);$i++) {
 	$fileFolderName = str_replace("\\","/",$finalArray[$i]);
@@ -62,7 +60,7 @@ for ($i=0;$i<count($finalArray);$i++) {
 		$fileAtts = '<span style="color: #888; font-size: 8px" id="'.str_replace($docRoot,"",str_replace("/","|",$fileFolderName)).'_perms">'.$chmodInfo.'</span>';
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
-	$loadParam = $type == "folder" && ($ICEcoder['treeType'] == "branch" || $ICEcoder['treeType'] == "branchReload") ? "true" : "false";
+	$loadParam = $type == "folder" ? "true" : "false";
 	echo "<li class=\"".$class."\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" onClick=\"top.ICEcoder.openCloseDir(this,$loadParam)\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
 	if ($i<count($finalArray)) {echo "</li>\n";}
 	$lastPath = $fileFolderName;
