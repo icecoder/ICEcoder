@@ -31,7 +31,7 @@ if ($serverType=="Linux") {
 </a>
 </li>
 <?php
-include("lib/get-tree.php");
+include("lib/get-branch.php");
 ?>
 </ul>
 
