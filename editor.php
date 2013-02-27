@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/hint/simple-hint.css">
 <!--
 codemirror-compressed.js
-incls:	codemirror.js
+incls:	codemirror
 modes:	clike, coffeescript, css, javascript, less, php, ruby & xml
 utils:	foldcode, searchcursor, match-highlighter, simple-hint, javascript-hint, closetag
 //-->
@@ -21,18 +21,18 @@ if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 };?>
 <link rel="stylesheet" href="<?php
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
-$activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" || $ICEcoder["theme"]=="neat" ? "#ccc" : "#000";
+$activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat")) !== false ? "#ccc" : "#000";
 ?>">
 <style type="text/css">
 .CodeMirror {position: absolute; top: 0px; width: 100%; font-size: 13px; z-index: 1}
 .CodeMirror-scroll {} /* was: height: auto; overflow: visible */
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
-.cm-matchhighlight, .CodeMirror-focused .cm-matchhighlight {color: #fff !important; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQI12NgYGBgkKzc8x9CMDAwAAAmhwSbidEoSQAAAABJRU5ErkJggg==); background-position: bottom; background-repeat: repeat-x}
+.cm-matchhighlight, .CodeMirror-focused .cm-matchhighlight {color: #fff !important; background: #06c !important}
 /* Make sure this next one remains the 5th item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\\21e5';};?>";}
 .lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 3px 5px}
-.lint-error-icon {background-color: #b00; color: #fff; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 5px}
+.lint-error-icon {background: #b00; color: #fff; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 5px}
 </style>
 </head>
 
@@ -52,7 +52,7 @@ $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" |
 		<span style="color:#888">Root:</span><br>
 		<?php echo $docRoot;?><br><br>
 		<span style="color:#888">ICEcoder root:</span><br>
-		<?php echo $docRoot.$ICEcoder['root'];?><br><br>
+		<?php echo $docRoot.$iceRoot;?><br><br>
 		<span style="color:#888">PHP version:</span><br>
 		<?php echo phpversion();?><br><br>
 		<span style="color:#888">Date & time:</span><br>
@@ -103,17 +103,17 @@ $activeLineBG = $ICEcoder["theme"]=="eclipse" || $ICEcoder["theme"]=="elegant" |
 </div>
 
 <script>
-	CodeMirror.keyMap.ICEcoder = {
-		"Tab": function(cm) {CodeMirror.commands[top.ICEcoder.tabsIndent ? "defaultTab" : "insertTab"](cm);},
-		"Shift-Tab": "indentLess",
-		"Ctrl-Space": "autocomplete",
-		fallthrough: ["default"]
-	};
-	CodeMirror.commands.autocomplete = function(cm) {
-		if (top.ICEcoder.caretLocType=="JavaScript") {
-			CodeMirror.simpleHint(cm, CodeMirror.javascriptHint);
-		}
+CodeMirror.keyMap.ICEcoder = {
+	"Tab": function(cm) {CodeMirror.commands[top.ICEcoder.tabsIndent ? "defaultTab" : "insertTab"](cm);},
+	"Shift-Tab": "indentLess",
+	"Ctrl-Space": "autocomplete",
+	fallthrough: ["default"]
+};
+CodeMirror.commands.autocomplete = function(cm) {
+	if (top.ICEcoder.caretLocType=="JavaScript") {
+		CodeMirror.simpleHint(cm, CodeMirror.javascriptHint);
 	}
+}
 
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
@@ -144,7 +144,7 @@ function createNewCMInstance(num) {
 			top.ICEcoder.getCaretPosition();
 			top.ICEcoder.updateCharDisplay();
 			window['cM'+num].removeLineClass(top.ICEcoder['cMActiveLine'+num], "background");
-			if(!window['cM'+num].somethingSelected()) {
+			if(window['cM'+num].getCursor('start').line == window['cM'+num].getCursor().line) {
 				top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(window['cM'+num].getCursor().line, "background","cm-s-activeLine");
 			}
 			top.ICEcoder.cssColorPreview();
