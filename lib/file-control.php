@@ -347,7 +347,7 @@ if (action=="save") {
 			? 'Enter filename to save at '+fileLoc
 			: 'Enter filename (including path, prefixed with /)'
 			,'');
-		if (newFileName.substr(0,1)!="/") {newFileName = "/" + newFileName}
+		if (newFileName && newFileName.substr(0,1)!="/") {newFileName = "/" + newFileName}
 		if (newFileName) {
 			newFileName = fileLoc == "" ? newFileName : fileLoc + "/" + fileName;
 		}
