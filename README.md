@@ -43,6 +43,8 @@ Early version of the web based IDE which allows for creation of websites in the 
 * Emmet snippet typing booster
 * JavaScript code hinting
 * Alphanumeric tab sorting
+* Tag wrappers
+* Config template
 
 ###Installation
 
