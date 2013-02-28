@@ -1,9 +1,12 @@
 #ICEcoder
-##Web based IDE for smart web development
+##Web IDE / browser code editor awesomeness
 
-Early version of the web based IDE which allows for creation of websites in the web browser. Uses the brilliant CodeMirror for code highlighting & editing, with a slick IDE wrapped around it to make the whole thing work.
+ICEcoder is a web IDE / browser based code editor, which allows you to develop websites directly within the web browser. It uses the brilliant CodeMirror for code highlighting & editing, with a slick IDE wrapped around it to make the whole thing work.
 
 <img src="http://icecoder.net/images/icecoder-v1pt6-web-ide.jpg" alt="ICEcoder web IDE">
+
+###Requirements
+You can run ICEcoder either online or locally, on Linux, Windows or Mac based platforms. The only requirement is to have PHP 5.3 available. You can have this either as a vanilla installation or via a program such as WAMP (for Windows) or MAMP (for Mac).
 
 ###Features you'd expect
 * Context aware code highlighting
@@ -36,7 +39,7 @@ Early version of the web based IDE which allows for creation of websites in the 
 * Image viewer
 * Colour preview block on CSS colours, ie red, #f00 or  RGBA(255,0,0,0.5)
 * MySQL Database management via Adminer plugin
-* Backs up files every 10 mins or on click of backup plugin icon
+* Backs up files every 30 mins or on click of backup plugin icon
 * Github repo syncing with ICErepo plugin
 * Shell terminal
 * JS Hint validation as you type
@@ -54,9 +57,9 @@ Early version of the web based IDE which allows for creation of websites in the 
 $ git clone git@github:mattpass/ICEcoder
 ```
 
-####Step 2: Upload the files (Linux or Windows hosting OK)
+####Step 2: Put in your document root (online or local)
 ```
-Upload to a new sub-dir URL such as yourdomain.com/_coder
+Place in a new sub-dir URL such as yourdomain.com/_coder or localhost/_coder
 Set public write permissions (757 recommended) on the 'backups' and 'lib' folders
 ```
 
@@ -68,7 +71,7 @@ Now you're setup, auto-logged in and ready to code!
 
 Suitable for commercial & non-commercial projects, just let me know if it's useful to you and any cool customisations you make to it. I take no responsibility for anything, your usage is all down to you.
 
-Is fully open source and I'd encourage you to take it, make it your own and customise to your hearts content! :)
+It's fully open source and MIT licensed. I'm happy for you to take it, make it your own and customise to your hearts content and/or contribute to this main repo! :)
 
 Plenty of comments included in the code to assist with understanding, customising etc.
 
