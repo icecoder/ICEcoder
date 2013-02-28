@@ -13,21 +13,16 @@
 
 <div title="Refresh" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
 
-<?php
-$fileAtts = "";
-if ($serverType=="Linux") {
-	$chmodInfo = substr(sprintf('%o', fileperms($docRoot.$iceRoot)), -3);
-	$fileAtts = '<span style="color: #888; font-size: 8px" id="|_perms">'.$chmodInfo.'</span>';
-}
-?>
 <ul class="fileManager">
 <li class="pft-directory dirOpen">
-<a nohref title="/" onMouseOver="top.ICEcoder.overFileFolder('folder','/')" onMouseOut="top.ICEcoder.overFileFolder('folder','')" onClick="top.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">
+<a nohref title="/" onMouseOver="top.ICEcoder.overFileFolder('folder','/')" onMouseOut="top.ICEcoder.overFileFolder('folder','')" onClick="top.ICEcoder.openCloseDir(this, true)" style="position: relative; left:-22px">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 <span id="|">/ 
 <?php echo $iceRoot == "" ? "[ROOT]" : trim($iceRoot,"/");?>
 </span> 
-<?php echo $fileAtts;?>
+<span style="color: #888; font-size: 8px" id="|_perms">
+<?php echo $serverType=="Linux" ? substr(sprintf('%o', fileperms($docRoot.$iceRoot)), -3) : "";?>
+</span>
 </a>
 </li>
 <?php
