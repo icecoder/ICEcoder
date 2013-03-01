@@ -57,9 +57,9 @@ You can run ICEcoder either online or locally, on Linux, Windows or Mac based pl
 $ git clone git@github:mattpass/ICEcoder
 ```
 
-####Step 2: Put in your document root (online or local)
+####Step 2: Place in your document root (online or local)
 ```
-Place in a new sub-dir URL such as yourdomain.com/_coder or localhost/_coder
+Put in a new sub-dir URL such as yourdomain.com/_coder or localhost/_coder
 Set public write permissions (757 recommended) on the 'backups' and 'lib' folders
 ```
 
