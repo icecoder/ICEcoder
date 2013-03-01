@@ -22,14 +22,22 @@ if ($_GET['action']=="load") {
 
 	if (file_exists($file)) {
 		// Determine what to do based on mime type
-		$finfo = finfo_open(FILEINFO_MIME_TYPE);
-		if (strpos(finfo_file($finfo, $file),"text")===0 || strpos(finfo_file($finfo, $file),"empty")!==false) {
+		if (function_exists('finfo_open')) {
+			$finfoMIME = finfo_open(FILEINFO_MIME_TYPE);
+			$finfo = finfo_file($finfoMIME, $file);
+			finfo_close($finfoMIME);
+		} else {
+			$fileExt = pathinfo($file, PATHINFO_EXTENSION);
+			if (array_search($fileExt,array("coffee","css","htm","html","js","less","php","rb","ruby","txt","xml"))!==false) {$finfo = "text";};
+			if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
+		}
+		if (strpos($finfo,"text")===0 || strpos($finfo,"empty")!==false) {
 			echo '<script>fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.rightClickedFile = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 			echo '</script>';
 			$loadedFile = file_get_contents($file);
 			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea>';
-		} else if (strpos(finfo_file($finfo, $file),"image")===0) {
+		} else if (strpos($finfo,"image")===0) {
 			echo '<script>fileType="image";fileName=\''.$fileLoc."/".$fileName.'\'</script>';
 		} else {
 			echo '<script>fileType="other";window.open(\'http://'.$_SERVER['SERVER_NAME'].$fileLoc."/".$fileName.'\');</script>';
@@ -37,7 +45,7 @@ if ($_GET['action']=="load") {
 	} else {
 		echo '<script>fileType="nothing"; top.ICEcoder.message(\'Sorry, '.$fileLoc."/".$fileName.' doesn\\\'t seem to exist on the server\');</script>';
 	}
-	finfo_close($finfo);
+
 };
 
 // If we're due to add a new folder...
