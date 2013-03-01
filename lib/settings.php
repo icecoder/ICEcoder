@@ -47,7 +47,7 @@ if (!file_exists(dirname(__FILE__)."/".$settingsFile)) {
 		die("Couldn't create $settingsFile. Maybe you need write permissions on the lib folder?");
 	}
 }
-include($settingsFile);
+include(dirname(__FILE__)."/".$settingsFile);
 
 // Add ICEcoder settings to beginning of $ICEcoder array
 $ICEcoder = array(
