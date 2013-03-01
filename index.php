@@ -10,7 +10,6 @@ $updateMsg = '';
 if ($ICEcoder["checkUpdates"]) {
 	$icv = explode("\n",file_get_contents("http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"]));
 	$icv = $icv[0];
-	$icv = rtrim(ltrim($icv,'"'),'"\\n');
 	if ($ICEcoder["versionNo"]<$icv) {
 		$updateMsg = ";top.ICEcoder.dataMessage('<b>UPDATE INFO:</b> ICEcoder v ".$icv." now available. (Your version is v ".$ICEcoder["versionNo"]."). Get it free from <a href=\\'http://icecoder.net\\' target=\\'_blank\\' style=\\'color:#ddd\\'>icecoder.net</a>');";
 	}
@@ -32,7 +31,6 @@ window.onbeforeunload = function() {
 		return "You have some unsaved changes.";
 	}
 }
-
 </script>
 <script language="JavaScript" src="lib/ice-coder.js"></script>
 <?php
@@ -168,8 +166,8 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 			</div>
 		</form>
 		<form onSubmit="return ICEcoder.goToLine()">
-		<div class="codeAssist"><input type="checkbox" name="codeAssist" id="codeAssist" checked onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
-		<div class="goLine">Go to Line<input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
+			<div class="codeAssist"><input type="checkbox" name="codeAssist" id="codeAssist" checked onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
+			<div class="goLine">Go to Line<input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 		</form>
 	</div>
 	<iframe name="contentFrame" id="content" src="editor.php" class="code"></iframe>
