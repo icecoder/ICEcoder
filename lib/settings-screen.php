@@ -11,8 +11,8 @@
 <script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 
 <style type="text/css">
-.CodeMirror {position: absolute; width: 0; background-color: #fff; color: #000; font-family: monospace; width: 420px}
-.CodeMirror-scroll {height: 240px; overflow: hidden}
+.CodeMirror {position: absolute; width: 420px; height: 240px; font-size: 13px}
+.CodeMirror-scroll {overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\21e5';};?>";}
 </style>
