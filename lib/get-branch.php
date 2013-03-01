@@ -55,6 +55,7 @@ for ($i=0;$i<count($finalArray);$i++) {
 			echo "</ul>\n";
 		}
 	}
+	$fileAtts = "";
 	if ($serverType=="Linux") {
 		$chmodInfo = substr(sprintf('%o', fileperms($docRoot.$iceRoot.$fileFolderName)), -3);
 		$fileAtts = '<span style="color: #888; font-size: 8px" id="'.str_replace($docRoot,"",str_replace("/","|",$fileFolderName)).'_perms">'.$chmodInfo.'</span>';
