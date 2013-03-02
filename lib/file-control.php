@@ -241,7 +241,7 @@ if ($_GET['action']=="save") {
 	if (isset($_POST['contents'])) {
 		if (!$demoMode && ((file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && $_POST['newFileName']!="")) {
 			$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
-			if ($filemtime==$_GET['fileMDT']||!(isset($_GET['fileMDT']))) {
+			if (!(isset($_GET['fileMDT'])||$filemtime==$_GET['fileMDT'])) {
 				$fh = fopen($file, 'w') or die("Sorry, cannot save");
 				fwrite($fh, $_POST['contents']);
 				fclose($fh);
