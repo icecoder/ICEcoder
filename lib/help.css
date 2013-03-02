@@ -17,10 +17,10 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 
 body {overflow: hidden;
-   -webkit-user-select: none;
-   -moz-user-select: none;
-   -o-user-select:none;
-   user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	user-select: none;
 }
 
 h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
