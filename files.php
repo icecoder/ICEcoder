@@ -20,18 +20,6 @@ include("lib/get-branch.php");
 ?>
 </ul>
 
-<?php
-// Output the JS vars
-echo "<script>\n";
-echo "top.ICEcoder.dirCount=";
-echo $dirCount ? $dirCount : "0";
-echo ";\ntop.ICEcoder.fileCount=";
-echo $fileCount ? $fileCount : "0";
-echo ";\ntop.ICEcoder.fileBytes=";
-echo $fileBytes ? $fileBytes : "0";
-echo ";\n</script>";
-?>
-
 <iframe name="fileControl" style="display: none"></iframe>
 		
 </body>

@@ -6,9 +6,6 @@ if (!isset($ICEcoder['root'])) {
 if (!$_SESSION['loggedIn']) {
 	header("Location: ../");
 }
-$fileCount=0;
-$fileBytes=0;
-$dirCount=0;
 
 // If we're just getting a branch, get that and set as the finalArray
 $scanDir = $docRoot.$iceRoot;
@@ -38,9 +35,7 @@ $finalArray = array_merge($dirArray,$filesArray);
 for ($i=0;$i<count($finalArray);$i++) {
 	$fileFolderName = str_replace("\\","/",$finalArray[$i]);
 	$type = is_dir($docRoot.$iceRoot.$fileFolderName) ? "folder" : "file";
-	$type=="folder" ? $dirCount++ : $fileCount++;
 	if ($type=="file") {
-		$fileBytes+=filesize($docRoot.$iceRoot.$fileFolderName);
 		// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
 		$ext = "ext-".pathinfo($docRoot.$iceRoot.$fileFolderName, PATHINFO_EXTENSION);
 	}
