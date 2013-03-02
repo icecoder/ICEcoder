@@ -6,7 +6,6 @@ if (!isset($ICEcoder['root'])) {
 if (!$_SESSION['loggedIn']) {
 	header("Location: ../");
 }
-$lastPath="";
 $fileCount=0;
 $fileBytes=0;
 $dirCount=0;
@@ -45,14 +44,9 @@ for ($i=0;$i<count($finalArray);$i++) {
 		// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
 		$ext = "ext-".pathinfo($docRoot.$iceRoot.$fileFolderName, PATHINFO_EXTENSION);
 	}
-	$thisDepth = count(explode("/",$fileFolderName));
-	$lastDepth = count(explode("/",$lastPath));
-	$ulDisplay = $i==0 ?  ' style="display: block"' : ' style="display: none"';
-	if ($thisDepth > $lastDepth) {echo "<ul".$ulDisplay.">\n";}
-	if ($thisDepth < $lastDepth) {
-		for ($j=$lastDepth;$j>$thisDepth;$j--) {
-			echo "</ul>\n";
-		}
+	if ($i==0) {echo "<ul style=\"display: block\">\n";}
+	if ($i==count($finalArray)-1 && isset($_GET['location'])) {
+		echo "</ul>\n";
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
 	$loadParam = $type == "folder" ? "true" : "false";
@@ -60,7 +54,6 @@ for ($i=0;$i<count($finalArray);$i++) {
 	echo '<span style="color: #888; font-size: 8px" id="'.str_replace($docRoot,"",str_replace("/","|",$fileFolderName)).'_perms">';
 	echo $serverType=="Linux" ? substr(sprintf('%o', fileperms($docRoot.$iceRoot.$fileFolderName)), -3) : '';
 	echo "</span></a></li>\n";
-	$lastPath = $fileFolderName;
 }
 
 if (isset($_GET['location'])) {
