@@ -68,6 +68,14 @@ if ($_GET['action']=="paste") {
 		if (is_dir($source)) {
 			if (!is_dir($dest)) {
 				mkdir($dest, 0705);
+			} else {
+				for ($i=2; $i<1000000000; $i++) {
+					if (!is_dir($dest." (".$i.")")) {
+						$dest = $dest." (".$i.")";
+						mkdir($dest, 0705);
+						$i=1000000000;
+					}
+				}
 			}
 			foreach ($iterator = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
