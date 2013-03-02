@@ -13,7 +13,7 @@
 
 <h1 id="title">help</h1>
 
-<a href="javascript:top.ICEcoder.showManual(<?php echo $ICEcoder["versionNo"];?>)" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #2187e7; color: #fff; font-size: 18px">ICEcoder manual</div></a>
+<a href="javascript:top.ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>')" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #2187e7; color: #fff; font-size: 18px">ICEcoder manual</div></a>
 
 <div style="display: inline-block; width: 365px; margin-right: 20px">
 	<h2>Within file manager</h2>
