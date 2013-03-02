@@ -35,8 +35,8 @@ if ($outputSize >= 1024) {
 }
 echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($bytes)." bytes)";
 ?></span>
-<span class="column" style="margin: 0 10px">Modified: <?php echo date( "D d M Y g:i:sa", filemtime($fileName)); ?></span>
-<span class="column">Last access: <?php echo date( "D d M Y g:i:sa", fileatime($fileName)); ?></span>
+<span class="column" style="margin: 0 10px">Modified: <?php echo date( "D jS M Y g:i:sa", filemtime($fileName)); ?></span>
+<span class="column">Last access: <?php echo date( "D jS M Y g:i:sa", fileatime($fileName)); ?></span>
 <br><br>
 <span class="column" style="width: 180px">Type: <?php echo is_dir($fileName) ? "Folder" : "File"; ?></span>
 <span class="column" style="margin: 0 10px">Readable / Writeable: 
