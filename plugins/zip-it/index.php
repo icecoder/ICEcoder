@@ -1,6 +1,6 @@
 <?php
 // -----------------------------------------------
-// Zip-It! for ICEcoder v0.9.5 by Matt Pass
+// Zip-It! for ICEcoder v1.0 by Matt Pass
 // Will backup requested files/folders in ICEcoder
 // and remove old backups older than $keepLastDays
 // -----------------------------------------------
@@ -12,7 +12,7 @@ include("../../lib/settings.php");
 <title>Zip It! for ICEcoder</title>
 </head>
 <body>
-<?
+<?php
 $saveLocation = '../../backups/';
 $_GET['zip']=="|" ? $fileName = "root" : $fileName = str_replace("|","_",strClean($_GET['zip']));
 $fileName .= '-'.time().'.zip';
@@ -33,7 +33,7 @@ Class zipIt {
 				$currentDir = array_pop($dirStack);
 				$dir = dir($currentDir);
 				while (false !== ($node = $dir->read())) {
-					if (($node == '.') || ($node == '..')) {continue;}
+					if ($node == '.' || $node == '..') {continue;}
 					if (is_dir($currentDir.$node) && !strpos($currentDir.$node,"_coder") && !strpos($currentDir.$node,"ICEcoder")) { 
 						array_push($dirStack,$currentDir.$node.'/'); 
 					}
