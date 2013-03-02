@@ -104,7 +104,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 
 <script>
 CodeMirror.keyMap.ICEcoder = {
-	//"Tab": function(cm) {CodeMirror.commands[top.ICEcoder.tabsIndent ? "defaultTab" : "insertTab"](cm);},
+	// "Tab": "defaultTab", **Now used by Emmet**
 	"Shift-Tab": "indentLess",
 	"Ctrl-Space": "autocomplete",
 	fallthrough: ["default"]
