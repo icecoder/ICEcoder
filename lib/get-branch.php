@@ -10,13 +10,12 @@ $lastPath="";
 $fileCount=0;
 $fileBytes=0;
 $dirCount=0;
-?>
-<div id="branch">
-<?php
+
 // If we're just getting a branch, get that and set as the finalArray
 $scanDir = $docRoot.$iceRoot;
 $location = "";
 if (isset($_GET['location'])) {
+	echo '<div id="branch">';
 	$location = str_replace("|","/",$_GET['location']);
 }
 
@@ -55,22 +54,19 @@ for ($i=0;$i<count($finalArray);$i++) {
 			echo "</ul>\n";
 		}
 	}
-	$fileAtts = "";
-	if ($serverType=="Linux") {
-		$chmodInfo = substr(sprintf('%o', fileperms($docRoot.$iceRoot.$fileFolderName)), -3);
-		$fileAtts = '<span style="color: #888; font-size: 8px" id="'.str_replace($docRoot,"",str_replace("/","|",$fileFolderName)).'_perms">'.$chmodInfo.'</span>';
-	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
 	$loadParam = $type == "folder" ? "true" : "false";
-	echo "<li class=\"".$class."\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" onClick=\"top.ICEcoder.openCloseDir(this,$loadParam)\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".basename($fileFolderName)."</span> ".$fileAtts."</a>\n";
+	echo "<li class=\"".$class."\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type','".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."')\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" onClick=\"top.ICEcoder.openCloseDir(this,$loadParam)\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".basename($fileFolderName)."</span> ";
+	echo '<span style="color: #888; font-size: 8px" id="'.str_replace($docRoot,"",str_replace("/","|",$fileFolderName)).'_perms">';
+	echo $serverType=="Linux" ? substr(sprintf('%o', fileperms($docRoot.$iceRoot.$fileFolderName)), -3) : '';
+	echo "</span></a>\n";
 	if ($i<count($finalArray)) {echo "</li>\n";}
 	$lastPath = $fileFolderName;
 }
-?>
-</div>
-<?php
+
 if (isset($_GET['location'])) {
 ?>
+	</div>
 	<script>
 	targetElem = top.ICEcoder.filesFrame.contentWindow.document.getElementById('<?php echo $_GET['location'];?>');
 	newUL = document.createElement("ul");
@@ -80,7 +76,7 @@ if (isset($_GET['location'])) {
 		x = locNest.nextSibling;
 		x.parentNode.removeChild(x);
 	}
-	newUL.innerHTML = document.getElementById('branch').innerHTML.slice(29).slice(0,-6);
+	newUL.innerHTML = document.getElementById('branch').innerHTML.slice(28).slice(0,-7);
 	locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
 	</script>
 <?php
