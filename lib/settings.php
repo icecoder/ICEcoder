@@ -97,9 +97,13 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	// Compile our new settings
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,($repPosEnd),strlen($settingsContents));
 	// Now update the config file
-	$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile." and press refresh");
-	fwrite($fh, $settingsContents);
-	fclose($fh);
+	if (is_writeable($settingsFile)) {
+		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile." and press refresh");
+		fwrite($fh, $settingsContents);
+		fclose($fh);
+	} else {
+		echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
+	}
 
 	// OK, now the config file has been updated, update our current session with new arrays
 	$settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
@@ -168,8 +172,13 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 		}
 		$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 		// Now update the config file
-		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile." and press refresh");
-		fwrite($fh, $settingsContents);
+		if (is_writeable($settingsFile)) {
+			$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile." and press refresh");
+			fwrite($fh, $settingsContents);
+			fclose($fh);
+		} else {
+			echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
+		}
 
 		// Update our last10Files var?
 		$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
@@ -182,11 +191,15 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 				if (count($last10FilesArray)>=10) {$ICEcoder["last10Files"]=substr($ICEcoder["last10Files"],0,strrpos($ICEcoder["last10Files"],','));};
 				$settingsContents = substr($settingsContents,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$ICEcoder["last10Files"].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 				// Now update the config file
-				$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile." and press refresh");
-				fwrite($fh, $settingsContents);
+				if (is_writeable($settingsFile)) {
+					$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on lib/".$settingsFile." and press refresh");
+					fwrite($fh, $settingsContents);
+					fclose($fh);
+				} else {
+					echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
+				}
 			}
 		}
-		fclose($fh);
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
