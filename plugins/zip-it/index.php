@@ -24,7 +24,7 @@ Class zipIt {
 		$zipName = $zipDir.$zipFile;
 		$zipFiles = array();
 		$_GET['zip']=="|" ? $zipTgt = "" : $zipTgt = str_replace("|","/",strClean($_GET['zip']));
-		if (strpos($_GET['zip'],"/")!==0) {$zipTgt = "/".$zipTgt;};
+		if (strpos($_GET['zip'],"/")!==0) {$zipTgt = "/".trim($zipTgt,"/");};
 		$addItem = $docRoot.$zipTgt;
 
 		if (is_dir($addItem)) {
@@ -58,7 +58,7 @@ Class zipIt {
 		if(count($zipFiles)) {
 			$zip = new ZipArchive();
 	    		if($zip->open($zipName,ZIPARCHIVE::CREATE)!== true) {return false;}
-			$excludeFilesFolders = explode("*",strClean($_GET['exclude']));
+			$excludeFilesFolders = isset($_GET['exclude']) ? explode("*",strClean($_GET['exclude'])) : array();
 			foreach($zipFiles as $file) {
 				$canAdd=true;
 				for ($i=0;$i<count($excludeFilesFolders);$i++) {
