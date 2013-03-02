@@ -1,8 +1,7 @@
 <?php include("settings.php");?>
 <?php
 // Get the save type if any
-$saveType = "";
-if (isset($_GET['saveType'])) {$saveType = strClean($_GET['saveType']);};
+$saveType = isset($_GET['saveType']) ? strClean($_GET['saveType']) : "";
 
 // Establish the filename/new filename
 $file = str_replace("|","/",strClean(
@@ -241,12 +240,13 @@ if ($_GET['action']=="save") {
 	// on the form posting via a reload, save the file
 	if (isset($_POST['contents'])) {
 		if (!$demoMode && ((file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && $_POST['newFileName']!="")) {
-			if (filemtime($file)==$_GET['fileMDT']||!(isset($_GET['fileMDT']))) {
+			$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
+			if ($filemtime==$_GET['fileMDT']||!(isset($_GET['fileMDT']))) {
 				$fh = fopen($file, 'w') or die("Sorry, cannot save");
 				fwrite($fh, $_POST['contents']);
 				fclose($fh);
 				clearstatcache();
-				echo '<script>top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.filemtime($file).'";</script>';
+				echo '<script>top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";</script>';
 				// Reload file manager & rename tab if it was a new file
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 					echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');';
@@ -268,7 +268,7 @@ if ($_GET['action']=="save") {
 					// Revert back to original
 					cM.setValue(document.getElementById('loadedFile').value);
 					top.ICEcoder.changedContent[thisTab-1] = 0;
-					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo filemtime($file); ?>";
+					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo $filemtime; ?>";
 					cM.clearHistory();
 					// Now for the new file
 					top.ICEcoder.newTab();
@@ -310,7 +310,7 @@ if (action=="load") {
 				top.ICEcoder.setLayout();
 				top.ICEcoder.content.contentWindow.createNewCMInstance(top.ICEcoder.nextcMInstance);
 
-				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on _coder's load)
+				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on ICEcoder's load)
 				top.ICEcoder.switchMode();
 				cM = top.ICEcoder.getcMInstance();
 				cM.setValue(document.getElementById('loadedFile').value);
@@ -323,7 +323,7 @@ if (action=="load") {
 				top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].removeLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab], "background");
 				top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].addLineClass(0, "background", "cm-s-activeLine");
 				top.ICEcoder.nextcMInstance++;
-				top.ICEcoder.openFileMDTs.push('<?php echo filemtime($file); ?>');
+				top.ICEcoder.openFileMDTs.push('<?php echo $serverType=="Linux" ? filemtime($file) : "1000000"; ?>');
 				top.ICEcoder.loadingFile = false;
 			<?php
 			;};
