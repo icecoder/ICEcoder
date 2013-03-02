@@ -1,4 +1,4 @@
-/* ICE coder default theme: Based VERY loosely on Monokai */
+/* ICEcoder default theme: Based VERY loosely on Monokai */
 
 .cm-s-icecoder {color: #666; background: #1c1c19}
 
@@ -26,7 +26,7 @@
 .cm-s-icecoder span.cm-bracket {color: #cc7}
 
 .cm-s-icecoder span.cm-tag {color: #e8e8e8}
-.cm-s-icecoder span.cm-attribute {color: #00b8bb}
+.cm-s-icecoder span.cm-attribute {color: #0bb}
 
 .cm-s-icecoder span.cm-header {color: #a0a}
 .cm-s-icecoder span.cm-quote {color: #090}
