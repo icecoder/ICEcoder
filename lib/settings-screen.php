@@ -36,10 +36,14 @@ for ($i=0;$i<count($themeArray);$i++) {
 <body class="settings">
 
 <div class="infoPane">
-	<img src="../images/ice-coder.png" class="logo">
+	<a href="http://icecoder.net" target="_blank"><img src="../images/ice-coder.png" class="logo"></a>
 	<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
 
 	<p>
+	website:<br>
+	<a href="http://icecoder.net" target="_blank">http://icecoder.net</a>
+	<br><br>
+
 	git:<br>
 	<a href="http://github.com/mattpass/ICEcoder" target="_blank">http://github.com/mattpass/ICEcoder</a>
 	<br><br>
@@ -55,7 +59,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 	<br><br>
 
 	file manager root:<br>
-	<?php echo $ICEcoder['root'];?>
+	<?php echo $ICEcoder['root'] == "" ? "/" : $ICEcoder['root'];?>
 	<br><br><br><br>
 
 	<div style="font-size: 10px; line-height: 12px">ICE coder by Matt Pass (<a href="http://www.twitter.com/mattpass" style="font-size: 10px" target="_blank">@mattpass</a>)<br><br>
@@ -64,7 +68,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 		Thanks go to the following people who have inspired me to create this and in the odd case, provided feedback or code:<br>
 		<?php
-			$peopleArray = array("marijnjh", "maettig", "wimtibackx", "jakubvrana", "_higg_", "yandle", "davidwalshblog", "kuvos", "mathias", "rem");
+			$peopleArray = array("marijnjh", "maettig", "emmetio", "wimtibackx", "jakubvrana", "_higg_", "yandle", "davidwalshblog", "kuvos", "mathias", "rem");
 			for ($i=0;$i<count($peopleArray)-1;$i++) {
 				echo '<a href="http://www.twitter.com/'.$peopleArray[$i].'" style="font-size: 10px" target="_blank">@'.$peopleArray[$i].'</a>';
 				if ($i<count($peopleArray)-2) {
@@ -72,7 +76,8 @@ for ($i=0;$i<count($themeArray);$i++) {
 				}
 			}			
 		?>
-		
+		<br><br>
+		...plus a whole load of people on Github. Thanks for your contributions!
 	</div>
 	</p>
 </div>
