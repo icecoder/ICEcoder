@@ -53,7 +53,7 @@
 	<span class="key">CTRL <span class="plus">+</span> S <span class="plus">+</span> Enter</span> <span class="shortcut">Save & create sticky tab</span><br>
 	<span class="key">Esc</span> <span class="shortcut">Cancel tasks</span><br><br><br>
 
-	<h2>On logo</b><h2>
+	<h2>On logo</h2>
 	<span class="key">Left click</span> <span class="shortcut">Help</span><br>
 	<span class="key">Right click</span> <span class="shortcut">Settings</span><br>
 </div>
