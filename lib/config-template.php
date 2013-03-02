@@ -1,7 +1,6 @@
 <?php
 $ICEcoder = array(
 "root"			=> "",
-"tabsIndent"		=> true,
 "checkUpdates"		=> true,
 "openLastFiles"		=> true,
 "findFilesExclude"	=> array("_coder","ICEcoder",".doc",".gif",".jpg",".jpeg",".pdf",".png",".swf",".xml",".zip"),
@@ -14,7 +13,7 @@ $ICEcoder = array(
 "allowedIPs"		=> array("*"),
 "plugins"		=> array(
 			array("Terminal","plugins/terminal/icon.gif","margin-top: 3px","plugins/terminal","_blank",""),
-			array("Adminer","plugins/adminer/icon.png","margin-top: 3px","plugins/adminer/adminer-3.4.0-mysql-en.php","_blank",""),
+			array("Adminer","plugins/adminer/icon.png","margin-top: 3px","plugins/adminer/adminer-3.6.3-mysql-en.php","_blank",""),
 			array("JS Hint","plugins/jshint/icon.png","margin-top: 3px","http://www.jshint.com","_blank",""),
 			array("Emmet","plugins/emmet/icon.png","margin-top: 3px","http://docs.emmet.io","_blank",""),
 			array("ICErepo","plugins/ice-repo/icon.png","margin-top: 3px","plugins/ice-repo","_blank",""),
