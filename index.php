@@ -49,8 +49,6 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	echo "];top.ICEcoder.theme = '";
 	echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];
 	echo "'";
-	echo ';top.ICEcoder.tabsIndent = ';
-	echo $ICEcoder["tabsIndent"] ? 'true' : 'false';
 	echo ';top.ICEcoder.openLastFiles = ';
 	echo $ICEcoder["openLastFiles"] ? 'true' : 'false';
 	echo ';top.ICEcoder.lineWrapping = ';

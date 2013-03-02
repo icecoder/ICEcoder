@@ -81,7 +81,6 @@ for ($i=0;$i<count($themeArray);$i++) {
 <div class="settingsColumn1">
 <h1>settings</h1>
 <h2>functionality</h2>
-<input type="checkbox" onclick="showButton()" name="tabsIndent" value="true"<?php if($ICEcoder["tabsIndent"]) {echo ' checked';};?>> tab indents selection<br>
 <input type="checkbox" onclick="showButton()" name="checkUpdates" value="true"<?php if($ICEcoder["checkUpdates"]) {echo ' checked';};?>> check for updates on load<br>
 <input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($ICEcoder["openLastFiles"]) {echo ' checked';};?>> auto open last files on login<br>
 <br>
