@@ -115,7 +115,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 		$fp = opendir($path);
 		global $r, $ICEcoder, $serverType, $selectedFiles;
 		if (!isset($ret)) {$ret="";};
-		$slash = $serverType == "Windows" ? "\\" : "/";
+		$slash = $serverType == strpos($path,"\\")>-1 ? "\\" : "/";
 		while($f = readdir($fp)) {
 			if(preg_match("#^\.+$#", $f)) continue;
 			$fullPath = $path.$slash.$f;
@@ -138,7 +138,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))\\\">";
 					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">Found ".substr_count(strtolower(file_get_contents($fullPath)),$q)." times</div>";
 					if (isset($_GET['replace'])) {
-						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('".$fullPath."');this.style.display=\'none\'\\\">replace</div>".PHP_EOL;
+						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('".$fullPath."');this.style.display=\'none\'\\\">replace</div>";
 					};
 					$ret .= '<hr>';
 					echo 'foundArray.push("'.$fullPath.'");'.PHP_EOL;
