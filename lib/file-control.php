@@ -254,6 +254,7 @@ if ($_GET['action']=="save") {
 				fwrite($fh, $_POST['contents']);
 				fclose($fh);
 				clearstatcache();
+				$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 				echo '<script>top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";</script>';
 				// Reload file manager & rename tab if it was a new file
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
