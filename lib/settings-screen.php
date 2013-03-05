@@ -68,7 +68,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 		Thanks go to the following people who have inspired me to create this and in the odd case, provided feedback or code:<br>
 		<?php
-			$peopleArray = array("marijnjh", "maettig", "emmetio", "wimtibackx", "jakubvrana", "_higg_", "yandle", "davidwalshblog", "kuvos", "mathias", "rem");
+			$peopleArray = array("marijnjh", "maettig", "a_harris88", "emmetio", "prinzhorn", "wimtibackx", "jakubvrana", "davidwalshblog");
 			for ($i=0;$i<count($peopleArray)-1;$i++) {
 				echo '<a href="http://www.twitter.com/'.$peopleArray[$i].'" style="font-size: 10px" target="_blank">@'.$peopleArray[$i].'</a>';
 				if ($i<count($peopleArray)-2) {
