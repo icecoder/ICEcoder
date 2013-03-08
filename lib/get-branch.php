@@ -59,7 +59,7 @@ if (isset($_GET['location'])) {
 	newUL = document.createElement("ul");
 	newUL.style = "display: block";
 	locNest = targetElem.parentNode.parentNode;
-	if(locNest.nextSibling.tagName=="UL") {
+	if(locNest.nextSibling && locNest.nextSibling.tagName=="UL") {
 		x = locNest.nextSibling;
 		x.parentNode.removeChild(x);
 	}
