@@ -37,7 +37,7 @@ test = {
 			o.p = ICEcoder.openFiles[0];
 			t++;
 		},10);
-		result = ICEcoder.openFile('<?php echo str_replace("\\","/",dirname(__FILE__))."/test-file1.txt";?>');
+		result = ICEcoder.openFile('<?php echo str_replace("\\","/",dirname($_SERVER['PHP_SELF']))."/test-file1.txt";?>');
 	},
 
 	updateDoc: function() {
