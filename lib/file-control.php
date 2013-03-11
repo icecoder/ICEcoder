@@ -216,6 +216,7 @@ if ($_GET['action']=="delete") {
 				: unlink($fullPath);
 			$fileName = basename($fullPath);
 			$fileLoc = dirname(str_replace($docRoot,"",$fullPath));
+			if ($fileLoc=="" || $fileLoc=="\\") {$fileLoc="/";};
 			// Reload file manager
 			echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
 			echo 'action="delete";</script>';
