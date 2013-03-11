@@ -37,6 +37,8 @@
 	<span class="key">CTRL <span class="plus">+</span> Alt <span class="plus">+</span> i</span> <span class="shortcut">Wrap selected in &lt;i&gt;</span><br>
 	<span class="key">CTRL <span class="plus">+</span> Alt <span class="plus">+</span> g</span> <span class="shortcut">Wrap selected in &lt;strong&gt;</span><br>
 	<span class="key">CTRL <span class="plus">+</span> Alt <span class="plus">+</span> e</span> <span class="shortcut">Wrap selected in &lt;em&gt;</span><br>
+	<span class="key">CTRL <span class="plus">+</span> Alt <span class="plus">+</span> nums 1 - 7</span> <span class="shortcut">Wrap selected in &lt;h1&gt; - &lt;h7&gt;</span><br>
+	<span class="key">CTRL <span class="plus">+</span> Alt <span class="plus">+</span> Enter</span> <span class="shortcut">End line with &lt;br&gt;</span><br>
 </div>
 
 <div style="display: inline-block; width: 365px">
