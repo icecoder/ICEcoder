@@ -1,3 +1,4 @@
+.cm-s-eclipse.CodeMirror {background: #fff; color: #000;}
 .cm-s-eclipse span.cm-meta {color: #FF1717;}
 .cm-s-eclipse span.cm-keyword { line-height: 1em; font-weight: bold; color: #7F0055; }
 .cm-s-eclipse span.cm-atom {color: #219;}
@@ -20,6 +21,6 @@
 .cm-s-eclipse span.cm-link {color: #219;}
 
 .cm-s-eclipse .CodeMirror-matchingbracket {
-	border:1px solid grey;
+	outline:1px solid grey;
 	color:black !important;;
 }
