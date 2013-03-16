@@ -48,13 +48,14 @@
 	<span class="key">Right click</span> <span class="shortcut">Options for selected</span><br>
 	<span class="key">Delete</span> <span class="shortcut">Delete selected</span><br><br>
 
-	<h2>Elsewhere</h2>
+	<h2>Anywhere</h2>
 	<span class="key">CTRL <span class="plus">+</span> &rarr;</span> <span class="shortcut">Next tab</span><br>
 	<span class="key">CTRL <span class="plus">+</span> &larr;</span> <span class="shortcut">Previous tab</span><br>
 	<span class="key">CTRL <span class="plus">+</span> +</span> <span class="shortcut">New tab</span><br>
 	<span class="key">CTRL <span class="plus">+</span> -</span> <span class="shortcut">Close current tab</span><br>
+	<span class="key">CTRL <span class="plus">+</span> o</span> <span class="shortcut">Open file prompt</span><br>
 	<span class="key">CTRL <span class="plus">+</span> f</span> <span class="shortcut">Find</span><br>
-	<span class="key">CTRL <span class="plus">+</span> g</span> <span class="shortcut">Go to line</span><br>
+	<span class="key">CTRL <span class="plus">+</span> g</span> <span class="shortcut">Focus on Go to line input</span><br>
 	<span class="key">CTRL <span class="plus">+</span> s</span> <span class="shortcut">Save</span><br>
 	<span class="key">CTRL <span class="plus">+</span> Shift <span class="plus">+</span> s</span> <span class="shortcut">Save as...</span><br>
 	<span class="key">CTRL <span class="plus">+</span> Enter</span> <span class="shortcut">View webpage</span><br>
