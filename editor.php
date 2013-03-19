@@ -167,7 +167,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 		}
 	},1000);
 	</script>
-	<?php if(is_dir('test')) {?>
+	<?php if(is_dir('test') && !$ICEcoder['demoMode']) {?>
 	<div style="clear: both">
 		<br><br>
 		<h2 style="color: rgba(0,198,255,0.7)">test suite</h2>
