@@ -125,7 +125,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 </div>
 
 <div id="editor" class="editor">
-	<div id="tabsBar" class="tabsBar" onContextMenu="return false">
+	<div id="tabsBar" class="tabsBar" onContextMenu="return false" onMouseOut="top.ICEcoder.setTabWidths()">
 		<a nohref onClick="top.ICEcoder.closeAllTabs()"><img src="images/nav-close.gif" class="closeAllTabs" title="Close all tabs"></a>
 		<a nohref onClick="top.ICEcoder.alphaTabs()"><img src="images/nav-alpha.png" class="alphaTabs" title="Alphabetize tabs"></a>
 		<?php
