@@ -164,7 +164,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 			</div>
 		</form>
 		<form onSubmit="return ICEcoder.goToLine()">
-			<div class="codeAssist"><input type="checkbox" name="codeAssist" id="codeAssist" checked onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
+			<div class="codeAssist" title="Turn on/off JS Hint &amp; CSS color previews"><input type="checkbox" name="codeAssist" id="codeAssist" checked onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
 			<div class="goLine">Go to Line<input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 		</form>
 	</div>
