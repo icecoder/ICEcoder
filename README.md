@@ -44,7 +44,7 @@ You can run ICEcoder either online or locally, on Linux, Windows or Mac based pl
 * Shell terminal
 * JS Hint validation as you type
 * Emmet snippet typing booster
-* JavaScript code hinting
+* HTML & JavaScript code hinting
 * Alphanumeric tab sorting
 * Tag wrappers
 * Config template
