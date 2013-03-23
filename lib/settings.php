@@ -261,6 +261,11 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["accountPassword"] == "") && !strpos($_
 		$settingsContents = file_get_contents($settingsFile);
 		// Replace our empty password with the one submitted by user
 		$settingsContents = str_replace('"accountPassword"	=> "",','"accountPassword"	=> "'.$password.'",',$settingsContents);
+		// Also set the update checker preference
+		$checkUpdates = $_POST['checkUpdates']=="true" ? "true" : "false";
+		// once to cover the true setting, once to cover false
+		$settingsContents = str_replace('"checkUpdates"		=> true,','"checkUpdates"		=> '.$checkUpdates.',',$settingsContents);
+		$settingsContents = str_replace('"checkUpdates"		=> false,','"checkUpdates"		=> '.$checkUpdates.',',$settingsContents);
 		// Now update the config file
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 		fwrite($fh, $settingsContents);
@@ -295,6 +300,11 @@ echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 		<form name="settingsUpdate" action="settings.php" method="POST">
 		<input type="password" name="<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password" class="accountPassword"><br><br>
 		<input type="submit" name="submit" value="<?php echo $ICEcoder["accountPassword"] == "" ? "set password" : "login"; ?>" class="button">
+		<?php
+		if ($ICEcoder["accountPassword"] == "") {
+			echo '<div class="text"><input type="checkbox" name="checkUpdates" value="true" checked> auto-check for updates</div>';
+		}
+		?>
 		</form>
 		</div>
 	</div>
