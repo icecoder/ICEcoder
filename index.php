@@ -8,7 +8,13 @@ if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*"
 $updateMsg = '';
 // Check for updates
 if ($ICEcoder["checkUpdates"]) {
-	$icv = explode("\n",file_get_contents("http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"]));
+	if (ini_get('allow_url_fopen')) {
+		$icv = explode("\n",file_get_contents("http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"]));
+	} elseif (function_exists('curl_init')) {
+		$ch = curl_init("http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"]);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$icv = explode("\n", curl_exec($ch));
+	}
 	$icv = $icv[0];
 	if ($ICEcoder["versionNo"]<$icv) {
 		$updateMsg = ";top.ICEcoder.dataMessage('<b>UPDATE INFO:</b> ICEcoder v ".$icv." now available. (Your version is v ".$ICEcoder["versionNo"]."). Get it free from <a href=\\'http://icecoder.net\\' target=\\'_blank\\' style=\\'color:#ddd\\'>icecoder.net</a>');";
