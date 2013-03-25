@@ -8,10 +8,11 @@ if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*"
 $updateMsg = '';
 // Check for updates
 if ($ICEcoder["checkUpdates"]) {
+	$icv_url = "http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"];
 	if (ini_get('allow_url_fopen')) {
-		$icv = explode("\n",file_get_contents("http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"]));
+		$icv = explode("\n",file_get_contents($icv_url));
 	} elseif (function_exists('curl_init')) {
-		$ch = curl_init("http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"]);
+		$ch = curl_init($icv_url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$icv = explode("\n", curl_exec($ch));
 	}
