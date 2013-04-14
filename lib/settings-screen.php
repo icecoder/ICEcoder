@@ -148,8 +148,16 @@ for ($i=0;$i<count($themeArray);$i++) {
 </span>
 
 <span style="position: absolute; margin: -15px 0 0 120px">
-	tab width <span style="font-size: 10px; color: #888">chars</span><br>
-	<input type="text" name="tabWidth" id="tabWidth" style="width: 30px" onkeydown="showButton()" onkeyup="changeTabWidth()" value="<?php echo $ICEcoder["tabWidth"];?>">
+	indent type<br>
+	<select onchange="showButton()" name="indentWithTabs">
+		<option value="true"<?php if($ICEcoder["indentWithTabs"]) {echo " selected";};?>>tabs</option>
+		<option value="false"<?php if(!$ICEcoder["indentWithTabs"]) {echo " selected";};?>>spaces</option>
+	</select>
+</span>
+
+<span style="position: absolute; margin: -15px 0 0 220px">
+	indent size <span style="font-size: 10px; color: #888">chars</span><br>
+	<input type="text" name="indentSize" id="indentSize" style="width: 30px" onkeydown="showButton()" onkeyup="changeIndentSize()" value="<?php echo $ICEcoder["indentSize"];?>">
 </span>
 <br><br>
 
@@ -178,8 +186,8 @@ function findSequence(goal) {
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	lineNumbers: true,
 	readOnly: "nocursor",
-	indentUnit: top.ICEcoder.tabWidth,
-	tabSize: top.ICEcoder.tabWidth,
+	indentUnit: top.ICEcoder.indentSize,
+	tabSize: top.ICEcoder.indentSize,
 	mode: "javascript",
 	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
 	});
@@ -191,10 +199,10 @@ function selectTheme() {
 	editor.setOption("theme", theme);
 }
 
-function changeTabWidth() {
-	var tabWidth = document.getElementById("tabWidth").value;
-	editor.setOption("indentUnit", tabWidth);
-	editor.setOption("tabSize", tabWidth);
+function changeIndentSize() {
+	var indentSize = document.getElementById("indentSize").value;
+	editor.setOption("indentUnit", indentSize);
+	editor.setOption("tabSize", indentSize);
 }
 
 var showButton = function() {

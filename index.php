@@ -60,8 +60,10 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	echo $ICEcoder["openLastFiles"] ? 'true' : 'false';
 	echo ';top.ICEcoder.lineWrapping = ';
 	echo $ICEcoder["lineWrapping"] ? 'true' : 'false';
-	echo ';top.ICEcoder.tabWidth = ';
-	echo $ICEcoder["tabWidth"];
+	echo ';top.ICEcoder.indentWithTabs = ';
+	echo $ICEcoder["indentWithTabs"] ? 'true' : 'false';
+	echo ';top.ICEcoder.indentSize = ';
+	echo $ICEcoder["indentSize"];
 ?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="ICEcoder.showHide('hide',this)" onContextMenu="return false">

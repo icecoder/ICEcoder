@@ -26,7 +26,8 @@ $ICEcoder = array(
 			),
 "theme"			=> "default",
 "lineWrapping"		=> true,
-"tabWidth"		=> 4,
+"indentWithTabs"	=> true,
+"indentSize"		=> 4,
 "previousFiles"		=> "",
 "last10Files"		=> ""
 );

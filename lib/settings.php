@@ -84,9 +84,10 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["plugins"]			= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
 	$ICEcoder["theme"]			= strClean($_POST['theme']);
 	$ICEcoder["lineWrapping"]		= strClean($_POST['lineWrapping']);
-	$ICEcoder["tabWidth"]			= numClean($_POST['tabWidth']);
+	$ICEcoder["indentWithTabs"]		= strClean($_POST['indentWithTabs']);
+	$ICEcoder["indentSize"]			= numClean($_POST['indentSize']);
 
-	$settingsArray = array("root","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","accountPassword","bannedFiles","bannedPaths","allowedIPs","plugins","theme","lineWrapping","tabWidth");
+	$settingsArray = array("root","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","accountPassword","bannedFiles","bannedPaths","allowedIPs","plugins","theme","lineWrapping","indentWithTabs","indentSize");
 	$settingsNew = "";
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"'.PHP_EOL.'	=> ';
@@ -115,7 +116,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	// Do we need a file manager refresh?
 	$refreshFM = $_POST['changedFileSettings']=="true" ? "true" : "false";
 	// With all that worked out, we can now hide the settings screen and apply the new settings
-	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",".$ICEcoder["visibleTabs"].",".$ICEcoder["lineWrapping"].",".$ICEcoder["tabWidth"].",".$refreshFM.");</script>";
+	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",".$ICEcoder["visibleTabs"].",".$ICEcoder["lineWrapping"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentSize"].",".$refreshFM.");</script>";
 }
 
 // Establish our user level
