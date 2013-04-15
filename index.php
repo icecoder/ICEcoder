@@ -45,6 +45,8 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	echo '<script src="plugins/jshint/jshint.js"></script>';
 }
 ?>
+<script src="farbtastic/farbtastic.js"></script>
+<link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css">
 </head>
 
 <body onLoad="<?php
@@ -108,6 +110,9 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 </div>
 
 <div id="header" class="header" onContextMenu="return false">
+	<div class="tools">
+		<a nohref onClick="top.ICEcoder.showColorPicker(top.document.getElementById('color') ? top.document.getElementById('color').value : '#123456')" title="Color Picker"><img src="images/color-picker.png" style="margin-top: 3px; cursor: pointer" alt="Color Picker"></a>
+	</div>
 	<div class="plugins" id="pluginsContainer">
 	<?php echo $pluginsDisplay; ?>
 	</div>
