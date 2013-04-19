@@ -1,5 +1,5 @@
 /*!
- * Farbtastic: jQuery color picker plug-in v1.3u
+ * Farbtastic: NON jQuery color picker plug-in v1.4, based on v1.3u
  *
  * Licensed under the GPL license:
  *   http://www.gnu.org/licenses/gpl.html
