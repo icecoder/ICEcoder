@@ -25,6 +25,7 @@ $ICEcoder = array(
 			array("Zip It!","plugins/zip-it/icon.png","margin-top: 3px; margin-left: 3px","plugins/zip-it/?zip=|&exclude=*.doc*.gif*.jpg*.jpeg*.pdf*.png*.swf*.xml*.zip","fileControl:<b>Zipping Files</b>","30")
 			),
 "theme"			=> "default",
+"fontSize"		=> "13px",
 "lineWrapping"		=> true,
 "indentWithTabs"	=> true,
 "indentSize"		=> 4,
