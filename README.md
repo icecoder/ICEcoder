@@ -48,6 +48,7 @@ You can run ICEcoder either online or locally, on Linux, Windows or Mac based pl
 * Alphanumeric tab sorting
 * Tag wrappers
 * Config template
+* Farbtastic color picker integrated
 
 ###Installation
 
