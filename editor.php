@@ -24,7 +24,8 @@ if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder
 $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat")) !== false ? "#ccc" : "#000";
 ?>">
 <style type="text/css">
-.CodeMirror {position: absolute; top: 0px; width: 100%; font-size: 13px; z-index: 1}
+/* Make sure this next one remains the 1st item, updated with JS */
+.CodeMirror {position: absolute; top: 0px; width: 100%; font-size: <?php echo $ICEcoder["fontSize"];?>; z-index: 1}
 .CodeMirror-scroll {} /* was: height: auto; overflow: visible */
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
