@@ -11,7 +11,7 @@
 <script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 
 <style type="text/css">
-.CodeMirror {position: absolute; width: 420px; height: 240px; font-size: 13px}
+.CodeMirror {position: absolute; width: 409px; height: 240px; font-size: <?php echo $ICEcoder["fontSize"];?>}
 .CodeMirror-scroll {overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\21e5';};?>";}
@@ -139,7 +139,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 ?>
 </select>
 
-<span style="position: absolute; margin: -15px 0 0 20px">
+<span style="position: absolute; margin: -15px 0 0 10px">
 	line wrapping<br>
 	<select onchange="showButton()" name="lineWrapping">
 		<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";};?>>yes</option>
@@ -147,7 +147,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 	</select>
 </span>
 
-<span style="position: absolute; margin: -15px 0 0 120px">
+<span style="position: absolute; margin: -15px 0 0 100px">
 	indent type<br>
 	<select onchange="showButton()" name="indentWithTabs">
 		<option value="true"<?php if($ICEcoder["indentWithTabs"]) {echo " selected";};?>>tabs</option>
@@ -155,9 +155,14 @@ for ($i=0;$i<count($themeArray);$i++) {
 	</select>
 </span>
 
-<span style="position: absolute; margin: -15px 0 0 220px">
-	indent size <span style="font-size: 10px; color: #888">chars</span><br>
+<span style="position: absolute; margin: -15px 0 0 190px">
+	indent size <br>
 	<input type="text" name="indentSize" id="indentSize" style="width: 30px" onkeydown="showButton()" onkeyup="changeIndentSize()" value="<?php echo $ICEcoder["indentSize"];?>">
+</span>
+
+<span style="position: absolute; margin: -15px 0 0 267px">
+	font size <br>
+	<input type="text" name="fontSize" id="fontSize" style="width: 44px" onkeydown="showButton()" onkeyup="changeFontSize()" value="<?php echo $ICEcoder["fontSize"];?>">
 </span>
 <br><br>
 
@@ -203,6 +208,12 @@ function changeIndentSize() {
 	var indentSize = document.getElementById("indentSize").value;
 	editor.setOption("indentUnit", indentSize);
 	editor.setOption("tabSize", indentSize);
+}
+
+function changeFontSize() {
+	cMCSS = document.styleSheets[2];
+	cMCSS.rules ? strCSS = 'rules' : strCSS = 'cssRules';
+	cMCSS[strCSS][0].style['fontSize'] = document.getElementById("fontSize").value;
 }
 
 var showButton = function() {
