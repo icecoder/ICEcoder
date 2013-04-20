@@ -12,15 +12,16 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	margin: 0;
 	padding: 0;
 	outline: 0;
-	font-size: 12px;
+	/*font-size: 12px;*/
 	vertical-align: top;
 }
 
 body {overflow: hidden;
-   -webkit-user-select: none;
-   -moz-user-select: none;
-   -o-user-select:none;
-   user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	user-select: none;
+	font-size: 12px;
 }
 
 h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
