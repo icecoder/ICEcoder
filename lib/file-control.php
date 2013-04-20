@@ -252,7 +252,12 @@ if ($_GET['action']=="save") {
 			$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 			if (!(isset($_GET['fileMDT']))||$filemtime==$_GET['fileMDT']) {
 				$fh = fopen($file, 'w') or die("Sorry, cannot save");
-				fwrite($fh, $_POST['contents']);
+				// replace \r\n (Windows) and \r (old Mac) line endings with \n (Linux)
+				$contents = $_POST['contents'];
+				$contents = str_replace("\r\n", "\n", $contents);
+				$contents = str_replace("\r", "\n", $contents);
+				// Now write that content, close the file and clear the statcache
+				fwrite($fh, $contents);
 				fclose($fh);
 				clearstatcache();
 				$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
