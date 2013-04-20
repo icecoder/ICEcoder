@@ -18,6 +18,18 @@ if (isset($_GET['logout'])) {
 	header("Location: dirname(__FILE__)./?loggedOut");
 }
 
+// If magic quotes are still on (attempted to switch off in php.ini)
+if (get_magic_quotes_gpc ()) {
+	function stripslashes_deep($value) {
+		$value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
+		return $value;
+	}
+	$_POST = (isset($_POST) && !empty($_POST)) ? array_map('stripslashes_deep', $_POST) : array();
+	$_GET = (isset($_GET) && !empty($_GET)) ? array_map('stripslashes_deep', $_GET) : array();
+	$_COOKIE = (isset($_COOKIE) && !empty($_COOKIE)) ? array_map('stripslashes_deep', $_COOKIE) : array();
+	$_REQUEST = (isset($_REQUEST) && !empty($_REQUEST)) ? array_map('stripslashes_deep', $_REQUEST) : array();
+}
+
 // Function to handle salted hashing
 define('SALT_LENGTH',9);
 function generateHash($plainText,$salt=null) {
@@ -83,15 +95,16 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
 	$ICEcoder["plugins"]			= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
 	$ICEcoder["theme"]			= strClean($_POST['theme']);
+	$ICEcoder["fontSize"]			= strClean($_POST['fontSize']);
 	$ICEcoder["lineWrapping"]		= strClean($_POST['lineWrapping']);
 	$ICEcoder["indentWithTabs"]		= strClean($_POST['indentWithTabs']);
 	$ICEcoder["indentSize"]			= numClean($_POST['indentSize']);
 
-	$settingsArray = array("root","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","accountPassword","bannedFiles","bannedPaths","allowedIPs","plugins","theme","lineWrapping","indentWithTabs","indentSize");
+	$settingsArray = array("root","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","accountPassword","bannedFiles","bannedPaths","allowedIPs","plugins","theme","fontSize","lineWrapping","indentWithTabs","indentSize");
 	$settingsNew = "";
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"'.PHP_EOL.'	=> ';
-		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="accountPassword"||$settingsArray[$i]=="theme" ? '"' : '';
+		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="accountPassword"||$settingsArray[$i]=="theme"||$settingsArray[$i]=="fontSize" ? '"' : '';
 		$settingsNew .= $settingWrap.$ICEcoder[$settingsArray[$i]].$settingWrap.','.PHP_EOL.PHP_EOL;
 	}
 
@@ -116,7 +129,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	// Do we need a file manager refresh?
 	$refreshFM = $_POST['changedFileSettings']=="true" ? "true" : "false";
 	// With all that worked out, we can now hide the settings screen and apply the new settings
-	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",".$ICEcoder["visibleTabs"].",".$ICEcoder["lineWrapping"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentSize"].",".$refreshFM.");</script>";
+	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentSize"].",".$refreshFM.");</script>";
 }
 
 // Establish our user level
