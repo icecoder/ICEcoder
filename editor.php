@@ -179,6 +179,14 @@ function createNewCMInstance(num) {
 				clearTimeout(window['cM'+num+'waiting']);
 				window['cM'+num+'waiting'] = setTimeout(top.ICEcoder.updateHints, 100);
 			}
+			// Update HTML edited files live
+			if (top.ICEcoder.stickyTab.location) {
+				var filename = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+				var fileExt = filename.substr(filename.lastIndexOf(".")+1);
+				if (["htm","html"].indexOf(fileExt) > -1) {
+					top.ICEcoder.stickyTab.document.documentElement.innerHTML = window['cM'+num].getValue();
+				}
+			};
 		}
 	);
 
