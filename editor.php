@@ -11,10 +11,11 @@
 <!--
 codemirror-compressed.js
 incls:	codemirror
-modes:	clike, coffeescript, css, htmlmixed, javascript, less, php, ruby & xml
+modes:	clike, coffeescript, css, htmlmixed, javascript, less, markdown, php, ruby & xml
 utils:	closetag, foldcode, xml-fold, brace-fold, show-hint, javascript-hint, html-hint, searchcursor, match-highlighter
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
+<script src="lib/mmd.js"></script>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 	echo '<script src="plugins/emmet/emmet.min.js"></script>';
@@ -198,6 +199,8 @@ function createNewCMInstance(num) {
 						}
 						top.ICEcoder.stickyTab.document.documentElement.appendChild(style);
 					}
+				} else if (["md"].indexOf(fileExt) > -1) {
+					top.ICEcoder.stickyTab.document.documentElement.innerHTML = mmd(window['cM'+num].getValue());
 				}
 			};
 		}
