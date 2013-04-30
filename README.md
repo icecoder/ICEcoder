@@ -10,7 +10,7 @@ You can run ICEcoder either online or locally, on Linux, Windows or Mac based pl
 
 ###Features you'd expect
 * Context aware code highlighting
-* Supports HTML, CSS, LESS, JavaScript, CoffeeScript, PHP & Ruby
+* Supports HTML, CSS, LESS, JavaScript, CoffeeScript, PHP & Ruby, Markdown & more
 * Smart tab key system (selected text indents line)
 * File manager
 * Find & replace/replace all
