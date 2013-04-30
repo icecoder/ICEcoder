@@ -181,10 +181,23 @@ function createNewCMInstance(num) {
 			}
 			// Update HTML edited files live
 			if (top.ICEcoder.stickyTab.location) {
-				var filename = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+				var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+				var filename = filepath.substr(filepath.lastIndexOf("/")+1);
 				var fileExt = filename.substr(filename.lastIndexOf(".")+1);
-				if (["htm","html"].indexOf(fileExt) > -1) {
+				if (["htm","html","txt"].indexOf(fileExt) > -1) {
 					top.ICEcoder.stickyTab.document.documentElement.innerHTML = window['cM'+num].getValue();
+				} else if (["css"].indexOf(fileExt) > -1) {
+					if (top.ICEcoder.stickyTab.document.documentElement.innerHTML.indexOf(filename) > -1) {
+						var css = window['cM'+num].getValue();
+						var style = document.createElement('style');
+						style.type = 'text/css';
+						if (style.styleSheet){
+							style.styleSheet.cssText = css;
+						} else {
+							style.appendChild(document.createTextNode(css));
+						}
+						top.ICEcoder.stickyTab.document.documentElement.appendChild(style);
+					}
 				}
 			};
 		}
