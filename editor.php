@@ -143,7 +143,7 @@ function createNewCMInstance(num) {
 		keyMap: "ICEcoder",
 		onKeyEvent: function(thisCM, e) {
 			top.ICEcoder.redoChangedContent(e);
-			top.ICEcoder.findReplace('find',true,false);
+			top.ICEcoder.findReplace(top.document.getElementById('find').value,true,false);
 			top.ICEcoder.getCaretPosition();
 			top.ICEcoder.updateCharDisplay();
 			tok = thisCM.getTokenAt(thisCM.getCursor());

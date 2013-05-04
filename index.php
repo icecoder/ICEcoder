@@ -153,10 +153,10 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 		?><div class="newTab" onClick="ICEcoder.newTab()" id="newTab"><img src="images/nav-new.png"></div>
 	</div>
 	<div id="findBar" class="findBar" onContextMenu="return false">
-		<form name="findAndReplace" onSubmit="ICEcoder.findReplace('findReplace',false,true);return false">
+		<form name="findAndReplace" onSubmit="ICEcoder.findReplace(top.document.getElementById('find').value,false,true);return false">
 			<div class="findReplace">
 				<div class="findText">Find</div>
-				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace('find',true,false)">
+				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace(top.document.getElementById('find').value,true,false)">
 				
 				<select name="connector" onChange="ICEcoder.findReplaceOptions()">
 				<option>in</option>
