@@ -72,7 +72,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	echo $ICEcoder["indentSize"];
 ?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
-<div id="blackMask" class="blackMask" onClick="ICEcoder.showHide('hide',this)" onContextMenu="return false">
+<div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">
 	<div class="popupVCenter">
 		<div class="popup" id="mediaContainer"></div>
 	</div>
