@@ -34,7 +34,7 @@ You can run ICEcoder either online or locally, on Linux, Windows or Mac based pl
 * Adds end tags as you type and in a context aware way
 * Can rename open files (whoaah!)
 * CTRL+Enter open current webpage in new tab
-* CTRL+S+Enter opens a sticky tab to show live edits
+* Window to view live edits
 * ESC = Comment/Uncomment line, incl partial lines
 * Image viewer
 * Colour preview block on CSS colours, ie red, #f00 or  RGBA(255,0,0,0.5)
