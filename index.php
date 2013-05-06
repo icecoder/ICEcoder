@@ -70,6 +70,8 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	echo $ICEcoder["indentWithTabs"] ? 'true' : 'false';
 	echo ';top.ICEcoder.indentSize = ';
 	echo $ICEcoder["indentSize"];
+	echo ';top.ICEcoder.demoMode = ';
+	echo $ICEcoder["demoMode"] ? 'true' : 'false';
 ?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">
@@ -190,8 +192,11 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 </div>
 
 <div class="footer" id="footer" onContextMenu="return false">
+	<div class="system" id="system">
+		<div onClick="top.ICEcoder.openPreviewWindow()" class="preview"></div>
+		<div onClick="top.ICEcoder.openTerminal()" class="terminal"></div>
+	</div>
 	<div class="nesting" id="nestValid"></div>
-	<div class="nestLoc" id="nestDisplayText"></div>
 	<div class="nestDisplay" id="nestDisplay"></div>
 	<div class="charDisplay" id="charDisplay"><span id="char"></span></div>
 </div>
