@@ -39,7 +39,7 @@ window.onbeforeunload = function() {
 	}
 }
 </script>
-<script language="JavaScript" src="lib/ice-coder.js"></script>
+<script language="JavaScript" src="lib/ice-coder.min.js"></script>
 <script src="lib/mmd.js"></script>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
