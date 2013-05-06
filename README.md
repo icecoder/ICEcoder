@@ -3,7 +3,7 @@
 
 ICEcoder is a web IDE / browser based code editor, which allows you to develop websites directly within the web browser. It uses the brilliant CodeMirror for code highlighting & editing, with a slick IDE wrapped around it to make the whole thing work.
 
-<img src="http://icecoder.net/images/icecoder-v2-2-browser-code-editor.png" alt="ICEcoder web IDE">
+<img src="http://icecoder.net/images/icecoder-v2-3-browser-code-editor.png" alt="ICEcoder web IDE">
 
 ###Requirements
 You can run ICEcoder either online or locally, on Linux, Windows or Mac based platforms. The only requirement is to have PHP 5 available (5.3 recommended). You can have this either as a vanilla installation or via a program such as WAMP or XAMPP (for Windows) or MAMP (for Mac).
@@ -41,7 +41,7 @@ You can run ICEcoder either online or locally, on Linux, Windows or Mac based pl
 * MySQL Database management via Adminer plugin
 * Backs up files every 30 mins or on click of backup plugin icon
 * Github repo syncing with ICErepo plugin
-* Shell terminal
+* Linux terminal
 * JS Hint validation as you type
 * Emmet snippet typing booster
 * HTML & JavaScript code hinting
