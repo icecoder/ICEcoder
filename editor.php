@@ -184,16 +184,16 @@ function createNewCMInstance(num) {
 			var filename = filepath.substr(filepath.lastIndexOf("/")+1);
 			var fileExt = filename.substr(filename.lastIndexOf(".")+1);
 			// Update HTML edited files live
-			if (top.ICEcoder.stickyTab.location) {
-				if (top.ICEcoder.stickyTab.location.pathname==filepath) {
-					top.ICEcoder.stickyTab.document.documentElement.innerHTML = 
+			if (top.ICEcoder.previewWindow.location) {
+				if (top.ICEcoder.previewWindow.location.pathname==filepath) {
+					top.ICEcoder.previewWindow.document.documentElement.innerHTML = 
 					["htm","html","txt"].indexOf(fileExt) > -1
 					? window['cM'+num].getValue()
 					: ["md"].indexOf(fileExt) > -1
 					? mmd(window['cM'+num].getValue())
 					: false;
 				} else if (["css"].indexOf(fileExt) > -1) {
-					if (top.ICEcoder.stickyTab.document.documentElement.innerHTML.indexOf(filename) > -1) {
+					if (top.ICEcoder.previewWindow.document.documentElement.innerHTML.indexOf(filename) > -1) {
 						var css = window['cM'+num].getValue();
 						var style = document.createElement('style');
 						style.type = 'text/css';
@@ -203,10 +203,10 @@ function createNewCMInstance(num) {
 						} else {
 							style.appendChild(document.createTextNode(css));
 						}
-						if (top.ICEcoder.stickyTab.document.getElementById(style.id)) {
-							top.ICEcoder.stickyTab.document.documentElement.removeChild(top.ICEcoder.stickyTab.document.getElementById(style.id));
+						if (top.ICEcoder.previewWindow.document.getElementById(style.id)) {
+							top.ICEcoder.previewWindow.document.documentElement.removeChild(top.ICEcoder.previewWindow.document.getElementById(style.id));
 						}
-						top.ICEcoder.stickyTab.document.documentElement.appendChild(style);
+						top.ICEcoder.previewWindow.document.documentElement.appendChild(style);
 					}
 				}
 			}
