@@ -12,7 +12,6 @@ $ICEcoder = array(
 "bannedPaths"		=> array("/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"),
 "allowedIPs"		=> array("*"),
 "plugins"		=> array(
-			array("Terminal","plugins/terminal/icon.gif","margin-top: 3px","plugins/terminal","_blank",""),
 			array("Adminer","plugins/adminer/icon.png","margin-top: 3px","plugins/adminer/adminer-3.6.3-mysql-en.php","_blank",""),
 			array("JS Hint","plugins/jshint/icon.png","margin-top: 3px","http://www.jshint.com","_blank",""),
 			array("Emmet","plugins/emmet/icon.png","margin-top: 3px","http://docs.emmet.io","_blank",""),
