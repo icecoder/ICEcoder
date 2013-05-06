@@ -267,8 +267,8 @@ if ($_GET['action']=="save") {
 					echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');';
 					echo 'top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$fileLoc."/".$fileName.'\');</script>';
 				}
-				// Reload stickytab window if not a Markdown file
-				echo '<script>if (top.ICEcoder.stickyTab.location && top.ICEcoder.stickyTab.location.pathname.indexOf(".md")==-1) {top.ICEcoder.stickyTab.location.reload()};action="doneSave";</script>';
+				// Reload previewWindow window if not a Markdown file
+				echo '<script>if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {top.ICEcoder.previewWindow.location.reload()};action="doneSave";</script>';
 			} else {
 				$loadedFile = file_get_contents($file);
 				echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
