@@ -1,5 +1,5 @@
 <?php
-include("../../lib/settings.php");
+include("../lib/settings.php");
 if ($demoMode || !$_SESSION['loggedIn']) {
 	die("You must be logged in to access Terminal");
 }
