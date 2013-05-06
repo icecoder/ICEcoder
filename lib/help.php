@@ -22,6 +22,7 @@
 	<span class="key">CTRL <span class="plus">+</span> +</span> <span class="shortcut">Duplicate line</span><br>
 	<span class="key">CTRL <span class="plus">+</span> -</span> <span class="shortcut">Remove line</span><br>
 	<span class="key">CTRL <span class="plus">+</span> i</span> <span class="shortcut">Search selected text</span><br>
+	<span class="key">CTRL <span class="plus">+</span> j</span> <span class="shortcut">Jump to definition</span><br>
 	<span class="key">Esc</span> <span class="shortcut">Comment / uncomment text</span><br>
 	<span class="key">Tab</span> <span class="shortcut">Insert tab / indent selected text</span><br>
 	<span class="key">CTRL <span class="plus">+</span> Alt <span class="plus">+</span> d</span> <span class="shortcut">Wrap selected in &lt;div&gt;</span><br>
@@ -59,7 +60,6 @@
 	<span class="key">CTRL <span class="plus">+</span> s</span> <span class="shortcut">Save</span><br>
 	<span class="key">CTRL <span class="plus">+</span> Shift <span class="plus">+</span> s</span> <span class="shortcut">Save as...</span><br>
 	<span class="key">CTRL <span class="plus">+</span> Enter</span> <span class="shortcut">View webpage</span><br>
-	<span class="key">CTRL <span class="plus">+</span> s <span class="plus">+</span> Enter</span> <span class="shortcut">Save & create sticky tab</span><br>
 	<span class="key">Esc</span> <span class="shortcut">Cancel tasks</span><br>
 
 </div>
