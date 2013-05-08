@@ -28,7 +28,7 @@ if ($_GET['action']=="load") {
 			finfo_close($finfoMIME);
 		} else {
 			$fileExt = pathinfo($file, PATHINFO_EXTENSION);
-			if (array_search($fileExt,array("coffee","css","htm","html","js","less","md","php","rb","ruby","txt","xml"))!==false) {$finfo = "text";};
+			if (array_search($fileExt,array("coffee","css","htm","html","js","less","md","php","py","rb","ruby","txt","xml"))!==false) {$finfo = "text";};
 			if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
 		}
 		if (strpos($finfo,"text")===0 || strpos($finfo,"empty")!==false) {

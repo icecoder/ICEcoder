@@ -11,7 +11,7 @@
 <!--
 codemirror-compressed.js
 incls:	codemirror
-modes:	clike, coffeescript, css, htmlmixed, javascript, less, markdown, php, ruby & xml
+modes:	clike, coffeescript, css, htmlmixed, javascript, less, markdown, php, python, ruby & xml
 utils:	closetag, foldcode, xml-fold, brace-fold, show-hint, javascript-hint, html-hint, searchcursor, match-highlighter
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
@@ -219,7 +219,7 @@ function createNewCMInstance(num) {
 	);
 
 	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
-			["JavaScript","CoffeeScript","PHP","Ruby"].indexOf(top.ICEcoder.caretLocType) > -1
+			["JavaScript","CoffeeScript","PHP","Python","Ruby"].indexOf(top.ICEcoder.caretLocType) > -1
 			? codeFoldBrace(window['cM'+num], line) : codeFoldTag(window['cM'+num], line);
 			window['cM'+num].setGutterMarker(line, "CodeMirror-linenumbers", document.createTextNode("+ "+(line+1)));
 			setTimeout(function() {
