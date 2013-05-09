@@ -65,7 +65,8 @@ include(dirname(__FILE__)."/".$settingsFile);
 $ICEcoder = array(
 	"versionNo"		=> "2.3",
 	"codeMirrorDir"		=> "CodeMirror-3.12",
-	"demoMode"		=> false
+	"demoMode"		=> false,
+	"devMode"		=> false
 )+$ICEcoder;
 
 $onLoadExtras = "";

@@ -39,7 +39,7 @@ window.onbeforeunload = function() {
 	}
 }
 </script>
-<script language="JavaScript" src="lib/ice-coder.min.js"></script>
+<script language="JavaScript" src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js"></script>
 <script src="lib/mmd.js"></script>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
@@ -95,8 +95,8 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	<span id="folderMenuItems">
 		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="ICEcoder.showFileMenu()">New File</a>
 		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="ICEcoder.showFileMenu()">New Folder</a>
-		<a href="javascript:top.ICEcoder.pasteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()" id="fmMenuPasteOption" style="display: none">Paste</a>
 		<a href="javascript:top.ICEcoder.uploadFilesSelect(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Upload File(s)</a>
+		<a href="javascript:top.ICEcoder.pasteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()" id="fmMenuPasteOption" style="display: none">Paste</a>
 		<div style="display: none">
 			<form enctype="multipart/form-data" id="uploadFilesForm" action="lib/file-control.php?action=upload&file=/uploaded" method="POST" target="fileControl">
 				<input type="hidden" name="folder" id="uploadDir" value="/">
@@ -105,9 +105,9 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 			</form>
 		</div>
 	</span>
+	<a href="javascript:top.ICEcoder.copyFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Copy</a>
 	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Delete</a>
 	<span id="singleFileMenuItems">
-		<a href="javascript:top.ICEcoder.copyFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Copy</a>
 		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Rename</a>
 		<a href="javascript:window.open(top.ICEcoder.rightClickedFile.replace(/\|/g,'/'))" onMouseOver="ICEcoder.showFileMenu()">View Webpage</a>
 	</span>
