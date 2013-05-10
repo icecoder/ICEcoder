@@ -66,7 +66,7 @@ $ICEcoder = array(
 	"versionNo"		=> "2.3",
 	"codeMirrorDir"		=> "CodeMirror-3.12",
 	"demoMode"		=> false,
-	"devMode"		=> false
+	"devMode"		=> true
 )+$ICEcoder;
 
 $onLoadExtras = "";
