@@ -61,7 +61,7 @@ $ git clone git@github:mattpass/ICEcoder
 ####Step 2: Place in your document root (online or local)
 ```
 Put in a new sub-dir URL such as yourdomain.com/_coder or localhost/_coder
-Set public write permissions (757 recommended) on the 'backups', 'lib' and 'test' folders
+Set public write permissions (757 recommended) on the 'backups', 'lib' and 'test' folders plus 'test/test-file1.txt'
 ```
 
 ####Step 3: Start coding
