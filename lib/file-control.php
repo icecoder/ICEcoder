@@ -10,6 +10,9 @@ $file = str_replace("|","/",strClean(
 	: $_GET['file']
 	));
 
+// Trim any +'s or spaces from the end of file
+$file = rtrim(rtrim($file,'+'),' ');
+
 // Make $file a full path and establish the $fileLoc and $fileName
 if (strpos($file,$docRoot)===false) {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
 $fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
