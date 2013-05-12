@@ -14,7 +14,7 @@ $file = str_replace("|","/",strClean(
 $file = rtrim(rtrim($file,'+'),' ');
 
 // Make $file a full path and establish the $fileLoc and $fileName
-if (strpos($file,$docRoot)===false) {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
+if (strpos($file,$docRoot)===false && $_GET['action']!="getRemoteFile") {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
 $fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
 $fileName = basename($file);
 
@@ -50,6 +50,21 @@ if ($_GET['action']=="load") {
 	}
 
 };
+
+// Get the contents of a remote URL
+if ($_GET['action']=="getRemoteFile") {
+	if ($remoteFile = file_get_contents($file)) {
+		// replace \r\n (Windows) and \r (old Mac) line endings with \n (Linux)
+		$remoteFile = str_replace("\r\n", "\n", $remoteFile);
+		$remoteFile = str_replace("\r", "\n", $remoteFile);
+		echo '<script>top.ICEcoder.newTab();</script>';
+		echo '<textarea name="remoteFile" id="remoteFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$remoteFile)).'</textarea>';
+		echo '<script>top.ICEcoder.getcMInstance().setValue(document.getElementById("remoteFile").value);action="getRemoteFile";</script>';
+	} else {
+		echo '<script>action="nothing"; top.ICEcoder.message(\'Sorry, could\\\'t get contents of '.$file.'\');</script>';
+	}
+	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
+}
 
 // If we're due to add a new folder...
 if ($_GET['action']=="newFolder") {
