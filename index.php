@@ -10,15 +10,16 @@ $updateMsg = '';
 if ($ICEcoder["checkUpdates"]) {
 	$icv_url = "http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"];
 	if (ini_get('allow_url_fopen')) {
-		$icv = explode("\n",file_get_contents($icv_url));
+		$icvInfo = explode("\n",file_get_contents($icv_url));
 	} elseif (function_exists('curl_init')) {
 		$ch = curl_init($icv_url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		$icv = explode("\n", curl_exec($ch));
+		$icvInfo = explode("\n", curl_exec($ch));
 	}
-	$icv = $icv[0];
+	$icv = $icvInfo[0];
+	$icvI = $icvInfo[1];
 	if ($ICEcoder["versionNo"]<$icv) {
-		$updateMsg = ";top.ICEcoder.dataMessage('<b>UPDATE INFO:</b> ICEcoder v ".$icv." now available. (Your version is v ".$ICEcoder["versionNo"]."). Get it free from <a href=\\'http://icecoder.net\\' target=\\'_blank\\' style=\\'color:#ddd\\'>icecoder.net</a>');";
+		$updateMsg = ";top.ICEcoder.dataMessage('<b>UPDATE INFO:</b> ICEcoder v ".$icv." now available. (Your version is v ".$ICEcoder["versionNo"]."). Get it free from <a href=\\'http://icecoder.net\\' target=\\'_blank\\' style=\\'color:#ddd\\'>icecoder.net</a><br>".$icvI."');";
 	}
 }
 ?>
@@ -96,7 +97,6 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="ICEcoder.showFileMenu()">New File</a>
 		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="ICEcoder.showFileMenu()">New Folder</a>
 		<a href="javascript:top.ICEcoder.uploadFilesSelect(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Upload File(s)</a>
-		<a href="javascript:top.ICEcoder.pasteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()" id="fmMenuPasteOption" style="display: none">Paste</a>
 		<div style="display: none">
 			<form enctype="multipart/form-data" id="uploadFilesForm" action="lib/file-control.php?action=upload&file=/uploaded" method="POST" target="fileControl">
 				<input type="hidden" name="folder" id="uploadDir" value="/">
@@ -104,6 +104,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 				<input type="submit" value="Upload File">
 			</form>
 		</div>
+		<a href="javascript:top.ICEcoder.pasteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()" id="fmMenuPasteOption" style="display: none">Paste</a>
 	</span>
 	<a href="javascript:top.ICEcoder.copyFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Copy</a>
 	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Delete</a>
