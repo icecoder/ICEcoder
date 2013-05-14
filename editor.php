@@ -155,6 +155,7 @@ function createNewCMInstance(num) {
 			top.ICEcoder.findReplace(top.document.getElementById('find').value,true,false);
 			top.ICEcoder.getCaretPosition();
 			top.ICEcoder.updateCharDisplay();
+			top.ICEcoder.updateByteDisplay();
 			tok = thisCM.getTokenAt(thisCM.getCursor());
 		}
 	});
@@ -162,6 +163,7 @@ function createNewCMInstance(num) {
 	window['cM'+num].on("cursorActivity", function(thisCM) {
 			top.ICEcoder.getCaretPosition();
 			top.ICEcoder.updateCharDisplay();
+			top.ICEcoder.updateByteDisplay();
 			window['cM'+num].removeLineClass(top.ICEcoder['cMActiveLine'+num], "background");
 			if(window['cM'+num].getCursor('start').line == window['cM'+num].getCursor().line) {
 				top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(window['cM'+num].getCursor().line, "background","cm-s-activeLine");
@@ -179,6 +181,7 @@ function createNewCMInstance(num) {
 			top.ICEcoder.getCaretPosition();
 			top.ICEcoder.dontUpdateNest = false;
 			top.ICEcoder.updateCharDisplay();
+			top.ICEcoder.updateByteDisplay();
 			top.ICEcoder.updateNestingIndicator();
 			if (top.ICEcoder.findMode) {
 				top.ICEcoder.results.splice(top.ICEcoder.findResult,1);
