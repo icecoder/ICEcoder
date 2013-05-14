@@ -101,13 +101,22 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 	},1000);
 	</script>
 	<?php if(is_dir('test') && !$ICEcoder['demoMode']) {?>
-	<div style="clear: both">
+	<div style="float: left; margin-right: 50px">
 		<br><br>
 		<h2 style="color: rgba(0,198,255,0.7)">test suite</h2>
 		<span style="color:#888">Run unit tests:</span><br>
 		<a href="javascript:top.ICEcoder.filesFrame.contentWindow.frames['testControl'].location.href = 'test'" style="color: #fff">Run unit tests</a><div id="unitTestResults"></div>
 	</div>
 	<?php ;};?>
+	<?php if($ICEcoder['devMode']) {?>
+	<div style="float: left">
+		<br><br>
+		<h2 style="color: rgba(0,198,255,0.7)">dev mode on</h2>
+		<span style="color:#888">Status:</span><br>
+		Using ice-coder.js
+	</div>
+	<?php ;};?>
+	<div style="clear: both"></div>
 </div>
 
 <script>
