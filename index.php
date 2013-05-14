@@ -199,7 +199,8 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	</div>
 	<div class="nesting" id="nestValid"></div>
 	<div class="nestDisplay" id="nestDisplay"></div>
-	<div class="charDisplay" id="charDisplay"><span id="char"></span></div>
+	<div class="byteDisplay" id="byteDisplay" style="display: none" onClick="top.ICEcoder.showDisplay('char')"></div>
+	<div class="charDisplay" id="charDisplay" style="display: inline-block" onClick="top.ICEcoder.showDisplay('byte')"></div>
 </div>
 
 <script>
