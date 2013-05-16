@@ -44,7 +44,7 @@
 
 	<h2>Within file manager</h2>
 	<span class="key">Left click</span> <span class="shortcut">Select file / folder</span><br>
-	<span class="key">Double click</span> <span class="shortcut">Open file</span><br>
+	<span class="key">Double click / click (mobile)</span> <span class="shortcut">Open file</span><br>
 	<span class="key">CTRL <span class="plus">+</span> left click</span> <span class="shortcut">Multiple select</span><br>
 	<span class="key">Right click</span> <span class="shortcut">Options for selected</span><br>
 	<span class="key">Delete</span> <span class="shortcut">Delete selected</span><br><br>
