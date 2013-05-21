@@ -24,6 +24,7 @@ if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
 $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat")) !== false ? "#ccc" : "#000";
 ?>">
+
 <style type="text/css">
 /* Make sure this next one remains the 1st item, updated with JS */
 .CodeMirror {position: absolute; top: 0px; width: 100%; font-size: <?php echo $ICEcoder["fontSize"];?>; z-index: 1}
@@ -36,6 +37,8 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 .lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 3px 5px}
 .lint-error-icon {background: #b00; color: #fff; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 5px}
 </style>
+
+<link rel="stylesheet" href="lib/file-types.css">
 </head>
 
 <body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
@@ -64,19 +67,26 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 	<div style="float: left">
 		<h2 style="color: rgba(0,198,255,0.7)">files</h2>
 		<span style="color:#888">Last 10 files opened:</span><br>
+		<ul class="fileManager" style="margin-left: 0">
 		<?php
 			$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
 			for ($i=0;$i<count($last10FilesArray);$i++) {
 				if ($ICEcoder["last10Files"]=="") {
 					echo '[none]<br><br>';
 				} else {
+					$fileFolderName = str_replace("\\","/",$last10FilesArray[$i]);
+					// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
+					$ext = "ext-".pathinfo($docRoot.$iceRoot.$fileFolderName, PATHINFO_EXTENSION);
+					$class = 'pft-file '.strtolower($ext);
+					echo '<li class="'.$class.'" style="margin-left: -16px">';
 					echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(\''.str_replace("|","/",$last10FilesArray[$i]).'\')">';
 					echo str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i]));
-					echo '</a><br>'.PHP_EOL;
+					echo '</a></li>'.PHP_EOL;
 					if ($i==count($last10FilesArray)-1) {echo '<br>'.PHP_EOL;};
 				}
 			}
 		;?>
+		</ul>
 	</div>
 
 	<div style="clear: both">
