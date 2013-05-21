@@ -151,7 +151,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 		<a nohref onClick="top.ICEcoder.alphaTabs()"><img src="images/nav-alpha.png" class="alphaTabs" title="Alphabetize tabs"></a>
 		<?php
 		for ($i=1;$i<=100;$i++) {
-			echo '<div id="tab'.$i.'" class="tab" onMouseDown="ICEcoder.canSwitchTabs ? ICEcoder.switchTab(parseInt(this.id.slice(3),10)) : ICEcoder.canSwitchTabs=true; thisColor=\'#000\'; if (!top.ICEcoder.overCloseLink) {ICEcoder.tabDragStart(parseInt(this.id.slice(3),10))}" onMouseOver="thisColor=this.style.color;this.style.color=\'#000\'" onMouseOut="this.style.color=thisColor"></div>';
+			echo '<div id="tab'.$i.'" class="tab" onMouseDown="ICEcoder.canSwitchTabs ? ICEcoder.switchTab(parseInt(this.id.slice(3),10)) : ICEcoder.canSwitchTabs=true; thisColor=top.ICEcoder.tabFGselected; if (!top.ICEcoder.overCloseLink) {ICEcoder.tabDragStart(parseInt(this.id.slice(3),10))}" onMouseOver="thisColor=this.style.color;this.style.color=top.ICEcoder.tabFGselected" onMouseOut="this.style.color=thisColor"></div>';
 		}
 		?><div class="newTab" onClick="ICEcoder.newTab()" id="newTab"><img src="images/nav-new.png"></div>
 	</div>
