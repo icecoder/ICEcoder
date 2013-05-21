@@ -65,6 +65,7 @@ if (isset($_GET['location'])) {
 	}
 	newUL.innerHTML = document.getElementById('branch').innerHTML.slice(28).slice(0,-7);
 	locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
+	top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
 	</script>
 <?php
 ;};
