@@ -6,6 +6,7 @@
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> file manager</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="lib/files.css">
+<link rel="stylesheet" type="text/css" href="lib/file-types.css">
 <script src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js" type="text/javascript"></script>
 </head>
 
