@@ -51,6 +51,24 @@ function numClean($var) {
 	return is_numeric($var) ? floatval($var) : false;
 }
 
+// returns a UTF8 based string with any UFT8 BOM removed
+function toUTF8noBOM($string,$message) {
+	// Get rid of any UTF-8 BOM
+	$string = preg_replace('/\x{EF}\x{BB}\x{BF}/','',$string);
+	// Test for any bad characters
+	$teststring = $string;
+	$teststringBroken = utf8_decode($teststring);
+	$teststringConverted = iconv("UTF-8", "UTF-8//IGNORE", $teststringBroken);
+	// If we have a matching length, UTF8 encode it
+	if (strlen($teststringConverted) == strlen($teststringBroken)) {
+		$string = utf8_encode($string);
+		if ($message) {
+			echo "<script>top.ICEcoder.message('Your document doesn\'t appear to be in UTF-8 encoding so has been converted.');</script>";
+		}
+	}
+	return $string;
+}
+
 // Settings are stored in this file
 $settingsTemplate = 'config-template.php';
 $settingsFile = 'config.php';
