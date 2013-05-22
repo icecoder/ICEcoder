@@ -54,9 +54,10 @@ if ($_GET['action']=="load") {
 // Get the contents of a remote URL
 if ($_GET['action']=="getRemoteFile") {
 	if ($remoteFile = file_get_contents($file)) {
-		// replace \r\n (Windows) and \r (old Mac) line endings with \n (Linux)
-		$remoteFile = str_replace("\r\n", "\n", $remoteFile);
-		$remoteFile = str_replace("\r", "\n", $remoteFile);
+		// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
+		$remoteFile = str_replace("\r\n", $ICEcoder["lineEnding"], $remoteFile);
+		$remoteFile = str_replace("\r", $ICEcoder["lineEnding"], $remoteFile);
+		$remoteFile = str_replace("\n", $ICEcoder["lineEnding"], $remoteFile);
 		echo '<script>top.ICEcoder.newTab();</script>';
 		echo '<textarea name="remoteFile" id="remoteFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$remoteFile)).'</textarea>';
 		echo '<script>top.ICEcoder.getcMInstance().setValue(document.getElementById("remoteFile").value);action="getRemoteFile";</script>';
@@ -270,10 +271,11 @@ if ($_GET['action']=="save") {
 			$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 			if (!(isset($_GET['fileMDT']))||$filemtime==$_GET['fileMDT']) {
 				$fh = fopen($file, 'w') or die("Sorry, cannot save");
-				// replace \r\n (Windows) and \r (old Mac) line endings with \n (Linux)
+				// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 				$contents = $_POST['contents'];
-				$contents = str_replace("\r\n", "\n", $contents);
-				$contents = str_replace("\r", "\n", $contents);
+				$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
+				$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
+				$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
 				// Now write that content, close the file and clear the statcache
 				fwrite($fh, $contents);
 				fclose($fh);
