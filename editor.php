@@ -208,12 +208,11 @@ function createNewCMInstance(num) {
 			// Update HTML edited files live
 			if (top.ICEcoder.previewWindow.location) {
 				if (top.ICEcoder.previewWindow.location.pathname==filepath) {
-					top.ICEcoder.previewWindow.document.documentElement.innerHTML = 
-					["htm","html","txt"].indexOf(fileExt) > -1
-					? window['cM'+num].getValue()
-					: ["md"].indexOf(fileExt) > -1
-					? mmd(window['cM'+num].getValue())
-					: false;
+					if (["htm","html","txt"].indexOf(fileExt) > -1) {
+						top.ICEcoder.previewWindow.document.documentElement.innerHTML = window['cM'+num].getValue();
+					} else if (["md"].indexOf(fileExt) > -1) {
+						top.ICEcoder.previewWindow.document.documentElement.innerHTML = mmd(window['cM'+num].getValue());
+					}
 				} else if (["css"].indexOf(fileExt) > -1) {
 					if (top.ICEcoder.previewWindow.document.documentElement.innerHTML.indexOf(filename) > -1) {
 						var css = window['cM'+num].getValue();
