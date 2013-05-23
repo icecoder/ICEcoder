@@ -73,7 +73,7 @@ function toUTF8noBOM($string,$message) {
 
 // Settings are stored in this file
 $settingsTemplate = 'config-template.php';
-$settingsFile = 'config.php';
+$settingsFile = 'config-'.str_replace(".","_",$_SERVER['SERVER_NAME']).'.php';
 if (!file_exists(dirname(__FILE__)."/".$settingsFile)) {
 	if (!copy(dirname(__FILE__)."/".$settingsTemplate, dirname(__FILE__)."/".$settingsFile)) {
 		die("Couldn't create $settingsFile. Maybe you need write permissions on the lib folder?");
@@ -84,7 +84,7 @@ include(dirname(__FILE__)."/".$settingsFile);
 // Add ICEcoder settings to beginning of $ICEcoder array
 $ICEcoder = array(
 	"versionNo"		=> "2.4",
-	"codeMirrorDir"		=> "CodeMirror-3.12",
+	"codeMirrorDir"		=> "CodeMirror-3.13",
 	"demoMode"		=> false,
 	"devMode"		=> false,
 	"lineEnding"		=> "\n"
