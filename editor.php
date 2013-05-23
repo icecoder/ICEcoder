@@ -67,7 +67,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 	<div style="float: left">
 		<h2 style="color: rgba(0,198,255,0.7)">files</h2>
 		<span style="color:#888">Last 10 files opened:</span><br>
-		<ul class="fileManager" style="margin-left: 0">
+		<ul class="fileManager" style="margin-left: 0; line-height: 20px">
 		<?php
 			$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
 			for ($i=0;$i<count($last10FilesArray);$i++) {
