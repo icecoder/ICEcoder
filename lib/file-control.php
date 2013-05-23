@@ -282,13 +282,19 @@ if ($_GET['action']=="save") {
 				clearstatcache();
 				$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 				echo '<script>top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";</script>';
-				// Reload file manager & rename tab if it was a new file
+				// Reload file manager, rename tab & remove old file highlighting if it was a new file
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 					echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');';
 					echo 'top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$fileLoc."/".$fileName.'\');</script>';
+					if (!strpos($_GET['file'],"[NEW]")) {
+						// We're saving as a new file, so unhighlight the old name in the file manager if visible
+						echo "<script>fileLink = top.ICEcoder.filesFrame.contentWindow.document.getElementById('".str_replace("/","|",$fileLoc)."|".basename($_GET['file'])."');</script>";
+						echo "<script>if (fileLink) {fileLink.style.backgroundColor = top.ICEcoder.tabBGnormal; fileLink.style.color = top.ICEcoder.tabFGnormalFile};</script>";
+					}
 				}
 				// Reload previewWindow window if not a Markdown file
-				echo '<script>if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {top.ICEcoder.previewWindow.location.reload()};action="doneSave";</script>';
+				echo '<script>if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {top.ICEcoder.previewWindow.location.reload()};</script>';
+				echo '<script>top.ICEcoder.setPreviousFiles();action="doneSave";</script>';
 			} else {
 				$loadedFile = toUTF8noBOM(file_get_contents($file),true);
 				echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
@@ -394,18 +400,15 @@ if (action=="load") {
 if (action=="save") {
 	<?php
 	if (strpos($file,"[NEW]")>0||$saveType=="saveAs") {
-		if (strpos($fileName,"[NEW]")>0) {echo "fileLoc = '".$fileLoc."';";} else {echo "fileLoc = '';";};
 	?>
-		newFileName = top.ICEcoder.getInput(fileLoc != ""
-			? 'Enter filename to save at '+fileLoc
-			: 'Enter filename (including path, prefixed with /)'
-			,'');
-		if (newFileName && newFileName.substr(0,1)!="/") {newFileName = "/" + newFileName}
+		fileLoc = '<?php echo $fileLoc;?>';
+		newFileName = top.ICEcoder.getInput('Enter filename to save at '+fileLoc,'');
 		if (newFileName) {
-			newFileName = fileLoc == "" ? newFileName : fileLoc + "/" + fileName;
-		}
-		if (newFileName && top.document.getElementById('filesFrame').contentWindow.document.getElementById(newFileName.replace(/\//g,"|"))) {
-			overwriteOK = top.ICEcoder.ask('That file exists already, overwrite?');
+			if (newFileName.substr(0,1)!="/") {newFileName = "/" + newFileName}
+			newFileName = fileLoc + newFileName;
+			if (top.document.getElementById('filesFrame').contentWindow.document.getElementById(newFileName.replace(/\//g,"|"))) {
+				overwriteOK = top.ICEcoder.ask('That file exists already, overwrite?');
+			}
 		}
 		document.saveFile.newFileName.value = '<?php echo $docRoot; ?>' + newFileName;
 	<?php ;};?>
