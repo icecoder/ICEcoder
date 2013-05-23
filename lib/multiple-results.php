@@ -121,7 +121,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 			$fullPath = $path.$slash.$f;
 			if(is_dir($fullPath)) {
 				$ret .= phpGrep($q, $fullPath, $base);
-			} else if(stristr(toUTF8noBOM(file_get_contents($fullPath),false), $q)) {
+			} else if(stristr(toUTF8noBOM(file_get_contents($fullPath,false,$context),false), $q)) {
 				$bFile = false;
 				$foundInSelFile = false;
 				for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
@@ -136,7 +136,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 				}
 				if (!$bFile && (count($selectedFiles)==0 || count($selectedFiles)>0 && $foundInSelFile)) {
 					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))\\\">";
-					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">Found ".substr_count(strtolower(toUTF8noBOM(file_get_contents($fullPath),false)),$q)." times</div>";
+					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">Found ".substr_count(strtolower(toUTF8noBOM(file_get_contents($fullPath,false,$context),false)),$q)." times</div>";
 					if (isset($_GET['replace'])) {
 						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('".$fullPath."');this.style.display=\'none\'\\\">replace</div>";
 					};

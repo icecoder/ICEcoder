@@ -8,6 +8,13 @@ error_reporting(-1);
 // Set our default timezone and supress warning with @
 @date_default_timezone_set(date_default_timezone_get());
 
+// Set a stream context timeout for file reading
+$context = stream_context_create(array('http'=>
+	array(
+		'timeout' => 60 // secs
+	)
+));
+
 // Start a session if we haven't already
 if(!isset($_SESSION)) {session_start();}
 
@@ -98,7 +105,7 @@ $demoMode = $ICEcoder['demoMode'];
 
 // Update this config file?
 if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
-	$settingsContents = file_get_contents($settingsFile);
+	$settingsContents = file_get_contents($settingsFile,false,$context);
 	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'"root"');
 	$repPosEnd = strpos($settingsContents,'"previousFiles"');
@@ -187,7 +194,7 @@ if (!$allowedIP) {
 
 // Save the currently opened files for next time
 if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
-	$settingsContents = file_get_contents($settingsFile);
+	$settingsContents = file_get_contents($settingsFile,false,$context);
 
 	// Replace our previousFiles var with the the current
 	$repPosStart = strpos($settingsContents,'previousFiles"		=> "')+20;
@@ -294,7 +301,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["accountPassword"] == "") && !strpos($_
 	if ($ICEcoder["accountPassword"] == "" && isset($_POST['accountPassword'])) {
 		$password = generateHash(strClean($_POST['accountPassword']));
 		$settingsFile = $settingsFile;
-		$settingsContents = file_get_contents($settingsFile);
+		$settingsContents = file_get_contents($settingsFile,false,$context);
 		// Replace our empty password with the one submitted by user
 		$settingsContents = str_replace('"accountPassword"	=> "",','"accountPassword"	=> "'.$password.'",',$settingsContents);
 		// Also set the update checker preference

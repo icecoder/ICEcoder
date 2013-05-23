@@ -10,7 +10,7 @@ $updateMsg = '';
 if ($ICEcoder["checkUpdates"]) {
 	$icv_url = "http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"];
 	if (ini_get('allow_url_fopen')) {
-		$icvInfo = explode("\n",file_get_contents($icv_url));
+		$icvInfo = explode("\n",file_get_contents($icv_url,false,$context));
 	} elseif (function_exists('curl_init')) {
 		$ch = curl_init($icv_url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

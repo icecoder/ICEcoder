@@ -38,7 +38,7 @@ if ($_GET['action']=="load") {
 			echo '<script>fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.rightClickedFile = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 			echo '</script>';
-			$loadedFile = toUTF8noBOM(file_get_contents($file),true);
+			$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 			echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea>';
 		} else if (strpos($finfo,"image")===0) {
 			echo '<script>fileType="image";fileName=\''.$fileLoc."/".$fileName.'\'</script>';
@@ -53,7 +53,7 @@ if ($_GET['action']=="load") {
 
 // Get the contents of a remote URL
 if ($_GET['action']=="getRemoteFile") {
-	if ($remoteFile = toUTF8noBOM(file_get_contents($file),true)) {
+	if ($remoteFile = toUTF8noBOM(file_get_contents($file,false,$context),true)) {
 		// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 		$remoteFile = str_replace("\r\n", $ICEcoder["lineEnding"], $remoteFile);
 		$remoteFile = str_replace("\r", $ICEcoder["lineEnding"], $remoteFile);
@@ -197,7 +197,7 @@ if ($_GET['action']=="rename") {
 if ($_GET['action']=="replaceText") {
 	if (!$demoMode && is_writable(str_replace("|","/",strClean($_GET['fileRef'])))) {
 		$file = str_replace("|","/",strClean($_GET['fileRef']));
-		$loadedFile = toUTF8noBOM(file_get_contents($file),true);
+		$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 		$newContent = str_replace(strClean($_GET['find']),strClean($_GET['replace']),$loadedFile);
 		$fh = fopen($file, 'w') or die("Sorry, cannot save");
 		fwrite($fh, $newContent);
@@ -296,7 +296,7 @@ if ($_GET['action']=="save") {
 				echo '<script>if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {top.ICEcoder.previewWindow.location.reload()};</script>';
 				echo '<script>top.ICEcoder.setPreviousFiles();action="doneSave";</script>';
 			} else {
-				$loadedFile = toUTF8noBOM(file_get_contents($file),true);
+				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 				echo '<textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
 				echo '<textarea name="userVersionFile" id="userVersionFile"></textarea>';
 				?>
