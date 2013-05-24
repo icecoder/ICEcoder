@@ -194,8 +194,8 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 
 <div class="footer" id="footer" onContextMenu="return false">
 	<div class="system" id="system">
-		<div onClick="top.ICEcoder.openPreviewWindow()" class="preview"></div>
-		<div onClick="top.ICEcoder.openTerminal()" class="terminal"></div>
+		<div onClick="top.ICEcoder.openPreviewWindow()" class="preview" title="Preview Window"></div>
+		<div onClick="top.ICEcoder.openTerminal()" class="terminal" title="Terminal"></div>
 	</div>
 	<div class="nesting" id="nestValid"></div>
 	<div class="nestDisplay" id="nestDisplay"></div>
