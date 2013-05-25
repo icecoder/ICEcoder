@@ -365,6 +365,9 @@ if (action=="load") {
 				top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].addLineClass(0, "background", "cm-s-activeLine");
 				top.ICEcoder.nextcMInstance++;
 				top.ICEcoder.openFileMDTs.push('<?php echo $serverType=="Linux" ? filemtime($file) : "1000000"; ?>');
+				for (var i=0; i<cM.lineCount(); i++) {
+					top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror.tagRangeFinder,null,"+","-",true)(cM, i);
+				}
 				top.ICEcoder.loadingFile = false;
 			<?php
 			;};
