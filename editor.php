@@ -16,6 +16,7 @@ utils:	closetag, foldcode, xml-fold, brace-fold, show-hint, javascript-hint, htm
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 <script src="lib/mmd.js"></script>
+<script src="lib/foldcode.js"></script>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 	echo '<script src="plugins/emmet/emmet.min.js"></script>';
@@ -36,6 +37,12 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\\21e5';};?>";}
 .lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 3px 5px}
 .lint-error-icon {background: #b00; color: #fff; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 5px}
+.CodeMirror-foldmarker {font-family: arial; line-height: .3; color: #b00; cursor: pointer;
+	text-shadow: #fff 1px 1px 2px, #fff -1px -1px 2px, #fff 1px -1px 2px, #fff -1px 1px 2px;
+}
+.CodeMirror-guttermarker {position: absolute; display: inline-block; width: 13px; height: 13px; right: 3px; font-size: 14px; color: #fff; text-align: center; cursor: pointer}
+.CodeMirror-guttermarkerOn {background-color: #b00}
+.CodeMirror-guttermarkerOff {background-color: #444}
 </style>
 
 <link rel="stylesheet" href="lib/file-types.css">
@@ -242,10 +249,6 @@ function createNewCMInstance(num) {
 	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
 			["JavaScript","CoffeeScript","PHP","Python","Ruby"].indexOf(top.ICEcoder.caretLocType) > -1
 			? codeFoldBrace(window['cM'+num], line) : codeFoldTag(window['cM'+num], line);
-			window['cM'+num].setGutterMarker(line, "CodeMirror-linenumbers", document.createTextNode("+ "+(line+1)));
-			setTimeout(function() {
-				window['cM'+num].setGutterMarker(line, "CodeMirror-linenumbers", null);
-			},1000);
 		}
 	);
 
@@ -254,8 +257,8 @@ function createNewCMInstance(num) {
 };
 
 	// var top.ICEcoder.foldStyle = '<span style="position: absolute; display: inline-block; width: 13px; height: 13px; left: 0; background-color: #b00; color: #fff; text-align: center; cursor: pointer"><span style="position: relative; left: -1px">+</span></span> %N%';
-	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
-	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder);
+	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,null,"+","-",false);
+	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,null,"+","-",false);
 </script>
 
 </body>
