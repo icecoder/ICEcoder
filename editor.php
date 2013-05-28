@@ -212,6 +212,9 @@ function createNewCMInstance(num) {
 			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 			var filename = filepath.substr(filepath.lastIndexOf("/")+1);
 			var fileExt = filename.substr(filename.lastIndexOf(".")+1);
+			for (var i=changeObj.from.line; i<=changeObj.from.line; i++) {
+				top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror.tagRangeFinder,null,"+","-",true)(thisCM, i);
+			}
 			// Update HTML edited files live
 			if (top.ICEcoder.previewWindow.location) {
 				if (top.ICEcoder.previewWindow.location.pathname==filepath) {
