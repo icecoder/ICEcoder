@@ -21,6 +21,7 @@ if(!isset($_SESSION)) {session_start();}
 // Logout if that's the action we're taking
 if (isset($_GET['logout'])) {
 	$_SESSION['loggedIn']=false;
+	$_SESSION['accountUsername']=false;
 	session_destroy();
 	header("Location: dirname(__FILE__)./?loggedOut");
 }
@@ -94,6 +95,7 @@ $ICEcoder = array(
 	"codeMirrorDir"		=> "CodeMirror-3.13",
 	"demoMode"		=> false,
 	"devMode"		=> false,
+	"multiUser"		=> false,
 	"lineEnding"		=> "\n"
 )+$ICEcoder;
 
@@ -341,12 +343,14 @@ echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 		<img src="../images/ice-coder.png">
 		<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
 		<form name="settingsUpdate" action="settings.php" method="POST">
+		<?php if ($ICEcoder["multiUser"]) { echo '<input type="text" name="'.($ICEcoder["accountPassword"] == "" ? "account" : "login").'Username" class="accountPassword"><br><br>';};?>
 		<input type="password" name="<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password" class="accountPassword"><br><br>
 		<input type="submit" name="submit" value="<?php echo $ICEcoder["accountPassword"] == "" ? "set password" : "login"; ?>" class="button">
 		<?php
 		if ($ICEcoder["accountPassword"] == "") {
 			echo '<div class="text"><input type="checkbox" name="checkUpdates" value="true" checked> auto-check for updates</div>';
 		}
+		if (!$ICEcoder["multiUser"] && 1==2) { echo '<div class="text"><a href="javascript:alert(\'To put into multi-user mode, open lib/settings.php and change multiUser to true then reload this page\')">multi-user?</a></div>';};
 		?>
 		</form>
 		</div>
