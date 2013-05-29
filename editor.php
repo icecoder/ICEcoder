@@ -214,7 +214,7 @@ function createNewCMInstance(num) {
 			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 			var filename = filepath.substr(filepath.lastIndexOf("/")+1);
 			var fileExt = filename.substr(filename.lastIndexOf(".")+1);
-			for (var i=changeObj.from.line; i<changeObj.to.line+changeObj.text.length; i++) {
+			for (var i=changeObj.from.line; i<changeObj.from.line+changeObj.text.length; i++) {
 				top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[["coffee","css","js","less","php","py","rb","ruby"].indexOf(fileExt) > -1 ? "braceRangeFinder" : "tagRangeFinder"],null,"+","-",true)(thisCM, i);
 			}
 			// Update HTML edited files live
@@ -252,7 +252,10 @@ function createNewCMInstance(num) {
 	);
 
 	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
-			["JavaScript","CoffeeScript","PHP","Python","Ruby"].indexOf(top.ICEcoder.caretLocType) > -1
+			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+			var filename = filepath.substr(filepath.lastIndexOf("/")+1);
+			var fileExt = filename.substr(filename.lastIndexOf(".")+1);
+			["coffee","css","js","less","php","py","rb","ruby"].indexOf(fileExt) > -1
 			? codeFoldBrace(window['cM'+num], line) : codeFoldTag(window['cM'+num], line);
 		}
 	);
