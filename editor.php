@@ -40,9 +40,10 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 .CodeMirror-foldmarker {font-family: arial; line-height: .3; color: #b00; cursor: pointer;
 	text-shadow: #fff 1px 1px 2px, #fff -1px -1px 2px, #fff 1px -1px 2px, #fff -1px 1px 2px;
 }
-.CodeMirror-guttermarker {position: absolute; display: inline-block; width: 13px; height: 13px; right: 3px; font-size: 14px; color: #fff; text-align: center; cursor: pointer}
-.CodeMirror-guttermarkerOn {background-color: #b00}
-.CodeMirror-guttermarkerOff {background-color: #444}
+.folds {display: inline-block; width: 13px}
+.fold {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
+.foldOn {background: #800; color: #ddd}
+.foldOff {background: #383838; color: #666}
 </style>
 
 <link rel="stylesheet" href="lib/file-types.css">
@@ -159,6 +160,7 @@ function createNewCMInstance(num) {
 	window['cM'+num] = CodeMirror(document.body, {
 		mode: "application/x-httpd-php",
 		lineNumbers: true,
+		gutters: ["folds","CodeMirror-linenumbers"],
 		lineWrapping: top.ICEcoder.lineWrapping,
 		indentWithTabs: top.ICEcoder.indentWithTabs,
 		indentUnit: top.ICEcoder.indentSize,
@@ -212,7 +214,7 @@ function createNewCMInstance(num) {
 			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 			var filename = filepath.substr(filepath.lastIndexOf("/")+1);
 			var fileExt = filename.substr(filename.lastIndexOf(".")+1);
-			for (var i=changeObj.from.line; i<=changeObj.from.line; i++) {
+			for (var i=changeObj.from.line; i<changeObj.from.line+changeObj.text.length; i++) {
 				top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror.tagRangeFinder,null,"+","-",true)(thisCM, i);
 			}
 			// Update HTML edited files live
