@@ -214,7 +214,7 @@ function createNewCMInstance(num) {
 			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 			var filename = filepath.substr(filepath.lastIndexOf("/")+1);
 			var fileExt = filename.substr(filename.lastIndexOf(".")+1);
-			for (var i=changeObj.from.line; i<changeObj.from.line+changeObj.text.length; i++) {
+			for (var i=changeObj.from.line; i<changeObj.to.line+changeObj.text.length; i++) {
 				top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[["coffee","css","js","less","php","py","rb","ruby"].indexOf(fileExt) > -1 ? "braceRangeFinder" : "tagRangeFinder"],null,"+","-",true)(thisCM, i);
 			}
 			// Update HTML edited files live
