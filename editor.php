@@ -215,7 +215,7 @@ function createNewCMInstance(num) {
 			var filename = filepath.substr(filepath.lastIndexOf("/")+1);
 			var fileExt = filename.substr(filename.lastIndexOf(".")+1);
 			for (var i=changeObj.from.line; i<changeObj.from.line+changeObj.text.length; i++) {
-				top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror.tagRangeFinder,null,"+","-",true)(thisCM, i);
+				top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[["coffee","css","js","less","php","py","rb","ruby"].indexOf(fileExt) > -1 ? "braceRangeFinder" : "tagRangeFinder"],null,"+","-",true)(thisCM, i);
 			}
 			// Update HTML edited files live
 			if (top.ICEcoder.previewWindow.location) {
@@ -261,9 +261,8 @@ function createNewCMInstance(num) {
 	top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
 };
 
-	// var top.ICEcoder.foldStyle = '<span style="position: absolute; display: inline-block; width: 13px; height: 13px; left: 0; background-color: #b00; color: #fff; text-align: center; cursor: pointer"><span style="position: relative; left: -1px">+</span></span> %N%';
-	var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,null,"+","-",false);
-	var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,null,"+","-",false);
+var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,null,"+","-",false);
+var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,null,"+","-",false);
 </script>
 
 </body>

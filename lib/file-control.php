@@ -366,7 +366,7 @@ if (action=="load") {
 				top.ICEcoder.nextcMInstance++;
 				top.ICEcoder.openFileMDTs.push('<?php echo $serverType=="Linux" ? filemtime($file) : "1000000"; ?>');
 				for (var i=0; i<cM.lineCount(); i++) {
-					top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror.tagRangeFinder,null,"+","-",true)(cM, i);
+					top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[["coffee","css","js","less","php","py","rb","ruby"].indexOf('<?php echo pathinfo($file, PATHINFO_EXTENSION);?>') > -1 ? "braceRangeFinder" : "tagRangeFinder"],null,"+","-",true)(cM, i);
 				}
 				top.ICEcoder.loadingFile = false;
 			<?php
