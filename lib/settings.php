@@ -20,6 +20,7 @@ if(!isset($_SESSION)) {session_start();}
 
 // Logout if that's the action we're taking
 if (isset($_GET['logout'])) {
+	include(dirname(__FILE__)."/../processes/on-user-logout.php");
 	$_SESSION['loggedIn']=false;
 	$_SESSION['username']=false;
 	session_destroy();
@@ -80,7 +81,7 @@ function toUTF8noBOM($string,$message) {
 }
 
 // Settings are stored in this file
-$settingsTemplate = 'config-template.php';
+$settingsTemplate = 'config___template.php';
 $username = "";
 if (isset($_POST['username']) && $_POST['username'] != "") {$username = strClean($_POST['username']."-");};
 if (isset($_SESSION['username']) && $_SESSION['username'] != "") {$username = strClean($_SESSION['username']."-");};
@@ -171,12 +172,17 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 // Establish our user level
 if (!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn'] = false;};
 if (!isset($_SESSION['username'])) {$_SESSION['username'] = false;};
-if(isset($_POST['submit']) && $setPWorLogin=="login" && generateHash(strClean($_POST['password']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {
-	if ($ICEcoder["multiUser"]) {
-		$_SESSION['username'] = $_POST['username'];
+if(isset($_POST['submit']) && $setPWorLogin=="login") {
+	if (generateHash(strClean($_POST['password']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {
+		if ($ICEcoder["multiUser"]) {
+			$_SESSION['username'] = $_POST['username'];
+		}
+		$_SESSION['loggedIn'] = true;
+		include(dirname(__FILE__)."/../processes/on-user-login.php");
+		header('Location: ../');
+	} else {
+		include(dirname(__FILE__)."/../processes/on-user-login-fail.php");
 	}
-	$_SESSION['loggedIn'] = true;
-	header('Location: ../');
 };
 $_SESSION['loggedIn'] = $_SESSION['loggedIn'];
 $_SESSION['username'] = $_SESSION['username'];
@@ -333,6 +339,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["accountPassword"] == "") && !strpos($_
 			$_SESSION['username']=$_POST['username'];
 		}
 		$_SESSION['loggedIn'] = true;
+		include(dirname(__FILE__)."/../processes/on-user-new.php");
 		// Finally, load again as now this file has changed and auto login
 		header('Location: ../');
 	}
@@ -363,7 +370,7 @@ echo $ICEcoder["accountPassword"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "
 		<input type="password" name="password" class="accountPassword"><br><br>
 		<input type="submit" name="submit" value="<?php if ($ICEcoder["multiUser"]) {echo "set password / login";} else {echo $ICEcoder["accountPassword"] == "" ? "set password" : "login";}; ?>" class="button">
 		<?php
-		if ($ICEcoder["accountPassword"] == "") {
+		if ($ICEcoder["accountPassword"] == "" || $ICEcoder["multiUser"]) {
 			echo '<div class="text"><input type="checkbox" name="checkUpdates" value="true" checked> auto-check for updates</div>';
 		}
 		if (!$ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\'To put into multi-user mode, open lib/settings.php and change multiUser to true then reload this page\')">multi-user?</a></div>';};
