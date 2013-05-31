@@ -80,7 +80,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 			$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
 			for ($i=0;$i<count($last10FilesArray);$i++) {
 				if ($ICEcoder["last10Files"]=="") {
-					echo '[none]<br><br>';
+					echo '<div style="display: inline-block; margin-left: -39px; margin-top: -18px">[none]</div><br><br>';
 				} else {
 					$fileFolderName = str_replace("\\","/",$last10FilesArray[$i]);
 					// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
