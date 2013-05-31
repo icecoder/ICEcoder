@@ -100,7 +100,7 @@ $ICEcoder = array(
 	"codeMirrorDir"		=> "CodeMirror-3.13",
 	"demoMode"		=> false,
 	"devMode"		=> false,
-	"multiUser"		=> true,
+	"multiUser"		=> false,
 	"lineEnding"		=> "\n"
 )+$ICEcoder;
 
