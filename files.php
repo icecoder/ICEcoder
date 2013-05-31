@@ -21,6 +21,8 @@
 <iframe name="fileControl" style="display: none"></iframe>
 
 <iframe name="testControl" style="display: none"></iframe>
+
+<iframe name="processControl" style="display: none"></iframe>
 		
 </body>
 	
