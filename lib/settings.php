@@ -21,7 +21,7 @@ if(!isset($_SESSION)) {session_start();}
 // Logout if that's the action we're taking
 if (isset($_GET['logout'])) {
 	$_SESSION['loggedIn']=false;
-	$_SESSION['accountUsername']=false;
+	$_SESSION['username']=false;
 	session_destroy();
 	header("Location: dirname(__FILE__)./?loggedOut");
 }
@@ -81,11 +81,16 @@ function toUTF8noBOM($string,$message) {
 
 // Settings are stored in this file
 $settingsTemplate = 'config-template.php';
-$settingsFile = 'config-'.str_replace(".","_",$_SERVER['SERVER_NAME']).'.php';
+$username = "";
+if (isset($_POST['username']) && $_POST['username'] != "") {$username = strClean($_POST['username']."-");};
+if (isset($_SESSION['username']) && $_SESSION['username'] != "") {$username = strClean($_SESSION['username']."-");};
+$settingsFile = 'config-'.$username.str_replace(".","_",$_SERVER['SERVER_NAME']).'.php';
+$setPWorLogin = "login";
 if (!file_exists(dirname(__FILE__)."/".$settingsFile)) {
 	if (!copy(dirname(__FILE__)."/".$settingsTemplate, dirname(__FILE__)."/".$settingsFile)) {
 		die("Couldn't create $settingsFile. Maybe you need write permissions on the lib folder?");
 	}
+	$setPWorLogin = "set password";
 }
 include(dirname(__FILE__)."/".$settingsFile);
 
@@ -95,7 +100,7 @@ $ICEcoder = array(
 	"codeMirrorDir"		=> "CodeMirror-3.13",
 	"demoMode"		=> false,
 	"devMode"		=> false,
-	"multiUser"		=> false,
+	"multiUser"		=> true,
 	"lineEnding"		=> "\n"
 )+$ICEcoder;
 
@@ -120,7 +125,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["codeAssist"]			= isset($_POST['codeAssist']) && $_POST['codeAssist'] ? "true" : "false";
 	$ICEcoder["visibleTabs"]		= isset($_POST['visibleTabs']) && $_POST['visibleTabs'] ? "true" : "false";
 	$ICEcoder["lockedNav"]			= isset($_POST['lockedNav']) && $_POST['lockedNav'] ? "true" : "false";
-	if ($_POST['accountPassword']!="")	{$ICEcoder["accountPassword"] = generateHash(strClean($_POST['accountPassword']));};
+	if (strpos($_POST['submit'],"set password")>-1)	{$ICEcoder["accountPassword"] = generateHash(strClean($_POST['password']));};
 	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
 	$ICEcoder["bannedPaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedPaths']))).'")';
 	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
@@ -165,8 +170,16 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 // Establish our user level
 if (!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn'] = false;};
-if(isset($_POST['loginPassword']) && generateHash(strClean($_POST['loginPassword']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {$_SESSION['loggedIn'] = true; header('Location: ../');};
+if (!isset($_SESSION['username'])) {$_SESSION['username'] = false;};
+if(isset($_POST['submit']) && $setPWorLogin=="login" && generateHash(strClean($_POST['password']),$ICEcoder["accountPassword"])==$ICEcoder["accountPassword"]) {
+	if ($ICEcoder["multiUser"]) {
+		$_SESSION['username'] = $_POST['username'];
+	}
+	$_SESSION['loggedIn'] = true;
+	header('Location: ../');
+};
 $_SESSION['loggedIn'] = $_SESSION['loggedIn'];
+$_SESSION['username'] = $_SESSION['username'];
 
 // Define the serverType, docRoot & iceRoot
 $serverType = stristr($_SERVER['SERVER_SOFTWARE'], "win") ? "Windows" : "Linux";
@@ -300,8 +313,8 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["accountPassword"] == "") && !strpos($_
 // If we're due to show the settings screen
 } elseif (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it
-	if ($ICEcoder["accountPassword"] == "" && isset($_POST['accountPassword'])) {
-		$password = generateHash(strClean($_POST['accountPassword']));
+	if ($ICEcoder["accountPassword"] == "" && isset($_POST['submit']) && (strpos($_POST['submit'],"set password")>-1)) {
+		$password = generateHash(strClean($_POST['password']));
 		$settingsFile = $settingsFile;
 		$settingsContents = file_get_contents($settingsFile,false,$context);
 		// Replace our empty password with the one submitted by user
@@ -316,6 +329,9 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["accountPassword"] == "") && !strpos($_
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 		// Set the session user level
+		if ($ICEcoder["multiUser"]) {
+			$_SESSION['username']=$_POST['username'];
+		}
 		$_SESSION['loggedIn'] = true;
 		// Finally, load again as now this file has changed and auto login
 		header('Location: ../');
@@ -327,7 +343,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["accountPassword"] == "") && !strpos($_
 <head>
 <title>ICEcoder <?php
 echo $ICEcoder["versionNo"]." : ";
-echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
+echo $ICEcoder["accountPassword"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
@@ -335,7 +351,7 @@ echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 
-<body onLoad="document.settingsUpdate.<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password.focus()">
+<body onLoad="document.settingsUpdate.<?php echo $ICEcoder["multiUser"] ? "username" : "password";?>.focus()">
 	
 <div class="screenContainer" style="background-color: #141414">
 	<div class="screenVCenter">
@@ -343,14 +359,14 @@ echo $ICEcoder["accountPassword"] == "" ? "Setup" : "Login";
 		<img src="../images/ice-coder.png">
 		<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
 		<form name="settingsUpdate" action="settings.php" method="POST">
-		<?php if ($ICEcoder["multiUser"]) { echo '<input type="text" name="'.($ICEcoder["accountPassword"] == "" ? "account" : "login").'Username" class="accountPassword"><br><br>';};?>
-		<input type="password" name="<?php echo $ICEcoder["accountPassword"] == "" ? "account" : "login"; ?>Password" class="accountPassword"><br><br>
-		<input type="submit" name="submit" value="<?php echo $ICEcoder["accountPassword"] == "" ? "set password" : "login"; ?>" class="button">
+		<?php if ($ICEcoder["multiUser"]) {echo '<input type="text" name="username" class="accountPassword"><br><br>';};?>
+		<input type="password" name="password" class="accountPassword"><br><br>
+		<input type="submit" name="submit" value="<?php if ($ICEcoder["multiUser"]) {echo "set password / login";} else {echo $ICEcoder["accountPassword"] == "" ? "set password" : "login";}; ?>" class="button">
 		<?php
 		if ($ICEcoder["accountPassword"] == "") {
 			echo '<div class="text"><input type="checkbox" name="checkUpdates" value="true" checked> auto-check for updates</div>';
 		}
-		if (!$ICEcoder["multiUser"] && 1==2) { echo '<div class="text"><a href="javascript:alert(\'To put into multi-user mode, open lib/settings.php and change multiUser to true then reload this page\')">multi-user?</a></div>';};
+		if (!$ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\'To put into multi-user mode, open lib/settings.php and change multiUser to true then reload this page\')">multi-user?</a></div>';};
 		?>
 		</form>
 		</div>
