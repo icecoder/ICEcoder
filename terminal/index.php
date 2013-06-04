@@ -9,9 +9,9 @@ error_reporting(E_ALL);
 
 if (isset($_SERVER['PHP_AUTH_USER'])) {
 	$_SESSION['user'] = $_SERVER['PHP_AUTH_USER'];
-	$_SESSION['pass'] = generateHash(strClean($_SERVER['PHP_AUTH_PW']),$ICEcoder["accountPassword"]);
+	$_SESSION['pass'] = generateHash(strClean($_SERVER['PHP_AUTH_PW']),$ICEcoder["password"]);
 }
-$passwd = array($_SESSION['user'] => $ICEcoder["accountPassword"]);
+$passwd = array($_SESSION['user'] => $ICEcoder["password"]);
 $aliases = array('la' 	=> 'ls -la',
 		'll' 	=> 'ls -lvhF',
 		'dir'	=> 'ls' );

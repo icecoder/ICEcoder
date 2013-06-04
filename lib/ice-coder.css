@@ -88,7 +88,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .accountOptions .rename {width: 16px; height: 16px; background-position: -116px 0; margin: 8px 0 0 5px; opacity: 0.3}
 .files .accountOptions .view {width: 16px; height: 16px; background-position: -132px 0; margin: 8px 0 0 5px; opacity: 0.3}
 .files .accountOptions .lock {position: relative; margin-left: 208px; margin-top: -27px; width: 12px; height: 16px; background-position: -64px -16px; z-index: 1}
-.files input:focus, .findReplace input:focus, .findReplace select:focus, .accountPassword:focus {outline: none; box-shadow: 0 0 10px 1px rgba(0,198,255,1)}
+.files input:focus, .findReplace input:focus, .findReplace select:focus, .password:focus {outline: none; box-shadow: 0 0 10px 1px rgba(0,198,255,1)}
 .files .button {position: absolute; border: 0; background: #444; color: #eee; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
 .files .button:hover {background-color: #222; color: #eee}
 .files .frame {display: inline-block; width: 250px}
@@ -171,6 +171,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .screenCenter .text {position: relative; display: block; margin-top: 15px; font-size: 10px; color: #888}
 .screenCenter .text input {margin-top: 1px}
 .screenCenter .text a {position: relative; display: block; margin-top: 15px; font-size: 10px; color: #888; text-decoration: none}
-.screenCenter .accountPassword {border: 0; background-color: #333; color: #fff; height: 20px}
+.screenCenter .password {border: 0; background-color: #333; color: #fff; height: 20px}
 .screenCenter .button {border: 0; background: #444; color: #eee; height: 22px; cursor: pointer}
 .screenCenter .button:hover {background: #2187e7; color: #eee}

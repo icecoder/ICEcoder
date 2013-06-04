@@ -101,9 +101,9 @@ when finding in files, exclude:<br>
 
 <h2>security</h2>
 new password <span style="font-size: 10px; color: #888">8 chars</span><br>
-<input type="password" name="accountPassword" onkeydown="showButton()"><br>
+<input type="password" name="password" onkeydown="showButton()"><br>
 confirm password<br>
-<input type="password" name="confirmPassword" onkeydown="showButton()"><br>
+<input type="password" name="passwordConfirm" onkeydown="showButton()"><br>
 <br>
 banned files/folders<br>
 <input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" value="<?php for($i=0;$i<=count($ICEcoder["bannedFiles"])-1;$i++) {echo $ICEcoder["bannedFiles"][$i]; if ($i<count($ICEcoder["bannedFiles"])-1) {echo ', ';};}; ?>"><br>
@@ -227,10 +227,10 @@ var showHideTabs = function() {
 }
 
 var validatePasswords = function() {
-	if (document.settings.accountPassword.value != 0 && document.settings.accountPassword.value.length<8) {
+	if (document.settings.password.value != 0 && document.settings.password.value.length<8) {
 		top.ICEcoder.message('Please use at least 8 chars in the password');
 	} else {
-		if (document.settings.accountPassword.value != document.settings.confirmPassword.value) {
+		if (document.settings.password.value != document.settings.passwordConfirm.value) {
 			top.ICEcoder.message('Sorry, your passwords don\'t match')
 		} else {
 			document.settings.submit();
