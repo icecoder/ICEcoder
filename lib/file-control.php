@@ -30,7 +30,8 @@ if ($_GET['action']=="load") {
 			$finfo = finfo_file($finfoMIME, $file);
 			finfo_close($finfoMIME);
 		} else {
-			$fileExt = explode(" ",pathinfo($file, PATHINFO_EXTENSION))[0];
+			$fileExt = explode(" ",pathinfo($file, PATHINFO_EXTENSION));
+			$fileExt = $fileExt[0];
 			if (array_search($fileExt,array("coffee","css","htm","html","js","less","md","php","py","rb","ruby","txt","xml"))!==false) {$finfo = "text";};
 			if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
 		}
