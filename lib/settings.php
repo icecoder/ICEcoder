@@ -80,30 +80,27 @@ function toUTF8noBOM($string,$message) {
 	return $string;
 }
 
+// Load system settings
+$configSettings = 'config___settings.php';
+include(dirname(__FILE__)."/".$configSettings);
+
 // Settings are stored in this file
-$settingsTemplate = 'config___template.php';
+$configUsersTemplate = 'config___users-template.php';
 $username = "";
 if (isset($_POST['username']) && $_POST['username'] != "") {$username = strClean($_POST['username']."-");};
 if (isset($_SESSION['username']) && $_SESSION['username'] != "") {$username = strClean($_SESSION['username']."-");};
 $settingsFile = 'config-'.$username.str_replace(".","_",$_SERVER['SERVER_NAME']).'.php';
 $setPWorLogin = "login";
 if (!file_exists(dirname(__FILE__)."/".$settingsFile)) {
-	if (!copy(dirname(__FILE__)."/".$settingsTemplate, dirname(__FILE__)."/".$settingsFile)) {
+	if (!copy(dirname(__FILE__)."/".$configUsersTemplate, dirname(__FILE__)."/".$settingsFile)) {
 		die("Couldn't create $settingsFile. Maybe you need write permissions on the lib folder?");
 	}
 	$setPWorLogin = "set password";
 }
 include(dirname(__FILE__)."/".$settingsFile);
 
-// Add ICEcoder settings to beginning of $ICEcoder array
-$ICEcoder = array(
-	"versionNo"		=> "2.5",
-	"codeMirrorDir"		=> "CodeMirror-3.13",
-	"demoMode"		=> false,
-	"devMode"		=> false,
-	"multiUser"		=> false,
-	"lineEnding"		=> "\n"
-)+$ICEcoder;
+// Join ICEcoder settings and user settings together to make our final ICEcoder array
+$ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
 
 $onLoadExtras = "";
 $pluginsDisplay = "";
