@@ -116,6 +116,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$repPosEnd = strpos($settingsContents,'"previousFiles"');
 
 	// Prepare all our vars
+	$ICEcoder["DocumentRoot"]               = strClean($_POST['DocumentRoot']);
 	$ICEcoder["root"]			= strClean($_POST['root']);
 	$ICEcoder["checkUpdates"]		= isset($_POST['checkUpdates']) && $_POST['checkUpdates'] ? "true" : "false";
 	$ICEcoder["openLastFiles"]		= isset($_POST['openLastFiles']) && $_POST['openLastFiles'] ? "true" : "false";
@@ -134,7 +135,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["indentWithTabs"]		= strClean($_POST['indentWithTabs']);
 	$ICEcoder["indentSize"]			= numClean($_POST['indentSize']);
 
-	$settingsArray = array("root","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","password","bannedFiles","bannedPaths","allowedIPs","plugins","theme","fontSize","lineWrapping","indentWithTabs","indentSize");
+	$settingsArray = array("DocumentRoot", "root","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","password","bannedFiles","bannedPaths","allowedIPs","plugins","theme","fontSize","lineWrapping","indentWithTabs","indentSize");
 	$settingsNew = "";
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"'.PHP_EOL.'	=> ';
@@ -186,7 +187,7 @@ $_SESSION['username'] = $_SESSION['username'];
 
 // Define the serverType, docRoot & iceRoot
 $serverType = stristr($_SERVER['SERVER_SOFTWARE'], "win") ? "Windows" : "Linux";
-$docRoot = rtrim(str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']));
+$docRoot = rtrim(str_replace("\\","/",empty($ICEcoder["DocumentRoot"]) ? $_SERVER['DOCUMENT_ROOT'] : $ICEcoder["DocumentRoot"]));
 $iceRoot = rtrim(str_replace("\\","/",$ICEcoder["root"]));
 if ($_SESSION['loggedIn']) {
 	echo "<script>top.docRoot='".$docRoot."';top.iceRoot='".$iceRoot."'</script>";
