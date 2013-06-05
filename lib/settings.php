@@ -186,7 +186,7 @@ $_SESSION['username'] = $_SESSION['username'];
 
 // Define the serverType, docRoot & iceRoot
 $serverType = stristr($_SERVER['SERVER_SOFTWARE'], "win") ? "Windows" : "Linux";
-$docRoot = rtrim(str_replace("\\","/",$_SERVER['DOCUMENT_ROOT']));
+$docRoot = rtrim(str_replace("\\","/",$ICEcoder['docRoot']));
 $iceRoot = rtrim(str_replace("\\","/",$ICEcoder["root"]));
 if ($_SESSION['loggedIn']) {
 	echo "<script>top.docRoot='".$docRoot."';top.iceRoot='".$iceRoot."'</script>";
@@ -360,7 +360,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 <div class="screenContainer" style="background-color: #141414">
 	<div class="screenVCenter">
 		<div class="screenCenter">
-		<img src="../images/ice-coder.png">
+		<img src="../images/ice-coder.png" style="margin-right: 22px">
 		<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
 		<form name="settingsUpdate" action="settings.php" method="POST">
 		<?php if ($ICEcoder["multiUser"]) {echo '<input type="text" name="username" class="password"><br><br>';};?>

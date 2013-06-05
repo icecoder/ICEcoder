@@ -37,9 +37,13 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 <div class="infoPane">
 	<a href="http://icecoder.net" target="_blank"><img src="../images/ice-coder.png" class="logo"></a>
-	<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
 
 	<p>
+	<br><br>
+	version:<br>
+	v <?php echo $ICEcoder["versionNo"];?>
+	<br><br>
+
 	website:<br>
 	<a href="http://icecoder.net" target="_blank">http://icecoder.net</a>
 	<br><br>

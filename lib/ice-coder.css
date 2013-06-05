@@ -69,7 +69,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .header .tools {position: absolute; display: inline-block; left: 15px; top: 3px}
 .header .plugins {position: absolute; display: inline-block; left: 55px; top: 3px}
 .header .plugins img {position: relative; display: inline-block; margin-right: 15px}
-.header .screenModeIcon {position: absolute; top: 5px; right: 178px; cursor: pointer}
+.header .screenModeIcon {position: absolute; top: 5px; right: 46px; cursor: pointer}
 .header .version {position: relative; display: inline-block; margin-top: 25px; font-size: 10px; color: #bbb}
 .header .version a {font-size: 10px; color: #bbb; text-decoration: none}
 .header .logo {position: relative; margin: 5px 10px 0 5px; cursor: pointer}

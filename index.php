@@ -126,7 +126,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	<?php echo $pluginsDisplay; ?>
 	</div>
 	<div class="version"><a href="javascript:top:ICEcoder.logout()">logout</a> : v <?php echo $ICEcoder["versionNo"];?></div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
-	<img src="images/ice-coder.png" class="logo" onClick="ICEcoder.helpScreen()" onContextMenu="ICEcoder.settingsScreen()">
+	<img src="images/ice-coder-icon.png" class="logo" onClick="ICEcoder.helpScreen()" onContextMenu="ICEcoder.settingsScreen()">
 </div>
 
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.document.getElementById('fileMenu').style.display='none';">
