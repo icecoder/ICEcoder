@@ -1,5 +1,6 @@
 <?php
 $ICEcoder = array(
+"DocumentRoot"		=> "",
 "root"			=> "",
 "checkUpdates"		=> true,
 "openLastFiles"		=> true,
