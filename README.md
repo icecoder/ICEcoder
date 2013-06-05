@@ -8,48 +8,6 @@ ICEcoder is a web IDE / browser based code editor, which allows you to develop w
 ###Requirements
 You can run ICEcoder either online or locally, on Linux, Windows or Mac based platforms. The only requirement is to have PHP 5 available (5.3 recommended). You can have this either as a vanilla installation or via a program such as WAMP or XAMPP (for Windows) or MAMP (for Mac).
 
-###Features you'd expect
-* Context aware code highlighting
-* Supports HTML, CSS, LESS, JavaScript, CoffeeScript, PHP, Python, Ruby, Markdown & more
-* Smart tab key system (selected text indents line)
-* File manager
-* Find & replace/replace all
-* Document tabs indicate current doc & changes made
-* Code folding
-* Open last files on load
-* Web based, access from anywhere
-* Free, open source & customisable
-
-###Cool features you wouldn't expect
-* Find & replace in current doc, open docs, files & filenames
-* Found match & current position counter
-* Indicates content type cursor is on
-* Account login to keep certain files secure
-* Restrict files, ban files and restrict by IP
-* Settings to change functionality & editor theme
-* Code Assist system
-* Displays nest position of text cursor, hover to select, click to set cursor
-* Nest structure OK/broken indicator
-* Highlight word and press CTRL+I to Google search that
-* Adds end tags as you type and in a context aware way
-* Can rename open files (whoaah!)
-* CTRL+Enter open current webpage in new tab
-* Window to view live edits
-* ESC = Comment/Uncomment line, incl partial lines
-* Image viewer
-* Colour preview block on CSS colours, ie red, #f00 or  RGBA(255,0,0,0.5)
-* MySQL Database management via Adminer plugin
-* Backs up files every 30 mins or on click of backup plugin icon
-* Github repo syncing with ICErepo plugin
-* Linux terminal
-* JS Hint validation as you type
-* Emmet snippet typing booster
-* HTML & JavaScript code hinting
-* Alphanumeric tab sorting
-* Tag wrappers
-* Config template
-* Farbtastic color picker integrated
-
 ###Installation
 
 ####Step 1: Clone the repo
