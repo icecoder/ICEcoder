@@ -91,7 +91,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 
 .editor {position: absolute; display: inline-block; top: 0; left: 15px; width: 2400px}
 .editor .tabsBar {display: inline-block; height: 22px; width: 2400px; margin-top: 40px; padding-left: 41px; background: #ddd}
-.tabsBar .tab {position: absolute; display: none; background: url('../images/nav-bg.jpg') repeat-x 0 0; padding: 5px 8px 2px 8px; font-size: 10px; border-left: solid 1px #eee; border-right: solid 1px #777; border-radius: 4px 4px 0 0; color: #fff; white-space: nowrap; overflow: hidden; cursor: pointer; z-index: 1;
+.tabsBar .tab {position: absolute; display: none; padding: 5px 8px 2px 8px; font-size: 10px; border-left: solid 1px #eee; border-right: solid 1px #777; border-radius: 5px 5px 0 0; color: #fff; white-space: nowrap; overflow: hidden; cursor: pointer; z-index: 1;
 	-webkit-transition: width 0.15s ease-in-out;
 	-moz-transition: width 0.15s ease-in-out;
 	transition: width 0.15s ease-in-out;
@@ -115,7 +115,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .tabsBar .alphaTabs:hover {background: #000}
 .tabsBar .closeAllTabs {position: absolute; margin: 6px 0 0 -33px; background: #bbb}
 .tabsBar .closeAllTabs:hover {background: #000}
-.tabsBar .newTab {position: absolute; display: inline-block; background-image: url('../images/nav-bg.jpg'); background-repeat: repeat-x; background-position: 0 0; padding: 6px 5px 5px 5px; border-left: solid 1px #eee; border-right: solid 1px #777; border-radius: 4px 4px 0 0; cursor: pointer; z-index: 0;
+.tabsBar .newTab {position: absolute; display: inline-block; padding: 6px 5px 5px 5px; border-left: solid 1px #eee; border-right: solid 1px #777; background: #aaa; border-radius: 4px 4px 0 0; cursor: pointer; z-index: 0;
 	-webkit-transition: left 0.15s ease-in-out;
 	-moz-transition: left 0.15s ease-in-out;
 	transition: left 0.15s ease-in-out;
