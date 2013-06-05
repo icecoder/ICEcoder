@@ -84,7 +84,6 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 </div>
 
 <div id="loadingMask" class="blackMask" style="visibility: visible" onContextMenu="return false">
-	<span class="progressBar" id="progressBar" style="-webkit-animation:fullexpand 10s ease-out; -moz-animation:fullexpand 10s ease-out"></span>
 	<div class="popupVCenter">
 		<div class="popup">
 			<div class="circleOutside"></div>
@@ -94,7 +93,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	</div>
 </div>
 
-<div id="fileMenu" class="fileMenu" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract');this.style.display='none'" onContextMenu="return false">
+<div id="fileMenu" class="fileMenu" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract');top.ICEcoder.hideFileMenu()" style="opacity: 0" onContextMenu="return false">
 	<span id="folderMenuItems">
 		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="ICEcoder.showFileMenu()">New File</a>
 		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="ICEcoder.showFileMenu()">New Folder</a>
@@ -129,7 +128,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	<img src="images/ice-coder-icon.png" class="logo" onClick="ICEcoder.helpScreen()" onContextMenu="ICEcoder.settingsScreen()">
 </div>
 
-<div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.document.getElementById('fileMenu').style.display='none';">
+<div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.ICEcoder.hideFileMenu();">
 	<div class="account" id="account">
 		<div class="accountOptions">
 			<div title="Save (Ctrl + s)" onClick="ICEcoder.fMIcon('save')" id="fMSave" class="save"></div>
