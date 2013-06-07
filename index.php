@@ -124,8 +124,11 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 	<div class="plugins" id="pluginsContainer">
 	<?php echo $pluginsDisplay; ?>
 	</div>
-	<div class="version"><a href="javascript:top:ICEcoder.logout()">logout</a> : v <?php echo $ICEcoder["versionNo"];?></div><img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" onClick="top.ICEcoder.fullScreenSwitcher()">
-	<img src="images/ice-coder-icon.png" class="logo" onClick="ICEcoder.helpScreen()" onContextMenu="ICEcoder.settingsScreen()">
+	<div class="version"><a href="javascript:top:ICEcoder.logout()">logout</a> : v <?php echo $ICEcoder["versionNo"];?></div>
+	<img src="images/help.gif" class="helpIcon" alt="Help" title="Help" onClick="ICEcoder.helpScreen()">
+	<img src="images/settings.gif" class="settingsIcon" alt="Settings" title="Settings" onClick="ICEcoder.settingsScreen()">
+	<img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" alt="Toggle Fullscreen" title="Toggle Fullscreen" onClick="top.ICEcoder.fullScreenSwitcher()">
+	<a href="http://icecoder.net" target="_blank"><img src="images/ice-coder-icon.png" class="logo" alt="ICEcoder website" title="ICEcoder website"></a>
 </div>
 
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.ICEcoder.hideFileMenu();">
@@ -154,7 +157,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 		for ($i=1;$i<=100;$i++) {
 			echo '<div id="tab'.$i.'" class="tab" onMouseDown="ICEcoder.canSwitchTabs ? ICEcoder.switchTab(parseInt(this.id.slice(3),10)) : ICEcoder.canSwitchTabs=true; thisColor=top.ICEcoder.tabFGselected; if (!top.ICEcoder.overCloseLink) {ICEcoder.tabDragStart(parseInt(this.id.slice(3),10))}" onMouseOver="thisColor=this.style.color;this.style.color=top.ICEcoder.tabFGselected" onMouseOut="this.style.color=thisColor"></div>';
 		}
-		?><div class="newTab" onClick="ICEcoder.newTab()" id="newTab"><img src="images/nav-new.png"></div>
+		?><div class="newTab" onClick="ICEcoder.newTab()" id="newTab">+</div>
 	</div>
 	<div id="findBar" class="findBar" onContextMenu="return false">
 		<form name="findAndReplace" onSubmit="ICEcoder.findReplace(top.document.getElementById('find').value,false,true);return false">
@@ -168,24 +171,24 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 				</select>
 				<div class="replaceText" id="rText" style="display: none">
 					<select name="replaceAction" class="replaceAction">
-					<option>replace</option>
-					<option>replace all</option>
+						<option>replace</option>
+						<option>replace all</option>
 					</select>
 					 with
 				</div>
 				<input type="text" name="replace" value="" id="replace" class="textbox replace" style="display: none">
 				<div class="targetText" id="rTarget" style="display: none">in</div>
 				<select name="target" onChange="ICEcoder.updateResultsDisplay(this.value=='this document' ? 'show' : 'hide')">
-				<option>this document</option>
-				<option>open documents</option>
-				<option>all files</option>
-				<option>all filenames</option>
+					<option>this document</option>
+					<option>open documents</option>
+					<option>all files</option>
+					<option>all filenames</option>
 				</select>
 				<input type="submit" name="submit" value="&gt;&gt;" class="submit">
 				<div class="results" id="results"></div>
 			</div>
 		</form>
-		<form onSubmit="return ICEcoder.goToLine()">
+		<form action="#" onSubmit="return ICEcoder.goToLine()">
 			<div class="codeAssist" title="Turn on/off JS Hint &amp; CSS color previews"><input type="checkbox" name="codeAssist" id="codeAssist" checked onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
 			<div class="goLine">Go to Line<input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 		</form>
