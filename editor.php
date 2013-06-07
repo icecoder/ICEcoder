@@ -28,7 +28,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 
 <style type="text/css">
 /* Make sure this next one remains the 1st item, updated with JS */
-.CodeMirror {position: absolute; top: 0px; width: 100%; font-size: <?php echo $ICEcoder["fontSize"];?>; z-index: 1}
+.CodeMirror {position: absolute; top: 0; width: 100%; font-size: <?php echo $ICEcoder["fontSize"];?>; z-index: 1}
 .CodeMirror-scroll {} /* was: height: auto; overflow: visible */
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
@@ -44,6 +44,9 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 .fold {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
 .foldOn {background: #800; color: #ddd}
 .foldOff {background: #383838; color: #666}
+.demoArrow {position: absolute; display: inline-block; width: 99px; height: 50px; top: 0; right: 30px; background: url('images/big-arrow.gif') 0 -10px no-repeat; text-align: center; font-family: arial; font-size: 10px; padding-top: 60px}
+h2 {color: rgba(0,198,255,0.7)}
+.heading {color:#888}
 </style>
 
 <link rel="stylesheet" href="lib/file-types.css">
@@ -52,29 +55,29 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 <body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
 <?php if ($ICEcoder['demoMode']) {?>
-<div style="position: absolute; display: inline-block; width: 99px; height: 50px; top: 0; right: 30px; background: url('images/big-arrow.gif') 0 -10px no-repeat; text-align: center; font-family: arial; font-size: 10px; padding-top: 60px"><b>Click logo<br>for help &amp;<br>usage info</b></div>
+<div class="demoArrow"><b>Click icons<br>for help &amp;<br>usage info</b></div>
 <?php ;}; ?>
 
 <div style="display: none; margin: 32px 43px 0 43px; padding: 10px; width: 500px; font-family: arial; font-size: 10px; color: #ddd; background: #333" id="dataMessage"></div>
 
 <div style="margin: 20px 43px 32px 43px; font-family: arial; font-size: 10px; color: #ddd">
 	<div style="float: left; margin-right: 50px">
-		<h2 style="color: rgba(0,198,255,0.7)">server</h2>
-		<span style="color:#888">Server name, OS & IP:</span><br>
+		<h2>server</h2>
+		<span class="heading">Server name, OS & IP:</span><br>
 		<?php echo $_SERVER['SERVER_NAME']." &nbsp;&nbsp ".$_SERVER['SERVER_SOFTWARE']." &nbsp;&nbsp ".$_SERVER['SERVER_ADDR'];?><br><br>
-		<span style="color:#888">Root:</span><br>
+		<span class="heading">Root:</span><br>
 		<?php echo $docRoot;?><br><br>
-		<span style="color:#888">ICEcoder root:</span><br>
+		<span class="heading">ICEcoder root:</span><br>
 		<?php echo $docRoot.$iceRoot;?><br><br>
-		<span style="color:#888">PHP version:</span><br>
+		<span class="heading">PHP version:</span><br>
 		<?php echo phpversion();?><br><br>
-		<span style="color:#888">Date & time:</span><br>
+		<span class="heading">Date & time:</span><br>
 		<span id="serverDT"></span><br><br><br>
 	</div>
 
 	<div style="float: left">
-		<h2 style="color: rgba(0,198,255,0.7)">files</h2>
-		<span style="color:#888">Last 10 files opened:</span><br>
+		<h2>files</h2>
+		<span class="heading">Last 10 files opened:</span><br>
 		<ul class="fileManager" style="margin-left: 0; line-height: 20px">
 		<?php
 			$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
@@ -85,8 +88,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 					$fileFolderName = str_replace("\\","/",$last10FilesArray[$i]);
 					// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
 					$ext = "ext-".pathinfo($docRoot.$iceRoot.$fileFolderName, PATHINFO_EXTENSION);
-					$class = 'pft-file '.strtolower($ext);
-					echo '<li class="'.$class.'" style="margin-left: -16px">';
+					echo '<li class="pft-file '.strtolower($ext).'" style="margin-left: -21px">';
 					echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(\''.str_replace("|","/",$last10FilesArray[$i]).'\')">';
 					echo str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i]));
 					echo '</a></li>'.PHP_EOL;
@@ -98,10 +100,10 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 	</div>
 
 	<div style="clear: both">
-		<h2 style="color: rgba(0,198,255,0.7)">your device</h2>
-		<span style="color:#888">Browser:</span><br>
+		<h2>your device</h2>
+		<span class="heading">Browser:</span><br>
 		<?php echo $_SERVER['HTTP_USER_AGENT'];?><br><br>
-		<span style="color:#888">Your IP:</span><br>
+		<span class="heading">Your IP:</span><br>
 		<?php echo $_SERVER['REMOTE_ADDR'];?>
 	</div>
 	<script>
@@ -121,16 +123,17 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 	<?php if(is_dir('test') && !$ICEcoder['demoMode']) {?>
 	<div style="float: left; margin-right: 50px">
 		<br><br>
-		<h2 style="color: rgba(0,198,255,0.7)">test suite</h2>
-		<span style="color:#888">Run unit tests:</span><br>
+		<h2>test suite</h2>
+		<span class="heading">Run unit tests:</span><br>
 		<a href="javascript:top.ICEcoder.filesFrame.contentWindow.frames['testControl'].location.href = 'test'" style="color: #fff">Run unit tests</a><div id="unitTestResults"></div>
 	</div>
-	<?php ;};?>
-	<?php if($ICEcoder['devMode']) {?>
+	<?php
+	;};
+	if($ICEcoder['devMode']) {?>
 	<div style="float: left">
 		<br><br>
-		<h2 style="color: rgba(0,198,255,0.7)">dev mode on</h2>
-		<span style="color:#888">Status:</span><br>
+		<h2>dev mode on</h2>
+		<span class="heading">Status:</span><br>
 		Using ice-coder.js
 	</div>
 	<?php ;};?>
@@ -145,11 +148,10 @@ CodeMirror.keyMap.ICEcoder = {
 	fallthrough: ["default"]
 };
 CodeMirror.commands.autocomplete = function(cm) {
-	if (top.ICEcoder.caretLocType=="JavaScript") {
-		CodeMirror.showHint(cm, CodeMirror.javascriptHint);
-	} else {
-		CodeMirror.showHint(cm, CodeMirror.htmlHint);
-	}
+	CodeMirror.showHint(cm, top.ICEcoder.caretLocType=="JavaScript"
+		? CodeMirror.javascriptHint
+		: CodeMirror.htmlHint
+	);
 }
 
 function createNewCMInstance(num) {
@@ -187,7 +189,9 @@ function createNewCMInstance(num) {
 			if(window['cM'+num].getCursor('start').line == window['cM'+num].getCursor().line) {
 				top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(window['cM'+num].getCursor().line, "background","cm-s-activeLine");
 			}
-			top.ICEcoder.cssColorPreview();
+			if (top.ICEcoder.caretLocType=="CSS") {
+				top.ICEcoder.cssColorPreview();
+			}
 		}
 	);
 
@@ -253,8 +257,7 @@ function createNewCMInstance(num) {
 
 	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
 			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-			var filename = filepath.substr(filepath.lastIndexOf("/")+1);
-			var fileExt = filename.substr(filename.lastIndexOf(".")+1);
+			var fileExt = filepath.substr(filepath.lastIndexOf(".")+1);
 			["coffee","css","js","less","php","py","rb","ruby"].indexOf(fileExt) > -1
 			? codeFoldBrace(window['cM'+num], line) : codeFoldTag(window['cM'+num], line);
 		}
