@@ -59,6 +59,8 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .header .tools {position: absolute; display: inline-block; left: 15px; top: 3px}
 .header .plugins {position: absolute; display: inline-block; left: 55px; top: 3px}
 .header .plugins img {position: relative; display: inline-block; margin-right: 15px}
+.header .helpIcon {position: absolute; top: 5px; right: 90px; cursor: pointer}
+.header .settingsIcon {position: absolute; top: 5px; right: 70px; cursor: pointer}
 .header .screenModeIcon {position: absolute; top: 5px; right: 46px; cursor: pointer}
 .header .version {position: relative; display: inline-block; margin-top: 25px; font-size: 10px; color: #bbb}
 .header .version a {font-size: 10px; color: #bbb; text-decoration: none}
@@ -115,7 +117,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .tabsBar .alphaTabs:hover {background: #000}
 .tabsBar .closeAllTabs {position: absolute; margin: 6px 0 0 -33px; background: #bbb}
 .tabsBar .closeAllTabs:hover {background: #000}
-.tabsBar .newTab {position: absolute; display: inline-block; padding: 6px 5px 5px 5px; border-left: solid 1px #eee; border-right: solid 1px #777; background: #aaa; border-radius: 4px 4px 0 0; cursor: pointer; z-index: 0;
+.tabsBar .newTab {position: absolute; display: inline-block; padding: 4px 7px 3px 7px; border-left: solid 1px #eee; border-right: solid 1px #777; background: #aaa; border-radius: 4px 4px 0 0; cursor: pointer; z-index: 0;
 	-webkit-transition: left 0.15s ease-in-out;
 	-moz-transition: left 0.15s ease-in-out;
 	transition: left 0.15s ease-in-out;
