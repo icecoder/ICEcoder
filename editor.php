@@ -211,18 +211,20 @@ function createNewCMInstance(num) {
 				top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " results";
 				top.ICEcoder.findMode = false;
 			}
-			if (top.ICEcoder.codeAssist) {
+			if (top.ICEcoder.codeAssist && top.ICEcoder.openFiles.length>0) {
 				clearTimeout(window['cM'+num+'waiting']);
 				window['cM'+num+'waiting'] = setTimeout(top.ICEcoder.updateHints, 100);
 			}
 			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-			var filename = filepath.substr(filepath.lastIndexOf("/")+1);
-			var fileExt = filename.substr(filename.lastIndexOf(".")+1);
-			for (var i=changeObj.from.line; i<changeObj.from.line+changeObj.text.length; i++) {
-				top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[["coffee","css","js","less","php","py","rb","ruby"].indexOf(fileExt) > -1 ? "braceRangeFinder" : "tagRangeFinder"],null,"+","-",true)(thisCM, i);
+			if (filepath) {
+				var filename = filepath.substr(filepath.lastIndexOf("/")+1);
+				var fileExt = filename.substr(filename.lastIndexOf(".")+1);
+				for (var i=changeObj.from.line; i<changeObj.from.line+changeObj.text.length; i++) {
+					top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[["coffee","css","js","less","php","py","rb","ruby"].indexOf(fileExt) > -1 ? "braceRangeFinder" : "tagRangeFinder"],null,"+","-",true)(thisCM, i);
+				}
 			}
 			// Update HTML edited files live
-			if (top.ICEcoder.previewWindow.location) {
+			if (filepath && top.ICEcoder.previewWindow.location) {
 				if (top.ICEcoder.previewWindow.location.pathname==filepath) {
 					if (["htm","html","txt"].indexOf(fileExt) > -1) {
 						top.ICEcoder.previewWindow.document.documentElement.innerHTML = window['cM'+num].getValue();
