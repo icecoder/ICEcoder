@@ -1,6 +1,6 @@
 <?php
-// Display & log all errors
-ini_set('display_errors', 1);
+// Don't display, but log all errors
+ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 ini_set('error_log', dirname(__FILE__).'/../error-log.txt');
 error_reporting(-1);
@@ -16,7 +16,7 @@ $context = stream_context_create(array('http'=>
 ));
 
 // Start a session if we haven't already
-if(!isset($_SESSION)) {session_start();}
+if(!isset($_SESSION)) {@session_start();}
 
 // Logout if that's the action we're taking
 if (isset($_GET['logout'])) {
@@ -63,18 +63,20 @@ function numClean($var) {
 // returns a UTF8 based string with any UFT8 BOM removed
 function toUTF8noBOM($string,$message) {
 	// Attempt to detect encoding
-	$encType = mb_detect_encoding($string);
-	// Get rid of any UTF-8 BOM
-	$string = preg_replace('/\x{EF}\x{BB}\x{BF}/','',$string);
-	// Test for any bad characters
-	$teststring = $string;
-	$teststringBroken = utf8_decode($teststring);
-	$teststringConverted = iconv("UTF-8", "UTF-8//IGNORE", $teststringBroken);
-	// If we have a matching length, UTF8 encode it
-	if ($encType != "ASCII" && strlen($teststringConverted) == strlen($teststringBroken)) {
-		$string = utf8_encode($string);
-		if ($message) {
-			echo "<script>top.ICEcoder.message('Your document doesn\'t appear to be in UTF-8 encoding so has been converted.');</script>";
+	if (function_exists('mb_detect_encoding')) {
+		$encType = mb_detect_encoding($string);
+		// Get rid of any UTF-8 BOM
+		$string = preg_replace('/\x{EF}\x{BB}\x{BF}/','',$string);
+		// Test for any bad characters
+		$teststring = $string;
+		$teststringBroken = utf8_decode($teststring);
+		$teststringConverted = iconv("UTF-8", "UTF-8//IGNORE", $teststringBroken);
+		// If we have a matching length, UTF8 encode it
+		if ($encType != "ASCII" && strlen($teststringConverted) == strlen($teststringBroken)) {
+			$string = utf8_encode($string);
+			if ($message) {
+				echo "<script>top.ICEcoder.message('Your document doesn\'t appear to be in UTF-8 encoding so has been converted.');</script>";
+			}
 		}
 	}
 	return $string;
