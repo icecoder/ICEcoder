@@ -4,14 +4,15 @@ if ($demoMode || !$_SESSION['loggedIn']) {
 	die("You must be logged in to access Terminal");
 }
 
-error_reporting(E_ALL);
 @session_start();
 
+$passwd = array();
 if (isset($_SERVER['PHP_AUTH_USER'])) {
 	$_SESSION['user'] = $_SERVER['PHP_AUTH_USER'];
 	$_SESSION['pass'] = generateHash(strClean($_SERVER['PHP_AUTH_PW']),$ICEcoder["password"]);
+	$passwd = array($_SESSION['user'] => $ICEcoder["password"]);
 }
-$passwd = array($_SESSION['user'] => $ICEcoder["password"]);
+
 $aliases = array('la' 	=> 'ls -la',
 		'll' 	=> 'ls -lvhF',
 		'dir'	=> 'ls' );
@@ -22,7 +23,7 @@ class phpTerm {
 	function formatPrompt() {
 		$user=shell_exec("whoami");
 		$host=explode(".", shell_exec("uname -n"));
-		$_SESSION['prompt'] = "".rtrim($user).""."@"."".rtrim($host[0])."";
+		$_SESSION['prompt'] = rtrim($user)."@".rtrim($host[0]);
 	}
 
 	function checkPassword($passwd) {
@@ -74,19 +75,18 @@ class phpTerm {
 			$_SESSION['js_command_hist'] = '""';
 		} else {
 			$escaped = array_map('addslashes', $_SESSION['history']);
-			$_SESSION['js_command_hist'] = '"", "' . implode('", "', $escaped) . '"';
+			$_SESSION['js_command_hist'] = '"", "'.implode('", "', $escaped).'"';
 		}
 	}
 
 	function outputHandle($aliases) {
-		if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', @$_REQUEST['command']))
-		{
+		if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', @$_REQUEST['command'])) {
 			$_SESSION['cwd'] = getcwd(); //dirname(__FILE__);
 		}
 		elseif(preg_match('/^[[:blank:]]*cd[[:blank:]]+([^;]+)$/', @$_REQUEST['command'], $regs)) {
 			// The current command is 'cd', which we have to handle as an internal shell command. 
 			// absolute/relative path ?"
-			($regs[1][0] == '/') ? $new_dir = $regs[1] : $new_dir = $_SESSION['cwd'] . '/' . $regs[1];
+			($regs[1][0] == '/') ? $new_dir = $regs[1] : $new_dir = $_SESSION['cwd'].'/'.$regs[1];
 		
 			// cosmetics 
 			while (strpos($new_dir, '/./') !== false) {
@@ -135,7 +135,7 @@ class phpTerm {
 
 $terminal = new phpTerm;
 
-if ($_REQUEST['command']=="logout") {
+if (isset($_REQUEST['command']) && $_REQUEST['command']=="logout") {
 	$terminal->logout();
 }
 
@@ -193,7 +193,7 @@ function init() {
 		echo "\n\n".trim($padding . $_SESSION['output'])."\n";
 	?>
 	</textarea>
-	<p class="commandLine">$&gt; <input class="command" name="command" type="text"  size='50' onkeyup="key(event)" tabindex="1"></p>
+	<p class="commandLine">$&gt; <input class="command" name="command" type="text" size='50' onkeyup="key(event)" tabindex="1"></p>
 </form>
 
 </body>
