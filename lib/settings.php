@@ -101,6 +101,12 @@ if (!file_exists(dirname(__FILE__)."/".$settingsFile)) {
 }
 include(dirname(__FILE__)."/".$settingsFile);
 
+// On mismatch of settings file to system, rename to .old and reload
+If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
+	rename(dirname(__FILE__)."/".$settingsFile,dirname(__FILE__)."/".str_replace(".php",".old",$settingsFile));
+	header("Location: settings.php");
+}
+
 // Join ICEcoder settings and user settings together to make our final ICEcoder array
 $ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
 
