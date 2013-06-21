@@ -46,7 +46,7 @@ getContent = function(thisRow,path) {
 commitChanges = function() {
 	if(top.selRowArray.length>0) {
 		if (document.fcForm.title.value!="Title..." && document.fcForm.message.value!="Message...") {
-			get('blackMask','top').style.display = "block";
+			get('loadingMask','top').style.display = "table";
 			top.selRowValue = "";
 			top.selDirValue = "";
 			top.selRepoValue = "";
@@ -88,7 +88,7 @@ commitChanges = function() {
 }
 
 pullContent = function(thisRow,thisPath,thisRepo,thisAction) {
-	get('blackMask','top').style.display = "block";
+	get('loadingMask','top').style.display = "table";
 	if (thisRow=="selected") {
 		top.selRowValue = "";
 		top.selDirValue = "";
@@ -175,8 +175,8 @@ hideRow = function(row) {
 }
 
 function diffUsingJS (dirContent,repoContent,baseTextName,newTextName) {
-	var base = difflib.stringAsLines(dirContent);
-	var newtxt = difflib.stringAsLines(repoContent);
+	var base = difflib.stringAsLines(dirContent ? dirContent : '');
+	var newtxt = difflib.stringAsLines(repoContent ? repoContent : '');
 	var sm = new difflib.SequenceMatcher(base, newtxt);
 	var opcodes = sm.get_opcodes();
 	var diffoutputdiv = get("row"+rowID+"Content","parent");
@@ -201,11 +201,12 @@ function diffUsingJS (dirContent,repoContent,baseTextName,newTextName) {
 // Add or Update files...
 ffAddOrUpdate = function(row,gitRepo,action) {
 	repo.write('master', gitRepo, document.fcForm['fileContents'+row].value,parent.document.fcForm.title.value+ '\n\n'+parent.document.fcForm.message.value, function(err) {
+
 		if(!err) {
 			removeFirstArrayItems();
 			hideRow(row);
 			top.newCount--;
-			rowIDArray.length>0 ? startProcess() : get('blackMask','top').style.display = "none";
+			rowIDArray.length>0 ? startProcess() : get('loadingMask','top').style.display = "none";
 		} else {
 			alert('Sorry, there was an error adding '+gitRepo);
 		}
@@ -218,7 +219,7 @@ ffDelete = function(row,gitRepo,action) {
 			removeFirstArrayItems();
 			hideRow(row);
 			top.deletedCount--;
-			rowIDArray.length>0 ? startProcess() : get('blackMask','top').style.display = "none";
+			rowIDArray.length>0 ? startProcess() : get('loadingMask','top').style.display = "none";
 		} else {
 			alert('Sorry, there was an error deleting '+gitRepo);
 		}
@@ -228,7 +229,7 @@ ffDelete = function(row,gitRepo,action) {
 startProcess = function() {
 	if(actionArray[0]=="changed"||actionArray[0]=="new") {
 		if(actionArray[0]=="changed")	{repoLoc = repoArray[0].replace(repoUser+"/"+repoName+"/","")}
-		if(actionArray[0]=="new")		{repoLoc = dirArray[0].replace(top.path,'')}
+		if(actionArray[0]=="new")	{repoLoc = dirArray[0].replace(top.path+"/",'')}
 		ffAddOrUpdate(rowIDArray[0],repoLoc,actionArray[0]);
 	}
 	if(actionArray[0]=="deleted") {
@@ -329,7 +330,7 @@ gitCommand = function(comm,value) {
 			
 			get('compareList').innerHTML = c+"<br><br>"+n+"<br><br>"+d;
 			updateInfo();
-			get('blackMask','top').style.display='none';
+			get('loadingMask','top').style.display='none';
 			}
 		)
 	}

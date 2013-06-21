@@ -1,19 +1,6 @@
+<?php include("settings.php"); ?>
 <?php
-session_start();
-if (!$_SESSION['loggedIn']) {
-	die("Sorry, you need to be logged in to use ICErepo");
-}
-// returns converted entities where there are HTML entity equivalents
-function strClean($var) {
-	return htmlentities($var, ENT_QUOTES, "UTF-8");
-}
-
-// returns a number, whole or decimal or null
-function numClean($var) {
-	return is_numeric($var) ? floatval($var) : false;
-}
-
-$repoPath = strClean($_POST['repoPath']);
+//$repoPath = strClean($_POST['repoPath']);
 $gitRepo = strClean($_POST['gitRepo']);
 $path = strClean($_POST['path']);
 $rowID = strClean($_POST['rowID']);
@@ -44,10 +31,10 @@ $actionArray = explode(",",$action);
 	fullRepoPath='<?php echo $repo;?>';
 	gitRepo='<?php echo $gitRepo;?>';
 	var github = new Github(<?php
-	if ($_POST['token']!="") {
-		echo '{token: "'.strClean($_POST['token']).'", auth: "oauth"}';
+	if ($token!="") {
+		echo '{token: "'.$token.'", auth: "oauth"}';
 	} else{
-		echo '{username: "'.strClean($_POST['username']).'", password: "'.strClean($_POST['password']).'", auth: "basic"}';
+		echo '{username: "'.$username.'", password: "'.$password.'", auth: "basic"}';
 	}?>);
 	repoUser = gitRepo.split('/')[0];
 	repoName = gitRepo.split('/')[1];
@@ -57,7 +44,7 @@ $actionArray = explode(",",$action);
 
 <?php if ($_POST['action']=="view") {?>
 	<form name="fcForm">
-	<textarea name="fileContents"><?php echo htmlentities(file_get_contents($dir)); ?></textarea>
+		<textarea name="fileContents"><?php echo file_exists($dir) ? htmlentities(file_get_contents($dir)) : ''; ?></textarea>
 	</form>
 	<script>
 	rowID = <?php echo $rowID; ?>;
@@ -67,19 +54,19 @@ $actionArray = explode(",",$action);
 	window.onLoad = sendData(baseTextName,newTextName);
 	</script>
 <?php } else if (substr($_POST['action'],0,5)=="PULL:") { ?>
-	<form name="fcForm" action="file-control.php" method="POST">
-	<?php
-	echo '<input type="hidden" name="rowID" value="'.$rowID.'">';
-	echo '<input type="hidden" name="repo" value="'.$repo.'">';
-	echo '<input type="hidden" name="dir" value="'.$dir.'">';
-	echo '<input type="hidden" name="action" value="SAVEPULLS:'.$action.'">';
-	echo '<input type="hidden" name="path" value="'.$path.'">';
-	for ($i=0;$i<count($rowIDArray);$i++) {
-		if ($repoArray[$i]!="") {
-			echo '<textarea name="repoContents'.$rowIDArray[$i].'"></textarea>';
+	<form name="fcForm" action="file-control.php?username=<?php echo $username;?>&password=<?php echo $password;?>" method="POST">
+		<?php
+		echo '<input type="hidden" name="rowID" value="'.$rowID.'">';
+		echo '<input type="hidden" name="repo" value="'.$repo.'">';
+		echo '<input type="hidden" name="dir" value="'.$dir.'">';
+		echo '<input type="hidden" name="action" value="SAVEPULLS:'.$action.'">';
+		echo '<input type="hidden" name="path" value="'.$path.'">';
+		for ($i=0;$i<count($rowIDArray);$i++) {
+			if ($repoArray[$i]!="") {
+				echo '<textarea name="repoContents'.$rowIDArray[$i].'"></textarea>';
+			}
 		}
-	}
-	?>
+		?>
 	</form>
 	<script>
 	rowIDArray = [<?php echo implode(",", $rowIDArray);?>];
@@ -101,7 +88,7 @@ $actionArray = explode(",",$action);
 						mkdir($path.$relDir, 0755);
 					}
 				}
-				$fh = fopen($path."/".$repoArray[$i], 'w') or die("alert('Sorry, there was a problem pulling ".$repoArray[$i].". Either the file is unavailable on Github or server permissions aren\'t allowing it to be created/updated.');get('blackMask','top').style.display='none';");
+				$fh = fopen($path."/".$repoArray[$i], 'w') or die("alert('Sorry, there was a problem pulling ".$repoArray[$i].". Either the file is unavailable on Github or server permissions aren\'t allowing it to be created/updated.');get('loadingMask','top').style.display='none';");
 				fwrite($fh, $_POST['repoContents'.$rowIDArray[$i]]);
 				fclose($fh);
 				echo "hideRow(".$rowIDArray[$i].");top.newCount--;";
@@ -115,19 +102,19 @@ $actionArray = explode(",",$action);
 				}
 			}
 		}
-		echo "get('blackMask','top').style.display = 'none';";
+		echo "get('loadingMask','top').style.display = 'none';";
 	?>
 	</script>
 <?php } else { ?>
 	<form name="fcForm">
 	<?php
-	for ($i=0;$i<count($rowIDArray);$i++) {
-		if ($dirArray[$i]!="") {
-			echo '<textarea name="fileContents'.$rowIDArray[$i].'">';
-			echo htmlentities(file_get_contents($dirArray[$i]));
-			echo '</textarea>';
+		for ($i=0;$i<count($rowIDArray);$i++) {
+			if ($dirArray[$i]!="") {
+				echo '<textarea name="fileContents'.$rowIDArray[$i].'">';
+				echo htmlentities(file_get_contents($dirArray[$i]));
+				echo '</textarea>';
+			}
 		}
-	}
 	?>
 	</form>
 	<script>

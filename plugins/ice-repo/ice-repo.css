@@ -9,10 +9,10 @@ dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
 	font-family: arial, verdana, helvetica, sans-serif;
-	border: 0px;
-	margin: 0px;
-	padding: 0px;
-	outline: 0px;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	outline: 0;
 	font-size: 12px;
 	vertical-align: top;
 }
@@ -25,18 +25,39 @@ textarea, input {font-family: arial, verdana, helvetica, sans-serif; padding: 4p
 
 .mainContainer {position: relative; display: block; width: 900px; padding: 20px}
 
-.blackMask {position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 200}
-.loadingMsgCenter {position: absolute; display: inline-block; left: 50%; top: 50%; width: 1px; height: 1px}
-.loadingMsgContainer {position: absolute; display: inline-block; left: -30px; top: -7px; width: 60px; height: 14px; background-color: #bbb; color: #222; font-weight: bold; text-align: center; padding: 15px; z-index: 201;
-	-webkit-box-shadow: 8px 8px 8px 8px rgba(0,0,0,0.4);
-	-moz-box-shadow: 8px 8px 8px 8px rgba(0,0,0,0.4);
-	box-shadow: 4px 4px 8px 4px rgba(0,0,0,0.4)}
+.blackMask {position: fixed; display: table; width: 100%; height: 100%; top: 0; left: 0; visibility: hidden; background-color: rgba(0,0,0,0.8); text-align: center; z-index: 100}
+.blackMask .popupVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
+.popupVCenter .popup {#position: relative; #top: -50%; text-align: center; color: #fff; font-size: 10px}
+.whiteGlow {box-shadow: 0 0 8px 2px rgba(255,255,255,0.6)}
+
+.circleOutside {background-color: rgba(0,0,0,0); border:5px solid rgba(0,183,229,0.9); opacity:.9; border-top:5px solid rgba(0,0,0,0); border-left:5px solid rgba(0,0,0,0); border-radius:50px; box-shadow: 0 0 35px #2187e7;
+	width:50px; height:50px; margin:0 auto; -moz-animation:spin .5s infinite linear; -webkit-animation:spin .5s infinite linear;
+}
+.circleInside {background-color: rgba(0,0,0,0); border:5px solid rgba(0,183,229,0.9); opacity:.9; border-top:5px solid rgba(0,0,0,0); border-left:5px solid rgba(0,0,0,0); border-radius:50px; box-shadow: 0 0 15px #2187e7;
+	width:30px; height:30px; margin:0 auto; position:relative; top:-50px; -moz-animation:spinoff .5s infinite linear; -webkit-animation:spinoff .5s infinite linear;
+}
+@-moz-keyframes spin {
+	0% {-moz-transform:rotate(0deg)}
+	100% {-moz-transform:rotate(360deg)}
+}
+@-moz-keyframes spinoff {
+	0% {-moz-transform:rotate(0deg)}
+	100% {-moz-transform:rotate(-360deg)}
+}
+@-webkit-keyframes spin {
+	0% {-webkit-transform:rotate(0deg)}
+	100% {-webkit-transform:rotate(360deg)}
+}
+@-webkit-keyframes spinoff {
+	0% {-webkit-transform:rotate(0deg)}
+	100% {-webkit-transform:rotate(-360deg)}
+}
 
 .repoFrame {position: absolute; width: 100%; height: 90%; left: 0px; margin-top: 60px}
 
 .row {position: relative; display: inline-block; background: #ccc; color: #000; width: 880px; padding: 10px 7px; margin-bottom: 2px; cursor: pointer; padding-left: 35px}
 .row:hover {background: #888; color: #fff}
-.row .icon {display: inline-block; width: 16px; height: 16px; margin-right: 7px; background-image:url('../../images/file-folder-icons.png'); background-repeat: no-repeat}
+.row .icon {display: inline-block; width: 16px; height: 16px; margin-right: 7px; background-image:url('images/file-folder-icons.png'); background-repeat: no-repeat}
 .row .checkbox {position: absolute; display: inline-block; height: 38px; width: 30px; top: -4px; left: 0px}
 .rowContent {position: relative; display: none; background: #eee; width: 100%; height: 300px; padding: 7px; margin-bottom: 10px; overflow: auto}
 .pullGithub {position: absolute; display: inline-block; top: 7px; left: 822px; padding: 5px; background: #bbb; color: #444; font-size: 10px; cursor: pointer}

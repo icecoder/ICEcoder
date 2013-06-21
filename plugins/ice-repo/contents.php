@@ -1,23 +1,8 @@
-<?php
-session_start();
-if (!$_SESSION['loggedIn']) {
-	die("Sorry, you need to be logged in to use ICErepo");
-}
-
-function strClean($var) {
-	// returns converted entities where there are HTML entity equivalents
-	return htmlentities($var, ENT_QUOTES, "UTF-8");
-}
-
-function numClean($var) {
-	// returns a number, whole or decimal or null
-	return is_numeric($var) ? floatval($var) : false;
-}
-?>
+<?php include("settings.php"); ?>
 <!DOCTYPE html>
 <html>
 <head>
-<title>ICErepo v<?php echo $version;?></title>
+<title>ICErepo v <?php echo $version;?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script src="lib/base64.js"></script>
 <script src="lib/github.js"></script>
@@ -29,24 +14,6 @@ function numClean($var) {
 <body>
 	
 <?php
-// Function to sort given values alphabetically
-function alphasort($a, $b) {
-	return strcmp($a->getPathname(), $b->getPathname());
-}
-
-// Class to put forward the values for sorting
-class SortingIterator implements IteratorAggregate {
-	private $iterator = null;
-	public function __construct(Traversable $iterator, $callback) {
-		$array = iterator_to_array($iterator);
-		usort($array, $callback);
-		$this->iterator = new ArrayIterator($array);
-	}
-	public function getIterator() {
-	return $this->iterator;
-	}
-}
-
 // Get a full list of dirs & files and begin sorting using above class & function
 $repoPath = explode("@",strClean($_POST['repo']));
 $repo = $repoPath[0];
@@ -55,15 +22,24 @@ $objectList = new SortingIterator(new RecursiveIteratorIterator(new RecursiveDir
 
 // Finally, we have our ordered list, so display
 $i=0;
-$dirListArray = array();
-$dirSHAArray = array();
-$dirTypeArray = array();
-$finfo = finfo_open(FILEINFO_MIME_TYPE);
+$dirListArray = $dirSHAArray = $dirTypeArray = array();
 foreach ($objectList as $objectRef) {
-	$fileFolderName = rtrim(substr($objectRef->getPathname(), strlen($path)),"..");
-	if ($objectRef->getFilename()!="." && $fileFolderName[strlen($fileFolderName)-1]!="/") {
+	$fileFolderName = @rtrim(substr(str_replace("\\","/",$objectRef->getPathname()), strlen($path)),"..");
+	if (!is_dir($path.$fileFolderName)) {
 			$contents = file_get_contents($path.$fileFolderName);
-			if (strpos(finfo_file($finfo, $path.$fileFolderName),"text")===0) {
+			$finfo = "";
+			// Determine what to do based on mime type
+			if (function_exists('finfo_open')) {
+				$finfoMIME = finfo_open(FILEINFO_MIME_TYPE);
+				$finfo = finfo_file($finfoMIME, $path.$fileFolderName);
+				finfo_close($finfoMIME);
+			} else {
+				$fileExt = explode(" ",pathinfo($path.$fileFolderName, PATHINFO_EXTENSION));
+				$fileExt = $fileExt[0];
+				if (array_search($fileExt,array("coffee","css","htm","html","js","less","md","php","py","rb","ruby","txt","xml"))!==false) {$finfo = "text";};
+				if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
+			}
+			if (strpos($finfo,"text")===0 || strpos($finfo,"empty")!==false) {
 				$contents = str_replace("\r","",$contents);
 			};
 			$store = "blob ".strlen($contents)."\000".$contents;
@@ -74,7 +50,6 @@ foreach ($objectList as $objectRef) {
 			array_push($dirTypeArray,$type);
 	}
 }
-finfo_close($finfo);
 ?>
 
 <script>
@@ -88,21 +63,18 @@ dirTypeArray = [<?php echo "'".implode("','", $dirTypeArray)."'";?>];
 <div id="compareList" class="mainContainer"></div>
 	
 <div id="commitPane" class="commitPane">
-<b style='font-size: 18px'>COMMIT CHANGES:</b><br><br>
-<form name="fcForm" action="file-control.php" target="fileControl" method="POST">
-<input type="text" name="title" value="Title..." style="width: 260px; border: 0; background: #f8f8f8; margin-bottom: 10px" onFocus="titleDefault='Title...'; if(this.value==titleDefault) {this.value=''}" onBlur="if(this.value=='') {this.value=titleDefault}"><br>
-<textarea name="message" style="width: 260px; height: 180px; border: 0; background: #f8f8f8; margin-bottom: 5px" onFocus="messageDefault='Message...'; if(this.value==messageDefault) {this.value=''}" onBlur="if(this.value=='') {this.value=messageDefault}">Message...</textarea>
-<input type="hidden" name="token" value="<?php echo strClean($_POST['token']);?>">
-<input type="hidden" name="username" value="<?php echo strClean($_POST['username']);?>">
-<input type="hidden" name="password" value="<?php echo strClean($_POST['password']);?>">
-<input type="hidden" name="path" value="<?php echo $path; ?>">	
-<input type="hidden" name="rowID" value="">
-<input type="hidden" name="gitRepo" value="<?php echo $repo; ?>">
-<input type="hidden" name="repo" value="">
-<input type="hidden" name="dir" value="">
-<input type="hidden" name="action" value="">
-<input type="submit" name="commit" value="Commit changes" onClick="return commitChanges()" style="border: 0; background: #555; color: #fff; cursor: pointer">
-</form>
+	<b style='font-size: 18px'>COMMIT CHANGES:</b><br><br>
+	<form name="fcForm" action="file-control.php?username=<?php echo $username;?>&password=<?php echo $password;?>" target="fileControl" method="POST">
+		<input type="text" name="title" value="Title..." style="width: 260px; border: 0; background: #f8f8f8; margin-bottom: 10px" onFocus="titleDefault='Title...'; if(this.value==titleDefault) {this.value=''}" onBlur="if(this.value=='') {this.value=titleDefault}"><br>
+		<textarea name="message" style="width: 260px; height: 180px; border: 0; background: #f8f8f8; margin-bottom: 5px" onFocus="messageDefault='Message...'; if(this.value==messageDefault) {this.value=''}" onBlur="if(this.value=='') {this.value=messageDefault}">Message...</textarea>
+		<input type="hidden" name="path" value="<?php echo $path; ?>">	
+		<input type="hidden" name="rowID" value="">
+		<input type="hidden" name="gitRepo" value="<?php echo $repo; ?>">
+		<input type="hidden" name="repo" value="">
+		<input type="hidden" name="dir" value="">
+		<input type="hidden" name="action" value="">
+		<input type="submit" name="commit" value="Commit changes" onClick="return commitChanges()" style="border: 0; background: #555; color: #fff; cursor: pointer">
+	</form>
 </div>
 	
 <div id="infoPane" class="infoPane"></div>
@@ -110,10 +82,10 @@ dirTypeArray = [<?php echo "'".implode("','", $dirTypeArray)."'";?>];
 <script>
 top.fcFormAlias = document.fcForm;
 var github = new Github(<?php
-if ($_POST['token']!="") {
-	echo '{token: "'.strClean($_POST['token']).'", auth: "oauth"}';
+if ($token!="") {
+	echo '{token: "'.$token.'", auth: "oauth"}';
 } else{
-	echo '{username: "'.strClean($_POST['username']).'", password: "'.strClean($_POST['password']).'", auth: "basic"}';
+	echo '{username: "'.$username.'", password: "'.$password.'", auth: "basic"}';
 }?>);
 repoListArray = [];
 repoSHAArray = [];
