@@ -51,6 +51,7 @@
 	<span class="key">Delete</span> <span class="shortcut">Delete selected</span><br><br>
 
 	<h2>Anywhere</h2>
+	<span class="key">Middle scrollwheel</span> <span class="shortcut">Next/previous tab</span><br>
 	<span class="key">Ctrl <span class="plus">+</span> &rarr;</span> <span class="shortcut">Next tab</span><br>
 	<span class="key">Ctrl <span class="plus">+</span> &larr;</span> <span class="shortcut">Previous tab</span><br>
 	<span class="key">Ctrl <span class="plus">+</span> +</span> <span class="shortcut">New tab</span><br>

@@ -26,7 +26,7 @@ if ($ICEcoder["checkUpdates"]) {
 }
 ?>
 <!DOCTYPE html>
-<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}">
+<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}" onMouseWheel="event.wheelDelta > 0 ? top.ICEcoder.nextTab() : top.ICEcoder.previousTab()">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
