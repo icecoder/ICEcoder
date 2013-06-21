@@ -136,8 +136,8 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 		<div class="accountOptions">
 			<div title="Save (Ctrl + s)" onClick="ICEcoder.fMIcon('save')" id="fMSave" class="save"></div>
 			<div title="Open (Ctrl + o)" onClick="ICEcoder.fMIcon('open')" id="fMOpen" class="open"></div>
-			<div title="New File" onClick="ICEcoder.fMIcon('newFile')" id="fMNewFile" class="newFile"></div>
-			<div title="New Folder" onClick="ICEcoder.fMIcon('newFolder')" id="fMNewFolder" class="newFolder"></div>
+			<div title="New File" onClick="if(this.style.opacity==1) {ICEcoder.fMIcon('newFile')}" id="fMNewFile" class="newFile"></div>
+			<div title="New Folder" onClick="if(this.style.opacity==1) {ICEcoder.fMIcon('newFolder')}" id="fMNewFolder" class="newFolder"></div>
 			<div title="Delete" onClick="ICEcoder.fMIcon('delete')" id="fMDelete" class="delete"></div>
 			<div title="Rename" onClick="ICEcoder.fMIcon('rename')" id="fMRename" class="rename"></div>
 			<div title="View" onClick="ICEcoder.fMIcon('view')" id="fMView" class="view"></div>
