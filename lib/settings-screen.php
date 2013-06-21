@@ -243,7 +243,7 @@ var validatePasswords = function() {
 }
 </script>
 
-<div class="update" id="updateButton" onClick="validatePasswords()">update</div>
+<div class="update" id="updateButton" onClick="<?php echo $ICEcoder['demoMode'] ? "top.ICEcoder.message('Sorry, can\'t commit settings in demo mode')" : "validatePasswords()"; ?>">update</div>
 
 </div>
 
