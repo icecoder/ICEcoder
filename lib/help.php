@@ -62,7 +62,10 @@
 	<span class="key">Ctrl <span class="plus">+</span> Shift <span class="plus">+</span> s</span> <span class="shortcut">Save as...</span><br>
 	<span class="key">Ctrl <span class="plus">+</span> Enter</span> <span class="shortcut">View webpage</span><br>
 	<span class="key">Space</span> <span class="shortcut">Refocus on document</span><br>
-	<span class="key">Esc</span> <span class="shortcut">Cancel tasks</span><br>
+	<span class="key">Esc</span> <span class="shortcut">Cancel tasks</span><br><br>
+
+	<h2>On Tabs</h2>
+	<span class="key">Middle click</span> <span class="shortcut">Close tab</span><br>
 
 </div>
 
