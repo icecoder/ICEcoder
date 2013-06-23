@@ -68,7 +68,7 @@ if (isset($_REQUEST['username']) && $_REQUEST['username']!="") {
 
 // Reestablish those session vars in an ongoing way
 if (isset($_SESSION['token'])) {
-	$_SESSION['token'] = $_SESSION['token'];
+	$token = $_SESSION['token'] = $_SESSION['token'];
 }
 if (isset($_SESSION['username'])) {
 	$username = $_SESSION['username'] = $_SESSION['username'];
