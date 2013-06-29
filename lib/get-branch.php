@@ -14,6 +14,7 @@ if (isset($_GET['location'])) {
 	echo '<div id="branch">';
 	$location = str_replace("|","/",$_GET['location']);
 }
+if ($location=="/") {$location = "";};
 
 $dirArray = $filesArray = $finalArray = array();
 $finalArray = scanDir($scanDir.$location);
