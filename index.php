@@ -107,6 +107,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
 		</div>
 		<a href="javascript:top.ICEcoder.pasteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()" id="fmMenuPasteOption" style="display: none">Paste</a>
 	</span>
+	<a href="javascript:top.ICEcoder.openSelectedFiles(top.ICEcoder.selectedFiles)" onMouseOver="ICEcoder.showFileMenu()">Open</a>
 	<a href="javascript:top.ICEcoder.copyFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Copy</a>
 	<a href="javascript:top.ICEcoder.deleteFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Delete</a>
 	<span id="singleFileMenuItems">
