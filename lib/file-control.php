@@ -121,7 +121,7 @@ if ($_GET['action']=="paste") {
 			}
 		}
 		// Reload file manager
-		echo '<script>top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.basename($dest).'\');action="pasteFile";</script>';
+		echo '<script>top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.basename($dest).'\');action="pasteFile";</script>';
 	} else {
 		echo "<script>action='nothing'; top.ICEcoder.message('Sorry, cannot copy \\n".str_replace($docRoot,"",$source)."\\n into \\n".str_replace($docRoot,"",$dest)."')</script>";
 	}
@@ -132,7 +132,7 @@ if ($_GET['action']=="paste") {
 if ($_GET['action']=="upload") {
 	if (!$demoMode) {
 		class fileUploader {  
-			public function __construct($uploads) {  
+			public function __construct($uploads) {
 				global $docRoot;
 				$uploadDir=$docRoot.$iceRoot.str_replace("..","",str_replace("|","/",strClean($_POST['folder'])."/"));
 				foreach($uploads as $current) {  
