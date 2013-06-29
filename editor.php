@@ -227,7 +227,22 @@ function createNewCMInstance(num) {
 				var filename = filepath.substr(filepath.lastIndexOf("/")+1);
 				var fileExt = filename.substr(filename.lastIndexOf(".")+1);
 				for (var i=changeObj.from.line; i<changeObj.from.line+changeObj.text.length; i++) {
-					top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[["coffee","css","js","less","php","py","rb","ruby"].indexOf(fileExt) > -1 ? "braceRangeFinder" : "tagRangeFinder"],null,"+","-",true)(thisCM, i);
+					top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[
+						window['cM'+num].getLine(i).indexOf("{")>-1
+						? "braceRangeFinder" 
+						: "tagRangeFinder"
+					],null,"+","-",true)(thisCM, i);
+				}
+				if (changeObj.text[0] == "}" || changeObj.removed && changeObj.removed[0] == "}") {
+					cursor = window['cM'+num].getSearchCursor("{",window['cM'+num].getCursor(),false);
+					cursor.findPrevious();
+					for (var i=cursor.from().line; i<window['cM'+num].getCursor().line; i++) {
+						top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[
+							window['cM'+num].getLine(i).indexOf("{")>-1
+							? "braceRangeFinder" 
+							: "tagRangeFinder"
+						],null,"+","-",true)(thisCM, i);
+					}
 				}
 			}
 			// Update HTML edited files live
@@ -267,7 +282,7 @@ function createNewCMInstance(num) {
 	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
 			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 			var fileExt = filepath.substr(filepath.lastIndexOf(".")+1);
-			["coffee","css","js","less","php","py","rb","ruby"].indexOf(fileExt) > -1
+			window['cM'+num].getLine(line).indexOf("{")>-1
 			? codeFoldBrace(window['cM'+num], line) : codeFoldTag(window['cM'+num], line);
 		}
 	);
