@@ -22,7 +22,7 @@ $ICEcoderUserSettings = array(
 			array("Regexplained\\nRegex builder","plugins/regexplained/icon.png","margin-top: 3px","http://leaverou.github.io/regexplained","_blank",""),
 			array("wireframe|cc\\nWireframing tool","plugins/wireframecc/icon.png","margin-top: 3px","http://wireframe.cc","_blank",""),
 			array("TinyPNG\\nImage file compressor","plugins/tinypng/icon.png","margin-top: 7px","http://tinypng.org","_blank",""),
-			array("Zip It!\\nFile/Folder zip utility","plugins/zip-it/icon.png","margin-top: 3px; margin-left: 3px","plugins/zip-it/?zip=|&exclude=*.doc*.gif*.jpg*.jpeg*.pdf*.png*.swf*.xml*.zip","fileControl:<b>Zipping Files</b>","30")
+			array("Zip It!\\nFile/folder zip utility","plugins/zip-it/icon.png","margin-top: 3px; margin-left: 3px","plugins/zip-it/?zip=|&exclude=*.doc*.gif*.jpg*.jpeg*.pdf*.png*.swf*.xml*.zip","fileControl:<b>Zipping Files</b>","30")
 			),
 "theme"			=> "default",
 "fontSize"		=> "13px",
