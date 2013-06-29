@@ -15,6 +15,7 @@ modes:	clike, coffeescript, css, htmlmixed, javascript, less, markdown, php, pyt
 utils:	closetag, xml-fold, brace-fold, show-hint, javascript-hint, html-hint, searchcursor, match-highlighter
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/edit/trailingspace.js"></script>
 <script src="lib/mmd.js"></script>
 <script src="lib/foldcode.js"></script>
 <?php
@@ -35,6 +36,11 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 .cm-matchhighlight, .CodeMirror-focused .cm-matchhighlight {color: #fff !important; background: #06c !important}
 /* Make sure this next one remains the 5th item, updated with JS */
 .cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\\21e5';};?>";}
+.cm-trailingspace {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUXCToH00Y1UgAAACFJREFUCNdjPMDBUc/AwNDAAAFMTAwMDA0OP34wQgX/AQBYgwYEx4f9lQAAAABJRU5ErkJggg==);
+        background-position: bottom left;
+        background-repeat: repeat-x;
+      }
 .lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 3px 5px}
 .lint-error-icon {background: #b00; color: #fff; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 5px}
 .CodeMirror-foldmarker {font-family: arial; line-height: .3; color: #b00; cursor: pointer;
@@ -170,6 +176,7 @@ function createNewCMInstance(num) {
 		electricChars: false,
 		autoCloseTags: true,
 		highlightSelectionMatches: true,
+		showTrailingSpace: true,
 		keyMap: "ICEcoder",
 		onKeyEvent: function(thisCM, e) {
 			top.ICEcoder.redoChangedContent(e);
