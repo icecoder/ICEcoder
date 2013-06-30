@@ -8,6 +8,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/hint/show-hint.css">
+<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/lint/lint.css">
 <!--
 codemirror-compressed.js
 incls:	codemirror
@@ -16,6 +17,9 @@ utils:	closetag, xml-fold, brace-fold, show-hint, javascript-hint, html-hint, se
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/edit/trailingspace.js"></script>
+<script src="jshint/jshint-2.1.4.min.js"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/lint/lint.js"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/lint/javascript-lint.js"></script>
 <script src="lib/mmd.js"></script>
 <script src="lib/foldcode.js"></script>
 <?php
@@ -41,8 +45,6 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
         background-position: bottom left;
         background-repeat: repeat-x;
       }
-.lint-error {font-family: arial; font-size: 80%; background: #ccc; color: #b00; padding: 3px 5px}
-.lint-error-icon {background: #b00; color: #fff; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 5px}
 .CodeMirror-foldmarker {font-family: arial; line-height: .3; color: #b00; cursor: pointer;
 	text-shadow: #fff 1px 1px 2px, #fff -1px -1px 2px, #fff 1px -1px 2px, #fff -1px 1px 2px;
 }
@@ -162,13 +164,11 @@ CodeMirror.commands.autocomplete = function(cm) {
 
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	top.ICEcoder['cM'+num+'waiting'] = "";
-	top.ICEcoder['cM'+num+'widgets'] = [];
 
 	window['cM'+num] = CodeMirror(document.body, {
 		mode: "application/x-httpd-php",
 		lineNumbers: true,
-		gutters: ["folds","CodeMirror-linenumbers"],
+		gutters: ["folds","CodeMirror-lint-markers","CodeMirror-linenumbers"],
 		lineWrapping: top.ICEcoder.lineWrapping,
 		indentWithTabs: top.ICEcoder.indentWithTabs,
 		indentUnit: top.ICEcoder.indentSize,
@@ -177,6 +177,7 @@ function createNewCMInstance(num) {
 		autoCloseTags: true,
 		highlightSelectionMatches: true,
 		showTrailingSpace: true,
+		lintWith: fileName.indexOf(".js")>-1 ? CodeMirror.javascriptValidator : false,
 		keyMap: "ICEcoder",
 		onKeyEvent: function(thisCM, e) {
 			top.ICEcoder.redoChangedContent(e);
@@ -217,10 +218,6 @@ function createNewCMInstance(num) {
 				top.ICEcoder.results.splice(top.ICEcoder.findResult,1);
 				top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " results";
 				top.ICEcoder.findMode = false;
-			}
-			if (top.ICEcoder.codeAssist && top.ICEcoder.openFiles.length>0) {
-				clearTimeout(window['cM'+num+'waiting']);
-				window['cM'+num+'waiting'] = setTimeout(top.ICEcoder.updateHints, 100);
 			}
 			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 			if (filepath) {
