@@ -44,11 +44,6 @@ window.onbeforeunload = function() {
 </script>
 <script language="JavaScript" src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js"></script>
 <script src="lib/mmd.js"></script>
-<?php
-if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint.js")) {
-	echo '<script src="plugins/jshint/jshint.js"></script>';
-}
-?>
 <script src="farbtastic/farbtastic.js"></script>
 <link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css">
 </head>
