@@ -47,7 +47,7 @@ test = {
 		x = setInterval(function() {
 			wait();
 			cM = ICEcoder.getcMInstance();
-			if (cM && "undefined" != typeof ICEcoder.openFiles[0]!="") {
+			if (cM && "undefined" != typeof ICEcoder.openFiles[0]) {
 				testResult("+ GOOD",title+". Took "+t+"ms",x);
 				test.updateDoc();
 			} else if (t==1000) {
