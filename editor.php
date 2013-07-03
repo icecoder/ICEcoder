@@ -177,7 +177,7 @@ function createNewCMInstance(num) {
 		autoCloseTags: true,
 		highlightSelectionMatches: true,
 		showTrailingSpace: true,
-		lintWith: fileName.indexOf(".js")>-1 ? CodeMirror.javascriptValidator : false,
+		lintWith: fileName && fileName.indexOf(".js")>-1 ? CodeMirror.javascriptValidator : false,
 		keyMap: "ICEcoder",
 		onKeyEvent: function(thisCM, e) {
 			top.ICEcoder.redoChangedContent(e);
