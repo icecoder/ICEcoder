@@ -1,3 +1,4 @@
 error-log.txt
 backups/*.zip
 lib/config-*.php
+test/test-file1.txt
