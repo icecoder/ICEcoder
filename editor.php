@@ -13,13 +13,10 @@
 codemirror-compressed.js
 incls:	codemirror
 modes:	clike, coffeescript, css, htmlmixed, javascript, less, markdown, php, python, ruby & xml
-utils:	closetag, xml-fold, brace-fold, show-hint, javascript-hint, html-hint, searchcursor, match-highlighter
+addon:	brace-fold, closetag, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, searchcursor, show-hint, trailingspace, xml-fold
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
-<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/edit/trailingspace.js"></script>
 <script src="jshint/jshint-2.1.4.min.js"></script>
-<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/lint/lint.js"></script>
-<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/lint/javascript-lint.js"></script>
 <script src="lib/mmd.js"></script>
 <script src="lib/foldcode.js"></script>
 <?php
