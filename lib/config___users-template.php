@@ -13,7 +13,7 @@ $ICEcoderUserSettings = array(
 "bannedPaths"		=> array("/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"),
 "allowedIPs"		=> array("*"),
 "plugins"		=> array(
-			array("Adminer\\nMySQL database manager","plugins/adminer/icon.png","margin-top: 3px","plugins/adminer/adminer-3.6.3-mysql-en.php","_blank",""),
+			array("Adminer\\nMySQL database manager","plugins/adminer/icon.png","margin-top: 3px","plugins/adminer/adminer-3.7.1-mysql-en.php","_blank",""),
 			array("Emmet\\nSnippet type booster","plugins/emmet/icon.png","margin-top: 3px","http://docs.emmet.io","_blank",""),
 			array("ICErepo\\nGithub repo manager","plugins/ice-repo/icon.png","margin-top: 3px","plugins/ice-repo","_blank",""),
 			array("Dochub\\nCoding syntax info","plugins/dochub/icon.png","margin-top: 3px","http://dochub.io","_blank",""),
