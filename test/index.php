@@ -108,11 +108,11 @@ test = {
 
 	lineDupBreakCommentRemove: function() {
 		title = "Duplicate, add break, comment and remove line";
-		ICEcoder.duplicateLine(1);
+		ICEcoder.duplicateLines(1);
 		ICEcoder.addLineBreakAtEnd(2);
 		ICEcoder.lineCommentToggle();
 		line2 = cM.getLine(2);
-		ICEcoder.removeLine(2);
+		ICEcoder.removeLines(2);
 		line2Now = cM.getLine(2);
 		if (line2 == "<!--	<p>Updated</p><br>//-->" && line2Now == "</div>") {
 			testResult("+ GOOD",title);
