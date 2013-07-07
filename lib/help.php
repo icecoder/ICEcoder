@@ -19,26 +19,25 @@
 	<h2>Within document</h2>
 	<span class="key">Ctrl <span class="plus">+</span> &uarr;</span> <span class="shortcut">Move line up</span><br>
 	<span class="key">Ctrl <span class="plus">+</span> &darr;</span> <span class="shortcut">Move line down</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> +</span> <span class="shortcut">Duplicate line</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> -</span> <span class="shortcut">Remove line</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> i</span> <span class="shortcut">Search selected text</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> +</span> <span class="shortcut">Duplicate line(s)</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> -</span> <span class="shortcut">Remove line(s)</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> i</span> <span class="shortcut">Search for selected</span><br>
 	<span class="key">Ctrl <span class="plus">+</span> j</span> <span class="shortcut">Jump to definition</span><br>
-	<span class="key">Esc</span> <span class="shortcut">Comment / uncomment text</span><br>
-	<span class="key">Tab</span> <span class="shortcut">Insert tab / indent selected text</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> d</span> <span class="shortcut">Wrap selected in &lt;div&gt;</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> s</span> <span class="shortcut">Wrap selected in &lt;span&gt;</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> p</span> <span class="shortcut">Wrap selected in &lt;p&gt;</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> a</span> <span class="shortcut">Wrap selected in &lt;a&gt;</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> b</span> <span class="shortcut">Wrap selected in &lt;b&gt;</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> i</span> <span class="shortcut">Wrap selected in &lt;i&gt;</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> g</span> <span class="shortcut">Wrap selected in &lt;strong&gt;</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> e</span> <span class="shortcut">Wrap selected in &lt;em&gt;</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> nums 1 - 6</span> <span class="shortcut">Wrap selected in &lt;h1&gt; - &lt;h6&gt;</span><br>
+	<span class="key">Esc</span> <span class="shortcut">Comment / uncomment</span><br>
+	<span class="key">Tab</span> <span class="shortcut">Insert tab / indent selected</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> d</span> <span class="shortcut">Wrap with &lt;div&gt;</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> s</span> <span class="shortcut">Wrap with &lt;span&gt;</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> p</span> <span class="shortcut">Wrap / unwrap with &lt;p&gt;</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> a</span> <span class="shortcut">Wrap / unwrap with &lt;a&gt;</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> b</span> <span class="shortcut">Wrap / unwrap with &lt;b&gt;</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> i</span> <span class="shortcut">Wrap / unwrap with &lt;i&gt;</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> g</span> <span class="shortcut">Wrap / unwrap with &lt;strong&gt;</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> e</span> <span class="shortcut">Wrap / unwrap with &lt;em&gt;</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> nums 1 - 6</span> <span class="shortcut">Wrap/unwrap with &lt;h1&gt; - &lt;h6&gt;</span><br>
 	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> Enter</span> <span class="shortcut">End line with &lt;br&gt;</span><br><br>
 
-	<h2>On logo</h2>
-	<span class="key">Left click</span> <span class="shortcut">Help</span><br>
-	<span class="key">Right click</span> <span class="shortcut">Settings</span><br>
+	<h2>On Tabs</h2>
+	<span class="key">Middle click</span> <span class="shortcut">Close tab</span><br>
 </div>
 
 <div style="display: inline-block; width: 365px">
@@ -64,10 +63,6 @@
 	<span class="key">Ctrl <span class="plus">+</span> Enter</span> <span class="shortcut">View webpage</span><br>
 	<span class="key">Space</span> <span class="shortcut">Refocus on document</span><br>
 	<span class="key">Esc</span> <span class="shortcut">Cancel tasks</span><br><br>
-
-	<h2>On Tabs</h2>
-	<span class="key">Middle click</span> <span class="shortcut">Close tab</span><br>
-
 </div>
 
 </body>
