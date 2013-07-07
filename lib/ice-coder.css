@@ -20,6 +20,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 body {overflow: hidden;
 	-webkit-user-select: none;
 	-moz-user-select: none;
+	-ms-user-select: none;
 	user-select: none;
 	background-color: #222;
 }
@@ -33,18 +34,18 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .whiteGlow {box-shadow: 0 0 8px 2px rgba(255,255,255,0.6)}
 
 .circleOutside {background-color: rgba(0,0,0,0); border:5px solid rgba(0,183,229,0.9); opacity:.9; border-top:5px solid rgba(0,0,0,0); border-left:5px solid rgba(0,0,0,0); border-radius:50px; box-shadow: 0 0 35px #2187e7;
-	width:50px; height:50px; margin:0 auto; -moz-animation:spin .5s infinite linear; -webkit-animation:spin .5s infinite linear;
+	width:50px; height:50px; margin:0 auto; animation:spin .5s infinite linear; -webkit-animation:spin .5s infinite linear;
 }
 .circleInside {background-color: rgba(0,0,0,0); border:5px solid rgba(0,183,229,0.9); opacity:.9; border-top:5px solid rgba(0,0,0,0); border-left:5px solid rgba(0,0,0,0); border-radius:50px; box-shadow: 0 0 15px #2187e7;
-	width:30px; height:30px; margin:0 auto; position:relative; top:-50px; -moz-animation:spinoff .5s infinite linear; -webkit-animation:spinoff .5s infinite linear;
+	width:30px; height:30px; margin:0 auto; position:relative; top:-50px; animation:spinoff .5s infinite linear; -webkit-animation:spinoff .5s infinite linear;
 }
-@-moz-keyframes spin {
-	0% {-moz-transform:rotate(0deg)}
-	100% {-moz-transform:rotate(360deg)}
+@keyframes spin {
+	0% {transform:rotate(0deg)}
+	100% {transform:rotate(360deg)}
 }
-@-moz-keyframes spinoff {
-	0% {-moz-transform:rotate(0deg)}
-	100% {-moz-transform:rotate(-360deg)}
+@keyframes spinoff {
+	0% {transform:rotate(0deg)}
+	100% {transform:rotate(-360deg)}
 }
 @-webkit-keyframes spin {
 	0% {-webkit-transform:rotate(0deg)}
@@ -84,31 +85,21 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .button {position: absolute; border: 0; background: #444; color: #eee; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
 .files .button:hover {background-color: #222; color: #eee}
 .files .frame {display: inline-block; width: 250px}
-.files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; margin-bottom: 30px; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 7px 12px; opacity: 0;
-	-webkit-transition: opacity 0.2s;
-	-moz-transition: opacity 0.2s;
+.files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; margin-bottom: 30px; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 7px 12px; opacity: 0; 
 	transition: opacity 0.2s;
 }
 .files .serverMessage b {font-size: 10px}
 
 .editor {position: absolute; display: inline-block; top: 0; left: 15px; width: 2400px}
 .editor .tabsBar {display: inline-block; height: 22px; width: 2400px; margin-top: 40px; padding-left: 53px; background: #ddd}
-.tabsBar .tab {position: absolute; display: none; padding: 5px 8px 2px 8px; font-size: 10px; border-left: solid 1px #eee; border-right: solid 1px #777; border-radius: 5px 5px 0 0; color: #fff; white-space: nowrap; overflow: hidden; cursor: pointer; z-index: 1;
-	-webkit-transition: width 0.15s ease-in-out;
-	-moz-transition: width 0.15s ease-in-out;
+.tabsBar .tab {position: absolute; display: none; height: 15px; padding: 5px 8px 2px 8px; font-size: 10px; border-left: solid 1px #eee; border-right: solid 1px #777; border-radius: 5px 5px 0 0; color: #fff; white-space: nowrap; overflow: hidden; cursor: pointer; z-index: 1;
 	transition: width 0.15s ease-in-out;
-	-webkit-transition: left 0.15s ease-in-out;
-	-moz-transition: left 0.15s ease-in-out;
 	transition: left 0.15s ease-in-out;
 }
 .tabsBar .tabSlide {
-	-webkit-transition: left 0.15s ease-in-out;
-	-moz-transition: left 0.15s ease-in-out;
 	transition: left 0.15s ease-in-out;
 }
 .tabsBar .tabDrag {
-	-webkit-transition: left 0s ease-in-out;
-	-moz-transition: left 0s ease-in-out;
 	transition: left 0s ease-in-out;
 }
 .tabsBar .tab .closeTab, .tabsBar .closeAllTabs {margin: 1px 0 0 5px; border-radius: 6px; cursor: pointer}
@@ -117,9 +108,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .tabsBar .alphaTabs:hover {background: #000}
 .tabsBar .closeAllTabs {position: absolute; margin: 6px 0 0 -36px; background: #bbb}
 .tabsBar .closeAllTabs:hover {background: #000}
-.tabsBar .newTab {position: absolute; display: inline-block; padding: 4px 7px 3px 7px; border-left: solid 1px #eee; border-right: solid 1px #777; background: #aaa; border-radius: 4px 4px 0 0; cursor: pointer; z-index: 0;
-	-webkit-transition: left 0.15s ease-in-out;
-	-moz-transition: left 0.15s ease-in-out;
+.tabsBar .newTab {position: absolute; display: inline-block; height: 15px; padding: 4px 7px 3px 7px; border-left: solid 1px #eee; border-right: solid 1px #777; background: #aaa; border-radius: 4px 4px 0 0; cursor: pointer; z-index: 0;
 	transition: left 0.15s ease-in-out;
 }
 .editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #141414}
@@ -153,8 +142,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .textbox {box-shadow: inset 1px 1px 2px 0 rgba(0,0,0,0.4)}
 
 .fileMenu {position: absolute; display: none; left: 0; top: 0; background-color: #333; z-index: 10;
-	-webkit-transition: opacity 0.15s;
-	-moz-transition: opacity 0.15s;
 	transition: opacity 0.15s;
 }
 .fileMenu a {display: block; padding: 2px 5px; background-color: #333; color: #eee; text-decoration: none}
