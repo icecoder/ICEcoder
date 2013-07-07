@@ -147,7 +147,7 @@ if ($_GET['action']=="upload") {
 			}  
 
 			public function upload($current,$uploadFile){ 
-				if(move_uploaded_file($current->tmp_name,$uploadFile)){  
+				if(move_uploaded_file($current->tmp_name,$uploadFile)){
 					return true;  
 				}  
 			}  
@@ -176,17 +176,14 @@ if ($_GET['action']=="upload") {
 
 // If we're due to rename a file/folder...
 if ($_GET['action']=="rename") {
+	$renamed=false;
 	if (!$demoMode && is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
 		if(rename($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])),$docRoot.$fileLoc."/".$fileName)) {
 			// Reload file manager
 			echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
 			echo 'action="rename";';
 			$renamed=true;
-		} else {
-			$renamed=false;
 		}
-	} else {
-		$renamed=false;
 	}
 	if (!$renamed) {
 		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."\\n\\nMaybe public write permissions needed on this or parent folder?');";
