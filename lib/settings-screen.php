@@ -36,7 +36,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 <body class="settings">
 
 <div class="infoPane">
-	<a href="http://icecoder.net" target="_blank"><img src="../images/ice-coder.png" class="logo"></a>
+	<a href="http://icecoder.net" target="_blank"><img src="../images/ice-coder.png" alt="ICEcoder" class="logo"></a>
 
 	<p>
 	<br><br>
@@ -72,13 +72,12 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 		Thanks go to the following people who have inspired me to create this and in the odd case, provided feedback or code:<br>
 		<?php
-			$peopleArray = array("marijnjh", "maettig", "a_harris88", "emmetio", "prinzhorn", "wimtibackx", "jakubvrana", "davidwalshblog");
-			for ($i=0;$i<count($peopleArray)-1;$i++) {
-				echo '<a href="http://www.twitter.com/'.$peopleArray[$i].'" style="font-size: 10px" target="_blank">@'.$peopleArray[$i].'</a>';
-				if ($i<count($peopleArray)-2) {
-					echo ", ";
-				}
-			}			
+			$peopleArray = array("marijnjh", "maettig", "a_harris88", "emmetio", "prinzhorn", "wimtibackx", "jakubvrana", "davidwalshblog", "vicen_herrera");
+			function makeURL(&$value) {
+				$value = '<a href="http://www.twitter.com/'.$value.'" style="font-size: 10px" target="_blank">@'.$value.'</a>';
+			};
+			array_walk($peopleArray, "makeURL");
+			echo implode(", ",$peopleArray);
 		?>
 		<br><br>
 		...plus a whole load of people on Github. Thanks for your contributions!
@@ -94,7 +93,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 <input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($ICEcoder["openLastFiles"]) {echo ' checked';};?>> auto open last files on login<br>
 <br>
 when finding in files, exclude:<br>
-<input type="text" onkeydown="showButton()" name="findFilesExclude" value="<?php for($i=0;$i<=count($ICEcoder["findFilesExclude"])-1;$i++) {echo $ICEcoder["findFilesExclude"][$i]; if ($i<count($ICEcoder["findFilesExclude"])-1) {echo ', ';};}; ?>"><br>
+<input type="text" onkeydown="showButton()" name="findFilesExclude" value="<?php echo implode(", ",$ICEcoder["findFilesExclude"]); ?>"><br>
 <br>
 
 <h2>assisting</h2>
@@ -110,12 +109,12 @@ confirm password<br>
 <input type="password" name="passwordConfirm" onkeydown="showButton()"><br>
 <br>
 banned files/folders<br>
-<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" value="<?php for($i=0;$i<=count($ICEcoder["bannedFiles"])-1;$i++) {echo $ICEcoder["bannedFiles"][$i]; if ($i<count($ICEcoder["bannedFiles"])-1) {echo ', ';};}; ?>"><br>
+<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" value="<?php echo implode(", ",$ICEcoder["bannedFiles"]); ?>"><br>
 banned paths<br>
-<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedPaths" value="<?php for($i=0;$i<=count($ICEcoder["bannedPaths"])-1;$i++) {echo $ICEcoder["bannedPaths"][$i]; if ($i<count($ICEcoder["bannedPaths"])-1) {echo ', ';};}; ?>"><br>
+<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedPaths" value="<?php echo implode(", ",$ICEcoder["bannedPaths"]); ?>"><br>
 <input type="hidden" name="changedFileSettings" value="false">
 ip addresses<br>
-<input type="text" onkeydown="showButton()" name="allowedIPs" value="<?php for($i=0;$i<=count($ICEcoder["allowedIPs"])-1;$i++) {echo $ICEcoder["allowedIPs"][$i]; if ($i<count($ICEcoder["allowedIPs"])-1) {echo ', ';};}; ?>"><br>
+<input type="text" onkeydown="showButton()" name="allowedIPs" value="<?php echo implode(", ",$ICEcoder["allowedIPs"]); ?>"><br>
 </div>
 
 <div class="settingsColumn2">
