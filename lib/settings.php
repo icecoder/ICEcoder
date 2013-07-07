@@ -40,7 +40,7 @@ if (get_magic_quotes_gpc ()) {
 }
 
 // Function to handle salted hashing
-define('SALT_LENGTH',9);
+define('SALT_LENGTH',12);
 function generateHash($plainText,$salt=null) {
 	if ($salt === null) {
 		$salt = substr(md5(uniqid(rand(), true)),0,SALT_LENGTH);
@@ -135,7 +135,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
 	$ICEcoder["bannedPaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedPaths']))).'")';
 	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
-	$ICEcoder["plugins"]			= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',$_POST['plugins']).'))';
+	$ICEcoder["plugins"]			= 'array('.PHP_EOL.'	array('.PHP_EOL.'	'.str_replace('====================','),'.PHP_EOL.'	array(',str_replace("\\","\\\\",$_POST['plugins'])).'))';
 	$ICEcoder["theme"]			= strClean($_POST['theme']);
 	$ICEcoder["fontSize"]			= strClean($_POST['fontSize']);
 	$ICEcoder["lineWrapping"]		= strClean($_POST['lineWrapping']);
