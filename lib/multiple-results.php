@@ -14,7 +14,7 @@ if(isset($_GET['selectedFiles'])) {
 <link rel="stylesheet" type="text/css" href="multiple-results.css">
 </head>
 
-<body class="results" onLoad="top.document.getElementById('loadingMask').style.visibility = 'hidden'">
+<body class="results" onLoad="top.get('loadingMask').style.visibility = 'hidden'">
 
 <h1 id="title"></h1>
 <div class="resultsPane" id="resultsPane">
@@ -90,7 +90,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					}
 				}
 				if (userTarget.indexOf("all")>-1 || (userTarget.indexOf("selected")>-1 && foundInSelected)) {
-					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.document.getElementById(\'blackMask\'))">';
+					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.get(\'blackMask\'))">';
 					resultsDisplay += targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b>"+findText.toLowerCase()+"</b>");
 					resultsDisplay += '</a><br>';
 					<?php if (!isset($_GET['replace'])) { ?>
@@ -135,7 +135,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					}
 				}
 				if (!$bFile && (count($selectedFiles)==0 || count($selectedFiles)>0 && $foundInSelFile)) {
-					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))\\\">";
+					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.get('blackMask'))\\\">";
 					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">Found ".substr_count(strtolower(toUTF8noBOM(file_get_contents($fullPath,false,$context),false)),$q)." times</div>";
 					if (isset($_GET['replace'])) {
 						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('".$fullPath."');this.style.display=\'none\'\\\">replace</div>";
@@ -157,7 +157,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 }
 ?>
 showHide = foundArray.length==0 ? "hide" : "show";
-top.ICEcoder.showHide(showHide,top.document.getElementById('blackMask'));
+top.ICEcoder.showHide(showHide,top.get('blackMask'));
 if (foundArray.length==0) {top.ICEcoder.message('No matches found')};
 <?php if (isset($_GET['replace'])) { ?>
 if (foundArray.length!=0) {document.getElementById('replaceAll').style.opacity = 1};
@@ -170,14 +170,14 @@ document.getElementById('results').innerHTML = resultsDisplay;
 
 var gotoTab = function(tab) {
 	top.ICEcoder.switchTab(tab);
-	top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'));
+	top.ICEcoder.showHide('hide',top.get('blackMask'));
 }
 
 var replaceSingle = function(tab) {
 	top.ICEcoder.switchTab(tab);
 	cM = top.ICEcoder.getcMInstance();
 	content = cM.getValue();
-	cM.setValue(cM.getValue().replace(rExp,top.document.getElementById('replace').value));
+	cM.setValue(cM.getValue().replace(rExp,top.get('replace').value));
 	document.getElementById('foundCount'+tab).innerHTML = document.getElementById('foundCount'+tab).innerHTML.replace('Found','Replaced');
 }
 
@@ -185,7 +185,7 @@ var replaceAll = function() {
 	for (var i=0;i<=foundArray.length-1;i++) {
 		replaceSingle(foundArray[i]);
 	}
-	top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'));
+	top.ICEcoder.showHide('hide',top.get('blackMask'));
 }
 
 var replaceInFileSingle = function(fileRef) {
@@ -196,7 +196,7 @@ var replaceInFilesAll = function() {
 	for (var i=0;i<=foundArray.length-1;i++) {
 		replaceInFileSingle(foundArray[i]);
 	}
-	top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'));
+	top.ICEcoder.showHide('hide',top.get('blackMask'));
 }
 
 var renameSingle = function(arrayRef) {
@@ -209,7 +209,7 @@ var renameAll = function() {
 	for (var i=0;i<=foundArray.length-1;i++) {
 		renameSingle(foundArray[i]);
 	}
-	top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'));
+	top.ICEcoder.showHide('hide',top.get('blackMask'));
 }
 </script>
 
