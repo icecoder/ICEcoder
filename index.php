@@ -62,6 +62,8 @@ window.onbeforeunload = function() {
 	echo "'";
 	echo ';top.ICEcoder.openLastFiles = ';
 	echo $ICEcoder["openLastFiles"] ? 'true' : 'false';
+	echo ';top.ICEcoder.codeAssist = ';
+	echo $ICEcoder["codeAssist"] ? 'true' : 'false';
 	echo ';top.ICEcoder.lineWrapping = ';
 	echo $ICEcoder["lineWrapping"] ? 'true' : 'false';
 	echo ';top.ICEcoder.indentWithTabs = ';
@@ -192,7 +194,7 @@ Color picker"><img src="images/color-picker.png" style="margin-top: 3px; cursor:
 			</div>
 		</form>
 		<form action="#" onSubmit="return ICEcoder.goToLine()">
-			<div class="codeAssist" title="Turn on/off JS Hint &amp; CSS color previews"><input type="checkbox" name="codeAssist" id="codeAssist" checked onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
+			<div class="codeAssist" title="Turn on/off JS Hint &amp; CSS color previews"><input type="checkbox" name="codeAssist" id="codeAssist" <?php if ($ICEcoder['codeAssist']) {echo 'checked ';};?>onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
 			<div class="goLine">Go to Line<input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 		</form>
 	</div>
