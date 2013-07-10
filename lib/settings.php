@@ -75,7 +75,7 @@ function toUTF8noBOM($string,$message) {
 		if ($encType != "ASCII" && strlen($teststringConverted) == strlen($teststringBroken)) {
 			$string = utf8_encode($string);
 			if ($message) {
-				echo "<script>top.ICEcoder.message('Your document doesn\'t appear to be in UTF-8 encoding so has been converted.');</script>";
+				echo "top.ICEcoder.message('Your document doesn\'t appear to be in UTF-8 encoding so has been converted.');";
 			}
 		}
 	}
