@@ -25,7 +25,7 @@ if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 };?>
 <link rel="stylesheet" href="<?php
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
-$activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat")) !== false ? "#ccc" : "#000";
+$activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat","solarized","xq-light")) !== false ? "#ccc" : "#000";
 ?>">
 
 <style type="text/css">
@@ -48,12 +48,11 @@ $activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat"
 .folds {display: inline-block; width: 13px}
 .fold {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
 .foldOn {background: #800; color: #ddd}
-.foldOff {background: #383838; color: #666}
+.foldOff {background: rgba(255,255,255,0.04); color: #666}
 .demoArrow {position: absolute; display: inline-block; width: 99px; height: 50px; top: 0; right: 30px; background: url('images/big-arrow.gif') 0 -10px no-repeat; text-align: center; font-family: arial; font-size: 10px; padding-top: 60px}
 h2 {color: rgba(0,198,255,0.7)}
 .heading {color:#888}
 </style>
-
 <link rel="stylesheet" href="lib/file-types.css">
 </head>
 
@@ -174,7 +173,7 @@ function createNewCMInstance(num) {
 		autoCloseTags: true,
 		highlightSelectionMatches: true,
 		showTrailingSpace: true,
-		lintWith: fileName && fileName.indexOf(".js")>-1 ? CodeMirror.javascriptValidator : false,
+		lintWith: <?php if ($ICEcoder['codeAssist']) {echo 'fileName && fileName.indexOf(".js")>-1 ? CodeMirror.javascriptValidator : ';};?>false,
 		keyMap: "ICEcoder",
 		onKeyEvent: function(thisCM, e) {
 			top.ICEcoder.redoChangedContent(e);
