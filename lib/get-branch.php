@@ -64,9 +64,28 @@ if (isset($_GET['location'])) {
 		x = locNest.nextSibling;
 		x.parentNode.removeChild(x);
 	}
-	newUL.innerHTML = document.getElementById('branch').innerHTML.slice(28).slice(0,-7);
-	locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
-	top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
+	folderContent = document.getElementById('branch').innerHTML;
+	if (folderContent.indexOf('<ul')>-1 || folderContent.indexOf('<li')>-1) {
+		// Now animate folders & files into view
+		i=0;
+		animFolders = setInterval(function() {
+			i++;
+			showContent = "";
+			folderItems = folderContent.split("\n");
+			for (j=0; j<=i; j++) {
+				showContent += folderItems[j];
+				if (j<i) {showContent += "\n";};
+			}
+			showContent = showContent.slice(28);
+			if (j==folderItems.length) {
+				clearInterval(animFolders);
+				showContent = showContent.slice(0,-2);
+			}
+			newUL.innerHTML = showContent;
+			locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
+		},4);
+		top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
+	}
 	</script>
 <?php
 ;};
