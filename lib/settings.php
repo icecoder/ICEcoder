@@ -91,7 +91,7 @@ $configUsersTemplate = 'config___users-template.php';
 $username = "";
 if (isset($_POST['username']) && $_POST['username'] != "") {$username = strClean($_POST['username']."-");};
 if (isset($_SESSION['username']) && $_SESSION['username'] != "") {$username = strClean($_SESSION['username']."-");};
-$settingsFile = 'config-'.$username.str_replace(".","_",$_SERVER['SERVER_NAME']).'.php';
+$settingsFile = 'config-'.$username.str_replace(".","_",str_replace("www.","",$_SERVER['SERVER_NAME'])).'.php';
 $setPWorLogin = "login";
 if (!file_exists(dirname(__FILE__)."/".$settingsFile)) {
 	if (!copy(dirname(__FILE__)."/".$configUsersTemplate, dirname(__FILE__)."/".$settingsFile)) {
