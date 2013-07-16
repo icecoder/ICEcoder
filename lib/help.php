@@ -22,7 +22,7 @@
 	<span class="key">Ctrl <span class="plus">+</span> +</span> <span class="shortcut">Duplicate line(s)</span><br>
 	<span class="key">Ctrl <span class="plus">+</span> -</span> <span class="shortcut">Remove line(s)</span><br>
 	<span class="key">Ctrl <span class="plus">+</span> i</span> <span class="shortcut">Search for selected</span><br>
-	<span class="key">Ctrl <span class="plus">+</span> j</span> <span class="shortcut">Jump to definition</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> j</span> <span class="shortcut">Jump to definition / jump back</span><br>
 	<span class="key">Esc</span> <span class="shortcut">Comment / uncomment</span><br>
 	<span class="key">Tab</span> <span class="shortcut">Insert tab / indent selected</span><br>
 	<span class="key">Ctrl <span class="plus">+</span> Alt <span class="plus">+</span> d</span> <span class="shortcut">Wrap with &lt;div&gt;</span><br>
