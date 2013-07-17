@@ -11,7 +11,7 @@ if (!$_SESSION['loggedIn']) {
 $scanDir = $docRoot.$iceRoot;
 $location = "";
 if (isset($_GET['location'])) {
-	echo '<div id="branch">';
+	echo '<div id="branch" style="display: none">';
 	$location = str_replace("|","/",$_GET['location']);
 }
 if ($location=="/") {$location = "";};
@@ -31,8 +31,8 @@ foreach($finalArray as $entry) {
 }
 natcasesort($dirArray);
 natcasesort($filesArray);
-$finalArray = array_merge($dirArray,$filesArray);
 
+$finalArray = array_merge($dirArray,$filesArray);
 for ($i=0;$i<count($finalArray);$i++) {
 	$fileFolderName = str_replace("\\","/",$finalArray[$i]);
 	$type = is_dir($docRoot.$iceRoot.$fileFolderName) ? "folder" : "file";
@@ -80,6 +80,7 @@ if (isset($_GET['location'])) {
 			if (j==folderItems.length) {
 				clearInterval(animFolders);
 				showContent = showContent.slice(0,-2);
+				if (!top.ICEcoder.fmReady) {top.ICEcoder.fmReady=true;};
 			}
 			newUL.innerHTML = showContent;
 			locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
