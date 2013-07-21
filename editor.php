@@ -202,7 +202,7 @@ function createNewCMInstance(num) {
 	window['cM'+num].on("change", function(thisCM, changeObj) {
 			// If we're not loading the file, it's a change, so update tab
 			if (!top.ICEcoder.loadingFile) {
-				top.ICEcoder.changedContent[top.ICEcoder.selectedTab-1] = 1;
+				top.ICEcoder.changedContent[top.ICEcoder.selectedTab-1] = thisCM.historySize().undo > 0 ? 1 : 0;
 				top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
 			}
 			top.ICEcoder.getCaretPosition();
