@@ -111,7 +111,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .tabsBar .newTab {position: absolute; display: inline-block; height: 15px; padding: 4px 7px 3px 7px; border-left: solid 1px #eee; border-right: solid 1px #777; background: #aaa; border-radius: 4px 4px 0 0; cursor: pointer; z-index: 0;
 	transition: left 0.15s ease-in-out;
 }
-.editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #141414}
+.editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #161612}
 .findBar .findReplace {position: absolute; z-index: 1}
 .findReplace select {position: relative; font-size: 10px; margin: 8px 2px 0 2px; top: -2px;}
 .findReplace .findText {display: inline-block; height: 21px; font-size: 10px; margin: 8px 2px 0 2px; margin-left: 43px}
