@@ -139,8 +139,9 @@ Color picker"><img src="images/color-picker.png" style="margin-top: 3px; cursor:
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.ICEcoder.hideFileMenu();">
 	<div class="account" id="account">
 		<div class="accountOptions">
-			<div title="Save (Ctrl + s)" onClick="ICEcoder.fMIcon('save')" id="fMSave" class="save"></div>
-			<div title="Open (Ctrl + o)" onClick="ICEcoder.fMIcon('open')" id="fMOpen" class="open"></div>
+			<?php $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;?>
+			<div title="Save (<?php echo $isMac ? "Cmd" : "Ctrl";?> + s)" onClick="ICEcoder.fMIcon('save')" id="fMSave" class="save"></div>
+			<div title="Open (<?php echo $isMac ? "Cmd" : "Ctrl";?> + o)" onClick="ICEcoder.fMIcon('open')" id="fMOpen" class="open"></div>
 			<div title="New File" onClick="if(this.style.opacity==1) {ICEcoder.fMIcon('newFile')}" id="fMNewFile" class="newFile"></div>
 			<div title="New Folder" onClick="if(this.style.opacity==1) {ICEcoder.fMIcon('newFolder')}" id="fMNewFolder" class="newFolder"></div>
 			<div title="Delete" onClick="ICEcoder.fMIcon('delete')" id="fMDelete" class="delete"></div>
