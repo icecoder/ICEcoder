@@ -352,7 +352,7 @@ if (action=="load") {
 				cM.setValue(document.getElementById('loadedFile').value);
 				top.document.getElementById('content').style.visibility='visible';
 				top.ICEcoder.switchTab(top.ICEcoder.selectedTab);
-				cM.focus();
+				top.ICEcoder.focus();
 
 				// Then clean it up, set the text cursor, update the display and get the character data
 				top.ICEcoder.contentCleanUp();
