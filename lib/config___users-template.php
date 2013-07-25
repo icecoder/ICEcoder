@@ -1,6 +1,6 @@
 <?php
 $ICEcoderUserSettings = array(
-"versionNo"		=> "3.0 beta",
+"versionNo"		=> "3.0",
 "root"			=> "",
 "checkUpdates"		=> true,
 "openLastFiles"		=> true,
