@@ -70,9 +70,9 @@ for ($i=0;$i<count($themeArray);$i++) {
 		Free to use it for your own purposes, commercial or not, just let me know of any cool uses or customisations. :)<br><br>
 		No warranty or liability accepted for anything, all responsibility of use is your own.<br><br>
 
-		Thanks go to the following people who have inspired me to create this and in the odd case, provided feedback or code:<br>
+		Thanks go to the following people who have inspired me to create this or provided feedback, code or testing:<br>
 		<?php
-			$peopleArray = array("marijnjh", "maettig", "a_harris88", "emmetio", "prinzhorn", "wimtibackx", "jakubvrana", "davidwalshblog", "vicen_herrera");
+			$peopleArray = array("marijnjh", "maettig", "a_harris88", "emmetio", "prinzhorn", "wimtibackx", "jakubvrana", "davidwalshblog", "vicen_herrera", "abstractba", "themximum");
 			function makeURL(&$value) {
 				$value = '<a href="http://www.twitter.com/'.$value.'" style="font-size: 10px" target="_blank">@'.$value.'</a>';
 			};
