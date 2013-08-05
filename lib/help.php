@@ -35,7 +35,7 @@
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> i</span> <span class="shortcut">Wrap / unwrap with &lt;i&gt;</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> g</span> <span class="shortcut">Wrap / unwrap with &lt;strong&gt;</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> e</span> <span class="shortcut">Wrap / unwrap with &lt;em&gt;</span><br>
-	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> nums 1 - 6</span> <span class="shortcut">Wrap/unwrap with &lt;h1&gt; - &lt;h6&gt;</span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> nums 1 - 3</span> <span class="shortcut">Wrap/unwrap with &lt;h1&gt; - &lt;h3&gt;</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> Enter</span> <span class="shortcut">End line with &lt;br&gt;</span><br><br>
 	<h2>On Tabs</h2>
 	<span class="key">Middle click</span> <span class="shortcut">Close tab</span><br>
