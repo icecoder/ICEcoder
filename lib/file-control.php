@@ -428,4 +428,7 @@ if (action=="doneSave") {
 	top.ICEcoder.changedContent[top.ICEcoder.selectedTab-1] = 0;
 	top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
 }
+
+// Finally, switch mode in case we have saved, renamed file etc
+top.ICEcoder.switchMode();
 </script>
