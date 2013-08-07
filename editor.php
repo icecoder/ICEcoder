@@ -288,6 +288,8 @@ var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,null,"+",
 var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,null,"+","-",false);
 </script>
 
+<div style="position: absolute; display: none; width: 5px; height: 100%; top: 0; right: 0; background: rgba(255,255,255,0.1); overflow: hidden; z-index: 2" id="resultsBar"></div>
+
 </body>
 
 </html>
