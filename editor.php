@@ -153,8 +153,8 @@ CodeMirror.keyMap.ICEcoder = {
 };
 CodeMirror.commands.autocomplete = function(cm) {
 	CodeMirror.showHint(cm, top.ICEcoder.caretLocType=="JavaScript"
-		? CodeMirror.javascriptHint
-		: CodeMirror.htmlHint
+		? CodeMirror.hint.javascript
+		: CodeMirror.hint.html
 	);
 }
 
