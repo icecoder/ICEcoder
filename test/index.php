@@ -235,7 +235,7 @@ test = {
 		ICEcoder.goToLine(1);
 		line1Text = cM.lineInfo(cM.getCursor().line).text;
 		setTimeout(function() {
-			ICEcoder.moveLine('down');
+			ICEcoder.moveLines('down');
 			if (cM.getValue() == '<script>\nICEcoder = "awesome";\n<\/script>') {
 				testResult("+ GOOD",title);
 				setTimeout(function() {
