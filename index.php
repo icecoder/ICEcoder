@@ -72,6 +72,8 @@ window.onbeforeunload = function() {
 	echo $ICEcoder["indentSize"];
 	echo ';top.ICEcoder.demoMode = ';
 	echo $ICEcoder["demoMode"] ? 'true' : 'false';
+	echo ';top.ICEcoder.tagWrapperCommand = ';
+	echo "'".$ICEcoder["tagWrapperCommand"]."'";
 ?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">

@@ -99,7 +99,12 @@ when finding in files, exclude:<br>
 <h2>assisting</h2>
 <input type="checkbox" onclick="showButton()" name="codeAssist" value="true"<?php if($ICEcoder["codeAssist"]) {echo ' checked';};?>> code assist<br>
 <input type="checkbox" onclick="showButton();showHideTabs()" name="visibleTabs" value="true"<?php if($ICEcoder["visibleTabs"]) {echo ' checked';};?>> visible tabs<br>
-<input type="checkbox" onclick="showButton()" name="lockedNav" value="true"<?php if($ICEcoder["lockedNav"]) {echo ' checked';};?>> locked nav<br>
+<input type="checkbox" onclick="showButton()" name="lockedNav" value="true"<?php if($ICEcoder["lockedNav"]) {echo ' checked';};?>> locked nav<br><br>
+tag wrapper command<br>
+<select onchange="showButton()" name="tagWrapperCommand">
+	<option value="ctrl+alt"<?php if($ICEcoder["tagWrapperCommand"]=='ctrl+alt') {echo " selected";};?>>CTRL + ALT</option>
+	<option value="alt-left"<?php if($ICEcoder["tagWrapperCommand"]=='alt-left') {echo " selected";};?>>ALT left</option>
+</select><br>
 <br>
 
 <h2>security</h2>
