@@ -12,7 +12,7 @@
 <!--
 codemirror-compressed.js
 incls:	codemirror
-modes:	clike, coffeescript, css, htmlmixed, javascript, less, markdown, php, python, ruby & xml
+modes:	clike, coffeescript, css, htmlmixed, javascript, less, markdown, php, python, ruby, sql & xml
 addon:	brace-fold, closetag, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, searchcursor, show-hint, trailingspace, xml-fold
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>

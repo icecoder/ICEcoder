@@ -37,6 +37,7 @@
 .fileManager LI.ext-png:before {background-position: -192px 0}
 .fileManager LI.ext-py:before {background-position: -208px 0}
 .fileManager LI.ext-rb:before, .fileManager LI.ext-ruby:before {background-position: -224px 0}
-.fileManager LI.ext-txt:before {background-position: -240px 0}
-.fileManager LI.ext-xml:before {background-position: -256px 0}
-.fileManager LI.ext-zip:before {background-position: -272px 0}
+.fileManager LI.ext-sql:before {background-position: -240px 0}
+.fileManager LI.ext-txt:before {background-position: -256px 0}
+.fileManager LI.ext-xml:before {background-position: -272px 0}
+.fileManager LI.ext-zip:before {background-position: -288px 0}
