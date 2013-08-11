@@ -25,7 +25,7 @@ if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 };?>
 <link rel="stylesheet" href="<?php
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
-$activeLineBG = array_search($ICEcoder["theme"],array("eclipse","elegant","neat","solarized","xq-light")) !== false ? "#ccc" : "#000";
+$activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","elegant","neat","solarized","xq-light")) !== false ? "#ccc" : "#000";
 ?>">
 
 <style type="text/css">
