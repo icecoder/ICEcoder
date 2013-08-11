@@ -137,7 +137,7 @@ for($i=0;$i<count($ICEcoder["plugins"]);$i++) {
 
 <h2>style</h2>
 theme<br>
-<select onchange="selectTheme();showButton()" id="select" name="theme">
+<select onchange="selectTheme();showButton()" id="select" name="theme" style="width: 95px">
     <option<?php if ($ICEcoder["theme"]=="default") {echo ' selected';}; ?>>default</option>
 <?php
 for ($i=0;$i<count($themeArray);$i++) {
