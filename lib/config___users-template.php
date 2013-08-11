@@ -8,6 +8,7 @@ $ICEcoderUserSettings = array(
 "codeAssist"		=> true,
 "visibleTabs"		=> false,
 "lockedNav"		=> true,
+"tagWrapperCommand"	=> "ctrl+alt",
 "password"		=> "",
 "bannedFiles"		=> array("_coder","ICEcoder"),
 "bannedPaths"		=> array("/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"),
@@ -29,7 +30,6 @@ $ICEcoderUserSettings = array(
 "indentWithTabs"	=> true,
 "indentSize"		=> 4,
 "previousFiles"		=> "",
-"last10Files"		=> "",
-"tagWrapperCommand" => "ctrl+alt"
+"last10Files"		=> ""
 );
 ?>
