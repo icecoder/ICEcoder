@@ -102,8 +102,8 @@ when finding in files, exclude:<br>
 <input type="checkbox" onclick="showButton()" name="lockedNav" value="true"<?php if($ICEcoder["lockedNav"]) {echo ' checked';};?>> locked nav<br><br>
 tag wrapper command<br>
 <select onchange="showButton()" name="tagWrapperCommand">
-	<option value="ctrl+alt"<?php if($ICEcoder["tagWrapperCommand"]=='ctrl+alt') {echo " selected";};?>>CTRL + ALT</option>
-	<option value="alt-left"<?php if($ICEcoder["tagWrapperCommand"]=='alt-left') {echo " selected";};?>>ALT left</option>
+	<option value="ctrl+alt"<?php if($ICEcoder["tagWrapperCommand"]=='ctrl+alt') {echo " selected";};?>>ctrl + alt</option>
+	<option value="alt-left"<?php if($ICEcoder["tagWrapperCommand"]=='alt-left') {echo " selected";};?>>alt left</option>
 </select><br>
 <br>
 
