@@ -21,7 +21,7 @@ if ($ICEcoder["checkUpdates"]) {
 	$thisV = $ICEcoder["versionNo"];
 	if (strpos($thisV,"beta")>-1 && !strpos($icv,"beta") && str_replace(" beta","",$thisV) == $icv) {$thisV-=0.1;};
 	if ($thisV<$icv) {
-		$updateMsg = ";top.ICEcoder.dataMessage('<b>UPDATE INFO:</b> ICEcoder v ".$icv." now available. (Your version is v ".$ICEcoder["versionNo"]."). Get it free from <a href=\\'http://icecoder.net\\' target=\\'_blank\\' style=\\'color:#ddd\\'>icecoder.net</a><br>".$icvI."');";
+		$updateMsg = ";top.ICEcoder.dataMessage('<b>UPDATE INFO:</b> ICEcoder v ".$icv." now available. (Your version is v ".$ICEcoder["versionNo"].").<br><br><a onclick=\\'top.ICEcoder.update()\\' style=\\'color:#fff; background: #b00; padding: 5px; text-decoration: none; cursor: pointer\\'>Update now</a><br><br>".$icvI."');";
 	}
 }
 ?>
