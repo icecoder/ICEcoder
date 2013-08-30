@@ -321,7 +321,13 @@ if ($_SESSION['loggedIn']) {
 }
 
 if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER['SCRIPT_NAME'],"lib/settings.php")) {
-	header('Location: lib/settings.php');
+	if (file_exists('settings.php')) {
+		header('Location: settings.php');
+		die();
+	} else {
+		header('Location: lib/settings.php');
+		die();
+	}
 // If we're due to show the settings screen
 } elseif (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it
