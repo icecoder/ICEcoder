@@ -12,6 +12,7 @@
 
 <body onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
 
+<div title="Lock" onClick="top.ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
 <div title="Refresh" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
 
 <ul class="fileManager">
@@ -26,7 +27,7 @@ include("lib/get-branch.php");
 <iframe name="testControl" style="display: none"></iframe>
 
 <iframe name="processControl" style="display: none"></iframe>
-		
+
 </body>
 	
 </html>
