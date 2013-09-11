@@ -19,4 +19,5 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 
 body {margin: 0; overflow: auto}
 
-.refresh {position: fixed; display: inline-block; width: 14px; height: 14px; background: url('../images/file-manager-icons.png') -100px -16px no-repeat; right: 0; margin-right: 15px; top: 17px; cursor: pointer}
+.lock {position: fixed; display: inline-block; width: 12px; height: 16px; background: url('../images/file-manager-icons.png') -64px -16px no-repeat; right: 0; margin-right: 16px; top: 0px; cursor: pointer}
+.refresh {position: fixed; display: inline-block; width: 14px; height: 14px; background: url('../images/file-manager-icons.png') -100px -16px no-repeat; right: 0; margin-right: 15px; top: 25px; cursor: pointer}
