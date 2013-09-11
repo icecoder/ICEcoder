@@ -92,6 +92,15 @@ window.onbeforeunload = function() {
 	</div>
 </div>
 
+<div class="plugins" onMouseOver="this.style.width='55px'; this.style.background='#333'" onMouseOut="this.style.width='3px'; this.style.background='transparent'">
+	<div style="padding: 15px">
+		<a nohref onClick="top.ICEcoder.showColorPicker(top.document.getElementById('color') ? top.document.getElementById('color').value : '#123456')" title="Farbtastic
+Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
+		<a nohref onClick="top.ICEcoder.openTerminal()" title="Terminal"><img src="images/terminal.png" style="cursor: pointer" alt="Terminal"></a><br><br>
+		<?php echo $pluginsDisplay; ?>
+	</div>
+</div>
+
 <div id="fileMenu" class="fileMenu" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract');top.ICEcoder.hideFileMenu()" style="opacity: 0" onContextMenu="return false">
 	<span id="folderMenuItems">
 		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="ICEcoder.showFileMenu()">New File</a>
@@ -131,7 +140,7 @@ Color picker"><img src="images/color-picker.png" style="margin-top: 3px; cursor:
 	<div class="plugins" id="pluginsContainer">
 	<?php echo $pluginsDisplay; ?>
 	</div>
-	<div class="version"><a href="javascript:top:ICEcoder.logout()">logout</a> : v <?php echo $ICEcoder["versionNo"];?></div>
+	<div class="logout"><a href="javascript:top:ICEcoder.logout()">logout</a> :</div>
 	<img src="images/help.gif" class="helpIcon" alt="Help" title="Help" onClick="ICEcoder.helpScreen()">
 	<img src="images/settings.gif" class="settingsIcon" alt="Settings" title="Settings" onClick="ICEcoder.settingsScreen()">
 	<img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" alt="Toggle Fullscreen" title="Toggle Fullscreen" onClick="top.ICEcoder.fullScreenSwitcher()">
@@ -146,11 +155,8 @@ Color picker"><img src="images/color-picker.png" style="margin-top: 3px; cursor:
 			<div title="Open (<?php echo $isMac ? "Cmd" : "Ctrl";?> + o)" onClick="ICEcoder.fMIcon('open')" id="fMOpen" class="open"></div>
 			<div title="New File" onClick="if(this.style.opacity==1) {ICEcoder.fMIcon('newFile')}" id="fMNewFile" class="newFile"></div>
 			<div title="New Folder" onClick="if(this.style.opacity==1) {ICEcoder.fMIcon('newFolder')}" id="fMNewFolder" class="newFolder"></div>
-			<div title="Delete" onClick="ICEcoder.fMIcon('delete')" id="fMDelete" class="delete"></div>
 			<div title="Rename" onClick="ICEcoder.fMIcon('rename')" id="fMRename" class="rename"></div>
-			<div title="View" onClick="ICEcoder.fMIcon('view')" id="fMView" class="view"></div>
-
-			<div title="Lock" onClick="ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
+			<div title="Delete" onClick="ICEcoder.fMIcon('delete')" id="fMDelete" class="delete"></div>
 		</div>
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1';this.contentWindow.onscroll=function(){top.ICEcoder.mouseDown=false}"></iframe>
@@ -159,7 +165,7 @@ Color picker"><img src="images/color-picker.png" style="margin-top: 3px; cursor:
 
 <div id="editor" class="editor">
 	<div id="tabsBar" class="tabsBar" onContextMenu="return false">
-		<a nohref onClick="top.ICEcoder.closeAllTabs()"><img src="images/nav-close.gif" class="closeAllTabs" title="Close all tabs"></a>
+		<a nohref onClick="top.ICEcoder.closeAllTabs()"><img src="images/nav-close-all.gif" class="closeAllTabs" title="Close all tabs"></a>
 		<a nohref onClick="top.ICEcoder.alphaTabs()"><img src="images/nav-alpha.png" class="alphaTabs" title="Alphabetize tabs"></a>
 		<?php
 		for ($i=1;$i<=100;$i++) {
@@ -173,42 +179,48 @@ Color picker"><img src="images/color-picker.png" style="margin-top: 3px; cursor:
 				<div class="findText">Find</div>
 				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace(top.document.getElementById('find').value,true,false)">
 				
-				<select name="connector" onChange="ICEcoder.findReplaceOptions()">
-				<option>in</option>
-				<option>and</option>
-				</select>
-				<div class="replaceText" id="rText" style="display: none">
-					<select name="replaceAction" class="replaceAction">
-						<option>replace</option>
-						<option>replace all</option>
+				<div class="selectWrapper" style="width: 41px">
+					<select name="connector" onChange="ICEcoder.findReplaceOptions()" style="width: 40px; margin-top: 4px">
+					<option>in</option>
+					<option>and</option>
 					</select>
+				</div>
+				<div class="replaceText" id="rText" style="display: none">
+					<div class="selectWrapper" style="width: 75px; overflow: visible">
+						<select name="replaceAction" style="width: 72px; margin-top: -2px">
+							<option>replace</option>
+							<option>replace all</option>
+						</select>
+					</div>
 					 with
 				</div>
 				<input type="text" name="replace" value="" id="replace" class="textbox replace" style="display: none">
 				<div class="targetText" id="rTarget" style="display: none">in</div>
-				<select name="target" onChange="ICEcoder.updateResultsDisplay(this.value=='this document' ? 'show' : 'hide')">
-					<option>this document</option>
-					<option>open documents</option>
-					<option>all files</option>
-					<option>all filenames</option>
-				</select>
+					<div class="selectWrapper" style="width: 104px">
+						<select name="target" onChange="ICEcoder.updateResultsDisplay(this.value=='this document' ? 'show' : 'hide')" style="margin-top: 4px; margin-left: 2px; width: 101px">
+							<option>this document</option>
+							<option>open documents</option>
+							<option>all files</option>
+							<option>all filenames</option>
+						</select>
+					</div>
 				<input type="submit" name="submit" value="&gt;&gt;" class="submit">
 				<div class="results" id="results"></div>
 			</div>
 		</form>
-		<form action="#" onSubmit="return ICEcoder.goToLine()">
-			<div class="codeAssist" title="Turn on/off JS Hint &amp; CSS color previews"><input type="checkbox" name="codeAssist" id="codeAssist" <?php if ($ICEcoder['codeAssist']) {echo 'checked ';};?>onClick="top.ICEcoder.codeAssistToggle()">Code Assist</div>
-			<div class="goLine">Go to Line<input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
+		<form onSubmit="return ICEcoder.goToLine()">
+			<div class="codeAssist" title="Turn on/off JS Hint &amp; CSS color previews">
+			<input type="checkbox" name="codeAssist" id="codeAssist" class="codeAssistCheckbox" <?php if ($ICEcoder['codeAssist']) {echo 'checked ';};?>>
+			<span class="codeAssistDisplay" id="codeAssistDisplay" style="background-position: <?php echo $ICEcoder['codeAssist'] ? "0" : "-16";?> 0" onClick="top.ICEcoder.codeAssistToggle()"></span> Code Assist
+			</div>
+			<div class="goLine">Go to Line <input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
+			<div class="view" title="View" onClick="top.ICEcoder.openPreviewWindow()" id="fMView"></div>
 		</form>
 	</div>
 	<iframe name="contentFrame" id="content" src="editor.php" class="code"></iframe>
 </div>
 
 <div class="footer" id="footer" onContextMenu="return false">
-	<div class="system" id="system">
-		<div onClick="top.ICEcoder.openPreviewWindow()" class="preview" title="Preview Window"></div>
-		<div onClick="top.ICEcoder.openTerminal()" class="terminal" title="Terminal"></div>
-	</div>
 	<div class="nesting" id="nestValid"></div>
 	<div class="nestDisplay" id="nestDisplay"></div>
 	<div class="byteDisplay" id="byteDisplay" style="display: none" onClick="top.ICEcoder.showDisplay('char')"></div>
