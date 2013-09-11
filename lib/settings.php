@@ -289,7 +289,7 @@ if ($_SESSION['loggedIn']) {
 	$pluginsDisplay = "";
 	for ($i=0;$i<count($ICEcoder["plugins"]);$i++) {
 		$target = explode(":",$ICEcoder["plugins"][$i][4]);
-		$pluginsDisplay .= '<a href="'.$ICEcoder["plugins"][$i][3].'" title="'.$ICEcoder["plugins"][$i][0].'" target="'.$target[0].'"><img src="'.$ICEcoder["plugins"][$i][1].'" style="'.$ICEcoder["plugins"][$i][2].'" alt="'.$ICEcoder["plugins"][$i][0].'"></a>';
+		$pluginsDisplay .= '<a href="'.$ICEcoder["plugins"][$i][3].'" title="'.$ICEcoder["plugins"][$i][0].'" target="'.$target[0].'"><img src="'.$ICEcoder["plugins"][$i][1].'" style="'.$ICEcoder["plugins"][$i][2].'" alt="'.$ICEcoder["plugins"][$i][0].'"></a><br><br>';
 	};
 
 	// If we're updating, replace the plugin display with our newly established one
