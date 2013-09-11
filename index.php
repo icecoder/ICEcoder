@@ -133,13 +133,6 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 </div>
 
 <div id="header" class="header" onContextMenu="return false">
-	<div class="tools">
-		<a nohref onClick="top.ICEcoder.showColorPicker(top.document.getElementById('color') ? top.document.getElementById('color').value : '#123456')" title="Farbtastic
-Color picker"><img src="images/color-picker.png" style="margin-top: 3px; cursor: pointer" alt="Color Picker"></a>
-	</div>
-	<div class="plugins" id="pluginsContainer">
-	<?php echo $pluginsDisplay; ?>
-	</div>
 	<div class="logout"><a href="javascript:top:ICEcoder.logout()">logout</a> :</div>
 	<img src="images/help.gif" class="helpIcon" alt="Help" title="Help" onClick="ICEcoder.helpScreen()">
 	<img src="images/settings.gif" class="settingsIcon" alt="Settings" title="Settings" onClick="ICEcoder.settingsScreen()">
