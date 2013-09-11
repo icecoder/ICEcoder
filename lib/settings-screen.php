@@ -14,7 +14,7 @@
 .CodeMirror {position: absolute; width: 409px; height: 240px; font-size: <?php echo $ICEcoder["fontSize"];?>}
 .CodeMirror-scroll {overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
-.cm-tab:after {position: relative; display: inline-block; width: 0; left: -1.4em; overflow: visible; color: #aaa; content: "<?php if($ICEcoder["visibleTabs"]) {echo '\21e5';};?>";}
+.cm-tab {border-left: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
 </style>
 
 <link rel="stylesheet" href="editor.css">
@@ -231,7 +231,7 @@ var showButton = function() {
 var showHideTabs = function() {
 	cMCSS = document.styleSheets[2];
 	cMCSS.rules ? strCSS = 'rules' : strCSS = 'cssRules';
-	document.settings.visibleTabs.checked ? cMCSS[strCSS][2].style['content'] = '"\\21e5"' : cMCSS[strCSS][2].style['content'] = '" "';
+	cMCSS[strCSS][2].style['border-left-width'] = document.settings.visibleTabs.checked ? '1px' : '0';
 }
 
 var validatePasswords = function() {
