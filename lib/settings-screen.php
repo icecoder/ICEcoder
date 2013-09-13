@@ -14,7 +14,7 @@
 .CodeMirror {position: absolute; width: 409px; height: 240px; font-size: <?php echo $ICEcoder["fontSize"];?>}
 .CodeMirror-scroll {overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
-.cm-tab {border-left: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
+.cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
 </style>
 
 <link rel="stylesheet" href="editor.css">
