@@ -36,7 +36,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light",
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
 .cm-matchhighlight, .CodeMirror-focused .cm-matchhighlight {color: #fff !important; background: #06c !important}
 /* Make sure this next one remains the 5th item, updated with JS */
-.cm-tab {border-left: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
+.cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
 .cm-trailingspace {
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUXCToH00Y1UgAAACFJREFUCNdjPMDBUc/AwNDAAAFMTAwMDA0OP34wQgX/AQBYgwYEx4f9lQAAAABJRU5ErkJggg==);
         background-position: bottom left;
