@@ -190,7 +190,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 				<input type="text" name="replace" value="" id="replace" class="textbox replace" style="display: none">
 				<div class="targetText" id="rTarget" style="display: none">in</div>
 					<div class="selectWrapper" style="width: 104px">
-						<select name="target" onChange="ICEcoder.updateResultsDisplay(this.value=='this document' ? 'show' : 'hide')" style="margin-top: 4px; margin-left: 2px; width: 101px">
+						<select name="target" onChange="ICEcoder.updateResultsDisplay(this.value=='this document' ? 'show' : 'hide')" style="width: 101px; margin-top: 4px; margin-left: 2px">
 							<option>this document</option>
 							<option>open documents</option>
 							<option>all files</option>
@@ -203,8 +203,8 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 		</form>
 		<form onSubmit="return ICEcoder.goToLine()">
 			<div class="codeAssist" title="Turn on/off JS Hint &amp; CSS color previews">
-			<input type="checkbox" name="codeAssist" id="codeAssist" class="codeAssistCheckbox" <?php if ($ICEcoder['codeAssist']) {echo 'checked ';};?>>
-			<span class="codeAssistDisplay" id="codeAssistDisplay" style="background-position: <?php echo $ICEcoder['codeAssist'] ? "0" : "-16";?> 0" onClick="top.ICEcoder.codeAssistToggle()"></span> Code Assist
+				<input type="checkbox" name="codeAssist" id="codeAssist" class="codeAssistCheckbox" <?php if ($ICEcoder['codeAssist']) {echo 'checked ';};?>>
+				<span class="codeAssistDisplay" id="codeAssistDisplay" style="background-position: <?php echo $ICEcoder['codeAssist'] ? "0" : "-16";?> 0" onClick="top.ICEcoder.codeAssistToggle()"></span> Code Assist
 			</div>
 			<div class="goLine">Go to Line <input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 			<div class="view" title="View" onClick="top.ICEcoder.openPreviewWindow()" id="fMView"></div>
