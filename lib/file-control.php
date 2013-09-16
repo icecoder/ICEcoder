@@ -33,7 +33,7 @@ if ($_GET['action']=="load") {
 		} else {
 			$fileExt = explode(" ",pathinfo($file, PATHINFO_EXTENSION));
 			$fileExt = $fileExt[0];
-			if (array_search($fileExt,array("coffee","css","htm","html","js","less","md","php","py","rb","ruby","sql","txt","xml"))!==false) {$finfo = "text";};
+			if (array_search($fileExt,array("coffee","css","htm","html","js","json","less","md","php","py","rb","ruby","sql","txt","xml"))!==false) {$finfo = "text";};
 			if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
 		}
 		if (strpos($finfo,"text")===0 || strpos($finfo,"empty")!==false) {
