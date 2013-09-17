@@ -14,7 +14,7 @@
 .CodeMirror {position: absolute; width: 409px; height: 240px; font-size: <?php echo $ICEcoder["fontSize"];?>}
 .CodeMirror-scroll {overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
-.cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
+.cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
 </style>
 
 <link rel="stylesheet" href="editor.css">
@@ -38,8 +38,9 @@ for ($i=0;$i<count($themeArray);$i++) {
 <div class="infoPane">
 	<a href="http://icecoder.net" target="_blank"><img src="../images/ice-coder.png" alt="ICEcoder" class="logo"></a>
 
+	<h1 style="margin: 10px 0">settings</h1>
+
 	<p>
-	<br><br>
 	version:<br>
 	v <?php echo $ICEcoder["versionNo"];?>
 	<br><br>
@@ -64,7 +65,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 	file manager root:<br>
 	<?php echo $ICEcoder['root'] == "" ? "/" : $ICEcoder['root'];?>
-	<br><br><br><br>
+	<br><br>
 
 	<div style="font-size: 10px; line-height: 12px">ICE coder by Matt Pass (<a href="http://www.twitter.com/mattpass" style="font-size: 10px" target="_blank">@mattpass</a>)<br><br>
 		Free to use it for your own purposes, commercial or not, just let me know of any cool uses or customisations. :)<br><br>
@@ -87,7 +88,6 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 <form name="settings" action="settings.php" method="POST">
 <div class="settingsColumn1">
-<h1>settings</h1>
 <h2>functionality</h2>
 <input type="checkbox" onclick="showButton()" name="checkUpdates" value="true"<?php if($ICEcoder["checkUpdates"]) {echo ' checked';};?>> check for updates on load<br>
 <input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($ICEcoder["openLastFiles"]) {echo ' checked';};?>> auto open last files on login<br>
@@ -102,8 +102,14 @@ when finding in files, exclude:<br>
 <input type="checkbox" onclick="showButton()" name="lockedNav" value="true"<?php if($ICEcoder["lockedNav"]) {echo ' checked';};?>> locked nav<br><br>
 tag wrapper command<br>
 <select onchange="showButton()" name="tagWrapperCommand">
-	<option value="ctrl+alt"<?php if($ICEcoder["tagWrapperCommand"]=='ctrl+alt') {echo " selected";};?>>ctrl + alt</option>
+	<option value="ctrl+alt"<?php if($ICEcoder["tagWrapperCommand"]=='ctrl+alt') {echo " selected";};?>>ctrl/cmd + alt</option>
 	<option value="alt-left"<?php if($ICEcoder["tagWrapperCommand"]=='alt-left') {echo " selected";};?>>alt left</option>
+</select><br>
+<br>
+auto-complete on<br>
+<select onchange="showButton()" name="autoComplete">
+	<option value="ctrl+space"<?php if($ICEcoder["autoComplete"]=='ctrl+space') {echo " selected";};?>>ctrl/cmd + space</option>
+	<option value="keypress"<?php if($ICEcoder["autoComplete"]=='keypress') {echo " selected";};?>>keypress</option>
 </select><br>
 <br>
 
@@ -232,6 +238,7 @@ var showHideTabs = function() {
 	cMCSS = document.styleSheets[2];
 	cMCSS.rules ? strCSS = 'rules' : strCSS = 'cssRules';
 	cMCSS[strCSS][2].style['border-left-width'] = document.settings.visibleTabs.checked ? '1px' : '0';
+	cMCSS[strCSS][2].style['margin-left'] = document.settings.visibleTabs.checked ? '-1px' : '0';
 }
 
 var validatePasswords = function() {
