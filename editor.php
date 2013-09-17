@@ -13,7 +13,7 @@
 codemirror-compressed.js
 incls:	codemirror
 modes:	clike, coffeescript, css, htmlmixed, javascript, less, markdown, php, python, ruby, sql & xml
-addon:	brace-fold, closetag, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, searchcursor, show-hint, trailingspace, xml-fold
+addon:	brace-fold, closetag, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, searchcursor, show-hint, trailingspace, xml-fold, xml-hint
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 <script src="jshint/jshint-2.1.4.min.js"></script>
@@ -36,7 +36,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light",
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
 .cm-matchhighlight, .CodeMirror-focused .cm-matchhighlight {color: #fff !important; background: #06c !important}
 /* Make sure this next one remains the 5th item, updated with JS */
-.cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
+.cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
 .cm-trailingspace {
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUXCToH00Y1UgAAACFJREFUCNdjPMDBUc/AwNDAAAFMTAwMDA0OP34wQgX/AQBYgwYEx4f9lQAAAABJRU5ErkJggg==);
         background-position: bottom left;
@@ -152,8 +152,11 @@ CodeMirror.keyMap.ICEcoder = {
 	fallthrough: ["default"]
 };
 CodeMirror.commands.autocomplete = function(cm) {
-	CodeMirror.showHint(cm, top.ICEcoder.caretLocType=="JavaScript"
+	CodeMirror.showHint(cm,
+		top.ICEcoder.caretLocType=="JavaScript"
 		? CodeMirror.hint.javascript
+		: top.ICEcoder.caretLocType=="CoffeeScript"
+		? CodeMirror.hint.coffeescript
 		: CodeMirror.hint.html
 	);
 }
@@ -280,12 +283,25 @@ function createNewCMInstance(num) {
 		}
 	);
 
+	window['cM'+num].on("inputRead", function(thisCM) {
+			if (top.ICEcoder.autoComplete == "keypress" && top.ICEcoder.codeAssist) {
+				clearTimeout(debounce);
+				if (!thisCM.state.completionActive) {
+					debounce = setTimeout(function() {
+						CodeMirror.commands.autocomplete(window['cM'+num]);
+					},200);
+				}
+			}
+		}
+	);
+
 	// Now create the active line for this CodeMirror object
 	top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
 };
 
 var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,null,"+","-",false);
 var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,null,"+","-",false);
+var debounce;
 </script>
 
 <div style="position: absolute; display: none; width: 5px; height: 100%; top: 0; right: 0; background: rgba(255,255,255,0.1); overflow: hidden; z-index: 2" id="resultsBar"></div>
