@@ -74,6 +74,8 @@ window.onbeforeunload = function() {
 	echo $ICEcoder["demoMode"] ? 'true' : 'false';
 	echo ';top.ICEcoder.tagWrapperCommand = ';
 	echo "'".$ICEcoder["tagWrapperCommand"]."'";
+	echo ';top.ICEcoder.autoComplete = ';
+	echo "'".$ICEcoder["autoComplete"]."'";
 ?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">
