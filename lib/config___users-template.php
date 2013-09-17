@@ -9,6 +9,7 @@ $ICEcoderUserSettings = array(
 "visibleTabs"		=> false,
 "lockedNav"		=> true,
 "tagWrapperCommand"	=> "ctrl+alt",
+"autoComplete"		=> "ctrl+space",
 "password"		=> "",
 "bannedFiles"		=> array("_coder","ICEcoder"),
 "bannedPaths"		=> array("/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"),
