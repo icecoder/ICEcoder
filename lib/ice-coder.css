@@ -82,7 +82,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .button {position: absolute; border: 0; background: #444; color: #eee; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
 .files .button:hover {background-color: #222; color: #eee}
 .files .frame {display: inline-block; width: 250px}
-.files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; margin-bottom: 30px; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 7px 12px; opacity: 0; 
+.files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 4px 12px 1px 12px; opacity: 0; 
 	transition: opacity 0.2s;
 }
 .files .serverMessage b {font-size: 10px}
