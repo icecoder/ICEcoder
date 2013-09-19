@@ -199,6 +199,17 @@ function createNewCMInstance(num) {
 			if (top.ICEcoder.caretLocType=="CSS") {
 				top.ICEcoder.cssColorPreview();
 			}
+			if (top.ICEcoder.prevLine != window['cM'+num].getCursor().line && 
+				window['cM'+num].getLine(top.ICEcoder.prevLine) && 
+				window['cM'+num].getLine(top.ICEcoder.prevLine).length > 0 && 
+				window['cM'+num].getLine(top.ICEcoder.prevLine).replace(/\s/g, '').length == 0) {
+					window['cM'+num].setLine(top.ICEcoder.prevLine,"");
+			}
+		}
+	);
+
+	window['cM'+num].on("beforeSelectionChange", function(thisCM, changeObj) {
+			top.ICEcoder.prevLine = window['cM'+num].getCursor().line;
 		}
 	);
 
