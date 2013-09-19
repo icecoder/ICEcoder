@@ -35,7 +35,7 @@ c?4:2):a+=b;else if(2===c)if(t(b)){c=f(a);if(0===c.length)0<k.length&&(a="\n\n")
 0<g&&(c=2)):a+=b;else if(6===c)if(!q(b))a+=b,c=7;else{if("'"===d||'"'===d)c=7}else 7===c?"}"===b?(n(),c=0,0<g&&(c=2)):";"===b?(a=f(a),a+=";\n",c=4):(a+=b,"("===b&&"l"===a.charAt(a.length-2)&&"r"===a.charAt(a.length-3)&&"u"===a.charAt(a.length-4)&&(c=8)):8===c&&")"===b&&a.charAt("\\"!==a.length-1)?(a+=b,c=7):a+=b}return a=k.join("")+a}"undefined"!==typeof exports?module.exports=exports=p:"object"===typeof window&&(window.cssbeautify=p)})();
 
 cM = top.ICEcoder.getcMInstance();
-if (cM) {
+if (cM && top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1].indexOf('.css') > -1) {
 	cM.setValue(cssbeautify(cM.getValue(), {
 		indent: '	',
 		openbrace: 'end-of-line',
