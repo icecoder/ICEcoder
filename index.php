@@ -94,7 +94,7 @@ window.onbeforeunload = function() {
 	</div>
 </div>
 
-<div class="plugins" onMouseOver="this.style.width='55px'; this.style.background='#333'" onMouseOut="this.style.width='3px'; this.style.background='transparent'" onClick="this.style.width='3px'; this.style.background='transparent'">
+<div id="plugins" class="plugins" onMouseOver="top.ICEcoder.showHidePlugins('show')" onMouseOut="top.ICEcoder.showHidePlugins('hide')" onClick="top.ICEcoder.showHidePlugins('hide')">
 	<div style="padding: 15px">
 		<a nohref onClick="top.ICEcoder.showColorPicker(top.document.getElementById('color') ? top.document.getElementById('color').value : '#123456')" title="Farbtastic
 Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
