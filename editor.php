@@ -179,12 +179,19 @@ function createNewCMInstance(num) {
 		lintWith: <?php if ($ICEcoder['codeAssist']) {echo 'fileName && fileName.indexOf(".js")>-1 ? CodeMirror.javascriptValidator : ';};?>false,
 		keyMap: "ICEcoder",
 		onKeyEvent: function(thisCM, e) {
-			top.ICEcoder.redoChangedContent(e);
-			top.ICEcoder.findReplace(top.document.getElementById('find').value,true,false);
-			top.ICEcoder.getCaretPosition();
-			top.ICEcoder.updateCharDisplay();
-			top.ICEcoder.updateByteDisplay();
-			tok = thisCM.getTokenAt(thisCM.getCursor());
+			if (e.type=="keyup") {
+				top.ICEcoder.redoChangedContent(e);
+				if ("undefined" != typeof top.doFind) {
+					clearInterval(top.doFind);
+				}
+				top.doFind = setTimeout(function() {
+					top.ICEcoder.findReplace(top.document.getElementById('find').value,true,false);
+				},500);
+				top.ICEcoder.getCaretPosition();
+				top.ICEcoder.updateCharDisplay();
+				top.ICEcoder.updateByteDisplay();
+				tok = thisCM.getTokenAt(thisCM.getCursor());
+			}
 		}
 	});
 
