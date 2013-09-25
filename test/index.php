@@ -74,19 +74,19 @@ test = {
 
 	saveFile: function() {
 		title = "Save file";
-		o.p = ICEcoder.changedContent[0];
+		o.p = ICEcoder.savedPoints[0];
 		t = 0;
 		x = setInterval(function() {
 			wait();
 			cM = ICEcoder.getcMInstance();
-			if (cM && ICEcoder.changedContent[0]==0) {
+			if (cM && ICEcoder.savedPoints[0]==cM.changeGeneration()) {
 				testResult("+ GOOD",title+". Took "+t+"ms",x);
 				test.tagWrapper();
 			} else if (t==1000) {
 				testResult("- FAIL",title+". Took "+t+"ms",x);
 				testStopped();
 			}
-			o.p = ICEcoder.changedContent[0];
+			o.p = ICEcoder.savedPoints[0];
 			t++;
 		},1);
 		result = ICEcoder.saveFile();
