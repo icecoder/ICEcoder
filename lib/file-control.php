@@ -305,7 +305,7 @@ if ($_GET['action']=="save") {
 					document.getElementById('userVersionFile').value = cM.getValue();
 					// Revert back to original
 					cM.setValue(document.getElementById('loadedFile').value);
-					top.ICEcoder.changedContent[thisTab-1] = 0;
+					top.ICEcoder.savedPoints[thisTab-1] = cM.changeGeneration();
 					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo $filemtime; ?>";
 					cM.clearHistory();
 					// Now for the new file
@@ -350,6 +350,7 @@ if (action=="load") {
 				top.ICEcoder.switchMode();
 				cM = top.ICEcoder.getcMInstance();
 				cM.setValue(document.getElementById('loadedFile').value);
+				top.ICEcoder.savedPoints[top.ICEcoder.selectedTab-1] = cM.changeGeneration();
 				top.document.getElementById('content').style.visibility='visible';
 				top.ICEcoder.switchTab(top.ICEcoder.selectedTab);
 				top.ICEcoder.focus();
@@ -425,7 +426,8 @@ if (action=="save") {
 }
 
 if (action=="doneSave") {
-	top.ICEcoder.changedContent[top.ICEcoder.selectedTab-1] = 0;
+	cM = top.ICEcoder.getcMInstance();
+	top.ICEcoder.savedPoints[top.ICEcoder.selectedTab-1] = cM.changeGeneration();
 	top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
 }
 
