@@ -65,7 +65,7 @@ h2 {color: rgba(0,198,255,0.7)}
 <div style="display: none; margin: 32px 43px 0 43px; padding: 10px; width: 500px; font-family: arial; font-size: 10px; color: #ddd; background: #333" id="dataMessage"></div>
 
 <div style="margin: 20px 43px 32px 43px; font-family: arial; font-size: 10px; color: #ddd">
-	<div style="float: left; margin-right: 50px">
+	<div style="float: left; width: 300px; margin-right: 50px">
 		<h2>server</h2>
 		<span class="heading">Server name, OS & IP:</span><br>
 		<?php echo $_SERVER['SERVER_NAME']." &nbsp;&nbsp ".$_SERVER['SERVER_SOFTWARE']." &nbsp;&nbsp ".$_SERVER['SERVER_ADDR'];?><br><br>
@@ -76,7 +76,12 @@ h2 {color: rgba(0,198,255,0.7)}
 		<span class="heading">PHP version:</span><br>
 		<?php echo phpversion();?><br><br>
 		<span class="heading">Date & time:</span><br>
-		<span id="serverDT"></span><br><br><br>
+		<span id="serverDT"></span><br><br>
+		<h2>your device</h2>
+		<span class="heading">Browser:</span><br>
+		<?php echo $_SERVER['HTTP_USER_AGENT'];?><br><br>
+		<span class="heading">Your IP:</span><br>
+		<?php echo $_SERVER['REMOTE_ADDR'];?><br><br>
 	</div>
 
 	<div style="float: left">
@@ -103,13 +108,7 @@ h2 {color: rgba(0,198,255,0.7)}
 		</ul>
 	</div>
 
-	<div style="clear: both">
-		<h2>your device</h2>
-		<span class="heading">Browser:</span><br>
-		<?php echo $_SERVER['HTTP_USER_AGENT'];?><br><br>
-		<span class="heading">Your IP:</span><br>
-		<?php echo $_SERVER['REMOTE_ADDR'];?>
-	</div>
+	<div style="clear: both"></div>
 	<script>
 	var nDT=<?php echo time()*1000;?>;
 	setInterval(function(){
@@ -126,7 +125,6 @@ h2 {color: rgba(0,198,255,0.7)}
 	</script>
 	<?php if(is_dir('test') && !$ICEcoder['demoMode']) {?>
 	<div style="float: left; margin-right: 50px">
-		<br><br>
 		<h2>test suite</h2>
 		<span class="heading">Run unit tests:</span><br>
 		<a href="javascript:top.ICEcoder.filesFrame.contentWindow.frames['testControl'].location.href = 'test'" style="color: #fff">Run unit tests</a><div id="unitTestResults"></div>
@@ -135,7 +133,6 @@ h2 {color: rgba(0,198,255,0.7)}
 	;};
 	if($ICEcoder['devMode']) {?>
 	<div style="float: left">
-		<br><br>
 		<h2>dev mode on</h2>
 		<span class="heading">Status:</span><br>
 		Using ice-coder.js
@@ -180,7 +177,6 @@ function createNewCMInstance(num) {
 		keyMap: "ICEcoder",
 		onKeyEvent: function(thisCM, e) {
 			if (e.type=="keyup") {
-				top.ICEcoder.redoChangedContent(e);
 				if ("undefined" != typeof top.doFind) {
 					clearInterval(top.doFind);
 				}
@@ -223,7 +219,6 @@ function createNewCMInstance(num) {
 	window['cM'+num].on("change", function(thisCM, changeObj) {
 			// If we're not loading the file, it's a change, so update tab
 			if (!top.ICEcoder.loadingFile) {
-				top.ICEcoder.changedContent[top.ICEcoder.selectedTab-1] = thisCM.historySize().undo > 0 ? 1 : 0;
 				top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
 			}
 			top.ICEcoder.getCaretPosition();
