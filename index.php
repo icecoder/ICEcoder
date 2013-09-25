@@ -37,8 +37,10 @@ if ($ICEcoder["checkUpdates"]) {
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
 
 window.onbeforeunload = function() {
-	if (top.ICEcoder.changedContent.indexOf(1)>-1) {
-		return "You have some unsaved changes.";
+	for(var i=1;i<=ICEcoder.savedPoints.length;i++) {
+		if (ICEcoder.savedPoints[i-1]!=top.ICEcoder.getcMInstance(ICEcoder.cMInstances[i-1]).changeGeneration()) {
+			return "You have some unsaved changes.";
+		}
 	}
 }
 </script>
