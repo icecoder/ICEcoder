@@ -16,7 +16,7 @@ $context = stream_context_create(array('http'=>
 ));
 
 // Set a policy of allowing scripts on the same domain
-//header("X-XSS-Protection: 0");
+// header("X-XSS-Protection: 0"); // Turn off XSS filter
 header("X-Content-Security-Policy: allow 'self'");
 
 // Start a session if we haven't already
