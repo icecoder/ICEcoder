@@ -13,7 +13,7 @@ You can run ICEcoder either online or locally, on Linux, Windows or Mac based pl
 ####Step 1: Clone the repo
 
 ```
-$ git clone git@github:mattpass/ICEcoder
+$ git clone git://github.com/mattpass/ICEcoder.git
 ```
 
 ####Step 2: Place in your document root (online or local)
