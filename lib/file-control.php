@@ -27,7 +27,7 @@ if ($_GET['action']=="load") {
 		$finfo = "";
 		// Determine what to do based on mime type
 		if (function_exists('finfo_open')) {
-			$finfoMIME = finfo_open(FILEINFO_MIME_TYPE);
+			$finfoMIME = finfo_open(FILEINFO_MIME);
 			$finfo = finfo_file($finfoMIME, $file);
 			finfo_close($finfoMIME);
 		} else {
