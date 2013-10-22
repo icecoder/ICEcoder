@@ -149,13 +149,11 @@ CodeMirror.keyMap.ICEcoder = {
 	fallthrough: ["default"]
 };
 CodeMirror.commands.autocomplete = function(cm) {
-	CodeMirror.showHint(cm,
-		top.ICEcoder.caretLocType=="JavaScript"
-		? CodeMirror.hint.javascript
-		: top.ICEcoder.caretLocType=="CoffeeScript"
-		? CodeMirror.hint.coffeescript
-		: CodeMirror.hint.html
-	);
+	var langType = top.ICEcoder.caretLocType;
+	if (["JavaScript","CoffeeScript","SQL","CSS","HTML","XML","Content"].indexOf(langType)>-1) {
+		if (langType=="XML"||langType=="Content") {langType="HTML"};
+		CodeMirror.showHint(cm,CodeMirror.hint[langType.toLowerCase()]);
+	}
 }
 
 function createNewCMInstance(num) {
