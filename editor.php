@@ -131,13 +131,13 @@ h2 {color: rgba(0,198,255,0.7)}
 	</div>
 	<?php
 	;};
-	if($ICEcoder['devMode']) {?>
+	?>
 	<div style="float: left">
-		<h2>dev mode on</h2>
+		<h2>dev mode <?php echo $ICEcoder['devMode'] ? "on" : "off";?></h2>
 		<span class="heading">Status:</span><br>
-		Using ice-coder.js
+		Using <?php echo $ICEcoder['devMode'] ? "ice-coder.js" : "ice-coder.min.js";?> <a title="You can switch dev mode on/off
+in lib/config__settings.php" style="cursor: pointer">[?]</a>
 	</div>
-	<?php ;};?>
 	<div style="clear: both"></div>
 </div>
 
