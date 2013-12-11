@@ -191,6 +191,23 @@ if ($_GET['action']=="rename") {
 	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 }
 
+// If we're due to move a file/folder...
+if ($_GET['action']=="move") {
+	$moved=false;
+	if (!$demoMode && is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
+		if(rename($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])),$docRoot.$fileLoc."/".$fileName)) {
+			// Reload file manager
+			echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
+			echo 'action="move";';
+			$moved=true;
+		}
+	}
+	if (!$moved) {
+		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot move\\n".strClean($_GET['oldFileName'])."\\n\\nMaybe public write permissions needed on this or parent folder?');";
+	}
+	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
+}
+
 // If we're due to replace text in a file...
 if ($_GET['action']=="replaceText") {
 	if (!$demoMode && is_writable(str_replace("|","/",strClean($_GET['fileRef'])))) {
