@@ -132,6 +132,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 	</span>
 	<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 	<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Zip It!</a>
+	<a href="javascript:top.ICEcoder.downloadFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Download</a>
 	<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Properties</a>
 </div>
