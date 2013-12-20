@@ -127,7 +127,7 @@ h2 {color: rgba(0,198,255,0.7)}
 	<div style="float: left; margin-right: 50px">
 		<h2>test suite</h2>
 		<span class="heading">Run unit tests:</span><br>
-		<a href="javascript:top.ICEcoder.filesFrame.contentWindow.frames['testControl'].location.href = 'test'" style="color: #fff">Run unit tests</a><div id="unitTestResults"></div>
+		<a nohref onclick="top.ICEcoder.filesFrame.contentWindow.frames['testControl'].location.href = 'test'" style="color: #fff; cursor: pointer">Run unit tests</a><div id="unitTestResults"></div>
 	</div>
 	<?php
 	;};
