@@ -89,9 +89,8 @@ window.onbeforeunload = function() {
 <div id="loadingMask" class="blackMask" style="visibility: visible" onContextMenu="return false">
 	<div class="popupVCenter">
 		<div class="popup">
-			<div class="circleOutside"></div>
-			<div class="circleInside"></div>
-			&nbsp;&nbsp;&nbsp;working...
+			<div class="spinner"></div>
+			working...
 		</div>
 	</div>
 </div>
