@@ -19,7 +19,7 @@ $ git clone git://github.com/mattpass/ICEcoder.git
 ####Step 2: Place in your document root (online or local)
 ```
 Put in a new sub-dir URL such as yourdomain.com/_coder or localhost/_coder
-Set write permissions (757 or 775 depending on your system) on the 'backups', 'lib', 'test' and 'tmp' folders
+Set write permissions (757 or 775 depending on your system) on the 'backups', 'lib', 'plugins', 'test' and 'tmp' folders
 (Note: A small number of hosts give internal server error here, if you get this, try 755 instead)
 ```
 
