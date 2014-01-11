@@ -78,6 +78,9 @@ if ($_SESSION['loggedIn']) {
 	echo "<script>top.docRoot='".$docRoot."';top.iceRoot='".$iceRoot."'</script>";
 }
 
+// Establish the dir ICEcoders running from
+$ICEcoderDir = rtrim(str_replace(str_replace("\\","/",$docRoot),"",str_replace("\\","/",dirname(__FILE__))),"/lib");
+
 // Setup our file security vars
 $settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
 for ($i=0;$i<count($settingsArray);$i++) {
