@@ -113,7 +113,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 	$r = 0;
 	function phpGrep($q, $path, $base) {
 		$fp = opendir($path);
-		global $r, $ICEcoder, $serverType, $selectedFiles, $context;
+		global $r, $ICEcoder, $serverType, $selectedFiles, $docRoot, $ICEcoderDir, $context;
 		if (!isset($ret)) {$ret="";};
 		$slash = $serverType == strpos($path,"\\")>-1 ? "\\" : "/";
 		while($f = readdir($fp)) {
@@ -124,8 +124,14 @@ if (startTab!=top.ICEcoder.selectedTab) {
 			} else if(stristr(toUTF8noBOM(file_get_contents($fullPath,false,$context),false), $q)) {
 				$bFile = false;
 				$foundInSelFile = false;
+				// Exclude banned files
 				for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
 					if (strpos($f,$ICEcoder['bannedFiles'][$i])!==false) {$bFile = true;};
+				}
+				// Exclude the folder ICEcoder is running from
+				$localPath = str_replace(str_replace("\\","/",$docRoot),"",$fullPath);
+				if (strpos($localPath, $ICEcoderDir)===0) {
+					$bFile = true;
 				}
 				$findPath = str_replace($base,"",$fullPath);
 				for ($i=0;$i<count($selectedFiles);$i++) {
