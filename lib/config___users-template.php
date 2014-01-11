@@ -14,12 +14,12 @@ $ICEcoderUserSettings = array(
 "bannedFiles"		=> array("_coder","ICEcoder"),
 "bannedPaths"		=> array("/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"),
 "allowedIPs"		=> array("*"),
-"plugins"		=> array(),
 "theme"			=> "default",
 "fontSize"		=> "13px",
 "lineWrapping"		=> true,
 "indentWithTabs"	=> true,
 "indentSize"		=> 4,
+"plugins"		=> array(),
 "previousFiles"		=> "",
 "last10Files"		=> ""
 );
