@@ -50,7 +50,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 	100% {transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg)}
 }
 
-.plugins {position: absolute; display: inline-block; width: 3px; height: 100%; top: 0; left: 0; background: transparent; overflow: hidden; z-index: 3;
+.plugins {position: absolute; display: inline-block; width: 3px; height: 100%; top: 0; background: transparent; overflow: hidden; z-index: 3;
 	transition: all 0.07s ease-out;
 }
 
