@@ -23,6 +23,9 @@ foreach($finalArray as $entry) {
 	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
 		if(strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
 	}
+	if ("/".$entry == $ICEcoderDir) {
+		$canAdd = false;
+	}
 	if ($entry != "." && $entry != ".." && $canAdd) {
 		is_dir($docRoot.$iceRoot.$location."/".$entry)
 		? array_push($dirArray,$location."/".$entry)
