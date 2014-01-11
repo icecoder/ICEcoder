@@ -73,7 +73,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 		Thanks go to the following people who have inspired me to create this or provided feedback, code or testing:<br>
 		<?php
-			$peopleArray = array("marijnjh", "maettig", "a_harris88", "emmetio", "prinzhorn", "wimtibackx", "jakubvrana", "davidwalshblog", "vicen_herrera", "abstractba", "themximum");
+			$peopleArray = array("marijnjh", "maettig", "a_harris88", "emmetio", "prinzhorn", "wimtibackx", "jakubvrana", "davidwalshblog", "vicen_herrera", "abstractba", "themximum", "anagnam");
 			function makeURL(&$value) {
 				$value = '<a href="http://www.twitter.com/'.$value.'" style="font-size: 10px" target="_blank">@'.$value.'</a>';
 			};
@@ -129,18 +129,6 @@ ip addresses<br>
 </div>
 
 <div class="settingsColumn2">
-<h2>plugins</h2>
-plugins array <span style="font-size: 10px; color: #888">name, img src, style, url, target, setInterval (mins)</span><br>
-<textarea name="plugins" class="plugins" onkeydown="showButton()"><?php
-for($i=0;$i<count($ICEcoder["plugins"]);$i++) {
-	echo '"'.implode('",'.PHP_EOL.'"', $ICEcoder["plugins"][$i]).'"';
-	if ($i<count($ICEcoder["plugins"])-1) {
-		echo PHP_EOL."====================".PHP_EOL;
-	}
-}
-?></textarea>
-<br><br>
-
 <h2>style</h2>
 theme<br>
 <select onchange="selectTheme();showButton()" id="select" name="theme" style="width: 95px">
@@ -195,7 +183,7 @@ function findSequence(goal) {
 }</textarea>
 <br>
 
-<span style="position: absolute; top: 510px">
+<span style="position: absolute; top: 360px">
 	<h2>file manager</h2>
 	root <span style="font-size: 10px; color: #888">slash prefixed</span><br>
 	<input type="text" name="root" style="width: 200px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["root"];?>">
