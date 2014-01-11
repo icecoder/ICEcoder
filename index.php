@@ -78,7 +78,7 @@ window.onbeforeunload = function() {
 	echo "'".$ICEcoder["tagWrapperCommand"]."'";
 	echo ';top.ICEcoder.autoComplete = ';
 	echo "'".$ICEcoder["autoComplete"]."'";
-?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
+?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.content.style.visibility='visible';top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">
 	<div class="popupVCenter">
@@ -100,7 +100,7 @@ window.onbeforeunload = function() {
 		<a nohref onClick="top.ICEcoder.showColorPicker(top.document.getElementById('color') ? top.document.getElementById('color').value : '#123456')" title="Farbtastic
 Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
 		<a nohref onClick="top.ICEcoder.openTerminal()" title="Terminal"><img src="images/terminal.png" style="cursor: pointer" alt="Terminal"></a><br><br>
-		<?php echo $pluginsDisplay; ?>
+		<div id="pluginsOptional"><?php echo $pluginsDisplay; ?></div>
 		<a nohref onclick="top.ICEcoder.pluginsManager()" title="Plugins Manager" style="color: #fff; cursor: pointer">+ / -</a>
 	</div>
 </div>
@@ -131,7 +131,11 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 		<a nohref onClick="window.open(iceRoot + top.ICEcoder.rightClickedFile.replace(/\|/g,'/'))" onMouseOver="ICEcoder.showFileMenu()" style="cursor: pointer">View Webpage</a>
 	</span>
 	<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
-	<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Zip It!</a>
+	<?php
+	if (file_exists(dirname(__FILE__)."/plugins/zip-it/index.php")) {
+		echo '<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Zip It!</a>'.PHP_EOL;
+	};
+	?>
 	<a href="javascript:top.ICEcoder.downloadFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Download</a>
 	<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Properties</a>
