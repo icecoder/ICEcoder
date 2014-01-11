@@ -184,6 +184,14 @@ function findSequence(goal) {
 <br>
 
 <span style="position: absolute; top: 360px">
+	<h2>layout</h2>
+	plugin panel aligned<br>
+	<select onchange="showButton()" name="pluginPanelAligned">
+		<option value="left"<?php if($ICEcoder["pluginPanelAligned"] == "left") {echo " selected";};?>>left</option>
+		<option value="right"<?php if($ICEcoder["pluginPanelAligned"] == "right") {echo " selected";};?>>right</option>
+	</select>
+	<br><br>
+
 	<h2>file manager</h2>
 	root <span style="font-size: 10px; color: #888">slash prefixed</span><br>
 	<input type="text" name="root" style="width: 200px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["root"];?>">
