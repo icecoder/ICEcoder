@@ -119,7 +119,7 @@ if (isset($_GET['action'])) {
 
 	// Identify the bit to replace
 	$repPosStart = strpos($settingsContents,'"plugins"');
-	$repPosEnd = strpos($settingsContents,'"theme"');
+	$repPosEnd = strpos($settingsContents,'"previousFiles"');
 
 	// Compile our new settings
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,$repPosEnd,strlen($settingsContents));
@@ -130,7 +130,7 @@ if (isset($_GET['action'])) {
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 		// Finally, reload the iFrame screen for the user
-		header("Location: plugins-manager.php");
+		header("Location: plugins-manager.php?updatedPlugins");
 		die('saving plugins...');
 	} else {
 		echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
