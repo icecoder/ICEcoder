@@ -19,6 +19,7 @@ $ICEcoderUserSettings = array(
 "lineWrapping"		=> true,
 "indentWithTabs"	=> true,
 "indentSize"		=> 4,
+"pluginPanelAligned"	=> "left",
 "plugins"		=> array(),
 "previousFiles"		=> "",
 "last10Files"		=> ""
