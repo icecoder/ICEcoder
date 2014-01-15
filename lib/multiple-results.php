@@ -129,7 +129,8 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					if (strpos($f,$ICEcoder['bannedFiles'][$i])!==false) {$bFile = true;};
 				}
 				// Exclude the folder ICEcoder is running from
-				$localPath = str_replace(str_replace("\\","/",$docRoot),"",$fullPath);
+				$rootPrefix = '/'.str_replace("/","\/",preg_quote(str_replace("\\","/",$docRoot))).'/';
+				$localPath = preg_replace($rootPrefix, '', $fullPath, 1);
 				if (strpos($localPath, $ICEcoderDir)===0) {
 					$bFile = true;
 				}

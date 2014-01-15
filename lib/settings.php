@@ -79,7 +79,9 @@ if ($_SESSION['loggedIn']) {
 }
 
 // Establish the dir ICEcoders running from
-$ICEcoderDir = rtrim(str_replace(str_replace("\\","/",$docRoot),"",str_replace("\\","/",dirname(__FILE__))),"/lib");
+$ICEcoderDirFullPath = rtrim(str_replace("\\","/",dirname(__FILE__)),"/lib");
+$rootPrefix = '/'.str_replace("/","\/",preg_quote(str_replace("\\","/",$docRoot))).'/';
+$ICEcoderDir = preg_replace($rootPrefix, '', $ICEcoderDirFullPath, 1);
 
 // Setup our file security vars
 $settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
