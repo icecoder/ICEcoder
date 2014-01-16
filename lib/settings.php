@@ -79,7 +79,7 @@ if ($_SESSION['loggedIn']) {
 }
 
 // Establish the dir ICEcoders running from
-$ICEcoderDirFullPath = rtrim(str_replace("\\","/",dirname(__FILE__)),"/lib");
+$ICEcoderDirFullPath = rtrim(str_replace("\\","/",dirname($_SERVER['SCRIPT_FILENAME'])),"/lib");
 $rootPrefix = '/'.str_replace("/","\/",preg_quote(str_replace("\\","/",$docRoot))).'/';
 $ICEcoderDir = preg_replace($rootPrefix, '', $ICEcoderDirFullPath, 1);
 
