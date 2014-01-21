@@ -173,7 +173,7 @@ function deletePlugin($dir) {
 <a href="javascript:top.ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>','writingPlugins')" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #333; color: #fff; font-size: 18px">Guide to writing plugins</div></a>
 <div style="display: inline-block; width: 760px; height: 340px; overflow-y: auto">
 	<?php
-	$plugins = $ICEcoder[plugins];
+	$plugins = $ICEcoder['plugins'];
 	if (count($plugins) > 0) {
 	?>
 	<div style="display: inline-block; width: 740px; margin-bottom: 30px">
