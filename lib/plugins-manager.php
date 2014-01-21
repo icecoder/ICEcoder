@@ -5,7 +5,13 @@ include("settings.php");
 $pluginsDataSrc = "http://icecoder.net/plugin-data?format=JSON";
 
 // Now get our plugin data and put into a PHP array
-$pluginsDataJS = file_get_contents($pluginsDataSrc, false, $context);
+if (ini_get('allow_url_fopen')) {
+	$pluginsDataJS = file_get_contents($pluginsDataSrc, false, $context);
+} elseif (function_exists('curl_init')) {
+	$pDSrc = curl_init($pluginsDataSrc);
+	curl_setopt($pDSrc, CURLOPT_RETURNTRANSFER, true);
+	$pluginsDataJS = curl_exec($pDSrc);
+}
 $pluginsData = json_decode($pluginsDataJS, true);
 
 // If we have an action to perform
