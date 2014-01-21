@@ -131,6 +131,7 @@ if (isset($_GET['action'])) {
 		fclose($fh);
 		// Finally, reload the iFrame screen for the user
 		header("Location: plugins-manager.php?updatedPlugins");
+		echo "<script>window.location='plugins-manager.php?updatedPlugins';</script>";
 		die('saving plugins...');
 	} else {
 		echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
