@@ -15,7 +15,7 @@ if (ini_get('allow_url_fopen')) {
 $pluginsData = json_decode($pluginsDataJS, true);
 
 // If we have an action to perform
-if (isset($_GET['action'])) {
+if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_GET['action'])) {
 
 	// Get our old plugin & user settings
 	$oldPlugins = $ICEcoder["plugins"];
