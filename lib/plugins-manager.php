@@ -115,7 +115,11 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 		// Redo the arrays using the form data
 		for ($i=0; $i<count($oldPlugins); $i++) {
-			$settingsNew .= '			array("'.$_POST['name'.$i].'","'.$_POST['icon'.$i].'","'.$_POST['style'.$i].'","'.$_POST['URL'.$i].'","'.$_POST['target'.$i].'","'.$_POST['timer'.$i].'"),'.PHP_EOL;
+			$timer = intval($_POST['timer'.$i]);
+			if ($timer == 0) {
+				$timer = "";
+			}
+			$settingsNew .= '			array("'.$_POST['name'.$i].'","'.$_POST['icon'.$i].'","'.$_POST['style'.$i].'","'.$_POST['URL'.$i].'","'.$_POST['target'.$i].'","'.$timer.'"),'.PHP_EOL;
 		}
 		$settingsNew .= '			),'.PHP_EOL;
 	}
