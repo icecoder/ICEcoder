@@ -24,7 +24,7 @@ if ($_GET['action']=="load") {
 	echo 'action="load";';
 
 	if (file_exists($file)) {
-		$finfo = "";
+		$finfo = "text";
 		// Determine what to do based on mime type
 		if (function_exists('finfo_open')) {
 			$finfoMIME = finfo_open(FILEINFO_MIME);
@@ -33,8 +33,8 @@ if ($_GET['action']=="load") {
 		} else {
 			$fileExt = explode(" ",pathinfo($file, PATHINFO_EXTENSION));
 			$fileExt = $fileExt[0];
-			if (array_search($fileExt,array("coffee","css","htm","html","js","json","less","md","php","py","rb","ruby","sql","txt","xml"))!==false) {$finfo = "text";};
 			if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
+			if (array_search($fileExt,array("doc","docx","ppt","rtf","pdf","zip","tar","gz","swf","asx","asf","midi","mp3","wav","aiff","mov","qt","wmv","mp4","odt","odg","odp"))!==false) {$finfo = "other";};
 		}
 		if (strpos($finfo,"text")===0 || strpos($finfo,"empty")!==false) {
 			echo 'fileType="text";';
