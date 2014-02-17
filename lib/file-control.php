@@ -83,7 +83,7 @@ if ($_GET['action']=="newFolder") {
 // If we're due to paste a new file...
 if ($_GET['action']=="paste") {
 	$source = $file;
-	$dest = str_replace("//","/",$docRoot.strClean(str_replace("|","/",$_GET['location']))."/".basename($source));
+	$dest = str_replace("//","/",$docRoot.$iceRoot.strClean(str_replace("|","/",$_GET['location']))."/".basename($source));
 	if (!$demoMode && is_writable(dirname($dest))) {
 		if (is_dir($source)) {
 			if (!is_dir($dest)) {
