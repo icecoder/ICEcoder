@@ -287,8 +287,6 @@ function createNewCMInstance(num) {
 	);
 
 	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
-			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-			var fileExt = filepath.substr(filepath.lastIndexOf(".")+1);
 			window['cM'+num].getLine(line).indexOf("{")>-1
 			? codeFoldBrace(window['cM'+num], line) : codeFoldTag(window['cM'+num], line);
 		}
