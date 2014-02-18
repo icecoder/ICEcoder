@@ -62,6 +62,8 @@
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> s</span> <span class="shortcut">Save</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Shift <span class="plus">+</span> s</span> <span class="shortcut">Save as...</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Enter</span> <span class="shortcut">View webpage <span class="info" title="Popups need to be enabled">[?]</span></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> `</span> <span class="shortcut">Contract/expand file manager</span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> .</span> <span class="shortcut">Fold/unfold current line</span><br>
 	<span class="key">Space</span> <span class="shortcut">Refocus on document</span><br>
 	<span class="key">Esc</span> <span class="shortcut">Cancel tasks</span><br><br>
 </div>
