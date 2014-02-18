@@ -56,7 +56,7 @@ h2 {color: rgba(0,198,255,0.7)}
 <link rel="stylesheet" href="lib/file-types.css">
 </head>
 
-<body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
 
 <?php if ($ICEcoder['demoMode']) {?>
 <div class="demoArrow"><b>Click icons<br>for help &amp;<br>usage info</b></div>

@@ -10,7 +10,7 @@
 <script src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js" type="text/javascript"></script>
 </head>
 
-<body onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);">
+<body onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
 
 <div title="Lock" onClick="top.ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
 <div title="Refresh" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
