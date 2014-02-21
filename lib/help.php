@@ -11,9 +11,8 @@
 
 <body class="help">
 
-<h1 id="title">help</h1>
+<h1 id="title">shortcuts</h1>
 
-<a href="javascript:top.ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>')" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #2187e7; color: #fff; font-size: 18px">ICEcoder manual</div></a>
 <?php $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;?>
 <div style="display: inline-block; width: 365px; margin-right: 20px">
 	<h2>Within document</h2>
