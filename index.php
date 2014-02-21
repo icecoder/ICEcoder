@@ -24,6 +24,8 @@ if ($ICEcoder["checkUpdates"]) {
 		$updateMsg = ";top.ICEcoder.dataMessage('<b>UPDATE INFO:</b> ICEcoder v ".$icv." now available. (Your version is v ".$ICEcoder["versionNo"].").<br><br><a onclick=\\'top.ICEcoder.update()\\' style=\\'color:#fff; background: #b00; padding: 5px; text-decoration: none; cursor: pointer\\'>Update now</a><br><br>".$icvI."');";
 	}
 }
+
+$isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 ?>
 <!DOCTYPE html>
 <html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}" onMouseWheel="if (!top.ICEcoder.getcMInstance().hasFocus()) {event.wheelDelta > 0 ? top.ICEcoder.nextTab() : top.ICEcoder.previousTab();}">
@@ -110,7 +112,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 		<a href="javascript:top.ICEcoder.newFile()" onMouseOver="ICEcoder.showFileMenu()">New File</a>
 		<a href="javascript:top.ICEcoder.newFolder()" onMouseOver="ICEcoder.showFileMenu()">New Folder</a>
 		<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
-		<a href="javascript:top.ICEcoder.uploadFilesSelect(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Upload File(s)</a>
+		<a href="javascript:top.ICEcoder.uploadFilesSelect(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()">Upload File(s)</a>
 		<div style="display: none">
 			<form enctype="multipart/form-data" id="uploadFilesForm" action="lib/file-control.php?action=upload&file=/uploaded" method="POST" target="fileControl">
 				<input type="hidden" name="folder" id="uploadDir" value="/">
@@ -118,7 +120,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 				<input type="submit" value="Upload File">
 			</form>
 		</div>
-		<a href="javascript:top.ICEcoder.pasteFiles(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()" id="fmMenuPasteOption" style="display: none">Paste</a>
+		<a href="javascript:top.ICEcoder.pasteFiles(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()" id="fmMenuPasteOption" style="display: none">Paste</a>
 		<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 	</span>
 	<a href="javascript:top.ICEcoder.openFilesFromList(top.ICEcoder.selectedFiles)" onMouseOver="ICEcoder.showFileMenu()">Open</a>
@@ -126,39 +128,83 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 	<a href="javascript:top.ICEcoder.duplicateFiles(top.ICEcoder.selectedFiles)" onMouseOver="ICEcoder.showFileMenu()">Duplicate</a>
 	<a href="javascript:top.ICEcoder.deleteFiles(top.ICEcoder.selectedFiles)" onMouseOver="ICEcoder.showFileMenu()">Delete</a>
 	<span id="singleFileMenuItems">
-		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Rename</a>
+		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()">Rename</a>
 		<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
-		<a nohref onClick="window.open(iceRoot + top.ICEcoder.rightClickedFile.replace(/\|/g,'/'))" onMouseOver="ICEcoder.showFileMenu()" style="cursor: pointer">View Webpage</a>
+		<a nohref onClick="window.open(iceRoot + top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,'/'))" onMouseOver="ICEcoder.showFileMenu()" style="cursor: pointer">View Webpage</a>
 	</span>
 	<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 	<?php
 	if (file_exists(dirname(__FILE__)."/plugins/zip-it/index.php")) {
-		echo '<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Zip It!</a>'.PHP_EOL;
+		echo '<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()">Zip It!</a>'.PHP_EOL;
 	};
 	?>
-	<a href="javascript:top.ICEcoder.downloadFile(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Download</a>
+	<a href="javascript:top.ICEcoder.downloadFile(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()">Download</a>
 	<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
-	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.rightClickedFile)" onMouseOver="ICEcoder.showFileMenu()">Properties</a>
+	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()">Properties</a>
 </div>
 
-<div id="header" class="header" onContextMenu="return false">
-	<div class="logout"><a href="javascript:top:ICEcoder.logout()">logout</a> :</div>
-	<img src="images/help.gif" class="helpIcon" alt="Help" title="Help" onClick="ICEcoder.helpScreen()">
-	<img src="images/settings.gif" class="settingsIcon" alt="Settings" title="Settings" onClick="ICEcoder.settingsScreen()">
-	<img src="images/full-screen.gif" id="screenMode" class="screenModeIcon" alt="Toggle Fullscreen" title="Toggle Fullscreen" onClick="top.ICEcoder.fullScreenSwitcher()">
-	<a href="http://icecoder.net" target="_blank"><img src="images/ice-coder-icon.png" class="logo" alt="ICEcoder website" title="ICEcoder website"></a>
-</div>
+<div id="header" class="header" onContextMenu="return false"></div>
 
-<div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.ICEcoder.hideFileMenu();">
-	<div class="account" id="account">
-		<div class="accountOptions">
-			<?php $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;?>
-			<div title="Save (<?php echo $isMac ? "Cmd" : "Ctrl";?> + s)" onClick="ICEcoder.fMIcon('save')" id="fMSave" class="save"></div>
-			<div title="Open (<?php echo $isMac ? "Cmd" : "Ctrl";?> + o)" onClick="ICEcoder.fMIcon('open')" id="fMOpen" class="open"></div>
-			<div title="New File" onClick="if(this.style.opacity==1) {ICEcoder.fMIcon('newFile')}" id="fMNewFile" class="newFile"></div>
-			<div title="New Folder" onClick="if(this.style.opacity==1) {ICEcoder.fMIcon('newFolder')}" id="fMNewFolder" class="newFolder"></div>
-			<div title="Rename" onClick="ICEcoder.fMIcon('rename')" id="fMRename" class="rename"></div>
-			<div title="Delete" onClick="ICEcoder.fMIcon('delete')" id="fMDelete" class="delete"></div>
+<div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.ICEcoder.hideFileMenu();" onContextMenu="return false">
+	<div id="fileNav" class="fileNav">
+		<ul>
+			<li><a nohref onmouseover="top.ICEcoder.showHideFileNav('show','optionsFile')" id="optionsFileNav">File</a></li>
+			<li><a nohref onmouseover="top.ICEcoder.showHideFileNav('show','optionsEdit')" id="optionsEditNav">Edit</a></li>
+			<li><a nohref onmouseover="top.ICEcoder.showHideFileNav('show','optionsRemote')" id="optionsRemoteNav">Remote</a></li>
+			<li><a nohref onmouseover="top.ICEcoder.showHideFileNav('show','optionsHelp')" id="optionsHelpNav">Help</a></li>
+		</ul>
+	</div>
+	<div class="options" id="fileOptions">
+		<div id="optionsFile" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id)">
+			<ul>
+				<li><a nohref onClick="ICEcoder.newFile()">New File...</a></li>
+				<li><a nohref onClick="ICEcoder.newFolder()">New Folder...</a></li>
+				<li><a nohref onClick="ICEcoder.openPrompt()">Open...</a></li>
+				<li><a nohref onClick="ICEcoder.saveFile()">Save</a></li>
+				<li><a nohref onclick="ICEcoder.saveFile('saveAs')">Save As...</a></li>
+				<li><a nohref onclick="ICEcoder.openPreviewWindow()">Live Preview</a></li>
+				<li><a nohref onclick="ICEcoder.downloadFile(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])">Download</a></li>
+				<li><a nohref onclick="ICEcoder.copyFiles(top.ICEcoder.selectedFiles)">Copy</a></li>
+				<li><a nohref onclick="ICEcoder.pasteFiles(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])">Paste</a></li>
+				<li><a nohref onclick="ICEcoder.deleteFiles(top.ICEcoder.selectedFiles)">Delete</a></li>
+				<li><a nohref onclick="ICEcoder.duplicateFiles(top.ICEcoder.selectedFiles)">Duplicate</a></li>
+				<li><a nohref onclick="ICEcoder.renameFile(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])">Rename</a></li>
+				<li><a nohref onclick="ICEcoder.uploadFilesSelect(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])">Upload...</a></li>
+				<li><a nohref onclick="ICEcoder.zipIt(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])">Zip</a></li>
+				<li><a nohref onclick="ICEcoder.propertiesScreen(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])">Properties...</a></li>
+				<li><a nohref onClick="ICEcoder.fullScreenSwitcher()">Fullscreen toggle</a></li>
+				<li><a nohref onClick="ICEcoder.logout()">Logout</a></li>
+			</ul>
+		</div>
+		<div id="optionsEdit" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id)">
+			<ul>
+				<li><a nohref onclick="ICEcoder.undo()">Undo</a></li>
+				<li><a nohref onclick="ICEcoder.redo()">Redo</a></li>
+				<li><a nohref onclick="ICEcoder.indent('more')">Indent more</a></li>
+				<li><a nohref onclick="ICEcoder.indent('less')">Indent less</a></li>
+				<li><a nohref onclick="ICEcoder.autocomplete()">Autocomplete</a></li>
+				<li><a nohref onclick="ICEcoder.lineCommentToggle()">Comment/Uncomment</a></li>
+				<li><a nohref onclick="ICEcoder.jumpToDefinition()">Jump to Definition</a></li>
+			</ul>
+		</div>
+		<div id="optionsRemote" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id)">
+			<ul>
+				<li><a nohref onclick="ICEcoder.message('Git & GitHub integration coming soon.\n\nCan you help with this? Get involved at icecoder.net')">Git</a></li>
+				<li><a nohref onclick="ICEcoder.message('SVN integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">SVN</a></li>
+				<li><a nohref onclick="ICEcoder.message('Bitbucket integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Bitbucket</a></li>
+				<li><a nohref onclick="ICEcoder.message('Amazon AWS integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Amazon AWS</a></li>
+				<li><a nohref onclick="ICEcoder.message('FTP integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">FTP</a></li>
+				<li><a nohref onclick="ICEcoder.message('SSH integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">SSH</a></li>
+			</ul>
+		</div>
+		<div id="optionsHelp" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id)">
+			<ul>
+				<li><a nohref onclick="ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>')">Manual</a></li>
+				<li><a nohref onClick="ICEcoder.helpScreen()">Shortcuts</a></li>
+				<li><a nohref onClick="ICEcoder.settingsScreen()">Settings</a></li>
+				<li><a nohref onclick="ICEcoder.searchForSelected()">Search for selected</a></li>
+				<li><a href="http://icecoder.net" target="_blank">ICEcoder website</a></li>
+			</ul>
 		</div>
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1';this.contentWindow.onscroll=function(){top.ICEcoder.mouseDown=false}"></iframe>
