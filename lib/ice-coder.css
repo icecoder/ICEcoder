@@ -55,27 +55,24 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 }
 
 .header {position: absolute; display: inline-block; top: 0; left: 0; width: 100%; height: 20px; background-color: #fff; text-align: right; z-index: 1}
-.header .helpIcon {position: absolute; top: 5px; right: 90px; cursor: pointer}
-.header .settingsIcon {position: absolute; top: 5px; right: 70px; cursor: pointer}
-.header .screenModeIcon {position: absolute; top: 5px; right: 46px; cursor: pointer}
-.header .logout {position: absolute; top: 5px; right: 105px; font-size: 10px; color: #bbb}
-.header .logout a {font-size: 10px; color: #bbb; text-decoration: none}
-.header .logo {position: relative; margin: 5px 10px 0 5px; cursor: pointer}
 
 .files {position: absolute; display: inline-block; top: 0; left: 0; height: 100%; width: 250px; background-color: #444; background-image: url('../images/files-arrow.png'); background-repeat: no-repeat; background-position: 100% 50%; overflow: hidden; z-index: 2}
-.files .account {display: inline-block; height: 63px; width: 250px; margin-top: 7px; background-color: #444}
-.files .accountOptions {position: relative; height: 32px; width: 100%; margin-left: 15px; margin-top: 8px}
-.files .accountOptions div {display: inline-block; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer}
-.files .accountOptions .save {width: 30px; height: 32px; opacity: 0.3}
-.files .accountOptions .open {width: 25px; height: 32px; background-position: -32px -3px; margin: 3px 0 0 7px; opacity: 0.3}
-.files .accountOptions .newFile {width: 15px; height: 16px; background-position: -64px 0; margin: 8px 0 0 7px; opacity: 0.3}
-.files .accountOptions .newFolder {width: 20px; height: 16px; background-position: -80px 0; margin: 8px 0 0 5px; opacity: 0.3}
-.files .accountOptions .rename {width: 16px; height: 16px; background-position: -116px 0; margin: 8px 0 0 5px; opacity: 0.3}
-.files .accountOptions .delete {width: 16px; height: 16px; background-position: -100px 0; margin: 8px 0 0 5px; opacity: 0.3}
+.files .fileNav {display: block; height: 36px}
+.files .fileNav ul {list-style-type: none; line-height: 24px; padding-left: 15px}
+.files .fileNav li {display: inline-block; padding: 18px 15px 0 0}
+.files .fileNav a {color: #666; text-decoration: none}
+.files .fileNav a:hover {color: #fff; cursor: pointer}
+.files .options {background: #f00;
+	transition: opacity 0.15s ease-in-out;
+}
+.files .options .optionsList {position: absolute; display: inline-block; visibility: hidden; background: #444; height: 100%; padding: 23px 15px 15px 15px}
+.files .options .optionsList ul {list-style-type: none; line-height: 24px}
+.files .options .optionsList a {color: #666; text-decoration: none}
+.files .options .optionsList a:hover {color: #fff; cursor: pointer}
 .files input:focus, .findReplace input:focus, .findReplace select:focus, .password:focus {outline: 0; box-shadow: 0 0 10px 1px rgba(0,198,255,0.7)}
 .files .button {position: absolute; border: 0; background: #444; color: #eee; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
 .files .button:hover {background-color: #222; color: #eee}
-.files .frame {display: inline-block; width: 250px}
+.files .frame {display: inline-block; width: 250px; margin-top: 24px}
 .files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 4px 12px 1px 12px; opacity: 0; 
 	transition: opacity 0.2s;
 }
@@ -124,7 +121,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findBar .goLine {position: fixed; display: inline-block; width: 100px; right: 30px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
 .goLine .goToLine {width: 30px; height: 16px; border: 0; font-size: 10px; margin: -3px 0 0 3px; padding-left: 4px; background: #666; color: #eee}
 .goLine .goToLine:focus {outline: none; box-shadow: 0 0 10px 1px rgba(0,198,255,1)}
-.findBar .view {position: fixed; display: inline-block; width: 16px; height: 16px; right: 16px; top: 49px; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -132px 0; opacity: 0.3}
+.findBar .view {position: fixed; display: inline-block; width: 16px; height: 16px; right: 16px; top: 49px; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -48px 0; opacity: 0.3}
 .editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px; visibility: hidden}
 
 .footer {position: fixed; display: inline-block; width: 100%; height: 30px; bottom: 0; background-color: rgba(0,0,0,0.7); left: 0; z-index: 1}
