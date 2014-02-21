@@ -146,6 +146,8 @@ CodeMirror.keyMap.ICEcoder = {
 	// "Tab": "defaultTab", **Now used by Emmet**
 	"Shift-Tab": "indentLess",
 	"Ctrl-Space": "autocomplete",
+	"Ctrl-Up" : false,
+	"Ctrl-Down" : false,
 	fallthrough: ["default"]
 };
 CodeMirror.commands.autocomplete = function(cm) {
