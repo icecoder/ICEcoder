@@ -10,24 +10,22 @@ You can run ICEcoder either online or locally, on Linux, Windows or Mac based pl
 
 ###Installation
 
-####Step 1: Clone the repo
+####Step 1: Get ICEcoder
+Either download the zip or clone from Github using:
 
 ```
 $ git clone git://github.com/mattpass/ICEcoder.git
 ```
 
 ####Step 2: Place in your document root (online or local)
-```
-Put in a new sub-dir URL such as yourdomain.com/_coder or localhost/_coder
-Set write permissions (757 or 775 depending on your system) on the 'backups', 'lib', 'plugins', 'test' and 'tmp' folders
-(Note: A small number of hosts give internal server error here, if you get this, try 755 instead)
-```
+* Put in a new sub-dir URL such as yourdomain.com/ICEcoder or localhost/ICEcoder
+* Set write permissions (757 or 775 depending on your system) on the 'backups', 'lib' and 'test' folders plus 'test/test-file1.txt'
+*(Note: A small number of hosts give internal server error here, if you get this, try 755 instead)*
 
 ####Step 3: Start coding
-```
-Visit the sub-dir URL in your browser and enter a password
-Now you're setup, auto-logged in and ready to code!
-```
+* Visit the sub-dir URL in your browser and enter a password
+
+**Now you're setup, auto-logged in and ready to code!**
 
 Suitable for commercial & non-commercial projects, just let me know if it's useful to you and any cool customisations you make to it. I take no responsibility for anything, your usage is all down to you.
 
