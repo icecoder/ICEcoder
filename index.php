@@ -101,7 +101,6 @@ window.onbeforeunload = function() {
 	<div style="padding: 15px">
 		<a nohref onClick="top.ICEcoder.showColorPicker(top.document.getElementById('color') ? top.document.getElementById('color').value : '#123456')" title="Farbtastic
 Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
-		<a nohref onClick="top.ICEcoder.openTerminal()" title="Terminal"><img src="images/terminal.png" style="cursor: pointer" alt="Terminal"></a><br><br>
 		<div id="pluginsOptional"><?php echo $pluginsDisplay; ?></div>
 		<a nohref onclick="top.ICEcoder.pluginsManager()" title="Plugins Manager" style="color: #fff; cursor: pointer">+ / -</a>
 	</div>
