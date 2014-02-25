@@ -54,6 +54,7 @@ h2 {color: rgba(0,198,255,0.7)}
 .heading {color:#888}
 </style>
 <link rel="stylesheet" href="lib/file-types.css">
+<link rel="stylesheet" type="text/css" href="lib/file-image.css">
 </head>
 
 <body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
@@ -141,6 +142,8 @@ in lib/config__settings.php" style="cursor: pointer">[?]</a>
 	<div style="clear: both"></div>
 </div>
 
+<?php include_once("processes/on-editor-load.php"); ?>
+
 <script>
 CodeMirror.keyMap.ICEcoder = {
 	// "Tab": "defaultTab", **Now used by Emmet**
@@ -150,13 +153,6 @@ CodeMirror.keyMap.ICEcoder = {
 	"Ctrl-Down" : false,
 	fallthrough: ["default"]
 };
-CodeMirror.commands.autocomplete = function(cm) {
-	var langType = top.ICEcoder.caretLocType;
-	if (["JavaScript","CoffeeScript","SQL","CSS","HTML","XML","Content"].indexOf(langType)>-1) {
-		if (langType=="XML"||langType=="Content") {langType="HTML"};
-		CodeMirror.showHint(cm,CodeMirror.hint[langType.toLowerCase()]);
-	}
-}
 
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
