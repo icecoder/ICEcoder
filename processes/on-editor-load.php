@@ -104,4 +104,47 @@ top.ICEcoder.getNestLocationSub = function(nestCheck, fileName) {
 	}
 }
 
+// Indicate if the nesting structure of the code is OK
+top.ICEcoder.updateNestingIndicator = function() {
+	var cM, nestOK, fileName;
+
+	cM = top.ICEcoder.getcMInstance();
+	nestOK = true;
+	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+	if (cM && fileName && ["js","coffee","css","less","sql"].indexOf(fileName.split(".")[1])==-1) {
+		nestOK = cM.getTokenAt({line:cM.lineCount(),ch:cM.lineInfo(cM.lineCount()-1).text.length}).className != "error" ? true : false;
+	}
+	top.ICEcoder.nestValid.style.background = nestOK ? "#0b0" : "#f00";
+	top.ICEcoder.nestValid.title = nestOK ? "Nesting OK" : "Nesting Broken";
+}
+
+// Determine which area of the document we're in
+top.ICEcoder.caretLocationType = function() {
+	var cM, caretLocType, caretChunk, fileName;
+
+	cM = top.ICEcoder.getcMInstance();
+	caretLocType = "Unknown";
+	caretChunk = cM.getValue().substr(0,top.ICEcoder.caretPos+1);
+
+	if(caretChunk.lastIndexOf("<script")>caretChunk.lastIndexOf("/script>")&&caretLocType=="Unknown") {caretLocType = "JavaScript";}
+	else if (caretChunk.lastIndexOf("<?")>caretChunk.lastIndexOf("?>")&&caretLocType=="Unknown") {caretLocType = "PHP";}
+	else if (caretChunk.lastIndexOf("<%")>caretChunk.lastIndexOf("%>")&&caretLocType=="Unknown") {caretLocType = "Ruby";}
+	else if (caretChunk.lastIndexOf("<")>caretChunk.lastIndexOf(">")&&caretLocType=="Unknown") {caretLocType = "HTML";}
+	else if (caretLocType=="Unknown") {caretLocType = "Content";};
+
+	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+	if (fileName) {
+		if (fileName.indexOf(".js")>0) {caretLocType="JavaScript"} 
+		else if (fileName.indexOf(".coffee")>0)	{caretLocType="CoffeeScript"} 
+		else if (fileName.indexOf(".py")>0)	{caretLocType="Python"} 
+		else if (fileName.indexOf(".rb")>0)	{caretLocType="Ruby"} 
+		else if (fileName.indexOf(".css")>0)	{caretLocType="CSS"} 
+		else if (fileName.indexOf(".less")>0)	{caretLocType="LESS"} 
+		else if (fileName.indexOf(".md")>0)	{caretLocType="Markdown"}
+		else if (fileName.indexOf(".xml")>0)	{caretLocType="XML"}
+		else if (fileName.indexOf(".sql")>0)	{caretLocType="SQL"};
+	}
+
+	top.ICEcoder.caretLocType = caretLocType;
+}
 </script>
