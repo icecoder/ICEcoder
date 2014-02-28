@@ -24,10 +24,13 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["fontSize"]			= strClean($_POST['fontSize']);
 	$ICEcoder["lineWrapping"]		= strClean($_POST['lineWrapping']);
 	$ICEcoder["indentWithTabs"]		= strClean($_POST['indentWithTabs']);
-	$ICEcoder["indentSize"]			= numClean($_POST['indentSize']);
+	$ICEcoder["indentSize"]			= intval($_POST['indentSize']);
 	$ICEcoder["pluginPanelAligned"]		= strClean($_POST['pluginPanelAligned']);
+	$ICEcoder["bugFilePaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bugFilePaths']))).'")';
+	$ICEcoder["bugFileCheckTimer"]		= intval($_POST['bugFileCheckTimer']);
+	$ICEcoder["bugFileMaxLines"]		= intval($_POST['bugFileMaxLines']);
 
-	$settingsArray = array("root","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","theme","fontSize","lineWrapping","indentWithTabs","indentSize","pluginPanelAligned");
+	$settingsArray = array("root","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","theme","fontSize","lineWrapping","indentWithTabs","indentSize","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines");
 	$settingsNew = "";
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"'.PHP_EOL.'	=> ';
@@ -61,6 +64,6 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$refreshFM = $_POST['changedFileSettings']=="true" ? "true" : "false";
 
 	// With all that worked out, we can now hide the settings screen and apply the new settings
-	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."',".$refreshFM.");</script>";
+	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."','".$ICEcoder["bugFilePaths"]."',".$ICEcoder["bugFileCheckTimer"].",".$ICEcoder["bugFileMaxLines"].",".$refreshFM.");</script>";
 }
 ?>
