@@ -114,17 +114,17 @@ auto-complete on<br>
 <br>
 
 <h2>security</h2>
-new password <span style="font-size: 10px; color: #888">8 chars</span><br>
+new password <span class="info" title="8 chars min">[?]</span><br>
 <input type="password" name="password" onkeydown="showButton()"><br>
 confirm password<br>
 <input type="password" name="passwordConfirm" onkeydown="showButton()"><br>
 <br>
 banned files/folders<br>
 <input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" value="<?php echo implode(", ",$ICEcoder["bannedFiles"]); ?>"><br>
-banned paths<br>
+banned paths <span class="info" title="Slash prefixed, comma delimited">[?]</span><br>
 <input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedPaths" value="<?php echo implode(", ",$ICEcoder["bannedPaths"]); ?>"><br>
 <input type="hidden" name="changedFileSettings" value="false">
-ip addresses<br>
+ip addresses <span class="info" title="Comma delimited">[?]</span><br>
 <input type="text" onkeydown="showButton()" name="allowedIPs" value="<?php echo implode(", ",$ICEcoder["allowedIPs"]); ?>"><br>
 </div>
 
@@ -184,17 +184,31 @@ function findSequence(goal) {
 <br>
 
 <span style="position: absolute; top: 360px">
-	<h2>layout</h2>
-	plugin panel aligned<br>
-	<select onchange="showButton()" name="pluginPanelAligned">
-		<option value="left"<?php if($ICEcoder["pluginPanelAligned"] == "left") {echo " selected";};?>>left</option>
-		<option value="right"<?php if($ICEcoder["pluginPanelAligned"] == "right") {echo " selected";};?>>right</option>
-	</select>
+
+	<div style="position: relative; display: inline-block; margin-right: 20px">
+		<h2>layout</h2>
+		plugin panel aligned<br>
+		<select onchange="showButton()" name="pluginPanelAligned">
+			<option value="left"<?php if($ICEcoder["pluginPanelAligned"] == "left") {echo " selected";};?>>left</option>
+			<option value="right"<?php if($ICEcoder["pluginPanelAligned"] == "right") {echo " selected";};?>>right</option>
+		</select>
+	</div>
+
+	<div style="position: relative; display: inline-block">
+		<h2>file manager</h2>
+		root <span class="info" title="Slash prefixed">[?]</span><br>
+		<input type="text" name="root" style="width: 200px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["root"];?>">
+	</div>
 	<br><br>
 
-	<h2>file manager</h2>
-	root <span style="font-size: 10px; color: #888">slash prefixed</span><br>
-	<input type="text" name="root" style="width: 200px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["root"];?>">
+	<h2>bug reporting</h2>
+	check in files <span class="info" title="Slash prefixed, comma delimited">[?]</span><br>
+	<input type="text" name="bugFilePaths" style="width: 120px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo implode(", ",$ICEcoder["bugFilePaths"]);?>">
+	<span style="display: inline-block; padding: 4px 5px 0 5px">every</span>
+	<input type="text" name="bugFileCheckTimer" style="width: 50px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["bugFileCheckTimer"];?>">
+	<span style="display: inline-block; padding: 4px 5px 0 5px">secs, getting last</span>
+	<input type="text" name="bugFileMaxLines" style="width: 50px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["bugFileMaxLines"];?>">
+	<span style="display: inline-block; padding: 4px 5px 0 5px">lines</span>
 </span>
 
 <script>
