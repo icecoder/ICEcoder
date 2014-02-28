@@ -42,4 +42,5 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 	-moz-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
 	box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
 }
+.settings .info {font-size: 10px; color: #bbb; cursor: help}
 .settings .update {position: absolute; bottom: 0; right: 20px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); opacity: 0.1; cursor: pointer}
