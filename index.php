@@ -58,28 +58,20 @@ window.onbeforeunload = function() {
 		$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
 		echo "'".implode("','",$openFilesArray)."'";
 	}
-	echo "];top.ICEcoder.theme = '";
-	echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];
-	echo "'";
-	echo ";top.ICEcoder.fontSize = '";
-	echo $ICEcoder["fontSize"];
-	echo "'";
-	echo ';top.ICEcoder.openLastFiles = ';
-	echo $ICEcoder["openLastFiles"] ? 'true' : 'false';
-	echo ';top.ICEcoder.codeAssist = ';
-	echo $ICEcoder["codeAssist"] ? 'true' : 'false';
-	echo ';top.ICEcoder.lineWrapping = ';
-	echo $ICEcoder["lineWrapping"] ? 'true' : 'false';
-	echo ';top.ICEcoder.indentWithTabs = ';
-	echo $ICEcoder["indentWithTabs"] ? 'true' : 'false';
-	echo ';top.ICEcoder.indentSize = ';
-	echo $ICEcoder["indentSize"];
-	echo ';top.ICEcoder.demoMode = ';
-	echo $ICEcoder["demoMode"] ? 'true' : 'false';
-	echo ';top.ICEcoder.tagWrapperCommand = ';
-	echo "'".$ICEcoder["tagWrapperCommand"]."'";
-	echo ';top.ICEcoder.autoComplete = ';
-	echo "'".$ICEcoder["autoComplete"]."'";
+	echo "];";
+	echo "top.ICEcoder.theme = '".($ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"])."';".
+		"top.ICEcoder.fontSize = '".$ICEcoder["fontSize"]."';".
+		"top.ICEcoder.openLastFiles = ".($ICEcoder["openLastFiles"] ? 'true' : 'false').";".
+		"top.ICEcoder.codeAssist = ".($ICEcoder["codeAssist"] ? 'true' : 'false').";".
+		"top.ICEcoder.lineWrapping = ".($ICEcoder["lineWrapping"] ? 'true' : 'false').";".
+		"top.ICEcoder.indentWithTabs = ".($ICEcoder["indentWithTabs"] ? 'true' : 'false').";".
+		"top.ICEcoder.indentSize = ".$ICEcoder["indentSize"].";".
+		"top.ICEcoder.demoMode = ".($ICEcoder["demoMode"] ? 'true' : 'false').";".
+		"top.ICEcoder.tagWrapperCommand = '".$ICEcoder["tagWrapperCommand"]."';".
+		"top.ICEcoder.autoComplete = '".$ICEcoder["autoComplete"]."';".
+		"top.ICEcoder.bugFilePaths = ['".implode("','",$ICEcoder["bugFilePaths"])."'];".
+		"top.ICEcoder.bugFileCheckTimer = ".intval($ICEcoder["bugFileCheckTimer"]).";".
+		"top.ICEcoder.bugFileMaxLines = ".$ICEcoder["bugFileMaxLines"];
 ?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.content.style.visibility='visible';top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">
@@ -263,6 +255,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 			</div>
 			<div class="goLine">Go to Line <input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 			<div class="view" title="View" onClick="top.ICEcoder.openPreviewWindow()" id="fMView"></div>
+			<div class="bug" title="Bug reporting not active" onClick="top.ICEcoder.openBugReport()" id="bugIcon"></div>
 		</form>
 	</div>
 	<iframe name="contentFrame" id="content" src="editor.php" class="code"></iframe>
