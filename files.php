@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" type="text/css" href="lib/files.css">
 <link rel="stylesheet" type="text/css" href="lib/file-types.css">
-<link rel="stylesheet" type="text/css" href="lib/file-image.css">
+<link rel="stylesheet" type="text/css" href="lib/file-type-icons.css">
 <script src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js" type="text/javascript"></script>
 </head>
 

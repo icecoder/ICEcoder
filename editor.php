@@ -54,7 +54,7 @@ h2 {color: rgba(0,198,255,0.7)}
 .heading {color:#888}
 </style>
 <link rel="stylesheet" href="lib/file-types.css">
-<link rel="stylesheet" type="text/css" href="lib/file-image.css">
+<link rel="stylesheet" type="text/css" href="lib/file-type-icons.css">
 </head>
 
 <body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
