@@ -1,30 +1,93 @@
 <?php
-// TO DO:
+// Load common functions
+include("settings-common.php");
 
-// After setting 3 new bug file params in settings, open dev console to see the URL that's being called
+$files		= explode(",",str_replace("|","/",$_GET['files']));
+$filesSizesSeen	= explode(",",$_GET['filesSizesSeen']);
+$maxLines	= $_GET['maxLines'];
 
-// This file will be called upon by XHR, on the timer value specified (eg 2 secs), with 3 querystring keys - files, filesMDTs and maxLines
-// eg: bug-files-check.php?files=|var|domain|log.txt,|var|domain|another|example.txt&filesMDTs=123456,123478&maxLines=100
+$result = "ok";
 
-// You can then grab the list of files and MDTs (modified datetimes) from the querystring into 2 PHP arrays
+for ($i=0; $i<count($files); $i++) {
+	$files[$i] = $_SERVER['DOCUMENT_ROOT'].$files[$i];
+	$filesSizesSeen[$i] = filesize($files[$i]);
+	if (!file_exists($files[$i])) {
+		$result = "error";
+	}
+}
 
-// The first time this file is run, there will be no MDTs in top.ICEcoder.openFileMDTs, so the querysting will contain filesMDTs=null,null
-// If there are null MDTs, get the files MDT (eg using filemtime($file) on Linux) for each file and push into the array at top.ICEcoder.openFileMDTs
+if ($result != "error") {
 
-// The 2nd and all subsequent time this file runs, we'll of course have MDTs in that JS array and that's what gets passed in the querysting from then on
-// From the 2nd call onwards, we can compare the querystring MDT against the actual file MDT and if different, we need to get results as there's new bugs
+	// If we have a value here, we can test, otherwise don't
+	if (explode(",",$_GET['filesSizesSeen'])[0]!="null" && explode(",",$_GET['filesSizesSeen'])[0] != $filesSizesSeen[0]) {
+		$result = "bugs";
 
-// So at that point, we can get the maxLines value from the querystring, tail that number of lines from the file in question into tmp/bug-report.log
+		$filename = $files[0];
+		$chars = ($filesSizesSeen[0]-explode(",",$_GET['filesSizesSeen'])[0]);
+		$buffer = 4096;
+		$lines = $maxLines+1+1; // 1 (possibly) for end of file and 1 for partial lines
 
-// After all of this, we can set $result to one of 4 states - off, error, ok or bugs
-// You can change the value below now to see the icon change
+		// Open the file
+		$f = fopen($filename, "rb");
 
+		// Jump to last character
+		fseek($f, 0, SEEK_END);
 
+		if(fread($f, 1) != "\n") $lines -= 1;
 
+		// Start reading
+		$output = "";
+		$chunk = "";
+
+		// While we would like more
+		while(ftell($f) > 0 && $chars > 0 && $lines > 0) {
+
+			// Figure out how far back we should jump
+			$seek = min($chars, $buffer);
+
+			// Do the jump (backwards, relative to where we are)
+			fseek($f, -$seek, SEEK_CUR);
+
+			// Read a chunk and prepend it to our output
+			$output = ($chunk = fread($f, $seek)).$output;
+
+			// Jump back to where we started reading
+			fseek($f, -mb_strlen($chunk, '8bit'), SEEK_CUR);
+
+			// Take this seek chunk off the number of chars
+			$chars -= $seek;
+
+			$lines -= substr_count($chunk, "\n");	
+		}
+
+		// Close file
+		fclose($f); 
+
+		$output = rtrim(str_replace("\r\n","\n",$output));
+		$output = explode("\n",$output);
+		$output = array_slice($output, -$maxLines);
+		$output = implode("\n",$output);
+
+		file_put_contents("../tmp/bug-report.log", $output);
+	}
+
+}
+
+$tmpLoc = dirname(__FILE__);
+$tmpLoc = explode(DIRECTORY_SEPARATOR,$tmpLoc);
+$tmpLoc = $tmpLoc[count($tmpLoc)-2];
 
 // Output result and status array
-$result = "off";
-$status = array("result" => $result);
+$status = array(
+	"files" => $files,
+	"filesSizesSeen" => $filesSizesSeen,
+	"maxLines" => $maxLines,
+	"chars" => (isset($chars) ? $chars : null),
+	"lines" => substr_count($output, "\n"),
+	"seek" => (isset($seek) ? $seek : null),
+	"bugReportPath" => "|".$tmpLoc."|tmp|bug-report.log",
+	"result" => $result
+);
 
 // Include our process once our bug checking work is done
 include("../processes/on-bug-check.php");
