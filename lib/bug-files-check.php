@@ -82,9 +82,9 @@ $status = array(
 	"files" => $files,
 	"filesSizesSeen" => $filesSizesSeen,
 	"maxLines" => $maxLines,
-	"chars" => (isset($chars) ? $chars : null),
-	"lines" => substr_count($output, "\n"),
-	"seek" => (isset($seek) ? $seek : null),
+//	"chars" => (isset($chars) ? $chars : null),
+//	"lines" => substr_count($output, "\n"),
+//	"seek" => (isset($seek) ? $seek : null),
 	"bugReportPath" => "|".$tmpLoc."|tmp|bug-report.log",
 	"result" => $result
 );
