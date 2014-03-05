@@ -21,7 +21,7 @@ $finalArray = scanDir($scanDir.$location);
 foreach($finalArray as $entry) {
 	$canAdd = true;
 	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
-		if(strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
+		if($_SESSION['bannedFiles'][$i] != "" && strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
 	}
 	if ("/".$entry == $ICEcoderDir) {
 		$canAdd = false;
