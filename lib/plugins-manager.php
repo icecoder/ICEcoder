@@ -30,9 +30,13 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		// Store the plugin zip to the tmp dir
 		$target = '../plugins/';
 	    	$zipFile = "../tmp/".basename($pluginsData[$_GET['plugin']]['zipURL']);
-    		$client = curl_init($pluginsData[$_GET['plugin']]['zipURL']);
-	    	curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);  //fixed this line
-		$fileData = curl_exec($client);
+		if (ini_get('allow_url_fopen')) {
+			$fileData = file_get_contents($pluginsData[$_GET['plugin']]['zipURL'], false, $context);
+		} elseif (function_exists('curl_init')) {
+    			$client = curl_init($pluginsData[$_GET['plugin']]['zipURL']);
+		    	curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);  //fixed this line
+			$fileData = curl_exec($client);
+		}
 		file_put_contents($zipFile, $fileData);
 
 		// Now unpack the zip
