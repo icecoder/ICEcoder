@@ -73,7 +73,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 		Thanks go to the following people who have inspired me to create this or provided feedback, code or testing:<br>
 		<?php
-			$peopleArray = array("marijnjh", "maettig", "a_harris88", "emmetio", "prinzhorn", "wimtibackx", "jakubvrana", "davidwalshblog", "vicen_herrera", "abstractba", "themximum", "anagnam");
+			$peopleArray = array("marijnjh", "maettig", "darkosvitic", "anagnam", "a_harris88", "emmetio", "prinzhorn", "jakubvrana", "vicen_herrera", "abstractba", "adarwash", "themximum");
 			function makeURL(&$value) {
 				$value = '<a href="http://www.twitter.com/'.$value.'" style="font-size: 10px" target="_blank">@'.$value.'</a>';
 			};
@@ -203,11 +203,11 @@ function findSequence(goal) {
 
 	<h2>bug reporting</h2>
 	check in files <span class="info" title="Slash prefixed, comma delimited">[?]</span><br>
-	<input type="text" name="bugFilePaths" style="width: 120px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo implode(", ",$ICEcoder["bugFilePaths"]);?>">
+	<input type="text" name="bugFilePaths" style="width: 120px" onkeydown="showButton()" value="<?php echo implode(", ",$ICEcoder["bugFilePaths"]);?>">
 	<span style="display: inline-block; padding: 4px 5px 0 5px">every</span>
-	<input type="text" name="bugFileCheckTimer" style="width: 50px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["bugFileCheckTimer"];?>">
+	<input type="text" name="bugFileCheckTimer" style="width: 50px" onkeydown="showButton()" value="<?php echo $ICEcoder["bugFileCheckTimer"];?>">
 	<span style="display: inline-block; padding: 4px 5px 0 5px">secs, getting last</span>
-	<input type="text" name="bugFileMaxLines" style="width: 50px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["bugFileMaxLines"];?>">
+	<input type="text" name="bugFileMaxLines" style="width: 50px" onkeydown="showButton()" value="<?php echo $ICEcoder["bugFileMaxLines"];?>">
 	<span style="display: inline-block; padding: 4px 5px 0 5px">lines</span>
 </span>
 
