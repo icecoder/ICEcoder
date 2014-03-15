@@ -4,3 +4,4 @@ lib/config-*
 test/test-file1.txt
 tmp/oldVersion
 tmp/new-version*
+tmp/bug-report.log
