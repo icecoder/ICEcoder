@@ -19,71 +19,71 @@ for ($i=0; $i<count($files); $i++) {
 
 if ($result != "error") {
 
-$filesWithNewBugs = 0;
+	$filesWithNewBugs = 0;
 
-for ($i=0; $i<count($files); $i++) {
-	// If we have set a filesize value previously and it's different to now, there's new bugs
-	if (explode(",",$_GET['filesSizesSeen'])[$i]!="null" && explode(",",$_GET['filesSizesSeen'])[$i] != $filesSizesSeen[$i]) {
-		$result = "bugs";
-		$filesWithNewBugs++;
+	for ($i=0; $i<count($files); $i++) {
+		// If we have set a filesize value previously and it's different to now, there's new bugs
+		if (explode(",",$_GET['filesSizesSeen'])[$i]!="null" && explode(",",$_GET['filesSizesSeen'])[$i] != $filesSizesSeen[$i]) {
+			$result = "bugs";
+			$filesWithNewBugs++;
 
-		$filename = $files[$i];
-		$chars = ($filesSizesSeen[$i]-explode(",",$_GET['filesSizesSeen'])[$i]);
-		$buffer = 4096;
-		$lines = $maxLines+1+1; // 1 (possibly) for end of file and 1 for partial lines
+			$filename = $files[$i];
+			$chars = ($filesSizesSeen[$i]-explode(",",$_GET['filesSizesSeen'])[$i]);
+			$buffer = 4096;
+			$lines = $maxLines+1+1; // 1 (possibly) for end of file and 1 for partial lines
 
-		// Open the file
-		$f = fopen($filename, "rb");
+			// Open the file
+			$f = fopen($filename, "rb");
 
-		// Jump to last character
-		fseek($f, 0, SEEK_END);
+			// Jump to last character
+			fseek($f, 0, SEEK_END);
 
-		// If we don't have a line at end, deduct 1 from $lines to get
-		if(fread($f, 1) != "\n") $lines -= 1;
+			// If we don't have a line at end, deduct 1 from $lines to get
+			if(fread($f, 1) != "\n") $lines -= 1;
 
-		// Start reading
-		$output = "";
-		$chunk = "";
+			// Start reading
+			$output = "";
+			$chunk = "";
 
-		// While we would like more
-		while(ftell($f) > 0 && $chars > 0 && $lines > 0) {
+			// While we would like more
+			while(ftell($f) > 0 && $chars > 0 && $lines > 0) {
 
-			// Figure out how far back we should jump
-			$seek = min($chars, $buffer);
+				// Figure out how far back we should jump
+				$seek = min($chars, $buffer);
 
-			// Do the jump (backwards, relative to where we are)
-			fseek($f, -$seek, SEEK_CUR);
+				// Do the jump (backwards, relative to where we are)
+				fseek($f, -$seek, SEEK_CUR);
 
-			// Read a chunk and prepend it to our output
-			$output = ($chunk = fread($f, $seek)).$output;
+				// Read a chunk and prepend it to our output
+				$output = ($chunk = fread($f, $seek)).$output;
 
-			// Jump back to where we started reading
-			fseek($f, -mb_strlen($chunk, '8bit'), SEEK_CUR);
+				// Jump back to where we started reading
+				fseek($f, -mb_strlen($chunk, '8bit'), SEEK_CUR);
 
-			// Take this seek chunk off the number of chars
-			$chars -= $seek;
+				// Take this seek chunk off the number of chars
+				$chars -= $seek;
 
-			// Deduct new lines found in this chunk from $lines
-			$lines -= substr_count($chunk, "\n");	
+				// Deduct new lines found in this chunk from $lines
+				$lines -= substr_count($chunk, "\n");	
+			}
+
+			// Close file
+			fclose($f); 
+
+			// OK, now we have bug lines to output, save to our file
+			$output = rtrim(str_replace("\r\n","\n",$output));
+			$output = explode("\n",$output);
+			$output = array_slice($output, -$maxLines);
+			$output = "Found in: ".$filename."...\n".implode("\n",$output);
+
+			if ($filesWithNewBugs==1) {
+				file_put_contents("../tmp/bug-report.log", $output);
+			} else {
+				file_put_contents("../tmp/bug-report.log", "\n\n".$output, FILE_APPEND);
+			}
 		}
 
-		// Close file
-		fclose($f); 
-
-		// OK, now we have bug lines to output, save to our file
-		$output = rtrim(str_replace("\r\n","\n",$output));
-		$output = explode("\n",$output);
-		$output = array_slice($output, -$maxLines);
-		$output = "Found in: ".$filename."...\n".implode("\n",$output);
-
-		if ($filesWithNewBugs==1) {
-			file_put_contents("../tmp/bug-report.log", $output);
-		} else {
-			file_put_contents("../tmp/bug-report.log", "\n\n".$output, FILE_APPEND);
-		}
 	}
-
-}
 }
 
 // Get dir name tmp dir's parent
