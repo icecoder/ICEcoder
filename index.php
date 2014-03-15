@@ -70,7 +70,7 @@ window.onbeforeunload = function() {
 		"top.ICEcoder.tagWrapperCommand = '".$ICEcoder["tagWrapperCommand"]."';".
 		"top.ICEcoder.autoComplete = '".$ICEcoder["autoComplete"]."';".
 		"top.ICEcoder.bugFilePaths = ['".implode("','",$ICEcoder["bugFilePaths"])."'];".
-		"top.ICEcoder.bugFileCheckTimer = ".intval($ICEcoder["bugFileCheckTimer"]).";".
+		"top.ICEcoder.bugFileCheckTimer = ".$ICEcoder["bugFileCheckTimer"].";".
 		"top.ICEcoder.bugFileMaxLines = ".$ICEcoder["bugFileMaxLines"];
 ?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.content.style.visibility='visible';top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
 
@@ -180,7 +180,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 		</div>
 		<div id="optionsRemote" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id)">
 			<ul>
-				<li><a nohref onclick="ICEcoder.message('Git & GitHub integration coming soon')">Git</a></li>
+				<li><a nohref onclick="ICEcoder.message('Git & GitHub integration coming soon')">GitHub</a></li>
 				<li><a nohref onclick="ICEcoder.message('SVN integration coming soon')">SVN</a></li>
 				<li><a nohref onclick="ICEcoder.message('Bitbucket integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Bitbucket</a></li>
 				<li><a nohref onclick="ICEcoder.message('Amazon AWS integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Amazon AWS</a></li>
@@ -196,6 +196,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 				<li><a nohref onClick="ICEcoder.settingsScreen()">Settings</a></li>
 				<li><a nohref onclick="ICEcoder.searchForSelected()">Search for selected</a></li>
 				<li><a href="http://icecoder.net" target="_blank">ICEcoder website</a></li>
+				<li><a href="http://igg.me/at/icecoder4" target="_blank">Crowdfund ICEcoder v4.0</a></li>
 			</ul>
 		</div>
 	</div>
