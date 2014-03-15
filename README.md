@@ -19,9 +19,9 @@ $ git clone git://github.com/mattpass/ICEcoder.git
 
 ####Step 2: Place in your document root (online or local)
 * Put in a new sub-dir URL such as yourdomain.com/ICEcoder or localhost/ICEcoder
-* Set write permissions (757 or 775 depending on your system) on the 'backups', 'lib' and 'test' folders plus 'test/test-file1.txt'
+* Set write permissions (757 or 775 depending on your system) on the 'backups', 'lib', 'plugins', 'test' and 'tmp' folders
 
-*(Note: A small number of hosts give internal server error here, if you get this, try 755 instead)*
+*(Note: A small number of web servers give an internal server error here, if you get this, try 755 instead)*
 
 ####Step 3: Start coding
 * Visit the sub-dir URL in your browser and enter a password
