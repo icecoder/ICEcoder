@@ -54,6 +54,7 @@ h2 {color: rgba(0,198,255,0.7)}
 .heading {color:#888}
 </style>
 <link rel="stylesheet" href="lib/file-types.css">
+<link rel="stylesheet" href="lib/file-type-icons.css">
 </head>
 
 <body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
@@ -150,13 +151,6 @@ CodeMirror.keyMap.ICEcoder = {
 	"Ctrl-Down" : false,
 	fallthrough: ["default"]
 };
-CodeMirror.commands.autocomplete = function(cm) {
-	var langType = top.ICEcoder.caretLocType;
-	if (["JavaScript","CoffeeScript","SQL","CSS","HTML","XML","Content"].indexOf(langType)>-1) {
-		if (langType=="XML"||langType=="Content") {langType="HTML"};
-		CodeMirror.showHint(cm,CodeMirror.hint[langType.toLowerCase()]);
-	}
-}
 
 function createNewCMInstance(num) {
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
@@ -316,6 +310,8 @@ var debounce;
 </script>
 
 <div style="position: absolute; display: none; width: 5px; height: 100%; top: 0; right: 0; background: rgba(255,255,255,0.1); overflow: hidden; z-index: 2" id="resultsBar"></div>
+
+<?php include_once("processes/on-editor-load.php"); ?>
 
 </body>
 
