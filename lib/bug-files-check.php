@@ -10,20 +10,25 @@ $result = "ok";
 
 for ($i=0; $i<count($files); $i++) {
 	$files[$i] = $_SERVER['DOCUMENT_ROOT'].$files[$i];
-	$filesSizesSeen[$i] = filesize($files[$i]);
 	if (!file_exists($files[$i])) {
 		$result = "error";
+	} else {
+		$filesSizesSeen[$i] = filesize($files[$i]);
 	}
 }
 
 if ($result != "error") {
 
-	// If we have a value here, we can test, otherwise don't
-	if (explode(",",$_GET['filesSizesSeen'])[0]!="null" && explode(",",$_GET['filesSizesSeen'])[0] != $filesSizesSeen[0]) {
-		$result = "bugs";
+$filesWithNewBugs = 0;
 
-		$filename = $files[0];
-		$chars = ($filesSizesSeen[0]-explode(",",$_GET['filesSizesSeen'])[0]);
+for ($i=0; $i<count($files); $i++) {
+	// If we have set a filesize value previously and it's different to now, there's new bugs
+	if (explode(",",$_GET['filesSizesSeen'])[$i]!="null" && explode(",",$_GET['filesSizesSeen'])[$i] != $filesSizesSeen[$i]) {
+		$result = "bugs";
+		$filesWithNewBugs++;
+
+		$filename = $files[$i];
+		$chars = ($filesSizesSeen[$i]-explode(",",$_GET['filesSizesSeen'])[$i]);
 		$buffer = 4096;
 		$lines = $maxLines+1+1; // 1 (possibly) for end of file and 1 for partial lines
 
@@ -33,6 +38,7 @@ if ($result != "error") {
 		// Jump to last character
 		fseek($f, 0, SEEK_END);
 
+		// If we don't have a line at end, deduct 1 from $lines to get
 		if(fread($f, 1) != "\n") $lines -= 1;
 
 		// Start reading
@@ -57,22 +63,30 @@ if ($result != "error") {
 			// Take this seek chunk off the number of chars
 			$chars -= $seek;
 
+			// Deduct new lines found in this chunk from $lines
 			$lines -= substr_count($chunk, "\n");	
 		}
 
 		// Close file
 		fclose($f); 
 
+		// OK, now we have bug lines to output, save to our file
 		$output = rtrim(str_replace("\r\n","\n",$output));
 		$output = explode("\n",$output);
 		$output = array_slice($output, -$maxLines);
-		$output = implode("\n",$output);
+		$output = "Found in: ".$filename."...\n".implode("\n",$output);
 
-		file_put_contents("../tmp/bug-report.log", $output);
+		if ($filesWithNewBugs==1) {
+			file_put_contents("../tmp/bug-report.log", $output);
+		} else {
+			file_put_contents("../tmp/bug-report.log", "\n\n".$output, FILE_APPEND);
+		}
 	}
 
 }
+}
 
+// Get dir name tmp dir's parent
 $tmpLoc = dirname(__FILE__);
 $tmpLoc = explode(DIRECTORY_SEPARATOR,$tmpLoc);
 $tmpLoc = $tmpLoc[count($tmpLoc)-2];
@@ -82,9 +96,6 @@ $status = array(
 	"files" => $files,
 	"filesSizesSeen" => $filesSizesSeen,
 	"maxLines" => $maxLines,
-//	"chars" => (isset($chars) ? $chars : null),
-//	"lines" => substr_count($output, "\n"),
-//	"seek" => (isset($seek) ? $seek : null),
 	"bugReportPath" => "|".$tmpLoc."|tmp|bug-report.log",
 	"result" => $result
 );
