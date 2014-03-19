@@ -29,6 +29,10 @@ top.ICEcoder.switchMode = function(mode) {
 		: fileName.indexOf('.md')>0	? cM.setOption("mode","markdown")
 		: fileName.indexOf('.xml')>0	? cM.setOption("mode","xml")
 		: fileName.indexOf('.sql')>0	? cM.setOption("mode","text/x-mysql") // also text/x-sql, text/x-mariadb, text/x-cassandra or text/x-plsql
+		: fileName.indexOf('.erl')>0	? cM.setOption("mode","erlang")
+		: fileName.indexOf('.yaml')>0	? cM.setOption("mode","yaml")
+		: fileName.indexOf('.java')>0	? cM.setOption("mode","text/x-java")
+		: fileName.indexOf('.jl')>0	? cM.setOption("mode","julia")
 		: cM.setOption("mode","application/x-httpd-php");
 	}
 }
@@ -88,7 +92,7 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 top.ICEcoder.getNestLocationSub = function(nestCheck, fileName) {
 	var events;
 
-	if (["js","coffee","css","less","sql"].indexOf(fileName.split(".")[1])<0 &&
+	if (["js","coffee","css","less","sql","erl","yaml","java","jl"].indexOf(fileName.split(".")[1])<0 &&
 		(nestCheck.indexOf("include(")==-1)&&(nestCheck.indexOf("include_once(")==-1)) {
 
 		// Then for all the array items, output as the nest display
@@ -113,7 +117,7 @@ top.ICEcoder.updateNestingIndicator = function() {
 	cM = top.ICEcoder.getcMInstance();
 	nestOK = true;
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	if (cM && fileName && ["js","coffee","css","less","sql"].indexOf(fileName.split(".")[1])==-1) {
+	if (cM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl"].indexOf(fileName.split(".")[1])==-1) {
 		nestOK = cM.getTokenAt({line:cM.lineCount(),ch:cM.lineInfo(cM.lineCount()-1).text.length}).className != "error" ? true : false;
 	}
 	top.ICEcoder.nestValid.style.background = nestOK ? "#0b0" : "#f00";
@@ -144,7 +148,11 @@ top.ICEcoder.caretLocationType = function() {
 		else if (fileName.indexOf(".less")>0)	{caretLocType="LESS"} 
 		else if (fileName.indexOf(".md")>0)	{caretLocType="Markdown"}
 		else if (fileName.indexOf(".xml")>0)	{caretLocType="XML"}
-		else if (fileName.indexOf(".sql")>0)	{caretLocType="SQL"};
+		else if (fileName.indexOf(".sql")>0)	{caretLocType="SQL"}
+		else if (fileName.indexOf(".yaml")>0)	{caretLocType="YAML"}
+		else if (fileName.indexOf(".java")>0)	{caretLocType="Java"}
+		else if (fileName.indexOf(".erl")>0)	{caretLocType="Erlang"}
+		else if (fileName.indexOf(".jl")>0)	{caretLocType="Julia"};
 	}
 
 	top.ICEcoder.caretLocType = caretLocType;
