@@ -39,16 +39,17 @@ top.ICEcoder.switchMode = function(mode) {
 
 // Comment/uncomment line or selected range on keypress
 top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent, lCLen, adjustCursor) {
-	var startLine, endLine;
+	var startLine, endLine, commentChar;
 
-	if (["JavaScript","CoffeeScript","PHP","Python","Ruby","CSS","SQL"].indexOf(top.ICEcoder.caretLocType)>-1) {
+	if (["JavaScript","CoffeeScript","PHP","Python","Ruby","CSS","SQL","Erlang","Julia","Java","YAML"].indexOf(top.ICEcoder.caretLocType)>-1) {
 		if (cM.somethingSelected()) {
-			if (top.ICEcoder.caretLocType=="Ruby"||top.ICEcoder.caretLocType=="Python") {
+			if (["Ruby","Python","Erlang","Julia","YAML"].indexOf(top.ICEcoder.caretLocType)>-1) {
+				commentChar = top.ICEcoder.caretLocType == "Erlang" ? "%" : "#";
 				startLine = cM.getCursor(true).line;
 				endLine = cM.getCursor().line;
 				for (var i=startLine; i<=endLine; i++) {
-					cM.setLine(i, cM.getLine(i).slice(0,1)!="#"
-					? "#" + cM.getLine(i)
+					cM.setLine(i, cM.getLine(i).slice(0,1)!=commentChar
+					? commentChar + cM.getLine(i)
 					: cM.getLine(i).slice(1,cM.getLine(i).length));
 				}
 			} else {
@@ -62,11 +63,13 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 				? "/*" + lineContent + "*/"
 				: lineContent.slice(2,lCLen).slice(0,lCLen-4));
 				if (lineContent.slice(0,2)=="/*") {adjustCursor = -adjustCursor};
-			} else if (top.ICEcoder.caretLocType=="Ruby") {
-				cM.setLine(linePos, lineContent.slice(0,1)!="#"
-				? "#" + lineContent
+			} else if (["Ruby","Python","Erlang","Julia","YAML"].indexOf(top.ICEcoder.caretLocType)>-1) {
+				commentChar = top.ICEcoder.caretLocType == "Erlang" ? "%" : "#";
+				cM.setLine(linePos, lineContent.slice(0,1)!=commentChar
+				? commentChar + lineContent
 				: lineContent.slice(1,lCLen));
-				if (lineContent.slice(0,1)=="#") {adjustCursor = -adjustCursor};
+				adjustCursor = 1;
+				if (lineContent.slice(0,1)==commentChar) {adjustCursor = -adjustCursor};
 			} else {
 				cM.setLine(linePos, lineContent.slice(0,2)!="//"
 				? "//" + lineContent
@@ -86,6 +89,8 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 			adjustCursor = lineContent.slice(0,4)=="<\!--" ? -4 : 4;
 		}
 	}
+
+	if (!cM.somethingSelected()) {cM.setCursor(linePos, cursorPos+adjustCursor)};
 }
 
 // Work out the nesting depth location on demand and update our display if required
