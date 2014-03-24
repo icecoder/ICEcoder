@@ -23,12 +23,13 @@ if ($result != "error") {
 
 	for ($i=0; $i<count($files); $i++) {
 		// If we have set a filesize value previously and it's different to now, there's new bugs
-		if (explode(",",$_GET['filesSizesSeen'])[$i]!="null" && explode(",",$_GET['filesSizesSeen'])[$i] != $filesSizesSeen[$i]) {
+		$fileSizesSeenArray = explode(",",$_GET['filesSizesSeen']);
+		if ($fileSizesSeenArray[$i]!="null" && $fileSizesSeenArray[$i] != $filesSizesSeen[$i]) {
 			$result = "bugs";
 			$filesWithNewBugs++;
 
 			$filename = $files[$i];
-			$chars = ($filesSizesSeen[$i]-explode(",",$_GET['filesSizesSeen'])[$i]);
+			$chars = ($filesSizesSeen[$i]-$fileSizesSeenArray[$i]);
 			$buffer = 4096;
 			$lines = $maxLines+1+1; // 1 (possibly) for end of file and 1 for partial lines
 
