@@ -70,7 +70,7 @@ h2 {color: rgba(0,198,255,0.7)}
 	<div style="float: left; width: 300px; margin-right: 50px">
 		<h2>server</h2>
 		<span class="heading">Server name, OS & IP:</span><br>
-		<?php echo $_SERVER['SERVER_NAME']." &nbsp;&nbsp ".$_SERVER['SERVER_SOFTWARE']." &nbsp;&nbsp ".$_SERVER['SERVER_ADDR'];?><br><br>
+		<?php echo $_SERVER['SERVER_NAME']." &nbsp;&nbsp ".$_SERVER['SERVER_SOFTWARE']." &nbsp;&nbsp ".(isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:"Unknown");?><br><br>
 		<span class="heading">Root:</span><br>
 		<?php echo $docRoot;?><br><br>
 		<span class="heading">ICEcoder root:</span><br>
