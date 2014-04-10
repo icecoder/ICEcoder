@@ -12,11 +12,10 @@
 <!--
 codemirror-compressed.js
 incls:	codemirror
-modes:	clike, coffeescript, css, erlang, htmlmixed, javascript, julia, less, markdown, php, python, ruby, sql & xml, yaml
+modes:	clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, markdown, perl, php, python, ruby, rust, sass, sql & xml, yaml
 addon:	brace-fold, closetag, css-hint, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, searchcursor, show-hint, sql-hint, trailingspace, xml-fold, xml-hint
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
-<script src="lib/julia.js"></script>
 <script src="jshint/jshint-2.1.4.min.js"></script>
 <script src="lib/mmd.js"></script>
 <script src="lib/foldcode.js"></script>
