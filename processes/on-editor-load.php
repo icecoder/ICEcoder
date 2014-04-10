@@ -20,19 +20,27 @@ top.ICEcoder.switchMode = function(mode) {
 	if (cM && mode) {
 		cM.setOption("mode",mode);
 	} else if (cM && fileName) {
-		fileName.indexOf('.js')>0	? cM.setOption("mode","javascript")
-		: fileName.indexOf('.coffee')>0	? cM.setOption("mode","coffeescript")
-		: fileName.indexOf('.rb')>0	? cM.setOption("mode","ruby")
-		: fileName.indexOf('.py')>0	? cM.setOption("mode","python")
-		: fileName.indexOf('.css')>0	? cM.setOption("mode","css")
-		: fileName.indexOf('.less')>0	? cM.setOption("mode","less")
-		: fileName.indexOf('.md')>0	? cM.setOption("mode","markdown")
-		: fileName.indexOf('.xml')>0	? cM.setOption("mode","xml")
+		fileName.indexOf('.js')>0	? cM.setOption("mode","text/javascript")
+		: fileName.indexOf('.coffee')>0	? cM.setOption("mode","text/x-coffeescript")
+		: fileName.indexOf('.rb')>0	? cM.setOption("mode","text/x-ruby")
+		: fileName.indexOf('.py')>0	? cM.setOption("mode","text/x-python")
+		: fileName.indexOf('.css')>0	? cM.setOption("mode","text/css")
+		: fileName.indexOf('.less')>0	? cM.setOption("mode","text/x-less")
+		: fileName.indexOf('.md')>0	? cM.setOption("mode","text/x-markdown")
+		: fileName.indexOf('.xml')>0	? cM.setOption("mode","application/xml")
 		: fileName.indexOf('.sql')>0	? cM.setOption("mode","text/x-mysql") // also text/x-sql, text/x-mariadb, text/x-cassandra or text/x-plsql
-		: fileName.indexOf('.erl')>0	? cM.setOption("mode","erlang")
-		: fileName.indexOf('.yaml')>0	? cM.setOption("mode","yaml")
+		: fileName.indexOf('.erl')>0	? cM.setOption("mode","text/x-erlang")
+		: fileName.indexOf('.yaml')>0	? cM.setOption("mode","text/x-yaml")
 		: fileName.indexOf('.java')>0	? cM.setOption("mode","text/x-java")
-		: fileName.indexOf('.jl')>0	? cM.setOption("mode","julia")
+		: fileName.indexOf('.jl')>0	? cM.setOption("mode","text/x-julia")
+		: fileName.indexOf('.c')>0	? cM.setOption("mode","text/x-csrc")
+		: fileName.indexOf('.cpp')>0	? cM.setOption("mode","text/x-c++src")
+		: fileName.indexOf('.cs')>0	? cM.setOption("mode","text/x-csharp")
+		: fileName.indexOf('.go')>0	? cM.setOption("mode","text/x-go")
+		: fileName.indexOf('.lua')>0	? cM.setOption("mode","text/x-lua")
+		: fileName.indexOf('.pl')>0	? cM.setOption("mode","text/x-perl")
+		: fileName.indexOf('.rs')>0	? cM.setOption("mode","text/x-rustsrc")
+		: fileName.indexOf('.scss')>0	? cM.setOption("mode","text/x-sass")
 		: cM.setOption("mode","application/x-httpd-php");
 	}
 }
@@ -41,9 +49,9 @@ top.ICEcoder.switchMode = function(mode) {
 top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent, lCLen, adjustCursor) {
 	var startLine, endLine, commentChar;
 
-	if (["JavaScript","CoffeeScript","PHP","Python","Ruby","CSS","SQL","Erlang","Julia","Java","YAML"].indexOf(top.ICEcoder.caretLocType)>-1) {
+	if (["JavaScript","CoffeeScript","PHP","Python","Ruby","CSS","SQL","Erlang","Julia","Java","YAML","C","C++","C#","Go","Lua","Perl","Rust","Sass"].indexOf(top.ICEcoder.caretLocType)>-1) {
 		if (cM.somethingSelected()) {
-			if (["Ruby","Python","Erlang","Julia","YAML"].indexOf(top.ICEcoder.caretLocType)>-1) {
+			if (["Ruby","Python","Erlang","Julia","YAML","Perl"].indexOf(top.ICEcoder.caretLocType)>-1) {
 				commentChar = top.ICEcoder.caretLocType == "Erlang" ? "%" : "#";
 				startLine = cM.getCursor(true).line;
 				endLine = cM.getCursor().line;
@@ -52,6 +60,10 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 					? commentChar + cM.getLine(i)
 					: cM.getLine(i).slice(1,cM.getLine(i).length));
 				}
+			} else if (["Lua"].indexOf(top.ICEcoder.caretLocType)>-1) {
+				cM.replaceSelection(cM.getSelection().slice(0,4)!="--[["
+				? "--[[" + cM.getSelection() + "]]"
+				: cM.getSelection().slice(4,cM.getSelection().length-2));
 			} else {
 				cM.replaceSelection(cM.getSelection().slice(0,2)!="/*"
 				? "/*" + cM.getSelection() + "*/"
@@ -63,13 +75,18 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 				? "/*" + lineContent + "*/"
 				: lineContent.slice(2,lCLen).slice(0,lCLen-4));
 				if (lineContent.slice(0,2)=="/*") {adjustCursor = -adjustCursor};
-			} else if (["Ruby","Python","Erlang","Julia","YAML"].indexOf(top.ICEcoder.caretLocType)>-1) {
+			} else if (["Ruby","Python","Erlang","Julia","YAML","Perl"].indexOf(top.ICEcoder.caretLocType)>-1) {
 				commentChar = top.ICEcoder.caretLocType == "Erlang" ? "%" : "#";
 				cM.setLine(linePos, lineContent.slice(0,1)!=commentChar
 				? commentChar + lineContent
 				: lineContent.slice(1,lCLen));
 				adjustCursor = 1;
 				if (lineContent.slice(0,1)==commentChar) {adjustCursor = -adjustCursor};
+			} else if (["Lua"].indexOf(top.ICEcoder.caretLocType)>-1) {
+				cM.setLine(linePos, lineContent.slice(0,2)!="--"
+				? "--" + lineContent
+				: lineContent.slice(2,lCLen));
+				if (lineContent.slice(0,2)=="//") {adjustCursor = -adjustCursor};
 			} else {
 				cM.setLine(linePos, lineContent.slice(0,2)!="//"
 				? "//" + lineContent
@@ -97,7 +114,7 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 top.ICEcoder.getNestLocationSub = function(nestCheck, fileName) {
 	var events;
 
-	if (["js","coffee","css","less","sql","erl","yaml","java","jl"].indexOf(fileName.split(".")[1])<0 &&
+	if (["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileName.split(".")[1])<0 &&
 		(nestCheck.indexOf("include(")==-1)&&(nestCheck.indexOf("include_once(")==-1)) {
 
 		// Then for all the array items, output as the nest display
@@ -122,7 +139,7 @@ top.ICEcoder.updateNestingIndicator = function() {
 	cM = top.ICEcoder.getcMInstance();
 	nestOK = true;
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	if (cM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl"].indexOf(fileName.split(".")[1])==-1) {
+	if (cM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileName.split(".")[1])==-1) {
 		nestOK = cM.getTokenAt({line:cM.lineCount(),ch:cM.lineInfo(cM.lineCount()-1).text.length}).className != "error" ? true : false;
 	}
 	top.ICEcoder.nestValid.style.background = nestOK ? "#0b0" : "#f00";
@@ -157,7 +174,15 @@ top.ICEcoder.caretLocationType = function() {
 		else if (fileName.indexOf(".yaml")>0)	{caretLocType="YAML"}
 		else if (fileName.indexOf(".java")>0)	{caretLocType="Java"}
 		else if (fileName.indexOf(".erl")>0)	{caretLocType="Erlang"}
-		else if (fileName.indexOf(".jl")>0)	{caretLocType="Julia"};
+		else if (fileName.indexOf(".jl")>0)	{caretLocType="Julia"}
+		else if (fileName.indexOf(".c")>0 && fileName.indexOf(".cpp")<0 && fileName.indexOf(".cs")<0)	{caretLocType="C"}
+		else if (fileName.indexOf(".cpp")>0)	{caretLocType="C++"}
+		else if (fileName.indexOf(".cs")>0)	{caretLocType="C#"}
+		else if (fileName.indexOf(".go")>0)	{caretLocType="Go"}
+		else if (fileName.indexOf(".lua")>0)	{caretLocType="Lua"}
+		else if (fileName.indexOf(".pl")>0)	{caretLocType="Perl"}
+		else if (fileName.indexOf(".rs")>0)	{caretLocType="Rust"}
+		else if (fileName.indexOf(".scss")>0)	{caretLocType="Sass"};
 	}
 
 	top.ICEcoder.caretLocType = caretLocType;
