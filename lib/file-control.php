@@ -73,7 +73,7 @@ if ($_GET['action']=="newFolder") {
 	if (!$demoMode && is_writable($docRoot.$fileLoc)) {
 		mkdir($file, 0705);
 		// Reload file manager
-		echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');action="newFolder";';
+		echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'folder\');action="newFolder";';
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot create folder at\\n".$fileLoc."');";
 	}
@@ -86,6 +86,7 @@ if ($_GET['action']=="paste") {
 	$dest = str_replace("//","/",$docRoot.$iceRoot.strClean(str_replace("|","/",$_GET['location']))."/".basename($source));
 	if (!$demoMode && is_writable(dirname($dest))) {
 		if (is_dir($source)) {
+			$fileOrFolder = "folder";
 			if (!is_dir($dest)) {
 				mkdir($dest, 0705);
 			} else {
@@ -108,6 +109,7 @@ if ($_GET['action']=="paste") {
 				}
 			}
 		} else {
+			$fileOrFolder = "file";
 			if (!file_exists($dest)) {
 				copy($source, $dest);
 			} else {
@@ -121,7 +123,7 @@ if ($_GET['action']=="paste") {
 			}
 		}
 		// Reload file manager
-		echo 'top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.basename($dest).'\');action="pasteFile";';
+		echo 'top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.basename($dest).'\',false,false,false,\''.$fileOrFolder.'\');action="pasteFile";';
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot copy \\n".str_replace($docRoot,"",$source)."\\n into \\n".str_replace($docRoot,"",$dest)."');";
 	}
@@ -139,7 +141,7 @@ if ($_GET['action']=="upload") {
 					$this->uploadFile=$uploadDir.$current->name;
 					$fileName = $current->name;
 					if ($this->upload($current,$this->uploadFile)) {
-						echo 'action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,\'/\'),\''.$fileName.'\',false,false,true); top.ICEcoder.serverMessage("Uploaded file(s) OK");setTimeout(function(){top.ICEcoder.serverMessage();},2000);';
+						echo 'action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,\'/\'),\''.$fileName.'\',false,false,true,\'file\'); top.ICEcoder.serverMessage("Uploaded file(s) OK");setTimeout(function(){top.ICEcoder.serverMessage();},2000);';
 					} else {
 						echo "action='nothing'; top.ICEcoder.message('Sorry, cannot upload \\n".$fileName."\\n into \\n'+top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,'/'));";
 					}
@@ -299,7 +301,7 @@ if ($_GET['action']=="save") {
 				echo 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
 				// Reload file manager, rename tab & remove old file highlighting if it was a new file
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
-					echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\');';
+					echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'file\');';
 					echo 'top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$fileLoc."/".$fileName.'\');';
 					if (!strpos($_GET['file'],"[NEW]")) {
 						// We're saving as a new file, so unhighlight the old name in the file manager if visible
