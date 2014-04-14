@@ -161,10 +161,12 @@ function deletePlugin($dir) {
             if(is_dir($dir.$file)) {
                 chdir('.');
                 deletePlugin($dir.$file.'/');
-                rmdir($dir.$file) or DIE("couldn't delete $dir$file<br />");
+                if(is_dir($dir.$file)) {
+			rmdir($dir.$file) or DIE("couldn't delete dir: $dir$file<br />");
+		}
             }
             else
-                unlink($dir.$file) or DIE("couldn't delete $dir$file<br />");
+                unlink($dir.$file) or DIE("couldn't delete file: $dir$file<br />");
         }
     }
     closedir($mydir);
