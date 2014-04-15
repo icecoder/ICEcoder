@@ -135,13 +135,13 @@ if ($_GET['action']=="upload") {
 	if (!$demoMode) {
 		class fileUploader {  
 			public function __construct($uploads) {
-				global $docRoot;
+				global $docRoot,$iceRoot;
 				$uploadDir=$docRoot.$iceRoot.str_replace("..","",str_replace("|","/",strClean($_POST['folder'])."/"));
 				foreach($uploads as $current) {  
 					$this->uploadFile=$uploadDir.$current->name;
 					$fileName = $current->name;
 					if ($this->upload($current,$this->uploadFile)) {
-						echo 'action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,\'/\'),\''.$fileName.'\',false,false,true,\'file\'); top.ICEcoder.serverMessage("Uploaded file(s) OK");setTimeout(function(){top.ICEcoder.serverMessage();},2000);';
+						echo 'action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,\'/\'),\''.str_replace("'","\'",$fileName).'\',false,false,true,\'file\'); top.ICEcoder.serverMessage("Uploaded file(s) OK");setTimeout(function(){top.ICEcoder.serverMessage();},2000);';
 					} else {
 						echo "action='nothing'; top.ICEcoder.message('Sorry, cannot upload \\n".$fileName."\\n into \\n'+top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,'/'));";
 					}
@@ -196,16 +196,23 @@ if ($_GET['action']=="rename") {
 // If we're due to move a file/folder...
 if ($_GET['action']=="move") {
 	$moved=false;
-	if (!$demoMode && is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
-		if(rename($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])),$docRoot.$fileLoc."/".$fileName)) {
-			// Reload file manager
-			echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
-			echo 'action="move";';
-			$moved=true;
+	$srcDir = $docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName']));
+	$tgtDir = $docRoot.$fileLoc."/".$fileName;
+	if ($srcDir != $tgtDir && $fileLoc != "") {
+		if (!$demoMode && is_writable($srcDir)) {
+			if(rename($srcDir,$tgtDir)) {
+				// Reload file manager
+				$fileOrFolder = is_dir($docRoot.$fileLoc."/".$fileName) ? "folder" : "file";
+				echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\',false,\''.$fileOrFolder.'\');';
+				echo 'action="move";';
+				$moved=true;
+			}
 		}
-	}
-	if (!$moved) {
-		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot move\\n".strClean($_GET['oldFileName'])."\\n\\nMaybe public write permissions needed on this or parent folder?');";
+		if (!$moved) {
+			echo "action='nothing'; top.ICEcoder.message('Sorry, cannot move\\n".strClean($_GET['oldFileName'])."\\n\\nMaybe public write permissions needed on this or parent folder?');";
+		}
+	} else {
+		echo "action='nothing';";
 	}
 	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 }
