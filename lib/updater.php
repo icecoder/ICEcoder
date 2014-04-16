@@ -62,11 +62,17 @@ function openZipNew($icvInfo) {
 	$source = 'ICEcoder v'.$icvInfo;
 	$target = '../';
 
+	$remoteFile = 'http://icecoder.net/ICEcoder-v'.(str_replace(" beta", "-beta",$icvInfo)).'.zip';
     	$file = "../tmp/new-version.zip";
-    	$client = curl_init('http://icecoder.net/ICEcoder-v'.$icvInfo.'.zip');
-    	curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);  //fixed this line
-	$fileData = curl_exec($client);
-
+	if (ini_get('allow_url_fopen')) {
+		$fileData = file_get_contents($remoteFile,false,$context);
+	} elseif (function_exists('curl_init')) {
+	    	$client = curl_init($remoteFile);
+    		curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);  //fixed this line
+		$fileData = curl_exec($client);
+	} else {
+		die('Sorry, couldn\'t get latest version zip file.');
+	}
 	echo 'Storing zip file...<br>';
 	file_put_contents($file, $fileData);
 
