@@ -61,8 +61,6 @@ function copyOldVersion() {
 }
 
 function openZipNew($icvInfo) {
-	global $updateDone;
-	
 	echo 'Retrieving zip from ICEcoder site...<br>';
 	$source = 'ICEcoder v'.$icvInfo;
 	$target = '../';
@@ -109,6 +107,22 @@ function openZipNew($icvInfo) {
 		}
 		fclose($fpr);
 	}
+	echo 'Finished copying over zip dirs & files...<br>';
+	copyOverSettings($icvInfo);
+}
+
+function copyOverSettings($icvInfo) {
+	global $updateDone;
+
+	// Get settings from old version
+	include(PATH."lib/config___settings.php");
+	echo "Getting...".PATH."lib/config___settings.php<br>";
+	var_dump($ICEcoderSettings);
+	foreach ($ICEcoderSettings as $key => $value) {
+		echo "Key: $key; Value: $value<br />\n";
+		// Now need to copy the settings over to new config file...
+	}
+	echo 'All update tasks completed...<br>';
 	$updateDone = true;
 }
 
