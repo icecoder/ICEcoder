@@ -30,13 +30,18 @@ function copyOldVersion() {
 			'timeout' => 60 // secs
 		)
 	));
-	echo 'Copying over current ICEcoder files...<br>';
+	echo 'Moving current ICEcoder files...<br>';
 	foreach ($iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),RecursiveIteratorIterator::SELF_FIRST) as $item) {
 		if (strpos($source.DIRECTORY_SEPARATOR.$iterator->getSubPathName(),"oldVersion")==false) {
-			if ($item->isDir()) {
-				mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0705);
-			} else {
-				rename($item, $dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName());
+			// Don't move plugins away
+			$testPath = $source.DIRECTORY_SEPARATOR.$iterator->getSubPathName();
+			$testPath = str_replace("\\","/",$testPath);
+			if (strpos($testPath,"/plugins")==false) {
+				if ($item->isDir()) {
+					mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0705);
+				} else {
+					rename($item, $dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName());
+				}
 			}
 		}
 	}
