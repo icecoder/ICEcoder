@@ -1,4 +1,6 @@
-<?php include("lib/settings.php");
+<?php
+include("lib/headers.php");
+include("lib/settings.php");
 
 // Check IP permissions
 if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*", $_SESSION['allowedIPs'])) {
@@ -71,7 +73,8 @@ window.onbeforeunload = function() {
 		"top.ICEcoder.autoComplete = '".$ICEcoder["autoComplete"]."';".
 		"top.ICEcoder.bugFilePaths = ['".implode("','",$ICEcoder["bugFilePaths"])."'];".
 		"top.ICEcoder.bugFileCheckTimer = ".$ICEcoder["bugFileCheckTimer"].";".
-		"top.ICEcoder.bugFileMaxLines = ".$ICEcoder["bugFileMaxLines"];
+		"top.ICEcoder.bugFileMaxLines = ".$ICEcoder["bugFileMaxLines"].";".
+		"top.ICEcoder.csrf = '".$_SESSION["csrf"]."'";
 ?>;ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.content.style.visibility='visible';top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">
@@ -109,6 +112,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 				<input type="hidden" name="folder" id="uploadDir" value="/">
 				<input type="file" name="filesInput[]" id="fileInput" onchange="top.ICEcoder.uploadFilesSubmit(this)" multiple>
 				<input type="submit" value="Upload File">
+				<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 			</form>
 		</div>
 		<a href="javascript:top.ICEcoder.pasteFiles(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()" id="fmMenuPasteOption" style="display: none">Paste</a>
@@ -248,6 +252,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 				<input type="submit" name="submit" value="&gt;&gt;" class="submit">
 				<div class="results" id="results"></div>
 			</div>
+			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 		<form onSubmit="return ICEcoder.goToLine()">
 			<div class="codeAssist" title="Turn on/off JS Hint &amp; CSS color previews">
@@ -257,6 +262,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 			<div class="goLine">Go to Line <input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 			<div class="view" title="View" onClick="top.ICEcoder.openPreviewWindow()" id="fMView"></div>
 			<div class="bug" title="Bug reporting not active" onClick="top.ICEcoder.openBugReport()" id="bugIcon"></div>
+			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 	</div>
 	<iframe name="contentFrame" id="content" src="editor.php" class="code"></iframe>

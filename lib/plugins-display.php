@@ -1,4 +1,6 @@
 <?php
+include("headers.php");
+
 $onLoadExtras = "";
 $pluginsDisplay = "";
 

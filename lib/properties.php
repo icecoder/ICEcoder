@@ -1,4 +1,7 @@
-<?php include("settings.php");?>
+<?php
+include("headers.php");
+include("settings.php");
+?>
 <!DOCTYPE html>
 
 <html onContextMenu="return false">
@@ -85,6 +88,7 @@ $execVars  = array(1,3,5,7);
 Change to:<br>
 <form name="chmod" action="#" method="GET">
 <input type="text" name="chmod" id="permText" style="width: 30px; border: 0; background-color: #444; font-size: 10px; color: #fff" maxlength="3" value="<?php echo substr($chmodInfo,1,3); ?>" onKeyUp="changePerms(this.value);showButton()" onChange="changePerms(this.value);showButton()">
+<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
 </span>
 

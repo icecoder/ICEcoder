@@ -1,5 +1,6 @@
 <?php
 // Load common functions
+include("headers.php");
 include("settings-common.php");
 
 $files		= explode(",",str_replace("|","/",$_GET['files']));

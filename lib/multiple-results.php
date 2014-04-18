@@ -1,4 +1,7 @@
-<?php include("settings.php");?>
+<?php
+include("headers.php");
+include("settings.php");
+?>
 <?php
 if(isset($_GET['selectedFiles'])) {
 	$selectedFiles=explode(":",strClean($_GET['selectedFiles']));

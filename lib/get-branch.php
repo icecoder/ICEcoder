@@ -1,5 +1,6 @@
 <?php
 if (!isset($ICEcoder['root'])) {
+	include("headers.php");
 	include("settings.php");
 }
 

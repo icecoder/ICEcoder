@@ -1,5 +1,7 @@
-<?php include("settings.php");?>
 <?php
+include("headers.php");
+include("settings.php");
+
 $file = $docRoot.$iceRoot.str_replace("|","/",$_GET['file']);
 
 if (file_exists($file)) {

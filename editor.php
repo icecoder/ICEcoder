@@ -1,4 +1,7 @@
-<?php include("lib/settings.php");?>
+<?php
+include("lib/headers.php");
+include("lib/settings.php");
+?>
 <!DOCTYPE html>
 
 <html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor');top.ICEcoder.canResizeFilesW()}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor')}">

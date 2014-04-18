@@ -1,4 +1,7 @@
-<?php include("settings.php");?>
+<?php
+include("headers.php");
+include("settings.php");
+?>
 <!DOCTYPE html>
 
 <html>
@@ -268,6 +271,7 @@ var validatePasswords = function() {
 
 </div>
 
+<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
 
 </body>

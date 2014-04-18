@@ -1,4 +1,5 @@
 <?php
+include("headers.php");
 include("settings.php");
 ?>
 <!DOCTYPE html>
@@ -32,6 +33,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		}
 		if (!$ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\'To put into multi-user mode, open lib/config___settings.php and change multiUser to true then reload this page\')">multi-user?</a></div>';};
 		?>
+		<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 		</div>
 	</div>

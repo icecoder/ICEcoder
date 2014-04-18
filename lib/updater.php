@@ -1,4 +1,7 @@
-<?php include("settings.php");?>
+<?php
+include("headers.php");
+include("settings.php");
+?>
 <!DOCTYPE html>
 <head>
 <title>Updating ICEcoder...</title>
