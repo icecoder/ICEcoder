@@ -1,4 +1,7 @@
-﻿<?php include("settings.php");?>
+﻿<?php
+include("headers.php");
+include("settings.php");
+?>
 <script>
 <?php
 // Get the save type if any
@@ -423,6 +426,7 @@ if (action=="load") {
 <form name="saveFile" action="file-control.php?action=save&file=<?php if (isset($file)) {echo $file;}; if (isset($_GET['fileMDT']) && $_GET['fileMDT']!="undefined") {echo "&fileMDT=".numClean($_GET['fileMDT']);};?>" method="POST">
 	<textarea name="contents"></textarea>
 	<input type="hidden" name="newFileName" value="">
+	<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
 
 <script>
