@@ -1,4 +1,5 @@
 <?php
+include("headers.php");
 include("settings.php");
 
 // Set the plugin data source
@@ -144,8 +145,8 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 		// Finally, reload the iFrame screen for the user
-		header("Location: plugins-manager.php?updatedPlugins");
-		echo "<script>window.location='plugins-manager.php?updatedPlugins';</script>";
+		header("Location: plugins-manager.php?updatedPlugins&csrf=".$_SESSION["csrf"]);
+		echo "<script>window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;</script>";
 		die('saving plugins...');
 	} else {
 		echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
@@ -218,6 +219,7 @@ function deletePlugin($dir) {
 			echo '<td style="padding: 3px 0 8px 0"><div style="padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="document.getElementById(\'pluginUpdateForm\').submit()">Update</div></td>';
 			?>
 			</table>
+			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 	</div>
 	<?php
@@ -234,10 +236,10 @@ function deletePlugin($dir) {
 				echo '<tr>'.PHP_EOL;
 			}
 
-			$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=install&plugin='.$i.'\'">Install</div>';
+			$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=install&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">Install</div>';
 			for ($j=0; $j<count($plugins); $j++) {
 				if ($pluginsData[$i]['name'] == $plugins[$j][0]) {
-					$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #333; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=uninstall&plugin='.$i.'\'">Uninstall</div>';
+					$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #333; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=uninstall&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">Uninstall</div>';
 				}
 			}
 
