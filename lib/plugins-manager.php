@@ -71,15 +71,15 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		unlink($zipFile);
 
 		// Start creating a new chunk for the plugins settings
-		$settingsNew = '"plugins"		=> array('.PHP_EOL;
+		$settingsNew = '"plugins"		=> array(';
 
 		// Set all the old plugins
 		for ($i=0; $i<count($oldPlugins); $i++) {
-			$settingsNew .= '			array("'.$oldPlugins[$i][0].'","'.$oldPlugins[$i][1].'","'.$oldPlugins[$i][2].'","'.$oldPlugins[$i][3].'","'.$oldPlugins[$i][4].'","'.$oldPlugins[$i][5].'"),'.PHP_EOL;
+			$settingsNew .= '	array("'.$oldPlugins[$i][0].'","'.$oldPlugins[$i][1].'","'.$oldPlugins[$i][2].'","'.$oldPlugins[$i][3].'","'.$oldPlugins[$i][4].'","'.$oldPlugins[$i][5].'"),';
 		}
 		// Then add the new one
-		$settingsNew .= '			array("'.$pluginsData[$_GET['plugin']]['name'].'","'.$pluginsData[$_GET['plugin']]['icon'].'","'.$pluginsData[$_GET['plugin']]['style'].'","'.$pluginsData[$_GET['plugin']]['URL'].'","'.$pluginsData[$_GET['plugin']]['target'].'","'.$pluginsData[$_GET['plugin']]['timer'].'")'.PHP_EOL;
-		$settingsNew .= '			),'.PHP_EOL;
+		$settingsNew .= '			array("'.$pluginsData[$_GET['plugin']]['name'].'","'.$pluginsData[$_GET['plugin']]['icon'].'","'.$pluginsData[$_GET['plugin']]['style'].'","'.$pluginsData[$_GET['plugin']]['URL'].'","'.$pluginsData[$_GET['plugin']]['target'].'","'.$pluginsData[$_GET['plugin']]['timer'].'")';
+		$settingsNew .= '	),'.PHP_EOL;
 	}
 
 	// ============
@@ -89,18 +89,18 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	if ($_GET['action']=="uninstall") {
 
 		// Start creating a new chunk for the plugins settings
-		$settingsNew = '"plugins"		=> array('.PHP_EOL;
+		$settingsNew = '"plugins"		=> array(';
 
 		// Set all the old plugins
 		for ($i=0; $i<count($oldPlugins); $i++) {
 			// As long as it's not the one we want to remove
 			if ($oldPlugins[$i][0] != $pluginsData[$_GET['plugin']]['name']) {
-				$settingsNew .= '			array("'.$oldPlugins[$i][0].'","'.$oldPlugins[$i][1].'","'.$oldPlugins[$i][2].'","'.$oldPlugins[$i][3].'","'.$oldPlugins[$i][4].'","'.$oldPlugins[$i][5].'"),'.PHP_EOL;
+				$settingsNew .= '	array("'.$oldPlugins[$i][0].'","'.$oldPlugins[$i][1].'","'.$oldPlugins[$i][2].'","'.$oldPlugins[$i][3].'","'.$oldPlugins[$i][4].'","'.$oldPlugins[$i][5].'"),';
 			}
 		}
 		// Rtrim off the last comma
-		$settingsNew = rtrim($settingsNew,','.PHP_EOL).PHP_EOL;
-		$settingsNew .= '			),'.PHP_EOL;
+		$settingsNew = rtrim($settingsNew,',');
+		$settingsNew .= '	),'.PHP_EOL;
 
 		// Finally, delete the plugin itself
 		$target = '../plugins/';
@@ -115,7 +115,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	if ($_GET['action']=="update") {
 
 		// Start creating a new chunk for the plugins settings
-		$settingsNew = '"plugins"		=> array('.PHP_EOL;
+		$settingsNew = '"plugins"		=> array(';
 
 		// Redo the arrays using the form data
 		for ($i=0; $i<count($oldPlugins); $i++) {
@@ -123,9 +123,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			if ($timer == 0) {
 				$timer = "";
 			}
-			$settingsNew .= '			array("'.$_POST['name'.$i].'","'.$_POST['icon'.$i].'","'.$_POST['style'.$i].'","'.$_POST['URL'.$i].'","'.$_POST['target'.$i].'","'.$timer.'"),'.PHP_EOL;
+			$settingsNew .= '	array("'.$_POST['name'.$i].'","'.$_POST['icon'.$i].'","'.$_POST['style'.$i].'","'.$_POST['URL'.$i].'","'.$_POST['target'.$i].'","'.$timer.'"),';
 		}
-		$settingsNew .= '			),'.PHP_EOL;
+		$settingsNew .= '	),'.PHP_EOL;
 	}
 
 	// Now we have a new settingsNew string to use and files installed/uninstalled
