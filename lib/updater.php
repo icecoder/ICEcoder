@@ -112,8 +112,6 @@ function openZipNew($icvInfo) {
 }
 
 function copyOverSettings($icvInfo) {
-	global $updateDone;
-
 	echo 'Getting old and new settings...<br>';
 	// Get old and new settings and start a new $contents
 	$oldSettingsContent = file_get_contents(PATH."lib/config___settings.php",false,$context);
@@ -131,7 +129,7 @@ function copyOverSettings($icvInfo) {
 		$contentLine = $newSettingsArray[$i].PHP_EOL;
 		for ($j=0; $j<count($oldSettingsArray); $j++) {
 			// And override with old setting if not versionNo or codeMirrorDir and we have a match
-			if ($thisKey != "versionNo" && $thisKey != "codeMirrorDir" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
+			if ($thisKey != "" && $thisKey != "versionNo" && $thisKey != "codeMirrorDir" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
 				$contentLine = $oldSettingsArray[$j].PHP_EOL;
 			}
 		}
@@ -139,6 +137,74 @@ function copyOverSettings($icvInfo) {
 	}
 	echo 'Saving old settings to new ICEcoder settings file...<br>';
 	$fh = fopen('config___settings.php', 'w') or die("Sorry, cannot update the new ICEcoder settings file");
+	fwrite($fh, $contents);
+	fclose($fh);
+
+	echo 'Finished copying over settings...<br>';
+	copyOverUsersTemplate($icvInfo);
+}
+
+function copyOverUsersTemplate($icvInfo) {
+	echo 'Getting old and new users template...<br>';
+	// Get old and new users template and start a new $contents
+	$oldSettingsContent = file_get_contents(PATH."lib/config___users-template.php",false,$context);
+	$oldSettingsArray = explode("\n",$oldSettingsContent);
+	$newSettingsContent = file_get_contents("config___users-template.php",false,$context);
+	$newSettingsArray = explode("\n",$newSettingsContent);
+	$contents = "";
+
+	echo 'Transposing old users template to new users template...<br>';
+	// Now need to copy the old users template over to new users template...
+	for ($i=0; $i<count($newSettingsArray); $i++) {
+		$thisKey = explode('"',$newSettingsArray[$i]);
+		$thisKey = $thisKey[1];
+		// We set the new line to begin with
+		$contentLine = $newSettingsArray[$i].PHP_EOL;
+		for ($j=0; $j<count($oldSettingsArray); $j++) {
+			// And override with old setting if not versionNo and we have a match
+			if ($thisKey != "" && $thisKey != "versionNo" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
+				$contentLine = $oldSettingsArray[$j].PHP_EOL;
+			}
+		}
+		$contents .= $contentLine;
+	}
+	echo 'Saving old users template to new ICEcoder users template file...<br>';
+	$fh = fopen('config___users-template.php', 'w') or die("Sorry, cannot update the new ICEcoder users template file");
+	fwrite($fh, $contents);
+	fclose($fh);
+
+	echo 'Finished copying over users template...<br>';
+	copyOverUserSettings($icvInfo);
+}
+
+function copyOverUserSettings($icvInfo) {
+	global $updateDone;
+
+	echo 'Getting old and new users settings...<br>';
+	// Get old and new users settings and start a new $contents
+	$oldSettingsContent = file_get_contents(PATH."lib/config-localhost.php",false,$context);
+	$oldSettingsArray = explode("\n",$oldSettingsContent);
+	$newSettingsContent = file_get_contents("config___users-template.php",false,$context);
+	$newSettingsArray = explode("\n",$newSettingsContent);
+	$contents = "";
+
+	echo 'Transposing old users settings to new users settings...<br>';
+	// Now need to copy the old users settings over to new users settings...
+	for ($i=0; $i<count($newSettingsArray); $i++) {
+		$thisKey = explode('"',$newSettingsArray[$i]);
+		$thisKey = $thisKey[1];
+		// We set the new line to begin with
+		$contentLine = $newSettingsArray[$i].PHP_EOL;
+		for ($j=0; $j<count($oldSettingsArray); $j++) {
+			// And override with old setting if not versionNo and we have a match
+			if ($thisKey != "" && $thisKey != "versionNo" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
+				$contentLine = $oldSettingsArray[$j].PHP_EOL;
+			}
+		}
+		$contents .= $contentLine;
+	}
+	echo 'Saving old users settings to new ICEcoder users settings file...<br>';
+	$fh = fopen('config-localhost.php', 'w') or die("Sorry, cannot add the new ICEcoder users settings file");
 	fwrite($fh, $contents);
 	fclose($fh);
 
