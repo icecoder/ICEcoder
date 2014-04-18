@@ -114,14 +114,34 @@ function openZipNew($icvInfo) {
 function copyOverSettings($icvInfo) {
 	global $updateDone;
 
-	// Get settings from old version
-	include(PATH."lib/config___settings.php");
-	echo "Getting...".PATH."lib/config___settings.php<br>";
-	var_dump($ICEcoderSettings);
-	foreach ($ICEcoderSettings as $key => $value) {
-		echo "Key: $key; Value: $value<br />\n";
-		// Now need to copy the settings over to new config file...
+	echo 'Getting old and new settings...<br>';
+	// Get old and new settings and start a new $contents
+	$oldSettingsContent = file_get_contents(PATH."lib/config___settings.php",false,$context);
+	$oldSettingsArray = explode("\n",$oldSettingsContent);
+	$newSettingsContent = file_get_contents("config___settings.php",false,$context);
+	$newSettingsArray = explode("\n",$newSettingsContent);
+	$contents = "";
+
+	echo 'Transposing old settings to new settings...<br>';
+	// Now need to copy the old settings over to new settings...
+	for ($i=0; $i<count($newSettingsArray); $i++) {
+		$thisKey = explode('"',$newSettingsArray[$i]);
+		$thisKey = $thisKey[1];
+		// We set the new line to begin with
+		$contentLine = $newSettingsArray[$i].PHP_EOL;
+		for ($j=0; $j<count($oldSettingsArray); $j++) {
+			// And override with old setting if not versionNo or codeMirrorDir and we have a match
+			if ($thisKey != "versionNo" && $thisKey != "codeMirrorDir" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
+				$contentLine = $oldSettingsArray[$j].PHP_EOL;
+			}
+		}
+		$contents .= $contentLine;
 	}
+	echo 'Saving old settings to new ICEcoder settings file...<br>';
+	$fh = fopen('config___settings.php', 'w') or die("Sorry, cannot update the new ICEcoder settings file");
+	fwrite($fh, $contents);
+	fclose($fh);
+
 	echo 'All update tasks completed...<br>';
 	$updateDone = true;
 }
