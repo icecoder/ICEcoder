@@ -15,10 +15,6 @@ $context = stream_context_create(array('http'=>
 	)
 ));
 
-// Set our security related headers, none activated
-// header("frame-options: SAMEORIGIN");
-// header("XSS-Protection: 1; mode=block");
-
 // Start a session if we haven't already
 if(!isset($_SESSION)) {@session_start();}
 
