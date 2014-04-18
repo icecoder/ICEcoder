@@ -61,6 +61,8 @@ function copyOldVersion() {
 }
 
 function openZipNew($icvInfo) {
+	global $context;
+
 	echo 'Retrieving zip from ICEcoder site...<br>';
 	$source = 'ICEcoder v'.$icvInfo;
 	$target = '../';
@@ -111,102 +113,57 @@ function openZipNew($icvInfo) {
 	copyOverSettings($icvInfo);
 }
 
-function copyOverSettings($icvInfo) {
-	echo 'Getting old and new settings...<br>';
+function transposeSettings($oldFile,$newFile,$saveFile) {
+	global $context;
+
+	echo '- Getting old and new settings...<br>';
 	// Get old and new settings and start a new $contents
-	$oldSettingsContent = file_get_contents(PATH."lib/config___settings.php",false,$context);
+	$oldSettingsContent = file_get_contents($oldFile,false,$context);
 	$oldSettingsArray = explode("\n",$oldSettingsContent);
-	$newSettingsContent = file_get_contents("config___settings.php",false,$context);
+	$newSettingsContent = file_get_contents($newFile,false,$context);
 	$newSettingsArray = explode("\n",$newSettingsContent);
 	$contents = "";
 
-	echo 'Transposing old settings to new settings...<br>';
+	echo '- Transposing settings...<br>';
 	// Now need to copy the old settings over to new settings...
 	for ($i=0; $i<count($newSettingsArray); $i++) {
-		$thisKey = explode('"',$newSettingsArray[$i]);
-		$thisKey = $thisKey[1];
+		$thisKey = "";
+		if (strpos($newSettingsArray[$i],'"') > -1) {
+			$thisKey = explode('"',$newSettingsArray[$i]);
+		}
+		if (is_array($thisKey)) {
+			$thisKey = $thisKey[1];
+		}
 		// We set the new line to begin with
 		$contentLine = $newSettingsArray[$i].PHP_EOL;
 		for ($j=0; $j<count($oldSettingsArray); $j++) {
-			// And override with old setting if not versionNo or codeMirrorDir and we have a match
+			// And override with old setting if not blank, not in excluded array and we have a match
 			if ($thisKey != "" && $thisKey != "versionNo" && $thisKey != "codeMirrorDir" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
 				$contentLine = $oldSettingsArray[$j].PHP_EOL;
 			}
 		}
 		$contents .= $contentLine;
 	}
-	echo 'Saving old settings to new ICEcoder settings file...<br>';
-	$fh = fopen('config___settings.php', 'w') or die("Sorry, cannot update the new ICEcoder settings file");
+	echo '- Saving old settings to new settings file...<br>';
+	$fh = fopen($saveFile, 'w') or die("Sorry, cannot update ".$saveFile);
 	fwrite($fh, $contents);
 	fclose($fh);
-
-	echo 'Finished copying over settings...<br>';
-	copyOverUsersTemplate($icvInfo);
 }
 
-function copyOverUsersTemplate($icvInfo) {
-	echo 'Getting old and new users template...<br>';
-	// Get old and new users template and start a new $contents
-	$oldSettingsContent = file_get_contents(PATH."lib/config___users-template.php",false,$context);
-	$oldSettingsArray = explode("\n",$oldSettingsContent);
-	$newSettingsContent = file_get_contents("config___users-template.php",false,$context);
-	$newSettingsArray = explode("\n",$newSettingsContent);
-	$contents = "";
-
-	echo 'Transposing old users template to new users template...<br>';
-	// Now need to copy the old users template over to new users template...
-	for ($i=0; $i<count($newSettingsArray); $i++) {
-		$thisKey = explode('"',$newSettingsArray[$i]);
-		$thisKey = $thisKey[1];
-		// We set the new line to begin with
-		$contentLine = $newSettingsArray[$i].PHP_EOL;
-		for ($j=0; $j<count($oldSettingsArray); $j++) {
-			// And override with old setting if not versionNo and we have a match
-			if ($thisKey != "" && $thisKey != "versionNo" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
-				$contentLine = $oldSettingsArray[$j].PHP_EOL;
-			}
-		}
-		$contents .= $contentLine;
-	}
-	echo 'Saving old users template to new ICEcoder users template file...<br>';
-	$fh = fopen('config___users-template.php', 'w') or die("Sorry, cannot update the new ICEcoder users template file");
-	fwrite($fh, $contents);
-	fclose($fh);
-
-	echo 'Finished copying over users template...<br>';
-	copyOverUserSettings($icvInfo);
-}
-
-function copyOverUserSettings($icvInfo) {
+function copyOverSettings($icvInfo) {
 	global $updateDone;
 
-	echo 'Getting old and new users settings...<br>';
-	// Get old and new users settings and start a new $contents
-	$oldSettingsContent = file_get_contents(PATH."lib/config-localhost.php",false,$context);
-	$oldSettingsArray = explode("\n",$oldSettingsContent);
-	$newSettingsContent = file_get_contents("config___users-template.php",false,$context);
-	$newSettingsArray = explode("\n",$newSettingsContent);
-	$contents = "";
+	// System settings
+	echo 'Transposing system settings...<br>';
+	transposeSettings(PATH."lib/config___settings.php","config___settings.php","config___settings.php");
 
-	echo 'Transposing old users settings to new users settings...<br>';
-	// Now need to copy the old users settings over to new users settings...
-	for ($i=0; $i<count($newSettingsArray); $i++) {
-		$thisKey = explode('"',$newSettingsArray[$i]);
-		$thisKey = $thisKey[1];
-		// We set the new line to begin with
-		$contentLine = $newSettingsArray[$i].PHP_EOL;
-		for ($j=0; $j<count($oldSettingsArray); $j++) {
-			// And override with old setting if not versionNo and we have a match
-			if ($thisKey != "" && $thisKey != "versionNo" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
-				$contentLine = $oldSettingsArray[$j].PHP_EOL;
-			}
-		}
-		$contents .= $contentLine;
-	}
-	echo 'Saving old users settings to new ICEcoder users settings file...<br>';
-	$fh = fopen('config-localhost.php', 'w') or die("Sorry, cannot add the new ICEcoder users settings file");
-	fwrite($fh, $contents);
-	fclose($fh);
+	// Users template settings
+	echo 'Transposing users template settings...<br>';
+	transposeSettings(PATH."lib/config___users-template.php","config___users-template.php","config___users-template.php");
+
+	// Users settings files
+	echo 'Transposing users settings files...<br>';
+	transposeSettings(PATH."lib/config-localhost.php","config___users-template.php","config-localhost.php");
 
 	echo 'All update tasks completed...<br>';
 	$updateDone = true;
