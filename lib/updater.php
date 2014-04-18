@@ -36,7 +36,7 @@ function copyOldVersion() {
 			// Don't move plugins away
 			$testPath = $source.DIRECTORY_SEPARATOR.$iterator->getSubPathName();
 			$testPath = str_replace("\\","/",$testPath);
-			if (strpos($testPath,"/plugins")==false) {
+			if (strpos($testPath,"/plugins/")==false) {
 				if ($item->isDir()) {
 					mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0705);
 				} else {
