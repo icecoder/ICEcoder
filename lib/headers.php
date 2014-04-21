@@ -12,7 +12,9 @@ if ($_REQUEST && $_REQUEST["csrf"] !== $_SESSION["csrf"]) {
 	die('Bad CSRF token');
 }
 
-// Set our security related headers, prevents clickjacking
-header("frame-options: SAMEORIGIN");
-header("XSS-Protection: 1; mode=block");
+// Set our security related headers
+header("X-Frame-Options: SAMEORIGIN");					// Only frames of same origin
+header("X-XSS-Protection: 1; mode=block");				// Turn on IE8-9 XSS prevention tools
+// header("X-Content-Security-Policy: allow 'self'");			// Only allows JS on same domain & not inline to run
+header("X-Content-Type-Options: 1; nosniff");				// Prevent MIME based attacks
 ?>
