@@ -16,5 +16,5 @@ if ($_REQUEST && $_REQUEST["csrf"] !== $_SESSION["csrf"]) {
 header("X-Frame-Options: SAMEORIGIN");					// Only frames of same origin
 header("X-XSS-Protection: 1; mode=block");				// Turn on IE8-9 XSS prevention tools
 // header("X-Content-Security-Policy: allow 'self'");			// Only allows JS on same domain & not inline to run
-header("X-Content-Type-Options: 1; nosniff");				// Prevent MIME based attacks
+header("X-Content-Type-Options: nosniff");				// Prevent MIME based attacks
 ?>
