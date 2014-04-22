@@ -83,7 +83,7 @@ h2 {color: rgba(0,198,255,0.7)}
 		<span id="serverDT"></span><br><br>
 		<h2>your device</h2>
 		<span class="heading">Browser:</span><br>
-		<?php echo $_SERVER['HTTP_USER_AGENT'];?><br><br>
+		<?php echo xssClean($_SERVER['HTTP_USER_AGENT'],"tags");?><br><br>
 		<span class="heading">Your IP:</span><br>
 		<?php echo $_SERVER['REMOTE_ADDR'];?><br><br>
 	</div>
