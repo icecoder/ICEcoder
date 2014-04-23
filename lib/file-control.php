@@ -256,7 +256,10 @@ if ($_GET['action']=="delete") {
 		$fullPath = str_replace($docRoot,"",$filesArray[$i]);
 		$fullPath = str_replace($iceRoot,"",$fullPath);
 		$fullPath = $docRoot.$iceRoot.$fullPath;
-		if (!$demoMode && is_writable($fullPath)) {
+
+		if (rtrim($fullPath,"/") == rtrim($docRoot,"/")) {
+			echo "top.ICEcoder.message('Sorry can\\'t delete the root level');";
+		} else if (!$demoMode && is_writable($fullPath)) {
 			is_dir($fullPath)
 				? rrmdir($fullPath)
 				: unlink($fullPath);
