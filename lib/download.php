@@ -2,7 +2,7 @@
 include("headers.php");
 include("settings.php");
 
-$file = $docRoot.$iceRoot.str_replace("|","/",$_GET['file']);
+$file = $docRoot.$iceRoot.str_replace("../","",str_replace("|","/",$_GET['file']));
 
 if (file_exists($file)) {
     header('Content-Description: File Transfer');
