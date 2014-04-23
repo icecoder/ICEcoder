@@ -61,37 +61,39 @@ function numClean($var) {
 }
 
 // Clean XSS attempts using different contexts
-function xssClean($data,$types) {
+function xssClean($data,$type) {
 
-	// 'html'
-	if (strpos($types,"html")>-1) {
-		$bad  = array("<", ">", "=", "&", "(");
-		$good = array("&lt;", "&gt;", "&equals;", "&amp;", "&lpar;");
-		$data = str_replace($bad, $good, $data);
+	// === html ===
+	if ($type == "html") {
+		$bad  = array("<",    ">",    "=",        "&",     "(",       ")",     "\"",     "'");
+		$good = array("&lt;", "&gt;", "&equals;", "&amp;", "&lpar;", "&rpar;", "&quot;", "&apos;");
 	}
 
-	// 'style'
-	if (strpos($types,"style")>-1) {
-		$bad  = array("\"",  "``", "(", "&", ".", "\\");
-		$good = array("&quot;",  "&#96;&#96;", "&lpar;", "&amp;", "&#46;", "&#92;");
-		$data = str_replace($bad, $good, $data);
+	// === style ===
+	if ($type == "style") {
+		$bad  = array("\"",     "``",             "(",      ")",      "&",     ".",        "\\");
+		$good = array("&quot;", "&grave;&grave;", "&lpar;", "&rpar;", "&amp;", "&period;", "&bsol;");
 	}
 
-	// 'tags'
-	if (strpos($types,"tags")>-1) {
-		$data = strip_tags($data);
+	// === attribute ===
+	if ($type == "attribute") {
+		$bad  = array("\"",     "``");
+		$good = array("&quot;", "&grave;&grave;");
 	}
 
-	// 'multi'
-	if (strpos($types,"multi")>-1) {
-		$bad = array(	'@<script[^>]*?>.*?</script>@si',	// Strip out javascript 
-				'@<[\/\!]*?[^<>]*?>@si',		// Strip out HTML tags 
-				'@<style[^>]*?>.*?</style>@siU',	// Strip style tags properly 
-				'@<![\s\S]*?--[ \t\n\r]*>@'		// Strip multi-line comments including CDATA 
-		);
-		$good = "";
-		$data = preg_replace($bad, $good, $data);
+	// === script ===
+	if ($type == "script") {
+		$bad  = array("<",    ">",    "(",      ")",      "[",        "]",        "\"",     "'",      ";",);
+		$good = array("&lt;", "&gt;", "&lpar;", "&rpar;", "&lbrack;", "&rbrack;", "&quot;", "&apos;", "&semi;");
 	}
+
+	// === url ===
+	if ($type == "url") {
+		$bad  = array("\"",  "``");
+		$good = array("%22", "%60%60");
+	}
+
+	$data = str_replace($bad, $good, $data);
 
 	return $data;
 }
