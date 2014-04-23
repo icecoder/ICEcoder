@@ -7,7 +7,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$repPosEnd = strpos($settingsContents,'"plugins"');
 
 	// Prepare all our vars
-	$ICEcoder["root"]			= strClean($_POST['root']);
+	$ICEcoder["root"]			= xssClean($_POST['root'],"html");
 	$ICEcoder["checkUpdates"]		= isset($_POST['checkUpdates']) && $_POST['checkUpdates'] ? "true" : "false";
 	$ICEcoder["openLastFiles"]		= isset($_POST['openLastFiles']) && $_POST['openLastFiles'] ? "true" : "false";
 	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['findFilesExclude']))).'")';
