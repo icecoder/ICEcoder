@@ -83,7 +83,7 @@ function xssClean($data,$type) {
 
 	// === script ===
 	if ($type == "script") {
-		$bad  = array("<",    ">",    "(",      ")",      "[",        "]",        "\"",     "'",      ";",);
+		$bad  = array("<",    ">",    "(",      ")",      "[",        "]",        "\"",     "'",      ";");
 		$good = array("&lt;", "&gt;", "&lpar;", "&rpar;", "&lbrack;", "&rbrack;", "&quot;", "&apos;", "&semi;");
 	}
 
