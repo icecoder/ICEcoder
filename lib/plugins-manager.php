@@ -3,11 +3,14 @@ include("headers.php");
 include("settings.php");
 
 // Set the plugin data source
-$pluginsDataSrc = "http://icecoder.net/plugin-data?format=JSON";
+$pluginsDataSrc = "https://icecoder.net/plugin-data?format=JSON";
 
 // Now get our plugin data and put into a PHP array
 if (ini_get('allow_url_fopen')) {
-	$pluginsDataJS = file_get_contents($pluginsDataSrc, false, $context);
+	$pluginsDataJS = @file_get_contents($pluginsDataSrc, false, $context);
+	if (!$pluginsDataJS) {
+		$pluginsDataJS = file_get_contents(str_replace("https:","http:",$pluginsDataSrc), false, $context);
+	}
 } elseif (function_exists('curl_init')) {
 	$pDSrc = curl_init($pluginsDataSrc);
 	curl_setopt($pDSrc, CURLOPT_SSL_VERIFYPEER, false);

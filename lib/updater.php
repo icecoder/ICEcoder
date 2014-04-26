@@ -48,10 +48,13 @@ function copyOldVersion() {
 			}
 		}
 	}
-	$icv_url = "http://icecoder.net/latest-version.txt";
+	$icv_url = "https://icecoder.net/latest-version.txt";
 	echo 'Detecting current version of ICEcoder...<br>';
 	if (ini_get('allow_url_fopen')) {
-		$icvInfo = file_get_contents($icv_url,false,$context);
+		$icvInfo = @file_get_contents($icv_url,false,$context);
+		if (!$icvInfo) {
+			$icvInfo = file_get_contents(str_replace("https:","http:",$icv_url), false, $context);
+		}
 	} elseif (function_exists('curl_init')) {
 		$ch = curl_init($icv_url);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -71,10 +74,13 @@ function openZipNew($icvInfo) {
 	$source = 'ICEcoder v'.$icvInfo;
 	$target = '../';
 
-	$remoteFile = 'http://icecoder.net/ICEcoder-v'.(str_replace(" beta", "-beta",$icvInfo)).'.zip';
+	$remoteFile = 'https://icecoder.net/ICEcoder-v'.(str_replace(" beta", "-beta",$icvInfo)).'.zip';
     	$file = "../tmp/new-version.zip";
 	if (ini_get('allow_url_fopen')) {
-		$fileData = file_get_contents($remoteFile,false,$context);
+		$fileData = @file_get_contents($remoteFile,false,$context);
+		if (!$fileData) {
+			$fileData = file_get_contents(str_replace("https:","http:",$remoteFile), false, $context);
+		}
 	} elseif (function_exists('curl_init')) {
 	    	$client = curl_init($remoteFile);
     		curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);  //fixed this line
