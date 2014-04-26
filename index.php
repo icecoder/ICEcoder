@@ -15,6 +15,7 @@ if ($ICEcoder["checkUpdates"]) {
 		$icvInfo = explode("\n",file_get_contents($icv_url,false,$context));
 	} elseif (function_exists('curl_init')) {
 		$ch = curl_init($icv_url);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$icvInfo = explode("\n", curl_exec($ch));
 	}

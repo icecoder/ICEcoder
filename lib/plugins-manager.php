@@ -10,6 +10,7 @@ if (ini_get('allow_url_fopen')) {
 	$pluginsDataJS = file_get_contents($pluginsDataSrc, false, $context);
 } elseif (function_exists('curl_init')) {
 	$pDSrc = curl_init($pluginsDataSrc);
+	curl_setopt($pDSrc, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($pDSrc, CURLOPT_RETURNTRANSFER, true);
 	$pluginsDataJS = curl_exec($pDSrc);
 }
