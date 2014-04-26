@@ -10,7 +10,7 @@ if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*"
 $updateMsg = '';
 // Check for updates
 if ($ICEcoder["checkUpdates"]) {
-	$icv_url = "http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"];
+	$icv_url = "https://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"];
 	if (ini_get('allow_url_fopen')) {
 		$icvInfo = explode("\n",file_get_contents($icv_url,false,$context));
 	} elseif (function_exists('curl_init')) {
@@ -199,8 +199,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 				<li><a nohref onClick="ICEcoder.helpScreen()">Shortcuts</a></li>
 				<li><a nohref onClick="ICEcoder.settingsScreen()">Settings</a></li>
 				<li><a nohref onclick="ICEcoder.searchForSelected()">Search for selected</a></li>
-				<li><a href="http://icecoder.net" target="_blank">ICEcoder website</a></li>
-				<li><a href="http://igg.me/at/icecoder4" target="_blank">Crowdfund ICEcoder v4.0</a></li>
+				<li><a href="https://icecoder.net" target="_blank">ICEcoder website</a></li>
 			</ul>
 		</div>
 	</div>
