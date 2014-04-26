@@ -52,7 +52,7 @@ function generateHash($plainText,$salt=null) {
 
 // returns converted entities which have HTML entity equivalents
 function strClean($var) {
-	return htmlentities($var, ENT_QUOTES, "UTF-8");
+	return preg_replace("/javascript\:/i","javascript&colon;",htmlentities($var, ENT_QUOTES, "UTF-8"));
 }
 
 // returns a number, whole or decimal or null
