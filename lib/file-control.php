@@ -14,8 +14,8 @@ $file = str_replace("|","/",strClean(
 	: $_GET['file']
 	));
 
-// Trim any +'s or spaces from the end of file
-$file = rtrim(rtrim($file,'+'),' ');
+// Trim any +'s or spaces from the end of file and clear any ../'s
+$file = str_replace("../","",rtrim(rtrim($file,'+'),' '));
 
 // Make $file a full path and establish the $fileLoc and $fileName
 if (strpos($file,$docRoot)===false && $_GET['action']!="getRemoteFile") {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
