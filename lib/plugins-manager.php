@@ -3,7 +3,7 @@ include("headers.php");
 include("settings.php");
 
 // Set the plugin data source
-$pluginsDataSrc = "https://icecoder.net/plugin-data?format=JSON";
+$pluginsDataSrc = "http://icecoder.net/plugin-data?format=JSON";
 
 // Now get our plugin data and put into a PHP array
 if (ini_get('allow_url_fopen')) {

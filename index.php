@@ -10,7 +10,7 @@ if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*"
 $updateMsg = '';
 // Check for updates
 if ($ICEcoder["checkUpdates"]) {
-	$icv_url = "https://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"];
+	$icv_url = "http://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"];
 	if (ini_get('allow_url_fopen')) {
 		$icvInfo = explode("\n",file_get_contents($icv_url,false,$context));
 	} elseif (function_exists('curl_init')) {
