@@ -70,21 +70,10 @@ for ($i=0;$i<count($themeArray);$i++) {
 	<?php echo $ICEcoder['root'] == "" ? "/" : $ICEcoder['root'];?>
 	<br><br>
 
-	<div style="font-size: 10px; line-height: 12px">ICE coder by Matt Pass (<a href="https://www.twitter.com/mattpass" style="font-size: 10px" target="_blank">@mattpass</a>)<br><br>
+	<div style="font-size: 10px; line-height: 12px">ICEcoder by Matt Pass (<a href="https://www.twitter.com/mattpass" style="font-size: 10px" target="_blank">@mattpass</a>)<br><br>
 		Free to use it for your own purposes, commercial or not, just let me know of any cool uses or customisations. :)<br><br>
 		No warranty or liability accepted for anything, all responsibility of use is your own.<br><br>
-
-		Thanks go to the following people who have inspired me to create this or provided feedback, code or testing:<br>
-		<?php
-			$peopleArray = array("marijnjh", "maettig", "darkosvitic", "anagnam", "a_harris88", "emmetio", "prinzhorn", "jakubvrana", "vicen_herrera", "abstractba", "adarwash", "themximum");
-			function makeURL(&$value) {
-				$value = '<a href="https://www.twitter.com/'.$value.'" style="font-size: 10px" target="_blank">@'.$value.'</a>';
-			};
-			array_walk($peopleArray, "makeURL");
-			echo implode(", ",$peopleArray);
-		?>
-		<br><br>
-		...plus a whole load of people on Github. Thanks for your contributions!
+		A lot of fantastic people and companies have helped build ICEcoder and there's too many to thank here. Please see the full list at <a href="https://icecoder.net" target="_blank">https://icecoder.net</a>
 	</div>
 	</p>
 </div>
