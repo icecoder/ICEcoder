@@ -48,7 +48,7 @@ function copyOldVersion() {
 			}
 		}
 	}
-	$icv_url = "http://icecoder.net/latest-version.txt";
+	$icv_url = "https://icecoder.net/latest-version.txt";
 	echo 'Detecting current version of ICEcoder...<br>';
 	if (ini_get('allow_url_fopen')) {
 		$icvInfo = file_get_contents($icv_url,false,$context);
@@ -70,7 +70,7 @@ function openZipNew($icvInfo) {
 	$source = 'ICEcoder v'.$icvInfo;
 	$target = '../';
 
-	$remoteFile = 'http://icecoder.net/ICEcoder-v'.(str_replace(" beta", "-beta",$icvInfo)).'.zip';
+	$remoteFile = 'https://icecoder.net/ICEcoder-v'.(str_replace(" beta", "-beta",$icvInfo)).'.zip';
     	$file = "../tmp/new-version.zip";
 	if (ini_get('allow_url_fopen')) {
 		$fileData = file_get_contents($remoteFile,false,$context);
@@ -184,7 +184,7 @@ if ($updateDone) {
 	echo '<script>alert("Update appears to be successful");window.location = "../";</script>';
 } else {
 	echo 'Something appears to have gone wrong :-/<br><br>';
-	echo 'Please report bugs at <a href="http://github.com/mattpass/ICEcoder" style="color: #fff">http://github.com/mattpass/ICEcoder</a><br><br>';
+	echo 'Please report bugs at <a href="https://github.com/mattpass/ICEcoder" style="color: #fff">https://github.com/mattpass/ICEcoder</a><br><br>';
 	echo 'You can recover the old version from ICEcoder\'s tmp dir';
 }
 ?>

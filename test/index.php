@@ -225,7 +225,7 @@ test = {
 			o.p = ICEcoder.openFiles[1];
 			t++;
 		},1);
-		result = ICEcoder.getRemoteFile('http://icecoder.net/latest-version');
+		result = ICEcoder.getRemoteFile('https://icecoder.net/latest-version');
 	},
 
 	moveGoToLine: function() {

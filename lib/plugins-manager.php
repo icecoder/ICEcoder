@@ -3,7 +3,7 @@ include("headers.php");
 include("settings.php");
 
 // Set the plugin data source
-$pluginsDataSrc = "http://icecoder.net/plugin-data?format=JSON";
+$pluginsDataSrc = "https://icecoder.net/plugin-data?format=JSON";
 
 // Now get our plugin data and put into a PHP array
 if (ini_get('allow_url_fopen')) {
@@ -243,7 +243,7 @@ function deletePlugin($dir) {
 				}
 			}
 
-			echo '<td style="padding: 0 10px 8px 0; width: 28px; text-align: center"><img src="http://icecoder.net/'.$pluginsData[$i]['icon'].'" alt="'.$pluginsData[$i]['name'].'"></td>';
+			echo '<td style="padding: 0 10px 8px 0; width: 28px; text-align: center"><img src="https://icecoder.net/'.$pluginsData[$i]['icon'].'" alt="'.$pluginsData[$i]['name'].'"></td>';
 			echo '<td style="padding: 8px 10px 8px 0; width: 250px; white-space: nowrap">'.$pluginsData[$i]['name'].'</td>';
 			$styleExtra = ($i % 2 == 1 || $i == count($pluginsData)-1) ? "0" : "30px";
 			echo '<td style="padding: 3px '.$styleExtra.' 8px 0">'.$installUninstallButton.'</td>';

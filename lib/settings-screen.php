@@ -39,7 +39,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 <body class="settings">
 
 <div class="infoPane">
-	<a href="http://icecoder.net" target="_blank"><img src="../images/ice-coder.png" alt="ICEcoder" class="logo"></a>
+	<a href="https://icecoder.net" target="_blank"><img src="../images/ice-coder.png" alt="ICEcoder" class="logo"></a>
 
 	<h1 style="margin: 10px 0">settings</h1>
 
@@ -49,11 +49,11 @@ for ($i=0;$i<count($themeArray);$i++) {
 	<br><br>
 
 	website:<br>
-	<a href="http://icecoder.net" target="_blank">http://icecoder.net</a>
+	<a href="https://icecoder.net" target="_blank">https://icecoder.net</a>
 	<br><br>
 
 	git:<br>
-	<a href="http://github.com/mattpass/ICEcoder" target="_blank">http://github.com/mattpass/ICEcoder</a>
+	<a href="https://github.com/mattpass/ICEcoder" target="_blank">https://github.com/mattpass/ICEcoder</a>
 	<br><br>
 
 	codemirror dir:<br>
@@ -70,7 +70,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 	<?php echo $ICEcoder['root'] == "" ? "/" : $ICEcoder['root'];?>
 	<br><br>
 
-	<div style="font-size: 10px; line-height: 12px">ICE coder by Matt Pass (<a href="http://www.twitter.com/mattpass" style="font-size: 10px" target="_blank">@mattpass</a>)<br><br>
+	<div style="font-size: 10px; line-height: 12px">ICE coder by Matt Pass (<a href="https://www.twitter.com/mattpass" style="font-size: 10px" target="_blank">@mattpass</a>)<br><br>
 		Free to use it for your own purposes, commercial or not, just let me know of any cool uses or customisations. :)<br><br>
 		No warranty or liability accepted for anything, all responsibility of use is your own.<br><br>
 
@@ -78,7 +78,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<?php
 			$peopleArray = array("marijnjh", "maettig", "darkosvitic", "anagnam", "a_harris88", "emmetio", "prinzhorn", "jakubvrana", "vicen_herrera", "abstractba", "adarwash", "themximum");
 			function makeURL(&$value) {
-				$value = '<a href="http://www.twitter.com/'.$value.'" style="font-size: 10px" target="_blank">@'.$value.'</a>';
+				$value = '<a href="https://www.twitter.com/'.$value.'" style="font-size: 10px" target="_blank">@'.$value.'</a>';
 			};
 			array_walk($peopleArray, "makeURL");
 			echo implode(", ",$peopleArray);
