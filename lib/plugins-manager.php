@@ -34,11 +34,12 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 		// Store the plugin zip to the tmp dir
 		$target = '../plugins/';
-	    	$zipFile = "../tmp/".basename($pluginsData[$_GET['plugin']]['zipURL']);
+		$zipURL = $pluginsData[strClean($_GET['plugin'])]['zipURL'];
+	    	$zipFile = "../tmp/".basename($zipURL);
 		if (ini_get('allow_url_fopen')) {
-			$fileData = file_get_contents($pluginsData[$_GET['plugin']]['zipURL'], false, $context);
+			$fileData = file_get_contents($zipURL, false, $context);
 		} elseif (function_exists('curl_init')) {
-    			$client = curl_init($pluginsData[$_GET['plugin']]['zipURL']);
+    			$client = curl_init($zipURL);
 		    	curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);  //fixed this line
 			$fileData = curl_exec($client);
 		}
@@ -109,7 +110,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 		// Finally, delete the plugin itself
 		$target = '../plugins/';
-		$dirName = basename($pluginsData[$_GET['plugin']]['zipURL'],".zip");
+		$dirName = basename(strClean($pluginsData[$_GET['plugin']]['zipURL']),".zip");
 		deletePlugin($target.$dirName."/");
 	}
 
