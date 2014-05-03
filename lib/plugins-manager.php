@@ -110,7 +110,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 		// Finally, delete the plugin itself
 		$target = '../plugins/';
-		$dirName = basename(strClean($pluginsData[$_GET['plugin']]['zipURL']),".zip");
+		$dirName = basename($pluginsData[strClean($_GET['plugin'])]['zipURL'],".zip");
 		deletePlugin($target.$dirName."/");
 	}
 
