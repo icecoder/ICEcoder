@@ -7,7 +7,7 @@ if (!isset($_SESSION["csrf"])) {
 	$_SESSION["csrf"] = md5(uniqid(mt_rand(), true));	
 }
 
-if (($_GET || $_POST) && $_REQUEST["csrf"] !== $_SESSION["csrf"]) {
+if (($_GET || $_POST) && (!isset($_REQUEST["csrf"]) || $_REQUEST["csrf"] !== $_SESSION["csrf"])) {
 	die("Bad CSRF token. Please report the error info at https://github.com/mattpass/ICEcoder so it can be fixed.<br><br>
 		CSRF issue:<br>
 		REQUEST: ".$_REQUEST["csrf"]."<br>
