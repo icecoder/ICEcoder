@@ -8,9 +8,14 @@ if (!isset($_SESSION["csrf"])) {
 }
 
 if (($_GET || $_POST) && $_REQUEST["csrf"] !== $_SESSION["csrf"]) {
-	echo '<script>alert("Bad CSRF token. Please press F12, view the console and report the error, including file & line number, so it can be fixed. Many thanks!");</script>';
-	echo '<script>console.log("CSRF issue: REQUEST: "+$_REQUEST["csrf"]+", SESSION: "+$_SESSION["csrf"]);</script>';
-	die('Bad CSRF token');
+	die("Bad CSRF token. Please report the error info at https://github.com/mattpass/ICEcoder so it can be fixed.<br><br>
+		CSRF issue:<br>
+		REQUEST: ".$_REQUEST["csrf"]."<br>
+		SESSION: ".$_SESSION["csrf"]."<br>
+		FILE: ".$_SERVER["SCRIPT_NAME"]."<br>
+		GET: ".var_export($_GET, true)."<br>
+		POST: ".var_export($_POST, true)."<br>
+		<br>Many thanks!");
 }
 
 // Set our security related headers
