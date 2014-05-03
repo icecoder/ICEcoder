@@ -65,8 +65,8 @@ function xssClean($data,$type) {
 
 	// === html ===
 	if ($type == "html") {
-		$bad  = array("<",    ">",    "=",        "&",     "(",       ")",     "\"",     "'");
-		$good = array("&lt;", "&gt;", "&equals;", "&amp;", "&lpar;", "&rpar;", "&quot;", "&apos;");
+		$bad  = array("<",    ">");
+		$good = array("&lt;", "&gt;");
 	}
 
 	// === style ===
