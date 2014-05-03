@@ -148,14 +148,14 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 <div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.ICEcoder.hideFileMenu();" onContextMenu="return false">
 	<div id="fileNav" class="fileNav">
 		<ul>
-			<li><a nohref onmouseover="top.ICEcoder.showHideFileNav('show','optionsFile')" id="optionsFileNav">File</a></li>
-			<li><a nohref onmouseover="top.ICEcoder.showHideFileNav('show','optionsEdit')" id="optionsEditNav">Edit</a></li>
-			<li><a nohref onmouseover="top.ICEcoder.showHideFileNav('show','optionsRemote')" id="optionsRemoteNav">Remote</a></li>
-			<li><a nohref onmouseover="top.ICEcoder.showHideFileNav('show','optionsHelp')" id="optionsHelpNav">Help</a></li>
+			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsFile')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsFile')}" id="optionsFileNav">File</a></li>
+			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsEdit')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsEdit')}" id="optionsEditNav">Edit</a></li>
+			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsRemote')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsRemote')}" id="optionsRemoteNav">Remote</a></li>
+			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsHelp')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsHelp')}" id="optionsHelpNav">Help</a></li>
 		</ul>
 	</div>
 	<div class="options" id="fileOptions">
-		<div id="optionsFile" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id)">
+		<div id="optionsFile" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
 			<ul>
 				<li><a nohref onClick="ICEcoder.newFile()">New File...</a></li>
 				<li><a nohref onClick="ICEcoder.newFolder()">New Folder...</a></li>
@@ -176,7 +176,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 				<li><a nohref onClick="ICEcoder.logout()">Logout</a></li>
 			</ul>
 		</div>
-		<div id="optionsEdit" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id)">
+		<div id="optionsEdit" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.undo()">Undo</a></li>
 				<li><a nohref onclick="ICEcoder.redo()">Redo</a></li>
@@ -187,7 +187,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 				<li><a nohref onclick="ICEcoder.jumpToDefinition()">Jump to Definition</a></li>
 			</ul>
 		</div>
-		<div id="optionsRemote" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id)">
+		<div id="optionsRemote" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.message('Git & GitHub integration coming soon')">GitHub</a></li>
 				<li><a nohref onclick="ICEcoder.message('SVN integration coming soon')">SVN</a></li>
@@ -198,7 +198,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 				<li><a nohref onclick="ICEcoder.message('SSH integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">SSH</a></li>
 			</ul>
 		</div>
-		<div id="optionsHelp" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id)">
+		<div id="optionsHelp" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>')">Manual</a></li>
 				<li><a nohref onClick="ICEcoder.helpScreen()">Shortcuts</a></li>
