@@ -26,7 +26,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		<form name="settingsUpdate" action="login.php" method="POST">
 <?php if ($ICEcoder["multiUser"]) {echo '		<input type="text" name="username" class="password"><br><br>'.PHP_EOL;};?>
 		<input type="password" name="password" class="password"><br><br>
-		<input type="submit" name="submit" value="<?php if ($ICEcoder["multiUser"]) {echo "set password / login";} else {echo $ICEcoder["password"] == "" ? "set password" : "login";}; ?>" class="button">
+		<input type="submit" name="submit" value="<?php if ($ICEcoder["multiUser"] && $ICEcoderSettings["enableRegistration"]) {echo "set password / login";} else {echo $ICEcoder["password"] == "" ? "set password" : "login";}; ?>" class="button">
 		<?php
 			if($ICEcoder["multiUser"] && $ICEcoderSettings["enableRegistration"]){
 				echo '<div class="text"><a href="javascript:alert(\'To disable registration mode, open lib/config___settings.php and change enableRegistration to false then reload this page\')">Registration mode enabled</a></div>';
