@@ -8,6 +8,7 @@ $ICEcoderSettings = array(
 	"devMode"		=> false,
 	"loginRequired"		=> true,
 	"multiUser"		=> false,
-	"lineEnding"		=> "\n"
+	"lineEnding"		=> "\n",
+	"enableRegistration"	=> true
 );
 ?>

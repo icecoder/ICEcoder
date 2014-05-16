@@ -19,7 +19,7 @@ $settingsFile = 'config-'.$username.str_replace(".","_",str_replace("www.","",$_
 $setPWorLogin = "login";
 
 // Create user settings file if it doesn't exist
-if (!file_exists(dirname(__FILE__)."/".$settingsFile)) {
+if (!file_exists(dirname(__FILE__)."/".$settingsFile) && $ICEcoderSettings['enableRegistration']) {
 	if (!copy(dirname(__FILE__)."/".$configUsersTemplate, dirname(__FILE__)."/".$settingsFile)) {
 		die("Couldn't create $settingsFile. Maybe you need write permissions on the lib folder?");
 	}
