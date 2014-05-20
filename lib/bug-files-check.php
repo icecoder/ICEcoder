@@ -1,7 +1,7 @@
 <?php
 // Load common functions
 include("headers.php");
-include("settings-common.php");
+include_once("settings-common.php");
 
 $files		= explode(",",str_replace("|","/",$_GET['files']));
 $filesSizesSeen	= explode(",",$_GET['filesSizesSeen']);

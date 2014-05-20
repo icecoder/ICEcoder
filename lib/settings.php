@@ -7,7 +7,7 @@ $configUsersTemplate = 'config___users-template.php';
 include(dirname(__FILE__)."/".$configSettings);
 
 // Load common functions
-include(dirname(__FILE__)."/settings-common.php");
+include_once(dirname(__FILE__)."/settings-common.php");
 
 // Establish user settings file
 $username = "";
