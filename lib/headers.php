@@ -1,6 +1,6 @@
 <?php
-// Start a session if we haven't already
-if(!isset($_SESSION)) {@session_start();}
+// Load common functions
+include_once(dirname(__FILE__)."/settings-common.php");
 
 // CSRF synchronizer token pattern, 32 chars
 if (!isset($_SESSION["csrf"])) {
@@ -8,13 +8,14 @@ if (!isset($_SESSION["csrf"])) {
 }
 
 if (($_GET || $_POST) && (!isset($_REQUEST["csrf"]) || $_REQUEST["csrf"] !== $_SESSION["csrf"])) {
+	$req = isset($_REQUEST["csrf"]) ? xssClean($_REQUEST["csrf"],"html") : "";
 	die("Bad CSRF token. Please report the error info at https://github.com/mattpass/ICEcoder so it can be fixed.<br><br>
 		CSRF issue:<br>
-		REQUEST: ".$_REQUEST["csrf"]."<br>
-		SESSION: ".$_SESSION["csrf"]."<br>
-		FILE: ".$_SERVER["SCRIPT_NAME"]."<br>
-		GET: ".var_export($_GET, true)."<br>
-		POST: ".var_export($_POST, true)."<br>
+		REQUEST: ".$req."<br>
+		SESSION: ".xssClean($_SESSION["csrf"],"html")."<br>
+		FILE: ".xssClean($_SERVER["SCRIPT_NAME"],"html")."<br>
+		GET: ".xssClean(var_export($_GET, true),"html")."<br>
+		POST: ".xssClean(var_export($_POST, true),"html")."<br>
 		<br>Many thanks!");
 }
 
