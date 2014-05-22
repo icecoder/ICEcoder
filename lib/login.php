@@ -21,8 +21,8 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 <div class="screenContainer" style="background-color: #141414">
 	<div class="screenVCenter">
 		<div class="screenCenter">
-		<img src="../images/ice-coder.png" style="margin-right: 22px" alt="ICEcoder">
-		<div class="version">v <?php echo $ICEcoder["versionNo"];?></div>
+		<img src="../images/ice-coder.png" alt="ICEcoder">
+		<div class="version" style="margin-bottom: 22px">v <?php echo $ICEcoder["versionNo"];?></div>
 		<form name="settingsUpdate" action="login.php" method="POST">
 <?php if ($ICEcoder["multiUser"]) {echo '		<input type="text" name="username" class="password"><br><br>'.PHP_EOL;};?>
 		<input type="password" name="password" class="password"><br><br>
