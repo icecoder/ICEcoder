@@ -171,22 +171,22 @@ function createNewCMInstance(num) {
 		highlightSelectionMatches: true,
 		showTrailingSpace: true,
 		lintWith: <?php if ($ICEcoder['codeAssist']) {echo 'fileName && fileName.indexOf(".js")>-1 ? CodeMirror.javascriptValidator : ';};?>false,
-		keyMap: "ICEcoder",
-		onKeyEvent: function(thisCM, e) {
-			if (e.type=="keyup") {
-				if ("undefined" != typeof top.doFind) {
-					clearInterval(top.doFind);
-				}
-				top.doFind = setTimeout(function() {
-					top.ICEcoder.findReplace(top.document.getElementById('find').value,true,false);
-				},500);
-				top.ICEcoder.getCaretPosition();
-				top.ICEcoder.updateCharDisplay();
-				top.ICEcoder.updateByteDisplay();
-				tok = thisCM.getTokenAt(thisCM.getCursor());
-			}
-		}
+		keyMap: "ICEcoder"
 	});
+
+	window['cM'+num].on("keyup", function(thisCM) {
+			if ("undefined" != typeof top.doFind) {
+				clearInterval(top.doFind);
+			}
+			top.doFind = setTimeout(function() {
+				top.ICEcoder.findReplace(top.document.getElementById('find').value,true,false);
+			},500);
+			top.ICEcoder.getCaretPosition();
+			top.ICEcoder.updateCharDisplay();
+			top.ICEcoder.updateByteDisplay();
+			tok = thisCM.getTokenAt(thisCM.getCursor());
+		}
+	);
 
 	window['cM'+num].on("cursorActivity", function(thisCM) {
 			top.ICEcoder.getCaretPosition();
@@ -203,7 +203,7 @@ function createNewCMInstance(num) {
 				window['cM'+num].getLine(top.ICEcoder.prevLine) && 
 				window['cM'+num].getLine(top.ICEcoder.prevLine).length > 0 && 
 				window['cM'+num].getLine(top.ICEcoder.prevLine).replace(/\s/g, '').length == 0) {
-					window['cM'+num].setLine(top.ICEcoder.prevLine,"");
+					window['cM'+num].replaceRange("",{line: top.ICEcoder.prevLine, ch: 0},{line: top.ICEcoder.prevLine, ch: 1000000});
 			}
 		}
 	);
@@ -233,21 +233,13 @@ function createNewCMInstance(num) {
 				var filename = filepath.substr(filepath.lastIndexOf("/")+1);
 				var fileExt = filename.substr(filename.lastIndexOf(".")+1);
 				for (var i=changeObj.from.line; i<changeObj.from.line+changeObj.text.length; i++) {
-					top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[
-						window['cM'+num].getLine(i).indexOf("{")>-1
-						? "braceRangeFinder" 
-						: "tagRangeFinder"
-					],null,"+","-",true)(thisCM, i);
+					top.ICEcoder.content.contentWindow.CodeMirror.doFold(window['cM'+num].getLine(i).indexOf("{")>-1 ? "brace" : "xml" ,null ,"+" ,"-", true, thisCM, i);
 				}
 				if (changeObj.text[0] == "}" || changeObj.removed && changeObj.removed[0] == "}") {
 					cursor = window['cM'+num].getSearchCursor("{",window['cM'+num].getCursor(),false);
 					cursor.findPrevious();
 					for (var i=cursor.from().line; i<window['cM'+num].getCursor().line; i++) {
-						top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[
-							window['cM'+num].getLine(i).indexOf("{")>-1
-							? "braceRangeFinder" 
-							: "tagRangeFinder"
-						],null,"+","-",true)(thisCM, i);
+						top.ICEcoder.content.contentWindow.CodeMirror.doFold(window['cM'+num].getLine(i).indexOf("{")>-1 ? "brace" : "xml" ,null ,"+" ,"-", true, thisCM, i);
 					}
 				}
 			}
@@ -286,8 +278,7 @@ function createNewCMInstance(num) {
 	);
 
 	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
-			window['cM'+num].getLine(line).indexOf("{")>-1
-			? codeFoldBrace(window['cM'+num], line) : codeFoldTag(window['cM'+num], line);
+			CodeMirror.doFold(window['cM'+num].getLine(line).indexOf("{")>-1 ? "brace" : "xml",null,"+","-",false)(window['cM'+num], line);
 		}
 	);
 
@@ -307,8 +298,6 @@ function createNewCMInstance(num) {
 	top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
 };
 
-var codeFoldTag = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder,null,"+","-",false);
-var codeFoldBrace = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder,null,"+","-",false);
 var debounce;
 </script>
 
