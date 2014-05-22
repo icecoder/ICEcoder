@@ -394,11 +394,7 @@ if (action=="load") {
 				top.ICEcoder.nextcMInstance++;
 				top.ICEcoder.openFileMDTs.push('<?php echo $serverType=="Linux" ? filemtime($file) : "1000000"; ?>');
 				for (var i=0; i<cM.lineCount(); i++) {
-					top.ICEcoder.content.contentWindow.CodeMirror.newFoldFunction(top.ICEcoder.content.contentWindow.CodeMirror[
-						cM.getLine(i).indexOf("{")>-1
-						? "braceRangeFinder"
-						: "tagRangeFinder"
-					],null,"+","-",true)(cM, i);
+					top.ICEcoder.content.contentWindow.CodeMirror.doFold(cM.getLine(i).indexOf("{")>-1?"brace":"xml",null,"+","-",true)(cM, i);
 				}
 				top.ICEcoder.loadingFile = false;
 			<?php
