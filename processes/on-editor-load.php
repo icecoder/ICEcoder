@@ -56,41 +56,41 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 				startLine = cM.getCursor(true).line;
 				endLine = cM.getCursor().line;
 				for (var i=startLine; i<=endLine; i++) {
-					cM.setLine(i, cM.getLine(i).slice(0,1)!=commentChar
+					cM.replaceRange(cM.getLine(i).slice(0,1)!=commentChar
 					? commentChar + cM.getLine(i)
-					: cM.getLine(i).slice(1,cM.getLine(i).length));
+					: cM.getLine(i).slice(1,cM.getLine(i).length), {line:i, ch:0}, {line:i, ch:1000000});
 				}
 			} else if (["Lua"].indexOf(top.ICEcoder.caretLocType)>-1) {
 				cM.replaceSelection(cM.getSelection().slice(0,4)!="--[["
 				? "--[[" + cM.getSelection() + "]]"
-				: cM.getSelection().slice(4,cM.getSelection().length-2));
+				: cM.getSelection().slice(4,cM.getSelection().length-2),"around");
 			} else {
 				cM.replaceSelection(cM.getSelection().slice(0,2)!="/*"
 				? "/*" + cM.getSelection() + "*/"
-				: cM.getSelection().slice(2,cM.getSelection().length-2));
+				: cM.getSelection().slice(2,cM.getSelection().length-2),"around");
 			}
 		} else {
 			if (["CoffeeScript","CSS","SQL"].indexOf(top.ICEcoder.caretLocType)>-1) {
-				cM.setLine(linePos, lineContent.slice(0,2)!="/*"
+				cM.replaceRange(lineContent.slice(0,2)!="/*"
 				? "/*" + lineContent + "*/"
-				: lineContent.slice(2,lCLen).slice(0,lCLen-4));
+				: lineContent.slice(2,lCLen).slice(0,lCLen-4), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
 				if (lineContent.slice(0,2)=="/*") {adjustCursor = -adjustCursor};
 			} else if (["Ruby","Python","Erlang","Julia","YAML","Perl"].indexOf(top.ICEcoder.caretLocType)>-1) {
 				commentChar = top.ICEcoder.caretLocType == "Erlang" ? "%" : "#";
-				cM.setLine(linePos, lineContent.slice(0,1)!=commentChar
+				cM.replaceRange(lineContent.slice(0,1)!=commentChar
 				? commentChar + lineContent
-				: lineContent.slice(1,lCLen));
+				: lineContent.slice(1,lCLen), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
 				adjustCursor = 1;
 				if (lineContent.slice(0,1)==commentChar) {adjustCursor = -adjustCursor};
 			} else if (["Lua"].indexOf(top.ICEcoder.caretLocType)>-1) {
-				cM.setLine(linePos, lineContent.slice(0,2)!="--"
+				cM.replaceRange(lineContent.slice(0,2)!="--"
 				? "--" + lineContent
-				: lineContent.slice(2,lCLen));
+				: lineContent.slice(2,lCLen), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
 				if (lineContent.slice(0,2)=="//") {adjustCursor = -adjustCursor};
 			} else {
-				cM.setLine(linePos, lineContent.slice(0,2)!="//"
+				cM.replaceRange(lineContent.slice(0,2)!="//"
 				? "//" + lineContent
-				: lineContent.slice(2,lCLen));
+				: lineContent.slice(2,lCLen), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
 				if (lineContent.slice(0,2)=="//") {adjustCursor = -adjustCursor};
 			}
 		}
@@ -98,11 +98,11 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 		if (cM.somethingSelected()) {
 			cM.replaceSelection(cM.getSelection().slice(0,4)!="<\!--"
 			? "<\!--" + cM.getSelection() + "//-->"
-			: cM.getSelection().slice(4,cM.getSelection().length-5));
+			: cM.getSelection().slice(4,cM.getSelection().length-5),"around");
 		} else {
-			cM.setLine(linePos, lineContent.slice(0,4)!="<\!--"
+			cM.replaceRange(lineContent.slice(0,4)!="<\!--"
 			? "<\!--" + lineContent + "//-->"
-			: lineContent.slice(4,lCLen).slice(0,lCLen-9));
+			: lineContent.slice(4,lCLen).slice(0,lCLen-9), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
 			adjustCursor = lineContent.slice(0,4)=="<\!--" ? -4 : 4;
 		}
 	}
