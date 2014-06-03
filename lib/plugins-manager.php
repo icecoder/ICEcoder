@@ -131,6 +131,8 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			}
 			$settingsNew .= '	array("'.$_POST['name'.$i].'","'.$_POST['icon'.$i].'","'.$_POST['style'.$i].'","'.$_POST['URL'.$i].'","'.$_POST['target'.$i].'","'.$timer.'"),';
 		}
+		// Rtrim off the last comma
+		$settingsNew = rtrim($settingsNew,',');
 		$settingsNew .= '	),'.PHP_EOL;
 	}
 
@@ -139,7 +141,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 	// Identify the bit to replace
 	$repPosStart = strpos($settingsContents,'"plugins"');
-	$repPosEnd = strpos($settingsContents,'"previousFiles"');
+	$repPosEnd = strpos($settingsContents,'"githubLocalPaths"');
 
 	// Compile our new settings
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,$repPosEnd,strlen($settingsContents));
@@ -220,8 +222,10 @@ function deletePlugin($dir) {
 				echo '<td style="padding: 0 0 8px 0"><input type="text" name="timer'.$i.'" value="'.$plugins[$i][5].'" style="width: 50px"></td>';
 				echo '</tr>';
 			}
+			echo '<tr>';
 			echo '<td colspan="4"></td>';
 			echo '<td style="padding: 3px 0 8px 0"><div style="padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="document.getElementById(\'pluginUpdateForm\').submit()">Update</div></td>';
+			echo '</tr>';
 			?>
 			</table>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
