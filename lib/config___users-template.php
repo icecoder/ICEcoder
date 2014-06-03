@@ -24,6 +24,8 @@ $ICEcoderUserSettings = array(
 "bugFileMaxLines"	=> 0,
 "pluginPanelAligned"	=> "left",
 "plugins"		=> array(),
+"githubLocalPaths"	=> array(),
+"githubRemotePaths"	=> array(),
 "previousFiles"		=> "",
 "last10Files"		=> ""
 );
