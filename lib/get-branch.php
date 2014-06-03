@@ -90,6 +90,20 @@ if (isset($_GET['location'])) {
 			newUL.innerHTML = showContent;
 			locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
 		},4);
+	} else {
+		<?php
+		$iceGithubLocalPaths = $ICEcoder["githubLocalPaths"];
+		$iceGithubRemotePaths = $ICEcoder["githubRemotePaths"];
+		$pathPos = array_search($iceRoot,$iceGithubLocalPaths);
+		if ($pathPos !== false) {
+		?>
+			if (top.ICEcoder.ask("Your local folder is empty, would you like to clone <?php echo $iceGithubRemotePaths[$pathPos];?>?")) {
+				setTimeout(function() {
+					top.ICEcoder.showHide('show',top.get('loadingMask'));
+					top.ICEcoder.filesFrame.contentWindow.frames['fileControl'].location.href = "lib/github.php?action=clone&csrf="+top.ICEcoder.csrf;
+				},4);
+			}
+		<?php ;}; ?>
 	}
 	</script>
 <?php
