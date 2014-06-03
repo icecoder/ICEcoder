@@ -190,7 +190,7 @@ Color picker"><img src="images/color-picker.png" style="cursor: pointer" alt="Co
 		</div>
 		<div id="optionsRemote" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
 			<ul>
-				<li><a nohref onclick="ICEcoder.message('Git & GitHub integration coming soon')">GitHub</a></li>
+				<li><a nohref onclick="ICEcoder.githubManager()">GitHub</a></li>
 				<li><a nohref onclick="ICEcoder.message('SVN integration coming soon')">SVN</a></li>
 				<li><a nohref onclick="ICEcoder.message('Bitbucket integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Bitbucket</a></li>
 				<li><a nohref onclick="ICEcoder.message('Amazon AWS integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Amazon AWS</a></li>
