@@ -36,7 +36,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		if ($ICEcoder["password"] == "" || $ICEcoder["multiUser"]) {
 			echo '<div class="text"><input type="checkbox" name="checkUpdates" value="true" checked> auto-check for updates</div>';
 		}
-		if (!$ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\'To put into multi-user mode, open lib/config___settings.php and change multiUser to true then reload this page\')">multi-user?</a></div>';};
+		if (!$ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\'To put into multi-user mode, open the settings menu or open lib/config___settings.php and change multiUser to true then reload this page\')">multi-user?</a></div>';};
 		?>
 		<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
