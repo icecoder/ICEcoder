@@ -51,9 +51,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 				if ($i==0) {
 					$dirName = $name;
 				} else {
-					$name = str_replace($dirName,"",$name);
+					$tgtName = str_replace($dirName,"",$name);
 					// Determine output filename
-					$file = $target.$name;
+					$file = $target.$tgtName;
 
 					// Create the directories if necessary
 					$dir = dirname($file);
