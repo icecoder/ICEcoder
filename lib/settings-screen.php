@@ -201,6 +201,20 @@ function findSequence(goal) {
 	<span style="display: inline-block; padding: 4px 5px 0 5px">secs, getting last</span>
 	<input type="text" name="bugFileMaxLines" style="width: 50px" onkeydown="showButton()" value="<?php echo $ICEcoder["bugFileMaxLines"];?>">
 	<span style="display: inline-block; padding: 4px 5px 0 5px">lines</span>
+	<br><br>
+
+	<div>
+	<h2> multi-user <span class="info" title="Make sure you don't lock yourself out">[?]</span> </h2>
+	<input type="checkbox" name="multiUser" value="true" onclick="showButton();changeEnableRegistrationStatus();"<?php if($ICEcoder["multiUser"]){echo ' checked';} ?>>Multi-User
+	<?php
+		echo '<input type="checkbox" name="enableRegistration" value="true"';
+		if($ICEcoder["enableRegistration"]){echo ' checked';} 
+		if(!$ICEcoder["multiUser"]){
+		echo ' disabled=""';
+		}
+		echo ' onclick="showButton()" id="enableRegistration"> Registration </input>';
+	?>
+	</div>
 </span>
 
 <script>
@@ -232,6 +246,9 @@ function changeFontSize() {
 	cMCSS[strCSS][0].style['fontSize'] = document.getElementById("fontSize").value;
 }
 
+var changeEnableRegistrationStatus = function(){
+	document.getElementById('enableRegistration').disabled=!document.getElementById('enableRegistration').disabled;
+}
 var showButton = function() {
 	document.getElementById('updateButton').style.opacity = 1;
 }

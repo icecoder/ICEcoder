@@ -63,6 +63,21 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	// Do we need a file manager refresh?
 	$refreshFM = $_POST['changedFileSettings']=="true" ? "true" : "false";
 
+	// Change multiUser and enableRegistration in config___settings.php
+	$generalSettingsContents = file_get_contents($configSettings,false,$context);
+	$isMultiUser = $_POST['multiUser'] ? "true" : "false";
+	$generalSettingsContents = str_replace('"multiUser"		=> true,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
+	$generalSettingsContents = str_replace('"multiUser"		=> false,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
+
+	$isEnableRegistration = $_POST['enableRegistration'] ? "true" : "false";
+	$generalSettingsContents = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
+	$generalSettingsContents = str_replace('"enableRegistration"	=> false','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
+	
+	$fConfigSettings = fopen($configSettings, 'w') or die("Can't update config file. Please set public write permissions on ".$configSettings." and press refresh");
+	fwrite($fConfigSettings, $generalSettingsContents);
+	fclose($fConfigSettings);
+
+
 	// With all that worked out, we can now hide the settings screen and apply the new settings
 	$jsBugFilePaths = "['".str_replace(",","','",str_replace(" ","",strClean($_POST['bugFilePaths'])))."']";
 	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."',".$jsBugFilePaths.",".$ICEcoder["bugFileCheckTimer"].",".$ICEcoder["bugFileMaxLines"].",".$refreshFM.");</script>";
