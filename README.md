@@ -14,7 +14,7 @@ You can run ICEcoder either online or locally, on Linux, Windows or Mac based pl
 Either download the zip or clone from Github using:
 
 ```
-$ git clone git@github.com:mattpass/ICEcoder
+$ git clone git://github.com/mattpass/ICEcoder
 ```
 
 ####Step 2: Place in your document root (online or local)
