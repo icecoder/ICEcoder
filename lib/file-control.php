@@ -323,7 +323,11 @@ if ($_GET['action']=="save") {
 					}
 				}
 				// Reload previewWindow window if not a Markdown file
-				echo 'if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {top.ICEcoder.previewWindow.location.reload()};';
+				echo 'if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {
+					top.ICEcoder.previewWindow.location.reload();
+					// Do the pesticide plugin if it exists
+					try {top.ICEcoder.doPesticide();} catch(err) {};
+				};';
 				echo 'top.ICEcoder.setPreviousFiles();action="doneSave";';
 			} else {
 				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
