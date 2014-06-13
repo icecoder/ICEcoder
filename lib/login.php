@@ -18,7 +18,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 
 <body onLoad="document.settingsUpdate.<?php echo $ICEcoder["multiUser"] ? "username" : "password";?>.focus()">
 	
-<div class="screenContainer" style="background-color: #d0d0d0">
+<div class="screenContainer" style="background-color: #141414">
 	<div class="screenVCenter">
 		<div class="screenCenter">
 		<img src="../images/ice-coder.png" alt="ICEcoder">
