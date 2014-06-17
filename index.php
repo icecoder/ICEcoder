@@ -60,11 +60,12 @@ window.onbeforeunload = function() {
 </head>
 
 <body onLoad="<?php
-	echo 'top.ICEcoder.previousFiles = [';
-	if ($ICEcoder["previousFiles"]!="") {
-		$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
-		echo "'".implode("','",$openFilesArray)."'";
-	}
+	echo "top.ICEcoder.versionNo = '".$ICEcoder["versionNo"]."';".
+		'top.ICEcoder.previousFiles = [';
+		if ($ICEcoder["previousFiles"]!="") {
+			$openFilesArray = explode(",",$ICEcoder["previousFiles"]);
+			echo "'".implode("','",$openFilesArray)."'";
+		}
 	echo "];";
 	echo "top.ICEcoder.theme = '".($ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"])."';".
 		"top.ICEcoder.fontSize = '".$ICEcoder["fontSize"]."';".
