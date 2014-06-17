@@ -151,9 +151,13 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		$fh = fopen($settingsFile, 'w');
 		fwrite($fh, $settingsContents);
 		fclose($fh);
-		// Finally, reload the iFrame screen for the user
-		header("Location: plugins-manager.php?updatedPlugins&csrf=".$_SESSION["csrf"]);
-		echo "<script>window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;</script>";
+		// Finally, reload ICEcoder itself if plugin requires it or just the iFrame screen for the user if it doesn't
+		if ($_GET['action']=="install" && $pluginsData[$_GET['plugin']]['reload'] == "true") {
+			echo "<script>if (top.confirm('ICEcoder needs to reload to make this plugin usable.\\n\\nReload now?')) {top.window.location.reload();} else {window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;}</script>";
+		} else {
+			header("Location: plugins-manager.php?updatedPlugins&csrf=".$_SESSION["csrf"]);
+			echo "<script>window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;</script>";
+		}
 		die('saving plugins...');
 	} else {
 		echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
@@ -252,8 +256,9 @@ function deletePlugin($dir) {
 				}
 			}
 
-			echo '<td style="padding: 0 10px 8px 0; width: 28px; text-align: center"><img src="https://icecoder.net/'.$pluginsData[$i]['icon'].'" alt="'.$pluginsData[$i]['name'].'"></td>';
-			echo '<td style="padding: 8px 10px 8px 0; width: 250px; white-space: nowrap">'.$pluginsData[$i]['name'].'</td>';
+			$reloadExtra = $pluginsData[$i]['reload'] == 'true' ? '<br><span style="color: #888">Reload after install required</span>' : '';
+			echo '<td style="padding: 0 10px 18px 0; width: 28px; text-align: center"><img src="https://icecoder.net/'.$pluginsData[$i]['icon'].'" alt="'.$pluginsData[$i]['name'].'"></td>';
+			echo '<td style="padding: 8px 10px 8px 0; width: 250px; white-space: nowrap">'.$pluginsData[$i]['name'].$reloadExtra.'</td>';
 			$styleExtra = ($i % 2 == 1 || $i == count($pluginsData)-1) ? "0" : "30px";
 			echo '<td style="padding: 3px '.$styleExtra.' 8px 0">'.$installUninstallButton.'</td>';
 
