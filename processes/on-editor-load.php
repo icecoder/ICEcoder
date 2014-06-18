@@ -134,13 +134,14 @@ top.ICEcoder.getNestLocationSub = function(nestCheck, fileName) {
 
 // Indicate if the nesting structure of the code is OK
 top.ICEcoder.updateNestingIndicator = function() {
-	var cM, nestOK, fileName;
+	var cM, testToken, nestOK, fileName;
 
 	cM = top.ICEcoder.getcMInstance();
 	nestOK = true;
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 	if (cM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileName.split(".")[1])==-1) {
-		nestOK = cM.getTokenAt({line:cM.lineCount(),ch:cM.lineInfo(cM.lineCount()-1).text.length}).className != "error" ? true : false;
+		testToken = cM.getTokenAt({line:cM.lineCount(),ch:cM.lineInfo(cM.lineCount()-1).text.length});
+		nestOK = testToken.type && testToken.type.indexOf("error") == -1 ? true : false;
 	}
 	top.ICEcoder.nestValid.style.background = nestOK ? "#0b0" : "#f00";
 	top.ICEcoder.nestValid.title = nestOK ? "Nesting OK" : "Nesting Broken";
