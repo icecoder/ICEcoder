@@ -21,6 +21,7 @@ include("settings.php");
 	<h2>Within document</h2>
 	<!-- This can only be CTRL+space as Cmd+space is a reserved apple shortcut -->
 	<span class="key">Ctrl <span class="plus">+</span> Space</span> <span class="shortcut">Autocomplete  / add snippet</span><br>
+	<span class="key">Ctrl <span class="plus">+</span> Click <span class="plus">or</span> Alt <span class="plus">+</span> Drag</span> <span class="shortcut">Multiple select</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> &uarr;</span> <span class="shortcut">Move line up</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> &darr;</span> <span class="shortcut">Move line down</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> +</span> <span class="shortcut">Duplicate line(s)</span><br>
