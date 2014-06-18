@@ -46,11 +46,29 @@ echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($byte
 <?php echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writeable($fileName) ? "Yes" : "No";?>
 </span>
 <span class="column">Relative path: <?php echo str_replace($docRoot,"",$fileName);?></span>
-<span style="font-size:10px">
 <br><br>
-Absolute path:<br><?php echo $fileName;?>
-<br><br>
+<span class="column" style="width: 410px">Absolute path:<br><?php echo $fileName;?></span>
+<?php if (is_dir($fileName)) {?>
+<span class="column" style="width: 180px">Contains:<br><?php
+$dirList = scandir($fileName);
+$dirCount = 0;
+$fileCount = 0;
+for ($i=0; $i<count($dirList); $i++) {
+	if ($dirList[$i] != "." && $dirList[$i] != "..") {
+		if (is_dir($fileName."/".$dirList[$i])) {
+			$dirCount++;
+		} else {
+			$fileCount++;
+		}
+	}
+}
+$dirPlural = $dirCount != 1 ? "s" : "";
+$filePlural = $fileCount != 1 ? "s" : "";
+echo $dirCount." sub-folder".$dirPlural.", ".$fileCount." file".$filePlural;
+?>
 </span>
+<?php ;};?>
+<br><br><br>
 <span class="column" style="width: 180px">
 Permissions:
 <?php
