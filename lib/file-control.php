@@ -329,6 +329,8 @@ if ($_GET['action']=="save") {
 					try {top.ICEcoder.doPesticide();} catch(err) {};
 				};';
 				echo 'top.ICEcoder.setPreviousFiles();action="doneSave";';
+				// Run our custom processes
+				include_once("../processes/on-file-save.php");
 			} else {
 				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 				echo '</script><textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
