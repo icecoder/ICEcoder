@@ -47,7 +47,7 @@ iceRoot = "<?php echo $ICEcoder['root']; ?>";
 
 window.onbeforeunload = function() {
 	for(var i=1;i<=ICEcoder.savedPoints.length;i++) {
-		if (ICEcoder.savedPoints[i-1]!=top.ICEcoder.getcMInstance(ICEcoder.cMInstances[i-1]).changeGeneration()) {
+		if (ICEcoder.savedPoints[i-1]!=top.ICEcoder.getcMInstance(i).changeGeneration()) {
 			return "You have some unsaved changes.";
 		}
 	}
