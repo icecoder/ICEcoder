@@ -276,17 +276,7 @@ function createNewCMInstance(num) {
 				try {top.ICEcoder.doPesticide();} catch(err) {};
 			}
 			// Update the title tag to indicate any changes
-			if (!top.ICEcoder.loadingFile) {
-				var winTitle = "ICEcoder v "+top.ICEcoder.versionNo;
-				for(var i=1;i<=top.ICEcoder.savedPoints.length;i++) {
-					if (top.ICEcoder.savedPoints[i-1]!=top.ICEcoder.getcMInstance(top.ICEcoder.cMInstances[i-1]).changeGeneration()) {
-						// We have an unsaved tab, indicate that in the title
-						winTitle += " *";
-						break;
-					}
-				}
-				top.document.title = winTitle;
-			}
+			top.ICEcoder.indicateChanges();
 		}
 	);
 
