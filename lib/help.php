@@ -26,6 +26,8 @@ include("settings.php");
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> &darr;</span> <span class="shortcut">Move line down</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> +</span> <span class="shortcut">Duplicate line(s)</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> -</span> <span class="shortcut">Remove line(s)</span><br>
+	<span class="key">Shift <span class="plus">+</span> Enter</span> <span class="shortcut">Insert line before</span><br>
+	<span class="key">Alt <span class="plus">+</span> Enter</span> <span class="shortcut">Insert line after</span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> i</span> <span class="shortcut">Search for selected <span class="info" title="Popups need to be enabled">[?]</span></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> j</span> <span class="shortcut">Jump to definition / jump back</span><br>
 	<span class="key">Esc</span> <span class="shortcut">Comment / uncomment</span><br>
