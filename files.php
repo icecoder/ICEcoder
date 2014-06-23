@@ -1,6 +1,9 @@
 <?php
 include("lib/headers.php");
 include("lib/settings.php");
+
+// Is our dir in the list of GitHub local paths?
+$isGitHubRepoDir = in_array($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
 ?>
 <!DOCTYPE html>
 
@@ -18,6 +21,12 @@ include("lib/settings.php");
 
 <div title="Lock" onClick="top.ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
 <div title="Refresh" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
+<?php
+if ($isGitHubRepoDir) {
+	$classExtra = !isset($_GET["githubDiff"]) || $_GET["githubDiff"] == "false" ? "Off" : "On";
+	echo '<div title="GitHub" onClick="top.ICEcoder.githubDiffToggle()" class="github'.$classExtra.'"></div>';
+}
+?>
 
 <ul class="fileManager">
 <li class="pft-directory dirOpen"><a nohref title="/" onMouseOver="top.ICEcoder.overFileFolder('folder','/')" onMouseOut="top.ICEcoder.overFileFolder('folder','')" onClick="top.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="|">/ <?php echo $iceRoot == "" ? "[ROOT]" : trim($iceRoot,"/");?></span> <span style="color: #888; font-size: 8px" id="|_perms"><?php echo $serverType=="Linux" ? substr(sprintf('%o', fileperms($docRoot.$iceRoot)), -3) : "";?></span></a></li><?php
