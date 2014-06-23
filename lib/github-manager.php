@@ -170,7 +170,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 <link rel="stylesheet" type="text/css" href="github-manager.css">
 </head>
 
-<body class="githubManager" onload="alert('This is a work in progress, due for an ICEcoder v4.2 release. Currently ~30% done.')">
+<body class="githubManager">
 
 <h1>github paths</h1>
 
