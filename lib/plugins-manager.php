@@ -158,7 +158,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			header("Location: plugins-manager.php?updatedPlugins&csrf=".$_SESSION["csrf"]);
 			echo "<script>window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;</script>";
 		}
-		die('saving plugins...');
+		die('<span style='color: #fff'>saving plugins...</span>');
 	} else {
 		echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
 	}
