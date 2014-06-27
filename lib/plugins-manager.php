@@ -174,7 +174,7 @@ function deletePlugin($dir) {
                 chdir('.');
                 deletePlugin($dir.$file.'/');
                 if(is_dir($dir.$file)) {
-			rmdir($dir.$file);// or DIE("<span style='color: #fff'>couldn't delete dir: $dir$file</span><br />");
+			rmdir($dir.$file) or DIE("<span style='color: #fff'>couldn't delete dir: $dir$file</span><br />");
 		}
             }
             else
