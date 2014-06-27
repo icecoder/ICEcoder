@@ -71,31 +71,33 @@ function xssClean($data,$type) {
 
 	// === style ===
 	if ($type == "style") {
-		$bad  = array("\"",     "``",             "(",      ")",      "&",     ".",        "\\");
-		$good = array("&quot;", "&grave;&grave;", "&lpar;", "&rpar;", "&amp;", "&period;", "&bsol;");
+		$bad  = array("<",    ">",    "\"",     "'",      "``",      "(",      ")",      "&",     "\\\\");
+		$good = array("&lt;", "&gt;", "&quot;", "&apos;", "&grave;", "&lpar;", "&rpar;", "&amp;", "&bsol;");
 	}
 
 	// === attribute ===
 	if ($type == "attribute") {
-		$bad  = array("\"",     "``");
-		$good = array("&quot;", "&grave;&grave;");
+		$bad  = array("\"",     "'",      "``");
+		$good = array("&quot;", "&apos;", "&grave;");
 	}
 
 	// === script ===
 	if ($type == "script") {
-		$bad  = array("<",    ">",    "(",      ")",      "[",        "]",        "\"",     "'",      ";");
-		$good = array("&lt;", "&gt;", "&lpar;", "&rpar;", "&lbrack;", "&rbrack;", "&quot;", "&apos;", "&semi;");
+		$bad  = array("<",    ">",    "\"",     "'",      "\\\\",   "%",        "&");
+		$good = array("&lt;", "&gt;", "&quot;", "&apos;", "&bsol;", "&percnt;", "&amp;");
 	}
 
 	// === url ===
 	if ($type == "url") {
-		$bad  = array("\"",  "``");
-		$good = array("%22", "%60%60");
+		if(preg_match("#^(?:(?:https?|ftp):{1})\/\/[^\"\s\\\\]*.[^\"\s\\\\]*$#iu",(string)$data,$match)) {
+			return $match[0];
+		} else {
+			return 'javascript:void(0)';
+		}        
 	}
 
-	$data = str_replace($bad, $good, $data);
-
-	return $data;
+	$output = str_replace($bad, $good, $data);
+	return $output;
 }
 
 // returns a UTF8 based string with any UFT8 BOM removed
