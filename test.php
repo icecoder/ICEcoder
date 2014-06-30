@@ -28,7 +28,7 @@ echo "<br><br><hr><br>";
 
 
 if(!isset($_SESSION)) {@session_start();}
-echo '<b>TEST 2 of 3: Sessions:</b></b><br>These values should all be the same:<br><br>';
+echo '<b>TEST 2 of 3: Sessions:</b></b><br>Session ID: '.session_id().'. These values should all be the same:<br><br>';
 echo '<div style="display: inline-block; width: 200px">SESSION, BEFORE SET:</div>'.$_SESSION["string"]."<br>";
 if (!isset($_GET["string"])) {
 	$_SESSION["string"] = md5(uniqid(mt_rand(), true));
