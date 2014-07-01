@@ -328,7 +328,7 @@ if ($_GET['action']=="save") {
 					// Do the pesticide plugin if it exists
 					try {top.ICEcoder.doPesticide();} catch(err) {};
 				};';
-				echo 'top.ICEcoder.setPreviousFiles();action="doneSave";';
+				echo 'top.ICEcoder.setPreviousFiles();setTimeout(function(){top.ICEcoder.indicateChanges()},4);action="doneSave";';
 				// Run our custom processes
 				include_once("../processes/on-file-save.php");
 			} else {
