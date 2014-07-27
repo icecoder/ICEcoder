@@ -13,6 +13,30 @@ if (!extension_loaded('openssl') || !in_array('https', $wrappers)) {
 
 // If we have an action to perform
 if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_GET['action']) && $sslAvail) {
+	// ====
+	// AUTH
+	// ====
+	if ($_GET['action']=="auth") {
+		$_SESSION['githubAuthToken'] = xssClean($_GET['token']);
+		echo '<!DOCTYPE html>
+			<html>
+			<head>
+			<script src="base64.js"></script>
+			<script src="github.js"></script>
+			</body>
+			<script>
+			top.ICEcoder.githubAuthTokenSet = true;
+			goNext = "'.xssClean($_GET['goNext']).'";
+			if (goNext=="showManager") {
+				top.ICEcoder.githubManager();
+			}
+			if (goNext=="loadFiles") {
+				top.ICEcoder.githubDiffToggle();
+			}
+			</script>
+			</body>
+			</html>';
+	}
 
 	// =====
 	// CLONE
