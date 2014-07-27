@@ -14,7 +14,7 @@ include("settings.php");
 <script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
 
 <style type="text/css">
-.CodeMirror {position: absolute; width: 409px; height: 240px; font-size: <?php echo $ICEcoder["fontSize"];?>}
+.CodeMirror {position: absolute; width: 409px; height: 180px; font-size: <?php echo $ICEcoder["fontSize"];?>}
 .CodeMirror-scroll {overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
@@ -175,7 +175,7 @@ function findSequence(goal) {
 }</textarea>
 <br>
 
-<span style="position: absolute; top: 360px">
+<span style="position: absolute; top: 300px">
 
 	<div style="position: relative; display: inline-block; margin-right: 20px">
 		<h2>layout</h2>
@@ -204,7 +204,7 @@ function findSequence(goal) {
 	<br><br>
 
 	<div>
-	<h2> multi-user <span class="info" title="Make sure you don't lock yourself out">[?]</span> </h2>
+	<h2>multi-user <span class="info" title="Make sure you don't lock yourself out">[?]</span></h2>
 	<input type="checkbox" name="multiUser" value="true" onclick="showButton();changeEnableRegistrationStatus();"<?php if($ICEcoder["multiUser"]){echo ' checked';} ?>>Multi-User
 	<?php
 		echo '<input type="checkbox" name="enableRegistration" value="true"';
@@ -214,6 +214,20 @@ function findSequence(goal) {
 		}
 		echo ' onclick="showButton()" id="enableRegistration"> Registration </input>';
 	?>
+	</div>
+	<br>
+
+	<div>
+	<h2>github</h2>
+	auth token <span class="info" title="Required to get diffs, commit to your GitHub hosted repo etc. If you don't have one, you can use a:
+
+- personal access token (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or
+- full client/secret pair token (http://developer.github.com/v3/oauth).
+
+It's not recommended you set your token here however and is more secure to enter it when requested by ICEcoder as that will keep it in session only.
+
+However, if you work in a trusted and secure environment, it's more efficient to set it here.">[?]</span><br>
+	<input type="text" name="githubAuthToken" style="width: 300px" onkeydown="showButton()" value="<?php echo $ICEcoder["githubAuthToken"];?>">
 	</div>
 </span>
 
