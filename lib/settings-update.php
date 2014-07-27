@@ -29,13 +29,14 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["bugFilePaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bugFilePaths']))).'")';
 	$ICEcoder["bugFileCheckTimer"]		= intval($_POST['bugFileCheckTimer']);
 	$ICEcoder["bugFileMaxLines"]		= intval($_POST['bugFileMaxLines']);
+	$ICEcoder["githubAuthToken"]		= strClean($_POST['githubAuthToken']);
 
-	$settingsArray = array("root","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","theme","fontSize","lineWrapping","indentWithTabs","indentSize","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines");
+	$settingsArray = array("root","checkUpdates","openLastFiles","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","theme","fontSize","lineWrapping","indentWithTabs","indentSize","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines","githubAuthToken");
 	$settingsNew = "";
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"	=> ';
 		// Wrap certain values in double quotes
-		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="password"||$settingsArray[$i]=="theme"||$settingsArray[$i]=="fontSize"||$settingsArray[$i]=="tagWrapperCommand"||$settingsArray[$i]=="autoComplete"||$settingsArray[$i]=="pluginPanelAligned" ? '"' : '';
+		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="password"||$settingsArray[$i]=="theme"||$settingsArray[$i]=="fontSize"||$settingsArray[$i]=="tagWrapperCommand"||$settingsArray[$i]=="autoComplete"||$settingsArray[$i]=="pluginPanelAligned"||$settingsArray[$i]=="githubAuthToken" ? '"' : '';
 		$settingsNew .= $settingWrap.$ICEcoder[$settingsArray[$i]].$settingWrap.','.PHP_EOL;
 	}
 
@@ -77,9 +78,10 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	fwrite($fConfigSettings, $generalSettingsContents);
 	fclose($fConfigSettings);
 
+	$githubAuthTokenSet = $ICEcoder["githubAuthToken"] != "" ? "true" : "false";
 
 	// With all that worked out, we can now hide the settings screen and apply the new settings
 	$jsBugFilePaths = "['".str_replace(",","','",str_replace(" ","",strClean($_POST['bugFilePaths'])))."']";
-	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."',".$jsBugFilePaths.",".$ICEcoder["bugFileCheckTimer"].",".$ICEcoder["bugFileMaxLines"].",".$refreshFM.");top.iceRoot = '".$ICEcoder["root"]."';</script>";
+	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."',".$jsBugFilePaths.",".$ICEcoder["bugFileCheckTimer"].",".$ICEcoder["bugFileMaxLines"].",'".$githubAuthTokenSet."',".$refreshFM.");top.iceRoot = '".$ICEcoder["root"]."';</script>";
 }
 ?>
