@@ -1,6 +1,7 @@
 <?php
 include("lib/headers.php");
 include("lib/settings.php");
+$t = $text['editor'];
 ?>
 <!DOCTYPE html>
 
@@ -67,40 +68,40 @@ h2 {color: rgba(0,198,255,0.7)}
 <body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
 
 <?php if ($ICEcoder['demoMode']) {?>
-<div class="demoArrow"><b>Click icons<br>for help &amp;<br>usage info</b></div>
+<div class="demoArrow"><?php echo $t['Click icons for...'];?></div>
 <?php ;}; ?>
 
 <div style="display: none; margin: 32px 43px 0 43px; padding: 10px; width: 500px; font-family: arial; font-size: 10px; color: #ddd; background: #333" id="dataMessage"></div>
 
 <div style="margin: 20px 43px 32px 43px; font-family: arial; font-size: 10px; color: #ddd">
 	<div style="float: left; width: 300px; margin-right: 50px">
-		<h2>server</h2>
-		<span class="heading">Server name, OS & IP:</span><br>
+		<h2><?php echo $t['server'];?></h2>
+		<span class="heading"><?php echo $t['Server name, OS...'];?></span><br>
 		<?php echo $_SERVER['SERVER_NAME']." &nbsp;&nbsp ".$_SERVER['SERVER_SOFTWARE']." &nbsp;&nbsp ".(isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:"Unknown");?><br><br>
-		<span class="heading">Root:</span><br>
+		<span class="heading"><?php echo $t['Root'];?></span><br>
 		<?php echo $docRoot;?><br><br>
-		<span class="heading">ICEcoder root:</span><br>
+		<span class="heading"><?php echo $t['ICEcoder root'];?></span><br>
 		<?php echo $docRoot.$iceRoot;?><br><br>
-		<span class="heading">PHP version:</span><br>
+		<span class="heading"><?php echo $t['PHP version'];?></span><br>
 		<?php echo phpversion();?><br><br>
-		<span class="heading">Date & time:</span><br>
+		<span class="heading"><?php echo $t['Date & time'];?></span><br>
 		<span id="serverDT"></span><br><br>
-		<h2>your device</h2>
-		<span class="heading">Browser:</span><br>
+		<h2><?php echo $t['your device'];?></h2>
+		<span class="heading"><?php echo $t['Browser'];?></span><br>
 		<?php echo xssClean($_SERVER['HTTP_USER_AGENT'],"html");?><br><br>
-		<span class="heading">Your IP:</span><br>
+		<span class="heading"><?php echo $t['Your IP'];?></span><br>
 		<?php echo $_SERVER['REMOTE_ADDR'];?><br><br>
 	</div>
 
 	<div style="float: left">
-		<h2>files</h2>
-		<span class="heading">Last 10 files opened:</span><br>
+		<h2><?php echo $t['files'];?></h2>
+		<span class="heading"><?php echo $t['Last 10 files...'];?></span><br>
 		<ul class="fileManager" style="margin-left: 0; line-height: 20px">
 		<?php
 			$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
 			for ($i=0;$i<count($last10FilesArray);$i++) {
 				if ($ICEcoder["last10Files"]=="") {
-					echo '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">[none]</div><br><br>';
+					echo '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">'.$t['none'].'</div><br><br>';
 				} else {
 					$fileFolderName = str_replace("\\","/",$last10FilesArray[$i]);
 					// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
@@ -133,18 +134,17 @@ h2 {color: rgba(0,198,255,0.7)}
 	</script>
 	<?php if(is_dir('test') && !$ICEcoder['demoMode']) {?>
 	<div style="float: left; margin-right: 50px">
-		<h2>test suite</h2>
-		<span class="heading">Run unit tests:</span><br>
-		<a nohref onclick="top.ICEcoder.filesFrame.contentWindow.frames['testControl'].location.href = 'test'" style="color: #fff; cursor: pointer">Run unit tests</a><div id="unitTestResults"></div>
+		<h2><?php echo $t['test suite'];?></h2>
+		<span class="heading"><?php echo $t['Run unit tests'];?></span><br>
+		<a nohref onclick="top.ICEcoder.filesFrame.contentWindow.frames['testControl'].location.href = 'test'" style="color: #fff; cursor: pointer"><?php echo $t['Run unit tests'];?></a><div id="unitTestResults"></div>
 	</div>
 	<?php
 	;};
 	?>
 	<div style="float: left">
-		<h2>dev mode <?php echo $ICEcoder['devMode'] ? "on" : "off";?></h2>
-		<span class="heading">Status:</span><br>
-		Using <?php echo $ICEcoder['devMode'] ? "ice-coder.js" : "ice-coder.min.js";?> <a title="You can switch dev mode on/off
-in lib/config__settings.php" style="cursor: pointer">[?]</a>
+		<h2><?php echo $t['dev mode'];?> <?php echo $ICEcoder['devMode'] ? "on" : "off";?></h2>
+		<span class="heading"><?php echo $t['Status'];?>:</span><br>
+		<?php echo $t['Using']?> <?php echo $ICEcoder['devMode'] ? "ice-coder.js" : "ice-coder.min.js";?> <a title="<?php echo $t['You can switch...'];?>" style="cursor: pointer">[?]</a>
 	</div>
 	<div style="clear: both"></div>
 </div>
@@ -230,7 +230,7 @@ function createNewCMInstance(num) {
 			top.ICEcoder.updateNestingIndicator();
 			if (top.ICEcoder.findMode) {
 				top.ICEcoder.results.splice(top.ICEcoder.findResult,1);
-				top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " results";
+				top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " <?php echo $t['results'];?>";
 				top.ICEcoder.findMode = false;
 			}
 			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
