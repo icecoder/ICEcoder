@@ -119,7 +119,7 @@ foreach($finalArray as $entry) {
 		if($_SESSION['bannedFiles'][$i] != "" && strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
 	}
 	if ("/".$entry == $ICEcoderDir) {
-		$canAdd = false;
+		//$canAdd = false;
 	}
 	if ($entry != "." && $entry != ".." && $canAdd) {
 		is_dir($docRoot.$iceRoot.$location."/".$entry)

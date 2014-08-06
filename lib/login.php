@@ -1,6 +1,7 @@
 <?php
 include("headers.php");
 include("settings.php");
+$t = $text['login'];
 ?>
 <!DOCTYPE html>
 
@@ -27,17 +28,17 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		<form name="settingsUpdate" action="login.php" method="POST">
 <?php if ($ICEcoder["multiUser"]) {echo '		<input type="text" name="username" class="password"><br><br>'.PHP_EOL;};?>
 		<input type="password" name="password" class="password"><br><br>
-		<input type="submit" name="submit" value="<?php if ($ICEcoder["multiUser"] && $ICEcoderSettings["enableRegistration"]) {echo "set password / login";} else {echo $ICEcoder["password"] == "" ? "set password" : "login";}; ?>" class="button">
+		<input type="submit" name="submit" value="<?php if ($ICEcoder["multiUser"] && $ICEcoderSettings["enableRegistration"]) {echo $t['set password']." / ".$t['login'];} else {echo $ICEcoder["password"] == "" ? $t['set password'] : $t['login'];}; ?>" class="button">
 		<?php
 			if($ICEcoder["multiUser"] && $ICEcoderSettings["enableRegistration"]){
-				echo '<div class="text"><a href="javascript:alert(\'To disable registration mode, open the settings menu or open lib/config___settings.php and change enableRegistration to false then reload this page\')">Registration mode enabled</a></div>';
+				echo '<div class="text"><a href="javascript:alert(\''.$t['To disable registration...'].'\')">'.$t['Registration mode enabled'].'</a></div>';
 			}
 		?>
 		<?php
 		if ($ICEcoder["password"] == "" || $ICEcoder["multiUser"]) {
-			echo '<div class="text"><input type="checkbox" name="checkUpdates" value="true" checked> auto-check for updates</div>';
+			echo '<div class="text"><input type="checkbox" name="checkUpdates" value="true" checked> '.$t['auto-check for updates'].'</div>';
 		}
-		if (!$ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\'To put into multi-user mode, open the settings menu or open lib/config___settings.php and change multiUser to true then reload this page\')">multi-user?</a></div>';};
+		if (!$ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\''.$t['To put into...'].'\')">'.$t['multi-user'].'?</a></div>';};
 		?>
 		<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
