@@ -27,8 +27,8 @@ $text = array(
 		"test suite"			=> "测试套件",
 		"Run unit tests"		=> "运行单元测试",
 		"dev mode"			=> "开发模式",
-		"Status"			=> "Status",
-		"Using"				=> "Using",
+		"Status"			=> "状态",
+		"Using"				=> "使用",
 		"You can switch..."		=> "你可以在 lib/config__settings.php 中设置开发模式开关",
 		"results"			=> "结果"
 
