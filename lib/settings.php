@@ -40,7 +40,7 @@ If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
 $ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
 
 // Include language file
-include(dirname(__FILE__)."/../lang/chinese.php");
+include(dirname(__FILE__)."/../lang/Simplified Chinese.php");
 
 // Login not required or we're in demo mode and have password set in our settings, log us straight in
 if ((!$ICEcoder['loginRequired'] || $ICEcoder['demoMode']) && $ICEcoder['password']!="") {$_SESSION['loggedIn']=true;};
