@@ -108,6 +108,39 @@ in lib/config__settings.php",
 
 // /LIB
 
+	"bug-files-check" =>
+	array(
+		"Found in"			=> "Found in:"
+	),
+
+	"file-control" =>
+	array(
+		"Sorry"				=> "Sorry",
+		"does not seem..."		=> "does not seem to exist on the server",
+		"Sorry, could not..."		=> "Sorry, could not get contents of",
+		"Sorry, cannot create..."	=> "Sorry, cannot create folder at",
+		"Sorry, cannot copy"		=> "Sorry, cannot copy",
+		"into"				=> "into",
+		"Uploaded file(s) OK"		=> "Uploaded file(s) OK",
+		"Sorry, cannot upload"		=> "Sorry, cannot upload",
+		"Sorry, cannot upload..."	=> "Sorry, cannot upload whilst in demo mode",
+		"Sorry, cannot rename"		=> "Sorry, cannot rename",
+		"Maybe public write..."		=> "Maybe public write permissions needed on this or parent folder?",
+		"Sorry, cannot move"		=> "Sorry, cannot move",
+		"Sorry, cannot save"		=> "Sorry, cannot save",
+		"Sorry, cannot replace..."	=> "Sorry, cannot replace text in",
+		"Sorry, cannot change..."	=> "Sorry, cannot change permissions on",
+		"Sorry, cannot delete..."	=> "Sorry, cannot delete the root level",
+		"Sorry, cannot delete"		=> "Sorry, cannot delete",
+		"Sorry, this file..."		=> "Sorry, this file has changed, cannot save",
+		"Reload this file..."		=> "Reload this file and copy your version to a new document?",
+		"There was a..."		=> "There was a tech hiccup, likely something was not quite ready. So ICEcoder reloaded its file control again.",
+		"displayed at"			=> "displayed at",
+		"Enter filename to..."		=> "Enter filename to save at",
+		"That file exists..."		=> "That file exists already, overwrite?",
+		"Saving"			=> "Saving"
+	),	
+
 	"login" =>
 	array(
 		"set password"			=> "set password",
