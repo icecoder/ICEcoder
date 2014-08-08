@@ -1,7 +1,7 @@
 <?php
-// Chinese language translation
+// Simplified Chinese language translation
 // by: @lzh370 (GitHub)
-//     @lzh370 (Twitter)
+//     lzh370@qq.com
 
 // Please preserve formatting, line breaks, special characters, anything in <tags> and HTML equivalents (eg &amp;). Translations on right side.
 
