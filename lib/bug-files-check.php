@@ -2,6 +2,8 @@
 // Load common functions
 include("headers.php");
 include_once("settings-common.php");
+$text = $_SESSION['text'];
+$t = $text['bug-files-check'];
 
 $files		= explode(",",str_replace("|","/",$_GET['files']));
 $filesSizesSeen	= explode(",",$_GET['filesSizesSeen']);
@@ -76,7 +78,7 @@ if ($result != "error") {
 			$output = rtrim(str_replace("\r\n","\n",$output));
 			$output = explode("\n",$output);
 			$output = array_slice($output, -$maxLines);
-			$output = "Found in: ".$filename."...\n".implode("\n",$output);
+			$output = $t['Found in']." ".$filename."...\n".implode("\n",$output);
 
 			if ($filesWithNewBugs==1) {
 				file_put_contents("../tmp/bug-report.log", $output);

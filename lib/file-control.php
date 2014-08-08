@@ -1,6 +1,7 @@
 ﻿<?php
 include("headers.php");
 include("settings.php");
+$t = $text['file-control'];
 ?>
 <script>
 <?php
@@ -50,7 +51,7 @@ if ($_GET['action']=="load") {
 			echo 'fileType="other";window.open(\'http://'.$_SERVER['SERVER_NAME'].$fileLoc."/".$fileName.'\');';
 		};
 	} else {
-		echo 'fileType="nothing"; top.ICEcoder.message(\'Sorry, '.$fileLoc."/".$fileName.' doesn\\\'t seem to exist on the server\');';
+		echo 'fileType="nothing"; top.ICEcoder.message(\''.$t['Sorry'].', '.$fileLoc."/".$fileName.' '.$t['does not seem...'].'\');';
 	}
 
 };
@@ -66,7 +67,7 @@ if ($_GET['action']=="getRemoteFile") {
 		echo '</script><textarea name="remoteFile" id="remoteFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$remoteFile)).'</textarea><script>';
 		echo 'top.ICEcoder.getcMInstance().setValue(document.getElementById("remoteFile").value);action="getRemoteFile";';
 	} else {
-		echo 'action="nothing"; top.ICEcoder.message(\'Sorry, could\\\'t get contents of '.$file.'\');';
+		echo 'action="nothing"; top.ICEcoder.message(\''.$t['Sorry, could not...'].' '.$file.'\');';
 	}
 	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 }
@@ -78,7 +79,7 @@ if ($_GET['action']=="newFolder") {
 		// Reload file manager
 		echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'folder\');action="newFolder";';
 	} else {
-		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot create folder at\\n".$fileLoc."');";
+		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot create...']."\\n".$fileLoc."');";
 	}
 	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 }
@@ -128,7 +129,7 @@ if ($_GET['action']=="paste") {
 		// Reload file manager
 		echo 'top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.basename($dest).'\',false,false,false,\''.$fileOrFolder.'\');action="pasteFile";';
 	} else {
-		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot copy \\n".str_replace($docRoot,"",$source)."\\n into \\n".str_replace($docRoot,"",$dest)."');";
+		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot copy']." \\n".str_replace($docRoot,"",$source)."\\n ".$t['into']." \\n".str_replace($docRoot,"",$dest)."');";
 	}
 	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 }
@@ -144,9 +145,9 @@ if ($_GET['action']=="upload") {
 					$this->uploadFile=$uploadDir.$current->name;
 					$fileName = $current->name;
 					if ($this->upload($current,$this->uploadFile)) {
-						echo 'action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,\'/\'),\''.str_replace("'","\'",$fileName).'\',false,false,true,\'file\'); top.ICEcoder.serverMessage("Uploaded file(s) OK");setTimeout(function(){top.ICEcoder.serverMessage();},2000);';
+						echo 'action="upload"; top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,\'/\'),\''.str_replace("'","\'",$fileName).'\',false,false,true,\'file\'); top.ICEcoder.serverMessage("'.$t['Uploaded file(s) OK'].'");setTimeout(function(){top.ICEcoder.serverMessage();},2000);';
 					} else {
-						echo "action='nothing'; top.ICEcoder.message('Sorry, cannot upload \\n".$fileName."\\n into \\n'+top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,'/'));";
+						echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot upload']." \\n".$fileName."\\n ".$t['into']." \\n'+top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,'/'));";
 					}
 				}  
 			}  
@@ -173,7 +174,7 @@ if ($_GET['action']=="upload") {
 			$fileUploader=new fileUploader($uploads);
 		}
 	} else {
-		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot upload whilst in demo mode');";
+		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot upload...']."');";
 	}
 
 	echo "top.ICEcoder.hideFileMenu();top.document.getElementById('fileInput').value='';top.ICEcoder.showHide('hide',top.document.getElementById('loadingMask'));";
@@ -191,7 +192,7 @@ if ($_GET['action']=="rename") {
 		}
 	}
 	if (!$renamed) {
-		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot rename\\n".strClean($_GET['oldFileName'])."\\n\\nMaybe public write permissions needed on this or parent folder?');";
+		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot rename']."\\n".strClean($_GET['oldFileName'])."\\n\\n".$t['Maybe public write...']."');";
 	}
 	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 }
@@ -212,7 +213,7 @@ if ($_GET['action']=="move") {
 			}
 		}
 		if (!$moved) {
-			echo "action='nothing'; top.ICEcoder.message('Sorry, cannot move\\n".strClean($_GET['oldFileName'])."\\n\\nMaybe public write permissions needed on this or parent folder?');";
+			echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot move']."\\n".strClean($_GET['oldFileName'])."\\n\\n".$t['Maybe public write...']."');";
 		}
 	} else {
 		echo "action='nothing';";
@@ -226,12 +227,12 @@ if ($_GET['action']=="replaceText") {
 		$file = str_replace("|","/",strClean($_GET['fileRef']));
 		$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 		$newContent = str_replace(strClean($_GET['find']),strClean($_GET['replace']),$loadedFile);
-		$fh = fopen($file, 'w') or die("Sorry, cannot save");
+		$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
 		fwrite($fh, $newContent);
 		fclose($fh);
 		echo 'action="replaceText";';
 	} else {
-		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot replace text in\\n".strClean($_GET['fileRef'])."');";
+		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot replace...']."\\n".strClean($_GET['fileRef'])."');";
 	}
 	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 }
@@ -244,7 +245,7 @@ if ($_GET['action']=="perms") {
 		echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
 		echo 'action="perms";';
 	} else {
-		echo "action='nothing'; top.ICEcoder.message('Sorry, cannot change permissions on \\n".strClean($file)."');";
+		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot change...']." \\n".strClean($file)."');";
 	}
 	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 }
@@ -258,7 +259,7 @@ if ($_GET['action']=="delete") {
 		$fullPath = $docRoot.$iceRoot.$fullPath;
 
 		if (rtrim($fullPath,"/") == rtrim($docRoot,"/")) {
-			echo "top.ICEcoder.message('Sorry can\\'t delete the root level');";
+			echo "top.ICEcoder.message('".$t['Sorry, cannot delete...']."');";
 		} else if (!$demoMode && is_writable($fullPath)) {
 			is_dir($fullPath)
 				? rrmdir($fullPath)
@@ -270,7 +271,7 @@ if ($_GET['action']=="delete") {
 			echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
 			echo 'action="delete";';
 		} else {
-			echo "top.ICEcoder.message('Sorry can\\'t delete\\n".str_replace($docRoot,"",$fullPath)."');";
+			echo "top.ICEcoder.message('".$t['Sorry, cannot delete']."\\n".str_replace($docRoot,"",$fullPath)."');";
 		}
 		echo 'action="nothing";';
 	}
@@ -300,7 +301,7 @@ if ($_GET['action']=="save") {
 		if (!$demoMode && ((file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && $_POST['newFileName']!="")) {
 			$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 			if (!(isset($_GET['fileMDT']))||$filemtime==$_GET['fileMDT']) {
-				$fh = fopen($file, 'w') or die("Sorry, cannot save");
+				$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
 				// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 				$contents = $_POST['contents'];
 				$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
@@ -336,7 +337,7 @@ if ($_GET['action']=="save") {
 				echo '</script><textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
 				echo '<textarea name="userVersionFile" id="userVersionFile"></textarea><script>';
 				?>
-				var refreshFile = top.ICEcoder.ask('Sorry, this file has changed, cannot save\n<?php echo $file;?>\n\nReload this file and copy your version to a new document?');
+				var refreshFile = top.ICEcoder.ask('<?php echo $t['Sorry, this file...']."\n".$file."\n\n".$t['Reload this file...'];?>');
 				if (refreshFile) {
 					var cM = top.ICEcoder.getcMInstance();
 					var thisTab = top.ICEcoder.selectedTab;
@@ -358,7 +359,7 @@ if ($_GET['action']=="save") {
 				<?php
 			}
         	} else {
-			echo "action='nothing';top.ICEcoder.message('Sorry, cannot write\\n".$file."');";
+			echo "action='nothing';top.ICEcoder.message('".$t['Sorry, cannot save']."\\n".$file."');";
 		}
 	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 	}
@@ -368,7 +369,7 @@ if (action=="load") {
 	if (fileType=="text") {
 		setTimeout(function() {
 			if (!top.ICEcoder.content.contentWindow.createNewCMInstance) {
-				console.log('There was tech hiccup, likely something wasn\'t quite ready. So ICEcoder reloaded it\'s file control again.');
+				console.log('<?php echo $t['There was a...']; ?>');
 				window.location.reload();
 			<?php
 			if (file_exists($file)) {
@@ -414,7 +415,7 @@ if (action=="load") {
 		top.document.getElementById('blackMask').style.visibility = "visible";
 		top.document.getElementById('mediaContainer').innerHTML = 
 			"<canvas id=\"canvasPicker\" width=\"1\" height=\"1\" style=\"position: absolute; margin: 10px 0 0 10px; cursor: crosshair\" onmouseover=\"top.ICEcoder.overPopup=true\" onmouseout=\"top.ICEcoder.overPopup=false\"></canvas>" + 
-			"<img src=\"<?php echo $fileLoc."/".$fileName;?>\" class=\"whiteGlow\" style=\"border: solid 10px #fff; max-width: 700px; max-height: 500px; background-color: #000; background-image: url('images/checkerboard.png')\" onLoad=\"reducedImgMsg = (this.naturalWidth > 700 || this.naturalHeight > 500) ? ', displayed at ' + this.width + ' x ' + this.height : ''; document.getElementById('imgInfo').innerHTML += ' (' + this.naturalWidth + ' x ' + this.naturalHeight + reducedImgMsg + ')'; top.ICEcoder.drawCanvasImage(this)\"><br>" +
+			"<img src=\"<?php echo $fileLoc."/".$fileName;?>\" class=\"whiteGlow\" style=\"border: solid 10px #fff; max-width: 700px; max-height: 500px; background-color: #000; background-image: url('images/checkerboard.png')\" onLoad=\"reducedImgMsg = (this.naturalWidth > 700 || this.naturalHeight > 500) ? ', <?php echo $t['displayed at']; ?> ' + this.width + ' x ' + this.height : ''; document.getElementById('imgInfo').innerHTML += ' (' + this.naturalWidth + ' x ' + this.naturalHeight + reducedImgMsg + ')'; top.ICEcoder.drawCanvasImage(this)\"><br>" +
 			"<div class=\"whiteGlow\" style=\"display: inline-block; margin-top: -10px; border: solid 10px #fff; color: #000; background-color: #fff\" id=\"imgInfo\"  onmouseover=\"top.ICEcoder.overPopup=true\" onmouseout=\"top.ICEcoder.overPopup=false\">" + 
 				"<b><?php echo $fileLoc."/".$fileName;?></b>" + 
 			"</div><br>" + 
@@ -440,18 +441,18 @@ if (action=="save") {
 	if (strpos($file,"[NEW]")>0||$saveType=="saveAs") {
 	?>
 		fileLoc = '<?php echo $fileLoc;?>';
-		newFileName = top.ICEcoder.getInput('Enter filename to save at '+(fileLoc!='' ? fileLoc : '/'),'');
+		newFileName = top.ICEcoder.getInput('<?php echo $t['Enter filename to save at']; ?> '+(fileLoc!='' ? fileLoc : '/'),'');
 		if (newFileName) {
 			if (newFileName.substr(0,1)!="/") {newFileName = "/" + newFileName}
 			newFileName = fileLoc + newFileName;
 			if (top.document.getElementById('filesFrame').contentWindow.document.getElementById(newFileName.replace(/\//g,"|"))) {
-				overwriteOK = top.ICEcoder.ask('That file exists already, overwrite?');
+				overwriteOK = top.ICEcoder.ask('<?php echo $t['That file exists...']; ?>');
 			}
 		}
 		document.saveFile.newFileName.value = '<?php echo $docRoot; ?>' + newFileName;
 	<?php ;};?>
 	if ("undefined" == typeof newFileName || (newFileName && "undefined" == typeof overwriteOK) || ("undefined" != typeof overwriteOK && overwriteOK)) {
-		top.ICEcoder.serverMessage('<b>Saving</b><br>'+ <?php echo strpos($file,"[NEW]")>0 ? "newFileName" : "'$file'"; ?>);
+		top.ICEcoder.serverMessage('<b><?php echo $t['Saving']; ?></b><br>'+ <?php echo strpos($file,"[NEW]")>0 ? "newFileName" : "'$file'"; ?>);
 		document.saveFile.contents.value = top.document.getElementById('saveTemp1').value;
 		document.saveFile.submit();
 	} else {
