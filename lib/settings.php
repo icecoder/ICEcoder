@@ -41,6 +41,7 @@ $ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
 
 // Include language file
 include(dirname(__FILE__)."/../lang/english.php");
+$_SESSION['text'] = $text;
 
 // Login not required or we're in demo mode and have password set in our settings, log us straight in
 if ((!$ICEcoder['loginRequired'] || $ICEcoder['demoMode']) && $ICEcoder['password']!="") {$_SESSION['loggedIn']=true;};
