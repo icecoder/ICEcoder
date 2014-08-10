@@ -1,6 +1,7 @@
 <?php
 include("headers.php");
 include("settings.php");
+$t = $text['multiple-results'];
 ?>
 <?php
 if(isset($_GET['selectedFiles'])) {
@@ -32,7 +33,7 @@ if(isset($_GET['selectedFiles'])) {
 	} else {
 		echo 'replaceAll()';
 	}
-	?>" style="opacity: 0.1"><?php echo isset($_GET['target']) && strpos($_GET['target'],"filenames") ? 'rename all' : 'replace all';?></div>
+	?>" style="opacity: 0.1"><?php echo isset($_GET['target']) && strpos($_GET['target'],"filenames") ? $t['rename all'] : $t['replace all'];?></div>
 <?php ;}; ?>
 
 <script>
@@ -48,7 +49,7 @@ findText = top.findAndReplace.find.value.toLowerCase();
 $findText = str_replace("ICEcoder:","",str_replace("&#39;","\'",$_GET['find']));
 // Find in open docs?
 if (!isset($_GET['target'])) {
-$targetName = "document";
+$targetName = $t['document'];
 ?>
 var startTab = top.ICEcoder.selectedTab;
 var rExp = new RegExp(findText,"gi");
@@ -57,9 +58,9 @@ for (var i=1;i<=top.ICEcoder.openFiles.length;i++) {
 	var cM = top.ICEcoder.getcMInstance();
 	var content = cM.getValue();
 	if (content.match(rExp)) {
-		resultsDisplay += '<a href="javascript:gotoTab('+i+')">'+ top.ICEcoder.openFiles[i-1]+ '</a><br><div id="foundCount'+i+'">Found '+content.match(rExp).length+' times</div>';
+		resultsDisplay += '<a href="javascript:gotoTab('+i+')">'+ top.ICEcoder.openFiles[i-1]+ '</a><br><div id="foundCount'+i+'"><?php echo $t['Found'];?> '+content.match(rExp).length+' <?php echo $t['times'];?></div>';
 		<?php if (isset($_GET['replace'])) { ?>
-		resultsDisplay += '<div class="replace" id="replace" onClick="replaceSingle('+i+');this.style.display=\'none\'">replace</div>';
+		resultsDisplay += '<div class="replace" id="replace" onClick="replaceSingle('+i+');this.style.display=\'none\'"><?php echo $t['replace'];?></div>';
 		<?php ;}; ?>
 		resultsDisplay += '<hr>';
 		foundArray.push(i);
@@ -72,7 +73,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 // Find in files or filenames
 } else {
 	if (strpos($_GET['target'],"filenames")>0) {
-	$targetName = "file/folder";
+	$targetName = $t['file folder'];
 ?>
 		var spansArray = top.ICEcoder.filesFrame.contentWindow.document.getElementsByTagName('span');
 		for (var i=0;i<spansArray.length;i++) {
@@ -99,11 +100,11 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					<?php if (!isset($_GET['replace'])) { ?>
 						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+'</div>';
 					<?php ;} else { ?>
-						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+', rename to '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strtolower(strClean($_GET['replace']));};?></b>")+'</div>';
+						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+', <?php echo $t['rename to'];?> '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strtolower(strClean($_GET['replace']));};?></b>")+'</div>';
 					<?php
 					;};
 					if (isset($_GET['replace'])) { ?>
-					resultsDisplay += '<div class="replace" id="replace" onClick="renameSingle('+i+');this.style.display=\'none\'">rename</div>';
+					resultsDisplay += '<div class="replace" id="replace" onClick="renameSingle('+i+');this.style.display=\'none\'"><?php echo $t['rename'];?></div>';
 					<?php ;}; ?>
 					resultsDisplay += '<hr>';
 					foundArray.push(i);
@@ -112,7 +113,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 		}
 <?php
 	} else {
-	$targetName = "file";
+	$targetName = $t['file'];
 	$r = 0;
 	function phpGrep($q, $path, $base) {
 		$fp = opendir($path);
@@ -146,9 +147,9 @@ if (startTab!=top.ICEcoder.selectedTab) {
 				}
 				if (!$bFile && (count($selectedFiles)==0 || count($selectedFiles)>0 && $foundInSelFile)) {
 					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.get('blackMask'))\\\">";
-					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">Found ".substr_count(strtolower(toUTF8noBOM(file_get_contents($fullPath,false,$context),false)),$q)." times</div>";
+					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">".$t['Found']." ".substr_count(strtolower(toUTF8noBOM(file_get_contents($fullPath,false,$context),false)),$q)." ".$t['times']."</div>";
 					if (isset($_GET['replace'])) {
-						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('".$fullPath."');this.style.display=\'none\'\\\">replace</div>";
+						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('".$fullPath."');this.style.display=\'none\'\\\">".$t['replace']."</div>";
 					};
 					$ret .= '<hr>';
 					echo 'foundArray.push("'.$fullPath.'");'.PHP_EOL;
@@ -168,14 +169,14 @@ if (startTab!=top.ICEcoder.selectedTab) {
 ?>
 showHide = foundArray.length==0 ? "hide" : "show";
 top.ICEcoder.showHide(showHide,top.get('blackMask'));
-if (foundArray.length==0) {top.ICEcoder.message('No matches found')};
+if (foundArray.length==0) {top.ICEcoder.message('<?php echo $t['No matches found'];?>')};
 <?php if (isset($_GET['replace'])) { ?>
 if (foundArray.length!=0) {document.getElementById('replaceAll').style.opacity = 1};
 <?php ;}; ?>
 plural = foundArray.length >= 2 ? "s" : "";
 targetName = "<?php echo $targetName;?>";
-selectedText = foundInSelected ? "selected " : "";
-document.getElementById('title').innerHTML = findText.replace(/&/g,"&amp;").replace(/>/g,"&gt;").replace(/</g,"&lt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;")+" found in "+foundArray.length+" "+selectedText+targetName+plural;
+selectedText = foundInSelected ? "<?php echo $t['selected'];?> " : "";
+document.getElementById('title').innerHTML = findText.replace(/&/g,"&amp;").replace(/>/g,"&gt;").replace(/</g,"&lt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;")+" <?php echo $t['found in'];?> "+foundArray.length+" "+selectedText+targetName+plural;
 document.getElementById('results').innerHTML = resultsDisplay;
 
 var gotoTab = function(tab) {
@@ -188,7 +189,7 @@ var replaceSingle = function(tab) {
 	cM = top.ICEcoder.getcMInstance();
 	content = cM.getValue();
 	cM.setValue(cM.getValue().replace(rExp,top.get('replace').value));
-	document.getElementById('foundCount'+tab).innerHTML = document.getElementById('foundCount'+tab).innerHTML.replace('Found','Replaced');
+	document.getElementById('foundCount'+tab).innerHTML = document.getElementById('foundCount'+tab).innerHTML.replace('<?php echo $t['Found'];?>','<?php echo $t['Replaced'];?>');
 }
 
 var replaceAll = function() {

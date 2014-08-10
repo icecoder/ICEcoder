@@ -1,13 +1,14 @@
 <?php
 include("headers.php");
 include("settings.php");
+$t = $text['github'];
 
 // SSL check, as everything is over https
 $wrappers = stream_get_wrappers();
 $sslAvail = true;
 if (!extension_loaded('openssl') || !in_array('https', $wrappers)) {
 	$sslAvail = false;
-	echo "<script>top.ICEcoder.message('Sorry, you don\'t appear to have OpenSSL loaded on your PHP instance, so https is not available. This is required for GitHub data transfer, please amend php.ini settings, restart your server and try again');top.ICEcoder.showHide('hide',top.get('loadingMask'));</script>";
+	echo "<script>top.ICEcoder.message('".$t['Sorry, you do...']."');top.ICEcoder.showHide('hide',top.get('loadingMask'));</script>";
 	die();
 }
 

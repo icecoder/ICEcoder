@@ -1,6 +1,7 @@
 <?php
 include("headers.php");
 include("settings.php");
+$t = $text['github-manager'];
 
 // If we have an action to perform
 if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_GET['action'])) {
@@ -26,7 +27,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			if (is_writable($docRoot)) {
 				mkdir($docRoot.$chosenLocal, 0705);
 			} else {
-				echo "<script>top.ICEcoder.message('Sorry, cannot create folder at\\n".$chosenLocal."');</script>";
+				echo "<script>top.ICEcoder.message('".$t['Sorry, cannot create...']."\\n".$chosenLocal."');</script>";
 			}
 		}
 
@@ -54,9 +55,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 				// Hide this popup and reload file manager
 				echo "<script>top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'));top.ICEcoder.refreshFileManager();</script>";
 			} else {
-				echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
+				echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." lib/".$settingsFile." ".$t['and try again']."');</script>";
 			}
-			
+
 		}
 
 	}
@@ -153,9 +154,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			// Finally, reload the iFrame screen for the user
 			header("Location: github-manager.php?updatedGithubPaths&csrf=".$_SESSION["csrf"]);
 			echo "<script>window.location='github-manager.php?updatedGithubPaths&csrf='+top.ICEcoder.csrf;</script>";
-			die('saving github paths...');
+			die($t['saving github paths']);
 		} else {
-			echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
+			echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." lib/".$settingsFile." ".$t['and try again']."');</script>";
 		}
 	}
 }
@@ -172,7 +173,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 <body class="githubManager">
 
-<h1>github paths</h1>
+<h1><?php echo $t['github paths'];?></h1>
 
 <div style="display: inline-block; width: 620px; height: 340px; overflow-y: auto">
 	<?php
@@ -181,25 +182,25 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	if (count($pathsLocal) > 0) {
 	?>
 	<div style="display: inline-block; width: 600px; margin-bottom: 30px">
-		<h2>Choose existing path</h2><br>
+		<h2><?php echo $t['Choose existing path'];?></h2><br>
 
 		<form id="githubUpdateForm" action="github-manager.php?action=update" method="POST">
 			<table>
 			<tr>
-			<td style="padding-left: 5px">Local path</td>
-			<td style="padding-left: 5px">Remote GitHub path</td>
+			<td style="padding-left: 5px"><?php echo $t['Local path'];?></td>
+			<td style="padding-left: 5px"><?php echo $t['Remote GitHub path'];?></td>
 			</tr>
 			<?php
 			for ($i=0; $i<count($pathsLocal); $i++) {
 				echo '<tr>';
 				echo '<td style="padding: 0 10px 8px 0"><input type="text" name="githubLocalPath'.$i.'" value="'.$pathsLocal[$i].'" style="width: 250px"></td>';
 				echo '<td style="padding: 0 10px 8px 0"><input type="text" name="githubRemotePath'.$i.'" value="'.$pathsRemote[$i].'" style="width: 250px"></td>';
-				echo '<td style="padding: 2px 0 8px 0"><div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'github-manager.php?action=choose&pathPair='.$i.'&csrf='.$_SESSION["csrf"].'\'">Choose</div></td>';
+				echo '<td style="padding: 2px 0 8px 0"><div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'github-manager.php?action=choose&pathPair='.$i.'&csrf='.$_SESSION["csrf"].'\'">'.$t['Choose'].'</div></td>';
 				echo '</tr>';
 			}
 			echo '<tr>';
-			echo '<td style="padding-top: 7px; color: #444">Set local and remote path to blanks to remove</td>';
-			echo '<td style="padding: 3px 10px 8px 0; text-align: right"><div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="document.getElementById(\'githubUpdateForm\').submit()">Update</div></td>';
+			echo '<td style="padding-top: 7px; color: #444">'.$t['Set local and...'].'</td>';
+			echo '<td style="padding: 3px 10px 8px 0; text-align: right"><div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="document.getElementById(\'githubUpdateForm\').submit()">'.$t['Update'].'</div></td>';
 			echo '</tr>';
 			?>
 			</table>
@@ -211,32 +212,32 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	?>
 
 	<div style="display: inline-block; width: 600px">
-		<h2>Add new path</h2><br>
+		<h2><?php echo $t['Add new path'];?></h2><br>
 
 		<form id="githubAddForm" action="github-manager.php?action=add" method="POST">
 			<table>
 			<tr>
-			<td style="padding-left: 5px">Local path</td>
-			<td style="padding-left: 5px">Remote GitHub path</td>
+			<td style="padding-left: 5px"><?php echo $t['Local path'];?></td>
+			<td style="padding-left: 5px"><?php echo $t['Remote GitHub path'];?></td>
 			</tr>
 			<tr>
 			<td style="padding: 0 10px 8px 0"><input type="text" name="githubLocalPathNEW" value="" style="width: 250px"></td>
 			<td style="padding: 0 0 8px 0"><input type="text" name="githubRemotePathNEW" value="" style="width: 250px"></td>
 			</tr>
 			<tr>
-			<td colspan="2" style="padding: 3px 0 8px 0; text-align: right"><div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="document.getElementById('githubAddForm').submit()">Add</div></td>
+			<td colspan="2" style="padding: 3px 0 8px 0; text-align: right"><div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="document.getElementById('githubAddForm').submit()"><?php echo $t['Add'];?></div></td>
 			</tr>
 			</table>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 	</div>
 
-	<h2 style="margin-bottom: 10px">Usage Info:</h2>
+	<h2 style="margin-bottom: 10px"><?php echo $t['Usage Info'];?></h2>
 
-	<p style="color: #888; margin: 0 10px 10px 0">Enter relative local paths (eg /server/myfiles) and absolute GitHub paths (eg https://github.com/user/repo or https://github.com/user/repo/tree/branch for branches), as per the examples. With this done you have established the source paths at both locations, as a pair.</p>
-	<p style="color: #888; margin: 0 10px 10px 0">You can then choose a path pair and this then becomes your new root path in ICEcoder.</p>
-	<p style="color: #888; margin: 0 10px 10px 0">The file manager then displays a new GitHub icon, which you can click on to perform and show a diff check between the 2 sources. These diffs can then be committed and pushed to the remote path at GitHub or cloned to your local path, to sync your files.</p>
-	<p style="color: #888; margin: 0 10px 0 0">If you want to set another root path, this can be done in the Help > Settings screen.</p>
+	<p style="color: #888; margin: 0 10px 10px 0"><?php echo $t['Enter relative local...'];?></p>
+	<p style="color: #888; margin: 0 10px 10px 0"><?php echo $t['You can then...'];?></p>
+	<p style="color: #888; margin: 0 10px 10px 0"><?php echo $t['The file manager...'];?></p>
+	<p style="color: #888; margin: 0 10px 0 0"><?php echo $t['If you want...'];?></p>
 
 </div>
 
