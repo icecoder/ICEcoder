@@ -1,22 +1,23 @@
 <?php
 // Load common functions
 include_once(dirname(__FILE__)."/settings-common.php");
+$text = $_SESSION['text'];
+$t = $text['headers'];
 
 // CSRF synchronizer token pattern, 32 chars
 if (!isset($_SESSION["csrf"])) {
-	$_SESSION["csrf"] = md5(uniqid(mt_rand(), true));	
+	$_SESSION["csrf"] = md5(uniqid(mt_rand(), true));
 }
 
 if (($_GET || $_POST) && (!isset($_REQUEST["csrf"]) || $_REQUEST["csrf"] !== $_SESSION["csrf"])) {
 	$req = isset($_REQUEST["csrf"]) ? xssClean($_REQUEST["csrf"],"html") : "";
-	die("Bad CSRF token. Please report the error info at https://github.com/mattpass/ICEcoder so it can be fixed.<br><br>
+	die($t['Bad CSRF token...']."<br><br>
 		CSRF issue:<br>
 		REQUEST: ".$req."<br>
 		SESSION: ".xssClean($_SESSION["csrf"],"html")."<br>
 		FILE: ".xssClean($_SERVER["SCRIPT_NAME"],"html")."<br>
 		GET: ".xssClean(var_export($_GET, true),"html")."<br>
-		POST: ".xssClean(var_export($_POST, true),"html")."<br>
-		<br>Many thanks!");
+		POST: ".xssClean(var_export($_POST, true),"html"));
 }
 
 // Set our security related headers

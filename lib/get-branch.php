@@ -8,6 +8,8 @@ if (!$_SESSION['loggedIn']) {
 	header("Location: ../");
 }
 
+$text = $_SESSION['text'];
+$t = $text['get-branch'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -213,7 +215,7 @@ if ($_SESSION['githubDiff']) {
 	repoSHAArray = [];
 
 	// Set our repo and get the tree recursively
-	var repo = github.getRepo(top.repo.split("/")[0], top.repo.split("/")[1]);	
+	var repo = github.getRepo(top.repo.split("/")[0], top.repo.split("/")[1]);
 	repo.getTree('master?recursive=true', function(err, tree) {
 		if(!err) {
 			treePaths = [];
@@ -288,7 +290,7 @@ if ($_SESSION['githubDiff']) {
 				// If there are no diffs, ask user if they want to switch back to regular mode
 				setTimeout(function(){
 					if (parent.document.getElementById('|').parentNode.parentNode.parentNode.childNodes[2].childNodes.length==1) {
-						if(top.ICEcoder.ask('There are no differences between the local and GitHub repo. Switch back to regular mode?')) {
+						if(top.ICEcoder.ask('<?php echo $t['There are no...'];?>')) {
 							top.ICEcoder.githubDiffToggle();
 						} else {
 							top.ICEcoder.showHide('hide',top.get('loadingMask'));
@@ -300,7 +302,7 @@ if ($_SESSION['githubDiff']) {
 			},4);
 		} else {
 			// There was an error, display HTTP error code and response message
-			top.ICEcoder.message('Sorry, there was an error, code: '+err.error+'\n\n'+err.request.response);
+			top.ICEcoder.message('<?php echo $t['Sorry, there was...'];?> '+err.error+'\n\n'+err.request.response);
 			top.ICEcoder.showHide('hide',top.get('loadingMask'));
 		}
 	});
@@ -364,7 +366,7 @@ if ($_SESSION['githubDiff']) {
 		$pathPos = array_search($iceRoot,$iceGithubLocalPaths);
 		if ($pathPos !== false) {
 		?>
-			if (top.ICEcoder.ask("Your local folder is empty, would you like to clone <?php echo $iceGithubRemotePaths[$pathPos];?>?")) {
+			if (top.ICEcoder.ask("<?php echo $t['Your local folder...'];?> <?php echo $iceGithubRemotePaths[$pathPos];?>?")) {
 				setTimeout(function() {
 					top.ICEcoder.showHide('show',top.get('loadingMask'));
 					top.ICEcoder.filesFrame.contentWindow.frames['fileControl'].location.href = "github.php?action=clone&csrf="+top.ICEcoder.csrf;
