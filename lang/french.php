@@ -141,6 +141,106 @@ dans lib/config__settings.php",
 		"Saving"				=> "Sauvegard&eacute;"
 	),	
 
+	"get-branch" =>
+	array(
+		"There are no..."		=> "Il n&apos;y a pas de diff&eacute;rences entre le repo local et celui de GitHub. Revenir en mode normal ?",
+		"Sorry, there was..."		=> "D&eacute;sol&eacute;, il y avait une erreur, le code :",
+		"Your local folder..."		=> " Votre dossier local est vide, voulez-vous le cloner  ?"
+	),
+
+	"github-manager" =>
+	array(
+		"Sorry, cannot create..."	=> "D&eacute;sol&eacute;, impossible de cr&eacute;er un dossier dans",
+		"Cannot update config..."	=> "Impossibilit&eacute; de mettre &agrave; jour le fichier de configuration. Veuillez v&eacute;rifier les permissions d&apos;&eacute;criture.",
+		"and try again"			=> "et essayez de nouveau",
+		"saving github paths"	=> "chemins github sauvegard&eacute;s ...",
+		"github paths"			=> "chemins github",
+		"Choose existing path"	=> "Choisis le chemin existant",
+		"Local path"			=> "Chemin local",
+		"Remote GitHub path"	=> "Chemin distant  GitHub",
+		"Choose"				=> "Choisir",
+		"Set local and..."		=> "D&eacute;finir le chemin d&apos;acc&egrave;s local et distant &agrave; blanc pour le retirer ",
+		"Update"				=> "Mise &agrave; jour",
+		"Add new path"		=> "Ajouter un nouveau chemin",
+		"Add"				=> "Ajouter",
+		"Usage Info"			=> "Info d&apos;utilisation :",
+		"Enter relative local..."	=> "Entrez les chemins  relatifs locaux (par exemple / serveur / mesfichiers) et les chemins absolus GitHub (par exemple https://github.com/user/repo ou https://github.com/user/repo/tree/branch pour les branches). Avec ceci, vous aurez &eacute;tabli les chemins source sur les deux sites, comme une paire.",
+		"You can then..."		=> "Vous pouvez ensuite choisir une paire de chemin, et cela devient alors votre nouveau chemin d&apos;acc&egrave;s racine dans ICEcoder.",
+		"The file manager..."	=> "Le gestionnaire de fichiers affiche alors une nouvelle ic&ocirc;ne GitHub, que vous pouvez cliquer dessus pour ex&eacute;cuter et afficher une v&eacute;rification des diff&eacute;rences entre les 2 sources. Ces diff&eacute;rences peuvent &ecirc;tre vers&eacute;es et bascul&eacute;es dans le projet distant GitHub ou clon&eacute;es sur votre version locale du projet, afin de synchroniser vos fichiers.",
+		"If you want..."		=> " Si vous souhaitez d&eacute;finir un autre chemin d&apos;acc&egrave;s &agrave; la racine, cela peut &ecirc;tre fait dans l&apos;&eacute;cran des param&egrave;tres."
+	),
+
+	"github" =>
+	array(
+		"Sorry, you do..."		=> "D&eacute;sol&eacute;, vous ne semblez pas avoir OpenSSL charg&eacute; sur votre instance de PHP, https n&apos;est donc pas disponible. Cela est n&eacute;cessaire pour le transfert de donn&eacute;es GitHub, veuillez modifier les param&egrave;tres du fichier php.ini, red&eacute;marrez votre serveur et essayez &agrave; nouveau."
+	),
+
+	"headers" =>
+	array(
+		"Bad CSRF token..."		=> "Mauvais jeton CSRF. S&apos;il vous pla&icirc;t, envoyer un rapport de l&apos;erreur &agrave; https://github.com/mattpass/ICEcoder si vous d&eacute;sirez qu&apos;il soit corrig&eacute;."
+	),
+
+	"help" =>
+	array(
+		"shortcuts"			=> "raccourcis",
+		"Within document"		=> "Dans un fichier",
+		"On Tabs"			=> "Dans les onglets",
+		"Within file manager"	=> "Dans le gestionnaire de fichiers",
+		"Anywhere"			=> "N&apos;importe o&ugrave;",
+		"Space"				=> "Espace",
+		"Click"				=> "Clic",
+		"or"					=> "ou",
+		"Left click"			=> "Clic gauche",
+		"Middle click"			=> "Clic du milieu",
+		"Double click tap..."		=> "Double clic / touche (mobile)",
+		"Right click"			=> "Clic droit",
+		"Middle scrollwheel"		=> "Roulette du milieu",
+		"Drag"				=> "Glisser",
+		"Autocomplete add snippet"	=> "Saisie semi-automatique / ajouter un extrait",
+		"Multiple select"		=> "S&eacute;lection multiple",
+		"Move line up"			=> "Aller &agrave; la ligne sup&eacute;rieure",
+		"Move line down"		=> "Aller &agrave; la ligne inf&eacute;rieure",
+		"Duplicate lines"		=> "Dupliquer la(les) ligne(s)",
+		"Remove lines"		=> "Supprimer la(les) ligne(s)",
+		"Insert line before"		=> "Ins&eacute;rer un ligne avant",
+		"Insert line after"		=> "Ins&eacute;rer une ligne apr&egrave;s",
+		"Search for selected"	=> "Rechercher pour la s&eacute;lection",
+		"Jump to definition"		=> "Aller &agrave; la d&eacute;finition / revenir en arri&egrave;re",
+		"Comment uncomment"	=> "Commenter / D&eacute;commenter",
+		"Insert tab indent"		=> "Ins&eacute;rer un tableau / indent selected",
+		"Wrap with div"			=> "Plier avec &lt;div&gt;",
+		"Wrap with span"		=> "Plier avec &lt;span&gt;",
+		"Wrap unwrap p"		=> "Plier / d&eacute;plier avec &lt;p&gt;",
+		"Wrap unwrap a"		=> "Plier / d&eacute;plier avec &lt;a&gt;",
+		"Wrap unwrap b"		=> "Plier / d&eacute;plier avec &lt;b&gt;",
+		"Wrap unwrap i"		=> "Plier / d&eacute;plier avec &lt;i&gt;",
+		"Wrap unwrap strong"	=> "Plier / d&eacute;plier avec &lt;strong&gt;",
+		"Wrap unwrap em"		=> "Plier / d&eacute;plier avec &lt;em&gt;",
+		"Wrap unwrap h1..."		=> "Plier / d&eacute;plier avec &lt;h1&gt; - &lt;h3&gt;",
+		"End line with..."		=> "Fin de ligne avec &lt;br&gt;",
+		"Close tab"			=> "Fermer l&apos;onglet",
+		"Select file folder"		=> "S&eacute;lectionner fichier / dossier",
+		"Open file"			=> "Ouvrir le fichier",
+		"Range select"			=> "S&eacute;lection de la plage",
+		"Options for selected"	=> "Options pour s&eacute;lectionner",
+		"Delete selected"		=> "Suppression de la s&eacute;lection",
+		"Next previous tab"		=> "Onglet suivant / pr&eacute;c&eacute;dent",
+		"Next tab"			=> "Onglet suivant",
+		"Previous tab"			=> "Onglet pr&eacute;c&eacute;dent",
+		"New tab"				=> "Nouvel onglet",
+		"Close current tab"		=> "Fermer l&apos;onglet courant",
+		"Open file prompt"		=> "Ouvrir une invite de fichier",
+		"Find"				=> "Chercher",
+		"Focus on Go..."		=> " Focus sur le d&eacute;but de ligne",
+		"Save"				=> "Enregistrer",
+		"Save as"				=> "Enregistrer sous...",
+		"View webpage"		=> "Afficher la page web",
+		"Contract expand file..."	=> "R&eacute;duire / agrandir le gestionnaire de fichiers",
+		"Fold unfold current..."	=> "Plier / d&eacute;plier la ligne courante",
+		"Refocus on document"	=> "Revenir sur le document",
+		"Cancel tasks"			=> "Quitter les tâches"
+	),
+
 	"login" =>
 	array(
 		"set password"			=> "D&eacute;finir un mot de passe",
@@ -150,6 +250,25 @@ dans lib/config__settings.php",
 		"auto-check for updates"	=> "V&eacute;rification automatique des mises &agrave; jour",
 		"To put into..."			=> "Pour passer en mode &apos;multi-utilisateur&apos;, ouvrir le menu des pref&eacute;rences ou le ifchier lib/config___settings.php et modifier multiUser &agrave; &apos;true&apos;, puis recharger cette page",
 		"multi-user"			=> "Multi-utilisateur"
+	),
+
+	"multiple-results" =>
+	array(
+		"rename all"			=> "Tout renommer",
+		"replace all"			=> "Tout remplacer",
+		"document"			=> "document",
+		"Found"				=> "trouv&eacute;",
+		"times"				=> "date",
+		"replace"				=> "remplacer",
+		"file folder"			=> "fichier/dossier",
+		"rename to"			=> "renommer en",
+		"rename"				=> "renommer",
+		"file"					=> "fichier",
+		"No matches found"		=> "Aucun r&eacute;sultat de trouver",
+		"selected"			=> "s&eacute;lectionn&eacute;",
+		"found in"				=> "trouv&eacute; dans",
+		"Replaced"			=> "Remplac&eacute;"
 	)
+
 );
 ?>
