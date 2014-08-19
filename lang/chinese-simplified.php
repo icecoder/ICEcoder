@@ -115,7 +115,7 @@ $text = array(
 	"file-control" =>
 	array(
 		"Sorry"				=> "抱歉",
-		"does not seem..."		=> "似乎不存在于服务器上",
+		"does not seem..."		=> "服务器上不存在",
 		"Sorry, could not..."		=> "抱歉, 不能得到的内容",
 		"Sorry, cannot create..."	=> "抱歉, 不能创建文件夹",
 		"Sorry, cannot copy"		=> "抱歉, 不能复制",
@@ -137,7 +137,7 @@ $text = array(
 		"displayed at"			=> "显示在",
 		"Enter filename to..."		=> "输入文件名并保存到",
 		"That file exists..."		=> "该文件已存在, 要覆盖吗?",
-		"Saving"			=> "正在保"
+		"Saving"			=> "正在保存"
 	),
 
 	"get-branch" =>
@@ -163,15 +163,15 @@ $text = array(
 		"Add new path"			=> "增加新路径",
 		"Add"				=> "增加",
 		"Usage Info"			=> "使用方法:",
-		"Enter relative local..."	=> ">输入本地相对路径 (/server/myfiles) 和 GitHub 绝对路径 (https://github.com/user/repo 或 https://github.com/user/repo/tree/branch 各分支), 按照示例. 完成后你就建立了这两个地点的源路径, 它是成对数存在.",
-		"You can then..."		=> "你可以选择一个路径作为 ICEcoder 的根目录.",
-		"The file manager..."		=> "文件管理器右侧会显示一个新的GitHub的图标, 您可以点击执行, 会自动校验并显示本地与github源之间的差异. 这些差别可以被提交并推送到在GitHub上的远程路径或克隆到你的本地路径, 用来同步您的文件.",
-		"If you want..."		=> "如果你想设置的另一个根路径, 这可以在 帮助 > 设置窗口 中进行设置."
+		"Enter relative local..."	=> "输入本地相对路径 (/server/myfiles) 和 GitHub 绝对路径 (https://github.com/user/repo 或 https://github.com/user/repo/tree/branch 各分支), 按照示例. 完成后你就建立了这两个地点的源路径, 它是成对数存在.",
+		"You can then..."		=> "你可以选择一个路径作为 ICEcoder 的根路径.",
+		"The file manager..."		=> "文件管理器右侧会显示一个新的GitHub图标, 您可以点击执行, 会自动校验并显示本地与github源之间的差异. 这些差别可以被提交并推送到在GitHub上的远程路径或克隆到你的本地路径, 用来同步您的文件.",
+		"If you want..."		=> "如果你想设置的另一个根路径, 可以在 帮助 > 设置窗口 中进行设置."
 	),
 
 	"github" =>
 	array(
-		"Sorry, you do..."		=> "抱歉, 您的服务器没有启用 OpenSSL 的 PHP 实例, 所以 https 目前不可用. GitHub 的数据传输必须要 https 连接, 请修改 php.ini 设置, 重启你的服务器并重新尝试"
+		"Sorry, you do..."		=> "抱歉, 您的服务器没有启用 OpenSSL 的 PHP 实例, 所以 https 目前不可用. GitHub 的数据传输必须要用 https 连接, 请修改 php.ini 设置, 重启你的服务器并重新尝试"
 	),
 
 	"headers" =>
@@ -228,7 +228,7 @@ $text = array(
 		"Previous tab"			=> "上一个选项卡",
 		"New tab"			=> "新建选项卡",
 		"Close current tab"		=> "关闭当前选项卡",
-		"Open file prompt"		=> "打开文件的提",
+		"Open file prompt"		=> "打开文件的提示",
 		"Find"				=> "搜索",
 		"Focus on Go..."		=> "光标定位到转到行的输入框",
 		"Save"				=> "保存",
@@ -236,7 +236,7 @@ $text = array(
 		"View webpage"			=> "预览网页",
 		"Contract expand file..."	=> "收缩 / 扩展文件管理器",
 		"Fold unfold current..."	=> "折叠 / 展开当前行",
-		"Refocus on document"		=> "重新聚焦于文档",
+		"Refocus on document"		=> "光标重新聚焦于文档",
 		"Cancel tasks"			=> "取消任务"
 	),
 
