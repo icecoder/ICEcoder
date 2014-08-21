@@ -53,6 +53,21 @@ window.onbeforeunload = function() {
 		}
 	}
 }
+
+t = {
+<?php
+// Load the lang array for what's in the JS file
+$t = $text['ice-coder'];
+$tOutput = "";
+foreach ($t as $key => $value) {
+	$tOutput .= '"'.$key.'" : "'.$value.'",'.PHP_EOL;
+}
+echo rtrim($tOutput,",".PHP_EOL).PHP_EOL;
+
+// Back to the lang array for index
+$t = $text['index'];
+?>
+}
 </script>
 <script language="JavaScript" src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js"></script>
 <script src="lib/mmd.js"></script>
