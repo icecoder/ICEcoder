@@ -23,6 +23,8 @@ if (strpos($file,$docRoot)===false && $_GET['action']!="getRemoteFile") {$file=s
 $fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
 $fileName = basename($file);
 
+// echo ";alert('".xssClean($_GET['action'],"html")." : ".$file."');console.log('".xssClean($_GET['action'],"html")." : ".$file."');";
+
 // If we're due to open a file...
 if ($_GET['action']=="load") {
 	echo 'action="load";';
