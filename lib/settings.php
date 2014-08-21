@@ -40,7 +40,12 @@ If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
 $ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
 
 // Include language file
+// Load English first as foundation
 include(dirname(__FILE__)."/../lang/english.php");
+$englishText = $text;
+// Load chosen language ontop to replace English
+include(dirname(__FILE__)."/../lang/english.php");
+$text = array_merge($englishText, $text);
 $_SESSION['text'] = $text;
 
 // Login not required or we're in demo mode and have password set in our settings, log us straight in
