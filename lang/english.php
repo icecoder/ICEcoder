@@ -215,6 +215,7 @@ $text = array(
 		"Wrap unwrap i"			=> "Wrap / unwrap with &lt;i&gt;",
 		"Wrap unwrap strong"		=> "Wrap / unwrap with &lt;strong&gt;",
 		"Wrap unwrap em"		=> "Wrap / unwrap with &lt;em&gt;",
+		"Wrap unwrap li"		=> "Wrap / unwrap with &lt;li&gt;",
 		"Wrap unwrap h1..."		=> "Wrap / unwrap with &lt;h1&gt; - &lt;h3&gt;",
 		"End line with..."		=> "End line with &lt;br&gt;",
 		"Close tab"			=> "Close tab",
