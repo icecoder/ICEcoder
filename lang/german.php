@@ -202,7 +202,7 @@ $text = array(
 		"Duplicate lines"		=> "Zeile(n) duplizieren",
 		"Remove lines"			=> "Zeile(n) entfernen",
 		"Insert line before"		=> "Zeile vorher einf&uuml;gen",
-		"Insert line after"		=> "Zeile danach ein&uuml;gen,
+		"Insert line after"		=> "Zeile danach ein&uuml;gen",
 		"Search for selected"		=> "Nach dem gesuchten ausw&auml;hlen",
 		"Jump to definition"		=> "Zur Definition springen / zur&uml;ck springen",
 		"Comment uncomment"		=> "Kommentieren / Auskommentieren",
@@ -254,7 +254,7 @@ $text = array(
 	"multiple-results" =>
 	array(
 		"rename all"			=> "Alle umbenennen",
-		"replace all"			=> "Alle ersetzen
+		"replace all"			=> "Alle ersetzen",
 		"document"			=> "Dokument",
 		"Found"				=> "Gefunden",
 		"times"				=> "",
@@ -267,6 +267,129 @@ $text = array(
 		"selected"			=> "Ausgew&auml;hlte",
 		"found in"			=> "Gefunden in",
 		"Replaced"			=> "Ersetzen"
+	)
+	
+	"plugins-manager" =>
+	array(
+		"ICEcoder needs to..."		=> "ICEcoder muss neu geladen werden, damit das Plugin genutzt werden kann. Jetzt neu laden?",
+		"saving plugins"		=> "speicher Plugins ...",
+		"Cannot update config..."	=> "Kann die Konfigurationsdatei nicht aktualisieren. Bitte Schreibrechte vergeben",
+		"and try again"			=> "und es nochmal versuchen",
+		"couldnt delete dir"		=> "kann Verzeichnis nicht l&ouml;schen",
+		"couldnt delete file"		=> "kann Datei nicht l&ouml;schen",
+		"plugins"			=> "Plugins",
+		"Guide to writing..."		=> "Anleitung zum erstellen von Plugins",
+		"Manage Installed"		=> "Gef&uuml;hrte Installtion",
+		"URL"				=> "URL",
+		"Target"			=> "Ziel",
+		"Timer"				=> "Timer",
+		"Update"			=> "Update",
+		"Install"			=> "Installieren",
+		"Uninstall"			=> "Deinstallieren",
+		"Reload after install..."	=> "Neuladen nach der Installation erforderlich"
+	),
+
+	"properties" =>
+	array(
+		"properties"			=> "Eigenschaften",
+		"Size"				=> "Gr&ouml;&szlig;e",
+		"Modified"			=> "Ver&auml;ndert",
+		"Last access"			=> "Letzter Zugriff",
+		"Type"				=> "Typ",
+		"Readable Writeable"		=> "Lesbar / Schreibbar",
+		"Relative path"			=> "Relativer Pfad",
+		"Absolute path"			=> "Absoluter Pfad",
+		"Contains"			=> "Beinhaltet",
+		"Permissions"			=> "Berechtigungen",
+		"Owner"				=> "Besitzer",
+		"Group"				=> "Gruppe",
+		"Public"			=> "&Ouml;ffentlich",
+		"Read"				=> "Lesen",
+		"Write"				=> "Schreiben",
+		"Execute"			=> "Ausf&uuml;hren",
+		"Change to"			=> "&Auml;ndern um",
+		"update"			=> "aktualisieren"
+	),
+
+	"settings-common" =>
+	array(
+		"Your document does..."		=> "Das Dokument scheint nicht in UTF-8 codiert zu sein, darum wurde es angepasst"
+	),
+
+	"settings-save-current-files" =>
+	array(
+		"Cannot update config..."	=> "Kann Konfigurationsdatei nicht aktualisieren. Bitte Schreibrechte vergeben",
+		"and try again"			=> "und versuch es noch mal"
+	),
+
+	"settings-screen" =>
+	array(
+		"settings"			=> "Einstellungen",
+		"version"			=> "Version",
+		"website"			=> "Website",
+		"git"				=> "git",
+		"codemirror dir"		=> "gespiegeltes Verzeichnis",
+		"codemirror version"		=> "gespiegelte Version",
+		"file manager root"		=> "Grundverzeichnis vom Dateimanager",
+		"Free to use..."		=> "Kostenfrei nutzbar, kommerziell oder nicht. Gebt mir Bescheid &uuml;ber eure Nutzung oder Anpassungen. :)<br><br>Keine Garantie oder Haftung, Nutzung auf eigene Gefahr.<br><br>Viele fantastische Leute und Unternehmen haben dabei geholfen ICEcoder zu dem zu machen, was es heute ist. Und es sind zu viele um ihnen einzelen zu danken. Eine vollst&auml;ndige Liste gibt es unter",
+		"functionality"			=> "Funktionalit&auml;t",
+		"check for updates..."		=> "Bei jedem Ladem nach Updates suchen",
+		"auto open last..."		=> "Lade automatisch alle zuletzt ge&ouml;ffneten Datein beim Login",
+		"when finding in..."		=> "bei der Suche in Dateien ausschlie&szlig;en",
+		"assisting"			=> "assestieren",
+		"code assist"			=> "Codeassistent",
+		"visible tabs"			=> "sichtbare Tabs",
+		"locked nav"			=> "gesperrte Navigation",
+		"tag wrapper command"		=> "Tag f&uuml;r Wrapper Kommando setzen",
+		"auto-complete on"		=> "auto-complete an",
+		"security"			=> "Sicherheit",
+		"new password"			=> "neues Passwort",
+		"8 chars min"			=> "8 Zeichen mindestens",
+		"confirm password"		=> "Passwort best&auml;tigen",
+		"banned files/folders"		=> "verbannte Dateien/Verzeichnisse",
+		"banned paths"			=> "verbannte Verzeichnisse",
+		"ip addresses"			=> "IP Adressen",
+		"Slash prefixed comma..."	=> "Schr&auml;gstrich vorangestellt, durch Komma getrennt",
+		"Comma delimited"		=> "Komma getrennt",
+		"style"				=> "Style",
+		"theme"				=> "Theme",
+		"line wrapping"			=> "Zeilenumbruch",
+		"indent type"			=> "Gedankenstrich Typ",
+		"indent size"			=> "Gr&ouml;&szlig;e Gedankenstrich",
+		"font size"			=> "Schriftgr&ouml;&szlig;e",
+		"layout"			=> "Layout",
+		"plugin panel aligned"		=> "Plugin-Panel ausgerichtet",
+		"file manager"			=> "Dateimanager",
+		"root"				=> "Stamm",
+		"Slash prefixed"		=> "Schr&auml;gstrich vorangestellt",
+		"bug reporting"			=> "Fehlermeldung",
+		"check in files"		=> "Dateien einchecken",
+		"every"				=> "jeden",
+		"secs getting last"		=> "Sekunden, immer zuletzt",
+		"lines"				=> "Zeilen",
+		"multi-user"			=> "Mehrbenutzer",
+		"Make sure you..."		=> "Sei sicher, dass du dich nicht selber aussperrst",
+		"Registration"			=> "Registrieren",
+		"auth token"			=> "Authetifizierungs-Token",
+		"Required to get..."		=> "Notwendig f&uuml;r diffs, commits des bei GitHub gehosteten Repository usw.. Wenn du keinen hast, kannst du einen:".PHP_EOL.PHP_EOL.
+							"- pers&ouml;nlichen Zugriffs Token (https://help.github.com/articles/creating-an-access-token-for-command-line-use) erstellen, oder".PHP_EOL.
+							"- Full Client/geheimen Token (http://developer.github.com/v3/oauth) erstellen.".PHP_EOL.PHP_EOL.
+							"Es ist nicht zu empfehlen den Token hier zu speichern, sondern wenn ICEcoder dazu auffordert. Dadurch gilt der Token immer nur pro Sitzung.".PHP_EOL.PHP_EOL.
+							"Jedoch, wenn du in einer sicheren und vertrauensvollen Umgebung (privater PC, Laptop, ..) arbeitest, ist es Sinnvoll ihn hier einzugeben.",
+		"Sorry cannot commit..."	=> "Entschuldigung, kann Einstellungen im Demo-Modus nicht &uuml;bernehmen",
+		"update"			=> "aktualisieren"
+	),
+
+	"settings-update" =>
+	array(
+		"Cannot update config..."	=> "Kann Konfigurationsdatei nicht aktualisieren. Bitte Schreibrechte vergeben",
+		"and try again"			=> "und versuch es noch einmal",
+		"and press refresh"		=> "und dr&uuml;ck Neu laden"
+	),
+
+	"updater" =>
+	array(
+		"Update appears to..."		=> "Update scheint erolgreich gelaufen zu sein"
 	)
 
 );
