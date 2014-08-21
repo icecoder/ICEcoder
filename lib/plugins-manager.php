@@ -1,6 +1,7 @@
 <?php
 include("headers.php");
 include("settings.php");
+$t = $text['plugins-manager'];
 
 // Set the plugin data source
 $pluginsDataSrc = "https://icecoder.net/plugin-data?format=JSON";
@@ -153,14 +154,14 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		fclose($fh);
 		// Finally, reload ICEcoder itself if plugin requires it or just the iFrame screen for the user if it doesn't
 		if ($_GET['action']=="install" && $pluginsData[$_GET['plugin']]['reload'] == "true") {
-			echo "<script>if (top.confirm('ICEcoder needs to reload to make this plugin usable.\\n\\nReload now?')) {top.window.location.reload();} else {window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;}</script>";
+			echo "<script>if (top.confirm('".$t['ICEcoder needs to...']."')) {top.window.location.reload();} else {window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;}</script>";
 		} else {
 			header("Location: plugins-manager.php?updatedPlugins&csrf=".$_SESSION["csrf"]);
 			echo "<script>window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;</script>";
 		}
-		die("<span style='color: #fff'>saving plugins...</span>");
+		die("<span style='color: #fff'>".$t['saving plugins']."</span>");
 	} else {
-		echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
+		echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." lib/".$settingsFile." ".$t['and try again']."');</script>";
 	}
 }
 
@@ -174,11 +175,11 @@ function deletePlugin($dir) {
                 chdir('.');
                 deletePlugin($dir.$file.'/');
                 if(is_dir($dir.$file)) {
-			rmdir($dir.$file) or DIE("<span style='color: #fff'>couldn't delete dir: $dir$file</span><br />");
+			rmdir($dir.$file) or DIE("<span style='color: #fff'>".$t['couldnt delete dir'].": $dir$file</span><br />");
 		}
             }
             else
-                unlink($dir.$file) or DIE("<span style='color: #fff''>couldn't delete file: $dir$file</span><br />");
+                unlink($dir.$file) or DIE("<span style='color: #fff''>".$t['couldnt delete file'].": $dir$file</span><br />");
         }
     }
     closedir($mydir);
@@ -197,24 +198,24 @@ function deletePlugin($dir) {
 
 <body class="pluginsManager">
 
-<h1>plugins</h1>
+<h1><?php echo $t['plugins'];?></h1>
 
-<a href="javascript:top.ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>','writingPlugins')" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #333; color: #fff; font-size: 18px">Guide to writing plugins</div></a>
+<a href="javascript:top.ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>','writingPlugins')" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #333; color: #fff; font-size: 18px"><?php echo $t['Guide to writing...'];?></div></a>
 <div style="display: inline-block; width: 760px; height: 340px; overflow-y: auto">
 	<?php
 	$plugins = $ICEcoder['plugins'];
 	if (count($plugins) > 0) {
 	?>
 	<div style="display: inline-block; width: 740px; margin-bottom: 30px">
-		<h2>Manage Installed</h2><br>
+		<h2><?php echo $t['Manage Installed'];?></h2><br>
 
 		<form id="pluginUpdateForm" action="plugins-manager.php?action=update" method="POST">
 			<table>
 			<tr>
 			<td colspan="2"></td>
-			<td style="padding-left: 5px">URL</td>
-			<td style="padding-left: 5px">Target</td>
-			<td style="padding-left: 5px">Timer</td>
+			<td style="padding-left: 5px"><?php echo $t['URL'];?></td>
+			<td style="padding-left: 5px"><?php echo $t['Target'];?></td>
+			<td style="padding-left: 5px"><?php echo $t['Timer'];?></td>
 			</tr>
 			<?php
 			for ($i=0; $i<count($plugins); $i++) {
@@ -228,7 +229,7 @@ function deletePlugin($dir) {
 			}
 			echo '<tr>';
 			echo '<td colspan="4"></td>';
-			echo '<td style="padding: 3px 0 8px 0"><div style="padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="document.getElementById(\'pluginUpdateForm\').submit()">Update</div></td>';
+			echo '<td style="padding: 3px 0 8px 0"><div style="padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="document.getElementById(\'pluginUpdateForm\').submit()">'.$t['Update'].'</div></td>';
 			echo '</tr>';
 			?>
 			</table>
@@ -240,7 +241,7 @@ function deletePlugin($dir) {
 	?>
 
 	<div style="display: inline-block; width: 740px">
-		<h2>Install / Uninstall</h2><br>
+		<h2><?php echo $t['Install'].' / '.$t['Uninstall'];?></h2><br>
 
 		<table>
 		<?php
@@ -249,14 +250,14 @@ function deletePlugin($dir) {
 				echo '<tr>'.PHP_EOL;
 			}
 
-			$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=install&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">Install</div>';
+			$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=install&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">'.$t['Install'].'</div>';
 			for ($j=0; $j<count($plugins); $j++) {
 				if ($pluginsData[$i]['name'] == $plugins[$j][0]) {
-					$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #333; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=uninstall&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">Uninstall</div>';
+					$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #333; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=uninstall&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">'.$t['Uninstall'].'</div>';
 				}
 			}
 
-			$reloadExtra = $pluginsData[$i]['reload'] == 'true' ? '<br><span style="color: #888">Reload after install required</span>' : '';
+			$reloadExtra = $pluginsData[$i]['reload'] == 'true' ? '<br><span style="color: #888">'.$t['Reload after install...'].'</span>' : '';
 			echo '<td style="padding: 0 10px 18px 0; width: 28px; text-align: center"><img src="https://icecoder.net/'.$pluginsData[$i]['icon'].'" alt="'.$pluginsData[$i]['name'].'"></td>';
 			echo '<td style="padding: 8px 10px 8px 0; width: 250px; white-space: nowrap">'.$pluginsData[$i]['name'].$reloadExtra.'</td>';
 			$styleExtra = ($i % 2 == 1 || $i == count($pluginsData)-1) ? "0" : "30px";

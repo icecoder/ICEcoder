@@ -18,6 +18,10 @@ $context = stream_context_create(array('http'=>
 // Start a session if we haven't already
 if(!isset($_SESSION)) {@session_start();}
 
+// Set the language file
+$text = $_SESSION['text'];
+$t = $text['settings-common'];
+
 // Logout if that's the action we're taking
 if (isset($_GET['logout'])) {
 	include(dirname(__FILE__)."/../processes/on-user-logout.php");
@@ -93,7 +97,7 @@ function xssClean($data,$type) {
 			return $match[0];
 		} else {
 			return 'javascript:void(0)';
-		}        
+		}
 	}
 
 	$output = str_replace($bad, $good, $data);
@@ -115,7 +119,7 @@ function toUTF8noBOM($string,$message) {
 		if ($encType != "ASCII" && $encType != "UTF-8" && strlen($teststringConverted) == strlen($teststringBroken)) {
 			$string = utf8_encode($string);
 			if ($message) {
-				echo "top.ICEcoder.message('Your document doesn\'t appear to be in UTF-8 encoding so has been converted.');";
+				echo "top.ICEcoder.message('".$t['Your document does...'].".');";
 			}
 		}
 	}

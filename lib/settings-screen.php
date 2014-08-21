@@ -1,6 +1,7 @@
 <?php
 include("headers.php");
 include("settings.php");
+$t = $text['settings-screen'];
 ?>
 <!DOCTYPE html>
 
@@ -41,88 +42,86 @@ for ($i=0;$i<count($themeArray);$i++) {
 <div class="infoPane">
 	<a href="https://icecoder.net" target="_blank"><img src="../images/ice-coder.png" alt="ICEcoder" class="logo"></a>
 
-	<h1 style="margin: 10px 0">settings</h1>
+	<h1 style="margin: 10px 0"><?php echo $t['settings'];?></h1>
 
 	<p>
-	version:<br>
+	<?php echo $t['version'];?>:<br>
 	v <?php echo $ICEcoder["versionNo"];?>
 	<br><br>
 
-	website:<br>
+	<?php echo $t['website'];?>:<br>
 	<a href="https://icecoder.net" target="_blank">https://icecoder.net</a>
 	<br><br>
 
-	git:<br>
+	<?php echo $t['git'];?>:<br>
 	<a href="https://github.com/mattpass/ICEcoder" target="_blank">https://github.com/mattpass/ICEcoder</a>
 	<br><br>
 
-	codemirror dir:<br>
+	<?php echo $t['codemirror dir'];?>:<br>
 	<?php echo $ICEcoder["codeMirrorDir"]; ?>
 	<br><br>
 
-	codemirror version:<br>
+	<?php echo $t['codemirror version'];?>:<br>
 	<script>
 	document.write(CodeMirror.version);
 	</script>
 	<br><br>
 
-	file manager root:<br>
+	<?php echo $t['file manager root'];?>:<br>
 	<?php echo $ICEcoder['root'] == "" ? "/" : $ICEcoder['root'];?>
 	<br><br>
 
-	<div style="font-size: 10px; line-height: 12px">ICEcoder by Matt Pass (<a href="https://www.twitter.com/mattpass" style="font-size: 10px" target="_blank">@mattpass</a>)<br><br>
-		Free to use it for your own purposes, commercial or not, just let me know of any cool uses or customisations. :)<br><br>
-		No warranty or liability accepted for anything, all responsibility of use is your own.<br><br>
-		A lot of fantastic people and companies have helped build ICEcoder and there's too many to thank here. Please see the full list at <a href="https://icecoder.net" target="_blank">https://icecoder.net</a>
+	<div style="font-size: 10px; line-height: 12px">ICEcoder on Twitter (<a href="https://www.twitter.com/icecoder" style="font-size: 10px" target="_blank">@icecoder</a>)<br><br>
+		<?php echo $t['Free to use...'];?> <a href="https://icecoder.net" target="_blank">https://icecoder.net</a>
 	</div>
 	</p>
 </div>
 
 <form name="settings" action="settings.php" method="POST">
 <div class="settingsColumn1">
-<h2>functionality</h2>
-<input type="checkbox" onclick="showButton()" name="checkUpdates" value="true"<?php if($ICEcoder["checkUpdates"]) {echo ' checked';};?>> check for updates on load<br>
-<input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($ICEcoder["openLastFiles"]) {echo ' checked';};?>> auto open last files on login<br>
+<h2><?php echo $t['functionality'];?></h2>
+<input type="checkbox" onclick="showButton()" name="checkUpdates" value="true"<?php if($ICEcoder["checkUpdates"]) {echo ' checked';};?>> <?php echo $t['check for updates...'];?><br>
+<input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($ICEcoder["openLastFiles"]) {echo ' checked';};?>> <?php echo $t['auto open last...'];?><br>
 <br>
-when finding in files, exclude:<br>
+<?php echo $t['when finding in...'];?>:<br>
 <input type="text" onkeydown="showButton()" name="findFilesExclude" value="<?php echo implode(", ",$ICEcoder["findFilesExclude"]); ?>"><br>
 <br>
 
-<h2>assisting</h2>
-<input type="checkbox" onclick="showButton()" name="codeAssist" value="true"<?php if($ICEcoder["codeAssist"]) {echo ' checked';};?>> code assist<br>
-<input type="checkbox" onclick="showButton();showHideTabs()" name="visibleTabs" value="true"<?php if($ICEcoder["visibleTabs"]) {echo ' checked';};?>> visible tabs<br>
-<input type="checkbox" onclick="showButton()" name="lockedNav" value="true"<?php if($ICEcoder["lockedNav"]) {echo ' checked';};?>> locked nav<br><br>
-tag wrapper command<br>
+<h2><?php echo $t['assisting'];?></h2>
+<input type="checkbox" onclick="showButton()" name="codeAssist" value="true"<?php if($ICEcoder["codeAssist"]) {echo ' checked';};?>> <?php echo $t['code assist'];?><br>
+<input type="checkbox" onclick="showButton();showHideTabs()" name="visibleTabs" value="true"<?php if($ICEcoder["visibleTabs"]) {echo ' checked';};?>> <?php echo $t['visible tabs'];?><br>
+<input type="checkbox" onclick="showButton()" name="lockedNav" value="true"<?php if($ICEcoder["lockedNav"]) {echo ' checked';};?>> <?php echo $t['locked nav'];?><br><br>
+<?php echo $t['tag wrapper command'];?><br>
 <select onchange="showButton()" name="tagWrapperCommand">
 	<option value="ctrl+alt"<?php if($ICEcoder["tagWrapperCommand"]=='ctrl+alt') {echo " selected";};?>>ctrl/cmd + alt</option>
 	<option value="alt-left"<?php if($ICEcoder["tagWrapperCommand"]=='alt-left') {echo " selected";};?>>alt left</option>
 </select><br>
 <br>
-auto-complete on<br>
+<?php echo $t['auto-complete on'];?><br>
 <select onchange="showButton()" name="autoComplete">
 	<option value="ctrl+space"<?php if($ICEcoder["autoComplete"]=='ctrl+space') {echo " selected";};?>>ctrl/cmd + space</option>
 	<option value="keypress"<?php if($ICEcoder["autoComplete"]=='keypress') {echo " selected";};?>>keypress</option>
 </select><br>
 <br>
 
-<h2>security</h2>
-new password <span class="info" title="8 chars min">[?]</span><br>
+<h2><?php echo $t['security'];?></h2>
+<?php echo $t['new password'];?> <span class="info" title="<?php echo $t['8 chars min'];?>">[?]</span><br>
 <input type="password" name="password" onkeydown="showButton()"><br>
-confirm password<br>
+<?php echo $t['confirm password'];?><br>
 <input type="password" name="passwordConfirm" onkeydown="showButton()"><br>
 <br>
-banned files/folders<br>
+<?php echo $t['banned files/folders'];?><br>
 <input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" value="<?php echo implode(", ",$ICEcoder["bannedFiles"]); ?>"><br>
-banned paths <span class="info" title="Slash prefixed, comma delimited">[?]</span><br>
+<?php echo $t['banned paths'];?> <span class="info" title="<?php echo $t['Slash prefixed comma...'];?>">[?]</span><br>
 <input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedPaths" value="<?php echo implode(", ",$ICEcoder["bannedPaths"]); ?>"><br>
 <input type="hidden" name="changedFileSettings" value="false">
-ip addresses <span class="info" title="Comma delimited">[?]</span><br>
+<?php echo $t['ip addresses'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>">[?]</span><br>
 <input type="text" onkeydown="showButton()" name="allowedIPs" value="<?php echo implode(", ",$ICEcoder["allowedIPs"]); ?>"><br>
 </div>
 
 <div class="settingsColumn2">
-<h2>style</h2>
-theme<br>
+<h2><?php echo $t['style'];?></h2>
+<?php echo $t['theme'];?><br>
 <select onchange="selectTheme();showButton()" id="select" name="theme" style="width: 95px">
     <option<?php if ($ICEcoder["theme"]=="default") {echo ' selected';}; ?>>default</option>
 <?php
@@ -134,7 +133,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 </select>
 
 <span style="position: absolute; margin: -15px 0 0 10px">
-	line wrapping<br>
+	<?php echo $t['line wrapping'];?><br>
 	<select onchange="showButton()" name="lineWrapping">
 		<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";};?>>yes</option>
 		<option value="false"<?php if(!$ICEcoder["lineWrapping"]) {echo " selected";};?>>no</option>
@@ -142,7 +141,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 </span>
 
 <span style="position: absolute; margin: -15px 0 0 100px">
-	indent type<br>
+	<?php echo $t['indent type'];?><br>
 	<select onchange="showButton()" name="indentWithTabs">
 		<option value="true"<?php if($ICEcoder["indentWithTabs"]) {echo " selected";};?>>tabs</option>
 		<option value="false"<?php if(!$ICEcoder["indentWithTabs"]) {echo " selected";};?>>spaces</option>
@@ -150,12 +149,12 @@ for ($i=0;$i<count($themeArray);$i++) {
 </span>
 
 <span style="position: absolute; margin: -15px 0 0 190px">
-	indent size <br>
+	<?php echo $t['indent size'];?><br>
 	<input type="text" name="indentSize" id="indentSize" style="width: 30px" onkeydown="showButton()" onkeyup="changeIndentSize()" value="<?php echo $ICEcoder["indentSize"];?>">
 </span>
 
 <span style="position: absolute; margin: -15px 0 0 267px">
-	font size <br>
+	<?php echo $t['font size'];?><br>
 	<input type="text" name="fontSize" id="fontSize" style="width: 44px" onkeydown="showButton()" onkeyup="changeFontSize()" value="<?php echo $ICEcoder["fontSize"];?>">
 </span>
 <br><br>
@@ -178,8 +177,8 @@ function findSequence(goal) {
 <span style="position: absolute; top: 300px">
 
 	<div style="position: relative; display: inline-block; margin-right: 20px">
-		<h2>layout</h2>
-		plugin panel aligned<br>
+		<h2><?php echo $t['layout'];?></h2>
+		<?php echo $t['plugin panel aligned'];?><br>
 		<select onchange="showButton()" name="pluginPanelAligned">
 			<option value="left"<?php if($ICEcoder["pluginPanelAligned"] == "left") {echo " selected";};?>>left</option>
 			<option value="right"<?php if($ICEcoder["pluginPanelAligned"] == "right") {echo " selected";};?>>right</option>
@@ -187,46 +186,39 @@ function findSequence(goal) {
 	</div>
 
 	<div style="position: relative; display: inline-block">
-		<h2>file manager</h2>
-		root <span class="info" title="Slash prefixed">[?]</span><br>
+		<h2><?php echo $t['file manager'];?></h2>
+		<?php echo $t['root'];?> <span class="info" title="<?php echo $t['Slash prefixed'];?>">[?]</span><br>
 		<input type="text" name="root" style="width: 200px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["root"];?>">
 	</div>
 	<br><br>
 
-	<h2>bug reporting</h2>
-	check in files <span class="info" title="Slash prefixed, comma delimited">[?]</span><br>
+	<h2><?php echo $t['bug reporting'];?></h2>
+	<?php echo $t['check in files'];?> <span class="info" title="<?php echo $t['Slash prefixed comma...'];?>">[?]</span><br>
 	<input type="text" name="bugFilePaths" style="width: 120px" onkeydown="showButton()" value="<?php echo implode(", ",$ICEcoder["bugFilePaths"]);?>">
-	<span style="display: inline-block; padding: 4px 5px 0 5px">every</span>
+	<span style="display: inline-block; padding: 4px 5px 0 5px"><?php echo $t['every'];?></span>
 	<input type="text" name="bugFileCheckTimer" style="width: 50px" onkeydown="showButton()" value="<?php echo $ICEcoder["bugFileCheckTimer"];?>">
-	<span style="display: inline-block; padding: 4px 5px 0 5px">secs, getting last</span>
+	<span style="display: inline-block; padding: 4px 5px 0 5px"><?php echo $t['secs getting last'];?></span>
 	<input type="text" name="bugFileMaxLines" style="width: 50px" onkeydown="showButton()" value="<?php echo $ICEcoder["bugFileMaxLines"];?>">
-	<span style="display: inline-block; padding: 4px 5px 0 5px">lines</span>
+	<span style="display: inline-block; padding: 4px 5px 0 5px"><?php echo $t['lines'];?></span>
 	<br><br>
 
 	<div>
-	<h2>multi-user <span class="info" title="Make sure you don't lock yourself out">[?]</span></h2>
+	<h2><?php echo $t['multi-user'];?> <span class="info" title="<?php echo $t['Make sure you...'];?>">[?]</span></h2>
 	<input type="checkbox" name="multiUser" value="true" onclick="showButton();changeEnableRegistrationStatus();"<?php if($ICEcoder["multiUser"]){echo ' checked';} ?>>Multi-User
 	<?php
 		echo '<input type="checkbox" name="enableRegistration" value="true"';
-		if($ICEcoder["enableRegistration"]){echo ' checked';} 
+		if($ICEcoder["enableRegistration"]){echo ' checked';}
 		if(!$ICEcoder["multiUser"]){
 		echo ' disabled=""';
 		}
-		echo ' onclick="showButton()" id="enableRegistration"> Registration </input>';
+		echo ' onclick="showButton()" id="enableRegistration"> '.$t['Registration'].' </input>';
 	?>
 	</div>
 	<br>
 
 	<div>
 	<h2>github</h2>
-	auth token <span class="info" title="Required to get diffs, commit to your GitHub hosted repo etc. If you don't have one, you can use a:
-
-- personal access token (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or
-- full client/secret pair token (http://developer.github.com/v3/oauth).
-
-It's not recommended you set your token here however and is more secure to enter it when requested by ICEcoder as that will keep it in session only.
-
-However, if you work in a trusted and secure environment, it's more efficient to set it here.">[?]</span><br>
+	<?php echo $t['auth token'];?> <span class="info" title="<?php echo $t['Required to get...'];?>">[?]</span><br>
 	<input type="text" name="githubAuthToken" style="width: 300px" onkeydown="showButton()" value="<?php echo $ICEcoder["githubAuthToken"];?>">
 	</div>
 </span>
