@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // German language translation
 // by: @olliiee (GitHub)
 //     @trolliusgigant (Twitter)
@@ -267,7 +267,7 @@ $text = array(
 		"selected"			=> "Ausgew&auml;hlte",
 		"found in"			=> "Gefunden in",
 		"Replaced"			=> "Ersetzen"
-	)
+	),
 	
 	"plugins-manager" =>
 	array(
