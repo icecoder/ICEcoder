@@ -90,8 +90,8 @@ $text = array(
 		"Close all tabs"		=> "關閉所有選項卡",
 		"Alphabetize tabs"		=> "按字母順序排序選項卡",
 		"Find"				=> "檢索",
-		"in"				=> "檢索",
-		"and"				=> "替換",
+		"in"				=> "in",
+		"and"				=> "and",
 		"replace"			=> "替換",
 		"replace all"			=> "替換所有",
 		"this document"			=> "當前文件",
@@ -209,13 +209,14 @@ $text = array(
 		"Insert tab indent"		=> "插入tab / 插入選擇",
 		"Wrap with div"			=> "封裝 &lt;div&gt;",
 		"Wrap with span"		=> "封裝 &lt;span&gt;",
-		"Wrap unwrap p"			=> "封裝 / 撤銷封裝 with &lt;p&gt;",
-		"Wrap unwrap a"			=> "封裝 / 撤銷封裝 with &lt;a&gt;",
-		"Wrap unwrap b"			=> "封裝 / 撤銷封裝 with &lt;b&gt;",
-		"Wrap unwrap i"			=> "封裝 / 撤銷封裝 with &lt;i&gt;",
-		"Wrap unwrap strong"		=> "封裝 / 撤銷封裝 with &lt;strong&gt;",
-		"Wrap unwrap em"		=> "封裝 / 撤銷封裝 with &lt;em&gt;",
-		"Wrap unwrap h1..."		=> "封裝 / 撤銷封裝 with &lt;h1&gt; - &lt;h3&gt;",
+		"Wrap unwrap p"			=> "封裝 / 撤銷封裝 &lt;p&gt;",
+		"Wrap unwrap a"			=> "封裝 / 撤銷封裝 &lt;a&gt;",
+		"Wrap unwrap b"			=> "封裝 / 撤銷封裝 &lt;b&gt;",
+		"Wrap unwrap i"			=> "封裝 / 撤銷封裝 &lt;i&gt;",
+		"Wrap unwrap strong"		=> "封裝 / 撤銷封裝 &lt;strong&gt;",
+		"Wrap unwrap em"		=> "封裝 / 撤銷封裝 &lt;em&gt;",
+		"Wrap unwrap li"		=> "封装 / 撤销封装 &lt;li&gt;",
+		"Wrap unwrap h1..."		=> "封裝 / 撤銷封裝 &lt;h1&gt; - &lt;h3&gt;",
 		"End line with..."		=> "換行 &lt;br&gt;",
 		"Close tab"			=> "關閉選項卡",
 		"Select file folder"		=> "選擇文件 / 文件夾",
@@ -238,6 +239,34 @@ $text = array(
 		"Fold unfold current..."	=> "摺叠 / 展開當前行",
 		"Refocus on document"		=> "光標重新聚焦到文檔",
 		"Cancel tasks"			=> "取消任务"
+	),
+
+	"ice-coder" =>
+	array(
+		"No text selected..."		=> "搜索中沒有選中的文件",
+		"Creating Folder"		=> "正在創建文件夾",
+		"Sorry you can..."		=> "抱歉, 衹能同時打開100個文件!",
+		"Opening File"			=> "正在打開文件",
+		"Enter relative file..."	=> "輸入本地相對路徑 (前綴 /) 或遠程 URL",
+		"Getting"			=> "正在獲取",
+		"Please enter the..."		=> "請輸入新的名稱爲",
+		"Renaming to"			=> "正在重命名",
+		"Moving to"			=> "正在移動到",
+		"Deleting File"			=> "正在刪除文件",
+		"Pasting File"			=> "正在粘貼文件",
+		"Sorry cannot paste..."		=> "抱歉, 無法粘貼到根路徑",
+		"Nothing to paste..."		=> "粘貼失敗, 請先複製一個文件 / 文件夾!",
+		"Replacing text in"		=> "正在替換文本",
+		"Cancelled tasks"		=> "取消任務",
+		"Open previous files"		=> "打開以前的文件?",
+		"Please enter your..."		=> "請輸入您的 GitHub token (允許使用個人令牌或客戶端令牌). 可以查看 Github Auth Token 的幫助 > 更多信息在 幫助 > 設置窗口",
+		"This will compare..."		=> "將比較和顯示您的本地目錄和 GitHub repo 之間的差異. 確定嗎?",
+		"Please note for..."		=> "請注意: 需要更新才能工作, 您需要爲所有 ICEcoder 文件和文件夾設置寫如何刪除權限. 如果您需要恢復 ICEcoder 到這個版本, 您可以在 /tmp 目錄找到它們. 點擊 OK 繼續使用自動升級或點擊 cancel 訪問 ICEcoder 官方網站, 您也可以到 GitHub 的項目首頁下載 zip 來手動進行更新.",
+		"You can start..."		=> "您可以在 幫助 > 設置中啓動錯誤報告",
+		"Error cannot find..."		=> "錯誤: 無法找到和進入錯誤日志文件路徑",
+		"No new errors..."		=> "沒有新的錯誤被找到",
+		"You have made..."		=> "您已做的更改未保存。您確定要關閉它而不保存嗎?",
+		"Close all tabs"		=> "是否關閉所有選項卡?"
 	),
 
 	"login" =>
@@ -267,6 +296,130 @@ $text = array(
 		"selected"			=> "選擇",
 		"found in"			=> "查詢結果在",
 		"Replaced"			=> "已替換"
+	),
+
+	"plugins-manager" =>
+	array(
+		"ICEcoder needs to..."		=> "ICEcoder 需要重新加載, 這個插件才可以使用。現在刷新嗎?",
+		"saving plugins"		=> "正在保存插件...",
+		"Cannot update config..."	=> "不能更新配置文件. 請爲",
+		"and try again"			=> "設置寫入權限并刷新重試",
+		"couldnt delete dir"		=> "不能刪除目錄",
+		"couldnt delete file"		=> "不能刪除文件",
+		"plugins"			=> "插件",
+		"Guide to writing..."		=> "編寫插件指南",
+		"Manage Installed"		=> "管理已安裝",
+		"URL"				=> "URL",
+		"Target"			=> "目標",
+		"Timer"				=> "定時器",
+		"Update"			=> "更新",
+		"Install"			=> "安裝",
+		"Uninstall"			=> "卸載",
+		"Reload after install..."	=> "安裝后需要刷新"
+	),
+
+	"properties" =>
+	array(
+		"properties"			=> "屬性",
+		"Size"				=> "尺寸",
+		"Modified"			=> "修改",
+		"Last access"			=> "最近訪問",
+		"Type"				=> "類型",
+		"Readable Writeable"		=> "可讀 / 可寫",
+		"Relative path"			=> "相對路徑",
+		"Absolute path"			=> "絕對路徑",
+		"Contains"			=> "包含",
+		"Permissions"			=> "權限",
+		"Owner"				=> "所有者",
+		"Group"				=> "組",
+		"Public"			=> "公衆",
+		"Read"				=> "讀取",
+		"Write"				=> "寫入",
+		"Execute"			=> "執行",
+		"Change to"			=> "更改爲",
+		"update"			=> "更新"
+	),
+
+	"settings-common" =>
+	array(
+		"Your document does..."		=> "你的文檔不是 UTF-8 編碼, 它將被轉換"
+	),
+
+	"settings-save-current-files" =>
+	array(
+		"Cannot update config..."	=> "不能更新配置文件. 請爲",
+		"and try again"			=> "增加寫入權限并再次嘗試"
+	),
+
+	"settings-screen" =>
+	array(
+		"settings"			=> "設置",
+		"version"			=> "版本",
+		"website"			=> "網站",
+		"git"				=> "git",
+		"codemirror dir"		=> "codemirror 目錄",
+		"codemirror version"		=> "codemirror 版本",
+		"file manager root"		=> "文件管理器的根目錄 ROOT",
+		"Free to use..."		=> "您可以免費使用它, 無論商業與否, 衹需讓我知道任何很酷的或有定製的:)同樣我們無任何責任和任何擔保, 使用所有的責任都是你的. 很多個人和公司爲 ICEcoder 作出過貢獻, 在此篇幅有限無法一一列舉, 請訪問貢獻者詳細列表",
+		"functionality"			=> "功能",
+		"check for updates..."		=> "啓動時檢查更新",
+		"auto open last..."		=> "啓動時自動載入最后打開的文件",
+		"when finding in..."		=> "在查找文件時, 排除",
+		"assisting"			=> "輔助",
+		"code assist"			=> "代碼輔助",
+		"visible tabs"			=> "縮進綫可見",
+		"locked nav"			=> "鎖定導航",
+		"tag wrapper command"		=> "標簽封裝命令",
+		"auto-complete on"		=> "打開自動完成",
+		"security"			=> "安全",
+		"new password"			=> "新密碼",
+		"8 chars min"			=> "至少8個字符",
+		"confirm password"		=> "確認密碼",
+		"banned files/folders"		=> "禁止文件 / 文件夾",
+		"banned paths"			=> "禁止路徑",
+		"ip addresses"			=> "ip 地址",
+		"Slash prefixed comma..."	=> "斜綫前綴, 以半角逗號分隔",
+		"Comma delimited"		=> "以半角逗號分隔",
+		"style"				=> "樣式",
+		"theme"				=> "主題",
+		"line wrapping"			=> "換行",
+		"indent type"			=> "縮進類型",
+		"indent size"			=> "縮進大小",
+		"font size"			=> "字體大小",
+		"layout"			=> "佈局",
+		"plugin panel aligned"		=> "插件版對齊",
+		"file manager"			=> "文件管理器",
+		"root"				=> "root",
+		"Slash prefixed"		=> "斜綫前綴",
+		"bug reporting"			=> "報告錯誤",
+		"check in files"		=> "檢查文件",
+		"every"				=> "任何",
+		"secs getting last"		=> "秒, 最後得到",
+		"lines"				=> "行",
+		"multi-user"			=> "多用戶",
+		"Make sure you..."		=> "確保你沒有把自己鎖了",
+		"Registration"			=> "啓用注冊",
+		"auth token"			=> "auth token",
+		"Required to get..."		=> "如需要得到差異列表, 提交您 GitHub 上托管的 repo 等. 如果你還沒有一個, 你可以使用:".PHP_EOL.PHP_EOL.
+							"- 個人令牌訪問 (https://help.github.com/articles/creating-an-access-token-for-command-line-use), 或".PHP_EOL.
+							"- 完整的客戶端/機密雙令牌 (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
+							"我們不建議您在此處設置令牌, 更安全的方式是當 ICEcoder 要求輸入時將其隻保存在會話中.".PHP_EOL.PHP_EOL.
+							"然而, 如果你在一個信賴和安全的環境下工作, 把它設置在這裏是更有效的.",
+		"Sorry cannot commit..."	=> "抱歉, 在演示模式下不能提交設置",
+		"update"			=> "更新"
+	),
+
+	"settings-update" =>
+	array(
+		"Cannot update config..."	=> "不能更新配置文件. 請爲",
+		"and try again"			=> " 增加寫入權限并重新嘗試",
+		"and press refresh"		=> " 增加寫入權限并重新嘗試"
+	),
+
+	"updater" =>
+	array(
+		"Update appears to..."		=> "更新似乎是成功的"
 	)
+
 );
 ?>
