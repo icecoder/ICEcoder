@@ -1,6 +1,7 @@
 <?php
 include("headers.php");
 include("settings.php");
+$t = $text['properties'];
 ?>
 <!DOCTYPE html>
 
@@ -14,13 +15,13 @@ include("settings.php");
 
 <body class="properties">
 
-<h1 id="title">properties</h1>
+<h1 id="title"><?php echo $t['properties'];?></h1>
 
 <?php
 $fileName=$docRoot.$iceRoot.str_replace("|","/",strClean($_GET['fileName']));
 ?>
 <h2><?php echo basename($fileName); ?></h2><br>
-<span class="column" style="width: 180px">Size: <?php
+<span class="column" style="width: 180px"><?php echo $t['Size'];?>: <?php
 $bytes = filesize($fileName);
 // If it's a dir, get the dir size
 if (is_dir($fileName)) {
@@ -38,18 +39,18 @@ if ($outputSize >= 1024) {
 }
 echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($bytes)." bytes)";
 ?></span>
-<span class="column" style="margin: 0 10px">Modified: <?php echo date( "D jS M Y g:i:sa", filemtime($fileName)); ?></span>
-<span class="column">Last access: <?php echo date( "D jS M Y g:i:sa", fileatime($fileName)); ?></span>
+<span class="column" style="margin: 0 10px"><?php echo $t['Modified'];?>: <?php echo date( "D jS M Y g:i:sa", filemtime($fileName)); ?></span>
+<span class="column"><?php echo $t['Last access'];?>: <?php echo date( "D jS M Y g:i:sa", fileatime($fileName)); ?></span>
 <br><br>
-<span class="column" style="width: 180px">Type: <?php echo is_dir($fileName) ? "Folder" : "File"; ?></span>
-<span class="column" style="margin: 0 10px">Readable / Writeable: 
+<span class="column" style="width: 180px"><?php echo $t['Type'];?>: <?php echo is_dir($fileName) ? "Folder" : "File"; ?></span>
+<span class="column" style="margin: 0 10px"><?php echo $t['Readable Writeable'];?>: 
 <?php echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writeable($fileName) ? "Yes" : "No";?>
 </span>
-<span class="column">Relative path: <?php echo str_replace($docRoot,"",$fileName);?></span>
+<span class="column"><?php echo $t['Relative path'];?>: <?php echo str_replace($docRoot,"",$fileName);?></span>
 <br><br>
-<span class="column" style="width: 410px">Absolute path:<br><?php echo $fileName;?></span>
+<span class="column" style="width: 410px"><?php echo $t['Absolute path'];?>:<br><?php echo $fileName;?></span>
 <?php if (is_dir($fileName)) {?>
-<span class="column" style="width: 180px">Contains:<br><?php
+<span class="column" style="width: 180px"><?php echo $t['Contains'];?>:<br><?php
 $dirList = scandir($fileName);
 $dirCount = 0;
 $fileCount = 0;
@@ -70,7 +71,7 @@ echo $dirCount." sub-folder".$dirPlural.", ".$fileCount." file".$filePlural;
 <?php ;};?>
 <br><br><br>
 <span class="column" style="width: 180px">
-Permissions:
+<?php echo $t['Permissions'];?>:
 <?php
 $chmodInfo = substr(sprintf('%o', fileperms($fileName)), -4);
 echo $chmodInfo;
@@ -84,33 +85,33 @@ $writeVars = array(2,3,6,7);
 $execVars  = array(1,3,5,7);
 ?>
 <table>
-<tr><th>Owner</th><th>Group</th><th>Public</th></tr>
+<tr><th><?php echo $t['Owner'];?></th><th><?php echo $t['Group'];?></th><th><?php echo $t['Public'];?></th></tr>
 <tr>
-<td><input type="checkbox" name="ownerR" id="owner4"<?php if(in_array($perms[0],$readVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> Read</td>
-<td><input type="checkbox" name="groupR" id="group4"<?php if(in_array($perms[1],$readVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> Read</td>
-<td><input type="checkbox" name="publicR" id="public4"<?php if(in_array($perms[2],$readVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> Read</td>
+<td><input type="checkbox" name="ownerR" id="owner4"<?php if(in_array($perms[0],$readVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Read'];?></td>
+<td><input type="checkbox" name="groupR" id="group4"<?php if(in_array($perms[1],$readVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Read'];?></td>
+<td><input type="checkbox" name="publicR" id="public4"<?php if(in_array($perms[2],$readVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Read'];?></td>
 </tr>
 <tr>
-<td><input type="checkbox" name="ownerW" id="owner2"<?php if(in_array($perms[0],$writeVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> Write</td>
-<td><input type="checkbox" name="groupW" id="group2"<?php if(in_array($perms[1],$writeVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> Write</td>
-<td><input type="checkbox" name="publicW" id="public2"<?php if(in_array($perms[2],$writeVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> Write</td>
+<td><input type="checkbox" name="ownerW" id="owner2"<?php if(in_array($perms[0],$writeVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Write'];?></td>
+<td><input type="checkbox" name="groupW" id="group2"<?php if(in_array($perms[1],$writeVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Write'];?></td>
+<td><input type="checkbox" name="publicW" id="public2"<?php if(in_array($perms[2],$writeVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Write'];?></td>
 </tr>
 <tr>
-<td><input type="checkbox" name="ownerE" id="owner1"<?php if(in_array($perms[0],$execVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> Execute</td>
-<td><input type="checkbox" name="groupE" id="group1"<?php if(in_array($perms[1],$execVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> Execute</td>
-<td><input type="checkbox" name="publicE" id="public1"<?php if(in_array($perms[2],$execVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> Execute</td>
+<td><input type="checkbox" name="ownerE" id="owner1"<?php if(in_array($perms[0],$execVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Execute'];?></td>
+<td><input type="checkbox" name="groupE" id="group1"<?php if(in_array($perms[1],$execVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Execute'];?></td>
+<td><input type="checkbox" name="publicE" id="public1"<?php if(in_array($perms[2],$execVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Execute'];?></td>
 </tr>
 </table>
 </span>
 <span class="column">
-Change to:<br>
+<?php echo $t['Change to'];?>:<br>
 <form name="chmod" action="#" method="GET">
 <input type="text" name="chmod" id="permText" style="width: 30px; border: 0; background-color: #444; font-size: 10px; color: #fff" maxlength="3" value="<?php echo substr($chmodInfo,1,3); ?>" onKeyUp="changePerms(this.value);showButton()" onChange="changePerms(this.value);showButton()">
 <input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
 </span>
 
-<div class="update" id="updateButton" onClick="validatePerms()">update</div>
+<div class="update" id="updateButton" onClick="validatePerms()"><?php echo $t['update'];?></div>
 
 <script>
 readVars   = [4,5,6,7];

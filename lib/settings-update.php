@@ -1,4 +1,8 @@
 <?php
+include_once("settings-common.php");
+$text = $_SESSION['text'];
+$t = $text['settings-update'];
+
 // Update this config file?
 if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
 	$settingsContents = file_get_contents($settingsFile,false,$context);
@@ -49,7 +53,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 	} else {
-		echo "<script>top.ICEcoder.message('Cannot update config file. Please set public write permissions on lib/".$settingsFile." and try again');</script>";
+		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." lib/".$settingsFile." ".$t['and try again']."');</script>";
 	}
 
 	// OK, now the config file has been updated, update our current session with new arrays
@@ -73,8 +77,8 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$isEnableRegistration = $_POST['enableRegistration'] ? "true" : "false";
 	$generalSettingsContents = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
 	$generalSettingsContents = str_replace('"enableRegistration"	=> false','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
-	
-	$fConfigSettings = fopen($configSettings, 'w') or die("Can't update config file. Please set public write permissions on ".$configSettings." and press refresh");
+
+	$fConfigSettings = fopen($configSettings, 'w') or die($t['Cannot update config']." ".$configSettings." ".$t['and press refresh']);
 	fwrite($fConfigSettings, $generalSettingsContents);
 	fclose($fConfigSettings);
 

@@ -41,6 +41,7 @@ $t = $text['help'];
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> i</span> <span class="shortcut"><?php echo $t['Wrap unwrap i'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> g</span> <span class="shortcut"><?php echo $t['Wrap unwrap strong'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> e</span> <span class="shortcut"><?php echo $t['Wrap unwrap em'];?></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> 8</span> <span class="shortcut"><?php echo $t['Wrap unwrap li'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> 1, 2 <?php echo $t['or'];?> 3</span> <span class="shortcut"><?php echo $t['Wrap unwrap h1...'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> Enter</span> <span class="shortcut"><?php echo $t['End line with...'];?></span><br><br>
 	<h2><?php echo $t['On Tabs'];?></h2>
