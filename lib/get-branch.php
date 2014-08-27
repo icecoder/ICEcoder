@@ -92,7 +92,8 @@ function parseGitignore($file) { # $file = '/absolute/path/to/.gitignore'
 }
 
 // Cycle through all .gitignore files running above function to get a list of $excluded files
-$excluded = array();
+// Exclude the .git dir as first item as we don't want to see that
+$excluded = array("|.git");
 foreach ($gi as $scanpath) {
     $excludedTest = (parseGitignore($scanpath));
 	if (count($excludedTest) > 0) {
