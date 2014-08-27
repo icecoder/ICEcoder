@@ -32,7 +32,6 @@ $text = array(
 		"You can switch..."		=> "Vous pouvez basculer le mode dev on/off
 dans lib/config__settings.php",
 		"results"				=> "r&eacute;sultats"
-
 	),
 
 	"files" =>
@@ -40,7 +39,6 @@ dans lib/config__settings.php",
 		"Lock"				=> "Verrouiller",
 		"Refresh"				=> "Rafra&icirc;chir",
 		"ROOT"				=> "[RACINE]"
-
 	),
 
 	"index" =>
@@ -167,7 +165,7 @@ dans lib/config__settings.php",
 		"Enter relative local..."	=> "Entrez les chemins  relatifs locaux (par exemple / serveur / mesfichiers) et les chemins absolus GitHub (par exemple https://github.com/user/repo ou https://github.com/user/repo/tree/branch pour les branches). Avec ceci, vous aurez &eacute;tabli les chemins source sur les deux sites, comme une paire.",
 		"You can then..."		=> "Vous pouvez ensuite choisir une paire de chemin, et cela devient alors votre nouveau chemin d&apos;acc&egrave;s racine dans ICEcoder.",
 		"The file manager..."	=> "Le gestionnaire de fichiers affiche alors une nouvelle ic&ocirc;ne GitHub, que vous pouvez cliquer dessus pour ex&eacute;cuter et afficher une v&eacute;rification des diff&eacute;rences entre les 2 sources. Ces diff&eacute;rences peuvent &ecirc;tre vers&eacute;es et bascul&eacute;es dans le projet distant GitHub ou clon&eacute;es sur votre version locale du projet, afin de synchroniser vos fichiers.",
-		"If you want..."		=> " Si vous souhaitez d&eacute;finir un autre chemin d&apos;acc&egrave;s &agrave; la racine, cela peut &ecirc;tre fait dans l&apos;&eacute;cran des param&egrave;tres."
+		"If you want..."			=> " Si vous souhaitez d&eacute;finir un autre chemin d&apos;acc&egrave;s &agrave; la racine, cela peut &ecirc;tre fait dans l&apos;&eacute;cran des param&egrave;tres."
 	),
 
 	"github" =>
@@ -241,6 +239,34 @@ dans lib/config__settings.php",
 		"Cancel tasks"			=> "Quitter les tâches"
 	),
 
+	"ice-coder" =>
+	array(
+		"No text selected..."		=> "No text selected to search on",
+		"Creating Folder"		=> "Creating Folder",
+		"Sorry you can..."		=> "Sorry, you can only have 100 files open at a time!",
+		"Opening File"			=> "Opening File",
+		"Enter relative file..."	=> "Enter relative file path (prefixed with /) or remote URL",
+		"Getting"			=> "Getting",
+		"Please enter the..."		=> "Please enter the new name for",
+		"Renaming to"			=> "Renaming to",
+		"Moving to"			=> "Moving to",
+		"Deleting File"			=> "Deleting File",
+		"Pasting File"			=> "Pasting File",
+		"Sorry cannot paste..."	=> "Sorry, cannot paste a whole root",
+		"Nothing to paste..."		=> "Nothing to paste, copy a file/folder first!",
+		"Replacing text in"		=> "Replacing text in",
+		"Cancelled tasks"		=> "Cancelled tasks",
+		"Open previous files"	=> "Open previous files?",
+		"Please enter your..."	=> "Please enter your GitHub token (either personal access token or client/secret pair token). See tooltip next to Github Auth Token on Help > Settings screen for more info",
+		"This will compare..."	=> "This will compare and show a diff view between your local dir and the repo. OK?",
+		"Please note for..."		=> "Please note: for updating to work properly, you need to have write/delete access on all ICEcoder dirs & files. If you need to recover this version of ICEcoder for any reason, you'll find it in the /tmp dir. Click OK to proceed with an auto-update or cancel to visit the ICEcoder site so you can grab the zip and update manually.",
+		"You can start..."		=> "You can start bug reporting in Help > Settings",
+		"Error cannot find..."		=> "Error: cannot find/access the error file paths",
+		"No new errors..."		=> "Aucune nouvelle erreur trouvée",
+		"You have made..."		=> "Vous avez réalisé des modifications. Etes vous sûr(e) de désirer quitter sans sauvegarder ?",
+		"Close all tabs"		=> "Fermer tous les onglets?"
+	),
+
 	"login" =>
 	array(
 		"set password"			=> "D&eacute;finir un mot de passe",
@@ -268,6 +294,129 @@ dans lib/config__settings.php",
 		"selected"			=> "s&eacute;lectionn&eacute;",
 		"found in"				=> "trouv&eacute; dans",
 		"Replaced"			=> "Remplac&eacute;"
+	),
+
+	"plugins-manager" =>
+	array(
+		"ICEcoder needs to..."	=> "ICEcoder needs to reload to make this plugin usable. Reload now?",
+		"saving plugins"		=> "saving plugins...",
+		"Cannot update config..."	=> "Cannot update config file. Please set public write permissions on",
+		"and try again"			=> "and try again",
+		"couldnt delete dir"		=> "could not delete dir",
+		"couldnt delete file"		=> "could not delete file",
+		"plugins"				=> "plugins",
+		"Guide to writing..."		=> "Guide to writing plugins",
+		"Manage Installed"		=> "Manage Installed",
+		"URL"				=> "URL",
+		"Target"				=> "Target",
+		"Timer"				=> "Timer",
+		"Update"				=> "Update",
+		"Install"				=> "Install",
+		"Uninstall"			=> "Uninstall",
+		"Reload after install..."	=> "Reload after install required"
+	),
+
+	"properties" =>
+	array(
+		"properties"			=> "properties",
+		"Size"				=> "Size",
+		"Modified"			=> "Modified",
+		"Last access"			=> "Last access",
+		"Type"				=> "Type",
+		"Readable Writeable"	=> "Readable / Writeable",
+		"Relative path"			=> "Relative path",
+		"Absolute path"		=> "Absolute path",
+		"Contains"			=> "Contains",
+		"Permissions"			=> "Permissions",
+		"Owner"				=> "Owner",
+		"Group"				=> "Group",
+		"Public"				=> "Public",
+		"Read"				=> "Read",
+		"Write"				=> "Write",
+		"Execute"				=> "Execute",
+		"Change to"			=> "Change to",
+		"update"				=> "update"
+	),
+
+	"settings-common" =>
+	array(
+		"Your document does..."		=> "Your document does not appear to be in UTF-8 encoding so has been converted"
+	),
+
+	"settings-save-current-files" =>
+	array(
+		"Cannot update config..."	=> "Impossibilité de mettre à jour le fichier de configuration. Vérifiez les permissions d'écriture sur celui-ci",
+		"and try again"			=> "et essayez de nouveau"
+	),
+
+	"settings-screen" =>
+	array(
+		"settings"				=> "préférences",
+		"version"				=> "version",
+		"website"				=> "Site internet",
+		"git"					=> "git",
+		"codemirror dir"		=> "chemin de codemirror",
+		"codemirror version"	=> "version de codemirror ",
+		"file manager root"		=> "racine du gestionnaire de fichiers",
+		"Free to use..."			=> "Free to use it for your own purposes, commercial or not, just let me know of any cool uses or customisations. :)<br><br>No warranty or liability accepted for anything, all responsibility of use is your own.<br><br>A lot of fantastic people and companies have helped build ICEcoder and there is too many to thank here. Please see the full list at",
+		"functionality"			=> "functionality",
+		"check for updates..."	=> "check for updates on load",
+		"auto open last..."		=> "auto open last files on login",
+		"when finding in..."		=> "when finding in files, exclude",
+		"assisting"			=> "assisting",
+		"code assist"			=> "code assist",
+		"visible tabs"			=> "visible tabs",
+		"locked nav"			=> "locked nav",
+		"tag wrapper command"	=> "tag wrapper command",
+		"auto-complete on"		=> "auto-complete on",
+		"security"				=> "security",
+		"new password"		=> "new password",
+		"8 chars min"			=> "8 chars min",
+		"confirm password"		=> "confirm password",
+		"banned files/folders"	=> "banned files/folders",
+		"banned paths"		=> "banned paths",
+		"ip addresses"			=> "ip addresses",
+		"Slash prefixed comma..."=> "Slash prefixed, comma delimited",
+		"Comma delimited"		=> "Comma delimited",
+		"style"				=> "style",
+		"theme"				=> "theme",
+		"line wrapping"			=> "line wrapping",
+		"indent type"			=> "indent type",
+		"indent size"			=> "indent size",
+		"font size"			=> "font size",
+		"layout"				=> "layout",
+		"plugin panel aligned"	=> "plugin panel aligned",
+		"file manager"			=> "gestionnaire de fichiers",
+		"root"				=> "racine",
+		"Slash prefixed"		=> "Slash prefixed",
+		"bug reporting"		=> "bug reporting",
+		"check in files"			=> "check in files",
+		"every"				=> "every",
+		"secs getting last"		=> "secs, getting last",
+		"lines"				=> "lignes",
+		"multi-user"			=> "multi-utilisateurs",
+		"Make sure you..."		=> "Make sure you do not lock yourself out",
+		"Registration"			=> "Enregistrement",
+		"auth token"			=> "auth token",
+		"Required to get..."		=> "Required to get diffs, commit to your GitHub hosted repo etc. If you do not have one, you can use a:".PHP_EOL.PHP_EOL.
+							"- personal access token (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or".PHP_EOL.
+							"- full client/secret pair token (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
+							"It is not recommended you set your token here however and is more secure to enter it when requested by ICEcoder as that will keep it in session only.".PHP_EOL.PHP_EOL.
+							"However, if you work in a trusted and secure environment, it is more efficient to set it here.",
+		"Sorry cannot commit..."	=> "Sorry, cannot commit settings in demo mode",
+		"update"			=> "Mise à jour"
+	),
+
+	"settings-update" =>
+	array(
+		"Cannot update config..."	=> "Impossibilité de mettre à jour le fichier de configuration. Vérifiez les permissions d'écriture sur celui-ci",
+		"and try again"			=> "et essayez de nouveau",
+		"and press refresh"		=> "et pressez le rafraîchissement de la page"
+	),
+
+	"updater" =>
+	array(
+		"Update appears to..."		=> "La mise à jour semble s'être réalisée avec succès"
 	)
 
 );
