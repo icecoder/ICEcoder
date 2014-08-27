@@ -62,6 +62,12 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .fileNav li {display: inline-block; padding: 18px 15px 0 0}
 .files .fileNav a {color: #666; text-decoration: none}
 .files .fileNav a:hover {color: #fff; cursor: pointer}
+
+.files .githubNav {display: none; height: 19px; padding-top: 17px}
+.files .githubNav .commit {display: inline-block; margin-left: 15px; padding: 6px 9px; background: #555; color: #333; cursor: pointer}
+.files .githubNav .selected {display: inline-block; margin-left: 15px; padding: 6px 0; color: #333}
+.files .githubNav .pull {position: absolute; display: inline-block; margin-left: 15px; padding: 6px 9px; background: #555; color: #333; right: 15px; cursor: pointer}
+
 .files .options {
 	transition: opacity 0.15s ease-in-out;
 }
