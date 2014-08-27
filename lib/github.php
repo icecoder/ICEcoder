@@ -14,11 +14,12 @@ if (!extension_loaded('openssl') || !in_array('https', $wrappers)) {
 
 // If we have an action to perform
 if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_GET['action']) && $sslAvail) {
+
 	// ====
 	// AUTH
 	// ====
 	if ($_GET['action']=="auth") {
-		$_SESSION['githubAuthToken'] = xssClean($_GET['token']);
+		$_SESSION['githubAuthToken'] = xssClean($_GET['token'],"html");
 		echo '<!DOCTYPE html>
 			<html>
 			<head>
@@ -106,6 +107,109 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 		}
 
+	}
+
+	// ======
+	// COMMIT
+	// ======
+	if ($_GET['action']=="commit") {
+	?>
+		<!DOCTYPE html>
+
+		<html onContextMenu="return false">
+		<head>
+		<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> GitHub commit files</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="robots" content="noindex, nofollow">
+		<script src="base64.js"></script>
+		<script src="github.js"></script>
+		<link rel="stylesheet" type="text/css" href="github.css">
+		</head>
+
+		<body class="githubAction">
+
+		<h1><?php
+		$action = xssClean($_GET['action'],"html");
+		echo $action == "commit" ? "Commit files" : "Pull files"; ?></h1>
+
+		<form name="commitDetails">
+			Title:<br><input type="text" name="commitTitle" id="commitTitle" value="" style="width: 300px; margin: 5px 0 15px 0"><br>
+			Message:<br><textarea name="commitMessage" id="commitMessage" style="width: 300px; height: 118px; margin: 5px 0 15px 0"></textarea>
+		</form>
+
+		<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="commitFiles()">Commit</div>
+
+		<br><br>
+
+		<?php
+		// Get file contents for selected files
+		$selectedFiles = xssClean($_GET['selectedFiles'],"html");
+		$selectedFiles = explode(";",$selectedFiles);
+
+		for ($i=0; $i<count($selectedFiles); $i++) {
+			// Replace pipes with slashes
+			$file = str_replace("|","/",$selectedFiles[$i]);
+
+			// Trim any +'s or spaces from the end of file and clear any ../'s
+			$file = str_replace("../","",rtrim(rtrim($file,'+'),' '));
+
+			// Make $file a full path
+			if (strpos($file,$docRoot)===false) {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
+
+			if (file_exists($file)) {
+				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
+				echo '<textarea name="loadedFile'.$i.'" id="loadedFile'.$i.'" style="display: none">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea><br><br>'.PHP_EOL.PHP_EOL;
+			}
+		}
+		?>
+
+		<script>
+		// Start our github object
+		var github = new Github({token: "<?php echo $_SESSION['githubAuthToken'];?>", auth: "oauth"});
+
+		committingFiles = ['<?php 
+			$cF = implode("','", $selectedFiles);
+			echo $cF;
+			?>'];
+		seqFile = 0;
+		commitFiles = function() {
+			// Commit our files one after another
+			var repo = github.getRepo(top.repo.split("/")[0], top.repo.split("/")[1]);
+			repo.write(
+				'master', 
+				committingFiles[seqFile].substr(1),
+				document.getElementById('loadedFile'+seqFile).value,
+				document.getElementById('commitTitle').value+'\n\n'+document.getElementById('commitMessage').value,
+				function(err) {
+					if (!err) {
+						var locSplit = committingFiles[seqFile].lastIndexOf("|");
+						var location = committingFiles[seqFile].substr(0,locSplit+1);
+						var file = committingFiles[seqFile].substr(locSplit+1);
+						top.ICEcoder.thisFileFolderLink = committingFiles[seqFile];
+						top.ICEcoder.selectFileFolder(false,'ctrlSim');
+						top.ICEcoder.updateFileManagerList("delete",location,file);
+						seqFile++;
+						// If there's another file to do
+						if (top.ICEcoder.selectedFiles.length > 0) {
+							commitFiles();
+						} else {
+							alert('All done, switching modes');
+							top.ICEcoder.showHide('hide',top.get('blackMask'));
+							top.ICEcoder.githubDiffToggle();
+						}
+					} else {
+						top.ICEcoder.message('There was an error with committing:\n\n'+err);
+					}
+				}
+			);
+
+		}
+		</script>
+
+		</body>
+
+		</html>
+	<?php
 	}
 
 }
