@@ -232,7 +232,6 @@ if ($_SESSION['githubDiff']) {
 					// UNCHANGED FILES are removed
 					// ===========================
 					if (tree[i].sha == dirSHAArray[dirListArray.indexOf(tree[i].path)]) {
-						thatNode = document.getElementById("|"+tree[i].path.replace("/","|"));
 						if (document.getElementById("|"+tree[i].path.replace("/","|")+"_perms")) {
 							thatNode = document.getElementById("|"+tree[i].path.replace("/","|")+"_perms").parentNode.parentNode;
 							thatNode.parentNode.removeChild(thatNode);
