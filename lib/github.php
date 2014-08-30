@@ -28,7 +28,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			</body>
 			<script>
 			top.ICEcoder.githubAuthTokenSet = true;
-			goNext = "'.xssClean($_GET['goNext']).'";
+			goNext = "'.xssClean($_GET['goNext'],"html").'";
 			if (goNext=="showManager") {
 				top.ICEcoder.githubManager();
 			}

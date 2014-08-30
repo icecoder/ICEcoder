@@ -13,7 +13,7 @@ echo "<b>Test date, time & microtime:</b><br>".date("jS M Y g:i:sa")." (".microt
 $success = 0;
 
 
-echo '<b>TEST 1 of 3: PHP Version:</b></b><br>ICEcoder needs at least PHP 5.0, tho 5.3 and above is recommended:<br><br>';
+echo '<b>TEST 1 of 3: PHP Version:</b><br>ICEcoder needs at least PHP 5.0, tho 5.3 and above is recommended:<br><br>';
 echo "Your PHP Version: ".phpversion()."<br><br>";
 
 echo '<b>TEST RESULT:</b> ';

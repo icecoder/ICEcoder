@@ -93,9 +93,9 @@ function parseGitignore($file) { # $file = '/absolute/path/to/.gitignore'
 
 // Cycle through all .gitignore files running above function to get a list of $excluded files
 // Exclude the .git dir as first item as we don't want to see that
-$excluded = array("|.git");
+$excluded = array("/.git");
 foreach ($gi as $scanpath) {
-    $excludedTest = (parseGitignore($scanpath));
+	$excludedTest = (parseGitignore($scanpath));
 	if (count($excludedTest) > 0) {
 		$excluded = array_merge($excluded, $excludedTest);
 	}
@@ -232,7 +232,6 @@ if ($_SESSION['githubDiff']) {
 					// UNCHANGED FILES are removed
 					// ===========================
 					if (tree[i].sha == dirSHAArray[dirListArray.indexOf(tree[i].path)]) {
-						thatNode = document.getElementById("|"+tree[i].path.replace("/","|"));
 						if (document.getElementById("|"+tree[i].path.replace("/","|")+"_perms")) {
 							thatNode = document.getElementById("|"+tree[i].path.replace("/","|")+"_perms").parentNode.parentNode;
 							thatNode.parentNode.removeChild(thatNode);
@@ -247,7 +246,6 @@ if ($_SESSION['githubDiff']) {
 						// DELETED FILES are kept
 						// ======================
 						} else {
-							diffPaths.push(tree[i].path);
 							deletedPaths.push(tree[i].path);
 						}
 					}
@@ -339,15 +337,36 @@ if ($_SESSION['githubDiff']) {
 				showContent = showContent.slice(0,-2);
 				// If we've got some deleted files (as we're in GitHub diff mode), add those into the file manager
 				if ("undefined" != typeof deletedPaths && deletedPaths.length > 0) {
-					for (var j=0; j<deletedPaths.length; j++) {
-						fSplit = deletedPaths[j].lastIndexOf("/");
-						thePath = deletedPaths[j].substr(0,fSplit);
-						theFile = deletedPaths[j].substr(fSplit+1);
-						// If we're opening a dir that contains a deleted dir and it's not excluded, inject into the file manager
-						if ("<?php echo $location;?>" == "/"+thePath && excludedArray.indexOf("/"+thePath+"/"+theFile) == -1) {
-							setTimeout(function(){top.ICEcoder.updateFileManagerList('add','/'+thePath,theFile,false,false,false,'file');},4);
+					k = 0;
+					top.addDeletedFiles = setInterval(function() {
+						fSplit = deletedPaths[k].lastIndexOf("/");
+						thePath = deletedPaths[k].substr(0,fSplit);
+						theFile = deletedPaths[k].substr(fSplit+1);
+
+						// If it's not excluded
+						if (excludedArray.indexOf((thePath == "" ? "" : "/" + thePath)+"/"+theFile) == -1) {
+
+							// If we're adding a deleted dir/file in a sub-dir
+							if ("<?php echo $location;?>" == "/"+thePath) {
+								top.ICEcoder.updateFileManagerList('add','/'+thePath,theFile,false,false,false,'file');
+							// If we're adding a deleted dir/file at the root level
+							} else {
+								// Folder
+								if (thePath != "") {
+									top.ICEcoder.updateFileManagerList('add',top.iceRoot,thePath,false,false,false,'folder');
+								// File
+								} else {
+									top.ICEcoder.updateFileManagerList('add',top.iceRoot+thePath,theFile,false,false,false,'file');
+								}
+							}
+
 						}
-					}
+						k++;
+						if ("undefined" == typeof deletedPaths[k]) {
+							clearInterval(top.addDeletedFiles);
+						}
+
+					},20);
 				}
 				setTimeout(function(){top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);},4);
 				if (!top.ICEcoder.fmReady) {top.ICEcoder.fmReady=true;};
