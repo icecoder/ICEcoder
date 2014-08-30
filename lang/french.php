@@ -241,29 +241,29 @@ dans lib/config__settings.php",
 
 	"ice-coder" =>
 	array(
-		"No text selected..."		=> "No text selected to search on",
-		"Creating Folder"		=> "Creating Folder",
-		"Sorry you can..."		=> "Sorry, you can only have 100 files open at a time!",
-		"Opening File"			=> "Opening File",
-		"Enter relative file..."	=> "Enter relative file path (prefixed with /) or remote URL",
-		"Getting"			=> "Getting",
-		"Please enter the..."		=> "Please enter the new name for",
-		"Renaming to"			=> "Renaming to",
-		"Moving to"			=> "Moving to",
-		"Deleting File"			=> "Deleting File",
-		"Pasting File"			=> "Pasting File",
-		"Sorry cannot paste..."	=> "Sorry, cannot paste a whole root",
-		"Nothing to paste..."		=> "Nothing to paste, copy a file/folder first!",
-		"Replacing text in"		=> "Replacing text in",
-		"Cancelled tasks"		=> "Cancelled tasks",
-		"Open previous files"	=> "Open previous files?",
-		"Please enter your..."	=> "Please enter your GitHub token (either personal access token or client/secret pair token). See tooltip next to Github Auth Token on Help > Settings screen for more info",
-		"This will compare..."	=> "This will compare and show a diff view between your local dir and the repo. OK?",
-		"Please note for..."		=> "Please note: for updating to work properly, you need to have write/delete access on all ICEcoder dirs & files. If you need to recover this version of ICEcoder for any reason, you'll find it in the /tmp dir. Click OK to proceed with an auto-update or cancel to visit the ICEcoder site so you can grab the zip and update manually.",
-		"You can start..."		=> "You can start bug reporting in Help > Settings",
-		"Error cannot find..."		=> "Error: cannot find/access the error file paths",
-		"No new errors..."		=> "Aucune nouvelle erreur trouvée",
-		"You have made..."		=> "Vous avez réalisé des modifications. Etes vous sûr(e) de désirer quitter sans sauvegarder ?",
+		"No text selected..."		=> "Aucun texte s&eacute;lectionn&eacute; pour la recherche sur",
+		"Creating Folder"		=> "r&eacute;ation de dossier",
+		"Sorry you can..."		=> "D&eacute;sol&eacute;, vous ne pouvez pas avoir  plus de 100 fichiers ouverts en m&ecirc;me temps !",
+		"Opening File"			=> "Ouverture de fichier",
+		"Enter relative file..."		=> "Entrez le chemin relatif du fichier (pr&eacute;fix&eacute; avec un /) ou l&apos;URL distante",
+		"Getting"				=> "Obtention",
+		"Please enter the..."		=> "S&apos;il vous plait, saisissez le nouveau nom pour",
+		"Renaming to"			=> "Renomm&eacute; en",
+		"Moving to"			=> "D&eacute;plac&eacute; vers",
+		"Deleting File"			=> "Suppression fichier",
+		"Pasting File"			=> "Collage fichier",
+		"Sorry cannot paste..."	=> "D&eacute;sol&eacute;, il n&apos;est pas possible de coller une racine",
+		"Nothing to paste..."		=> "Rien &agrave; coller, copiez un fichier/dossier en premier !",
+		"Replacing text in"		=> "Remplacement  de texte dans",
+		"Cancelled tasks"		=> "Tâches annul&eacute;s",
+		"Open previous files"	=> "Ouvrir les fichiers pr&eacute;c&eacute;dents ?",
+		"Please enter your..."	=> "S&apos;il vous pla&icirc;t entrez votre token GitHub (soit l&apos;acc&egrave;s par token personnel ou le token client / paire secr&egrave;te). Voir l&apos;info-bulle &agrave; c&ocirc;t&eacute; de Github Auth Token sur &eacute;cran Aide> Param&egrave;tres pour plus d&apos;infos",
+		"This will compare..."	=> "Ceci compare et montre une vue des diff&eacute;rences entre votre r&eacute;pertoire local et le repo. D&apos;accord ?",
+		"Please note for..."		=> "S&apos;il vous pla&icirc;t, noter : la mise &agrave; jour fonctionne correctement, vous devez avoir les permissions d&apos;&eacute;criture / suppression &agrave; tous les r&eacute;pertoires et fichiers d&apos;ICEcoder. Si vous avez besoin de r&eacute;cup&eacute;rer cette version d&apos;ICEcoder pour une raison quelconque, vous la trouverez dans le r&eacute;pertoire / tmp. Cliquez sur OK pour proc&eacute;der &agrave; une mise &agrave; jour automatique, ou annuler et visiter le site d&apos;ICEcoder de sorte que vous pouvez r&eacute;cup&eacute;rer le fichier zip et mettre &agrave; jour manuellement.",
+		"You can start..."		=> "Vous pouvez reporter un dysfonctionnement dans Aide > Pr&eacute;f&eacute;rences",
+		"Error cannot find..."		=> "Erreur : ne peut pas trouver / acc&eacute;der aux chemins des fichiers d&apos;erreur",
+		"No new errors..."		=> "Aucune nouvelle erreur trouv&eacute;e",
+		"You have made..."		=> "Vous avez r&eacute;alis&eacute; des modifications. Etes vous sûr(e) de d&eacute;sirer quitter sans sauvegarder ?",
 		"Close all tabs"		=> "Fermer tous les onglets?"
 	),
 
@@ -298,125 +298,125 @@ dans lib/config__settings.php",
 
 	"plugins-manager" =>
 	array(
-		"ICEcoder needs to..."	=> "ICEcoder needs to reload to make this plugin usable. Reload now?",
-		"saving plugins"		=> "saving plugins...",
-		"Cannot update config..."	=> "Cannot update config file. Please set public write permissions on",
-		"and try again"			=> "and try again",
-		"couldnt delete dir"		=> "could not delete dir",
-		"couldnt delete file"		=> "could not delete file",
+		"ICEcoder needs to..."	=> "ICEcoder a besoin d&apos;&ecirc;tre recharg&eacute; pour rendre ce plugin utilisable. Le faire maintenant ?",
+		"saving plugins"		=> "sauvegarde des plugins ...",
+		"Cannot update config..."	=> "Impossibilit&eacute; de mettre &agrave; jour le fichier de configuration. V&eacute;rifiez les permissions d&apos;&eacute;criture",
+		"and try again"			=> "et essayez de nouveau",
+		"couldnt delete dir"		=> "ne peut pas effacer le dossier",
+		"couldnt delete file"		=> "ne peut pas effacer le fichier",
 		"plugins"				=> "plugins",
-		"Guide to writing..."		=> "Guide to writing plugins",
-		"Manage Installed"		=> "Manage Installed",
+		"Guide to writing..."		=> "Guide pour &eacute;crire des plugins",
+		"Manage Installed"		=> "Gestionnaire install&eacute;",
 		"URL"				=> "URL",
-		"Target"				=> "Target",
-		"Timer"				=> "Timer",
-		"Update"				=> "Update",
-		"Install"				=> "Install",
-		"Uninstall"			=> "Uninstall",
-		"Reload after install..."	=> "Reload after install required"
+		"Target"				=> "Cible",
+		"Timer"				=> "Compteur",
+		"Update"				=> "Mise &agrave; jour",
+		"Install"				=> "Installation",
+		"Uninstall"			=> "D&eacute;sinstallation",
+		"Reload after install..."	=> "Une reconnexion est n&eacute;cessaire apr&egrave;s l&apos;installation"
 	),
 
 	"properties" =>
 	array(
-		"properties"			=> "properties",
-		"Size"				=> "Size",
-		"Modified"			=> "Modified",
-		"Last access"			=> "Last access",
+		"properties"			=> "propri&eacute;t&eacute;s",
+		"Size"				=> "Taille",
+		"Modified"			=> "Derni&egrave;re modification",
+		"Last access"			=> "Dernier acc&egrave;s",
 		"Type"				=> "Type",
-		"Readable Writeable"	=> "Readable / Writeable",
-		"Relative path"			=> "Relative path",
-		"Absolute path"		=> "Absolute path",
-		"Contains"			=> "Contains",
+		"Readable Writeable"	=> "Lisible / Inscriptible",
+		"Relative path"			=> "Chemin relatif",
+		"Absolute path"		=> "Chemin absolute",
+		"Contains"			=> "Contenu",
 		"Permissions"			=> "Permissions",
-		"Owner"				=> "Owner",
-		"Group"				=> "Group",
+		"Owner"				=> "Propri&eacute;taire",
+		"Group"				=> "Groupe",
 		"Public"				=> "Public",
-		"Read"				=> "Read",
-		"Write"				=> "Write",
-		"Execute"				=> "Execute",
-		"Change to"			=> "Change to",
-		"update"				=> "update"
+		"Read"				=> "Lire",
+		"Write"				=> "Ecrire",
+		"Execute"				=> "Ex&eacute;cuter",
+		"Change to"			=> "Modifier en",
+		"update"				=> "mise &agrave; jour"
 	),
 
 	"settings-common" =>
 	array(
-		"Your document does..."		=> "Your document does not appear to be in UTF-8 encoding so has been converted"
+		"Your document does..."		=> "Votre document ne semble pas &ecirc;tre en UTF-8 et a donc &eacute;t&eacute; converti"
 	),
 
 	"settings-save-current-files" =>
 	array(
-		"Cannot update config..."	=> "Impossibilité de mettre à jour le fichier de configuration. Vérifiez les permissions d'écriture sur celui-ci",
+		"Cannot update config..."	=> "Impossibilit&eacute; de mettre &agrave; jour le fichier de configuration. V&eacute;rifiez les permissions d&apos;&eacute;criture sur celui-ci",
 		"and try again"			=> "et essayez de nouveau"
 	),
 
 	"settings-screen" =>
 	array(
-		"settings"				=> "préférences",
+		"settings"				=> "pr&eacute;f&eacute;rences",
 		"version"				=> "version",
 		"website"				=> "Site internet",
 		"git"					=> "git",
 		"codemirror dir"		=> "chemin de codemirror",
 		"codemirror version"	=> "version de codemirror ",
 		"file manager root"		=> "racine du gestionnaire de fichiers",
-		"Free to use..."			=> "Free to use it for your own purposes, commercial or not, just let me know of any cool uses or customisations. :)<br><br>No warranty or liability accepted for anything, all responsibility of use is your own.<br><br>A lot of fantastic people and companies have helped build ICEcoder and there is too many to thank here. Please see the full list at",
-		"functionality"			=> "functionality",
-		"check for updates..."	=> "check for updates on load",
-		"auto open last..."		=> "auto open last files on login",
-		"when finding in..."		=> "when finding in files, exclude",
-		"assisting"			=> "assisting",
-		"code assist"			=> "code assist",
-		"visible tabs"			=> "visible tabs",
-		"locked nav"			=> "locked nav",
-		"tag wrapper command"	=> "tag wrapper command",
-		"auto-complete on"		=> "auto-complete on",
-		"security"				=> "security",
-		"new password"		=> "new password",
-		"8 chars min"			=> "8 chars min",
-		"confirm password"		=> "confirm password",
-		"banned files/folders"	=> "banned files/folders",
-		"banned paths"		=> "banned paths",
-		"ip addresses"			=> "ip addresses",
-		"Slash prefixed comma..."=> "Slash prefixed, comma delimited",
-		"Comma delimited"		=> "Comma delimited",
+		"Free to use..."			=> "Libre de l&apos;utiliser pour vos propres fins, commerciales ou non, faites moi juste savoir de toute utilisation sympa ou personnalisations. :)<br><br>Aucune garantie ou responsabilit&eacute; est accept&eacute;es de notre part, toute responsabilit&eacute; d&apos;utilisation est de votre ressort.<br><br>De nombreuses personnes fantastiques et d&apos;entreprises ont contribu&eacute; &agrave; r&eacute;aliser ICEcoder et il est important de les remercier ici. S&apos;il vous pla&icirc;t, parcourez la liste compl&egrave;te sur",
+		"functionality"			=> "fonctionnalit&eacute;s",
+		"check for updates..."	=> "V&eacute;rifier les mises &agrave; jour",
+		"auto open last..."		=> "affichage des derniers fichiers",
+		"when finding in..."		=> "extension à exclure des recherches",
+		"assisting"			=> "assistant",
+		"code assist"			=> "Assistance de code",
+		"visible tabs"			=> "onglets visibles",
+		"locked nav"			=> "navigation v&eacute;rouill&eacute;e",
+		"tag wrapper command"	=> "commande de tag",
+		"auto-complete on"		=> "auto-complétion sur",
+		"security"				=> "s&eacute;curit&eacute;",
+		"new password"		=> "nouveau mot de passe",
+		"8 chars min"			=> "8 caract&egrave;res minimum",
+		"confirm password"		=> "confirmation du mot de passe",
+		"banned files/folders"	=> "fichiers/dossiers bannis",
+		"banned paths"		=> "chemins bannis",
+		"ip addresses"			=> "adresses ip",
+		"Slash prefixed comma..."=> "Slash pr&eacute;fix&eacute;, s&eacute;par&eacute;es par des virgules",
+		"Comma delimited"		=> "D&eacute;limit&eacute; par des virgules",
 		"style"				=> "style",
-		"theme"				=> "theme",
-		"line wrapping"			=> "line wrapping",
+		"theme"				=> "th&egrave;me",
+		"line wrapping"			=> "retour &agrave; la ligne",
 		"indent type"			=> "indent type",
 		"indent size"			=> "indent size",
 		"font size"			=> "font size",
-		"layout"				=> "layout",
-		"plugin panel aligned"	=> "plugin panel aligned",
+		"layout"				=> "disposition",
+		"plugin panel aligned"	=> "panneau des plugins align&eacute;",
 		"file manager"			=> "gestionnaire de fichiers",
 		"root"				=> "racine",
-		"Slash prefixed"		=> "Slash prefixed",
-		"bug reporting"		=> "bug reporting",
-		"check in files"			=> "check in files",
-		"every"				=> "every",
-		"secs getting last"		=> "secs, getting last",
+		"Slash prefixed"		=> "Slash pr&eacute;fix&eacute;",
+		"bug reporting"		=> "Rapport de dysfonctionnement",
+		"check in files"			=> "v&eacute;rifier dans les fichiers",
+		"every"				=> "chaque",
+		"secs getting last"		=> "secondes, obtenir le dernier",
 		"lines"				=> "lignes",
 		"multi-user"			=> "multi-utilisateurs",
-		"Make sure you..."		=> "Make sure you do not lock yourself out",
+		"Make sure you..."		=> "Assurez-vous que vous ne vous bloquez pas sur",
 		"Registration"			=> "Enregistrement",
 		"auth token"			=> "auth token",
-		"Required to get..."		=> "Required to get diffs, commit to your GitHub hosted repo etc. If you do not have one, you can use a:".PHP_EOL.PHP_EOL.
-							"- personal access token (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or".PHP_EOL.
-							"- full client/secret pair token (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-							"It is not recommended you set your token here however and is more secure to enter it when requested by ICEcoder as that will keep it in session only.".PHP_EOL.PHP_EOL.
-							"However, if you work in a trusted and secure environment, it is more efficient to set it here.",
-		"Sorry cannot commit..."	=> "Sorry, cannot commit settings in demo mode",
-		"update"			=> "Mise à jour"
+		"Required to get..."		=> "N&eacute;cessaire pour obtenir les diffs, proc&eacute;der &agrave; un commit sur votre projet sous GitHub. Si vous n&apos;en avez pas, vous pouvez utiliser un :".PHP_EOL.PHP_EOL.
+							"- jeton/token d&apos;acc&egrave;s personel (https://help.github.com/articles/creating-an-access-token-for-command-line-use), ou un jeton/token ".PHP_EOL.
+							" client/paire secr&egrave;te (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
+							"Il n&apos;est pas recommand&eacute; de d&eacute;finir votre jeton ici, cependant, il est plus sûr de l&apos;entrer &agrave; la demande d&apos;ICEcoder car cela le garde uniquement  en session.".PHP_EOL.PHP_EOL.
+							"Cependant, si vous travaillez dans un environnement fiable et s&eacute;curis&eacute;, il est plus efficace de le mettre ici.",
+		"Sorry cannot commit..."	=> "D&eacute;sol&eacute;, vous ne pouvez pas modifier les pr&eacute;f&eacute;rences en mode de d&eacute;monstration",
+		"update"				=> "Mise &agrave; jour"
 	),
 
 	"settings-update" =>
 	array(
-		"Cannot update config..."	=> "Impossibilité de mettre à jour le fichier de configuration. Vérifiez les permissions d'écriture sur celui-ci",
+		"Cannot update config..."	=> "Impossibilit&eacute; de mettre &agrave; jour le fichier de configuration. V&eacute;rifiez les permissions d&apos;&eacute;criture sur celui-ci",
 		"and try again"			=> "et essayez de nouveau",
-		"and press refresh"		=> "et pressez le rafraîchissement de la page"
+		"and press refresh"		=> "et pressez le rafra&icirc;chissement de la page"
 	),
 
 	"updater" =>
 	array(
-		"Update appears to..."		=> "La mise à jour semble s'être réalisée avec succès"
+		"Update appears to..."		=> "La mise &agrave; jour semble s&apos;&ecirc;tre r&eacute;alis&eacute;e avec succ&egrave;s"
 	)
 
 );
