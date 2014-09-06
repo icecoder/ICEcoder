@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Traditional Chinese language translation
 // by: @lzh370 (GitHub)
 //     lzh370@qq.com
@@ -89,15 +89,15 @@ $text = array(
 		"website"			=> "網站",
 		"Close all tabs"		=> "關閉所有選項卡",
 		"Alphabetize tabs"		=> "按字母順序排序選項卡",
-		"Find"				=> "檢索",
-		"in"				=> "in",
-		"and"				=> "and",
-		"replace"			=> "替換",
-		"replace all"			=> "替換所有",
-		"this document"			=> "當前文件",
-		"open documents"		=> "打開的文件",
-		"all files"			=> "所有文件",
-		"all filenames"			=> "所有文件名",
+//		"Find"				=> "檢索",
+//		"in"				=> "in",
+//		"and"				=> "and",
+//		"replace"			=> "替換",
+//		"replace all"			=> "替換所有",
+//		"this document"			=> "當前文件",
+//		"open documents"		=> "打開的文件",
+//		"all files"			=> "所有文件",
+//		"all filenames"			=> "所有文件名",
 		"Turn on/off..."		=> "開啓/關閉代碼輔助",
 		"Code Assist"			=> "代碼輔助",
 		"Go to Line"			=> "轉到行",

@@ -176,9 +176,9 @@ $t = $text['index'];
 		</ul>
 	</div>
 	<div id="githubNav" class="githubNav">
-		<div class="commit" id="githubNavCommit" onclick="top.ICEcoder.gitHubAction('commit')">Commit</div>
+		<div class="commit" id="githubNavCommit" onclick="top.ICEcoder.githubAction('commit')">Commit</div>
 		<div class="selected" id="githubNavSelectedCount">Selected: 0</div>
-		<div class="pull" id="githubNavPull" onclick="top.ICEcoder.gitHubAction('pull')">Pull</div>
+		<div class="pull" id="githubNavPull" onclick="top.ICEcoder.githubAction('pull')">Pull</div>
 	</div>
 	<div class="options" id="fileOptions">
 		<div id="optionsFile" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">

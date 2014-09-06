@@ -443,7 +443,7 @@ if (action=="save") {
 	if (strpos($file,"[NEW]")>0||$saveType=="saveAs") {
 	?>
 		fileLoc = '<?php echo $fileLoc;?>';
-		newFileName = top.ICEcoder.getInput('<?php echo $t['Enter filename to save at']; ?> '+(fileLoc!='' ? fileLoc : '/'),'');
+		newFileName = top.ICEcoder.getInput('<?php echo $t['Enter filename to...']; ?> '+(fileLoc!='' ? fileLoc : '/'),'');
 		if (newFileName) {
 			if (newFileName.substr(0,1)!="/") {newFileName = "/" + newFileName}
 			newFileName = fileLoc + newFileName;

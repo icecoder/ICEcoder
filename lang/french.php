@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // French language translation
 // par: @krisxoofoo (GitHub)
 //  @kris_fr Twitter)
@@ -88,15 +88,15 @@ dans lib/config__settings.php",
 		"website"				=> "Site internet",
 		"Close all tabs"		=> "Fermer les onglets",
 		"Alphabetize tabs"		=> "Onglets par ordre alphab&eacute;tique",
-		"Find"				=> "Chercher",
-		"in"					=> "dans",
-		"and"				=> "et",
-		"replace"				=> "remplacer",
-		"replace all"			=> "remplacer tout",
-		"this document"		=> "ce document",
-		"open documents"		=> "les documents ouverts",
-		"all files"				=> "tous les fichiers",
-		"all filenames"			=> "tous les noms de fichiers",
+//		"Find"				=> "Chercher",
+//		"in"					=> "dans",
+//		"and"				=> "et",
+//		"replace"				=> "remplacer",
+//		"replace all"			=> "remplacer tout",
+//		"this document"		=> "ce document",
+//		"open documents"		=> "les documents ouverts",
+//		"all files"				=> "tous les fichiers",
+//		"all filenames"			=> "tous les noms de fichiers",
 		"Turn on/off..."			=> "Basculer on/off l&apos;assistance au code",
 		"Code Assist"			=> "Assistance au Code",
 		"Go to Line"			=> "Aller &agrave; la ligne",

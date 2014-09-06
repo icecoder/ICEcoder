@@ -117,7 +117,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 	$r = 0;
 	function phpGrep($q, $path, $base) {
 		$fp = opendir($path);
-		global $r, $ICEcoder, $serverType, $selectedFiles, $docRoot, $ICEcoderDir, $context;
+		global $t, $r, $ICEcoder, $serverType, $selectedFiles, $docRoot, $ICEcoderDir, $context;
 		if (!isset($ret)) {$ret="";};
 		$slash = $serverType == strpos($path,"\\")>-1 ? "\\" : "/";
 		while($f = readdir($fp)) {

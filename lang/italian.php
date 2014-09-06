@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Italian language translation
 // by: @luciorota (GitHub)
 //     @luciorota (lucio.rota@gmail.com)
@@ -89,15 +89,15 @@ $text = array(
 		"website"			=> "sito web",
 		"Close all tabs"		=> "Chiudi tutte le schede",
 		"Alphabetize tabs"		=> "Ordina schede",
-		"Find"				=> "Trova",
-		"in"				=> "in",
-		"and"				=> "e",
-		"replace"			=> "sostituisci",
-		"replace all"			=> "sostituisci tutto",
-		"this document"			=> "questo documento",
-		"open documents"		=> "apri documenti",
-		"all files"			=> "tutti i file",
-		"all filenames"			=> "titti i nomi",
+//		"Find"				=> "Trova",
+//		"in"				=> "in",
+//		"and"				=> "e",
+//		"replace"			=> "sostituisci",
+//		"replace all"			=> "sostituisci tutto",
+//		"this document"			=> "questo documento",
+//		"open documents"		=> "apri documenti",
+//		"all files"			=> "tutti i file",
+//		"all filenames"			=> "titti i nomi",
 		"Turn on/off..."		=> "Attiva/disattiva code assist",
 		"Code Assist"			=> "Code Assist",
 		"Go to Line"			=> "Vai alla riga",
