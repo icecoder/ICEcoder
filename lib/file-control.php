@@ -18,9 +18,12 @@ $file = str_replace("|","/",strClean(
 // Trim any +'s or spaces from the end of file and clear any ../'s
 $file = str_replace("../","",rtrim(rtrim($file,'+'),' '));
 
-// Die if the doc root realpath doesn't match the start of the requested file's realpath
-if(strpos(realpath($file),realpath($docRoot)) !== 0) {
-        die("alert('Sorry - problem with file location & doc root - ".realpath($file)."');</script>");
+// Die if the file requested isn't something we expect
+if(
+        ($_GET['action']!="getRemoteFile" && strpos(realpath($file),realpath($docRoot)) !== 0) ||
+        ($_GET['action']=="getRemoteFile" && strpos($file,"http") !== 0)
+        ) {
+        die("alert('Sorry - problem with file requested');</script>");
 };
 
 // Make $file a full path and establish the $fileLoc and $fileName
