@@ -137,7 +137,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			Message:<br><textarea name="commitMessage" id="commitMessage" style="width: 300px; height: 118px; margin: 5px 0 15px 0"></textarea>
 		</form>
 
-		<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="commitFiles()">Commit</div>
+		<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="top.ICEcoder.showHide('show',top.get('loadingMask'));commitFiles()">Commit</div>
 
 		<br><br>
 
@@ -177,7 +177,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			var repo = github.getRepo(top.repo.split("/")[0], top.repo.split("/")[1]);
 			repo.write(
 				'master', 
-				committingFiles[seqFile].substr(1),
+				committingFiles[seqFile].substr(1).replace(/\|/g,"/"),
 				document.getElementById('loadedFile'+seqFile).value,
 				document.getElementById('commitTitle').value+'\n\n'+document.getElementById('commitMessage').value,
 				function(err) {
@@ -185,6 +185,16 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 						var locSplit = committingFiles[seqFile].lastIndexOf("|");
 						var location = committingFiles[seqFile].substr(0,locSplit+1);
 						var file = committingFiles[seqFile].substr(locSplit+1);
+
+						// Splice from diff or deleted paths
+						if (top.diffPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")) > -1) {
+							top.diffPaths.splice(top.diffPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")),1);
+						}
+						if (top.deletedPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")) > -1) {
+							top.deletedPaths.splice(top.deletedPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")),1);
+						}
+						
+						// Then deselect and remove from file manager
 						top.ICEcoder.thisFileFolderLink = committingFiles[seqFile];
 						top.ICEcoder.selectFileFolder(false,'ctrlSim');
 						top.ICEcoder.updateFileManagerList("delete",location,file);
@@ -193,12 +203,16 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 						if (top.ICEcoder.selectedFiles.length > 0) {
 							commitFiles();
 						} else {
-							alert('All done, switching modes');
+							top.ICEcoder.showHide('hide',top.get('loadingMask'));
 							top.ICEcoder.showHide('hide',top.get('blackMask'));
-							top.ICEcoder.githubDiffToggle();
+							if (top.diffPaths.length == 0 && top.deletedPaths.length == 0) {
+								top.ICEcoder.message('All done, switching modes');
+								top.ICEcoder.githubDiffToggle();
+							}
 						}
 					} else {
-						top.ICEcoder.message('There was an error with committing:\n\n'+err);
+						top.ICEcoder.message('There was an error with committing.\n\nSee dev tools console for details.');
+						console.log(err);
 					}
 				}
 			);
