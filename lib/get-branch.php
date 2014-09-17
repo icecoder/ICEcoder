@@ -219,9 +219,9 @@ if ($_SESSION['githubDiff']) {
 	var repo = github.getRepo(top.repo.split("/")[0], top.repo.split("/")[1]);
 	repo.getTree('master?recursive=true', function(err, tree) {
 		if(!err) {
-			treePaths = [];
-			diffPaths = [];
-			deletedPaths = [];
+			top.treePaths = [];
+			top.diffPaths = [];
+			top.deletedPaths = [];
 			// ==========================================================
 			// NEW FILES are not compared for diffs in this loop, so kept
 			// ==========================================================
@@ -241,16 +241,16 @@ if ($_SESSION['githubDiff']) {
 						// CHANGED FILES are kept
 						// ======================
 						if ("undefined" != typeof dirSHAArray[dirListArray.indexOf(tree[i].path)]) {
-							diffPaths.push(tree[i].path);
+							top.diffPaths.push(tree[i].path);
 						// ======================
 						// DELETED FILES are kept
 						// ======================
 						} else {
-							deletedPaths.push(tree[i].path);
+							top.deletedPaths.push(tree[i].path);
 						}
 					}
 				} else {
-					treePaths.push(tree[i].path);
+					top.treePaths.push(tree[i].path);
 				}
 			}
 			// Now we are only showing new, changed and deleted files from our GitHub tree list
@@ -258,17 +258,17 @@ if ($_SESSION['githubDiff']) {
 
 			// However, we should now consider dirs that the user hasn't opened yet as we can
 			// maybe remove closed dirs that contain no changes
-			for (var i=0; i<treePaths.length; i++) {
+			for (var i=0; i<top.treePaths.length; i++) {
 				canShowDir = false;
-				for (j=0; j<diffPaths.length; j++) {
-					if (diffPaths[j].indexOf(treePaths[i]+"/") === 0) {
+				for (j=0; j<top.diffPaths.length; j++) {
+					if (top.diffPaths[j].indexOf(top.treePaths[i]+"/") === 0) {
 						canShowDir = true;
 					}
 				}
 				// Remove dirs that contain no changes in them
 				if (!canShowDir) {
-					if (document.getElementById("|"+treePaths[i].replace("/","|")+"_perms")) {
-						thatNode = document.getElementById("|"+treePaths[i].replace("/","|")+"_perms").parentNode.parentNode;
+					if (document.getElementById("|"+top.treePaths[i].replace("/","|")+"_perms")) {
+						thatNode = document.getElementById("|"+top.treePaths[i].replace("/","|")+"_perms").parentNode.parentNode;
 						thatNode.parentNode.removeChild(thatNode);
 					}
 				}
@@ -336,15 +336,15 @@ if ($_SESSION['githubDiff']) {
 				clearInterval(animFolders);
 				showContent = showContent.slice(0,-2);
 				// If we've got some deleted files (as we're in GitHub diff mode), add those into the file manager
-				if ("undefined" != typeof deletedPaths && deletedPaths.length > 0) {
+				if ("undefined" != typeof top.deletedPaths && top.deletedPaths.length > 0) {
 					k = 0;
 					top.addDeletedFiles = setInterval(function() {
-						fSplit = deletedPaths[k].lastIndexOf("/");
-						thePath = deletedPaths[k].substr(0,fSplit);
-						theFile = deletedPaths[k].substr(fSplit+1);
+						fSplit = top.deletedPaths[k].lastIndexOf("/");
+						thePath = top.deletedPaths[k].substr(0,fSplit);
+						theFile = top.deletedPaths[k].substr(fSplit+1);
 
 						// If it's not excluded
-						if (excludedArray.indexOf((thePath == "" ? "" : "/" + thePath)+"/"+theFile) == -1) {
+						if ("undefined" != typeof excludedArray && excludedArray.indexOf((thePath == "" ? "" : "/" + thePath)+"/"+theFile) == -1) {
 
 							// If we're adding a deleted dir/file in a sub-dir
 							if ("<?php echo $location;?>" == "/"+thePath) {
@@ -362,7 +362,7 @@ if ($_SESSION['githubDiff']) {
 
 						}
 						k++;
-						if ("undefined" == typeof deletedPaths[k]) {
+						if ("undefined" == typeof top.deletedPaths[k]) {
 							clearInterval(top.addDeletedFiles);
 						}
 
