@@ -2,6 +2,13 @@
 include("headers.php");
 include("settings.php");
 $t = $text['properties'];
+
+// Establish the real absolute path to the file/folder
+$fileName=realpath($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['fileName'])));
+// If it doesn't exist, or doesn't start with the $docRoot, stop here
+if (!file_exists($fileName) || strpos($fileName,$docRoot) !== 0) {
+        die("<script>alert('Sorry, that file/folder doesn\'t appear to exist');</script>");
+}
 ?>
 <!DOCTYPE html>
 
@@ -17,9 +24,6 @@ $t = $text['properties'];
 
 <h1 id="title"><?php echo $t['properties'];?></h1>
 
-<?php
-$fileName=$docRoot.$iceRoot.str_replace("|","/",strClean($_GET['fileName']));
-?>
 <h2><?php echo basename($fileName); ?></h2><br>
 <span class="column" style="width: 180px"><?php echo $t['Size'];?>: <?php
 $bytes = filesize($fileName);
