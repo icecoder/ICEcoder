@@ -1,4 +1,9 @@
 <?php
+// Stop if we're running an old version in the tmp dir
+if(strpos(str_replace("\\","/",dirname(__FILE__)),"tmp/oldVersion") !== false) {
+	die("This is an old version of ICEcoder. Won't run from tmp/oldVersion/ dir.");
+}
+
 // Load common functions
 include_once(dirname(__FILE__)."/settings-common.php");
 $text = $_SESSION['text'];
