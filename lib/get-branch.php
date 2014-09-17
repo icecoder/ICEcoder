@@ -6,6 +6,7 @@ if (!isset($ICEcoder['root'])) {
 
 if (!$_SESSION['loggedIn']) {
 	header("Location: ../");
+	die();
 }
 
 $text = $_SESSION['text'];
