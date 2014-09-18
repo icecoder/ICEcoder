@@ -131,7 +131,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		echo $action == "commit" ? "Commit files" : "Pull files"; ?></h1>
 
 		<form name="commitDetails">
-			Title:<br><input type="text" name="commitTitle" id="commitTitle" value="" style="width: 300px; margin: 5px 0 15px 0"><br>
+			Title:<br><input type="text" name="commitTitle" id="commitTitle" value="" style="width: 300px; margin: 5px 0 15px 0" maxlength="50"><br>
 			Message:<br><textarea name="commitMessage" id="commitMessage" style="width: 300px; height: 118px; margin: 5px 0 15px 0"></textarea>
 		</form>
 
