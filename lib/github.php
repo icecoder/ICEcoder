@@ -148,15 +148,18 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			// Replace pipes with slashes
 			$file = str_replace("|","/",$selectedFiles[$i]);
 
-			// Trim any +'s or spaces from the end of file and clear any ../'s
-			$file = str_replace("../","",rtrim(rtrim($file,'+'),' '));
+			// Trim any +'s or spaces from the end of file
+			$file = rtrim(rtrim($file,'+'),' ');
 
-			// Make $file a full path
-			if (strpos($file,$docRoot)===false) {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
+			// Establish the real absolute path to the file
+			$file = str_replace("\\","/",realpath($docRoot.$iceRoot.$file));
 
-			if (file_exists($file)) {
+			// Only get the file if it exists and begins with our $docRoot
+			if (file_exists($file) && strpos($file,$docRoot) === 0) {
 				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 				echo '<textarea name="loadedFile'.$i.'" id="loadedFile'.$i.'" style="display: none">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea><br><br>'.PHP_EOL.PHP_EOL;
+			} else {
+				die("<script>alert('Sorry, that file doesn\'t appear to exist');</script>");
 			}
 		}
 		?>
