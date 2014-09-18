@@ -218,8 +218,8 @@ function findSequence(goal) {
 
 	<div>
 	<h2>github</h2>
-	<?php echo $t['auth token'];?> <span class="info" title="<?php echo $t['Required to get...'];?>">[?]</span><br>
-	<input type="text" name="githubAuthToken" style="width: 300px" onkeydown="showButton()" value="<?php echo $ICEcoder["githubAuthToken"];?>" autocomplete="off">
+	<?php echo $t['auth token'];?> <span class="info" title="<?php echo $t['Required to get...'];?>">[?]</span> &nbsp; <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use" target="_blank" class="info">Personal Access Token</a> &nbsp; <a href="(http://developer.github.com/v3/oauth" target="_blank" class="info">Client/Secret Pair Token</a><br>
+	<input type="text" name="githubAuthToken" style="width: 320px" onkeydown="showButton()" value="<?php echo $ICEcoder["githubAuthToken"];?>" autocomplete="off">
 	</div>
 </span>
 
