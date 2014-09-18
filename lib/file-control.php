@@ -15,22 +15,35 @@ $file = str_replace("|","/",strClean(
 	: $_GET['file']
 	));
 
-// Trim any +'s or spaces from the end of file and clear any ../'s
-$file = str_replace("../","",rtrim(rtrim($file,'+'),' '));
+// Trim any +'s or spaces from the end of file
+$file = rtrim(rtrim($file,'+'),' ');
 
-// Make $file a full path and establish the $fileLoc and $fileName
-if (strpos($file,$docRoot)===false && $_GET['action']!="getRemoteFile") {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
+// Make each path in $file a full path (; seperated list)
+$allFiles = explode(";",$file);
+for ($i=0; $i<count($allFiles); $i++) {
+	if (strpos($allFiles[$i],$docRoot)===false && $_GET['action']!="getRemoteFile") {
+		$allFiles[$i]=str_replace("|","/",$docRoot.$iceRoot.$allFiles[$i]);
+	}
+};
+$file = implode(";",$allFiles);
+
+// Establish the $fileLoc and $fileName (used in single file cases, eg opening. Multiple file cases, eg deleting, is worked out in that loop)
 $fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
 $fileName = basename($file);
 
-// Die if the file requested isn't something we expect
-if(
-        ($_GET['action']!="getRemoteFile" && strpos(realpath($file),realpath($docRoot)) !== 0) ||
-        ($_GET['action']=="getRemoteFile" && strpos($file,"http") !== 0)
-        ) {
-        die("alert('Sorry - problem with file requested');</script>");
-};
+// Check through all files to make sure they're valid/safe
+$allFiles = explode(";",$file);
+for ($i=0; $i<count($allFiles); $i++) {
+	// Die if the file requested isn't something we expect
+	if(
+        	($_GET['action']!="getRemoteFile" && strpos(realpath($allFiles[$i]),realpath($docRoot)) !== 0) ||
+	        ($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
+        	) {
+	        die("alert('Sorry - problem with file requested');</script>");
+	};
+}
 
+// Uncomment to alert and console.log the action and file, useful for debugging
 // echo ";alert('".xssClean($_GET['action'],"html")." : ".$file."');console.log('".xssClean($_GET['action'],"html")." : ".$file."');";
 
 // If we're due to open a file...
