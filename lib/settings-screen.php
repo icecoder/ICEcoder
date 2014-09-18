@@ -219,7 +219,7 @@ function findSequence(goal) {
 	<div>
 	<h2>github</h2>
 	<?php echo $t['auth token'];?> <span class="info" title="<?php echo $t['Required to get...'];?>">[?]</span><br>
-	<input type="text" name="githubAuthToken" style="width: 300px" onkeydown="showButton()" value="<?php echo $ICEcoder["githubAuthToken"];?>">
+	<input type="text" name="githubAuthToken" style="width: 300px" onkeydown="showButton()" value="<?php echo $ICEcoder["githubAuthToken"];?>" autocomplete="off">
 	</div>
 </span>
 
