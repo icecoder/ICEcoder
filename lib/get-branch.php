@@ -297,7 +297,7 @@ if ($_SESSION['githubDiff']) {
 					} else {
 						top.ICEcoder.showHide('hide',top.get('loadingMask'));
 					}
-				},40);
+				},100);
 			},4);
 		} else {
 			// There was an error, display HTTP error code and response message
