@@ -39,7 +39,7 @@ for ($i=0; $i<count($allFiles); $i++) {
         	($_GET['action']!="getRemoteFile" && strpos(realpath($allFiles[$i]),realpath($docRoot)) !== 0) ||
 	        ($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
         	) {
-	        die("alert('Sorry - problem with file requested');</script>");
+	        die("alert('Sorry - problem with file/folder requested');window.history.back();</script>");
 	};
 }
 

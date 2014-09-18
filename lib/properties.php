@@ -7,7 +7,7 @@ $t = $text['properties'];
 $fileName=realpath($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['fileName'])));
 // If it doesn't exist, or doesn't start with the $docRoot, stop here
 if (!file_exists($fileName) || strpos(str_replace("\\","/",$fileName),$docRoot) !== 0) {
-        die("<script>alert('Sorry, that file/folder doesn\'t appear to exist');</script>");
+        die("<script>alert('Sorry - problem with file/folder requested');window.history.back();</script>");
 }
 ?>
 <!DOCTYPE html>
