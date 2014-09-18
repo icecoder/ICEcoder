@@ -18,7 +18,6 @@ $t = $text['get-branch'];
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> get branch</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<script src="base64.js"></script>
 <script src="github.js"></script>
 </head>
 

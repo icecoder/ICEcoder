@@ -23,7 +23,6 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		echo '<!DOCTYPE html>
 			<html>
 			<head>
-			<script src="base64.js"></script>
 			<script src="github.js"></script>
 			</body>
 			<script>
@@ -121,7 +120,6 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> GitHub commit files</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="robots" content="noindex, nofollow">
-		<script src="base64.js"></script>
 		<script src="github.js"></script>
 		<link rel="stylesheet" type="text/css" href="github.css">
 		</head>
