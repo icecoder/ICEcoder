@@ -226,5 +226,17 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	<?php
 	}
 
+	// ====
+	// PULL
+	// ====
+	if ($_GET['action']=="pull") {
+	?>
+	<script>
+		top.ICEcoder.showHide('hide',top.get('blackMask'));
+		top.ICEcoder.message("Pull actions not yet available. Will be in ICEcoder v4.3");
+	</script>
+	<?php
+	}
+
 }
 ?>
