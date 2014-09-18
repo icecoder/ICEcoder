@@ -18,6 +18,11 @@ $file = str_replace("|","/",strClean(
 // Trim any +'s or spaces from the end of file and clear any ../'s
 $file = str_replace("../","",rtrim(rtrim($file,'+'),' '));
 
+// Make $file a full path and establish the $fileLoc and $fileName
+if (strpos($file,$docRoot)===false && $_GET['action']!="getRemoteFile") {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
+$fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
+$fileName = basename($file);
+
 // Die if the file requested isn't something we expect
 if(
         ($_GET['action']!="getRemoteFile" && strpos(realpath($file),realpath($docRoot)) !== 0) ||
@@ -25,11 +30,6 @@ if(
         ) {
         die("alert('Sorry - problem with file requested');</script>");
 };
-
-// Make $file a full path and establish the $fileLoc and $fileName
-if (strpos($file,$docRoot)===false && $_GET['action']!="getRemoteFile") {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
-$fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
-$fileName = basename($file);
 
 // echo ";alert('".xssClean($_GET['action'],"html")." : ".$file."');console.log('".xssClean($_GET['action'],"html")." : ".$file."');";
 
