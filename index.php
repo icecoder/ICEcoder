@@ -6,6 +6,7 @@ $t = $text['index'];
 // Check IP permissions
 if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*", $_SESSION['allowedIPs'])) {
 	header('Location: /');
+	die("Sorry, not in allowed IPs list");
 };
 
 $updateMsg = '';
