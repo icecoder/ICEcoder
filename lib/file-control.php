@@ -36,7 +36,7 @@ $allFiles = explode(";",$file);
 for ($i=0; $i<count($allFiles); $i++) {
 	// Die if the file requested isn't something we expect
 	if(
-        	($_GET['action']!="getRemoteFile" && strpos(realpath($allFiles[$i]),realpath($docRoot)) !== 0) ||
+        	($_GET['action']!="getRemoteFile" && $_GET['action']!="upload" && strpos(realpath($allFiles[$i]),realpath($docRoot)) !== 0) ||
 	        ($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
         	) {
 	        die("alert('Sorry - problem with file/folder requested');window.history.back();</script>");
