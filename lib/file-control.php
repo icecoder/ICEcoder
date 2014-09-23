@@ -15,8 +15,14 @@ $file = str_replace("|","/",strClean(
 	: $_GET['file']
 	));
 
+// Put the original $file var aside for use
+$fileOrig = $file;
+
 // Trim any +'s or spaces from the end of file
 $file = rtrim(rtrim($file,'+'),' ');
+
+// Also remove [NEW] from $file, we can consider $_GET['action'] or $fileOrig to pick that up
+$file = rtrim($file,'[NEW]');
 
 // Make each path in $file a full path (; seperated list)
 $allFiles = explode(";",$file);
@@ -34,17 +40,23 @@ $fileName = basename($file);
 // Check through all files to make sure they're valid/safe
 $allFiles = explode(";",$file);
 for ($i=0; $i<count($allFiles); $i++) {
+
+	// Uncomment to alert and console.log the action and file, useful for debugging
+	// echo ";alert('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');console.log('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');";
+
 	// Die if the file requested isn't something we expect
 	if(
-        	($_GET['action']!="getRemoteFile" && $_GET['action']!="upload" && strpos(realpath($allFiles[$i]),realpath($docRoot)) !== 0) ||
-	        ($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
-        	) {
-	        die("alert('Sorry - problem with file/folder requested');window.history.back();</script>");
+		// A local folder that isn't the doc root or starts with the doc root
+		($_GET['action']!="getRemoteFile" &&
+			rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
+			strpos(realpath(rtrim(dirname($allFiles[$i]),"/")),realpath(rtrim($docRoot,"/"))) !== 0
+		) ||
+		// Or a remote URL that doesn't start http
+		($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
+		) {
+		die("alert('Sorry! - problem with file requested');</script>");
 	};
 }
-
-// Uncomment to alert and console.log the action and file, useful for debugging
-// echo ";alert('".xssClean($_GET['action'],"html")." : ".$file."');console.log('".xssClean($_GET['action'],"html")." : ".$file."');";
 
 // If we're due to open a file...
 if ($_GET['action']=="load") {
@@ -461,7 +473,7 @@ if (action=="load") {
 <script>
 if (action=="save") {
 	<?php
-	if (strpos($file,"[NEW]")>0||$saveType=="saveAs") {
+	if (strpos($fileOrig,"[NEW]")>0||$saveType=="saveAs") {
 	?>
 		fileLoc = '<?php echo $fileLoc;?>';
 		newFileName = top.ICEcoder.getInput('<?php echo $t['Enter filename to...']; ?> '+(fileLoc!='' ? fileLoc : '/'),'');
@@ -475,7 +487,7 @@ if (action=="save") {
 		document.saveFile.newFileName.value = '<?php echo $docRoot; ?>' + newFileName;
 	<?php ;};?>
 	if ("undefined" == typeof newFileName || (newFileName && "undefined" == typeof overwriteOK) || ("undefined" != typeof overwriteOK && overwriteOK)) {
-		top.ICEcoder.serverMessage('<b><?php echo $t['Saving']; ?></b><br>'+ <?php echo strpos($file,"[NEW]")>0 ? "newFileName" : "'$file'"; ?>);
+		top.ICEcoder.serverMessage('<b><?php echo $t['Saving']; ?></b><br>'+ <?php echo strpos($fileOrig,"[NEW]")>0 ? "newFileName" : "'$file'"; ?>);
 		document.saveFile.contents.value = top.document.getElementById('saveTemp1').value;
 		document.saveFile.submit();
 	} else {
