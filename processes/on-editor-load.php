@@ -13,35 +13,39 @@ CodeMirror.commands.autocomplete = function(cm) {
 
 // Switch the CodeMirror mode on demand
 top.ICEcoder.switchMode = function(mode) {
-	var cM, fileName;
+	var cM, fileName, fileExt;
 
 	cM = top.ICEcoder.getcMInstance();
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 	if (cM && mode) {
 		cM.setOption("mode",mode);
 	} else if (cM && fileName) {
-		fileName.indexOf('.js')>0	? cM.setOption("mode","text/javascript")
-		: fileName.indexOf('.coffee')>0	? cM.setOption("mode","text/x-coffeescript")
-		: fileName.indexOf('.rb')>0	? cM.setOption("mode","text/x-ruby")
-		: fileName.indexOf('.py')>0	? cM.setOption("mode","text/x-python")
-		: fileName.indexOf('.css')>0	? cM.setOption("mode","text/css")
-		: fileName.indexOf('.less')>0	? cM.setOption("mode","text/x-less")
-		: fileName.indexOf('.md')>0	? cM.setOption("mode","text/x-markdown")
-		: fileName.indexOf('.xml')>0	? cM.setOption("mode","application/xml")
-		: fileName.indexOf('.sql')>0	? cM.setOption("mode","text/x-mysql") // also text/x-sql, text/x-mariadb, text/x-cassandra or text/x-plsql
-		: fileName.indexOf('.erl')>0	? cM.setOption("mode","text/x-erlang")
-		: fileName.indexOf('.yaml')>0	? cM.setOption("mode","text/x-yaml")
-		: fileName.indexOf('.java')>0	? cM.setOption("mode","text/x-java")
-		: fileName.indexOf('.jl')>0	? cM.setOption("mode","text/x-julia")
-		: fileName.indexOf('.c')>0	? cM.setOption("mode","text/x-csrc")
-		: fileName.indexOf('.cpp')>0	? cM.setOption("mode","text/x-c++src")
-		: fileName.indexOf('.cs')>0	? cM.setOption("mode","text/x-csharp")
-		: fileName.indexOf('.go')>0	? cM.setOption("mode","text/x-go")
-		: fileName.indexOf('.lua')>0	? cM.setOption("mode","text/x-lua")
-		: fileName.indexOf('.pl')>0	? cM.setOption("mode","text/x-perl")
-		: fileName.indexOf('.rs')>0	? cM.setOption("mode","text/x-rustsrc")
-		: fileName.indexOf('.scss')>0	? cM.setOption("mode","text/x-sass")
-		: cM.setOption("mode","application/x-httpd-php");
+		fileExt = fileName.split(".");
+		fileExt = fileExt[fileExt.length-1];
+		cM.setOption("mode",
+			  fileExt == "js"	? "text/javascript"
+			: fileExt == "coffee"	? "text/x-coffeescript"
+			: fileExt == "rb"	? "text/x-ruby"
+			: fileExt == "py"	? "text/x-python"
+			: fileExt == "css"	? "text/css"
+			: fileExt == "less"	? "text/x-less"
+			: fileExt == "md"	? "text/x-markdown"
+			: fileExt == "xml"	? "application/xml"
+			: fileExt == "sql"	? "text/x-mysql" // also text/x-sql, text/x-mariadb, text/x-cassandra or text/x-plsql
+			: fileExt == "erl"	? "text/x-erlang"
+			: fileExt == "yaml"	? "text/x-yaml"
+			: fileExt == "java"	? "text/x-java"
+			: fileExt == "jl"	? "text/x-julia"
+			: fileExt == "c"	? "text/x-csrc"
+			: fileExt == "cpp"	? "text/x-c++src"
+			: fileExt == "cs"	? "text/x-csharp"
+			: fileExt == "go"	? "text/x-go"
+			: fileExt == "lua"	? "text/x-lua"
+			: fileExt == "pl"	? "text/x-perl"
+			: fileExt == "rs"	? "text/x-rustsrc"
+			: fileExt == "scss"	? "text/x-sass"
+			: "application/x-httpd-php"
+		);
 	}
 }
 
@@ -112,9 +116,12 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 
 // Work out the nesting depth location on demand and update our display if required
 top.ICEcoder.getNestLocationSub = function(nestCheck, fileName) {
-	var events;
+	var events, fileExt;
 
-	if (["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileName.split(".")[1])<0 &&
+	fileExt = fileName.split(".");
+	fileExt = fileExt[fileExt.length-1];
+
+	if (["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileExt)<0 &&
 		(nestCheck.indexOf("include(")==-1)&&(nestCheck.indexOf("include_once(")==-1)) {
 
 		// Then for all the array items, output as the nest display
@@ -134,12 +141,16 @@ top.ICEcoder.getNestLocationSub = function(nestCheck, fileName) {
 
 // Indicate if the nesting structure of the code is OK
 top.ICEcoder.updateNestingIndicator = function() {
-	var cM, testToken, nestOK, fileName;
+	var cM, testToken, nestOK, fileName, fileExt;
 
 	cM = top.ICEcoder.getcMInstance();
 	nestOK = true;
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	if (cM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileName.split(".")[1])==-1) {
+	if (fileName) {
+		fileExt = fileName.split(".");
+		fileExt = fileExt[fileExt.length-1];
+	}
+	if (cM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileExt)==-1) {
 		testToken = cM.getTokenAt({line:cM.lineCount(),ch:cM.lineInfo(cM.lineCount()-1).text.length});
 		nestOK = testToken.type && testToken.type.indexOf("error") == -1 ? true : false;
 	}
@@ -149,7 +160,7 @@ top.ICEcoder.updateNestingIndicator = function() {
 
 // Determine which area of the document we're in
 top.ICEcoder.caretLocationType = function() {
-	var cM, caretLocType, caretChunk, fileName;
+	var cM, caretLocType, caretChunk, fileName, fileExt;
 
 	cM = top.ICEcoder.getcMInstance();
 	caretLocType = "Unknown";
@@ -163,27 +174,31 @@ top.ICEcoder.caretLocationType = function() {
 
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 	if (fileName) {
-		if (fileName.indexOf(".js")>0) {caretLocType="JavaScript"} 
-		else if (fileName.indexOf(".coffee")>0)	{caretLocType="CoffeeScript"} 
-		else if (fileName.indexOf(".py")>0)	{caretLocType="Python"} 
-		else if (fileName.indexOf(".rb")>0)	{caretLocType="Ruby"} 
-		else if (fileName.indexOf(".css")>0)	{caretLocType="CSS"} 
-		else if (fileName.indexOf(".less")>0)	{caretLocType="LESS"} 
-		else if (fileName.indexOf(".md")>0)	{caretLocType="Markdown"}
-		else if (fileName.indexOf(".xml")>0)	{caretLocType="XML"}
-		else if (fileName.indexOf(".sql")>0)	{caretLocType="SQL"}
-		else if (fileName.indexOf(".yaml")>0)	{caretLocType="YAML"}
-		else if (fileName.indexOf(".java")>0)	{caretLocType="Java"}
-		else if (fileName.indexOf(".erl")>0)	{caretLocType="Erlang"}
-		else if (fileName.indexOf(".jl")>0)	{caretLocType="Julia"}
-		else if (fileName.indexOf(".c")>0 && fileName.indexOf(".cpp")<0 && fileName.indexOf(".cs")<0)	{caretLocType="C"}
-		else if (fileName.indexOf(".cpp")>0)	{caretLocType="C++"}
-		else if (fileName.indexOf(".cs")>0)	{caretLocType="C#"}
-		else if (fileName.indexOf(".go")>0)	{caretLocType="Go"}
-		else if (fileName.indexOf(".lua")>0)	{caretLocType="Lua"}
-		else if (fileName.indexOf(".pl")>0)	{caretLocType="Perl"}
-		else if (fileName.indexOf(".rs")>0)	{caretLocType="Rust"}
-		else if (fileName.indexOf(".scss")>0)	{caretLocType="Sass"};
+		fileExt = fileName.split(".");
+		fileExt = fileExt[fileExt.length-1];
+		caretLocType =
+			  fileExt == "js"	? "JavaScript"
+			: fileExt == "coffee"	? "CoffeeScript"
+			: fileExt == "py"	? "Python"
+			: fileExt == "rb"	? "Ruby"
+			: fileExt == "css"	? "CSS"
+			: fileExt == "less"	? "LESS"
+			: fileExt == "md"	? "Markdown"
+			: fileExt == "xml"	? "XML"
+			: fileExt == "sql"	? "SQL"
+			: fileExt == "yaml"	? "YAML"
+			: fileExt == "java"	? "Java"
+			: fileExt == "erl"	? "Erlang"
+			: fileExt == "jl"	? "Julia"
+			: fileExt == "c"	? "C"
+			: fileExt == "cpp"	? "C++"
+			: fileExt == "cs"	? "C#"
+			: fileExt == "go"	? "Go"
+			: fileExt == "lua"	? "Lua"
+			: fileExt == "pl"	? "Perl"
+			: fileExt == "rs"	? "Rust"
+			: fileExt == "scss"	? "Sass"
+			: "Content";
 	}
 
 	top.ICEcoder.caretLocType = caretLocType;
