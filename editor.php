@@ -151,7 +151,9 @@ h2 {color: rgba(0,198,255,0.7)}
 
 <script>
 CodeMirror.keyMap.ICEcoder = {
-	// "Tab": "defaultTab", **Now used by Emmet**
+	"Tab": function(cm) {
+		return cm.somethingSelected() ? cm.execCommand("indentAuto") : CodeMirror.Pass // Falls through to default or Emmet plugin
+	},
 	"Shift-Tab": "indentLess",
 	"Ctrl-Space": "autocomplete",
 	"Ctrl-Up" : false,
