@@ -16,7 +16,10 @@ $context = stream_context_create(array('http'=>
 ));
 
 // Start a session if we haven't already
-if(!isset($_SESSION)) {@session_start();}
+if(!isset($_SESSION)) {
+	session_save_path(dirname(__FILE__).'/../tmp');
+	@session_start();
+}
 
 // Set the language file
 $text = $_SESSION['text'];
@@ -28,7 +31,7 @@ if (isset($_GET['logout'])) {
 	$_SESSION['loggedIn']=false;
 	$_SESSION['username']=false;
 	session_destroy();
-	header("Location: dirname(__FILE__)./?loggedOut");
+	header("Location: ".dirname(__FILE__)."/?loggedOut");
 }
 
 // If magic quotes are still on (attempted to switch off in php.ini)
