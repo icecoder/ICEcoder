@@ -405,7 +405,7 @@ $text = array(
 							"- full client/secret pair token (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
 							"Det anbefales ikke, at du setter token din her midlertidig, og vær sikre på å oppgi den, når du blir bedt av ICEcoder, som vil holde den i økten sin.".PHP_EOL.PHP_EOL.
 							"Men hvis du jobber i et trygt og sikkert miljø, er det mer effektivt å sette den her.",
-		"Beklager, kan ikke bekrefte..."	=> "Beklager, kan ikke bekrefte innstillinger i demo-modus",
+		"Sorry cannot commit..."	=> "Beklager, kan ikke bekrefte innstillinger i demo-modus",
 		"update"			=> "oppdatere"
 	),
 
