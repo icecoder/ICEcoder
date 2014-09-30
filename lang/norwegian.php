@@ -413,7 +413,7 @@ $text = array(
 	array(
 		"Cannot update config..."	=> "Kan ikke oppdatere konfigurasjonsfilen. Vennligst sett offentlige skriverettigheter;",
 		"and try again"			=> "og prøv igjen",
-		"and press refresh"		=> "og trykker refresh"
+		"and press refresh"		=> "og trykk refresh"
 	),
 
 	"updater" =>
