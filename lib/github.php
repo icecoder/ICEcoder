@@ -234,7 +234,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	?>
 	<script>
 		top.ICEcoder.showHide('hide',top.get('blackMask'));
-		top.ICEcoder.message("Pull actions not yet available. Will be in ICEcoder v4.3");
+		top.ICEcoder.message("Pull actions not yet available. Will be in ICEcoder v4.4");
 	</script>
 	<?php
 	}
