@@ -423,46 +423,32 @@ if (action=="load") {
 
 				// If we're in GitHub diff mode and have a split pane display, get the content for the diff pane
 				if (top.ICEcoder.githubDiff && top.ICEcoder.splitPane) {
-					/*
-
-					THIS IS NOT WORKING AT PRESENT, WON'T PULL IN CONTENT FROM GITHUB
-
-					// Start our github object
-					var github = new Github({token: "<?php echo $_SESSION['githubAuthToken'];?>", auth: "oauth"});
-					console.log("<?php echo $_SESSION['githubAuthToken'];?>");
 					<?php
-					// Get our GitHub relative site path
+					// Get our GitHub relative site path & local path
 					$ghRemoteURLPos = array_search($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
+
+					$ghLocalURLPaths = $ICEcoder['githubLocalPaths'];
+					$ghLocalPath = $ghLocalURLPaths[$ghRemoteURLPos];
+
 					$ghRemoteURLPaths = $ICEcoder['githubRemotePaths'];
 					$ghRemoteURL = $ghRemoteURLPaths[$ghRemoteURLPos];
-					$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
-					?>
 
-					top.repo = '<?php echo $ghRemoteURL;?>';
-					var githubFilePath = '<?php
+					$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
+					$ghRemoteURL = str_replace("/","|",$ghRemoteURL);
+
 					// If the file is not in a sub-sub dir of the doc root
 					if (!strpos($fileLoc,"/",1)) {
 						// The file path is simply the file name in the root
-						echo $fileName;
+						$ghFilePath = $fileName;
 					} else {
-						echo 'subdir';
-						//$githubFilePath = substr($fileLoc, $githubFilePathSlashPos); 	//echo $githubFilePathSlashPos.'/'.$fileName; //echo $githubFilePathSlashPos.' == '.$githubFilePath.'/'.$fileName;
+						// We need to get rid of the root dir and trailing slash
+						$ghFilePath = substr(str_replace($ghLocalPath,"",$fileLoc),1);
+						// If it's not within a sub-dir, it's just the filename, otherwise prefix with dir path and pipe
+						$ghFilePath = $ghFilePath == "" ? $fileName : $ghFilePath."|".$fileName;
 					}
-					?>';
+					?>
 
-					console.log(top.repo.split("/")[0] + " / " + top.repo.split("/")[1] + " : " + githubFilePath);
-
-					var repo = github.getRepo(top.repo.split("/")[0], top.repo.split("/")[1]);
-
-					repo.getTree('master?recursive=true', function(err, tree) {
-						console.log(err);
-						console.log(tree);
-					});
-					//repo.read('master', githubFilePath, function(err, data) {
-					//	console.log(err);
-					//	console.log(data);
-					//});
-					*/
+					top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = "github.php?action=read&repo=<?php echo $ghRemoteURL;?>&filePath=<?php echo $ghFilePath;?>&csrf="+top.ICEcoder.csrf;
 				}
 
 				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on ICEcoder's load)
