@@ -13,16 +13,18 @@ CodeMirror.commands.autocomplete = function(cm) {
 
 // Switch the CodeMirror mode on demand
 top.ICEcoder.switchMode = function(mode) {
-	var cM, fileName, fileExt;
+	var cM, cMdiff, thisCM, fileName, fileExt;
 
 	cM = top.ICEcoder.getcMInstance();
+	cMdiff = top.ICEcoder.getcMdiffInstance();
+	thisCM = top.ICEcoder.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	if (cM && mode) {
-		cM.setOption("mode",mode);
-	} else if (cM && fileName) {
+	if (thisCM && mode) {
+		thisCM.setOption("mode",mode);
+	} else if (thisCM && fileName) {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
-		cM.setOption("mode",
+		thisCM.setOption("mode",
 			  fileExt == "js"	? "text/javascript"
 			: fileExt == "coffee"	? "text/x-coffeescript"
 			: fileExt == "rb"	? "text/x-ruby"
@@ -141,17 +143,19 @@ top.ICEcoder.getNestLocationSub = function(nestCheck, fileName) {
 
 // Indicate if the nesting structure of the code is OK
 top.ICEcoder.updateNestingIndicator = function() {
-	var cM, testToken, nestOK, fileName, fileExt;
+	var cM, cMdiff, thisCM, testToken, nestOK, fileName, fileExt;
 
 	cM = top.ICEcoder.getcMInstance();
+	cMdiff = top.ICEcoder.getcMdiffInstance();
+	thisCM = top.ICEcoder.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
 	nestOK = true;
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 	if (fileName) {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
 	}
-	if (cM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileExt)==-1) {
-		testToken = cM.getTokenAt({line:cM.lineCount(),ch:cM.lineInfo(cM.lineCount()-1).text.length});
+	if (thisCM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileExt)==-1) {
+		testToken = thisCM.getTokenAt({line:thisCM.lineCount(),ch:thisCM.lineInfo(thisCM.lineCount()-1).text.length});
 		nestOK = testToken.type && testToken.type.indexOf("error") == -1 ? true : false;
 	}
 	top.ICEcoder.nestValid.style.background = nestOK ? "#0b0" : "#f00";
@@ -160,11 +164,13 @@ top.ICEcoder.updateNestingIndicator = function() {
 
 // Determine which area of the document we're in
 top.ICEcoder.caretLocationType = function() {
-	var cM, caretLocType, caretChunk, fileName, fileExt;
+	var cM, cMdiff, thisCM, caretLocType, caretChunk, fileName, fileExt;
 
 	cM = top.ICEcoder.getcMInstance();
+	cMdiff = top.ICEcoder.getcMdiffInstance();
+	thisCM = top.ICEcoder.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
 	caretLocType = "Unknown";
-	caretChunk = cM.getValue().substr(0,top.ICEcoder.caretPos+1);
+	caretChunk = thisCM.getValue().substr(0,top.ICEcoder.caretPos+1);
 
 	if(caretChunk.lastIndexOf("<script")>caretChunk.lastIndexOf("/script>")&&caretLocType=="Unknown") {caretLocType = "JavaScript";}
 	else if (caretChunk.lastIndexOf("<?")>caretChunk.lastIndexOf("?>")&&caretLocType=="Unknown") {caretLocType = "PHP";}
