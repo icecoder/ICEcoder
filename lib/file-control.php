@@ -3,6 +3,10 @@ include("headers.php");
 include("settings.php");
 $t = $text['file-control'];
 ?>
+<?php if ($_SESSION['githubDiff']) { ?>
+<script src="github.js"></script>
+<script src="underscore-min.js"></script>
+<?php ;}; ?>
 <script>
 <?php
 // Get the save type if any
@@ -372,7 +376,7 @@ if ($_GET['action']=="save") {
 				echo '</script><textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
 				echo '<textarea name="userVersionFile" id="userVersionFile"></textarea><script>';
 				?>
-				var refreshFile = top.ICEcoder.ask('<?php echo $t['Sorry, this file...']."\n".$file."\n\n".$t['Reload this file...'];?>');
+				var refreshFile = top.ICEcoder.ask('<?php echo $t['Sorry, this file...']."\\n".$file."\\n\\n".$t['Reload this file...'];?>');
 				if (refreshFile) {
 					var cM = top.ICEcoder.getcMInstance();
 					var thisTab = top.ICEcoder.selectedTab;
@@ -382,13 +386,10 @@ if ($_GET['action']=="save") {
 					top.ICEcoder.savedPoints[thisTab-1] = cM.changeGeneration();
 					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo $filemtime; ?>";
 					cM.clearHistory();
-					// Now for the new file
-					top.ICEcoder.newTab();
-					cM = top.ICEcoder.getcMInstance();
-					cM.setValue(document.getElementById('userVersionFile').value);
-					cM.clearHistory();
-					// Finally, switch back to original tab
-					top.ICEcoder.switchTab(thisTab);
+					// Now for the new version in the diff pane
+					top.ICEcoder.setSplitPane('on');
+					var cMdiff = top.ICEcoder.getcMdiffInstance();
+					cMdiff.setValue(document.getElementById('userVersionFile').value);
 				}
 				action='nothing';
 				<?php
@@ -420,6 +421,50 @@ if (action=="load") {
 				top.ICEcoder.setLayout();
 				top.ICEcoder.content.contentWindow.createNewCMInstance(top.ICEcoder.nextcMInstance);
 
+				// If we're in GitHub diff mode and have a split pane display, get the content for the diff pane
+				if (top.ICEcoder.githubDiff && top.ICEcoder.splitPane) {
+					/*
+
+					THIS IS NOT WORKING AT PRESENT, WON'T PULL IN CONTENT FROM GITHUB
+
+					// Start our github object
+					var github = new Github({token: "<?php echo $_SESSION['githubAuthToken'];?>", auth: "oauth"});
+					console.log("<?php echo $_SESSION['githubAuthToken'];?>");
+					<?php
+					// Get our GitHub relative site path
+					$ghRemoteURLPos = array_search($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
+					$ghRemoteURLPaths = $ICEcoder['githubRemotePaths'];
+					$ghRemoteURL = $ghRemoteURLPaths[$ghRemoteURLPos];
+					$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
+					?>
+
+					top.repo = '<?php echo $ghRemoteURL;?>';
+					var githubFilePath = '<?php
+					// If the file is not in a sub-sub dir of the doc root
+					if (!strpos($fileLoc,"/",1)) {
+						// The file path is simply the file name in the root
+						echo $fileName;
+					} else {
+						echo 'subdir';
+						//$githubFilePath = substr($fileLoc, $githubFilePathSlashPos); 	//echo $githubFilePathSlashPos.'/'.$fileName; //echo $githubFilePathSlashPos.' == '.$githubFilePath.'/'.$fileName;
+					}
+					?>';
+
+					console.log(top.repo.split("/")[0] + " / " + top.repo.split("/")[1] + " : " + githubFilePath);
+
+					var repo = github.getRepo(top.repo.split("/")[0], top.repo.split("/")[1]);
+
+					repo.getTree('master?recursive=true', function(err, tree) {
+						console.log(err);
+						console.log(tree);
+					});
+					//repo.read('master', githubFilePath, function(err, data) {
+					//	console.log(err);
+					//	console.log(data);
+					//});
+					*/
+				}
+
 				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on ICEcoder's load)
 				top.ICEcoder.switchMode();
 				cM = top.ICEcoder.getcMInstance();
@@ -431,8 +476,8 @@ if (action=="load") {
 
 				// Then clean it up, set the text cursor, update the display and get the character data
 				top.ICEcoder.contentCleanUp();
-				top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].removeLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]], "background");
-				top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].addLineClass(0, "background", "cm-s-activeLine");
+				top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].removeLineClass(top.ICEcoder['cMActiveLinecM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]], "background");
+				top.ICEcoder['cMActiveLinecM'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].addLineClass(0, "background", "cm-s-activeLine");
 				top.ICEcoder.nextcMInstance++;
 				top.ICEcoder.openFileMDTs.push('<?php echo $serverType=="Linux" ? filemtime($file) : "1000000"; ?>');
 				for (var i=0; i<cM.lineCount(); i++) {
