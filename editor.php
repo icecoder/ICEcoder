@@ -44,7 +44,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light",
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
 .cm-matchhighlight, .CodeMirror-focused .cm-matchhighlight {color: #fff !important; background: #06c !important}
 /* Make sure this next one remains the 5th item, updated with JS */
-.cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
+.cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.15)}
 .cm-trailingspace {
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUXCToH00Y1UgAAACFJREFUCNdjPMDBUc/AwNDAAAFMTAwMDA0OP34wQgX/AQBYgwYEx4f9lQAAAABJRU5ErkJggg==);
         background-position: bottom left;
@@ -60,6 +60,10 @@ $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light",
 .demoArrow {position: absolute; display: inline-block; width: 99px; height: 50px; top: 0; right: 30px; background: url('images/big-arrow.gif') 0 -10px no-repeat; text-align: center; font-family: arial; font-size: 10px; padding-top: 60px}
 h2 {color: rgba(0,198,255,0.7)}
 .heading {color:#888}
+.cm-s-diff {left: 50%}
+.diffGreen {background: #0b0 !important; color: #fff !important}
+.diffRed {background: #800 !important; color: #fff !important}
+.diffGrey {background: #888 !important; color: #fff !important}
 </style>
 <link rel="stylesheet" href="lib/file-types.css">
 <link rel="stylesheet" href="lib/file-type-icons.css">
@@ -162,9 +166,11 @@ CodeMirror.keyMap.ICEcoder = {
 };
 
 function createNewCMInstance(num) {
+	// Establish the filename for the tab
 	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 
-	window['cM'+num] = CodeMirror(document.body, {
+	// Define our CodeMirror options
+	var cMOptions = {
 		mode: "application/x-httpd-php",
 		lineNumbers: true,
 		gutters: ["folds","CodeMirror-lint-markers","CodeMirror-linenumbers"],
@@ -179,137 +185,54 @@ function createNewCMInstance(num) {
 		showTrailingSpace: true,
 		lintWith: <?php if ($ICEcoder['codeAssist']) {echo 'fileName && fileName.indexOf(".js")>-1 ? CodeMirror.javascriptValidator : ';};?>false,
 		keyMap: "ICEcoder"
-	});
+	};
 
-	window['cM'+num].on("keyup", function(thisCM) {
-			if ("undefined" != typeof top.doFind) {
-				clearInterval(top.doFind);
-			}
-			top.doFind = setTimeout(function() {
-				top.ICEcoder.findReplace(top.document.getElementById('find').value,true,false);
-			},500);
-			top.ICEcoder.getCaretPosition();
-			top.ICEcoder.updateCharDisplay();
-			top.ICEcoder.updateByteDisplay();
-			tok = thisCM.getTokenAt(thisCM.getCursor());
-		}
-	);
+	// Start editor instances, main and diff
+	window['cM'+num]	= CodeMirror(document.body, cMOptions);
+	window['cM'+num+'diff']	= CodeMirror(document.body, cMOptions);
 
-	window['cM'+num].on("cursorActivity", function(thisCM) {
-			top.ICEcoder.getCaretPosition();
-			top.ICEcoder.updateCharDisplay();
-			top.ICEcoder.updateByteDisplay();
-			window['cM'+num].removeLineClass(top.ICEcoder['cMActiveLine'+num], "background");
-			if(window['cM'+num].getCursor('start').line == window['cM'+num].getCursor().line) {
-				top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(window['cM'+num].getCursor().line, "background","cm-s-activeLine");
-			}
-			if (top.ICEcoder.caretLocType=="CSS") {
-				top.ICEcoder.cssColorPreview();
-			}
-			if (top.ICEcoder.prevLine != window['cM'+num].getCursor().line && 
-				window['cM'+num].getLine(top.ICEcoder.prevLine) && 
-				window['cM'+num].getLine(top.ICEcoder.prevLine).length > 0 && 
-				window['cM'+num].getLine(top.ICEcoder.prevLine).replace(/\s/g, '').length == 0) {
-					window['cM'+num].replaceRange("",{line: top.ICEcoder.prevLine, ch: 0},{line: top.ICEcoder.prevLine, ch: 1000000});
-			}
-		}
-	);
+	// Define actions for those...
 
-	window['cM'+num].on("beforeSelectionChange", function(thisCM, changeObj) {
-			top.ICEcoder.prevLine = window['cM'+num].getCursor().line;
-		}
-	);
+	// Focus
+	window['cM'+num]	.on("focus", function(thisCM) {top.ICEcoder.cMonFocus(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("focus", function(thisCM) {top.ICEcoder.cMonFocus(thisCM,'cM'+num+'diff')});
 
-	window['cM'+num].on("change", function(thisCM, changeObj) {
-			// If we're not loading the file, it's a change, so update tab
-			if (!top.ICEcoder.loadingFile) {
-				top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);
-			}
-			top.ICEcoder.getCaretPosition();
-			top.ICEcoder.dontUpdateNest = false;
-			top.ICEcoder.updateCharDisplay();
-			top.ICEcoder.updateByteDisplay();
-			top.ICEcoder.updateNestingIndicator();
-			if (top.ICEcoder.findMode) {
-				top.ICEcoder.results.splice(top.ICEcoder.findResult,1);
-				top.document.getElementById('results').innerHTML = top.ICEcoder.results.length + " <?php echo $t['results'];?>";
-				top.ICEcoder.findMode = false;
-			}
-			var filepath = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-			if (filepath) {
-				var filename = filepath.substr(filepath.lastIndexOf("/")+1);
-				var fileExt = filename.substr(filename.lastIndexOf(".")+1);
-				for (var i=changeObj.from.line; i<changeObj.from.line+changeObj.text.length; i++) {
-					top.ICEcoder.content.contentWindow.CodeMirror.doFold(window['cM'+num].getLine(i).indexOf("{")>-1 ? "brace" : "xml" ,null ,"+" ,"-", true, thisCM, i);
-				}
-				if (changeObj.text[0] == "}" || changeObj.removed && changeObj.removed[0] == "}") {
-					cursor = window['cM'+num].getSearchCursor("{",window['cM'+num].getCursor(),false);
-					cursor.findPrevious();
-					for (var i=cursor.from().line; i<window['cM'+num].getCursor().line; i++) {
-						top.ICEcoder.content.contentWindow.CodeMirror.doFold(window['cM'+num].getLine(i).indexOf("{")>-1 ? "brace" : "xml" ,null ,"+" ,"-", true, thisCM, i);
-					}
-				}
-			}
-			// Update HTML edited files live
-			if (filepath && top.ICEcoder.previewWindow.location) {
-				if (top.ICEcoder.previewWindow.location.pathname==filepath) {
-					if (["htm","html","txt"].indexOf(fileExt) > -1) {
-						top.ICEcoder.previewWindow.document.documentElement.innerHTML = window['cM'+num].getValue();
-					} else if (["md"].indexOf(fileExt) > -1) {
-						top.ICEcoder.previewWindow.document.documentElement.innerHTML = mmd(window['cM'+num].getValue());
-					}
-				} else if (["css"].indexOf(fileExt) > -1) {
-					if (top.ICEcoder.previewWindow.document.documentElement.innerHTML.indexOf(filename) > -1) {
-						var css = window['cM'+num].getValue();
-						var style = document.createElement('style');
-						style.type = 'text/css';
-						style.id = "ICEcoder"+filepath.replace(/\//g,"_");
-						if (style.styleSheet){
-							style.styleSheet.cssText = css;
-						} else {
-							style.appendChild(document.createTextNode(css));
-						}
-						if (top.ICEcoder.previewWindow.document.getElementById(style.id)) {
-							top.ICEcoder.previewWindow.document.documentElement.removeChild(top.ICEcoder.previewWindow.document.getElementById(style.id));
-						}
-						top.ICEcoder.previewWindow.document.documentElement.appendChild(style);
-					}
-				}
-				// Do the pesticide plugin if it exists
-				try {top.ICEcoder.doPesticide();} catch(err) {};
-			}
-			// Update the title tag to indicate any changes
-			top.ICEcoder.indicateChanges();
-		}
-	);
+	// Blur
+	window['cM'+num]	.on("blur", function(thisCM) {top.ICEcoder.cMonBlur(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("blur", function(thisCM) {top.ICEcoder.cMonBlur(thisCM,'cM'+num+'diff')});
 
-	window['cM'+num].on("scroll", function(thisCM) {
-			top.ICEcoder.mouseDown=false;
-		}
-	);
+	// Keyup
+	window['cM'+num]	.on("keyup", function(thisCM) {top.ICEcoder.cMonKeyUp(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("keyup", function(thisCM) {top.ICEcoder.cMonKeyUp(thisCM,'cM'+num+'diff')});
+	
+	// Cursor activity
+	window['cM'+num]	.on("cursorActivity", function(thisCM) {top.ICEcoder.cMonCursorActivity(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("cursorActivity", function(thisCM) {top.ICEcoder.cMonCursorActivity(thisCM,'cM'+num+'diff')});
 
-	window['cM'+num].on("gutterClick", function(thisCM, line, gutter, clickEvent) {
-			CodeMirror.doFold(window['cM'+num].getLine(line).indexOf("{")>-1 ? "brace" : "xml",null,"+","-",false)(window['cM'+num], line);
-		}
-	);
+	// Before selection change
+	window['cM'+num]	.on("beforeSelectionChange", function(thisCM, changeObj) {top.ICEcoder.prevLine = thisCM.getCursor().line;});
+	window['cM'+num+'diff']	.on("beforeSelectionChange", function(thisCM, changeObj) {top.ICEcoder.prevLineDiff = thisCM.getCursor().line;});
 
-	window['cM'+num].on("inputRead", function(thisCM) {
-			if (top.ICEcoder.autoComplete == "keypress" && top.ICEcoder.codeAssist) {
-				clearTimeout(debounce);
-				if (!thisCM.state.completionActive) {
-					debounce = setTimeout(function() {
-						CodeMirror.commands.autocomplete(window['cM'+num]);
-					},200);
-				}
-			}
-		}
-	);
+	// Change
+	window['cM'+num]	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num,changeObj)});
+	window['cM'+num+'diff']	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num+'diff',changeObj)});
 
-	// Now create the active line for this CodeMirror object
-	top.ICEcoder['cMActiveLine'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
+	// Scroll
+	window['cM'+num]	.on("scroll", function(thisCM) {top.ICEcoder.mouseDown=false;});
+	window['cM'+num+'diff']	.on("scroll", function(thisCM) {top.ICEcoder.mouseDown=false;});
+
+	// Gutter click
+	window['cM'+num]	.on("gutterClick", function(thisCM, line, gutter, clickEvent) {CodeMirror.doFold(thisCM.getLine(line).indexOf("{")>-1 ? "brace" : "xml",null,"+","-",false)(thisCM, line);});
+	window['cM'+num+'diff']	.on("gutterClick", function(thisCM, line, gutter, clickEvent) {CodeMirror.doFold(thisCM.getLine(line).indexOf("{")>-1 ? "brace" : "xml",null,"+","-",false)(thisCM, line);});
+
+	// Input read
+	window['cM'+num]	.on("inputRead", function(thisCM) {top.ICEcoder.cMonInputRead(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("inputRead", function(thisCM) {top.ICEcoder.cMonInputRead(thisCM,'cM'+num+'diff')});
+
+	// Now create the active lines for them
+	top.ICEcoder['cMActiveLinecM'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
+	top.ICEcoder['cMActiveLinecM'+num+'diff'] = window['cM'+num+'diff'].addLineClass(0, "background", "cm-s-activeLine");
 };
-
-var debounce;
 </script>
 
 <div style="position: absolute; display: none; width: 5px; height: 100%; top: 0; right: 0; background: rgba(255,255,255,0.1); overflow: hidden; z-index: 2" id="resultsBar"></div>
