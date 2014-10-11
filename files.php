@@ -28,6 +28,8 @@ if ($isGitHubRepoDir) {
 	$classExtra = !isset($_GET["githubDiff"]) || $_GET["githubDiff"] == "false" ? "Off" : "On";
 	if ($classExtra == "On") {
 		$_SESSION['githubDiff'] = true;
+		// Make sure we are showing the diff pane
+		echo "<script>top.ICEcoder.setSplitPane('on');</script>";
 	}
 	echo '<div title="GitHub" onClick="top.ICEcoder.githubDiffToggle()" class="github'.$classExtra.'"></div>';
 }
