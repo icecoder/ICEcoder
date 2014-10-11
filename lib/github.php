@@ -39,6 +39,39 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			</html>';
 	}
 
+	// ====
+	// READ
+	// ====
+	if ($_GET['action']=="read") {
+		
+		echo '<!DOCTYPE html>
+			<html>
+			<head>
+			<script src="github.js"></script>
+			<script src="underscore-min.js"></script>
+			</body>
+			<script>
+			// Start our github object, establish this repo & file path
+			var github = new Github({token: "'.$_SESSION['githubAuthToken'].'", auth: "oauth"});
+			var thisRepo = "'.$_GET['repo'].'";
+			var thisFilePath = "'.$_GET['filePath'].'";
+
+			// Start our repo and read the data in, then update diff pane with that
+			var repo = github.getRepo(thisRepo.split("|")[0], thisRepo.split("|")[1]);
+			repo.read("master", thisFilePath.replace(/\|/g,"/"), function(err, data) {
+				if (err) {
+					top.ICEcoder.message("There has been an error trying to get that file from GitHub.\n\nGitHub response:\n"+err);
+				} else {
+					cMdiff = top.ICEcoder.getcMdiffInstance();
+					cMdiff.setValue(data);
+				}
+			});
+
+			</script>
+			</body>
+			</html>';
+	}
+
 	// =====
 	// CLONE
 	// =====
