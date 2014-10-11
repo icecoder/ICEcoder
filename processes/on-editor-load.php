@@ -13,18 +13,19 @@ CodeMirror.commands.autocomplete = function(cm) {
 
 // Switch the CodeMirror mode on demand
 top.ICEcoder.switchMode = function(mode) {
-	var cM, cMdiff, thisCM, fileName, fileExt;
+	var cM, cMdiff, fileName, fileExt;
 
 	cM = top.ICEcoder.getcMInstance();
 	cMdiff = top.ICEcoder.getcMdiffInstance();
-	thisCM = top.ICEcoder.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	if (thisCM && mode) {
-		thisCM.setOption("mode",mode);
-	} else if (thisCM && fileName) {
+
+	if (cM && mode) {
+		cM.setOption("mode",mode);
+		cMdiff.setOption("mode",mode);
+	} else if (cM && fileName) {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
-		thisCM.setOption("mode",
+		var mode =
 			  fileExt == "js"	? "text/javascript"
 			: fileExt == "coffee"	? "text/x-coffeescript"
 			: fileExt == "rb"	? "text/x-ruby"
@@ -46,8 +47,10 @@ top.ICEcoder.switchMode = function(mode) {
 			: fileExt == "pl"	? "text/x-perl"
 			: fileExt == "rs"	? "text/x-rustsrc"
 			: fileExt == "scss"	? "text/x-sass"
-			: "application/x-httpd-php"
-		);
+			: "application/x-httpd-php";
+
+		cM.setOption("mode",mode);
+		cMdiff.setOption("mode",mode);
 	}
 }
 
