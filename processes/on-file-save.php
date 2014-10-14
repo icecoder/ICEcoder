@@ -25,7 +25,7 @@ if (strtolower($fileExt) == "scss" && file_exists(dirname(__FILE__)."/../plugins
 
 	try {
 		$scssContent = $scss->compile('@import "'.$fileName.'"');
-		$fh = fopen(substr($file, 0, -$fileNameExtPos)."css", 'w');
+		$fh = fopen(substr($file, 0, -$fileNameExtPos).".css", 'w');
 		fwrite($fh, $scssContent);
 		fclose($fh);
 	} catch (Exception $e) {
@@ -44,7 +44,7 @@ if (strtolower($fileExt) == "less" && file_exists(dirname(__FILE__)."/../plugins
 	$less->setPreserveComments(false);			// true or false
 
 	try {
-		$less->checkedCompile($file, substr($file, 0, -$fileNameExtPos)."css"); // Note: Only recompiles if changed
+		$less->checkedCompile($file, substr($file, 0, -$fileNameExtPos).".css"); // Note: Only recompiles if changed
 	} catch (Exception $e) {
 		echo ";top.ICEcoder.message('Couldn\'t compile your LESS, error info below:\\n\\n".$e->getMessage()."');";
 	}
