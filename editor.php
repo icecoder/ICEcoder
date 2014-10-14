@@ -64,6 +64,7 @@ h2 {color: rgba(0,198,255,0.7)}
 .diffGreen {background: #0b0 !important; color: #fff !important}
 .diffRed {background: #800 !important; color: #fff !important}
 .diffGrey {background: #888 !important; color: #fff !important}
+.diffNone {}
 </style>
 <link rel="stylesheet" href="lib/file-types.css">
 <link rel="stylesheet" href="lib/file-type-icons.css">
@@ -228,6 +229,10 @@ function createNewCMInstance(num) {
 	// Input read
 	window['cM'+num]	.on("inputRead", function(thisCM) {top.ICEcoder.cMonInputRead(thisCM,'cM'+num)});
 	window['cM'+num+'diff']	.on("inputRead", function(thisCM) {top.ICEcoder.cMonInputRead(thisCM,'cM'+num+'diff')});
+
+	// Render line
+	window['cM'+num]	.on("renderLine", function(thisCM, line, element) {top.ICEcoder.cMonRenderLine(thisCM,'cM'+num,line,element)});
+	window['cM'+num+'diff']	.on("renderLine", function(thisCM, line, element) {top.ICEcoder.cMonRenderLine(thisCM,'cM'+num+'diff',line,element)});
 
 	// Now create the active lines for them
 	top.ICEcoder['cMActiveLinecM'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
