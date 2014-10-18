@@ -1,3 +1,8 @@
+<?php
+if (!isset($_SESSION['loggedIn'])) {
+	die('Sorry, not logged in.');
+}
+?>
 <!--
 Purpose:	This file is run when ICEcoder editor has loaded
 Langs:		Anything - PHP, JS etc

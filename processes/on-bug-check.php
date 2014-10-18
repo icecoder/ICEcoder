@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION['loggedIn'])) {
+	die('Sorry, not logged in.');
+}
 // Purpose:	This file is run after a bug check, has $result string and $status arrays available to it
 // Langs:	PHP only
 // Example:

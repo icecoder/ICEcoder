@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION['loggedIn'])) {
+	die('Sorry, not logged in.');
+}
 // Purpose:	This file is run when a user saves a file, has $file and $fileLoc strings available to it
 // Langs:	PHP only
 // Example:
