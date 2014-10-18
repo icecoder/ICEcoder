@@ -84,6 +84,8 @@ if ($_GET['action']=="load") {
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 			$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 			echo '</script><textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea><script>';
+			// Run our custom processes
+			include_once("../processes/on-file-load.php");
 		} else if (strpos($finfo,"image")===0) {
 			echo 'fileType="image";fileName=\''.$fileLoc."/".$fileName.'\';';
 		} else {
@@ -105,6 +107,8 @@ if ($_GET['action']=="getRemoteFile") {
 		echo 'top.ICEcoder.newTab();';
 		echo '</script><textarea name="remoteFile" id="remoteFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$remoteFile)).'</textarea><script>';
 		echo 'top.ICEcoder.getcMInstance().setValue(document.getElementById("remoteFile").value);action="getRemoteFile";';
+		// Run our custom processes
+		include_once("../processes/on-get-remote-file.php");
 	} else {
 		echo 'action="nothing"; top.ICEcoder.message(\''.$t['Sorry, could not...'].' '.$file.'\');';
 	}
@@ -117,6 +121,8 @@ if ($_GET['action']=="newFolder") {
 		mkdir($file, 0705);
 		// Reload file manager
 		echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'folder\');action="newFolder";';
+		// Run our custom processes
+		include_once("../processes/on-new-dir.php");
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot create...']."\\n".$fileLoc."');";
 	}
@@ -167,6 +173,8 @@ if ($_GET['action']=="paste") {
 		}
 		// Reload file manager
 		echo 'top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.basename($dest).'\',false,false,false,\''.$fileOrFolder.'\');action="pasteFile";';
+		// Run our custom processes
+		include_once("../processes/on-file-dir-paste.php");
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot copy']." \\n".str_replace($docRoot,"",$source)."\\n ".$t['into']." \\n".str_replace($docRoot,"",$dest)."');";
 	}
@@ -212,6 +220,8 @@ if ($_GET['action']=="upload") {
 			$uploads = getDetails($_FILES['filesInput']);
 			$fileUploader=new fileUploader($uploads);
 		}
+		// Run our custom processes
+		include_once("../processes/on-file-upload.php");
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot upload...']."');";
 	}
@@ -228,6 +238,8 @@ if ($_GET['action']=="rename") {
 			echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
 			echo 'action="rename";';
 			$renamed=true;
+			// Run our custom processes
+			include_once("../processes/on-file-dir-rename.php");
 		}
 	}
 	if (!$renamed) {
@@ -249,6 +261,8 @@ if ($_GET['action']=="move") {
 				echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\',false,\''.$fileOrFolder.'\');';
 				echo 'action="move";';
 				$moved=true;
+				// Run our custom processes
+				include_once("../processes/on-file-dir-move.php");
 			}
 		}
 		if (!$moved) {
@@ -270,6 +284,8 @@ if ($_GET['action']=="replaceText") {
 		fwrite($fh, $newContent);
 		fclose($fh);
 		echo 'action="replaceText";';
+		// Run our custom processes
+		include_once("../processes/on-file-replace-text.php");
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot replace...']."\\n".strClean($_GET['fileRef'])."');";
 	}
@@ -283,6 +299,8 @@ if ($_GET['action']=="perms") {
 		// Reload file manager
 		echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
 		echo 'action="perms";';
+		// Run our custom processes
+		include_once("../processes/on-file-dir-perms.php");
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot change...']." \\n".strClean($file)."');";
 	}
@@ -309,6 +327,8 @@ if ($_GET['action']=="delete") {
 			// Reload file manager
 			echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
 			echo 'action="delete";';
+			// Run our custom processes
+			include_once("../processes/on-file-dir-delete.php");
 		} else {
 			echo "top.ICEcoder.message('".$t['Sorry, cannot delete']."\\n".str_replace($docRoot,"",$fullPath)."');";
 		}
