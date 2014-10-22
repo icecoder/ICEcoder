@@ -184,7 +184,7 @@ function createNewCMInstance(num) {
 		autoCloseBrackets: true,
 		highlightSelectionMatches: true,
 		showTrailingSpace: true,
-		lintWith: <?php if ($ICEcoder['codeAssist']) {echo 'fileName && fileName.indexOf(".js")>-1 ? CodeMirror.javascriptValidator : ';};?>false,
+		lint: false,
 		keyMap: "ICEcoder"
 	};
 
