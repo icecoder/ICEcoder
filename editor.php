@@ -219,8 +219,8 @@ function createNewCMInstance(num) {
 	window['cM'+num+'diff']	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num+'diff',changeObj)});
 
 	// Scroll
-	window['cM'+num]	.on("scroll", function(thisCM) {top.ICEcoder.mouseDown=false;});
-	window['cM'+num+'diff']	.on("scroll", function(thisCM) {top.ICEcoder.mouseDown=false;});
+	window['cM'+num]	.on("scroll", function(thisCM) {top.ICEcoder.cMonScroll(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("scroll", function(thisCM) {top.ICEcoder.cMonScroll(thisCM,'cM'+num+'diff')});
 
 	// Gutter click
 	window['cM'+num]	.on("gutterClick", function(thisCM, line, gutter, clickEvent) {CodeMirror.doFold(thisCM.getLine(line).indexOf("{")>-1 ? "brace" : "xml",null,"+","-",false)(thisCM, line);});
