@@ -57,6 +57,7 @@ top.ICEcoder.switchMode = function(mode) {
 		cM.setOption("mode",mode);
 		cM.setOption("lint",(fileExt == "js" || fileExt == "json") && top.ICEcoder.codeAssist ? true : false);
 		cMdiff.setOption("mode",mode);
+		cMdiff.setOption("lint",(fileExt == "js" || fileExt == "json") && top.ICEcoder.codeAssist ? true : false);
 	}
 }
 
