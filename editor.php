@@ -20,7 +20,10 @@ modes:	clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, 
 addon:	brace-fold, closebrackets, closetag, css-hint, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, searchcursor, show-hint, sql-hint, trailingspace, xml-fold, xml-hint
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
-<script src="jshint/jshint-2.1.4.min.js"></script>
+<?php
+if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
+	echo '<script src="plugins/jshint/jshint-2.5.6.min.js"></script>';
+};?>
 <script src="lib/mmd.js"></script>
 <script src="lib/foldcode.js"></script>
 <?php
