@@ -34,6 +34,10 @@ if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 if (file_exists(dirname(__FILE__)."/plugins/pesticide/pesticide.js")) {
 	echo '<script src="plugins/pesticide/pesticide.js"></script>';
 };?>
+<?php
+if (file_exists(dirname(__FILE__)."/plugins/stats.js/stats.min.js")) {
+	echo '<script src="plugins/stats.js/stats.min.js"></script>';
+};?>
 <link rel="stylesheet" href="<?php
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
 $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","elegant","neat","solarized","xq-light")) !== false ? "#ccc" : "#000";
