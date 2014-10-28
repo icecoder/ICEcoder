@@ -15,7 +15,7 @@ if ($_SESSION['loggedIn']) {
 
 	// If we're updating plugins, update those shown
 	if (isset($_GET['updatedPlugins'])) {
-		echo "<script>top.document.getElementById('pluginsOptional').innerHTML = '".$pluginsDisplay."';</script>";
+		echo "<script>top.document.getElementById('pluginsOptional').innerHTML = '".str_replace("'","\\'",$pluginsDisplay)."';</script>";
 	}
 
 	// Work out what plugins we'll need to set on a setInterval
