@@ -387,6 +387,8 @@ if ($_GET['action']=="save") {
 					top.ICEcoder.previewWindow.location.reload();
 					// Do the pesticide plugin if it exists
 					try {top.ICEcoder.doPesticide();} catch(err) {};
+					// Do the stats.js plugin if it exists
+					try {top.ICEcoder.doStatsJS(\'save\');} catch(err) {};
 				};';
 				echo 'top.ICEcoder.setPreviousFiles();setTimeout(function(){top.ICEcoder.indicateChanges()},4);action="doneSave";';
 				// Run our custom processes
