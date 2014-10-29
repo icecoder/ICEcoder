@@ -304,7 +304,6 @@ $t = $text['index'];
 
 <div class="footer" id="footer" onContextMenu="return false">
 	<div class="nesting" id="nestValid"></div>
-	<div class="nestDisplay" id="nestDisplay"></div>
 	<div class="splitPaneControls" id="splitPaneControls"><div class="off" id="splitPaneControlsOff" onclick="top.ICEcoder.setSplitPane('off')"></div><div class="on" id="splitPaneControlsOn" onclick="top.ICEcoder.setSplitPane('on')" style="opacity: 0.5"></div></div>
 	<div class="byteDisplay" id="byteDisplay" style="display: none" onClick="top.ICEcoder.showDisplay('char')"></div>
 	<div class="charDisplay" id="charDisplay" style="display: inline-block" onClick="top.ICEcoder.showDisplay('byte')"></div>
