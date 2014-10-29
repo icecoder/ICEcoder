@@ -385,7 +385,7 @@ if ($_GET['action']=="save") {
 				// Reload previewWindow window if not a Markdown file
 				echo 'if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {
 					top.ICEcoder.previewWindowLoading = false;
-					top.ICEcoder.previewWindow.location.reload();
+					top.ICEcoder.previewWindow.location.reload(true);
 					// Check on an interval for the page to be complete and if we last saw it loading...
 					top.ICEcoder.checkPreviewWindowLoadingInt = setInterval(function() {
 						if (top.ICEcoder.previewWindow.document.readyState != "loading" && top.ICEcoder.previewWindowLoading) {
@@ -441,7 +441,7 @@ if (action=="load") {
 		setTimeout(function() {
 			if (!top.ICEcoder.content.contentWindow.createNewCMInstance) {
 				console.log('<?php echo $t['There was a...']; ?>');
-				window.location.reload();
+				window.location.reload(true);
 			<?php
 			if (file_exists($file)) {
 			?>
