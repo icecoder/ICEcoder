@@ -384,11 +384,24 @@ if ($_GET['action']=="save") {
 				}
 				// Reload previewWindow window if not a Markdown file
 				echo 'if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {
+					top.ICEcoder.previewWindowLoading = false;
 					top.ICEcoder.previewWindow.location.reload();
-					// Do the pesticide plugin if it exists
-					try {top.ICEcoder.doPesticide();} catch(err) {};
-					// Do the stats.js plugin if it exists
-					try {top.ICEcoder.doStatsJS(\'save\');} catch(err) {};
+					// Check on an interval for the page to be complete and if we last saw it loading...
+					top.ICEcoder.checkPreviewWindowLoadingInt = setInterval(function() {
+						if (top.ICEcoder.previewWindow.document.readyState != "loading" && top.ICEcoder.previewWindowLoading) {
+							// We are done loading, so set the loading status to false and load plugins ontop...
+							top.ICEcoder.previewWindowLoading = false;
+							// Do the pesticide plugin if it exists
+							try {top.ICEcoder.doPesticide();} catch(err) {};
+							// Do the stats.js plugin if it exists
+							try {top.ICEcoder.doStatsJS(\'save\');} catch(err) {};
+							// Finally, clear the interval
+							clearInterval(top.ICEcoder.checkPreviewWindowLoadingInt);
+						} else {
+							top.ICEcoder.previewWindowLoading = top.ICEcoder.previewWindow.document.readyState == "loading" ? true : false;
+						}
+					},4);
+					
 				};';
 				echo 'top.ICEcoder.setPreviousFiles();setTimeout(function(){top.ICEcoder.indicateChanges()},4);action="doneSave";';
 				// Run our custom processes
