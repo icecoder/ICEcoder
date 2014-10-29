@@ -68,9 +68,10 @@ $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light",
 h2 {color: rgba(0,198,255,0.7)}
 .heading {color:#888}
 .cm-s-diff {left: 50%}
-.diffGreen {background: #0b0 !important; color: #fff !important}
+.diffGreen {background: #0b0 !important; color: #000 !important}
 .diffRed {background: #800 !important; color: #fff !important}
-.diffGrey {background: #888 !important; color: #fff !important}
+.diffGrey {background: #444 !important; color: #fff !important}
+.diffGreyLighter {background: #888 !important; color: #222 !important}
 .diffNone {}
 </style>
 <link rel="stylesheet" href="lib/file-types.css">
