@@ -126,31 +126,6 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 	if (!cM.somethingSelected()) {cM.setCursor(linePos, cursorPos+adjustCursor)};
 }
 
-// Work out the nesting depth location on demand and update our display if required
-top.ICEcoder.getNestLocationSub = function(nestCheck, fileName) {
-	var events, fileExt;
-
-	fileExt = fileName.split(".");
-	fileExt = fileExt[fileExt.length-1];
-
-	if (["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileExt)<0 &&
-		(nestCheck.indexOf("include(")==-1)&&(nestCheck.indexOf("include_once(")==-1)) {
-
-		// Then for all the array items, output as the nest display
-		for (var i=0;i<top.ICEcoder.htmlTagArray.length;i++) {
-			events = 'onMouseover="top.ICEcoder.highlightBlock('+i+')" onMouseout="top.ICEcoder.highlightBlock('+i+',\'hide\')" onClick="top.ICEcoder.setPosition('+i+',top.ICEcoder.startPosLine,\''+top.ICEcoder.htmlTagArray[i]+'\')"';
-			if (i==0) {top.ICEcoder.nestDisplay.innerHTML += '<div '+events+' style="display: inline-block; width: 7px; margin-top: -5px; height: 30px; background-image: url(images/nest-tag-bg.gif)"></div>'};
-			top.ICEcoder.nestDisplay.innerHTML += '<a '+events+' style="display: inline-block; cursor: pointer; background: #333; padding: 7px 2px 7px 7px; margin-top: -5px; height: 30px">'+top.ICEcoder.htmlTagArray[i]+'</a>';
-			top.ICEcoder.nestDisplay.innerHTML += i<top.ICEcoder.htmlTagArray.length-1
-			? '<div '+events+' style="display: inline-block; width: 8px; margin-top: -5px; height: 30px; background-image: url(images/nest-tag-bg.gif); background-position: -7px 0; cursor: pointer"></div>'
-			: '<div '+events+' style="display: inline-block; width: 7px; margin-top: -5px; height: 30px; background-image: url(images/nest-tag-bg.gif); background-position: -15px 0; cursor: pointer"></div>';
-		}
-		if (top.ICEcoder.tagString != "script") {
-			top.ICEcoder.nestDisplay.innerHTML += '<a style="display: inline-block; cursor: default; padding: 7px 2px 7px 7px; margin-top: -5px; height: 30px; color: #666">content</a>';
-		}
-	}
-}
-
 // Indicate if the nesting structure of the code is OK
 top.ICEcoder.updateNestingIndicator = function() {
 	var cM, cMdiff, thisCM, testToken, nestOK, fileName, fileExt;
