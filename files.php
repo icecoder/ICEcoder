@@ -18,7 +18,7 @@ $isGitHubRepoDir = in_array($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
 <script src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js" type="text/javascript"></script>
 </head>
 
-<body onload="top.ICEcoder.showHideGithubNav(top.ICEcoder.githubDiff ? 'show' : 'hide')" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
+<body onFocus="top.ICEcoder.files.style.background='#444'" onBlur="top.ICEcoder.files.style.background='#383838'" onload="top.ICEcoder.showHideGithubNav(top.ICEcoder.githubDiff ? 'show' : 'hide')" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
 
 <div title="<?php echo $t['Lock'];?>" onClick="top.ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
 <div title="<?php echo $t['Refresh'];?>" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
