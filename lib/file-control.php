@@ -493,6 +493,7 @@ if (action=="load") {
 				top.ICEcoder.savedPoints[top.ICEcoder.selectedTab-1] = cM.changeGeneration();
 				top.document.getElementById('content').style.visibility='visible';
 				top.ICEcoder.switchTab(top.ICEcoder.selectedTab,'noFocus');
+				setTimeout(function(){top.filesFrame.contentWindow.focus();},0);
 
 				// Then clean it up, set the text cursor, update the display and get the character data
 				top.ICEcoder.contentCleanUp();
