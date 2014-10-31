@@ -33,6 +33,7 @@ include(dirname(__FILE__)."/".$settingsFile);
 If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
 	rename(dirname(__FILE__)."/".$settingsFile,dirname(__FILE__)."/".str_replace(".php",".old",$settingsFile));
 	header("Location: settings.php");
+	echo "<script>window.location='settings.php';</script>";
 	die('Found old settings file, reloading...');
 }
 
@@ -69,6 +70,7 @@ if(isset($_POST['submit']) && $setPWorLogin=="login") {
 		$_SESSION['loggedIn'] = true;
 		include(dirname(__FILE__)."/../processes/on-user-login.php");
 		header('Location: ../');
+		echo "<script>window.location='../';</script>";
 		die('Logging you in...');
 	} else {
 		include(dirname(__FILE__)."/../processes/on-user-login-fail.php");
@@ -120,8 +122,10 @@ include(dirname(__FILE__)."/plugins-display.php");
 if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER['SCRIPT_NAME'],"lib/login.php")) {
 	if (file_exists('lib/login.php')) {
 		header('Location: lib/login.php');
+		echo "<script>window.location='lib/login.php';</script>";
 	} else {
 		header('Location: login.php');
+		echo "<script>window.location='login.php';</script>";
 	}
 	die('Redirecting to login...');
 // If we are on the login screen and not logged in
@@ -149,6 +153,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		include(dirname(__FILE__)."/../processes/on-user-new.php");
 		// Finally, load again as now this file has changed and auto login
 		header('Location: ../');
+		echo "<script>window.location='../';</script>";
 		die('Logging you in...');
 	}
 	// ===================================================
@@ -156,6 +161,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 	// ===================================================
 } elseif ($ICEcoder['loginRequired'] && $_SESSION['loggedIn'] && $ICEcoder["password"]=="") {
 	header("Location: ../?logout");
+	echo "<script>window.location='../?logout';</script>";
 	die('Logging you out...');
 } else {
 	// ==================================
