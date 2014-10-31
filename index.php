@@ -169,7 +169,7 @@ $t = $text['index'];
 
 <div id="header" class="header" onContextMenu="return false"></div>
 
-<div id="files" class="files" onMouseOver="ICEcoder.changeFilesW('expand')" onMouseOut="ICEcoder.changeFilesW('contract'); top.ICEcoder.hideFileMenu();" onContextMenu="return false">
+<div id="files" class="files" onMouseOver="this.style.background='#444';ICEcoder.changeFilesW('expand')" onMouseOut="this.style.background='#383838';ICEcoder.changeFilesW('contract'); top.ICEcoder.hideFileMenu();" onContextMenu="return false">
 	<div id="fileNav" class="fileNav">
 		<ul>
 			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsFile')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsFile')}" id="optionsFileNav"><?php echo $t['File'];?></a></li>
