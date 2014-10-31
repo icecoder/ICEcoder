@@ -1,5 +1,6 @@
 error-log.txt
 backups/*.zip
 lib/config-*
+plugins/*
 test/test-file1.txt
 tmp/*
