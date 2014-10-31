@@ -73,7 +73,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .options {
 	transition: opacity 0.15s ease-in-out;
 }
-.files .options .optionsList {position: absolute; display: inline-block; visibility: hidden; background: #444; height: 100%; padding: 23px 15px 15px 15px}
+.files .options .optionsList {position: absolute; display: inline-block; visibility: hidden; background: #383838; height: 100%; padding: 23px 15px 15px 15px}
 .files .options .optionsList ul {list-style-type: none; line-height: 24px}
 .files .options .optionsList a {color: #666; text-decoration: none}
 .files .options .optionsList a:hover {color: #fff; cursor: pointer}
