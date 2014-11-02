@@ -18,7 +18,7 @@ $t = $text['help'];
 <h1 id="title"><?php echo $t['shortcuts'];?></h1>
 
 <?php $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;?>
-<div style="display: inline-block; width: 365px; margin-right: 20px">
+<div style="display: inline-block; width: 385px; margin-right: 20px">
 	<h2><?php echo $t['Within document'];?></h2>
 	<!-- This can only be CTRL+space as Cmd+space is a reserved apple shortcut -->
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> <?php echo $t['Space'];?></span> <span class="shortcut"><?php echo $t['Autocomplete add snippet'];?></span><br>
@@ -48,14 +48,15 @@ $t = $text['help'];
 	<span class="key"><?php echo $t['Middle click'];?></span> <span class="shortcut"><?php echo $t['Close tab'];?></span><br>
 </div>
 
-<div style="display: inline-block; width: 365px">
+<div style="display: inline-block; width: 385px">
 	<h2><?php echo $t['Within file manager'];?></h2>
 	<span class="key"><?php echo $t['Left click'];?></span> <span class="shortcut"><?php echo $t['Select file folder'];?></span><br>
 	<span class="key"><?php echo $t['Double click tap...'];?></span> <span class="shortcut"><?php echo $t['Open file'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> <?php echo strtolower($t['Left click']);?></span> <span class="shortcut"><?php echo $t['Multiple select'];?></span><br>
 	<span class="key">Shift <span class="plus">+</span> <?php echo strtolower($t['Left click']);?></span> <span class="shortcut"><?php echo $t['Range select'];?></span><br>
 	<span class="key"><?php echo $t['Right click'];?></span> <span class="shortcut"><?php echo $t['Options for selected'];?></span><br>
-	<span class="key">Delete</span> <span class="shortcut"><?php echo $t['Delete selected'];?></span><br><br>
+	<span class="key">Delete</span> <span class="shortcut"><?php echo $t['Delete selected'];?></span><br>
+	<span class="key">&larr; &rarr; &uarr; &darr;, Enter</span> <span class="shortcut">Move around file manager, open</span><br><br>
 
 	<h2><?php echo $t['Anywhere'];?></h2>
 	<span class="key"><?php echo $t['Middle scrollwheel'];?></span> <span class="shortcut"><?php echo $t['Next previous tab'];?></span><br>
@@ -71,7 +72,7 @@ $t = $text['help'];
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Enter</span> <span class="shortcut"><?php echo $t['View webpage'];?> <span class="info" title="Popups need to be enabled">[?]</span></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> `</span> <span class="shortcut"><?php echo $t['Contract expand file...'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> .</span> <span class="shortcut"><?php echo $t['Fold unfold current...'];?></span><br>
-	<span class="key"><?php echo $t['Space'];?></span> <span class="shortcut"><?php echo $t['Refocus on document'];?></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> &larr; / &rarr;</span> <span class="shortcut">Focus on file manager / content<!--<?php echo $t['Refocus on document'];?>//--></span><br>
 	<span class="key">Esc</span> <span class="shortcut"><?php echo $t['Cancel tasks'];?></span><br><br>
 </div>
 

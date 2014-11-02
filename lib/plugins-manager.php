@@ -154,7 +154,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		fclose($fh);
 		// Finally, reload ICEcoder itself if plugin requires it or just the iFrame screen for the user if it doesn't
 		if ($_GET['action']=="install" && $pluginsData[$_GET['plugin']]['reload'] == "true") {
-			echo "<script>if (top.confirm('".$t['ICEcoder needs to...']."')) {top.window.location.reload();} else {window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;}</script>";
+			echo "<script>if (top.confirm('".$t['ICEcoder needs to...']."')) {top.window.location.reload(true);} else {window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;}</script>";
 		} else {
 			header("Location: plugins-manager.php?updatedPlugins&csrf=".$_SESSION["csrf"]);
 			echo "<script>window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;</script>";

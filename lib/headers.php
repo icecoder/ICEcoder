@@ -1,4 +1,9 @@
 <?php
+// Stop if we're running an old version in the tmp dir
+if(strpos(str_replace("\\","/",dirname(__FILE__)),"tmp/oldVersion") !== false) {
+	die("This is an old version of ICEcoder. Won't run from tmp/oldVersion/ dir.");
+}
+
 // Load common functions
 include_once(dirname(__FILE__)."/settings-common.php");
 $text = $_SESSION['text'];
@@ -20,9 +25,11 @@ if (($_GET || $_POST) && (!isset($_REQUEST["csrf"]) || $_REQUEST["csrf"] !== $_S
 		POST: ".xssClean(var_export($_POST, true),"html"));
 }
 
-// Set our security related headers
-header("X-Frame-Options: SAMEORIGIN");					// Only frames of same origin
-header("X-XSS-Protection: 1; mode=block");				// Turn on IE8-9 XSS prevention tools
-// header("X-Content-Security-Policy: allow 'self'");			// Only allows JS on same domain & not inline to run
-header("X-Content-Type-Options: nosniff");				// Prevent MIME based attacks
+if (!headers_sent()) {
+	// Set our security related headers
+	header("X-Frame-Options: SAMEORIGIN");					// Only frames of same origin
+	header("X-XSS-Protection: 1; mode=block");				// Turn on IE8-9 XSS prevention tools
+	// header("X-Content-Security-Policy: allow 'self'");			// Only allows JS on same domain & not inline to run
+	header("X-Content-Type-Options: nosniff");				// Prevent MIME based attacks
+}
 ?>

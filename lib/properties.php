@@ -2,6 +2,13 @@
 include("headers.php");
 include("settings.php");
 $t = $text['properties'];
+
+// Establish the real absolute path to the file/folder
+$fileName=realpath($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['fileName'])));
+// If it doesn't exist, or doesn't start with the $docRoot, stop here
+if (!file_exists($fileName) || strpos(str_replace("\\","/",$fileName),$docRoot) !== 0) {
+        die("<script>alert('Sorry - problem with file/folder requested');window.history.back();</script>");
+}
 ?>
 <!DOCTYPE html>
 
@@ -17,9 +24,6 @@ $t = $text['properties'];
 
 <h1 id="title"><?php echo $t['properties'];?></h1>
 
-<?php
-$fileName=$docRoot.$iceRoot.str_replace("|","/",strClean($_GET['fileName']));
-?>
 <h2><?php echo basename($fileName); ?></h2><br>
 <span class="column" style="width: 180px"><?php echo $t['Size'];?>: <?php
 $bytes = filesize($fileName);
@@ -162,7 +166,7 @@ var validatePerms = function() {
 		permText.split("")[2]*1 <0 || permText.split("")[2]*1 >7) {
 		canUpdate = false;
 	}
-	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace($docRoot,"",$fileName);?>',permText)};
+	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace("\\","|",str_replace("/","|",str_replace($docRoot,"",$fileName)));?>',permText)};
 }
 </script>
 

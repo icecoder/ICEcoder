@@ -16,7 +16,10 @@ $context = stream_context_create(array('http'=>
 ));
 
 // Start a session if we haven't already
-if(!isset($_SESSION)) {@session_start();}
+if(!isset($_SESSION)) {
+	session_save_path(dirname(__FILE__).'/../tmp');
+	@session_start();
+}
 
 // Set the language file
 $text = $_SESSION['text'];
@@ -28,7 +31,7 @@ if (isset($_GET['logout'])) {
 	$_SESSION['loggedIn']=false;
 	$_SESSION['username']=false;
 	session_destroy();
-	header("Location: dirname(__FILE__)./?loggedOut");
+	header("Location: ".dirname(__FILE__)."/?loggedOut");
 }
 
 // If magic quotes are still on (attempted to switch off in php.ini)
@@ -124,5 +127,35 @@ function toUTF8noBOM($string,$message) {
 		}
 	}
 	return $string;
+}
+
+// Polyfill for array_replace_recursive, which is in PHP 5.3+
+if (!function_exists('array_replace_recursive')) {
+	function array_replace_recursive($base, $replacements) { 
+		foreach (array_slice(func_get_args(), 1) as $replacements) { 
+			$bref_stack = array(&$base); 
+			$head_stack = array($replacements); 
+
+			do { 
+				end($bref_stack); 
+
+				$bref = &$bref_stack[key($bref_stack)]; 
+				$head = array_pop($head_stack); 
+
+				unset($bref_stack[key($bref_stack)]); 
+
+				foreach (array_keys($head) as $key) { 
+					if (isset($key, $bref) && is_array($bref[$key]) && is_array($head[$key])) { 
+						$bref_stack[] = &$bref[$key]; 
+						$head_stack[] = $head[$key]; 
+					} else { 
+						$bref[$key] = $head[$key]; 
+					} 
+				} 
+			} while(count($head_stack)); 
+		} 
+
+		return $base;
+	}
 }
 ?>

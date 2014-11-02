@@ -3,6 +3,10 @@ include("headers.php");
 include("settings.php");
 $t = $text['file-control'];
 ?>
+<?php if ($_SESSION['githubDiff']) { ?>
+<script src="github.js"></script>
+<script src="underscore-min.js"></script>
+<?php ;}; ?>
 <script>
 <?php
 // Get the save type if any
@@ -15,15 +19,48 @@ $file = str_replace("|","/",strClean(
 	: $_GET['file']
 	));
 
-// Trim any +'s or spaces from the end of file and clear any ../'s
-$file = str_replace("../","",rtrim(rtrim($file,'+'),' '));
+// Put the original $file var aside for use
+$fileOrig = $file;
 
-// Make $file a full path and establish the $fileLoc and $fileName
-if (strpos($file,$docRoot)===false && $_GET['action']!="getRemoteFile") {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
+// Trim any +'s or spaces from the end of file
+$file = rtrim(rtrim($file,'+'),' ');
+
+// Also remove [NEW] from $file, we can consider $_GET['action'] or $fileOrig to pick that up
+$file = rtrim($file,'[NEW]');
+
+// Make each path in $file a full path (; seperated list)
+$allFiles = explode(";",$file);
+for ($i=0; $i<count($allFiles); $i++) {
+	if (strpos($allFiles[$i],$docRoot)===false && $_GET['action']!="getRemoteFile") {
+		$allFiles[$i]=str_replace("|","/",$docRoot.$iceRoot.$allFiles[$i]);
+	}
+};
+$file = implode(";",$allFiles);
+
+// Establish the $fileLoc and $fileName (used in single file cases, eg opening. Multiple file cases, eg deleting, is worked out in that loop)
 $fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
 $fileName = basename($file);
 
-// echo ";alert('".xssClean($_GET['action'],"html")." : ".$file."');console.log('".xssClean($_GET['action'],"html")." : ".$file."');";
+// Check through all files to make sure they're valid/safe
+$allFiles = explode(";",$file);
+for ($i=0; $i<count($allFiles); $i++) {
+
+	// Uncomment to alert and console.log the action and file, useful for debugging
+	// echo ";alert('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');console.log('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');";
+
+	// Die if the file requested isn't something we expect
+	if(
+		// A local folder that isn't the doc root or starts with the doc root
+		($_GET['action']!="getRemoteFile" &&
+			rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
+			strpos(realpath(rtrim(dirname($allFiles[$i]),"/")),realpath(rtrim($docRoot,"/"))) !== 0
+		) ||
+		// Or a remote URL that doesn't start http
+		($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
+		) {
+		die("alert('Sorry! - problem with file requested');</script>");
+	};
+}
 
 // If we're due to open a file...
 if ($_GET['action']=="load") {
@@ -47,6 +84,8 @@ if ($_GET['action']=="load") {
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 			$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 			echo '</script><textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea><script>';
+			// Run our custom processes
+			include_once("../processes/on-file-load.php");
 		} else if (strpos($finfo,"image")===0) {
 			echo 'fileType="image";fileName=\''.$fileLoc."/".$fileName.'\';';
 		} else {
@@ -68,6 +107,8 @@ if ($_GET['action']=="getRemoteFile") {
 		echo 'top.ICEcoder.newTab();';
 		echo '</script><textarea name="remoteFile" id="remoteFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$remoteFile)).'</textarea><script>';
 		echo 'top.ICEcoder.getcMInstance().setValue(document.getElementById("remoteFile").value);action="getRemoteFile";';
+		// Run our custom processes
+		include_once("../processes/on-get-remote-file.php");
 	} else {
 		echo 'action="nothing"; top.ICEcoder.message(\''.$t['Sorry, could not...'].' '.$file.'\');';
 	}
@@ -80,6 +121,8 @@ if ($_GET['action']=="newFolder") {
 		mkdir($file, 0705);
 		// Reload file manager
 		echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'folder\');action="newFolder";';
+		// Run our custom processes
+		include_once("../processes/on-new-dir.php");
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot create...']."\\n".$fileLoc."');";
 	}
@@ -130,6 +173,8 @@ if ($_GET['action']=="paste") {
 		}
 		// Reload file manager
 		echo 'top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.basename($dest).'\',false,false,false,\''.$fileOrFolder.'\');action="pasteFile";';
+		// Run our custom processes
+		include_once("../processes/on-file-dir-paste.php");
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot copy']." \\n".str_replace($docRoot,"",$source)."\\n ".$t['into']." \\n".str_replace($docRoot,"",$dest)."');";
 	}
@@ -175,6 +220,8 @@ if ($_GET['action']=="upload") {
 			$uploads = getDetails($_FILES['filesInput']);
 			$fileUploader=new fileUploader($uploads);
 		}
+		// Run our custom processes
+		include_once("../processes/on-file-upload.php");
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot upload...']."');";
 	}
@@ -191,6 +238,8 @@ if ($_GET['action']=="rename") {
 			echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
 			echo 'action="rename";';
 			$renamed=true;
+			// Run our custom processes
+			include_once("../processes/on-file-dir-rename.php");
 		}
 	}
 	if (!$renamed) {
@@ -212,6 +261,8 @@ if ($_GET['action']=="move") {
 				echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\',false,\''.$fileOrFolder.'\');';
 				echo 'action="move";';
 				$moved=true;
+				// Run our custom processes
+				include_once("../processes/on-file-dir-move.php");
 			}
 		}
 		if (!$moved) {
@@ -233,6 +284,8 @@ if ($_GET['action']=="replaceText") {
 		fwrite($fh, $newContent);
 		fclose($fh);
 		echo 'action="replaceText";';
+		// Run our custom processes
+		include_once("../processes/on-file-replace-text.php");
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot replace...']."\\n".strClean($_GET['fileRef'])."');";
 	}
@@ -246,6 +299,8 @@ if ($_GET['action']=="perms") {
 		// Reload file manager
 		echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
 		echo 'action="perms";';
+		// Run our custom processes
+		include_once("../processes/on-file-dir-perms.php");
 	} else {
 		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot change...']." \\n".strClean($file)."');";
 	}
@@ -272,6 +327,8 @@ if ($_GET['action']=="delete") {
 			// Reload file manager
 			echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
 			echo 'action="delete";';
+			// Run our custom processes
+			include_once("../processes/on-file-dir-delete.php");
 		} else {
 			echo "top.ICEcoder.message('".$t['Sorry, cannot delete']."\\n".str_replace($docRoot,"",$fullPath)."');";
 		}
@@ -327,9 +384,24 @@ if ($_GET['action']=="save") {
 				}
 				// Reload previewWindow window if not a Markdown file
 				echo 'if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {
-					top.ICEcoder.previewWindow.location.reload();
-					// Do the pesticide plugin if it exists
-					try {top.ICEcoder.doPesticide();} catch(err) {};
+					top.ICEcoder.previewWindowLoading = false;
+					top.ICEcoder.previewWindow.location.reload(true);
+					// Check on an interval for the page to be complete and if we last saw it loading...
+					top.ICEcoder.checkPreviewWindowLoadingInt = setInterval(function() {
+						if (top.ICEcoder.previewWindow.document.readyState != "loading" && top.ICEcoder.previewWindowLoading) {
+							// We are done loading, so set the loading status to false and load plugins ontop...
+							top.ICEcoder.previewWindowLoading = false;
+							// Do the pesticide plugin if it exists
+							try {top.ICEcoder.doPesticide();} catch(err) {};
+							// Do the stats.js plugin if it exists
+							try {top.ICEcoder.doStatsJS(\'save\');} catch(err) {};
+							// Finally, clear the interval
+							clearInterval(top.ICEcoder.checkPreviewWindowLoadingInt);
+						} else {
+							top.ICEcoder.previewWindowLoading = top.ICEcoder.previewWindow.document.readyState == "loading" ? true : false;
+						}
+					},4);
+					
 				};';
 				echo 'top.ICEcoder.setPreviousFiles();setTimeout(function(){top.ICEcoder.indicateChanges()},4);action="doneSave";';
 				// Run our custom processes
@@ -339,7 +411,7 @@ if ($_GET['action']=="save") {
 				echo '</script><textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
 				echo '<textarea name="userVersionFile" id="userVersionFile"></textarea><script>';
 				?>
-				var refreshFile = top.ICEcoder.ask('<?php echo $t['Sorry, this file...']."\n".$file."\n\n".$t['Reload this file...'];?>');
+				var refreshFile = top.ICEcoder.ask('<?php echo $t['Sorry, this file...']."\\n".$file."\\n\\n".$t['Reload this file...'];?>');
 				if (refreshFile) {
 					var cM = top.ICEcoder.getcMInstance();
 					var thisTab = top.ICEcoder.selectedTab;
@@ -349,13 +421,10 @@ if ($_GET['action']=="save") {
 					top.ICEcoder.savedPoints[thisTab-1] = cM.changeGeneration();
 					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo $filemtime; ?>";
 					cM.clearHistory();
-					// Now for the new file
-					top.ICEcoder.newTab();
-					cM = top.ICEcoder.getcMInstance();
-					cM.setValue(document.getElementById('userVersionFile').value);
-					cM.clearHistory();
-					// Finally, switch back to original tab
-					top.ICEcoder.switchTab(thisTab);
+					// Now for the new version in the diff pane
+					top.ICEcoder.setSplitPane('on');
+					var cMdiff = top.ICEcoder.getcMdiffInstance();
+					cMdiff.setValue(document.getElementById('userVersionFile').value);
 				}
 				action='nothing';
 				<?php
@@ -372,7 +441,7 @@ if (action=="load") {
 		setTimeout(function() {
 			if (!top.ICEcoder.content.contentWindow.createNewCMInstance) {
 				console.log('<?php echo $t['There was a...']; ?>');
-				window.location.reload();
+				window.location.reload(true);
 			<?php
 			if (file_exists($file)) {
 			?>
@@ -387,19 +456,49 @@ if (action=="load") {
 				top.ICEcoder.setLayout();
 				top.ICEcoder.content.contentWindow.createNewCMInstance(top.ICEcoder.nextcMInstance);
 
+				// If we're in GitHub diff mode and have a split pane display, get the content for the diff pane
+				if (top.ICEcoder.githubDiff && top.ICEcoder.splitPane) {
+					<?php
+					// Get our GitHub relative site path & local path
+					$ghRemoteURLPos = array_search($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
+
+					$ghLocalURLPaths = $ICEcoder['githubLocalPaths'];
+					$ghLocalPath = $ghLocalURLPaths[$ghRemoteURLPos];
+
+					$ghRemoteURLPaths = $ICEcoder['githubRemotePaths'];
+					$ghRemoteURL = $ghRemoteURLPaths[$ghRemoteURLPos];
+
+					$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
+					$ghRemoteURL = str_replace("/","|",$ghRemoteURL);
+
+					// If the file is not in a sub-sub dir of the doc root
+					if (!strpos($fileLoc,"/",1)) {
+						// The file path is simply the file name in the root
+						$ghFilePath = $fileName;
+					} else {
+						// We need to get rid of the root dir and trailing slash
+						$ghFilePath = substr(str_replace($ghLocalPath,"",$fileLoc),1);
+						// If it's not within a sub-dir, it's just the filename, otherwise prefix with dir path and pipe
+						$ghFilePath = $ghFilePath == "" ? $fileName : $ghFilePath."|".$fileName;
+					}
+					?>
+
+					top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = "github.php?action=read&repo=<?php echo $ghRemoteURL;?>&filePath=<?php echo $ghFilePath;?>&csrf="+top.ICEcoder.csrf;
+				}
+
 				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on ICEcoder's load)
 				top.ICEcoder.switchMode();
 				cM = top.ICEcoder.getcMInstance();
 				cM.setValue(document.getElementById('loadedFile').value);
 				top.ICEcoder.savedPoints[top.ICEcoder.selectedTab-1] = cM.changeGeneration();
 				top.document.getElementById('content').style.visibility='visible';
-				top.ICEcoder.switchTab(top.ICEcoder.selectedTab);
-				top.ICEcoder.focus();
+				top.ICEcoder.switchTab(top.ICEcoder.selectedTab,'noFocus');
+				setTimeout(function(){top.filesFrame.contentWindow.focus();},0);
 
 				// Then clean it up, set the text cursor, update the display and get the character data
 				top.ICEcoder.contentCleanUp();
-				top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].removeLineClass(top.ICEcoder['cMActiveLine'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]], "background");
-				top.ICEcoder['cMActiveLine'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].addLineClass(0, "background", "cm-s-activeLine");
+				top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].removeLineClass(top.ICEcoder['cMActiveLinecM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]], "background");
+				top.ICEcoder['cMActiveLinecM'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].addLineClass(0, "background", "cm-s-activeLine");
 				top.ICEcoder.nextcMInstance++;
 				top.ICEcoder.openFileMDTs.push('<?php echo $serverType=="Linux" ? filemtime($file) : "1000000"; ?>');
 				for (var i=0; i<cM.lineCount(); i++) {
@@ -440,7 +539,7 @@ if (action=="load") {
 <script>
 if (action=="save") {
 	<?php
-	if (strpos($file,"[NEW]")>0||$saveType=="saveAs") {
+	if (strpos($fileOrig,"[NEW]")>0||$saveType=="saveAs") {
 	?>
 		fileLoc = '<?php echo $fileLoc;?>';
 		newFileName = top.ICEcoder.getInput('<?php echo $t['Enter filename to...']; ?> '+(fileLoc!='' ? fileLoc : '/'),'');
@@ -454,7 +553,7 @@ if (action=="save") {
 		document.saveFile.newFileName.value = '<?php echo $docRoot; ?>' + newFileName;
 	<?php ;};?>
 	if ("undefined" == typeof newFileName || (newFileName && "undefined" == typeof overwriteOK) || ("undefined" != typeof overwriteOK && overwriteOK)) {
-		top.ICEcoder.serverMessage('<b><?php echo $t['Saving']; ?></b><br>'+ <?php echo strpos($file,"[NEW]")>0 ? "newFileName" : "'$file'"; ?>);
+		top.ICEcoder.serverMessage('<b><?php echo $t['Saving']; ?></b><br>'+ <?php echo strpos($fileOrig,"[NEW]")>0 ? "newFileName" : "'$file'"; ?>);
 		document.saveFile.contents.value = top.document.getElementById('saveTemp1').value;
 		document.saveFile.submit();
 	} else {

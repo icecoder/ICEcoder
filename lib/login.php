@@ -30,6 +30,9 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		<input type="password" name="password" class="password"><br><br>
 		<input type="submit" name="submit" value="<?php if ($ICEcoder["multiUser"] && $ICEcoderSettings["enableRegistration"]) {echo $t['set password']." / ".$t['login'];} else {echo $ICEcoder["password"] == "" ? $t['set password'] : $t['login'];}; ?>" class="button">
 		<?php
+			if(empty($_SERVER['HTTPS'])) {
+				echo '<div class="text">Using over non-https connection.<br>SSL is recommended!</div>';
+			}
 			if($ICEcoder["multiUser"] && $ICEcoderSettings["enableRegistration"]){
 				echo '<div class="text"><a href="javascript:alert(\''.$t['To disable registration...'].'\')">'.$t['Registration mode enabled'].'</a></div>';
 			}

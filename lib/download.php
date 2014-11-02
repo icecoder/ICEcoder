@@ -2,7 +2,12 @@
 include("headers.php");
 include("settings.php");
 
-$file = $docRoot.$iceRoot.str_replace("../","",str_replace("|","/",$_GET['file']));
+// Establish the real absolute path to the file
+$file = realpath($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['file'])));
+// If it doesn't exist, or doesn't start with the $docRoot, stop here
+if (!file_exists($file) || strpos($file,$docRoot) !== 0) {
+	die("<script>alert('Sorry, that file doesn\'t appear to exist');</script>");
+}
 
 if (file_exists($file)) {
     header('Content-Description: File Transfer');

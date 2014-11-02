@@ -6,6 +6,7 @@ if (!isset($ICEcoder['root'])) {
 
 if (!$_SESSION['loggedIn']) {
 	header("Location: ../");
+	die();
 }
 
 $text = $_SESSION['text'];
@@ -17,94 +18,98 @@ $t = $text['get-branch'];
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> get branch</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<script src="base64.js"></script>
+<?php if ($_SESSION['githubDiff']) { ?>
 <script src="github.js"></script>
+<?php ;}; ?>
 </head>
 
 <body>
 <?php
-// Function to sort given values alphabetically
-function alphasort($a, $b) {
-	return strcmp($a->getPathname(), $b->getPathname());
-}
-
-// Class to put forward the values for sorting
-class SortingIterator implements IteratorAggregate {
-	private $iterator = null;
-	public function __construct(Traversable $iterator, $callback) {
-		$array = iterator_to_array($iterator);
-		usort($array, $callback);
-		$this->iterator = new ArrayIterator($array);
+// Need to get dir contents recursively? (Used by GitHub diff mode)
+if ($_SESSION['githubDiff']) {
+	// Function to sort given values alphabetically
+	function alphasort($a, $b) {
+		return strcmp($a->getPathname(), $b->getPathname());
 	}
-	public function getIterator() {
-		return $this->iterator;
+
+	// Class to put forward the values for sorting
+	class SortingIterator implements IteratorAggregate {
+		private $iterator = null;
+		public function __construct(Traversable $iterator, $callback) {
+			$array = iterator_to_array($iterator);
+			usort($array, $callback);
+			$this->iterator = new ArrayIterator($array);
+		}
+		public function getIterator() {
+			return $this->iterator;
+		}
 	}
-}
 
-// Get a full list of dirs & files and begin sorting using above class & function
-$path = $docRoot.$iceRoot;
-$objectList = new SortingIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST), 'alphasort');
+	// Get a full list of dirs & files and begin sorting using above class & function
+	$path = $docRoot.$iceRoot;
+	$objectList = new SortingIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST), 'alphasort');
 
-// Iterator to get files
-$iter = new RecursiveIteratorIterator(
-	new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
-	RecursiveIteratorIterator::SELF_FIRST,
-	RecursiveIteratorIterator::CATCH_GET_CHILD // Ignore "Permission denied"
-);
+	// Iterator to get files
+	$iter = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+		RecursiveIteratorIterator::SELF_FIRST,
+		RecursiveIteratorIterator::CATCH_GET_CHILD // Ignore "Permission denied"
+	);
 
-// Check if dir has .gitignore file
-function hasGitignore($dir) {
-	return is_file("$dir/.gitignore");
-}
-
-// Get a list of .gitignore files into $gi array
-$gi = array();
-if(hasGitignore($path)) {
-	$gi[] = "$path/.gitignore";
-}
-foreach ($iter as $scanpath) {
-    if (is_dir($scanpath) && strpos($scanpath,".git") == false) {
-	$thisDir = str_replace("\\","/",$scanpath);
-        if(hasGitignore($thisDir)) {
-		$gi[] = $thisDir."/.gitignore";
+	// Check if dir has .gitignore file
+	function hasGitignore($dir) {
+		return is_file("$dir/.gitignore");
 	}
-    }
-}
 
-// Get $matches array containing existing files listed in .gitignore
-function parseGitignore($file) { # $file = '/absolute/path/to/.gitignore'
-  $dir = dirname($file);
-  $matches = array();
-  $lines = file($file);
-  foreach ($lines as $line) {
-    $line = trim($line);
-    if ($line === '') continue;                 # empty line
-    if (substr($line, 0, 1) == '#') continue;   # a comment
-    if (substr($line, 0, 1) == '!') {           # negated glob
-      $line = substr($line, 1);
-      $files = array_diff(glob("$dir/*"), glob("$dir/$line"));
-    } else {                                    # normal glob
-      $files = glob("$dir/$line");
-    }
-    $matches = array_merge($matches, $files);
-  }
-  return $matches;
-}
-
-// Cycle through all .gitignore files running above function to get a list of $excluded files
-// Exclude the .git dir as first item as we don't want to see that
-$excluded = array("/.git");
-foreach ($gi as $scanpath) {
-	$excludedTest = (parseGitignore($scanpath));
-	if (count($excludedTest) > 0) {
-		$excluded = array_merge($excluded, $excludedTest);
+	// Get a list of .gitignore files into $gi array
+	$gi = array();
+	if(hasGitignore($path)) {
+		$gi[] = "$path/.gitignore";
 	}
-}
+	foreach ($iter as $scanpath) {
+		if (is_dir($scanpath) && strpos($scanpath,".git") == false) {
+		$thisDir = str_replace("\\","/",$scanpath);
+			if(hasGitignore($thisDir)) {
+			$gi[] = $thisDir."/.gitignore";
+		}
+		}
+	}
 
-$objectListArray = array();
-foreach ($objectList as $objectRef) {
-	$fileFolderName = @ltrim(substr(str_replace("\\","/",$objectRef->getPathname()), strlen($path)),"/");
-	array_push($objectListArray,$fileFolderName);
+	// Get $matches array containing existing files listed in .gitignore
+	function parseGitignore($file) { # $file = '/absolute/path/to/.gitignore'
+	  $dir = dirname($file);
+	  $matches = array();
+	  $lines = file($file);
+	  foreach ($lines as $line) {
+		$line = trim($line);
+		if ($line === '') continue;                 # empty line
+		if (substr($line, 0, 1) == '#') continue;   # a comment
+		if (substr($line, 0, 1) == '!') {           # negated glob
+		  $line = substr($line, 1);
+		  $files = array_diff(glob("$dir/*"), glob("$dir/$line"));
+		} else {                                    # normal glob
+		  $files = glob("$dir/$line");
+		}
+		$matches = array_merge($matches, $files);
+	  }
+	  return $matches;
+	}
+
+	// Cycle through all .gitignore files running above function to get a list of $excluded files
+	// Exclude the .git dir as first item as we don't want to see that
+	$excluded = array("/.git");
+	foreach ($gi as $scanpath) {
+		$excludedTest = (parseGitignore($scanpath));
+		if (count($excludedTest) > 0) {
+			$excluded = array_merge($excluded, $excludedTest);
+		}
+	}
+
+	$objectListArray = array();
+	foreach ($objectList as $objectRef) {
+		$fileFolderName = @ltrim(substr(str_replace("\\","/",$objectRef->getPathname()), strlen($path)),"/");
+		array_push($objectListArray,$fileFolderName);
+	}
 }
 
 // If we're just getting a branch, get that and set as the finalArray
@@ -147,7 +152,7 @@ for ($i=0;$i<count($finalArray);$i++) {
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
 	$loadParam = $type == "folder" ? "true" : "false";
-	echo "<li class=\"".$class."\" draggable=\"true\" ondrag=\"top.ICEcoder.draggingWithKeyTest(event);if(top.ICEcoder.getcMInstance()){top.ICEcoder.getcMInstance().focus()}\" ondragend=\"top.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" onClick=\"if(!event.ctrlKey && !top.ICEcoder.cmdKey) {top.ICEcoder.openCloseDir(this,$loadParam); if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {top.ICEcoder.openFile()}}\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".xssClean(basename($fileFolderName),"html")."</span> ";
+	echo "<li class=\"".$class."\" draggable=\"true\" ondrag=\"top.ICEcoder.draggingWithKeyTest(event);if(top.ICEcoder.getcMInstance()){top.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? top.ICEcoder.getcMInstance().focus() : top.ICEcoder.getcMdiffInstance().focus()}\" ondragend=\"top.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"top.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"top.ICEcoder.overFileFolder('$type','')\" onClick=\"if(!event.ctrlKey && !top.ICEcoder.cmdKey) {top.ICEcoder.openCloseDir(this,$loadParam); if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {top.ICEcoder.openFile()}}\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".xssClean(basename($fileFolderName),"html")."</span> ";
 	echo '<span style="color: #888; font-size: 8px" id="'.str_replace($docRoot,"",str_replace("/","|",$fileFolderName)).'_perms">';
 	echo $serverType=="Linux" ? substr(sprintf('%o', fileperms($docRoot.$iceRoot.$fileFolderName)), -3) : '';
 	echo "</span></a></li>\n";
@@ -219,9 +224,9 @@ if ($_SESSION['githubDiff']) {
 	var repo = github.getRepo(top.repo.split("/")[0], top.repo.split("/")[1]);
 	repo.getTree('master?recursive=true', function(err, tree) {
 		if(!err) {
-			treePaths = [];
-			diffPaths = [];
-			deletedPaths = [];
+			top.treePaths = [];
+			top.diffPaths = [];
+			top.deletedPaths = [];
 			// ==========================================================
 			// NEW FILES are not compared for diffs in this loop, so kept
 			// ==========================================================
@@ -241,16 +246,16 @@ if ($_SESSION['githubDiff']) {
 						// CHANGED FILES are kept
 						// ======================
 						if ("undefined" != typeof dirSHAArray[dirListArray.indexOf(tree[i].path)]) {
-							diffPaths.push(tree[i].path);
+							top.diffPaths.push(tree[i].path);
 						// ======================
 						// DELETED FILES are kept
 						// ======================
 						} else {
-							deletedPaths.push(tree[i].path);
+							top.deletedPaths.push(tree[i].path);
 						}
 					}
 				} else {
-					treePaths.push(tree[i].path);
+					top.treePaths.push(tree[i].path);
 				}
 			}
 			// Now we are only showing new, changed and deleted files from our GitHub tree list
@@ -258,17 +263,17 @@ if ($_SESSION['githubDiff']) {
 
 			// However, we should now consider dirs that the user hasn't opened yet as we can
 			// maybe remove closed dirs that contain no changes
-			for (var i=0; i<treePaths.length; i++) {
+			for (var i=0; i<top.treePaths.length; i++) {
 				canShowDir = false;
-				for (j=0; j<diffPaths.length; j++) {
-					if (diffPaths[j].indexOf(treePaths[i]+"/") === 0) {
+				for (j=0; j<top.diffPaths.length; j++) {
+					if (top.diffPaths[j].indexOf(top.treePaths[i]+"/") === 0) {
 						canShowDir = true;
 					}
 				}
 				// Remove dirs that contain no changes in them
 				if (!canShowDir) {
-					if (document.getElementById("|"+treePaths[i].replace("/","|")+"_perms")) {
-						thatNode = document.getElementById("|"+treePaths[i].replace("/","|")+"_perms").parentNode.parentNode;
+					if (document.getElementById("|"+top.treePaths[i].replace("/","|")+"_perms")) {
+						thatNode = document.getElementById("|"+top.treePaths[i].replace("/","|")+"_perms").parentNode.parentNode;
 						thatNode.parentNode.removeChild(thatNode);
 					}
 				}
@@ -297,7 +302,7 @@ if ($_SESSION['githubDiff']) {
 					} else {
 						top.ICEcoder.showHide('hide',top.get('loadingMask'));
 					}
-				},40);
+				},100);
 			},4);
 		} else {
 			// There was an error, display HTTP error code and response message
@@ -319,61 +324,77 @@ if ($_SESSION['githubDiff']) {
 		x.parentNode.removeChild(x);
 	}
 	folderContent = document.getElementById('branch').innerHTML;
+	folderItems = folderContent.split("\n");
 
-	showFiles = function () {
-		// Now animate folders & files into view
-		i=0;
-		animFolders = setInterval(function() {
-			i++;
+	showFiles = function() {
+		// Now display folders & files
+
+		// Animate into view?
+		if (folderItems.length <= 50) {
+			showFileI=0;
+			animFolders = setInterval(function() {
+				showFileI++;
+				showNextFile('progressive');
+			},4);
+		// Display immediately
+		} else {
+			showFileJ = folderItems.length;
+			showContent = folderContent;
+			showNextFile();
+		}
+	}
+
+	showNextFile = function(progressive) {
+		if (progressive) {
 			showContent = "";
-			folderItems = folderContent.split("\n");
-			for (j=0; j<=i; j++) {
-				showContent += folderItems[j];
-				if (j<i) {showContent += "\n";};
+			for (showFileJ=0; showFileJ<=showFileI; showFileJ++) {
+				showContent += folderItems[showFileJ];
+				if (showFileJ<showFileI) {showContent += "\n";};
 			}
-			showContent = showContent.slice(28);
-			if (j==folderItems.length) {
-				clearInterval(animFolders);
-				showContent = showContent.slice(0,-2);
-				// If we've got some deleted files (as we're in GitHub diff mode), add those into the file manager
-				if ("undefined" != typeof deletedPaths && deletedPaths.length > 0) {
-					k = 0;
-					top.addDeletedFiles = setInterval(function() {
-						fSplit = deletedPaths[k].lastIndexOf("/");
-						thePath = deletedPaths[k].substr(0,fSplit);
-						theFile = deletedPaths[k].substr(fSplit+1);
+		}
+		showContent = showContent.slice(28);
+		if (showFileJ==folderItems.length) {
+			// If we've been animating into view, clear that interval
+			if ("undefined" != typeof animFolders) {clearInterval(animFolders);};
+			showContent = showContent.slice(0,-2);
+			// If we've got some deleted files (as we're in GitHub diff mode), add those into the file manager
+			if ("undefined" != typeof top.deletedPaths && top.deletedPaths.length > 0) {
+				i = 0;
+				top.addDeletedFiles = setInterval(function() {
+					fSplit = top.deletedPaths[i].lastIndexOf("/");
+					thePath = top.deletedPaths[i].substr(0,fSplit);
+					theFile = top.deletedPaths[i].substr(fSplit+1);
 
-						// If it's not excluded
-						if (excludedArray.indexOf((thePath == "" ? "" : "/" + thePath)+"/"+theFile) == -1) {
+					// If it's not excluded
+					if ("undefined" != typeof excludedArray && excludedArray.indexOf((thePath == "" ? "" : "/" + thePath)+"/"+theFile) == -1) {
 
-							// If we're adding a deleted dir/file in a sub-dir
-							if ("<?php echo $location;?>" == "/"+thePath) {
-								top.ICEcoder.updateFileManagerList('add','/'+thePath,theFile,false,false,false,'file');
-							// If we're adding a deleted dir/file at the root level
+						// If we're adding a deleted dir/file in a sub-dir
+						if ("<?php echo $location;?>" == "/"+thePath) {
+							top.ICEcoder.updateFileManagerList('add','/'+thePath,theFile,false,false,false,'file');
+						// If we're adding a deleted dir/file at the root level
+						} else {
+							// Folder
+							if (thePath != "") {
+								top.ICEcoder.updateFileManagerList('add',top.iceRoot,thePath,false,false,false,'folder');
+							// File
 							} else {
-								// Folder
-								if (thePath != "") {
-									top.ICEcoder.updateFileManagerList('add',top.iceRoot,thePath,false,false,false,'folder');
-								// File
-								} else {
-									top.ICEcoder.updateFileManagerList('add',top.iceRoot+thePath,theFile,false,false,false,'file');
-								}
+								top.ICEcoder.updateFileManagerList('add',top.iceRoot+thePath,theFile,false,false,false,'file');
 							}
-
-						}
-						k++;
-						if ("undefined" == typeof deletedPaths[k]) {
-							clearInterval(top.addDeletedFiles);
 						}
 
-					},20);
-				}
-				setTimeout(function(){top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);},4);
-				if (!top.ICEcoder.fmReady) {top.ICEcoder.fmReady=true;};
+					}
+					i++;
+					if ("undefined" == typeof top.deletedPaths[i]) {
+						clearInterval(top.addDeletedFiles);
+					}
+
+				},20);
 			}
-			newUL.innerHTML = showContent;
-			locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
-		},4);
+			setTimeout(function(){top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);},4);
+			if (!top.ICEcoder.fmReady) {top.ICEcoder.fmReady=true;};
+		}
+		newUL.innerHTML = showContent;
+		locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
 	}
 
 	// If we're not in githubDiff mode, show files here

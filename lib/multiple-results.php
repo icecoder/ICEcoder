@@ -94,7 +94,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					}
 				}
 				if (userTarget.indexOf("all")>-1 || (userTarget.indexOf("selected")>-1 && foundInSelected)) {
-					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.get(\'blackMask\'))">';
+					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.goFindAfterOpenInt = setInterval(function(){goFindAfterOpen(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\')},20);top.ICEcoder.showHide(\'hide\',top.get(\'blackMask\'))">';
 					resultsDisplay += targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b>"+findText.toLowerCase()+"</b>");
 					resultsDisplay += '</a><br>';
 					<?php if (!isset($_GET['replace'])) { ?>
@@ -146,7 +146,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					}
 				}
 				if (!$bFile && (count($selectedFiles)==0 || count($selectedFiles)>0 && $foundInSelFile)) {
-					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.get('blackMask'))\\\">";
+					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.goFindAfterOpenInt = setInterval(function(){goFindAfterOpen('".$fullPath."')},20);top.ICEcoder.showHide('hide',top.get('blackMask'))\\\">";
 					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">".$t['Found']." ".substr_count(strtolower(toUTF8noBOM(file_get_contents($fullPath,false,$context),false)),$q)." ".$t['times']."</div>";
 					if (isset($_GET['replace'])) {
 						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('".$fullPath."');this.style.display=\'none\'\\\">".$t['replace']."</div>";
@@ -221,6 +221,18 @@ var renameAll = function() {
 		renameSingle(foundArray[i]);
 	}
 	top.ICEcoder.showHide('hide',top.get('blackMask'));
+}
+
+var goFindAfterOpen = function(fileName) {
+	if (top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1] == fileName.replace(top.docRoot,"") && !top.ICEcoder.loadingFile) {
+		// Change options back to finding only in this document
+		top.document.findAndReplace.connector.selectedIndex = 0;
+		top.ICEcoder.findReplaceOptions();
+		top.document.findAndReplace.target.selectedIndex = 0;
+		// Submit to select first instance
+		top.document.findAndReplace.submit.click();
+		clearInterval(top.ICEcoder.goFindAfterOpenInt);
+	}
 }
 </script>
 

@@ -29,8 +29,7 @@ $text = array(
 		"dev mode"			=> "dev mode",
 		"Status"			=> "Status",
 		"Using"				=> "Using",
-		"You can switch..."		=> "You can switch dev mode on/off in lib/config__settings.php",
-		"results"			=> "results"
+		"You can switch..."		=> "You can switch dev mode on/off in lib/config__settings.php"
 
 	),
 
@@ -132,7 +131,7 @@ $text = array(
 		"Sorry, cannot delete..."	=> "Sorry, cannot delete the root level",
 		"Sorry, cannot delete"		=> "Sorry, cannot delete",
 		"Sorry, this file..."		=> "Sorry, this file has changed, cannot save",
-		"Reload this file..."		=> "Reload this file and copy your version to a new document?",
+		"Reload this file..."		=> "Reload this file and copy your version to a diff pane?",
 		"There was a..."		=> "There was a tech hiccup, likely something was not quite ready. So ICEcoder reloaded its file control again.",
 		"displayed at"			=> "displayed at",
 		"Enter filename to..."		=> "Enter filename to save at",
@@ -275,7 +274,8 @@ $text = array(
 		"Error cannot find..."		=> "Error: cannot find/access the error file paths",
 		"No new errors..."		=> "No new errors found",
 		"You have made..."		=> "You have made changes. Are you sure you want to close without saving?",
-		"Close all tabs"		=> "Close all tabs?"
+		"Close all tabs"		=> "Close all tabs?",
+		"results"			=> "results"
 	),
 
 	"login" =>

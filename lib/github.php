@@ -23,7 +23,6 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		echo '<!DOCTYPE html>
 			<html>
 			<head>
-			<script src="base64.js"></script>
 			<script src="github.js"></script>
 			</body>
 			<script>
@@ -35,6 +34,39 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			if (goNext=="loadFiles") {
 				top.ICEcoder.githubDiffToggle();
 			}
+			</script>
+			</body>
+			</html>';
+	}
+
+	// ====
+	// READ
+	// ====
+	if ($_GET['action']=="read") {
+		
+		echo '<!DOCTYPE html>
+			<html>
+			<head>
+			<script src="github.js"></script>
+			<script src="underscore-min.js"></script>
+			</body>
+			<script>
+			// Start our github object, establish this repo & file path
+			var github = new Github({token: "'.$_SESSION['githubAuthToken'].'", auth: "oauth"});
+			var thisRepo = "'.$_GET['repo'].'";
+			var thisFilePath = "'.$_GET['filePath'].'";
+
+			// Start our repo and read the data in, then update diff pane with that
+			var repo = github.getRepo(thisRepo.split("|")[0], thisRepo.split("|")[1]);
+			repo.read("master", thisFilePath.replace(/\|/g,"/"), function(err, data) {
+				if (err) {
+					top.ICEcoder.message("There has been an error trying to get that file from GitHub.\n\nGitHub response:\n"+err);
+				} else {
+					cMdiff = top.ICEcoder.getcMdiffInstance();
+					cMdiff.setValue(data);
+				}
+			});
+
 			</script>
 			</body>
 			</html>';
@@ -121,7 +153,6 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> GitHub commit files</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="robots" content="noindex, nofollow">
-		<script src="base64.js"></script>
 		<script src="github.js"></script>
 		<link rel="stylesheet" type="text/css" href="github.css">
 		</head>
@@ -133,11 +164,11 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		echo $action == "commit" ? "Commit files" : "Pull files"; ?></h1>
 
 		<form name="commitDetails">
-			Title:<br><input type="text" name="commitTitle" id="commitTitle" value="" style="width: 300px; margin: 5px 0 15px 0"><br>
+			Title:<br><input type="text" name="commitTitle" id="commitTitle" value="" style="width: 300px; margin: 5px 0 15px 0" maxlength="50"><br>
 			Message:<br><textarea name="commitMessage" id="commitMessage" style="width: 300px; height: 118px; margin: 5px 0 15px 0"></textarea>
 		</form>
 
-		<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="commitFiles()">Commit</div>
+		<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="top.ICEcoder.showHide('show',top.get('loadingMask'));commitFiles()">Commit</div>
 
 		<br><br>
 
@@ -150,15 +181,18 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			// Replace pipes with slashes
 			$file = str_replace("|","/",$selectedFiles[$i]);
 
-			// Trim any +'s or spaces from the end of file and clear any ../'s
-			$file = str_replace("../","",rtrim(rtrim($file,'+'),' '));
+			// Trim any +'s or spaces from the end of file
+			$file = rtrim(rtrim($file,'+'),' ');
 
-			// Make $file a full path
-			if (strpos($file,$docRoot)===false) {$file=str_replace("|","/",$docRoot.$iceRoot.$file);};
+			// Establish the real absolute path to the file
+			$file = str_replace("\\","/",realpath($docRoot.$iceRoot.$file));
 
-			if (file_exists($file)) {
+			// Only get the file if it exists and begins with our $docRoot
+			if (file_exists($file) && strpos($file,$docRoot) === 0) {
 				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 				echo '<textarea name="loadedFile'.$i.'" id="loadedFile'.$i.'" style="display: none">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea><br><br>'.PHP_EOL.PHP_EOL;
+			} else {
+				die("<script>alert('Sorry, that file doesn\'t appear to exist');</script>");
 			}
 		}
 		?>
@@ -177,7 +211,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			var repo = github.getRepo(top.repo.split("/")[0], top.repo.split("/")[1]);
 			repo.write(
 				'master', 
-				committingFiles[seqFile].substr(1),
+				committingFiles[seqFile].substr(1).replace(/\|/g,"/"),
 				document.getElementById('loadedFile'+seqFile).value,
 				document.getElementById('commitTitle').value+'\n\n'+document.getElementById('commitMessage').value,
 				function(err) {
@@ -185,6 +219,16 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 						var locSplit = committingFiles[seqFile].lastIndexOf("|");
 						var location = committingFiles[seqFile].substr(0,locSplit+1);
 						var file = committingFiles[seqFile].substr(locSplit+1);
+
+						// Splice from diff or deleted paths
+						if (top.diffPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")) > -1) {
+							top.diffPaths.splice(top.diffPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")),1);
+						}
+						if (top.deletedPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")) > -1) {
+							top.deletedPaths.splice(top.deletedPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")),1);
+						}
+						
+						// Then deselect and remove from file manager
 						top.ICEcoder.thisFileFolderLink = committingFiles[seqFile];
 						top.ICEcoder.selectFileFolder(false,'ctrlSim');
 						top.ICEcoder.updateFileManagerList("delete",location,file);
@@ -193,12 +237,16 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 						if (top.ICEcoder.selectedFiles.length > 0) {
 							commitFiles();
 						} else {
-							alert('All done, switching modes');
+							top.ICEcoder.showHide('hide',top.get('loadingMask'));
 							top.ICEcoder.showHide('hide',top.get('blackMask'));
-							top.ICEcoder.githubDiffToggle();
+							if (top.diffPaths.length == 0 && top.deletedPaths.length == 0) {
+								top.ICEcoder.message('All done, switching modes');
+								top.ICEcoder.githubDiffToggle();
+							}
 						}
 					} else {
-						top.ICEcoder.message('There was an error with committing:\n\n'+err);
+						top.ICEcoder.message('There was an error with committing.\n\nSee dev tools console for details.');
+						console.log(err);
 					}
 				}
 			);
@@ -209,6 +257,18 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		</body>
 
 		</html>
+	<?php
+	}
+
+	// ====
+	// PULL
+	// ====
+	if ($_GET['action']=="pull") {
+	?>
+	<script>
+		top.ICEcoder.showHide('hide',top.get('blackMask'));
+		top.ICEcoder.message("Pull actions not yet available. Will be in ICEcoder v4.4");
+	</script>
 	<?php
 	}
 

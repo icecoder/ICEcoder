@@ -1,8 +1,8 @@
 <?php
 // ICEcoder system settings
 $ICEcoderSettings = array(
-	"versionNo"		=> "4.1",
-	"codeMirrorDir"		=> "CodeMirror-4.2",
+	"versionNo"		=> "4.4",
+	"codeMirrorDir"		=> "CodeMirror-4.7",
 	"docRoot"		=> $_SERVER['DOCUMENT_ROOT'],
 	"demoMode"		=> false,
 	"devMode"		=> false,
