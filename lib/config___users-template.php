@@ -1,6 +1,9 @@
 <?php
 $ICEcoderUserSettings = array(
 "versionNo"		=> "4.4",
+"licenseEmail"		=> "",
+"licenseCode"		=> "",
+"configCreateDate"	=> 0,
 "root"			=> "",
 "checkUpdates"		=> true,
 "openLastFiles"		=> true,
