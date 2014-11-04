@@ -53,6 +53,19 @@ $_SESSION['text'] = $text;
 if ((!$ICEcoder['loginRequired'] || $ICEcoder['demoMode']) && $ICEcoder['password']!="") {$_SESSION['loggedIn']=true;};
 $demoMode = $ICEcoder['demoMode'];
 
+// Check if trial period has ended
+$tPeriod = 1209600;
+if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && $ICEcoder['configCreateDate'] > 0 && $ICEcoder['configCreateDate']+$tPeriod < time() && !strpos($_SERVER['SCRIPT_NAME'],"lib/login.php") && !isset($_GET['get']) && !isset($_POST['code'])) {
+	if (file_exists('lib/login.php')) {
+		header('Location: lib/login.php?get=code&csrf='.$_SESSION["csrf"]);
+		echo "<script>window.location='lib/login.php?get=code&csrf=".$_SESSION["csrf"]."';</script>";
+	} else {
+		header('Location: login.php?get=code&csrf='.$_SESSION["csrf"]);
+		echo "<script>window.location='login.php?get=code&csrf=".$_SESSION["csrf"]."';</script>";
+	}
+	die('Redirecting to donate screen...');
+}
+
 // Update this config file?
 include(dirname(__FILE__)."/settings-update.php");
 
@@ -128,12 +141,45 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		echo "<script>window.location='login.php';</script>";
 	}
 	die('Redirecting to login...');
+
+// If we're unlocking ICEcoder after donating
+} elseif (isset($_POST['submit']) && (strpos($_POST['submit'],"Unlock ICEcoder")>-1)) {
+	if (generateHash(strClean($_POST['email']),$_POST['code'])==$_POST['code']) {
+		$settingsContents = file_get_contents($settingsFile,false,$context);
+		// Replace our empty email & code with the one submitted by user
+		$settingsContents = str_replace('"licenseEmail"		=> "",','"licenseEmail"		=> "'.$_POST['email'].'",',$settingsContents);
+		$settingsContents = str_replace('"licenseCode"		=> "",','"licenseCode"		=> "'.$_POST['code'].'",',$settingsContents);
+		// Now update the config file
+		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
+		fwrite($fh, $settingsContents);
+		fclose($fh);
+		if (file_exists('lib/login.php')) {
+			header('Location: lib/login.php?message=trialDonateThanks&csrf='.$_SESSION["csrf"]);
+			echo "<script>window.location='lib/login.php?message=trialDonateThanks&csrf=".$_SESSION["csrf"]."';</script>";
+		} else {
+			header('Location: login.php?message=trialDonateThanks&csrf='.$_SESSION["csrf"]);
+			echo "<script>window.location='login.php?message=trialDonateThanks&csrf=".$_SESSION["csrf"]."';</script>";
+		}
+	} else {
+		if (file_exists('lib/login.php')) {
+			header('Location: lib/login.php?get=code&success=no&csrf='.$_SESSION["csrf"]);
+			echo "<script>window.location='lib/login.php?get=code&success=no&csrf=".$_SESSION["csrf"]."';</script>";
+		} else {
+			header('Location: login.php?get=code&success=no&csrf='.$_SESSION["csrf"]);
+			echo "<script>window.location='login.php?get=code&success=no&csrf=".$_SESSION["csrf"]."';</script>";
+		}
+	}
+	
 // If we are on the login screen and not logged in
 } elseif (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it
 	if ($ICEcoder["password"] == "" && isset($_POST['submit']) && (strpos($_POST['submit'],"set password")>-1)) {
 		$password = generateHash(strClean($_POST['password']));
 		$settingsContents = file_get_contents($settingsFile,false,$context);
+		// Replace our config created date with the filemtime
+		clearstatcache();
+		$configfilemtime = filemtime("config___settings.php");
+		$settingsContents = str_replace('"configCreateDate"	=> 0,','"configCreateDate"	=> '.$configfilemtime.',',$settingsContents);
 		// Replace our empty password with the one submitted by user
 		$settingsContents = str_replace('"password"		=> "",','"password"		=> "'.$password.'",',$settingsContents);
 		// Also set the update checker preference
