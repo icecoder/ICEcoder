@@ -1,5 +1,5 @@
 <?php
-// English language translation
+// Italian language translation
 // by: @pietrondo (GitHub)
 //     @pietrobravo (Twitter)
 		blog.pietrocapriata.me (sito web)
