@@ -2,7 +2,7 @@
 // Italian language translation
 // by: @pietrondo (GitHub)
 //     @pietrobravo (Twitter)
-		blog.pietrocapriata.me (sito web)
+//	blog.pietrocapriata.me (sito web)
 // Please preserve formatting, line breaks, special characters, anything in <tags> and HTML equivalents (eg &amp;). Translations on right side.
 
 $text = array(
