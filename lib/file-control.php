@@ -297,7 +297,7 @@ if ($_GET['action']=="perms") {
 	if (!$demoMode && is_writable($file)) {
 		chmod($file,octdec(numClean($_GET['perms'])));
 		// Reload file manager
-		echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
+		echo 'top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
 		echo 'action="perms";';
 		// Run our custom processes
 		include_once("../processes/on-file-dir-perms.php");
