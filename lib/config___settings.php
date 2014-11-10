@@ -9,6 +9,8 @@ $ICEcoderSettings = array(
 	"loginRequired"		=> true,
 	"multiUser"		=> false,
 	"lineEnding"		=> "\n",
+	"newDirPerms"		=> 755,
+	"newFilePerms"		=> 644,
 	"enableRegistration"	=> true
 );
 ?>
