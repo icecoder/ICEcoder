@@ -118,7 +118,7 @@ if ($_GET['action']=="getRemoteFile") {
 // If we're due to add a new folder...
 if ($_GET['action']=="newFolder") {
 	if (!$demoMode && is_writable($docRoot.$fileLoc)) {
-		mkdir($file, 0705);
+		mkdir($file, octdec($ICEcoder['newDirPerms']));
 		// Reload file manager
 		echo 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'folder\');action="newFolder";';
 		// Run our custom processes
@@ -137,12 +137,12 @@ if ($_GET['action']=="paste") {
 		if (is_dir($source)) {
 			$fileOrFolder = "folder";
 			if (!is_dir($dest)) {
-				mkdir($dest, 0705);
+				mkdir($dest, octdec($ICEcoder['newDirPerms']));
 			} else {
 				for ($i=2; $i<1000000000; $i++) {
 					if (!is_dir($dest." (".$i.")")) {
 						$dest = $dest." (".$i.")";
-						mkdir($dest, 0705);
+						mkdir($dest, octdec($ICEcoder['newDirPerms']));
 						$i=1000000000;
 					}
 				}
@@ -152,7 +152,7 @@ if ($_GET['action']=="paste") {
 				RecursiveIteratorIterator::SELF_FIRST) as $item
 				) {
 				if ($item->isDir()) {
-					mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0705);
+					mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), octdec($ICEcoder['newDirPerms']));
 				} else {
 					copy($item, $dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName());
 				}
@@ -360,6 +360,8 @@ if ($_GET['action']=="save") {
 		if (!$demoMode && ((file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && $_POST['newFileName']!="")) {
 			$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 			if (!(isset($_GET['fileMDT']))||$filemtime==$_GET['fileMDT']) {
+				// Newly created files have the perms set too
+				$setPerms = (!file_exists($file)) ? true : false;
 				$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
 				// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 				$contents = $_POST['contents'];
@@ -369,6 +371,10 @@ if ($_GET['action']=="save") {
 				// Now write that content, close the file and clear the statcache
 				fwrite($fh, $contents);
 				fclose($fh);
+				if ($setPerms) {
+					chmod($file,octdec($ICEcoder['newFilePerms']));
+				}
+				chmod($file,octdec($ICEcoder['newFilePerms']));
 				clearstatcache();
 				$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 				echo 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
