@@ -374,7 +374,6 @@ if ($_GET['action']=="save") {
 				if ($setPerms) {
 					chmod($file,octdec($ICEcoder['newFilePerms']));
 				}
-				chmod($file,octdec($ICEcoder['newFilePerms']));
 				clearstatcache();
 				$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 				echo 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
