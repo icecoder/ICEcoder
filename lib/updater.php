@@ -42,7 +42,7 @@ function copyOldVersion() {
 			$testPath = str_replace("\\","/",$testPath);
 			if (strpos($testPath,"/plugins/")==false) {
 				if ($item->isDir()) {
-					mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0705);
+					mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0755);
 				} else {
 					rename($item, $dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName());
 				}
