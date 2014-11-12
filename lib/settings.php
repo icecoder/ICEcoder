@@ -98,8 +98,8 @@ $_SESSION['username'] = $_SESSION['username'];
 $serverType = stristr($_SERVER['SERVER_SOFTWARE'], "win") ? "Windows" : "Linux";
 $docRoot = rtrim(str_replace("\\","/",$ICEcoder['docRoot']));
 $iceRoot = rtrim(str_replace("\\","/",$ICEcoder["root"]));
-if ($_SESSION['loggedIn']) {
-	echo "<script>top.docRoot='".$docRoot."';top.iceRoot='".$iceRoot."'</script>";
+if ($_SESSION['loggedIn'] && basename($_SERVER['SCRIPT_NAME']) == "index.php") {
+	echo "<script>console.log('".basename($_SERVER['SCRIPT_NAME'])."');top.docRoot='".$docRoot."';top.iceRoot='".$iceRoot."'</script>";
 }
 
 // Establish the dir ICEcoders running from
