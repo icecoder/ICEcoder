@@ -267,6 +267,9 @@ echo '{
 	"action": {
 		"initial" : "'.$_GET["action"].'",
 		"final" : "'.$finalAction.'",
+		"timeStart": '.$_POST["timeStart"].',
+		"timeEnd": 0,
+		"timeTaken": 0,
 		"csrf": "'.$_GET["csrf"].'",
 		"doNext" : "'.str_replace(PHP_EOL,'',str_replace('	','',str_replace('"','\"',$doNext))).'top.ICEcoder.switchMode();"
 	},
