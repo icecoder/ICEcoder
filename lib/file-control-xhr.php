@@ -105,6 +105,9 @@ if (!$error && $_GET['action']=="save") {
 					if (xhr.readyState==4 && xhr.status==200) {
 						/* console.log(xhr.responseText); */
 						var statusArray = JSON.parse(xhr.responseText);
+						/* Set the actions end time and time taken in JSON object */
+						statusArray.action.timeEnd = new Date().getTime();
+						statusArray.action.timeTaken = statusArray.action.timeEnd - statusArray.action.timeStart;
 						/* console.log(statusArray); */
 
 						if (statusArray.status.error) {
