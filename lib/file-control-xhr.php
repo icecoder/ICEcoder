@@ -119,7 +119,7 @@ if (!$error && $_GET['action']=="save") {
 				/* console.log(\'Calling \'+saveURL+\' via XHR\'); */
 				xhr.open("POST",saveURL,true);
 				xhr.setRequestHeader(\'Content-type\', \'application/x-www-form-urlencoded\');
-				xhr.send(\'newFileName=\'+newFileName+\'&contents=\'+top.document.getElementById(\'saveTemp1\').value);
+				xhr.send(\'timeStart='.$_POST["timeStart"].'&newFileName=\'+newFileName+\'&contents=\'+top.document.getElementById(\'saveTemp1\').value);
 				top.ICEcoder.serverMessage("<b>'.$t['Saving'].'</b><br>" + "'.($finalAction == "Save" ? "newFileName" : "'".$fileName."'").'");
 			} else {
 				top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);
