@@ -97,6 +97,7 @@ if (!$error && $_GET['action']=="save") {
 			};
 
 			if ("undefined" == typeof newFileName || (newFileName && "undefined" == typeof overwriteOK) || ("undefined" != typeof overwriteOK && overwriteOK)) {
+				newFileName = "'.$docRoot.'" + newFileName;
 				saveURL = "lib/file-control-xhr.php?action=save&file='.$fileURLPart.$fileMDTURLPart.'&csrf='.$_GET["csrf"].'";
 
 				var xhr = top.ICEcoder.xhrObj();
@@ -104,16 +105,16 @@ if (!$error && $_GET['action']=="save") {
 				xhr.onreadystatechange=function() {
 					if (xhr.readyState==4 && xhr.status==200) {
 						/* console.log(xhr.responseText); */
-						var statusArray = JSON.parse(xhr.responseText);
+						var statusObj = JSON.parse(xhr.responseText);
 						/* Set the actions end time and time taken in JSON object */
-						statusArray.action.timeEnd = new Date().getTime();
-						statusArray.action.timeTaken = statusArray.action.timeEnd - statusArray.action.timeStart;
-						/* console.log(statusArray); */
+						statusObj.action.timeEnd = new Date().getTime();
+						statusObj.action.timeTaken = statusObj.action.timeEnd - statusObj.action.timeStart;
+						/* console.log(statusObj); */
 
-						if (statusArray.status.error) {
-							top.ICEcoder.message(statusArray.status.errorMsg);
+						if (statusObj.status.error) {
+							top.ICEcoder.message(statusObj.status.errorMsg);
 						} else {
-							eval(statusArray.action.doNext);
+							eval(statusObj.action.doNext);
 						}
 						
 
@@ -212,25 +213,24 @@ if (!$error && $_GET['action']=="save") {
 
 			} else {
 				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
-				echo '</script><textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",htmlentities($loadedFile)).'</textarea>';
-				echo '<textarea name="userVersionFile" id="userVersionFile"></textarea><script>';
-				?>
-				var refreshFile = top.ICEcoder.ask('<?php echo $t['Sorry, this file...']."\\n".$file."\\n\\n".$t['Reload this file...'];?>');
+				$doNext = '
+				var loadedFile = document.createElement("textarea");
+				loadedFile.value = "'.str_replace('"','\\\"',str_replace("\r","\\\\r",str_replace("\n","\\\\n",str_replace("</textarea>","<ICEcoder:/:textarea>",$loadedFile)))).'";
+				var refreshFile = top.ICEcoder.ask("'.$t['Sorry, this file...'].'\\\n'.$file.'\\\n\\\n'.$t['Reload this file...'].'");
 				if (refreshFile) {
 					var cM = top.ICEcoder.getcMInstance();
 					var thisTab = top.ICEcoder.selectedTab;
-					document.getElementById('userVersionFile').value = cM.getValue();
-					// Revert back to original
-					cM.setValue(document.getElementById('loadedFile').value);
+					var userVersionFile = cM.getValue();
+					/* Revert back to original */
+					cM.setValue(loadedFile.value);
 					top.ICEcoder.savedPoints[thisTab-1] = cM.changeGeneration();
-					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "<?php echo $filemtime; ?>";
+					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "'.$filemtime.'";
 					cM.clearHistory();
-					// Now for the new version in the diff pane
-					top.ICEcoder.setSplitPane('on');
+					/* Now for the new version in the diff pane */
+					top.ICEcoder.setSplitPane(\'on\');
 					var cMdiff = top.ICEcoder.getcMdiffInstance();
-					cMdiff.setValue(document.getElementById('userVersionFile').value);
-				}
-				<?php
+					cMdiff.setValue(userVersionFile);
+				};';
 				$finalAction = "nothing";
 			}
 
