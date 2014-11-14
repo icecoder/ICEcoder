@@ -16,8 +16,11 @@ $saveType = isset($_GET['saveType']) ? strClean($_GET['saveType']) : "";
 $file = str_replace("|","/",strClean(
 	isset($_POST['newFileName']) && $_POST['newFileName']!=""
 	? $_POST['newFileName']
-	: $_GET['file']
+	: $_REQUEST['file']
 	));
+
+// Establish the actual name as we may have HTML entities in filename
+$file = html_entity_decode($file);
 
 // Put the original $file var aside for use
 $fileOrig = $file;
