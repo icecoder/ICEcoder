@@ -22,8 +22,11 @@ $saveType = isset($_GET['saveType']) ? strClean($_GET['saveType']) : "";
 $file = str_replace("|","/",strClean(
 	isset($_POST['newFileName']) && $_POST['newFileName']!=""
 	? $_POST['newFileName']
-	: $_GET['file']
+	: $_REQUEST['file']
 	));
+
+// Establish the actual name as we may have HTML entities in filename
+$file = html_entity_decode($file);
 
 // Put the original $file var aside for use
 $fileOrig = $file;
@@ -82,7 +85,7 @@ if (!$error && $_GET['action']=="save") {
 
 	if (strpos($fileOrig,"[NEW]")>0||$saveType=="saveAs") {
 		$finalAction = strpos($fileOrig,"[NEW]")>0 ? "save as" : "save";
-		$fileURLPart = isset($file) ? $file : "";
+		$fileURL = isset($file) ? $file : "";
 		$fileMDTURLPart = isset($_GET["fileMDT"]) && $_GET["fileMDT"]!="undefined" ? "&fileMDT=".numClean($_GET['fileMDT']) : "";
 		$doNext = '
 			top.ICEcoder.serverMessage();
@@ -98,7 +101,7 @@ if (!$error && $_GET['action']=="save") {
 
 			if ("undefined" == typeof newFileName || (newFileName && "undefined" == typeof overwriteOK) || ("undefined" != typeof overwriteOK && overwriteOK)) {
 				newFileName = "'.$docRoot.'" + newFileName;
-				saveURL = "lib/file-control-xhr.php?action=save&file='.$fileURLPart.$fileMDTURLPart.'&csrf='.$_GET["csrf"].'";
+				saveURL = "lib/file-control-xhr.php?action=save'.$fileMDTURLPart.'&csrf='.$_GET["csrf"].'";
 
 				var xhr = top.ICEcoder.xhrObj();
 
@@ -123,7 +126,7 @@ if (!$error && $_GET['action']=="save") {
 				/* console.log(\'Calling \'+saveURL+\' via XHR\'); */
 				xhr.open("POST",saveURL,true);
 				xhr.setRequestHeader(\'Content-type\', \'application/x-www-form-urlencoded\');
-				xhr.send(\'timeStart='.$_POST["timeStart"].'&newFileName=\'+newFileName+\'&contents=\'+top.document.getElementById(\'saveTemp1\').value);
+				xhr.send(\'timeStart='.$_POST["timeStart"].'&file='.$fileURL.'&newFileName=\'+newFileName+\'&contents=\'+top.document.getElementById(\'saveTemp1\').value);
 				top.ICEcoder.serverMessage("<b>'.$t['Saving'].'</b><br>" + "'.($finalAction == "Save" ? "newFileName" : "'".$fileName."'").'");
 			} else {
 				top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);
@@ -169,9 +172,9 @@ if (!$error && $_GET['action']=="save") {
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 					$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'file\');';
 					$doNext .= 'top.ICEcoder.renameTab(top.ICEcoder.selectedTab,\''.$fileLoc."/".$fileName.'\');';
-					if (!strpos($_GET['file'],"[NEW]")) {
+					if (!strpos($_REQUEST['file'],"[NEW]")) {
 						// We're saving as a new file, so unhighlight the old name in the file manager if visible
-						$doNext .= "fileLink = top.ICEcoder.filesFrame.contentWindow.document.getElementById('".str_replace("/","|",$fileLoc)."|".basename($_GET['file'])."');";
+						$doNext .= "fileLink = top.ICEcoder.filesFrame.contentWindow.document.getElementById('".str_replace("/","|",$fileLoc)."|".basename($_REQUEST['file'])."');";
 						$doNext .= "if (fileLink) {fileLink.style.backgroundColor = top.ICEcoder.tabBGnormal; fileLink.style.color = top.ICEcoder.tabFGnormalFile};";
 					}
 				}
