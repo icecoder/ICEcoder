@@ -7,6 +7,7 @@ $ICEcoderUserSettings = array(
 "root"			=> "",
 "checkUpdates"		=> true,
 "openLastFiles"		=> true,
+"updateDiffOnSave"	=> true,
 "findFilesExclude"	=> array(".doc",".gif",".jpg",".jpeg",".pdf",".png",".swf",".xml",".zip"),
 "codeAssist"		=> true,
 "visibleTabs"		=> false,
