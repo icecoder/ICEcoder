@@ -195,12 +195,19 @@ if (!$error && $_GET['action']=="save") {
 					
 				};';
 
+				// Copy over content to diff pane if we have that setting on
+				$doNext .= '
+					cM = top.ICEcoder.getcMInstance();
+					cMdiff = top.ICEcoder.getcMdiffInstance();
+					if (top.ICEcoder.updateDiffOnSave) {
+						cMdiff.setValue(cM.getValue());
+					};
+				';
 
 				// Finally, set previous files, indicate changes, set saved points and redo tabs
 				$doNext .= '
 						top.ICEcoder.setPreviousFiles();
 						setTimeout(function(){top.ICEcoder.indicateChanges()},4);
-						cM = top.ICEcoder.getcMInstance();
 						top.ICEcoder.savedPoints[top.ICEcoder.selectedTab-1] = cM.changeGeneration();
 						top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);';
 
