@@ -65,6 +65,10 @@ if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=
 	}
 	die('Redirecting to donate screen...');
 }
+$tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
+if ($tRemaining > $tPeriod) {$tRemaining = $tPeriod;};
+$tRemainingPerc = number_format($tRemaining/$tPeriod,2);
+$tDaysRemaining = intval($tRemaining/(60*60*24));
 
 // Update this config file?
 include(dirname(__FILE__)."/settings-update.php");
