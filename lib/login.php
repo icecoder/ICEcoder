@@ -18,7 +18,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 
-<body onLoad="document.settingsUpdate.<?php echo $ICEcoder["multiUser"] && !isset($_GET["get"]) ? "username" : "password";?>.focus()">
+<body onLoad="document.settingsUpdate.<?php echo $ICEcoder["multiUser"] && !isset($_GET["get"]) ? "username" : "password";?>.focus(); document.getElementById('trialBarRemaining').style.width = '<?php echo $tRemainingPerc*170;?>px';">
 	
 <div class="screenContainer" style="background-color: #141414">
 	<div class="screenVCenter">
@@ -27,13 +27,8 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		<div class="version" style="margin-bottom: 22px">v <?php echo $ICEcoder["versionNo"];?></div>
 
 <?php if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && !isset($_GET['get']) && !isset($_POST['code'])) {?>
-		<div class="trialBarContainer"><?php
-		$tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
-		if ($tRemaining > $tPeriod) {$tRemaining = $tPeriod;};
-		$tRemainingPerc = number_format($tRemaining/$tPeriod,2);
-		$tDaysRemaining = intval($tRemaining/(60*60*24));
-		?><div class="trialBarRemaining" style="width: <?php echo $tRemainingPerc*170;?>px"></div><br>
-		<div class="trialBarText"><?php echo $tDaysRemaining;?> days left <a href="login.php?get=code&csrf=<?php echo $_SESSION["csrf"];?>">Unlock now</a></div>
+		<div class="trialBarContainer"><div class="trialBarRemaining" id="trialBarRemaining"></div><br>
+			<div class="trialBarText"><?php echo $tDaysRemaining;?> days left <a href="login.php?get=code&csrf=<?php echo $_SESSION["csrf"];?>">Unlock now</a></div>
 		</div>
 <?php ;}; ?>
 
