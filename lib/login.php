@@ -25,11 +25,23 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		<div class="screenCenter">
 		<img src="../images/ice-coder.png" alt="ICEcoder">
 		<div class="version" style="margin-bottom: 22px">v <?php echo $ICEcoder["versionNo"];?></div>
+
+<?php if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && !isset($_GET['get']) && !isset($_POST['code'])) {?>
+		<div class="trialBarContainer"><?php
+		$tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
+		if ($tRemaining > $tPeriod) {$tRemaining = $tPeriod;};
+		$tRemainingPerc = number_format($tRemaining/$tPeriod,2);
+		$tDaysRemaining = intval($tRemaining/(60*60*24));
+		?><div class="trialBarRemaining" style="width: <?php echo $tRemainingPerc*170;?>px"></div><br>
+		<div class="trialBarText"><?php echo $tDaysRemaining;?> days left <a href="login.php?get=code&csrf=<?php echo $_SESSION["csrf"];?>">Unlock now</a></div>
+		</div>
+<?php ;}; ?>
+
 		<form name="settingsUpdate" action="login.php" method="POST">
 <?php
 	if (isset($_GET["get"]) && $_GET["get"]=="code") {
 		?>
-		<span style="color: #fff"><h1>Thanks for trialling ICEcoder!</h1><b>The trial period has now ended, please donate on the website to continue using it.</b><br><br>
+		<span style="color: #fff"><h1>Thanks for trialling ICEcoder!</h1><b>Please donate on the website to continue using it.</b><br><br>
 		<h2>Step 1: Donate</h2><br><br>
 		<a href="https://icecoder.net/?display=trialDonateScreen" target="_blank" style="background: #097695; color: #fff; padding: 10px; text-decoration: none; font-size: 17px; font-weight: bold; border-radius: 4px; cursor: pointer">Donate $5</a><br><br><br>
 		<h2>Step 2: Enter email address &amp; code</h2><br>
