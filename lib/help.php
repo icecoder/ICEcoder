@@ -33,6 +33,8 @@ $t = $text['help'];
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> j</span> <span class="shortcut"><?php echo $t['Jump to definition'];?></span><br>
 	<span class="key">Esc</span> <span class="shortcut"><?php echo $t['Comment uncomment'];?></span><br>
 	<span class="key">Tab</span> <span class="shortcut"><?php echo $t['Insert tab indent'];?></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> [</span> <span class="shortcut"><?php echo $t['Insert less'];?></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> ]</span> <span class="shortcut"><?php echo $t['Insert more'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> d</span> <span class="shortcut"><?php echo $t['Wrap with div'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> s</span> <span class="shortcut"><?php echo $t['Wrap with span'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> p</span> <span class="shortcut"><?php echo $t['Wrap unwrap p'];?></span><br>
@@ -43,9 +45,7 @@ $t = $text['help'];
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> e</span> <span class="shortcut"><?php echo $t['Wrap unwrap em'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> 8</span> <span class="shortcut"><?php echo $t['Wrap unwrap li'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> 1, 2 <?php echo $t['or'];?> 3</span> <span class="shortcut"><?php echo $t['Wrap unwrap h1...'];?></span><br>
-	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> Enter</span> <span class="shortcut"><?php echo $t['End line with...'];?></span><br><br>
-	<h2><?php echo $t['On Tabs'];?></h2>
-	<span class="key"><?php echo $t['Middle click'];?></span> <span class="shortcut"><?php echo $t['Close tab'];?></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> Enter</span> <span class="shortcut"><?php echo $t['End line with...'];?></span><br>
 </div>
 
 <div style="display: inline-block; width: 385px">
@@ -74,6 +74,9 @@ $t = $text['help'];
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> .</span> <span class="shortcut"><?php echo $t['Fold unfold current...'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> &larr; / &rarr;</span> <span class="shortcut">Focus on file manager / content<!--<?php echo $t['Refocus on document'];?>//--></span><br>
 	<span class="key">Esc</span> <span class="shortcut"><?php echo $t['Cancel tasks'];?></span><br><br>
+
+	<h2><?php echo $t['On Tabs'];?></h2>
+	<span class="key"><?php echo $t['Middle click'];?></span> <span class="shortcut"><?php echo $t['Close tab'];?></span><br>
 </div>
 
 </body>
