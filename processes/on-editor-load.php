@@ -160,11 +160,12 @@ top.ICEcoder.caretLocationType = function() {
 	if(caretChunk.lastIndexOf("<script")>caretChunk.lastIndexOf("/script>")&&caretLocType=="Unknown") {caretLocType = "JavaScript";}
 	else if (caretChunk.lastIndexOf("<?")>caretChunk.lastIndexOf("?>")&&caretLocType=="Unknown") {caretLocType = "PHP";}
 	else if (caretChunk.lastIndexOf("<%")>caretChunk.lastIndexOf("%>")&&caretLocType=="Unknown") {caretLocType = "Ruby";}
+	else if (caretChunk.lastIndexOf("<style")>caretChunk.lastIndexOf("/style>")&&caretLocType=="Unknown") {caretLocType = "CSS";}
 	else if (caretChunk.lastIndexOf("<")>caretChunk.lastIndexOf(">")&&caretLocType=="Unknown") {caretLocType = "HTML";}
 	else if (caretLocType=="Unknown") {caretLocType = "Content";};
 
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	if (fileName) {
+	if (caretLocType == "Content" && fileName) {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
 		caretLocType =
