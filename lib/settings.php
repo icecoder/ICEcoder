@@ -55,7 +55,7 @@ $demoMode = $ICEcoder['demoMode'];
 
 // Check if trial period has ended
 $tPeriod = 1209600;
-if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && $ICEcoder['configCreateDate'] > 0 && $ICEcoder['configCreateDate']+$tPeriod < time() && !strpos($_SERVER['SCRIPT_NAME'],"lib/login.php") && !isset($_GET['get']) && !isset($_POST['code'])) {
+if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && $ICEcoder['configCreateDate'] > 0 && $ICEcoder['configCreateDate']+$tPeriod < time() && !isset($_GET['get']) && !isset($_POST['code'])) {
 	if (file_exists('lib/login.php')) {
 		header('Location: lib/login.php?get=code&csrf='.$_SESSION["csrf"]);
 		echo "<script>window.location='lib/login.php?get=code&csrf=".$_SESSION["csrf"]."';</script>";
