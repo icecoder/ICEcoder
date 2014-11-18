@@ -8,7 +8,7 @@ $isGitHubRepoDir = in_array($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
 ?>
 <!DOCTYPE html>
 
-<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'files');top.ICEcoder.canResizeFilesW()}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'files')}" onContextMenu="top.ICEcoder.selectFileFolder(event); return top.ICEcoder.showMenu(event)" onClick="top.ICEcoder.selectFileFolder(event)" onDragStart="top.ICEcoder.selectFileFolder(event);" onDragOver="event.preventDefault();event.stopPropagation()">
+<html onMouseDown="top.ICEcoder.mouseDown=true; top.ICEcoder.boxSelect(event,'down')" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.boxSelect(event,'up'); if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'files');top.ICEcoder.canResizeFilesW(); top.ICEcoder.boxSelect(event,'drag')}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'files')}" onContextMenu="top.ICEcoder.selectFileFolder(event); return top.ICEcoder.showMenu(event)" onClick="if (!top.ICEcoder.fmDraggedBox) {top.ICEcoder.selectFileFolder(event)} else {top.ICEcoder.fmDraggedBox = false}" onDragStart="top.ICEcoder.selectFileFolder(event);" onDragOver="event.preventDefault();event.stopPropagation()">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> file manager</title>
 <meta name="robots" content="noindex, nofollow">
@@ -51,6 +51,8 @@ $permColors = $thisPermVal == 777 ? 'background: #800; color: #eee' : 'color: #8
 <iframe name="testControl" style="display: none"></iframe>
 
 <iframe name="processControl" style="display: none"></iframe>
+
+<div class="fmDragBox" id="fmDragBox"></div>
 
 </body>
 	
