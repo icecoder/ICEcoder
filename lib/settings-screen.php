@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include("headers.php");
 include("settings.php");
 $t = $text['settings-screen'];
@@ -82,7 +82,20 @@ for ($i=0;$i<count($themeArray);$i++) {
 <h2><?php echo $t['functionality'];?></h2>
 <input type="checkbox" onclick="showButton()" name="checkUpdates" value="true"<?php if($ICEcoder["checkUpdates"]) {echo ' checked';};?>> <?php echo $t['check for updates...'];?><br>
 <input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($ICEcoder["openLastFiles"]) {echo ' checked';};?>> <?php echo $t['auto open last...'];?><br>
-<input type="checkbox" onclick="showButton()" name="updateDiffOnSave" value="true"<?php if($ICEcoder["updateDiffOnSave"]) {echo ' checked';};?>> Update diff pane on save<br>
+<input type="checkbox" onclick="showButton()" name="updateDiffOnSave" value="true"<?php if($ICEcoder["updateDiffOnSave"]) {echo ' checked';};?>> update diff pane on save<br>
+language <span class="info" title="Reload required after changing">[?]</span><br>
+<select onchange="showButton()" name="languageUser">
+	<option value="chinese-simplified.php"<?php if($ICEcoder["languageUser"]=='chinese-simplified.php') {echo " selected";};?>>中国（简体）</option>
+	<option value="chinese-traditional.php"<?php if($ICEcoder["languageUser"]=='chinese-traditional.php') {echo " selected";};?>>中國（繁體）</option>
+	<option value="dutch.php"<?php if($ICEcoder["languageUser"]=='dutch.php') {echo " selected";};?>>Nederlands</option>
+	<option value="english.php"<?php if($ICEcoder["languageUser"]=='english.php') {echo " selected";};?>>English</option>
+	<option value="french.php"<?php if($ICEcoder["languageUser"]=='french.php') {echo " selected";};?>>Français</option>
+	<option value="german.php"<?php if($ICEcoder["languageUser"]=='german.php') {echo " selected";};?>>Deutsch</option>
+	<option value="italian.php"<?php if($ICEcoder["languageUser"]=='italian.php') {echo " selected";};?>>Italiano</option>
+	<option value="norwegian.php"<?php if($ICEcoder["languageUser"]=='norwegian.php') {echo " selected";};?>>Norsk</option>
+	<option value="persian.php"<?php if($ICEcoder["languageUser"]=='persian.php') {echo " selected";};?>>فارسی</option>
+Nederlands
+</select><br>
 <br>
 <?php echo $t['when finding in...'];?>:<br>
 <input type="text" onkeydown="showButton()" name="findFilesExclude" value="<?php echo implode(", ",$ICEcoder["findFilesExclude"]); ?>"><br>
