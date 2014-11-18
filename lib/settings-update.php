@@ -10,11 +10,15 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$repPosStart = strpos($settingsContents,'"root"');
 	$repPosEnd = strpos($settingsContents,'"plugins"');
 
+	// Has there been a language change?
+	$languageUserChanged = $ICEcoder['languageUser'] != $_POST['languageUser'];
+
 	// Prepare all our vars
 	$ICEcoder["root"]			= xssClean($_POST['root'],"html");
 	$ICEcoder["checkUpdates"]		= isset($_POST['checkUpdates']) && $_POST['checkUpdates'] ? "true" : "false";
 	$ICEcoder["openLastFiles"]		= isset($_POST['openLastFiles']) && $_POST['openLastFiles'] ? "true" : "false";
 	$ICEcoder["updateDiffOnSave"]		= isset($_POST['updateDiffOnSave']) && $_POST['updateDiffOnSave'] ? "true" : "false";
+	$ICEcoder["languageUser"]		= strClean($_POST['languageUser']);
 	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['findFilesExclude']))).'")';
 	$ICEcoder["codeAssist"]			= isset($_POST['codeAssist']) && $_POST['codeAssist'] ? "true" : "false";
 	$ICEcoder["visibleTabs"]		= isset($_POST['visibleTabs']) && $_POST['visibleTabs'] ? "true" : "false";
@@ -36,12 +40,12 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["bugFileMaxLines"]		= intval($_POST['bugFileMaxLines']);
 	$ICEcoder["githubAuthToken"]		= strClean($_POST['githubAuthToken']);
 
-	$settingsArray = array("root","checkUpdates","openLastFiles","updateDiffOnSave","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","theme","fontSize","lineWrapping","indentWithTabs","indentSize","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines","githubAuthToken");
+	$settingsArray = array("root","checkUpdates","openLastFiles","updateDiffOnSave","languageUser","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","theme","fontSize","lineWrapping","indentWithTabs","indentSize","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines","githubAuthToken");
 	$settingsNew = "";
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"	=> ';
 		// Wrap certain values in double quotes
-		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="password"||$settingsArray[$i]=="theme"||$settingsArray[$i]=="fontSize"||$settingsArray[$i]=="tagWrapperCommand"||$settingsArray[$i]=="autoComplete"||$settingsArray[$i]=="pluginPanelAligned"||$settingsArray[$i]=="githubAuthToken" ? '"' : '';
+		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="password"||$settingsArray[$i]=="languageUser"||$settingsArray[$i]=="theme"||$settingsArray[$i]=="fontSize"||$settingsArray[$i]=="tagWrapperCommand"||$settingsArray[$i]=="autoComplete"||$settingsArray[$i]=="pluginPanelAligned"||$settingsArray[$i]=="githubAuthToken" ? '"' : '';
 		$settingsNew .= $settingWrap.$ICEcoder[$settingsArray[$i]].$settingWrap.','.PHP_EOL;
 	}
 
@@ -84,6 +88,12 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	fclose($fConfigSettings);
 
 	$githubAuthTokenSet = $ICEcoder["githubAuthToken"] != "" ? "true" : "false";
+
+	// If we've changed langugage, reload ICEcoder now
+	if ($languageUserChanged) {
+		echo '<script>top.window.location = "../";</script>';
+		die('Reloading ICEcoder after language change');
+	}
 
 	// With all that worked out, we can now hide the settings screen and apply the new settings
 	$jsBugFilePaths = "['".str_replace(",","','",str_replace(" ","",strClean($_POST['bugFilePaths'])))."']";

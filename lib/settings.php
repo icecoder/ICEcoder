@@ -41,12 +41,18 @@ If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
 $ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
 
 // Include language file
-// Load English first as foundation
-include(dirname(__FILE__)."/../lang/english.php");
-$englishText = $text;
-// Load chosen language ontop to replace English
-include(dirname(__FILE__)."/../lang/english.php");
-$text = array_replace_recursive($englishText, $text);
+// Load base first as foundation
+if (strpos(str_replace("\\","/",realpath(dirname(__FILE__)."/../lang/".$ICEcoder['languageBase'])),str_replace("\\","/",realpath($ICEcoder['docRoot']))) !== 0) {
+	die('Sorry, bad base language path');
+}
+if (strpos(str_replace("\\","/",realpath(dirname(__FILE__)."/../lang/".$ICEcoder['languageUser'])),str_replace("\\","/",realpath($ICEcoder['docRoot']))) !== 0) {
+	die('Sorry, bad user language path');
+}
+include(dirname(__FILE__)."/../lang/".$ICEcoder['languageBase']);
+$baseText = $text;
+// Load chosen language ontop to replace base
+include(dirname(__FILE__)."/../lang/".$ICEcoder['languageUser']);
+$text = array_replace_recursive($baseText, $text);
 $_SESSION['text'] = $text;
 
 // Login not required or we're in demo mode and have password set in our settings, log us straight in
