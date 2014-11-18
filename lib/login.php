@@ -18,7 +18,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 
-<body onLoad="document.settingsUpdate.<?php echo $ICEcoder["multiUser"] && !isset($_GET["get"]) ? "username" : "password";?>.focus(); document.getElementById('trialBarRemaining').style.width = '<?php echo $tRemainingPerc*170;?>px';">
+<body onLoad="<?php if (!isset($_GET["get"])) {$inputFocus = $ICEcoder["multiUser"] ? "username" : "password"; echo "document.settingsUpdate.".$inputFocus.".focus(); ";}; ?>if (document.getElementById('trialBarRemaining')) {setTimeout(function(){document.getElementById('trialBarRemaining').style.width = '<?php echo $tRemainingPerc*170;?>px';},500)}">
 	
 <div class="screenContainer" style="background-color: #141414">
 	<div class="screenVCenter">
@@ -28,7 +28,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 
 <?php if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && !isset($_GET['get']) && !isset($_POST['code'])) {?>
 		<div class="trialBarContainer"><div class="trialBarRemaining" id="trialBarRemaining"></div><br>
-			<div class="trialBarText"><?php echo $tDaysRemaining;?> days left <a href="login.php?get=code&csrf=<?php echo $_SESSION["csrf"];?>">Unlock now</a></div>
+			<div class="trialBarText"><?php echo $tDaysRemaining;?> days left - <a href="login.php?get=code&csrf=<?php echo $_SESSION["csrf"];?>">Unlock now</a></div>
 		</div>
 <?php ;}; ?>
 
