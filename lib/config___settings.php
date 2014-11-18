@@ -8,6 +8,7 @@ $ICEcoderSettings = array(
 	"devMode"		=> false,
 	"loginRequired"		=> true,
 	"multiUser"		=> false,
+	"languageBase"		=> "english.php",
 	"lineEnding"		=> "\n",
 	"newDirPerms"		=> 755,
 	"newFilePerms"		=> 644,

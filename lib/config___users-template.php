@@ -8,6 +8,7 @@ $ICEcoderUserSettings = array(
 "checkUpdates"		=> true,
 "openLastFiles"		=> true,
 "updateDiffOnSave"	=> true,
+"languageUser"		=> "english.php",
 "findFilesExclude"	=> array(".doc",".gif",".jpg",".jpeg",".pdf",".png",".swf",".xml",".zip"),
 "codeAssist"		=> true,
 "visibleTabs"		=> false,
