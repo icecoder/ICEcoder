@@ -250,7 +250,7 @@ if (!$error && $_GET['action']=="save") {
 
         	} else {
 			$finalAction = "nothing";
-			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot save']."\\n".$file."');";
+			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot save']."\\\\n".$file."');";
 		}
 		$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 	}
