@@ -29,6 +29,20 @@ if (!file_exists(dirname(__FILE__)."/".$settingsFile) && $ICEcoderSettings['enab
 // Load user settings
 include(dirname(__FILE__)."/".$settingsFile);
 
+// Replace our config created date with the filemtime?
+if ($ICEcoderUserSettings['configCreateDate'] == 0) {
+	$settingsContents = file_get_contents($settingsFile,false,$context);
+	clearstatcache();
+	$configfilemtime = filemtime("config___settings.php");
+	$settingsContents = str_replace('"configCreateDate"	=> 0,','"configCreateDate"	=> '.$configfilemtime.',',$settingsContents);
+	// Now update the config file
+	$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
+	fwrite($fh, $settingsContents);
+	fclose($fh);
+	// Set the new value in array
+	$ICEcoderUserSettings['configCreateDate'] = $configfilemtime;
+}
+
 // On mismatch of settings file to system, rename to .old and reload
 If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
 	rename(dirname(__FILE__)."/".$settingsFile,dirname(__FILE__)."/".str_replace(".php",".old",$settingsFile));
@@ -60,7 +74,7 @@ if ((!$ICEcoder['loginRequired'] || $ICEcoder['demoMode']) && $ICEcoder['passwor
 $demoMode = $ICEcoder['demoMode'];
 
 // Check if trial period has ended
-$tPeriod = 1209600;
+$tPeriod = 1296000-1;
 if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && $ICEcoder['configCreateDate'] > 0 && $ICEcoder['configCreateDate']+$tPeriod < time() && !isset($_GET['get']) && !isset($_POST['code'])) {
 	if (file_exists('lib/login.php')) {
 		header('Location: lib/login.php?get=code&csrf='.$_SESSION["csrf"]);
@@ -72,7 +86,7 @@ if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=
 	die('Redirecting to donate screen...');
 }
 $tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
-if ($tRemaining > $tPeriod) {$tRemaining = $tPeriod;};
+if ($tRemaining > $tPeriod || $ICEcoder['configCreateDate'] == 0) {$tRemaining = $tPeriod;};
 $tRemainingPerc = number_format($tRemaining/$tPeriod,2);
 $tDaysRemaining = intval($tRemaining/(60*60*24));
 
@@ -186,10 +200,6 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 	if ($ICEcoder["password"] == "" && isset($_POST['submit']) && (strpos($_POST['submit'],"set password")>-1)) {
 		$password = generateHash(strClean($_POST['password']));
 		$settingsContents = file_get_contents($settingsFile,false,$context);
-		// Replace our config created date with the filemtime
-		clearstatcache();
-		$configfilemtime = filemtime("config___settings.php");
-		$settingsContents = str_replace('"configCreateDate"	=> 0,','"configCreateDate"	=> '.$configfilemtime.',',$settingsContents);
 		// Replace our empty password with the one submitted by user
 		$settingsContents = str_replace('"password"		=> "",','"password"		=> "'.$password.'",',$settingsContents);
 		// Also set the update checker preference
