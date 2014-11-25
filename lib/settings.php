@@ -30,13 +30,13 @@ if (!file_exists(dirname(__FILE__)."/".$settingsFile) && $ICEcoderSettings['enab
 include(dirname(__FILE__)."/".$settingsFile);
 
 // Replace our config created date with the filemtime?
-if ($ICEcoderUserSettings['configCreateDate'] == 0) {
-	$settingsContents = file_get_contents($settingsFile,false,$context);
+if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['configCreateDate'] == 0) {
+	$settingsContents = file_get_contents(dirname(__FILE__)."/".$settingsFile,false,$context);
 	clearstatcache();
-	$configfilemtime = filemtime("config___settings.php");
+	$configfilemtime = filemtime(dirname(__FILE__)."/"."config___settings.php");
 	$settingsContents = str_replace('"configCreateDate"	=> 0,','"configCreateDate"	=> '.$configfilemtime.',',$settingsContents);
 	// Now update the config file
-	$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
+	$fh = fopen(dirname(__FILE__)."/".$settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 	fwrite($fh, $settingsContents);
 	fclose($fh);
 	// Set the new value in array
