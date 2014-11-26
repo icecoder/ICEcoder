@@ -167,7 +167,7 @@ if (!$error && $_GET['action']=="save") {
 				}
 				clearstatcache();
 				$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
-				$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
+				$doNext = 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
 				// Reload file manager, rename tab & remove old file highlighting if it was a new file
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 					$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'file\');';
@@ -250,7 +250,7 @@ if (!$error && $_GET['action']=="save") {
 
         	} else {
 			$finalAction = "nothing";
-			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot save']."\\\\n".$file."');";
+			$doNext = "top.ICEcoder.message('".$t['Sorry, cannot save']."\\\\n".$file."');";
 		}
 		$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 	}
@@ -284,7 +284,7 @@ echo '{
 		"timeEnd": 0,
 		"timeTaken": 0,
 		"csrf": "'.$_GET["csrf"].'",
-		"doNext" : "'.str_replace(PHP_EOL,'',str_replace('	','',str_replace('"','\"',$doNext))).'top.ICEcoder.switchMode();"
+		"doNext" : "'.preg_replace('/\r|\n/','',str_replace('	','',str_replace('"','\"',$doNext))).'top.ICEcoder.switchMode();"
 	},
 	"status": {
 		"error" : '.($error ? 'true' : 'false').',
