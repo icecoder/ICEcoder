@@ -33,7 +33,8 @@ if (isset($_GET['logout'])) {
 	$_SESSION['loggedIn']=false;
 	$_SESSION['username']=false;
 	session_destroy();
-	header("Location: ".dirname(__FILE__)."/../?loggedOut");
+	header("Location: ."); 
+	die("Logging you out...");
 }
 
 // If magic quotes are still on (attempted to switch off in php.ini)
