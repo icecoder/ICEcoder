@@ -376,35 +376,37 @@ if (action=="load") {
 				top.ICEcoder.setLayout();
 				top.ICEcoder.content.contentWindow.createNewCMInstance(top.ICEcoder.nextcMInstance);
 
-				// If we're in GitHub diff mode and have a split pane display, get the content for the diff pane
-				if (top.ICEcoder.githubDiff && top.ICEcoder.splitPane) {
-					<?php
-					// Get our GitHub relative site path & local path
-					$ghRemoteURLPos = array_search($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
+				<?php if ($_SESSION['githubDiff']) { ?>
+					// If we're in GitHub diff mode and have a split pane display, get the content for the diff pane
+					if (top.ICEcoder.githubDiff && top.ICEcoder.splitPane) {
+						<?php
+						// Get our GitHub relative site path & local path
+						$ghRemoteURLPos = array_search($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
 
-					$ghLocalURLPaths = $ICEcoder['githubLocalPaths'];
-					$ghLocalPath = $ghLocalURLPaths[$ghRemoteURLPos];
+						$ghLocalURLPaths = $ICEcoder['githubLocalPaths'];
+						$ghLocalPath = $ghLocalURLPaths[$ghRemoteURLPos];
 
-					$ghRemoteURLPaths = $ICEcoder['githubRemotePaths'];
-					$ghRemoteURL = $ghRemoteURLPaths[$ghRemoteURLPos];
+						$ghRemoteURLPaths = $ICEcoder['githubRemotePaths'];
+						$ghRemoteURL = $ghRemoteURLPaths[$ghRemoteURLPos];
 
-					$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
-					$ghRemoteURL = str_replace("/","|",$ghRemoteURL);
+						$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
+						$ghRemoteURL = str_replace("/","|",$ghRemoteURL);
 
-					// If the file is not in a sub-sub dir of the doc root
-					if (!strpos($fileLoc,"/",1)) {
-						// The file path is simply the file name in the root
-						$ghFilePath = $fileName;
-					} else {
-						// We need to get rid of the root dir and trailing slash
-						$ghFilePath = substr(str_replace($ghLocalPath,"",$fileLoc),1);
-						// If it's not within a sub-dir, it's just the filename, otherwise prefix with dir path and pipe
-						$ghFilePath = $ghFilePath == "" ? $fileName : $ghFilePath."|".$fileName;
+						// If the file is not in a sub-sub dir of the doc root
+						if (!strpos($fileLoc,"/",1)) {
+							// The file path is simply the file name in the root
+							$ghFilePath = $fileName;
+						} else {
+							// We need to get rid of the root dir and trailing slash
+							$ghFilePath = substr(str_replace($ghLocalPath,"",$fileLoc),1);
+							// If it's not within a sub-dir, it's just the filename, otherwise prefix with dir path and pipe
+							$ghFilePath = $ghFilePath == "" ? $fileName : $ghFilePath."|".$fileName;
+						}
+						?>
+
+						top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = "github.php?action=read&repo=<?php echo $ghRemoteURL;?>&filePath=<?php echo $ghFilePath;?>&csrf="+top.ICEcoder.csrf;
 					}
-					?>
-
-					top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = "github.php?action=read&repo=<?php echo $ghRemoteURL;?>&filePath=<?php echo $ghFilePath;?>&csrf="+top.ICEcoder.csrf;
-				}
+				<?php ;}; ?>
 
 				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on ICEcoder's load)
 				top.ICEcoder.switchMode();
