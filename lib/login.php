@@ -38,7 +38,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		?>
 		<span style="color: #fff"><h1>Thanks for trialling ICEcoder!</h1><b>Please donate on the website to continue using it.</b><br><br>
 		<h2>Step 1: Donate</h2><br><br>
-		<a href="https://icecoder.net/?display=trialDonateScreen" target="_blank" style="background: #097695; color: #fff; padding: 10px; text-decoration: none; font-size: 17px; font-weight: bold; border-radius: 4px; cursor: pointer">Donate $5</a><br><br><br>
+		<a href="https://icecoder.net/?display=trialDonateScreen" target="_blank" style="background: #097695; color: #fff; padding: 10px; text-decoration: none; font-size: 17px; font-weight: bold; border-radius: 4px; cursor: pointer">Donate now</a><br><br><br>
 		<h2>Step 2: Enter email address &amp; code</h2><br>
 		<?php if (isset($_GET["success"]) && $_GET["success"]=="no") {echo "Sorry, that doesn't seem to be correct.<br>Please check your emailed details and try again.<br><br>";};?>
 		<?php if ($ICEcoder["multiUser"]) {echo '		<input type="text" name="username" value="Username" onfocus="origValue=\'Username\';if(this.value==origValue){this.value=\'\';};" onblur="if(this.value==\'\'){this.value=origValue;};" class="password"><br><br>'.PHP_EOL;};?>
