@@ -56,16 +56,10 @@ $ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
 
 // Include language file
 // Load base first as foundation
-if (strpos(str_replace("\\","/",realpath(dirname(__FILE__)."/../lang/".$ICEcoder['languageBase'])),str_replace("\\","/",realpath($ICEcoder['docRoot']))) !== 0) {
-	die('Sorry, bad base language path');
-}
-if (strpos(str_replace("\\","/",realpath(dirname(__FILE__)."/../lang/".$ICEcoder['languageUser'])),str_replace("\\","/",realpath($ICEcoder['docRoot']))) !== 0) {
-	die('Sorry, bad user language path');
-}
-include(dirname(__FILE__)."/../lang/".$ICEcoder['languageBase']);
+include(dirname(__FILE__)."/../lang/".basename($ICEcoder['languageBase']));
 $baseText = $text;
 // Load chosen language ontop to replace base
-include(dirname(__FILE__)."/../lang/".$ICEcoder['languageUser']);
+include(dirname(__FILE__)."/../lang/".basename($ICEcoder['languageUser']));
 $text = array_replace_recursive($baseText, $text);
 $_SESSION['text'] = $text;
 
