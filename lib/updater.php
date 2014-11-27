@@ -220,7 +220,7 @@ startUpdate();
 if ($updateDone) {
 	echo 'Updated successfully!<br><br>';
 	echo 'Restarting ICEcoder...';
-	echo '<script>alert("'.$t['Update appears to...'].'");window.location = "../";</script>';
+	echo '<script>alert("'.$t['Update appears to...'].'");window.location = "../?display=updated&csrf='.$_SESSION["csrf"].";</script>';
 } else {
 	echo 'Something appears to have gone wrong :-/<br><br>';
 	echo 'Please report bugs at <a href="https://github.com/mattpass/ICEcoder" style="color: #fff">https://github.com/mattpass/ICEcoder</a><br><br>';
