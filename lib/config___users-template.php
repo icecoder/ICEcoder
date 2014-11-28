@@ -1,9 +1,14 @@
 <?php
 $ICEcoderUserSettings = array(
-"versionNo"		=> "4.4",
+"versionNo"		=> "4.5",
+"licenseEmail"		=> "",
+"licenseCode"		=> "",
+"configCreateDate"	=> 0,
 "root"			=> "",
 "checkUpdates"		=> true,
 "openLastFiles"		=> true,
+"updateDiffOnSave"	=> true,
+"languageUser"		=> "english.php",
 "findFilesExclude"	=> array(".doc",".gif",".jpg",".jpeg",".pdf",".png",".swf",".xml",".zip"),
 "codeAssist"		=> true,
 "visibleTabs"		=> false,

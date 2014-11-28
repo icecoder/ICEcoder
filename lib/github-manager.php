@@ -25,7 +25,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 		if (!is_dir($docRoot.$chosenLocal)) {
 			if (is_writable($docRoot)) {
-				mkdir($docRoot.$chosenLocal, 0705);
+				mkdir($docRoot.$chosenLocal, octdec($ICEcoder['newDirPerms']));
 			} else {
 				echo "<script>top.ICEcoder.message('".$t['Sorry, cannot create...']."\\n".$chosenLocal."');</script>";
 			}

@@ -6,8 +6,10 @@ if(strpos(str_replace("\\","/",dirname(__FILE__)),"tmp/oldVersion") !== false) {
 
 // Load common functions
 include_once(dirname(__FILE__)."/settings-common.php");
-$text = $_SESSION['text'];
-$t = $text['headers'];
+if (isset($_SESSION['text'])) {
+	$text = $_SESSION['text'];
+	$t = $text['headers'];
+}
 
 // CSRF synchronizer token pattern, 32 chars
 if (!isset($_SESSION["csrf"])) {
@@ -31,5 +33,8 @@ if (!headers_sent()) {
 	header("X-XSS-Protection: 1; mode=block");				// Turn on IE8-9 XSS prevention tools
 	// header("X-Content-Security-Policy: allow 'self'");			// Only allows JS on same domain & not inline to run
 	header("X-Content-Type-Options: nosniff");				// Prevent MIME based attacks
+	header('Cache-Control: no-cache, no-store, must-revalidate');		// Caching over HTTP 1.1 covered
+	header('Pragma: no-cache');						// Caching over HTTP 1.0 covered
+	header('Expires: 0');							// Caching over Proxies covered
 }
 ?>

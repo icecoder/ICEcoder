@@ -42,7 +42,7 @@ $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="lib/ice-coder.css">
 <link rel="icon" type="image/png" href="favicon.png">
 <script>
@@ -89,6 +89,8 @@ $t = $text['index'];
 	echo "top.ICEcoder.theme = '".($ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"])."';".
 		"top.ICEcoder.fontSize = '".$ICEcoder["fontSize"]."';".
 		"top.ICEcoder.openLastFiles = ".($ICEcoder["openLastFiles"] ? 'true' : 'false').";".
+		"top.ICEcoder.updateDiffOnSave = ".($ICEcoder["updateDiffOnSave"] ? 'true' : 'false').";".
+		"top.ICEcoder.languageUser = '".$ICEcoder["languageUser"]."';".
 		"top.ICEcoder.codeAssist = ".($ICEcoder["codeAssist"] ? 'true' : 'false').";".
 		"top.ICEcoder.lineWrapping = ".($ICEcoder["lineWrapping"] ? 'true' : 'false').";".
 		"top.ICEcoder.indentWithTabs = ".($ICEcoder["indentWithTabs"] ? 'true' : 'false').";".
@@ -98,7 +100,9 @@ $t = $text['index'];
 		"top.ICEcoder.autoComplete = '".$ICEcoder["autoComplete"]."';".
 		"top.ICEcoder.bugFilePaths = ['".implode("','",$ICEcoder["bugFilePaths"])."'];".
 		"top.ICEcoder.bugFileCheckTimer = ".$ICEcoder["bugFileCheckTimer"].";".
-		"top.ICEcoder.bugFileMaxLines = ".$ICEcoder["bugFileMaxLines"].";";
+		"top.ICEcoder.bugFileMaxLines = ".$ICEcoder["bugFileMaxLines"].";".
+		"top.ICEcoder.newDirPerms = ".$ICEcoder["newDirPerms"].";".
+		"top.ICEcoder.newFilePerms = ".$ICEcoder["newFilePerms"].";";
 		if($ICEcoder["githubAuthToken"] != "") {
 			$_SESSION['githubAuthToken'] = $ICEcoder["githubAuthToken"];
 			echo "top.ICEcoder.githubAuthTokenSet = true;";
@@ -174,7 +178,7 @@ $t = $text['index'];
 		<ul>
 			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsFile')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsFile')}" id="optionsFileNav"><?php echo $t['File'];?></a></li>
 			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsEdit')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsEdit')}" id="optionsEditNav"><?php echo $t['Edit'];?></a></li>
-			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsRemote')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsRemote')}" id="optionsRemoteNav"><?php echo $t['Remote'];?></a></li>
+			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsSource')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsSource')}" id="optionsSourceNav"><?php echo $t['Source'];?></a></li>
 			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsHelp')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsHelp')}" id="optionsHelpNav"><?php echo $t['Help'];?></a></li>
 		</ul>
 	</div>
@@ -215,10 +219,12 @@ $t = $text['index'];
 				<li><a nohref onclick="ICEcoder.autocomplete()"><?php echo $t['Autocomplete'];?></a></li>
 				<li><a nohref onclick="ICEcoder.lineCommentToggle()"><?php echo $t['Comment/Uncomment'];?></a></li>
 				<li><a nohref onclick="ICEcoder.jumpToDefinition()"><?php echo $t['Jump to Definition'];?></a></li>
+				<li><a nohref onClick="ICEcoder.settingsScreen()"><?php echo $t['Settings'];?></a></li>
 			</ul>
 		</div>
-		<div id="optionsRemote" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
+		<div id="optionsSource" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
 			<ul>
+				<li><a nohref onclick="ICEcoder.refreshFileManager()">Localhost</a></li>
 				<li><a nohref onclick="ICEcoder.githubManager()">GitHub</a></li>
 				<li><a nohref onclick="ICEcoder.message('SVN integration coming soon')">SVN</a></li>
 				<li><a nohref onclick="ICEcoder.message('Bitbucket integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Bitbucket</a></li>
@@ -232,7 +238,6 @@ $t = $text['index'];
 			<ul>
 				<li><a nohref onclick="ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>')"><?php echo $t['Manual'];?></a></li>
 				<li><a nohref onClick="ICEcoder.helpScreen()"><?php echo $t['Shortcuts'];?></a></li>
-				<li><a nohref onClick="ICEcoder.settingsScreen()"><?php echo $t['Settings'];?></a></li>
 				<li><a nohref onclick="ICEcoder.searchForSelected()"><?php echo $t['Search for selected'];?></a></li>
 				<li><a href="https://icecoder.net" target="_blank">ICEcoder <?php echo $t['website'];?></a></li>
 			</ul>

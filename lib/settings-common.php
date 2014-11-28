@@ -21,9 +21,11 @@ if(!isset($_SESSION)) {
 	@session_start();
 }
 
-// Set the language file
-$text = $_SESSION['text'];
-$t = $text['settings-common'];
+// Set the language file, if now possible
+if (isset($_SESSION['text'])) {
+	$text = $_SESSION['text'];
+	$t = $text['settings-common'];
+}
 
 // Logout if that's the action we're taking
 if (isset($_GET['logout'])) {
@@ -31,7 +33,8 @@ if (isset($_GET['logout'])) {
 	$_SESSION['loggedIn']=false;
 	$_SESSION['username']=false;
 	session_destroy();
-	header("Location: ".dirname(__FILE__)."/?loggedOut");
+	header("Location: ."); 
+	die("Logging you out...");
 }
 
 // If magic quotes are still on (attempted to switch off in php.ini)

@@ -83,7 +83,7 @@ echo $chmodInfo;
 </span>
 <span class="column" style="margin: 0 10px">
 <?php
-$perms = str_split(substr($chmodInfo,1,3)); // reduces 0705 down to 705
+$perms = str_split(substr($chmodInfo,1,3)); // reduces 0755 down to 755
 $readVars  = array(4,5,6,7);
 $writeVars = array(2,3,6,7);
 $execVars  = array(1,3,5,7);
@@ -166,7 +166,7 @@ var validatePerms = function() {
 		permText.split("")[2]*1 <0 || permText.split("")[2]*1 >7) {
 		canUpdate = false;
 	}
-	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace("\\","|",str_replace("/","|",str_replace($docRoot,"",$fileName)));?>',permText)};
+	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace($docRoot,"",$fileName);?>',permText)};
 }
 </script>
 

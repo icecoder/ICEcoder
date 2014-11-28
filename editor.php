@@ -171,6 +171,7 @@ CodeMirror.keyMap.ICEcoder = {
 	"Ctrl-Space": "autocomplete",
 	"Ctrl-Up" : false,
 	"Ctrl-Down" : false,
+	"Esc" : false,
 	fallthrough: ["default"]
 };
 

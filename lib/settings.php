@@ -29,6 +29,20 @@ if (!file_exists(dirname(__FILE__)."/".$settingsFile) && $ICEcoderSettings['enab
 // Load user settings
 include(dirname(__FILE__)."/".$settingsFile);
 
+// Replace our config created date with the filemtime?
+if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['configCreateDate'] == 0) {
+	$settingsContents = file_get_contents(dirname(__FILE__)."/".$settingsFile,false,$context);
+	clearstatcache();
+	$configfilemtime = filemtime(dirname(__FILE__)."/"."config___settings.php");
+	$settingsContents = str_replace('"configCreateDate"	=> 0,','"configCreateDate"	=> '.$configfilemtime.',',$settingsContents);
+	// Now update the config file
+	$fh = fopen(dirname(__FILE__)."/".$settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
+	fwrite($fh, $settingsContents);
+	fclose($fh);
+	// Set the new value in array
+	$ICEcoderUserSettings['configCreateDate'] = $configfilemtime;
+}
+
 // On mismatch of settings file to system, rename to .old and reload
 If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
 	rename(dirname(__FILE__)."/".$settingsFile,dirname(__FILE__)."/".str_replace(".php",".old",$settingsFile));
@@ -41,17 +55,34 @@ If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
 $ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
 
 // Include language file
-// Load English first as foundation
-include(dirname(__FILE__)."/../lang/english.php");
-$englishText = $text;
-// Load chosen language ontop to replace English
-include(dirname(__FILE__)."/../lang/english.php");
-$text = array_replace_recursive($englishText, $text);
+// Load base first as foundation
+include(dirname(__FILE__)."/../lang/".basename($ICEcoder['languageBase']));
+$baseText = $text;
+// Load chosen language ontop to replace base
+include(dirname(__FILE__)."/../lang/".basename($ICEcoder['languageUser']));
+$text = array_replace_recursive($baseText, $text);
 $_SESSION['text'] = $text;
 
 // Login not required or we're in demo mode and have password set in our settings, log us straight in
 if ((!$ICEcoder['loginRequired'] || $ICEcoder['demoMode']) && $ICEcoder['password']!="") {$_SESSION['loggedIn']=true;};
 $demoMode = $ICEcoder['demoMode'];
+
+// Check if trial period has ended
+$tPeriod = 1296000-1;
+if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && $ICEcoder['configCreateDate'] > 0 && $ICEcoder['configCreateDate']+$tPeriod < time() && !isset($_GET['get']) && !isset($_POST['code'])) {
+	if (file_exists('lib/login.php')) {
+		header('Location: lib/login.php?get=code&csrf='.$_SESSION["csrf"]);
+		echo "<script>window.location='lib/login.php?get=code&csrf=".$_SESSION["csrf"]."';</script>";
+	} else {
+		header('Location: login.php?get=code&csrf='.$_SESSION["csrf"]);
+		echo "<script>window.location='login.php?get=code&csrf=".$_SESSION["csrf"]."';</script>";
+	}
+	die('Redirecting to donate screen...');
+}
+$tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
+if ($tRemaining > $tPeriod || $ICEcoder['configCreateDate'] == 0) {$tRemaining = $tPeriod;};
+$tRemainingPerc = number_format($tRemaining/$tPeriod,2);
+$tDaysRemaining = intval($tRemaining/(60*60*24));
 
 // Update this config file?
 include(dirname(__FILE__)."/settings-update.php");
@@ -85,7 +116,7 @@ $_SESSION['username'] = $_SESSION['username'];
 $serverType = stristr($_SERVER['SERVER_SOFTWARE'], "win") ? "Windows" : "Linux";
 $docRoot = rtrim(str_replace("\\","/",$ICEcoder['docRoot']));
 $iceRoot = rtrim(str_replace("\\","/",$ICEcoder["root"]));
-if ($_SESSION['loggedIn']) {
+if ($_SESSION['loggedIn'] && basename($_SERVER['SCRIPT_NAME']) == "index.php") {
 	echo "<script>top.docRoot='".$docRoot."';top.iceRoot='".$iceRoot."'</script>";
 }
 
@@ -128,6 +159,35 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		echo "<script>window.location='login.php';</script>";
 	}
 	die('Redirecting to login...');
+
+// If we're unlocking ICEcoder after donating
+} elseif (isset($_POST['submit']) && (strpos($_POST['submit'],"Unlock ICEcoder")>-1)) {
+	if (generateHash(strClean($_POST['email']),$_POST['code'])==$_POST['code']) {
+		$settingsContents = file_get_contents($settingsFile,false,$context);
+		// Replace our empty email & code with the one submitted by user
+		$settingsContents = str_replace('"licenseEmail"		=> "",','"licenseEmail"		=> "'.$_POST['email'].'",',$settingsContents);
+		$settingsContents = str_replace('"licenseCode"		=> "",','"licenseCode"		=> "'.$_POST['code'].'",',$settingsContents);
+		// Now update the config file
+		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
+		fwrite($fh, $settingsContents);
+		fclose($fh);
+		if (file_exists('lib/login.php')) {
+			header('Location: lib/login.php?message=trialDonateThanks&csrf='.$_SESSION["csrf"]);
+			echo "<script>window.location='lib/login.php?message=trialDonateThanks&csrf=".$_SESSION["csrf"]."';</script>";
+		} else {
+			header('Location: login.php?message=trialDonateThanks&csrf='.$_SESSION["csrf"]);
+			echo "<script>window.location='login.php?message=trialDonateThanks&csrf=".$_SESSION["csrf"]."';</script>";
+		}
+	} else {
+		if (file_exists('lib/login.php')) {
+			header('Location: lib/login.php?get=code&success=no&csrf='.$_SESSION["csrf"]);
+			echo "<script>window.location='lib/login.php?get=code&success=no&csrf=".$_SESSION["csrf"]."';</script>";
+		} else {
+			header('Location: login.php?get=code&success=no&csrf='.$_SESSION["csrf"]);
+			echo "<script>window.location='login.php?get=code&success=no&csrf=".$_SESSION["csrf"]."';</script>";
+		}
+	}
+	
 // If we are on the login screen and not logged in
 } elseif (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it

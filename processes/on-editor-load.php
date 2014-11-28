@@ -62,54 +62,73 @@ top.ICEcoder.switchMode = function(mode) {
 }
 
 // Comment/uncomment line or selected range on keypress
-top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent, lCLen, adjustCursor) {
-	var startLine, endLine, commentChar;
+top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent, lCLen) {
+	var comments, startLine, endLine, commentCH, commentBS, commentBE;
 
+	// Language specific commenting
 	if (["JavaScript","CoffeeScript","PHP","Python","Ruby","CSS","SQL","Erlang","Julia","Java","YAML","C","C++","C#","Go","Lua","Perl","Rust","Sass"].indexOf(top.ICEcoder.caretLocType)>-1) {
+
+		comments = {
+			"JavaScript"	: ["// ", "/* ", " */"],
+			"CoffeeScript"	: ["// ", "/* ", " */"],
+			"PHP"		: ["// ", "/* ", " */"],
+			"Python"	: ["# ", "/* ", " */"],
+			"Ruby"		: ["# ", "/* ", " */"],
+			"CSS"		: ["// ", "/* ", " */"],
+			"SQL"		: ["// ", "/* ", " */"],
+			"Erlang"	: ["% ", "/* ", " */"],
+			"Julia"		: ["# ", "/* ", " */"],
+			"Java"		: ["// ", "/* ", " */"],
+			"YAML"		: ["# ", "/* ", " */"],
+			"C"		: ["// ", "/* ", " */"],
+			"C++"		: ["// ", "/* ", " */"],
+			"C#"		: ["// ", "/* ", " */"],
+			"Go"		: ["// ", "/* ", " */"],
+			"Lua"		: ["-- ", "--[[ ", " ]]"],
+			"Perl"		: ["# ", "/* ", " */"],
+			"Rust"		: ["// ", "/* ", " */"],
+			"Sass"		: ["// ", "/* ", " */"]
+		}
+
+		// Identify the single line, block start and block end comment chars
+		commentCH = comments[top.ICEcoder.caretLocType][0];
+		commentBS = comments[top.ICEcoder.caretLocType][1];
+		commentBE = comments[top.ICEcoder.caretLocType][2];
+
+		// Block commenting
 		if (cM.somethingSelected()) {
+			// Language has no block commenting, so repeating singles are needed
 			if (["Ruby","Python","Erlang","Julia","YAML","Perl"].indexOf(top.ICEcoder.caretLocType)>-1) {
-				commentChar = top.ICEcoder.caretLocType == "Erlang" ? "%" : "#";
 				startLine = cM.getCursor(true).line;
 				endLine = cM.getCursor().line;
 				for (var i=startLine; i<=endLine; i++) {
-					cM.replaceRange(cM.getLine(i).slice(0,1)!=commentChar
-					? commentChar + cM.getLine(i)
-					: cM.getLine(i).slice(1,cM.getLine(i).length), {line:i, ch:0}, {line:i, ch:1000000});
+					cM.replaceRange(cM.getLine(i).slice(0,commentCH.length)!=commentCH
+					? commentCH + cM.getLine(i)
+					: cM.getLine(i).slice(commentCH.length,cM.getLine(i).length), {line:i, ch:0}, {line:i, ch:1000000});
 				}
-			} else if (["Lua"].indexOf(top.ICEcoder.caretLocType)>-1) {
-				cM.replaceSelection(cM.getSelection().slice(0,4)!="--[["
-				? "--[[" + cM.getSelection() + "]]"
-				: cM.getSelection().slice(4,cM.getSelection().length-2),"around");
+			// Language has block commenting
 			} else {
-				cM.replaceSelection(cM.getSelection().slice(0,2)!="/*"
-				? "/*" + cM.getSelection() + "*/"
-				: cM.getSelection().slice(2,cM.getSelection().length-2),"around");
+				cM.replaceSelection(cM.getSelection().slice(0,commentBS.length)!=commentBS
+				? commentBS + cM.getSelection() + commentBE
+				: cM.getSelection().slice(commentBS.length,cM.getSelection().length-commentBE.length),"around");
 			}
+		// Single line commenting
 		} else {
 			if (["CoffeeScript","CSS","SQL"].indexOf(top.ICEcoder.caretLocType)>-1) {
-				cM.replaceRange(lineContent.slice(0,2)!="/*"
-				? "/*" + lineContent + "*/"
-				: lineContent.slice(2,lCLen).slice(0,lCLen-4), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
-				if (lineContent.slice(0,2)=="/*") {adjustCursor = -adjustCursor};
-			} else if (["Ruby","Python","Erlang","Julia","YAML","Perl"].indexOf(top.ICEcoder.caretLocType)>-1) {
-				commentChar = top.ICEcoder.caretLocType == "Erlang" ? "%" : "#";
-				cM.replaceRange(lineContent.slice(0,1)!=commentChar
-				? commentChar + lineContent
-				: lineContent.slice(1,lCLen), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
-				adjustCursor = 1;
-				if (lineContent.slice(0,1)==commentChar) {adjustCursor = -adjustCursor};
-			} else if (["Lua"].indexOf(top.ICEcoder.caretLocType)>-1) {
-				cM.replaceRange(lineContent.slice(0,2)!="--"
-				? "--" + lineContent
-				: lineContent.slice(2,lCLen), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
-				if (lineContent.slice(0,2)=="//") {adjustCursor = -adjustCursor};
+				cM.replaceRange(lineContent.slice(0,commentBS.length)!=commentBS
+				? commentBS + lineContent + commentBE
+				: lineContent.slice(commentBS.length,lCLen-commentBE.length), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
+				adjustCursor = commentBS.length;
+				if (lineContent.slice(0,commentBS.length)==commentBS) {adjustCursor = -adjustCursor};
 			} else {
-				cM.replaceRange(lineContent.slice(0,2)!="//"
-				? "//" + lineContent
-				: lineContent.slice(2,lCLen), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
-				if (lineContent.slice(0,2)=="//") {adjustCursor = -adjustCursor};
+				cM.replaceRange(lineContent.slice(0,commentCH.length)!=commentCH
+				? commentCH + lineContent
+				: lineContent.slice(commentCH.length,lCLen), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
+				adjustCursor = commentCH.length;
+				if (lineContent.slice(0,commentCH.length)==commentCH) {adjustCursor = -adjustCursor};
 			}
 		}
+	// HTML style commenting
 	} else {
 		if (cM.somethingSelected()) {
 			cM.replaceSelection(cM.getSelection().slice(0,4)!="<\!--"
@@ -118,7 +137,7 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 		} else {
 			cM.replaceRange(lineContent.slice(0,4)!="<\!--"
 			? "<\!--" + lineContent + "//-->"
-			: lineContent.slice(4,lCLen).slice(0,lCLen-9), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
+			: lineContent.slice(4,lCLen-5), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
 			adjustCursor = lineContent.slice(0,4)=="<\!--" ? -4 : 4;
 		}
 	}
@@ -160,11 +179,12 @@ top.ICEcoder.caretLocationType = function() {
 	if(caretChunk.lastIndexOf("<script")>caretChunk.lastIndexOf("/script>")&&caretLocType=="Unknown") {caretLocType = "JavaScript";}
 	else if (caretChunk.lastIndexOf("<?")>caretChunk.lastIndexOf("?>")&&caretLocType=="Unknown") {caretLocType = "PHP";}
 	else if (caretChunk.lastIndexOf("<%")>caretChunk.lastIndexOf("%>")&&caretLocType=="Unknown") {caretLocType = "Ruby";}
+	else if (caretChunk.lastIndexOf("<style")>caretChunk.lastIndexOf("/style>")&&caretLocType=="Unknown") {caretLocType = "CSS";}
 	else if (caretChunk.lastIndexOf("<")>caretChunk.lastIndexOf(">")&&caretLocType=="Unknown") {caretLocType = "HTML";}
 	else if (caretLocType=="Unknown") {caretLocType = "Content";};
 
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
-	if (fileName) {
+	if (caretLocType == "Content" && fileName) {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
 		caretLocType =

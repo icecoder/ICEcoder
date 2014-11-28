@@ -1,7 +1,7 @@
 <?php
 // Dutch language translation
 // Door: Julian Kaagman
-			@dutchwaters (GitHub)
+//	@dutchwaters (GitHub)
 
 // Please preserve formatting, line breaks, special characters, anything in <tags> and HTML equivalents (eg &amp;). Translations on right side.
 // Special chars: http://www.ascii.cl/htmlcodes.htm
