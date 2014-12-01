@@ -18,6 +18,8 @@ $context = stream_context_create(array('http'=>
 // Start a session if we haven't already
 if(!isset($_SESSION)) {
 	session_save_path(dirname(__FILE__).'/../tmp');
+	// Make the session cookie HTTP only
+	session_set_cookie_params(0, '/', '', false, true);
 	@session_start();
 }
 
@@ -33,7 +35,7 @@ if (isset($_GET['logout'])) {
 	$_SESSION['loggedIn']=false;
 	$_SESSION['username']=false;
 	session_destroy();
-	header("Location: ."); 
+	header("Location: .");
 	die("Logging you out...");
 }
 
@@ -134,29 +136,29 @@ function toUTF8noBOM($string,$message) {
 
 // Polyfill for array_replace_recursive, which is in PHP 5.3+
 if (!function_exists('array_replace_recursive')) {
-	function array_replace_recursive($base, $replacements) { 
-		foreach (array_slice(func_get_args(), 1) as $replacements) { 
-			$bref_stack = array(&$base); 
-			$head_stack = array($replacements); 
+	function array_replace_recursive($base, $replacements) {
+		foreach (array_slice(func_get_args(), 1) as $replacements) {
+			$bref_stack = array(&$base);
+			$head_stack = array($replacements);
 
-			do { 
-				end($bref_stack); 
+			do {
+				end($bref_stack);
 
-				$bref = &$bref_stack[key($bref_stack)]; 
-				$head = array_pop($head_stack); 
+				$bref = &$bref_stack[key($bref_stack)];
+				$head = array_pop($head_stack);
 
-				unset($bref_stack[key($bref_stack)]); 
+				unset($bref_stack[key($bref_stack)]);
 
-				foreach (array_keys($head) as $key) { 
-					if (isset($key, $bref) && is_array($bref[$key]) && is_array($head[$key])) { 
-						$bref_stack[] = &$bref[$key]; 
-						$head_stack[] = $head[$key]; 
-					} else { 
-						$bref[$key] = $head[$key]; 
-					} 
-				} 
-			} while(count($head_stack)); 
-		} 
+				foreach (array_keys($head) as $key) {
+					if (isset($key, $bref) && is_array($bref[$key]) && is_array($head[$key])) {
+						$bref_stack[] = &$bref[$key];
+						$head_stack[] = $head[$key];
+					} else {
+						$bref[$key] = $head[$key];
+					}
+				}
+			} while(count($head_stack));
+		}
 
 		return $base;
 	}
