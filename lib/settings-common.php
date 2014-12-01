@@ -32,12 +32,14 @@ function session_start_safe() {
 		// Create a new session with the default path.
   		session_destroy();
   		session_save_path('');
-  		session_start(); 
+  		session_start();
 	}
 }
 
 // Start a session if we haven't already
 if(!isset($_SESSION)) {
+	// Make the session cookie HTTP only		
+	session_set_cookie_params(0, '/', '', false, true);
 	session_start_safe();
 }
 
