@@ -15,30 +15,33 @@ $context = stream_context_create(array('http'=>
 	)
 ));
 
-// sets up a session, either with the local tmp directory or with the default directory
+// Sets up a session, either with the default dir or local tmp dir
 function session_start_safe() {
-	// Trying with the local path
-	session_save_path(dirname(__FILE__).'/../tmp');
-	session_start();
- 	if(!$_SESSION['working']) $_SESSION['working'] = true;
-	session_write_close();
-	unset($_SESSION);
- 	// Let's see if that worked
- 	session_start();
-	if($_SESSION['working']) {
-		unset($_SESSION['working']);
-		return; // we've got a working session
-	} else {
-		// Create a new session with the default path.
-  		session_destroy();
-  		session_save_path('');
-  		session_start();
-	}
+    // Trying with the default
+    session_save_path('');
+    @session_start();
+    if(!$_SESSION['working']) $_SESSION['working'] = true;
+    session_write_close();
+    session_unset();
+    session_destroy();
+    // Let's see if that worked
+    @session_start();
+    if($_SESSION['working']) {
+        unset($_SESSION['working']);
+        return; // we've got a working session
+    } else {
+        // Create a new session in the local tmp dir instead
+        session_unset();
+        session_destroy();
+        session_save_path(dirname(__FILE__).'/../tmp');
+        session_regenerate_id(true);
+        @session_start();
+    }
 }
 
 // Start a session if we haven't already
 if(!isset($_SESSION)) {
-	// Make the session cookie HTTP only		
+	// Make the session cookie HTTP only
 	session_set_cookie_params(0, '/', '', false, true);
 	session_start_safe();
 }
