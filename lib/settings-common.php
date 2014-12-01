@@ -15,12 +15,30 @@ $context = stream_context_create(array('http'=>
 	)
 ));
 
+// sets up a session, either with the local tmp directory or with the default directory
+function session_start_safe() {
+	// Trying with the local path
+	session_save_path(dirname(__FILE__).'/../tmp');
+	session_start();
+ 	if(!$_SESSION['working']) $_SESSION['working'] = true;
+	session_write_close();
+	unset($_SESSION);
+ 	// Let's see if that worked
+ 	session_start();
+	if($_SESSION['working']) {
+		unset($_SESSION['working']);
+		return; // we've got a working session
+	} else {
+		// Create a new session with the default path.
+  		session_destroy();
+  		session_save_path('');
+  		session_start(); 
+	}
+}
+
 // Start a session if we haven't already
 if(!isset($_SESSION)) {
-	session_save_path(dirname(__FILE__).'/../tmp');
-	// Make the session cookie HTTP only
-	session_set_cookie_params(0, '/', '', false, true);
-	@session_start();
+	session_start_safe();
 }
 
 // Set the language file, if now possible
