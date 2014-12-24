@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include("headers.php");
 include("settings.php");
 $t = $text['file-control'];
