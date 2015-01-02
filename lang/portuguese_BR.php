@@ -63,6 +63,7 @@ $text = array(
 		"Download"			=> "Download",
 		"Properties"			=> "Propriedades",
 		"File"				=> "Arquivo",
+		"Remote"			=> "Remoto",
 		"Edit"				=> "Editar",
 		"Source"			=> "Fonte",
 		"Help"				=> "Ajuda",
