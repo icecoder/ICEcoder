@@ -2,6 +2,7 @@
 // Português do Brasil
 // by: @leonardoroese (GitHub)
 
+
 // Please preserve formatting, line breaks, special characters, anything in <tags> and HTML equivalents (eg &amp;). Translations on right side.
 
 $text = array(
@@ -75,8 +76,8 @@ $text = array(
 		"Logout"			=> "Sair",
 		"Undo"				=> "Desfazer",
 		"Redo"				=> "Refazer",
-		"Indent more"			=> "Indent more",
-		"Indent less"			=> "Indent less",
+		"Indent more"			=> "Indentar +",
+		"Indent less"			=> "Indentar -",
 		"Autocomplete"			=> "Autocompletar",
 		"Comment/Uncomment"		=> "Comentar/Descomentar",
 		"Jump to Definition"		=> "Ir para definição",
@@ -118,7 +119,7 @@ $text = array(
 		"Sorry, cannot create..."	=> "Desculpe, não é possível criar pasta",
 		"Sorry, cannot copy"		=> "Desculpe, não é possível copy",
 		"into"				=> "into",
-		"Uploaded file(s) OK"		=> "Uploaded file(s) OK",
+		"Uploaded file(s) OK"		=> "Arquivos carregados",
 		"Sorry, cannot upload"		=> "Desculpe, não é possível carregar",
 		"Sorry, cannot upload..."	=> "Desculpe, não é possível carregar lista no modo DEMO",
 		"Sorry, cannot rename"		=> "Desculpe, não é possível renomear",
@@ -131,7 +132,7 @@ $text = array(
 		"Sorry, cannot delete"		=> "Desculpe, não é possível remover",
 		"Sorry, this file..."		=> "Desculpe, este arquivo foi modificado, não é possível salvar",
 		"Reload this file..."		=> "Recarregar e copiar sua versão?",
-		"There was a..."		=> "There was a tech hiccup, likely something was not quite ready. So ICEcoder reloaded its file control again.",
+		"There was a..."		=> "Ocorreu algum problema. O ICEcoder recarregou o arquivo de controle novamente",
 		"displayed at"			=> "exibido em",
 		"Enter filename to..."		=> "Informe o nome do aquivo para salvar",
 		"That file exists..."		=> "Este arquivo já existe, sobrescrever?",
@@ -161,28 +162,28 @@ $text = array(
 		"Add new path"			=> "Adicionar novo caminho",
 		"Add"				=> "Adicionar",
 		"Usage Info"			=> "Info. de utilização:",
-		"Enter relative local..."	=> "Enter relative local paths (eg /server/myfiles) and absolute GitHub paths (eg https://github.com/user/repo or https://github.com/user/repo/tree/branch for branches), as per the examples. With this done you have established the source paths at both locations, as a pair.",
-		"You can then..."		=> "You can then choose a path pair and this then becomes your new root path in ICEcoder.",
-		"The file manager..."		=> "The file manager then displays a new GitHub icon, which you can click on to perform and show a diff check between the 2 sources. These diffs can then be committed and pushed to the remote path at GitHub or cloned to your local path, to sync your files.",
-		"If you want..."		=> "If you want to set another root path, this can be done in the Settings screen."
+		"Enter relative local..."	=> "Informe os caminhos relativos (ex.: /server/myfiles) e absolutos do GitHub (ex.: https://github.com/user/repo ou https://github.com/user/repo/tree/branch for branches).Com isso estabelece os caminho dos fontes em ambos locais, como pares.",
+		"You can then..."		=> "Você pode então escolher um caminho par para ser a raiz do ICEcoder.",
+		"The file manager..."		=> "O gerenciador de arquivo exibirá o ícone GitHub, você pode clicar para verificar a diferença entre arquivos.Essas diferenças podem ser efetivadas e enviadas ao diretório remoto do GitHub ou clonado para pasta local, para sincronizar seus arquivos.",
+		"If you want..."		=> "Se quiser configurar novo caminho raiz, pode ser feito na tela de configurações."
 	),
 
 	"github" =>
 	array(
-		"Sorry, you do..."		=> "Sorry, you do not appear to have OpenSSL loaded on your PHP instance, so https is not available. This is required for GitHub data transfer, please amend php.ini settings, restart your server and try again"
+		"Sorry, you do..."		=> "Desculpe, o OpenSSL não foi encontrado, https indisponível. Isso é necessário para o GitHub transferir dados, verificar php.ini, reinicie o sistema e tente novamente"
 	),
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "Bad CSRF token. Please report the error info at https://github.com/mattpass/ICEcoder so it can be fixed."
+		"Bad CSRF token..."		=> "Erro na chave CSRF. Reportar em https://github.com/mattpass/ICEcoder para ser corrigido."
 	),
 
 	"help" =>
 	array(
 		"shortcuts"			=> "atalhos",
-		"Within document"		=> "Within document",
-		"On Tabs"			=> "On Tabs",
-		"Within file manager"		=> "Within file manager",
+		"Within document"		=> "Neste documento",
+		"On Tabs"			=> "Em abas",
+		"Within file manager"		=> "No gerenciador de arquivos",
 		"Anywhere"			=> "Qualquer Lugar",
 		"Space"				=> "Espaço",
 		"Click"				=> "Clique",
@@ -193,7 +194,7 @@ $text = array(
 		"Right click"			=> "Clique direito",
 		"Middle scrollwheel"		=> "Meio scroll",
 		"Drag"				=> "Arrastar",
-		"Autocomplete add snippet"	=> "Auto-completar / adc snippet",
+		"Autocomplete add snippet"	=> "Auto-completar / adicionar snippet",
 		"Multiple select"		=> "Multipla seleção",
 		"Move line up"			=> "Move linha acima",
 		"Move line down"		=> "Move linha abaixo",
@@ -205,8 +206,8 @@ $text = array(
 		"Jump to definition"		=> "Ir para definição / voltar",
 		"Comment uncomment"		=> "Commentar / descomentar",
 		"Insert tab indent"		=> "Inserir aba / auto indent selected",
-		"Insert more"			=> "Indent more",
-		"Insert less"			=> "Indent less",
+		"Insert more"			=> "Indentar +",
+		"Insert less"			=> "Indentar -",
 		"Wrap with div"			=> "Quabra com &lt;div&gt;",
 		"Wrap with span"		=> "Quabra com &lt;span&gt;",
 		"Wrap unwrap p"			=> "Quabra / desfaz com &lt;p&gt;",
@@ -235,8 +236,8 @@ $text = array(
 		"Save"				=> "Salvar",
 		"Save as"			=> "Salvar como...",
 		"View webpage"			=> "Exibir página",
-		"Contract expand file..."	=> "Contract / expand file manager",
-		"Fold unfold current..."	=> "Fold / unfold current line",
+		"Contract expand file..."	=> "Contrair / expandir gerenciador de arquivos",
+		"Fold unfold current..."	=> "Contrair / expandir linha atual",
 		"Refocus on document"		=> "Foco no documento",
 		"Cancel tasks"			=> "Cancelar tarefas"
 	),
@@ -268,8 +269,8 @@ $text = array(
 		"Replacing text in"		=> "Substituindo texto em",
 		"Cancelled tasks"		=> "Tarefas canceladas",
 		"Open previous files"		=> "Abrir arquivos anteriores?",
-		"Please enter your..."		=> "Please enter your GitHub token (either personal access token or client/secret pair token). See tooltip next to Github Auth Token on Help > Settings screen for more info",
-		"This will compare..."		=> "This will compare and show a diff view between your local dir and the repo. OK?",
+		"Please enter your..."		=> "Informe sua chave GitHub (chave pessoal ou par). Veja dica próximo à chave Github em Ajuda > Configurações para mais informações",
+		"This will compare..."		=> "Esta ação irá comparar e exibir diferenças do seu repositório local. OK?",
 		"Please note for..."		=> "Atenção: para atualizar corretamente, é necessário permissâo de escrita em todos os diretórios/arquivos do ICEcoder. \\n\\nSe por algum motivo necessite recuperar esta versão do ICEcoder, estará disponível na pasta /tmp.\\n\\nClique OK para prosseguir com a atualização, ou cancelar para visitar a página do ICEcoder na internet onde poderá baixar a atualização manualmente.",
 		"You can start..."		=> "Voce pode reportar um bug em Ajuda > Configurações",
 		"Error cannot find..."		=> "Erro: não é possível acessar caminho/arquivo de erros",
@@ -310,15 +311,15 @@ $text = array(
 
 	"plugins-manager" =>
 	array(
-		"ICEcoder needs to..."		=> "ICEcoder needs to reload to make this plugin usable. Reload now?",
-		"saving plugins"		=> "saving plugins...",
-		"Cannot update config..."	=> "Cannot update config file. Please set public write permissions on",
-		"and try again"			=> "and try again",
-		"couldnt delete dir"		=> "could not delete dir",
-		"couldnt delete file"		=> "could not delete file",
+		"ICEcoder needs to..."		=> "ICEcoder deve ser reiniciado para habilitar plugin. Deseja Reiniciar?",
+		"saving plugins"		=> "salvando plugins...",
+		"Cannot update config..."	=> "Não foi possível atualizar arquivo de configuração. Verifique permissões de escrita.",
+		"and try again"			=> "e tente novamente",
+		"couldnt delete dir"		=> "não foi possível excluir pasta",
+		"couldnt delete file"		=> "não foi possível excluir arquivo",
 		"plugins"			=> "plugins",
-		"Guide to writing..."		=> "Guide to writing plugins",
-		"Manage Installed"		=> "Gerenciar instalado",
+		"Guide to writing..."		=> "Guia para criar plugins",
+		"Manage Installed"		=> "Gerenciar plugins",
 		"URL"				=> "URL",
 		"Target"			=> "Alvo",
 		"Timer"				=> "Temporizador",
@@ -370,7 +371,7 @@ $text = array(
 		"codemirror dir"		=> "pasta codemirror",
 		"codemirror version"		=> "versão codemirror",
 		"file manager root"		=> "Raiz gerenciador de arquivos",
-		"Free to use..."		=> "Free to use it for your own purposes, commercial or not, just let me know of any cool uses or customisations. :)<br><br>No warranty or liability accepted for anything, all responsibility of use is your own.<br><br>A lot of fantastic people and companies have helped build ICEcoder and there is too many to thank here. Please see the full list at",
+		"Free to use..."		=> "Livre para utilização para seus propósitos, comercial ou não, mas aviseme sobre sua implementação se puder. :)<br><br>Sem garantias, Muitas empresas e pessoas fantásticas contribuiram para desenvolver o ICEcoder, há muito o que agradecermos aqui. Veja a lista completa aqui",
 		"functionality"			=> "funcionalidade",
 		"check for updates..."		=> "verificar atualizações ao iniciar",
 		"auto open last..."		=> "carregar últimos arquvos abertos ao iniciar",
@@ -379,7 +380,7 @@ $text = array(
 		"code assist"			=> "Assist. de cód.",
 		"visible tabs"			=> "Abas visíveis",
 		"locked nav"			=> "Trava Nav.",
-		"tag wrapper command"		=> "tag wrapper command",
+		"tag wrapper command"		=> "comando de quebra",
 		"auto-complete on"		=> "hab. auto-completar",
 		"security"			=> "segurança",
 		"new password"			=> "nova senha",
@@ -397,7 +398,7 @@ $text = array(
 		"indent size"			=> "indent size",
 		"font size"			=> "tam. fonte",
 		"layout"			=> "layout",
-		"plugin panel aligned"		=> "plugin panel aligned",
+		"plugin panel aligned"		=> "painel plugin alinhado",
 		"file manager"			=> "gerenciador de arquivos",
 		"root"				=> "raiz",
 		"Slash prefixed"		=> "Prefixo barra",
@@ -410,11 +411,11 @@ $text = array(
 		"Make sure you..."		=> "Cuidado para nâo travar seu usuário",
 		"Registration"			=> "Cadastro",
 		"auth token"			=> "Chave de Autenticação",
-		"Required to get..."		=> "Required to get diffs, commit to your GitHub hosted repo etc. If you do not have one, you can use a:".PHP_EOL.PHP_EOL.
-							"- personal access token (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or".PHP_EOL.
-							"- full client/secret pair token (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-							"It is not recommended you set your token here however and is more secure to enter it when requested by ICEcoder as that will keep it in session only.".PHP_EOL.PHP_EOL.
-							"However, if you work in a trusted and secure environment, it is more efficient to set it here.",
+		"Required to get..."		=> "RNecessário para verificar diferenças, e efetivar alterações no GitHub. Se não tiver uma pode usar:".PHP_EOL.PHP_EOL.
+							"- chave de acesso pessoal (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or".PHP_EOL.
+							"- cliente/par secreto (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
+							"Não é recomendado configurar sua chave aqui, mas quando solicitado pelo ICEcoderpara mantes em sessão apenas.".PHP_EOL.PHP_EOL.
+							"No entanto, se trabalhar em ambiente seguro, é melhor setar essa propriedade.",
 		"Sorry cannot commit..."	=> "Desculpe, não é permitido efetivar atulização no modo DEMO",
 		"update"			=> "atualizar"
 	),
