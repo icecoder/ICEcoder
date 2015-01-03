@@ -94,6 +94,7 @@ language <span class="info" title="Reload required after changing">[?]</span><br
 	<option value="italian.php"<?php if($ICEcoder["languageUser"]=='italian.php') {echo " selected";};?>>Italiano</option>
 	<option value="norwegian.php"<?php if($ICEcoder["languageUser"]=='norwegian.php') {echo " selected";};?>>Norsk</option>
 	<option value="persian.php"<?php if($ICEcoder["languageUser"]=='persian.php') {echo " selected";};?>>فارسی</option>
+	<option value="portuguese_BR.php"<?php if($ICEcoder["languageUser"]=='portuguese_BR.php') {echo " selected";};?>>Portugues(br)</option>
 Nederlands
 </select><br>
 <br>
