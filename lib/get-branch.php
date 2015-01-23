@@ -19,7 +19,7 @@ $t = $text['get-branch'];
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <?php if ($_SESSION['githubDiff']) { ?>
-<script src="github.js"></script>
+<script src="github.js?microtime=<?php echo microtime(true);?>"></script>
 <?php ;}; ?>
 </head>
 
