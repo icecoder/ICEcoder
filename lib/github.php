@@ -23,7 +23,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		echo '<!DOCTYPE html>
 			<html>
 			<head>
-			<script src="github.js"></script>
+			<script src="github.js?microtime=<?php echo microtime(true);?>"></script>
 			</body>
 			<script>
 			top.ICEcoder.githubAuthTokenSet = true;
@@ -47,8 +47,8 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		echo '<!DOCTYPE html>
 			<html>
 			<head>
-			<script src="github.js"></script>
-			<script src="underscore-min.js"></script>
+			<script src="github.js?microtime=<?php echo microtime(true);?>"></script>
+			<script src="underscore-min.js?microtime=<?php echo microtime(true);?>"></script>
 			</body>
 			<script>
 			// Start our github object, establish this repo & file path
@@ -153,8 +153,8 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> GitHub commit files</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="robots" content="noindex, nofollow">
-		<script src="github.js"></script>
-		<link rel="stylesheet" type="text/css" href="github.css">
+		<script src="github.js?microtime=<?php echo microtime(true);?>"></script>
+		<link rel="stylesheet" type="text/css" href="github.css?microtime=<?php echo microtime(true);?>">
 		</head>
 
 		<body class="githubAction">

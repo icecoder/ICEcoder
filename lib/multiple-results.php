@@ -15,7 +15,7 @@ if(isset($_GET['selectedFiles'])) {
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> multiple results screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="multiple-results.css">
+<link rel="stylesheet" type="text/css" href="multiple-results.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="results" onLoad="top.get('loadingMask').style.visibility = 'hidden'">

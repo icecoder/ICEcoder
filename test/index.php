@@ -8,7 +8,7 @@ Open file, update document, save file, highlight line, add tag wrappers, duplica
 <head>
 <title>ICEcoder Test Suite</title>
 <meta name="robots" content="noindex, nofollow">
-<script src="object-watch.js"></script>
+<script src="object-watch.js?microtime=<?php echo microtime(true);?>"></script>
 </head>
 
 <script>
