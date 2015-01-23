@@ -43,7 +43,7 @@ $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
-<link rel="stylesheet" type="text/css" href="lib/ice-coder.css">
+<link rel="stylesheet" type="text/css" href="lib/ice-coder.css?microtime=<?php echo microtime(true);?>">
 <link rel="icon" type="image/png" href="favicon.png">
 <script>
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
@@ -71,11 +71,11 @@ $t = $text['index'];
 ?>
 }
 </script>
-<script language="JavaScript" src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js"></script>
-<script src="lib/mmd.js"></script>
-<script src="farbtastic/farbtastic.js"></script>
-<script src="lib/difflib.js"></script>
-<link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css">
+<script language="JavaScript" src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="farbtastic/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="lib/difflib.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" href="farbtastic/farbtastic.css?microtime=<?php echo microtime(true);?>" type="text/css">
 </head>
 
 <body onLoad="<?php
@@ -141,7 +141,7 @@ $t = $text['index'];
 		<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 		<a href="javascript:top.ICEcoder.uploadFilesSelect(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()"><?php echo $t['Upload File(s)'];?></a>
 		<div style="display: none">
-			<form enctype="multipart/form-data" id="uploadFilesForm" action="lib/file-control.php?action=upload&file=/uploaded" method="POST" target="fileControl">
+			<form enctype="multipart/form-data" id="uploadFilesForm" action="lib/file-control-xhr.php?action=upload&file=/uploaded" method="POST" target="fileControl">
 				<input type="hidden" name="folder" id="uploadDir" value="/">
 				<input type="file" name="filesInput[]" id="fileInput" onchange="top.ICEcoder.uploadFilesSubmit(this)" multiple>
 				<input type="submit" value="Upload File">
