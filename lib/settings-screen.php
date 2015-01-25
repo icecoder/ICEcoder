@@ -32,7 +32,7 @@ while (false !== ($file = readdir($handle))) {
 }
 sort($themeArray);
 for ($i=0;$i<count($themeArray);$i++) {
-	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime=<?php echo microtime(true);?>">'.PHP_EOL;
+	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
 }
 ?>
 </head>
