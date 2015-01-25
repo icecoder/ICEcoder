@@ -32,11 +32,11 @@ if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 };?>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/pesticide/pesticide.js")) {
-	echo '<script src="plugins/pesticide/pesticide.js?microtime=".microtime(true)."></script>';
+	echo '<script src="plugins/pesticide/pesticide.js?microtime='.microtime(true).'"></script>';
 };?>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/stats.js/stats.min.js")) {
-	echo '<script src="plugins/stats.js/stats.min.js?microtime=".microtime(true)."></script>';
+	echo '<script src="plugins/stats.js/stats.min.js?microtime='.microtime(true).'"></script>';
 };?>
 <link rel="stylesheet" href="<?php
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
