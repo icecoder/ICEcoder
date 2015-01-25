@@ -28,7 +28,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
 <script src="lib/foldcode.js?microtime=<?php echo microtime(true);?>"></script>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
-	echo '<script src="plugins/emmet/emmet.min.js?microtime=".microtime(true)."></script>';
+	echo '<script src="plugins/emmet/emmet.min.js?microtime='.microtime(true).'"></script>';
 };?>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/pesticide/pesticide.js")) {
