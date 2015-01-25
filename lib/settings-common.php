@@ -22,7 +22,7 @@ if(!isset($_SESSION)) {
 	ini_set('session.name','ICEcoder_Cookie');			// Set a seperate cookie session name
 	ini_set('session.cookie_lifetime','0');        			// Until the browser restarts by default
 	ini_set('session.cookie_domain','');				// This domain only
-	ini_set('session.cookie_path',dirname(__FILE__).'../'); 	// ICEcoder path only
+	ini_set('session.cookie_path',str_replace($docRoot,'',dirname(dirname(__FILE__)))); 	// ICEcoder path only
 	ini_set('session.use_trans_sid','0');				// Ensure this insecure feature is disabled
 	ini_set('session.hash_function','sha512');			// Use Sha512 for session
 	ini_set('session.hash_bits_per_character','6');			// Specify hash scheme of 0-9,a-v,A-Z,-,,
