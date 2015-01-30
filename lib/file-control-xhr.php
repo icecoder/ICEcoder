@@ -269,7 +269,7 @@ if (!$error && $_GET['action']=="newFolder") {
 		// Run our custom processes
 		include_once("../processes/on-new-dir.php");
 	} else {
-		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot create...']."\\n".$fileLoc."');";
+		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot create...']."\\\\n".$fileLoc."');";
 		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
@@ -297,7 +297,7 @@ if (!$error && $_GET['action']=="move") {
 			}
 		}
 		if (!$moved) {
-			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot move']."\\n".str_replace("|","/",strClean($_GET['oldFileName']))."\\n\\n".$t['Maybe public write...']."');";
+			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot move']."\\\\n".str_replace("|","/",strClean($_GET['oldFileName']))."\\\\n\\\\n".$t['Maybe public write...']."');";
 			$finalAction = "nothing";
 		}
 	} else {
@@ -323,7 +323,7 @@ if (!$error && $_GET['action']=="rename") {
 		}
 	}
 	if (!$renamed) {
-		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot rename']."\\n".strClean($_GET['oldFileName'])."\\n\\n".$t['Maybe public write...']."');";
+		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot rename']."\\n".strClean($_GET['oldFileName'])."\\\\n\\\\n".$t['Maybe public write...']."');";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 };
@@ -379,7 +379,7 @@ if (!$error && $_GET['action']=="paste") {
 		// Run our custom processes
 		include_once("../processes/on-file-dir-paste.php");
 	} else {
-		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot copy']." \\n".str_replace($docRoot,"",$source)."\\n ".$t['into']." \\n".str_replace($docRoot,"",$dest)."');";
+		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot copy']." \\\\n".str_replace($docRoot,"",$source)."\\\\n ".$t['into']." \\\\n".str_replace($docRoot,"",$dest)."');";
 		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
@@ -403,7 +403,7 @@ if (!$error && $_GET['action']=="upload") {
 						$doNext .= 'top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,\'/\'),\''.str_replace("'","\'",$fileName).'\',false,false,true,\'file\'); top.ICEcoder.serverMessage("'.$t['Uploaded file(s) OK'].'");setTimeout(function(){top.ICEcoder.serverMessage();},2000);';
 						$finalAction = "upload";
 					} else {
-						$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot upload']." \\n".$fileName."\\n ".$t['into']." \\n'+top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,'/'));";
+						$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot upload']." \\\\n".$fileName."\\\\n ".$t['into']." \\\\n'+top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,'/'));";
 						$finalAction = "nothing";
 					}
 				}  
@@ -470,7 +470,7 @@ if (!$error && $_GET['action']=="delete") {
 			// Run our custom processes
 			include_once("../processes/on-file-dir-delete.php");
 		} else {
-			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete']."\\n".str_replace($docRoot,"",$fullPath)."');";
+			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete']."\\\\n".str_replace($docRoot,"",$fullPath)."');";
 			$finalAction = "nothing";
 		}
 	}
@@ -499,8 +499,7 @@ function rrmdir($dir) {
 
 if (!$error && $_GET['action']=="replaceText") {
 	$doNext = "";
-	if (!$demoMode && is_writable(str_replace("|","/",strClean($_GET['fileRef'])))) {
-		$file = str_replace("|","/",strClean($_GET['fileRef']));
+	if (!$demoMode && is_writable($file)) {
 		$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 		$newContent = str_replace(strClean($_GET['find']),strClean($_GET['replace']),$loadedFile);
 		$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
@@ -510,7 +509,7 @@ if (!$error && $_GET['action']=="replaceText") {
 		// Run our custom processes
 		include_once("../processes/on-file-replace-text.php");
 	} else {
-		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot replace...']."\\n".strClean($_GET['fileRef'])."');";
+		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot replace...']."\\\\n".$file."');";
 		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
@@ -528,11 +527,7 @@ if (!$error && $_GET['action']=="getRemoteFile") {
 		$remoteFile = str_replace("\r", $ICEcoder["lineEnding"], $remoteFile);
 		$remoteFile = str_replace("\n", $ICEcoder["lineEnding"], $remoteFile);
 		$doNext .= 'top.ICEcoder.newTab();';
-		// $doNext .= '</script><textarea name="remoteFile" id="remoteFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$remoteFile)).'</textarea><script>';
-		// $doNext .= 'top.ICEcoder.getcMInstance().setValue(document.getElementById("remoteFile").value);';
-
-		$doNext .= 'top.ICEcoder.getcMInstance().setValue(\''.str_replace("\r","",str_replace("\t","\\\\t",str_replace("\n","\\\\n",str_replace("'","\\\\'",str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("\\","\\\\",preg_quote($remoteFile))))))).'\');';
-
+		$doNext .= 'top.ICEcoder.getcMInstance().setValue(\''.str_replace("\r","",str_replace("\t","\\\\t",str_replace("\n","\\\\n",str_replace("'","\\\\'",str_replace("\\","\\\\",preg_quote($remoteFile)))))).'\');';
 		$finalAction = "getRemoteFile";
 		// Run our custom processes
 		include_once("../processes/on-get-remote-file.php");
