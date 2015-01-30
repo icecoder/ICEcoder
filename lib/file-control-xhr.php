@@ -323,7 +323,7 @@ if (!$error && $_GET['action']=="rename") {
 		}
 	}
 	if (!$renamed) {
-		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot rename']."\\n".strClean($_GET['oldFileName'])."\\\\n\\\\n".$t['Maybe public write...']."');";
+		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot rename']."\\\\n".strClean($_GET['oldFileName'])."\\\\n\\\\n".$t['Maybe public write...']."');";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 };
