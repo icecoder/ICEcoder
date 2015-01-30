@@ -289,7 +289,7 @@ if (!$error && $_GET['action']=="move") {
 			if(rename($srcDir,$tgtDir)) {
 				// Reload file manager
 				$fileOrFolder = is_dir($docRoot.$fileLoc."/".$fileName) ? "folder" : "file";
-				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\',false,\''.$fileOrFolder.'\');';
+				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean(str_replace("|","/",$_GET['oldFileName']))).'\',false,\''.$fileOrFolder.'\');';
 				$finalAction = "move";
 				$moved=true;
 				// Run our custom processes
@@ -439,6 +439,7 @@ if (!$error && $_GET['action']=="upload") {
 
 	$doNext .= "top.ICEcoder.hideFileMenu();top.document.getElementById('fileInput').value='';top.ICEcoder.showHide('hide',top.document.getElementById('loadingMask'));";
 
+	// Upload is not handled by XHR methods, but form post, so we need to manually trigger $doNext in a script tag
 	echo "<script>".$doNext."</script>";
 };
 
