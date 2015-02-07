@@ -10,36 +10,37 @@ $t = $text['editor'];
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
-<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/hint/show-hint.css">
-<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/lint/lint.css">
+<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/hint/show-hint.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/lint/lint.css?microtime=<?php echo microtime(true);?>">
 <!--
 codemirror-compressed.js
 incls:	codemirror
 modes:	clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, markdown, perl, php, python, ruby, rust, sass, sql, xml, yaml
 addon:	brace-fold, closebrackets, closetag, css-hint, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, searchcursor, show-hint, sql-hint, trailingspace, xml-fold, xml-hint
 //-->
-<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
-	echo '<script src="plugins/jshint/jshint-2.5.6.min.js"></script>';
+	echo '<script src="plugins/jshint/jshint-2.5.6.min.js?microtime='.microtime(true).'></script>';
 };?>
-<script src="lib/mmd.js"></script>
-<script src="lib/foldcode.js"></script>
+<script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="lib/foldcode.js?microtime=<?php echo microtime(true);?>"></script>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
-	echo '<script src="plugins/emmet/emmet.min.js"></script>';
+	echo '<script src="plugins/emmet/emmet.min.js?microtime='.microtime(true).'"></script>';
 };?>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/pesticide/pesticide.js")) {
-	echo '<script src="plugins/pesticide/pesticide.js"></script>';
+	echo '<script src="plugins/pesticide/pesticide.js?microtime='.microtime(true).'"></script>';
 };?>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/stats.js/stats.min.js")) {
-	echo '<script src="plugins/stats.js/stats.min.js"></script>';
+	echo '<script src="plugins/stats.js/stats.min.js?microtime='.microtime(true).'"></script>';
 };?>
 <link rel="stylesheet" href="<?php
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+echo "?microtime=".microtime(true);
 $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","elegant","neat","solarized","xq-light")) !== false ? "#ccc" : "#000";
 ?>">
 
@@ -74,8 +75,8 @@ h2 {color: rgba(0,198,255,0.7)}
 .diffGreyLighter {background: #888 !important; color: #222 !important}
 .diffNone {}
 </style>
-<link rel="stylesheet" href="lib/file-types.css">
-<link rel="stylesheet" href="lib/file-type-icons.css">
+<link rel="stylesheet" href="lib/file-types.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="lib/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">

@@ -107,7 +107,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .tabsBar .newTab {position: absolute; display: inline-block; height: 15px; padding: 4px 7px 3px 7px; background: #ddd; cursor: pointer; z-index: 0;
 	transition: left 0.15s ease-in-out;
 }
-.editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #161612}
+.editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #141612}
 .findBar .findReplace {position: absolute; padding-top: 2px; z-index: 1}
 .findReplace .selectWrapper {position: relative; display: inline-block}
 .findReplace .selectWrapper select {position: relative; padding: 1px; border: 0; background: url('../images/select-arrow.gif') no-repeat right #444; color: #fff; font-size: 10px; height: 16px; 

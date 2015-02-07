@@ -4,3 +4,4 @@ lib/config-*
 plugins/*
 test/test-file1.txt
 tmp/*
+!tmp/index.php

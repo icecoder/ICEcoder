@@ -10,9 +10,9 @@ $t = $text['settings-screen'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> settings screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="settings-screen.css">
-<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css">
-<script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js"></script>
+<link rel="stylesheet" type="text/css" href="settings-screen.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css?microtime=<?php echo microtime(true);?>">
+<script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 
 <style type="text/css">
 .CodeMirror {position: absolute; width: 409px; height: 180px; font-size: <?php echo $ICEcoder["fontSize"];?>}
@@ -21,7 +21,7 @@ $t = $text['settings-screen'];
 .cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
 </style>
 
-<link rel="stylesheet" href="editor.css">
+<link rel="stylesheet" href="editor.css?microtime=<?php echo microtime(true);?>">
 <?php
 $themeArray = array();
 $handle = opendir('../'.$ICEcoder["codeMirrorDir"].'/theme/');
@@ -32,7 +32,7 @@ while (false !== ($file = readdir($handle))) {
 }
 sort($themeArray);
 for ($i=0;$i<count($themeArray);$i++) {
-	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css">'.PHP_EOL;
+	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
 }
 ?>
 </head>
@@ -94,6 +94,7 @@ language <span class="info" title="Reload required after changing">[?]</span><br
 	<option value="italian.php"<?php if($ICEcoder["languageUser"]=='italian.php') {echo " selected";};?>>Italiano</option>
 	<option value="norwegian.php"<?php if($ICEcoder["languageUser"]=='norwegian.php') {echo " selected";};?>>Norsk</option>
 	<option value="persian.php"<?php if($ICEcoder["languageUser"]=='persian.php') {echo " selected";};?>>فارسی</option>
+	<option value="portuguese_brazilian.php"<?php if($ICEcoder["languageUser"]=='portuguese_brazilian.php') {echo " selected";};?>>Portugues(br)</option>
 Nederlands
 </select><br>
 <br>

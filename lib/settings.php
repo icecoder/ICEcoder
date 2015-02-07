@@ -29,6 +29,17 @@ if (!file_exists(dirname(__FILE__)."/".$settingsFile) && $ICEcoderSettings['enab
 // Load user settings
 include(dirname(__FILE__)."/".$settingsFile);
 
+// Remove any previous files that are no longer there
+$prevFiles = explode(",",$ICEcoderUserSettings['previousFiles']);
+$prevFilesAvail = "";
+for ($i=0; $i<count($prevFiles); $i++) {
+	if (file_exists(str_replace("|","/",$prevFiles[$i]))) {
+		$prevFilesAvail .= $prevFiles[$i].",";
+	}
+}
+$prevFilesAvail = rtrim($prevFilesAvail,",");
+$ICEcoderUserSettings['previousFiles'] = $prevFilesAvail;
+
 // Replace our config created date with the filemtime?
 if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['configCreateDate'] == 0) {
 	$settingsContents = file_get_contents(dirname(__FILE__)."/".$settingsFile,false,$context);
