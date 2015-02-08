@@ -538,6 +538,24 @@ if (!$error && $_GET['action']=="getRemoteFile") {
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 };
 
+// =======================
+// CHANGING FILE/DIR PERMS
+// =======================
+
+if (!$error && $_GET['action']=="perms") {
+	if (!$demoMode && is_writable($file)) {
+		chmod($file,octdec(numClean($_GET['perms'])));
+		// Reload file manager
+		$doNext = 'top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
+		$finalAction = "perms";
+		// Run our custom processes
+		include_once("../processes/on-file-dir-perms.php");
+	} else {
+		$finalAction = "nothing";
+		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot change...']." \\n".strClean($file)."');";
+	}
+	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
+}
 
 
 
