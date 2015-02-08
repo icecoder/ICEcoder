@@ -100,21 +100,6 @@ if ($_GET['action']=="load") {
 
 };
 
-// If we're due to change permissions on a file/folder...
-if ($_GET['action']=="perms") {
-	if (!$demoMode && is_writable($file)) {
-		chmod($file,octdec(numClean($_GET['perms'])));
-		// Reload file manager
-		echo 'top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
-		echo 'action="perms";';
-		// Run our custom processes
-		include_once("../processes/on-file-dir-perms.php");
-	} else {
-		echo "action='nothing'; top.ICEcoder.message('".$t['Sorry, cannot change...']." \\n".strClean($file)."');";
-	}
-	echo 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
-
 
 ?>
 if (action=="load") {
