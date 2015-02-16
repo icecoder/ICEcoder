@@ -153,12 +153,25 @@ if (!$error && $_GET['action']=="save") {
 			if (!(isset($_GET['fileMDT']))||$filemtime==$_GET['fileMDT']) {
 				// Newly created files have the perms set too
 				$setPerms = (!file_exists($file)) ? true : false;
+				// get old file contents, if file exists, and count stats on usage \n and \r there
+				// in this case we can keep line endings, which file had before, without
+				// making code version control systems going crazy about line endings change in whole file. 
+				$oldContents = file_exists($file)?file_get_contents($file):'';
+				$unixNewLines = preg_match_all('/[^\r][\n]/u', $oldContents);
+				$windowsNewLines = preg_match_all('/[\r][\n]/u', $oldContents);
 				$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
 				// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 				$contents = $_POST['contents'];
 				$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
 				$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
 				$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
+				if (($unixNewLines > 0) || ($windowsNewLines > 0)){
+					if ($unixNewLines > $windowsNewLines){
+						$contents = str_replace($ICEcoder["lineEnding"], "\n", $contents);
+					} elseif ($windowsNewLines > $unixNewLines){
+						$contents = str_replace($ICEcoder["lineEnding"], "\r\n", $contents);
+					}
+				}
 				// Now write that content, close the file and clear the statcache
 				fwrite($fh, $contents);
 				fclose($fh);
