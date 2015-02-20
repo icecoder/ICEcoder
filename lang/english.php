@@ -397,6 +397,7 @@ $text = array(
 		"indent type"			=> "indent type",
 		"indent size"			=> "indent size",
 		"font size"			=> "font size",
+		"auto indent"			=> "auto indent",
 		"layout"			=> "layout",
 		"plugin panel aligned"		=> "plugin panel aligned",
 		"file manager"			=> "file manager",

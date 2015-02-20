@@ -386,6 +386,7 @@ $text = array(
 		"indent type"			=> "innrykk type",
 		"indent size"			=> "innrykk størr.",
 		"font size"			=> "skrift størr.",
+		"auto indent"			=> "auto indent",
 		"layout"			=> "layout",
 		"plugin panel aligned"		=> "programtilleggspanel justert",
 		"file manager"			=> "filbehandler",

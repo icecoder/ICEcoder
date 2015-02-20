@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // French language translation
 // par: @krisxoofoo (GitHub)
 //  @kris_fr Twitter)
@@ -384,6 +384,7 @@ dans lib/config__settings.php",
 		"indent type"			=> "indent type",
 		"indent size"			=> "indent size",
 		"font size"			=> "font size",
+		"auto indent"			=> "auto indent",
 		"layout"				=> "disposition",
 		"plugin panel aligned"	=> "panneau des plugins align&eacute;",
 		"file manager"			=> "gestionnaire de fichiers",

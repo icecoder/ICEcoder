@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Chinese language translation
 // by: @lzh370 (GitHub)
 //     lzh370@qq.com
@@ -386,6 +386,7 @@ $text = array(
 		"indent type"			=> "缩进类型",
 		"indent size"			=> "缩进大小",
 		"font size"			=> "字体大小",
+		"auto indent"			=> "auto indent",
 		"layout"			=> "布局",
 		"plugin panel aligned"		=> "插件板对齐",
 		"file manager"			=> "文件管理器",

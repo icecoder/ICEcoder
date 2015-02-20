@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Persian language translation
 // by: @voltan (GitHub)
 //     @azizabadi_ (Twitter)
@@ -385,6 +385,7 @@ $text = array(
         "indent type"           => "نوع برجسته کردن",
         "indent size"           => "اندازه برجسته کردن",
         "font size"         => "اندازه فونت",
+        "auto indent"           => "auto indent",
         "layout"            => "لایه",
         "plugin panel aligned"      => "تراز پنل پلاگین",
         "file manager"          => "مدیریت فایل",
