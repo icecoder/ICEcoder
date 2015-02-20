@@ -106,6 +106,7 @@ if (!isset($_SESSION['username'])) {$_SESSION['username'] = false;};
 if(isset($_POST['submit']) && $setPWorLogin=="login") {
 	// On success, set username if multiUser, loggedIn to true and redirect
 	if (generateHash(strClean($_POST['password']),$ICEcoder["password"])==$ICEcoder["password"]) {
+		session_regenerate_id();
 		if ($ICEcoder["multiUser"]) {
 			$_SESSION['username'] = $_POST['username'];
 		}
