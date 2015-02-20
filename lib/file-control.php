@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include("headers.php");
 include("settings.php");
 $t = $text['file-control'];
@@ -68,7 +68,7 @@ for ($i=0; $i<count($allFiles); $i++) {
 // If we're due to open a file...
 if ($_GET['action']=="load") {
 	echo 'action="load";';
-
+	$lineNumber = max(isset($_REQUEST['lineNumber'])?intval($_REQUEST['lineNumber']):1, 1);
 	if (file_exists($file)) {
 		$finfo = "text";
 		// Determine what to do based on mime type
@@ -173,6 +173,7 @@ if (action=="load") {
 					top.ICEcoder.content.contentWindow.CodeMirror.doFold(cM.getLine(i).indexOf("{")>-1?"brace":"xml",null,"+","-",true)(cM, i);
 				}
 				top.ICEcoder.loadingFile = false;
+				top.ICEcoder.goToLine(<?php echo $lineNumber; ?>);
 			<?php
 			;};
 			?>
