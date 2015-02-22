@@ -16,6 +16,9 @@ $isGitHubRepoDir = in_array($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
 <link rel="stylesheet" type="text/css" href="lib/file-types.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" type="text/css" href="lib/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 <script src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';}; echo ".js?microtime=".microtime(true);?>" type="text/javascript"></script>
+<style>
+    ul.fileManager li a span { font-size:  <?php echo $ICEcoder["fontSize"];?>; }
+</style>
 </head>
 
 <body onFocus="top.ICEcoder.files.style.background='#444'" onBlur="top.ICEcoder.files.style.background='#383838'" onload="top.ICEcoder.showHideGithubNav(top.ICEcoder.githubDiff ? 'show' : 'hide')" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
