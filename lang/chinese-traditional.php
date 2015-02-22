@@ -49,6 +49,7 @@ $text = array(
 		"Your version is"		=> "你的版本是",
 		"Update now"			=> "現在更新",
 		"You have some..."		=> "你有一些未保存的更改",
+		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"			=> "裝載中",
 		"Color picker"			=> "顔色選擇器",
 		"New File"			=> "新建文件",

@@ -57,6 +57,7 @@ window.onbeforeunload = function() {
 			return "<?php echo $t['You have some...'];?>.";
 		}
 	}
+	return "<?php echo $t['Are you sure you want to close?'];?>";
 }
 
 t = {
