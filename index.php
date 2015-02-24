@@ -266,7 +266,7 @@ $t = $text['index'];
 		<form name="findAndReplace" onSubmit="ICEcoder.findReplace(top.document.getElementById('find').value,false,true);return false">
 			<div class="findReplace">
 				<div class="findText"><?php echo $t['Find'];?></div>
-				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace(top.document.getElementById('find').value,true,false)">
+				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace(top.document.getElementById('find').value,true,false,event.keyCode == 27)">
 				
 				<div class="selectWrapper" style="width: 41px">
 					<select name="connector" onChange="ICEcoder.findReplaceOptions()" style="width: 40px; margin-top: 4px">
