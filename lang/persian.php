@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Persian language translation
 // by: @voltan (GitHub)
 //     @azizabadi_ (Twitter)
@@ -49,6 +49,7 @@ $text = array(
         "Your version is"       => "نسخه مورد استفاده شما",
         "Update now"            => "به روز کنید",
         "You have some..."      => "شما چند تغییر ذخیره نشده دارید",
+        "Are you sure you want to close?" => "Are you sure you want to close?",
         "working"           => "در حال کار",
         "Color picker"          => "اشاره گر رنگ",
         "New File"          => "فایل جدید",
@@ -385,6 +386,7 @@ $text = array(
         "indent type"           => "نوع برجسته کردن",
         "indent size"           => "اندازه برجسته کردن",
         "font size"         => "اندازه فونت",
+        "auto indent"           => "auto indent",
         "layout"            => "لایه",
         "plugin panel aligned"      => "تراز پنل پلاگین",
         "file manager"          => "مدیریت فایل",

@@ -23,6 +23,7 @@ $ICEcoderUserSettings = array(
 "fontSize"		=> "13px",
 "lineWrapping"		=> true,
 "indentWithTabs"	=> true,
+"indentAuto"		=> true,
 "indentSize"		=> 4,
 "pluginPanelAligned"	=> "left",
 "bugFilePaths"		=> array(),

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // French language translation
 // par: @krisxoofoo (GitHub)
 //  @kris_fr Twitter)
@@ -48,6 +48,7 @@ dans lib/config__settings.php",
 		"Your version is"		=> "Votre version est la",
 		"Update now"			=> "Mettre &agrave; jour maintenant",
 		"You have some..."		=> "Vous avez quelques changements non sauvegard&eacute;s",
+		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"				=> "en progression",
 		"Color picker"			=> "S&eacute;lecteur de couleur",
 		"New File"			=> "Nouveau fichier",
@@ -384,6 +385,7 @@ dans lib/config__settings.php",
 		"indent type"			=> "indent type",
 		"indent size"			=> "indent size",
 		"font size"			=> "font size",
+		"auto indent"			=> "auto indent",
 		"layout"				=> "disposition",
 		"plugin panel aligned"	=> "panneau des plugins align&eacute;",
 		"file manager"			=> "gestionnaire de fichiers",

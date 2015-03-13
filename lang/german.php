@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // German language translation
 // by: @olliiee (GitHub)
 //     @trolliusgigant (Twitter)
@@ -49,6 +49,7 @@ $text = array(
 		"Your version is"		=> "Deine Version ist",
 		"Update now"			=> "Jetzt aktualisieren",
 		"You have some..."		=> "Du hast einige nicht gespeicherete Dateien",
+		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"			=> "arbeite",
 		"Color picker"			=> "Farbauswahl",
 		"New File"			=> "Neue Datei",
@@ -357,6 +358,7 @@ $text = array(
 		"indent type"			=> "Einr&uuml;ckung mit",
 		"indent size"			=> "Tabweite",
 		"font size"			=> "Schriftgr&ouml;&szlig;e",
+		"auto indent"			=> "auto indent",
 		"layout"			=> "Layout",
 		"plugin panel aligned"		=> "Ausrichtung Plugin-Panel",
 		"file manager"			=> "Dateimanager",

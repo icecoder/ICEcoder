@@ -166,7 +166,18 @@ h2 {color: rgba(0,198,255,0.7)}
 <script>
 CodeMirror.keyMap.ICEcoder = {
 	"Tab": function(cm) {
-		return cm.somethingSelected() ? cm.execCommand("indentAuto") : CodeMirror.Pass // Falls through to default or Emmet plugin
+		if (cm.somethingSelected()){
+			// honor our own setting indentAuto
+			if (top.ICEcoder.indentAuto){
+				return cm.execCommand("indentAuto");
+			} else {
+				// indentAuto is false - then just add indent as usual (this is default handler in CodeMirror)
+				return cm.indentSelection("add");
+			}
+		} else {
+			return CodeMirror.Pass;
+		}
+		return cm.somethingSelected() ? (top.ICEcoder.indentAuto ? cm.execCommand("indentAuto") : cm.indentSelection("add")) : CodeMirror.Pass // Falls through to default or Emmet plugin
 	},
 	"Shift-Tab": "indentLess",
 	"Ctrl-Space": "autocomplete",
@@ -175,6 +186,22 @@ CodeMirror.keyMap.ICEcoder = {
 	"Esc" : false,
 	fallthrough: ["default"]
 };
+// This piece of code appeared because CodeMirror does not honor indentWithTabs = false properly when handling Tab key
+// CodeMirror developer said that it is by design, so we need to make workaround on our own.
+(function(){
+	// let's back up original insertTab function which actually puts  
+	var originalInsertTabFunction = CodeMirror.commands.insertTab;
+	// and replace it with our own, which branches on whether our ICEcoder.indentWithTabs value is true or false
+	CodeMirror.commands.insertTab = function(cm){
+		if (top.ICEcoder.indentWithTabs){
+			// if it is true, then we should still put   there, let's use original function 
+			return originalInsertTabFunction(cm);
+		} else {
+			// otherwise - let's call another handler, insertSoftTab which will do the job
+			return cm.execCommand("insertSoftTab");
+		}
+	}
+}())
 
 function createNewCMInstance(num) {
 	// Establish the filename for the tab

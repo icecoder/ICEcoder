@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include("headers.php");
 include("settings.php");
 $t = $text['file-control'];
@@ -68,7 +68,7 @@ for ($i=0; $i<count($allFiles); $i++) {
 // If we're due to open a file...
 if ($_GET['action']=="load") {
 	echo 'action="load";';
-
+	$lineNumber = max(isset($_REQUEST['lineNumber'])?intval($_REQUEST['lineNumber']):1, 1);
 	if (file_exists($file)) {
 		$finfo = "text";
 		// Determine what to do based on mime type
@@ -82,11 +82,11 @@ if ($_GET['action']=="load") {
 			if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
 			if (array_search($fileExt,array("doc","docx","ppt","rtf","pdf","zip","tar","gz","swf","asx","asf","midi","mp3","wav","aiff","mov","qt","wmv","mp4","odt","odg","odp"))!==false) {$finfo = "other";};
 		}
-		if (strpos($finfo,"text")===0 || strpos($finfo,"empty")!==false) {
+		if (strpos($finfo,"text")===0 || strpos($finfo, "application/xml")===0 || strpos($finfo,"empty")!==false) {
 			echo 'fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 			$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
-			echo '</script><textarea name="loadedFile" id="loadedFile">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea><script>';
+			echo '</script><textarea name="loadedFile" id="loadedFile">'.htmlentities($loadedFile).'</textarea><script>';
 			// Run our custom processes
 			include_once("../processes/on-file-load.php");
 		} else if (strpos($finfo,"image")===0) {
@@ -173,6 +173,7 @@ if (action=="load") {
 					top.ICEcoder.content.contentWindow.CodeMirror.doFold(cM.getLine(i).indexOf("{")>-1?"brace":"xml",null,"+","-",true)(cM, i);
 				}
 				top.ICEcoder.loadingFile = false;
+				top.ICEcoder.goToLine(<?php echo $lineNumber; ?>);
 			<?php
 			;};
 			?>

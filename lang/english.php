@@ -48,6 +48,7 @@ $text = array(
 		"Your version is"		=> "Your version is",
 		"Update now"			=> "Update now",
 		"You have some..."		=> "You have some unsaved changes",
+		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"			=> "working",
 		"Color picker"			=> "Color picker",
 		"New File"			=> "New File",
@@ -252,7 +253,7 @@ $text = array(
 		"Creating Folder"		=> "Creating Folder",
 		"Sorry you can..."		=> "Sorry, you can only have 100 files open at a time!",
 		"Opening File"			=> "Opening File",
-		"Enter relative file..."	=> "Enter relative file path (prefixed with /) or remote URL",
+		"Enter relative file..."	=> "Enter relative file path (prefixed with /) or remote URL\\nYou can enter \\n'/path/file:123' or \\n'/path/file(123)' or \\n'/path/file.ext line 123' \\nto go directly to particular line",
 		"Getting"			=> "Getting",
 		"Please enter the..."		=> "Please enter the new name for",
 		"Renaming to"			=> "Renaming to",
@@ -397,6 +398,7 @@ $text = array(
 		"indent type"			=> "indent type",
 		"indent size"			=> "indent size",
 		"font size"			=> "font size",
+		"auto indent"			=> "auto indent",
 		"layout"			=> "layout",
 		"plugin panel aligned"		=> "plugin panel aligned",
 		"file manager"			=> "file manager",
@@ -430,7 +432,19 @@ $text = array(
 	"updater" =>
 	array(
 		"Update appears to..."		=> "Update appears to be successful"
-	)
-
+	),
+    
+    "find-in-files" =>
+    array(
+        "Enter path to search in" => "Enter path to search in",
+        "Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)" => "Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)",
+        "Type of text" => "Type of text",
+        "Fixed text" => "Fixed text",
+        "Regular expression" => "Regular expression",
+        "Case sensitive" => "Case sensitive",
+        "Yes" => "Yes",
+        "No" => "No",
+        "Search" => "Search",
+    ),
 );
 ?>

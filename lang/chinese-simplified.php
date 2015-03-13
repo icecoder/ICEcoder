@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Chinese language translation
 // by: @lzh370 (GitHub)
 //     lzh370@qq.com
@@ -49,6 +49,7 @@ $text = array(
 		"Your version is"		=> "你的版本是",
 		"Update now"			=> "现在更新",
 		"You have some..."		=> "你有一些未保存的更改",
+		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"			=> "载入中",
 		"Color picker"			=> "颜色选择器",
 		"New File"			=> "新建文件",
@@ -386,6 +387,7 @@ $text = array(
 		"indent type"			=> "缩进类型",
 		"indent size"			=> "缩进大小",
 		"font size"			=> "字体大小",
+		"auto indent"			=> "auto indent",
 		"layout"			=> "布局",
 		"plugin panel aligned"		=> "插件板对齐",
 		"file manager"			=> "文件管理器",

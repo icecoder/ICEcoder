@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include("headers.php");
 include("settings.php");
 $t = $text['settings-screen'];
@@ -173,7 +173,17 @@ for ($i=0;$i<count($themeArray);$i++) {
 	<?php echo $t['font size'];?><br>
 	<input type="text" name="fontSize" id="fontSize" style="width: 44px" onkeydown="showButton()" onkeyup="changeFontSize()" value="<?php echo $ICEcoder["fontSize"];?>">
 </span>
-<br><br>
+<br>
+<span style="position: absolute; margin: 5px 0 15px 0px">
+	<?php echo $t['auto indent'];?><br>
+	<select onchange="showButton()" name="indentAuto">
+		<option value="true"<?php if($ICEcoder["indentAuto"]) {echo " selected";};?>>yes</option>
+		<option value="false"<?php if(!$ICEcoder["indentAuto"]) {echo " selected";};?>>no</option>
+	</select>
+</span>
+
+
+<br><br><br>
 
 <textarea id="code" name="code">
 function findSequence(goal) {
@@ -190,7 +200,7 @@ function findSequence(goal) {
 }</textarea>
 <br>
 
-<span style="position: absolute; top: 300px">
+<span style="position: absolute; top: 310px">
 
 	<div style="position: relative; display: inline-block; margin-right: 20px">
 		<h2><?php echo $t['layout'];?></h2>
