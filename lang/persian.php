@@ -49,6 +49,7 @@ $text = array(
         "Your version is"       => "نسخه مورد استفاده شما",
         "Update now"            => "به روز کنید",
         "You have some..."      => "شما چند تغییر ذخیره نشده دارید",
+        "Are you sure you want to close?" => "Are you sure you want to close?",
         "working"           => "در حال کار",
         "Color picker"          => "اشاره گر رنگ",
         "New File"          => "فایل جدید",

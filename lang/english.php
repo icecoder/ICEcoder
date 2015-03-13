@@ -48,6 +48,7 @@ $text = array(
 		"Your version is"		=> "Your version is",
 		"Update now"			=> "Update now",
 		"You have some..."		=> "You have some unsaved changes",
+		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"			=> "working",
 		"Color picker"			=> "Color picker",
 		"New File"			=> "New File",
@@ -431,7 +432,19 @@ $text = array(
 	"updater" =>
 	array(
 		"Update appears to..."		=> "Update appears to be successful"
-	)
-
+	),
+    
+    "find-in-files" =>
+    array(
+        "Enter path to search in" => "Enter path to search in",
+        "Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)" => "Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)",
+        "Type of text" => "Type of text",
+        "Fixed text" => "Fixed text",
+        "Regular expression" => "Regular expression",
+        "Case sensitive" => "Case sensitive",
+        "Yes" => "Yes",
+        "No" => "No",
+        "Search" => "Search",
+    ),
 );
 ?>

@@ -49,6 +49,7 @@ $text = array(
 		"Your version is"		=> "Din versjon er",
 		"Update now"			=> "Oppdater nå",
 		"You have some..."		=> "Du har noe ulagrede endringer",
+		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"			=> "arbeider",
 		"Color picker"			=> "Fargevelger",
 		"New File"			=> "Ny Fil",

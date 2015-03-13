@@ -48,6 +48,7 @@ $text = array(
 		"Your version is"		=> "La tua versione Egrave;",
 		"Update now"			=> "Aggiorna ora",
 		"You have some..."		=> "Ci sono modifiche non salvate",
+		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"			=> "working",
 		"Color picker"			=> "Selettore di colore",
 		"New File"			=> "Nuovo file",
