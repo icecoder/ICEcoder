@@ -41,7 +41,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["bugFileMaxLines"]		= intval($_POST['bugFileMaxLines']);
 	$ICEcoder["githubAuthToken"]		= strClean($_POST['githubAuthToken']);
 
-	$settingsArray = array("root","checkUpdates","openLastFiles","updateDiffOnSave","languageUser","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","theme","fontSize","lineWrapping","indentWithTabs","indentSize","indentAuto","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines","githubAuthToken");
+	$settingsArray = array("root","checkUpdates","openLastFiles","updateDiffOnSave","languageUser","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","theme","fontSize","lineWrapping","indentWithTabs","indentAuto","indentSize","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines","githubAuthToken");
 	$settingsNew = "";
 	for ($i=0;$i<count($settingsArray);$i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"	=> ';
@@ -85,9 +85,13 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$generalSettingsContents = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
 	$generalSettingsContents = str_replace('"enableRegistration"	=> false','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
 
-	$fConfigSettings = fopen($configSettings, 'w') or die($t['Cannot update config']." ".$configSettings." ".$t['and press refresh']);
-	fwrite($fConfigSettings, $generalSettingsContents);
-	fclose($fConfigSettings);
+	if (is_writeable($configSettings)) {
+		$fConfigSettings = fopen($configSettings, 'w');
+		fwrite($fConfigSettings, $generalSettingsContents);
+		fclose($fConfigSettings);
+	} else {
+		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." lib/".$configSettings." ".$t['and try again']."');</script>";
+	}
 
 	$githubAuthTokenSet = $ICEcoder["githubAuthToken"] != "" ? "true" : "false";
 
