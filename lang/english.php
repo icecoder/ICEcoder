@@ -11,7 +11,6 @@ $text = array(
 
 	"editor" =>
 	array(
-		"Click icons for..."		=> "<b>Click icons<br>for help &amp;<br>usage info</b>",
 		"server"			=> "server",
 		"Server name, OS..."		=> "Server name, OS & IP:",
 		"Root"				=> "Root:",
@@ -434,17 +433,17 @@ $text = array(
 		"Update appears to..."		=> "Update appears to be successful"
 	),
     
-    "find-in-files" =>
-    array(
-        "Enter path to search in" => "Enter path to search in",
-        "Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)" => "Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)",
-        "Type of text" => "Type of text",
-        "Fixed text" => "Fixed text",
-        "Regular expression" => "Regular expression",
-        "Case sensitive" => "Case sensitive",
-        "Yes" => "Yes",
-        "No" => "No",
-        "Search" => "Search",
-    ),
+	"find-in-files" =>
+	array(
+		"Enter path to search in" => "Enter path to search in",
+		"Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)" => "Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)",
+		"Type of text" => "Type of text",
+		"Fixed text" => "Fixed text",
+		"Regular expression" => "Regular expression",
+		"Case sensitive" => "Case sensitive",
+		"Yes" => "Yes",
+		"No" => "No",
+		"Search" => "Search",
+	)
 );
 ?>

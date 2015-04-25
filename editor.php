@@ -65,8 +65,6 @@ $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light",
 .fold {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
 .foldOn {background: #800; color: #ddd}
 .foldOff {background: rgba(255,255,255,0.04); color: #666}
-.demoArrow {position: absolute; display: inline-block; width: 99px; height: 50px; top: 0; right: 30px; background: url('images/big-arrow.gif') 0 -10px no-repeat; text-align: center; font-family: arial; font-size: 10px; padding-top: 60px}
-h2 {color: rgba(0,198,255,0.7)}
 .heading {color:#888}
 .cm-s-diff {left: 50%}
 .diffGreen {background: #0b0 !important; color: #000 !important}
@@ -80,10 +78,6 @@ h2 {color: rgba(0,198,255,0.7)}
 </head>
 
 <body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
-
-<?php if ($ICEcoder['demoMode']) {?>
-<div class="demoArrow"><?php echo $t['Click icons for...'];?></div>
-<?php ;}; ?>
 
 <div style="display: none; margin: 32px 43px 0 43px; padding: 10px; width: 500px; font-family: arial; font-size: 10px; color: #ddd; background: #333" id="dataMessage"></div>
 
