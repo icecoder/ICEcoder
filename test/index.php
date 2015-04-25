@@ -49,6 +49,8 @@ test = {
 			cM = ICEcoder.getcMInstance();
 			if (cM && "undefined" != typeof ICEcoder.openFiles[0]) {
 				testResult("+ GOOD",title+". Took "+t+"ms",x);
+				ICEcoder.serverMessage();
+				top.ICEcoder.serverQueue("del",0);
 				test.updateDoc();
 			} else if (t==1000) {
 				testResult("- FAIL",title+". Took "+t+"ms",x);
@@ -79,7 +81,7 @@ test = {
 		x = setInterval(function() {
 			wait();
 			cM = ICEcoder.getcMInstance();
-			if (cM && ICEcoder.savedPoints[0]==cM.changeGeneration()) {
+			if (cM && ICEcoder.savedPoints[0]==cM.changeGeneration()-1) {
 				testResult("+ GOOD",title+". Took "+t+"ms",x);
 				test.tagWrapper();
 			} else if (t==1000) {
@@ -239,7 +241,9 @@ test = {
 			if (cM.getValue() == '<script>\nICEcoder = "awesome";\n<\/script>') {
 				testResult("+ GOOD",title);
 				setTimeout(function() {
-					ICEcoder.closeTab(1,false,true);				
+					ICEcoder.closeTab(1,false,true);
+					console.log('TEST COMPLETE!');
+					alert('Test Complete!\n\nRan '+s+' of '+total+' tests OK.\nSee console for more details.');
 				},200);
 			} else {
 				testResult("- FAIL",title);
