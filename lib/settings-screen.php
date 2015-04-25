@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include("headers.php");
 include("settings.php");
 $t = $text['settings-screen'];
@@ -148,15 +148,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 ?>
 </select>
 
-<span style="position: absolute; margin: -15px 0 0 10px">
-	<?php echo $t['line wrapping'];?><br>
-	<select onchange="showButton()" name="lineWrapping">
-		<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";};?>>yes</option>
-		<option value="false"<?php if(!$ICEcoder["lineWrapping"]) {echo " selected";};?>>no</option>
-	</select>
-</span>
-
-<span style="position: absolute; margin: -15px 0 0 100px">
+<span style="position: absolute; margin: -15px 0 0 15px">
 	<?php echo $t['indent type'];?><br>
 	<select onchange="showButton()" name="indentWithTabs">
 		<option value="true"<?php if($ICEcoder["indentWithTabs"]) {echo " selected";};?>>tabs</option>
@@ -164,26 +156,33 @@ for ($i=0;$i<count($themeArray);$i++) {
 	</select>
 </span>
 
-<span style="position: absolute; margin: -15px 0 0 190px">
+<span style="position: absolute; margin: -15px 0 0 100px">
 	<?php echo $t['indent size'];?><br>
 	<input type="text" name="indentSize" id="indentSize" style="width: 30px" onkeydown="showButton()" onkeyup="changeIndentSize()" value="<?php echo $ICEcoder["indentSize"];?>">
 </span>
 
-<span style="position: absolute; margin: -15px 0 0 267px">
-	<?php echo $t['font size'];?><br>
-	<input type="text" name="fontSize" id="fontSize" style="width: 44px" onkeydown="showButton()" onkeyup="changeFontSize()" value="<?php echo $ICEcoder["fontSize"];?>">
-</span>
-<br>
-<span style="position: absolute; margin: 5px 0 15px 0px">
+<span style="position: absolute; margin: -15px 0 15px 175px">
 	<?php echo $t['auto indent'];?><br>
 	<select onchange="showButton()" name="indentAuto">
 		<option value="true"<?php if($ICEcoder["indentAuto"]) {echo " selected";};?>>yes</option>
 		<option value="false"<?php if(!$ICEcoder["indentAuto"]) {echo " selected";};?>>no</option>
 	</select>
 </span>
+<br>
+<span style="position: absolute; margin: 5px 0 0 0">
+	<?php echo $t['line wrapping'];?><br>
+	<select onchange="showButton()" name="lineWrapping">
+		<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";};?>>yes</option>
+		<option value="false"<?php if(!$ICEcoder["lineWrapping"]) {echo " selected";};?>>no</option>
+	</select>
+</span>
 
+<span style="position: absolute; margin: 5px 0 0 95px">
+	<?php echo $t['font size'];?><br>
+	<input type="text" name="fontSize" id="fontSize" style="width: 44px" onkeydown="showButton()" onkeyup="changeFontSize()" value="<?php echo $ICEcoder["fontSize"];?>">
+</span>
 
-<br><br><br>
+<br><br><br><br>
 
 <textarea id="code" name="code">
 function findSequence(goal) {
@@ -200,7 +199,7 @@ function findSequence(goal) {
 }</textarea>
 <br>
 
-<span style="position: absolute; top: 310px">
+<span style="position: absolute; top: 325px">
 
 	<div style="position: relative; display: inline-block; margin-right: 20px">
 		<h2><?php echo $t['layout'];?></h2>
