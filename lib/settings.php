@@ -3,6 +3,34 @@
 $configSettings = 'config___settings.php';
 $configUsersTemplate = 'config___users-template.php';
 
+// Create a new config file if it doesn't exist yet.
+// The reason we create it, is so it has PHP write permissions, meaning we can update it later
+if (!file_exists(dirname(__FILE__)."/".$configSettings)) {
+$newConfigSettingsFile = '<?php
+// ICEcoder system settings
+$ICEcoderSettings = array(
+	"versionNo"		=> "5.0 beta",
+	"codeMirrorDir"		=> "CodeMirror-4.7",
+	"docRoot"		=> $_SERVER[\'DOCUMENT_ROOT\'],
+	"demoMode"		=> false,
+	"devMode"		=> false,
+	"loginRequired"		=> true,
+	"multiUser"		=> false,
+	"languageBase"		=> "english.php",
+	"lineEnding"		=> "\n",
+	"newDirPerms"		=> 755,
+	"newFilePerms"		=> 644,
+	"enableRegistration"	=> true
+);
+?>';
+	if ($fConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
+		fwrite($fConfigSettings, $newConfigSettingsFile);
+		fclose($fConfigSettings);
+	} else {
+		die("Cannot update config file lib/".$configSettings.". Please check write permissions on lib/ and try again");
+	}
+}
+
 // Load config settings
 include(dirname(__FILE__)."/".$configSettings);
 
