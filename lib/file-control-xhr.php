@@ -407,12 +407,19 @@ if (!$error && $_GET['action']=="upload") {
 		$doNext = "";
 		class fileUploader {  
 			public function __construct($uploads) {
-				global $docRoot,$iceRoot,$doNext;
+				global $docRoot,$iceRoot,$ICEcoder,$doNext;
 				$uploadDir=$docRoot.$iceRoot.str_replace("..","",str_replace("|","/",strClean($_POST['folder'])."/"));
 				foreach($uploads as $current) {  
 					$this->uploadFile=$uploadDir.$current->name;
 					$fileName = $current->name;
-					if ($this->upload($current,$this->uploadFile)) {
+					// Get & set existing perms for existing files, or set to newFilePerms setting for new files
+                                        if (file_exists($this->uploadFile)) {
+                                                $chmodInfo = substr(sprintf('%o', fileperms($this->uploadFile)), -4);
+                                                $setPerms = substr($chmodInfo,1,3); // reduces 0755 down to 755
+                                        } else {
+                                                $setPerms = $ICEcoder['newFilePerms'];
+                                        }
+					if ($this->upload($current,$this->uploadFile,$setPerms)) {
 						$doNext .= 'top.ICEcoder.updateFileManagerList(\'add\',top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,\'/\'),\''.str_replace("'","\'",$fileName).'\',false,false,true,\'file\'); top.ICEcoder.serverMessage("'.$t['Uploaded file(s) OK'].'");setTimeout(function(){top.ICEcoder.serverMessage();},2000);';
 						$finalAction = "upload";
 					} else {
@@ -422,8 +429,9 @@ if (!$error && $_GET['action']=="upload") {
 				}  
 			}  
 
-			public function upload($current,$uploadFile){ 
+			public function upload($current,$uploadFile,$setPerms){ 
 				if(move_uploaded_file($current->tmp_name,$uploadFile)){
+					chmod($uploadFile,octdec($setPerms));
 					return true;  
 				}  
 			}  
