@@ -10,7 +10,7 @@ $newConfigSettingsFile = '<?php
 // ICEcoder system settings
 $ICEcoderSettings = array(
 	"versionNo"		=> "5.0 beta",
-	"codeMirrorDir"		=> "CodeMirror-4.7",
+	"codeMirrorDir"		=> "CodeMirror",
 	"docRoot"		=> $_SERVER[\'DOCUMENT_ROOT\'],
 	"demoMode"		=> false,
 	"devMode"		=> false,
