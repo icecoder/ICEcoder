@@ -126,7 +126,7 @@ foreach($finalArray as $entry) {
 	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
 		if($_SESSION['bannedFiles'][$i] != "" && strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
 	}
-	if ($docRoot.$iceRoot.$location."/".$entry == $docRoot.$iceRoot.$ICEcoderDir) {
+	if ($docRoot.$iceRoot.$location."/".$entry == $docRoot.$ICEcoderDir) {
 		$canAdd = false;
 	}
 	if ($entry != "." && $entry != ".." && $canAdd) {
