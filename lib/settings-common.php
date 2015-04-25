@@ -34,7 +34,7 @@ if(!isset($_SESSION)) {
 	}
 	@session_start();						// Finally, start the session!
 	if (!isset($_SESSION['csrf'])){
-        session_regenerate_id(true);					// Create a new ID to help prevent fixation
+		session_regenerate_id(true);				// Create a new ID to help prevent fixation
 	}
 }
 
