@@ -94,7 +94,7 @@ if (!$error && $_GET['action']=="save") {
 			if (newFileName) {
 				if (newFileName.substr(0,1)!="/") {newFileName = "/" + newFileName};
 				newFileName = fileLoc + newFileName;
-				if (top.document.getElementById("filesFrame").contentWindow.document.getElementById(newFileName.replace(/\\\//g,"|"))) {
+				if (top.ICEcoder.filesFrame.contentWindow.document.getElementById(newFileName.replace(/\\\//g,"|"))) {
 					overwriteOK = top.ICEcoder.ask("'.$t['That file exists...'].'");
 				}
 			};
