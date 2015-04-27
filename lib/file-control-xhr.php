@@ -585,6 +585,11 @@ if (!$error && $_GET['action']=="perms") {
 // JSON DATA TO RETURN
 // ===================
 
+// No $filemtime yet? Get it now!
+if (!isset($filemtime)) {
+	$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
+}
+
 echo '{
 	"file": {
 		"absPath": "'.$file.'",
