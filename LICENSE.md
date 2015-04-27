@@ -1,7 +1,7 @@
-Copyright: © 2014 Matt Pass  
-Website:   mattpass.com  
-Email:     matt@mattpass.com  
-Twitter:   @mattpass
+Copyright: © 2015 ICEcoder Ltd
+Website:   icecoder.net  
+Email:     info@icecoder.net
+Twitter:   @icecoder
 
 #ICEcoder License
 ##Standard Open Source Initiative MIT License
