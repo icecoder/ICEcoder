@@ -25,7 +25,7 @@ $isGitHubRepoDir = in_array($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
 
 <div title="<?php echo $t['Lock'];?>" onClick="top.ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
 <div title="<?php echo $t['Refresh'];?>" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
-<div title="Plugins" onClick="top.ICEcoder.showHidePlugins(top.get('plugins').style.width != '55px' ? 'show' : 'hide')" class="plugins"></div>
+<div title="<?php echo $t['Plugins'];?>" onClick="top.ICEcoder.showHidePlugins(top.get('plugins').style.width != '55px' ? 'show' : 'hide')" class="plugins"></div>
 <?php
 $_SESSION['githubDiff'] = false;
 if ($isGitHubRepoDir) {

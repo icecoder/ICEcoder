@@ -57,7 +57,7 @@ window.onbeforeunload = function() {
 			return "<?php echo $t['You have some...'];?>.";
 		}
 	}
-	return "<?php echo $t['Are you sure you want to close?'];?>";
+	return "<?php echo $t['Are you sure...'];?>";
 }
 
 t = {
@@ -135,7 +135,7 @@ $t = $text['index'];
 		<a nohref onClick="top.ICEcoder.showColorPicker(top.document.getElementById('color') ? top.document.getElementById('color').value : '#123456')" title="Farbtastic
 <?php echo $t['Color picker'];?>"><img src="images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
 		<div id="pluginsOptional"><?php echo $pluginsDisplay; ?></div>
-		<a nohref onclick="top.ICEcoder.pluginsManager()" title="Plugins Manager" style="color: #fff; cursor: pointer">+ / -</a>
+		<a nohref onclick="top.ICEcoder.pluginsManager()" title="<?php echo $t['Plugins Manager'];?>" style="color: #fff; cursor: pointer">+ / -</a>
 	</div>
 </div>
 
@@ -314,7 +314,7 @@ $t = $text['index'];
 
 <div class="footer" id="footer" onContextMenu="return false">
 	<div class="nesting" id="nestValid"></div>
-	<div class="splitPaneControls" id="splitPaneControls"><div class="off" id="splitPaneControlsOff" onclick="top.ICEcoder.setSplitPane('off')"></div><div class="on" id="splitPaneControlsOn" onclick="top.ICEcoder.setSplitPane('on')" style="opacity: 0.5"></div></div>
+	<div class="splitPaneControls" id="splitPaneControls"><div class="off" id="splitPaneControlsOff" title="<?php echo $t['Single pane'];?>" onclick="top.ICEcoder.setSplitPane('off')"></div><div class="on" id="splitPaneControlsOn" title="<?php echo $t['Diff pane also'];?>" onclick="top.ICEcoder.setSplitPane('on')" style="opacity: 0.5"></div></div>
 	<div class="byteDisplay" id="byteDisplay" style="display: none" onClick="top.ICEcoder.showDisplay('char')"></div>
 	<div class="charDisplay" id="charDisplay" style="display: inline-block" onClick="top.ICEcoder.showDisplay('byte')"></div>
 </div>
