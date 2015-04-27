@@ -77,11 +77,11 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 	// Change multiUser and enableRegistration in config___settings.php
 	$generalSettingsContents = file_get_contents($configSettings,false,$context);
-	$isMultiUser = $_POST['multiUser'] ? "true" : "false";
+	$isMultiUser = isset($_POST['multiUser']) && $_POST['multiUser'] ? "true" : "false";
 	$generalSettingsContents = str_replace('"multiUser"		=> true,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
 	$generalSettingsContents = str_replace('"multiUser"		=> false,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
 
-	$isEnableRegistration = $_POST['enableRegistration'] ? "true" : "false";
+	$isEnableRegistration = isset($_POST['enableRegistration']) && $_POST['enableRegistration'] ? "true" : "false";
 	$generalSettingsContents = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
 	$generalSettingsContents = str_replace('"enableRegistration"	=> false','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
 
