@@ -41,7 +41,13 @@ if (file_exists(dirname(__FILE__)."/plugins/stats.js/stats.min.js")) {
 <link rel="stylesheet" href="<?php
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
 echo "?microtime=".microtime(true);
-$activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","elegant","neat","solarized","xq-light")) !== false ? "#ccc" : "#000";
+if (array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light")) !== false) {
+	$activeLineBG = "#ccc";
+} elseif (array_search($ICEcoder["theme"],array("3024-night","blackboard","colorforth","liquibyte","night","tomorrow-night-bright","tomorrow-night-eighties","vibrant-ink")) !== false) {
+	$activeLineBG = "#888";
+} else {
+	$activeLineBG = "#000";
+}
 ?>">
 
 <style type="text/css">
@@ -65,6 +71,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light",
 .fold {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
 .foldOn {background: #800; color: #ddd}
 .foldOff {background: rgba(255,255,255,0.04); color: #666}
+h2 {color: rgba(0,198,255,0.7)}
 .heading {color:#888}
 .cm-s-diff {left: 50%}
 .diffGreen {background: #0b0 !important; color: #000 !important}
@@ -72,6 +79,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light",
 .diffGrey {background: #444 !important; color: #fff !important}
 .diffGreyLighter {background: #888 !important; color: #222 !important}
 .diffNone {}
+.info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}
 </style>
 <link rel="stylesheet" href="lib/file-types.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="lib/file-type-icons.css?microtime=<?php echo microtime(true);?>">
@@ -152,7 +160,7 @@ $activeLineBG = array_search($ICEcoder["theme"],array("3024-day","base16-light",
 	<div style="float: left">
 		<h2><?php echo $t['dev mode'];?> <?php echo $ICEcoder['devMode'] ? "on" : "off";?></h2>
 		<span class="heading"><?php echo $t['Status'];?>:</span><br>
-		<?php echo $t['Using']?> <?php echo $ICEcoder['devMode'] ? "ice-coder.js" : "ice-coder.min.js";?> <a title="<?php echo $t['You can switch...'];?>" style="cursor: pointer">[?]</a>
+		<?php echo $t['Using']?> <?php echo $ICEcoder['devMode'] ? "ice-coder.js" : "ice-coder.min.js";?> <a title="<?php echo $t['You can switch...'];?>" class="info">[?]</a>
 	</div>
 	<div style="clear: both"></div>
 </div>
