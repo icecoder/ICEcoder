@@ -36,6 +36,7 @@ $text = array(
 	array(
 		"Lock"				=> "Lock",
 		"Refresh"			=> "Refresh",
+		"Plugins"			=> "Plugins",
 		"ROOT"				=> "[ROOT]"
 
 	),
@@ -47,9 +48,10 @@ $text = array(
 		"Your version is"		=> "Your version is",
 		"Update now"			=> "Update now",
 		"You have some..."		=> "You have some unsaved changes",
-		"Are you sure you want to close?" => "Are you sure you want to close?",
+		"Are you sure..."		=> "Are you sure you want to close?",
 		"working"			=> "working",
 		"Color picker"			=> "Color picker",
+		"Plugins Manager"		=> "Plugins Manager",
 		"New File"			=> "New File",
 		"New Folder"			=> "New Folder",
 		"Upload File(s)"		=> "Upload File(s)",
@@ -101,7 +103,9 @@ $text = array(
 		"Code Assist"			=> "Code Assist",
 		"Go to Line"			=> "Go to Line",
 		"View"				=> "View",
-		"Bug reporting not active"	=> "Bug reporting not active"
+		"Bug reporting not active"	=> "Bug reporting not active",
+		"Single pane"			=> "Single pane",
+		"Diff pane also"		=> "Diff pane also"
 	),
 
 // /LIB
