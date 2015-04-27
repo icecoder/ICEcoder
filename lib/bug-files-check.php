@@ -15,7 +15,7 @@ for ($i=0; $i<count($files); $i++) {
 	// Work out the real path for a file
 	$files[$i] = realpath($_SERVER['DOCUMENT_ROOT'].$files[$i]);
 	// If we can't find that file or it doesn't start with the doc root, it's an error
-	if (!file_exists($files[$i]) || strpos($files[$i],$_SERVER['DOCUMENT_ROOT']) !== 0) {
+	if (!file_exists($files[$i]) || strpos(str_replace("\\","/",$files[$i]),$_SERVER['DOCUMENT_ROOT']) !== 0) {
 		$result = "error";
 	} else {
 		$filesSizesSeen[$i] = filesize($files[$i]);
