@@ -1,7 +1,9 @@
 error-log.txt
-backups/*.zip
+backups/*
+!backups/index.php
 lib/config-*
 plugins/*
+!plugins/index.php
 test/test-file1.txt
 tmp/*
 !tmp/index.php
