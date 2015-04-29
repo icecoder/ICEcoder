@@ -30,4 +30,4 @@ a {color: #fff; text-decoration: none}
 .key {display: inline-block; width: 175px; text-align: right; margin-right: 5px; float: left}
 .key .plus {color: #888}
 .shortcut {display: inline-block; width: 195px; color: #888; margin-left: 5px; float: left}
-.info {color: #bbb; cursor: help}
+.info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}
