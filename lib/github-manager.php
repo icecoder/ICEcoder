@@ -187,8 +187,8 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		<form id="githubUpdateForm" action="github-manager.php?action=update" method="POST">
 			<table>
 			<tr>
-			<td style="padding-left: 5px"><?php echo $t['Local path'];?></td>
-			<td style="padding-left: 5px"><?php echo $t['Remote GitHub path'];?></td>
+			<td style="padding-left: 5px"><?php echo $t['Local path'];?> <span class="info" title="<?php echo $t['Slash prefixed'];?>">[?]</span></td>
+			<td style="padding-left: 5px"><?php echo $t['Remote GitHub path'];?> <span class="info" title="<?php echo $t['Absolute URL beginning...'];?>">[?]</span></td>
 			</tr>
 			<?php
 			for ($i=0; $i<count($pathsLocal); $i++) {
@@ -217,8 +217,8 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		<form id="githubAddForm" action="github-manager.php?action=add" method="POST">
 			<table>
 			<tr>
-			<td style="padding-left: 5px"><?php echo $t['Local path'];?></td>
-			<td style="padding-left: 5px"><?php echo $t['Remote GitHub path'];?></td>
+			<td style="padding-left: 5px"><?php echo $t['Local path'];?> <span class="info" title="<?php echo $t['Slash prefixed'];?>">[?]</span></td>
+			<td style="padding-left: 5px"><?php echo $t['Remote GitHub path'];?> <span class="info" title="<?php echo $t['Absolute URL beginning...'];?>">[?]</span></td>
 			</tr>
 			<tr>
 			<td style="padding: 0 10px 8px 0"><input type="text" name="githubLocalPathNEW" value="" style="width: 250px"></td>

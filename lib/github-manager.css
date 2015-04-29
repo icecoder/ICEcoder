@@ -34,3 +34,4 @@ input:focus {
 }
 
 .githubManager {font-family: arial, verdana, helvetica, sans-serif; background-color: #1c1c19; color: #fff; padding: 20px}
+.githubManager .info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}
