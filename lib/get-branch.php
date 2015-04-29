@@ -196,7 +196,7 @@ if ($_SESSION['githubDiff']) {
 				if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
 				if (array_search($fileExt,array("doc","docx","ppt","rtf","pdf","zip","tar","gz","swf","asx","asf","midi","mp3","wav","aiff","mov","qt","wmv","mp4","odt","odg","odp"))!==false) {$finfo = "other";};
 			}
-			if (strpos($finfo,"text")===0 || strpos($finfo,"empty")!==false) {
+			if (strpos($finfo,"text")===0 || strpos($finfo, "application/xml")===0 || strpos($finfo,"empty")!==false) {
 				$contents = str_replace("\r","",$contents);
 			};
 			// Establish the blob SHA contents and push name, SHA and type into 3 arrays
