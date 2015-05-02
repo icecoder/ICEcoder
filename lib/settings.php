@@ -73,6 +73,12 @@ if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['c
 	$settingsContents = file_get_contents(dirname(__FILE__)."/".$settingsFile,false,$context);
 	clearstatcache();
 	$configfilemtime = filemtime(dirname(__FILE__)."/"."config___settings.php");
+	// Make it a number (avoids null, undefined etc)
+	$configfilemtime = intval($configfilemtime);
+	// Set it to the epoch time now if we don't have a real value
+	if ($configfilemtime == 0) {
+		$configfilemtime = time();
+	}
 	$settingsContents = str_replace('"configCreateDate"	=> 0,','"configCreateDate"	=> '.$configfilemtime.',',$settingsContents);
 	// Now update the config file
 	$fh = fopen(dirname(__FILE__)."/".$settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
