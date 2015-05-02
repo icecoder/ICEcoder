@@ -9,7 +9,7 @@ if (!file_exists(dirname(__FILE__)."/".$configSettings)) {
 $newConfigSettingsFile = '<?php
 // ICEcoder system settings
 $ICEcoderSettings = array(
-	"versionNo"		=> "5.0 beta",
+	"versionNo"		=> "5.0",
 	"codeMirrorDir"		=> "CodeMirror",
 	"docRoot"		=> $_SERVER[\'DOCUMENT_ROOT\'],
 	"demoMode"		=> false,
