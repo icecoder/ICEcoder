@@ -250,6 +250,7 @@ $text = array(
 
 	"ice-coder" =>
 	array(
+		"results"			=> "results",
 		"No text selected..."		=> "No text selected to search on",
 		"all files"			=> "all files",
 		"all filenames"			=> "all filenames",
@@ -260,6 +261,7 @@ $text = array(
 		"Opening File"			=> "Opening File",
 		"Enter relative file..."	=> "Enter relative file path (prefixed with /) or remote URL\\nYou can enter \\n'/path/file:123' or \\n'/path/file(123)' or \\n'/path/file.ext line 123' \\nto go directly to particular line",
 		"Getting"			=> "Getting",
+		"Saving"			=> "Saving:",
 		"Please enter the..."		=> "Please enter the new name for",
 		"Renaming to"			=> "Renaming to",
 		"Moving to"			=> "Moving to",
@@ -282,8 +284,7 @@ $text = array(
 		"Error cannot find..."		=> "Error: cannot find/access the error file paths",
 		"No new errors..."		=> "No new errors found",
 		"You have made..."		=> "You have made changes. Are you sure you want to close without saving?",
-		"Close all tabs"		=> "Close all tabs?",
-		"results"			=> "results"
+		"Close all tabs"		=> "Close all tabs?"
 	),
 
 	"login" =>
