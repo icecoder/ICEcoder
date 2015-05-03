@@ -541,6 +541,7 @@ if (!$error && $_GET['action']=="replaceText") {
 // ==========================
 
 if (!$error && $_GET['action']=="getRemoteFile") {
+	$lineNumber = max(isset($_REQUEST['lineNumber'])?intval($_REQUEST['lineNumber']):1, 1);
 	$doNext = "";
 	if ($remoteFile = toUTF8noBOM(file_get_contents($file,false,$context),true)) {
 		// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
@@ -549,6 +550,7 @@ if (!$error && $_GET['action']=="getRemoteFile") {
 		$remoteFile = str_replace("\n", $ICEcoder["lineEnding"], $remoteFile);
 		$doNext .= 'top.ICEcoder.newTab();';
 		$doNext .= 'top.ICEcoder.getcMInstance().setValue(\''.str_replace("\r","",str_replace("\t","\\\\t",str_replace("\n","\\\\n",str_replace("'","\\\\'",str_replace("\\","\\\\",preg_quote($remoteFile)))))).'\');';
+		$doNext .= 'top.ICEcoder.goToLine('.$lineNumber.');';
 		$finalAction = "getRemoteFile";
 		// Run our custom processes
 		include_once("../processes/on-get-remote-file.php");
