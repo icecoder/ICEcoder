@@ -19,11 +19,16 @@ $errorMsg = "None";
 $saveType = isset($_GET['saveType']) ? strClean($_GET['saveType']) : "";
 
 // Establish the filename/new filename
-$file = str_replace("|","/",strClean(
-	isset($_POST['newFileName']) && $_POST['newFileName']!=""
-	? $_POST['newFileName']
-	: $_REQUEST['file']
-	));
+if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
+	$file = $_POST['newFileName'];	// New file
+} elseif (isset($_REQUEST['file'])) {
+	$file = $_REQUEST['file'];	// Existing file
+} else {
+	$file = "";			// Error
+};
+
+// Replace pipes with slashes, after cleaning the chars
+$file = str_replace("|","/",strClean($file));
 
 // Establish the actual name as we may have HTML entities in filename
 $file = html_entity_decode($file);
