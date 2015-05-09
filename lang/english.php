@@ -275,6 +275,7 @@ $text = array(
 		"replace all"			=> "replace all",
 		"file"				=> "file",
 		"Replacing text in"		=> "Replacing text in",
+		"Sorry there was..."		=> "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
 		"Cancelled tasks"		=> "Cancelled tasks",
 		"Open previous files"		=> "Open previous files?",
 		"Please enter your..."		=> "Please enter your GitHub token (either personal access token or client/secret pair token). See tooltip next to Github Auth Token on Help > Settings screen for more info",
