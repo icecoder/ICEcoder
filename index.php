@@ -107,6 +107,7 @@ $t = $text['index'];
 		"top.ICEcoder.bugFilePaths = ['".implode("','",$ICEcoder["bugFilePaths"])."'];".
 		"top.ICEcoder.bugFileCheckTimer = ".$ICEcoder["bugFileCheckTimer"].";".
 		"top.ICEcoder.bugFileMaxLines = ".$ICEcoder["bugFileMaxLines"].";".
+		"top.ICEcoder.fileDirResOutput = '".$ICEcoder["fileDirResOutput"]."';".
 		"top.ICEcoder.newDirPerms = ".$ICEcoder["newDirPerms"].";".
 		"top.ICEcoder.newFilePerms = ".$ICEcoder["newFilePerms"].";";
 		if($ICEcoder["githubAuthToken"] != "") {
