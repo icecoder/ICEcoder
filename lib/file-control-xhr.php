@@ -604,6 +604,8 @@ if (!$error && $_GET['action']=="perms") {
 if (!isset($filemtime)) {
 	$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 }
+// Set $timeStart, use 0 if not available
+$timeStart = isset($_POST["timeStart"]) ? $_POST["timeStart"] : 0;
 
 echo '{
 	"file": {
@@ -617,7 +619,7 @@ echo '{
 	"action": {
 		"initial" : "'.$_GET["action"].'",
 		"final" : "'.$finalAction.'",
-		"timeStart": '.$_POST["timeStart"].',
+		"timeStart": '.$timeStart.',
 		"timeEnd": 0,
 		"timeTaken": 0,
 		"csrf": "'.$_GET["csrf"].'",
