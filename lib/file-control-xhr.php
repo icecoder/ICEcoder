@@ -25,57 +25,65 @@ if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 	$file = $_REQUEST['file'];	// Existing file
 } else {
 	$file = "";			// Error
+	$finalAction = "nothing";
+	$doNext = "";
+	$error = true;
+	$errorStr = "true";
+	$errorMsg = $t['Sorry, bad filename...'];
 };
 
-// Replace pipes with slashes, after cleaning the chars
-$file = str_replace("|","/",strClean($file));
+// If we have file(s) to work with...
+if (!$error) {
+	// Replace pipes with slashes, after cleaning the chars
+	$file = str_replace("|","/",strClean($file));
 
-// Establish the actual name as we may have HTML entities in filename
-$file = html_entity_decode($file);
+	// Establish the actual name as we may have HTML entities in filename
+	$file = html_entity_decode($file);
 
-// Put the original $file var aside for use
-$fileOrig = $file;
+	// Put the original $file var aside for use
+	$fileOrig = $file;
 
-// Trim any +'s or spaces from the end of file
-$file = rtrim(rtrim($file,'+'),' ');
+	// Trim any +'s or spaces from the end of file
+	$file = rtrim(rtrim($file,'+'),' ');
 
-// Also remove [NEW] from $file, we can consider $_GET['action'] or $fileOrig to pick that up
-$file = rtrim($file,'[NEW]');
+	// Also remove [NEW] from $file, we can consider $_GET['action'] or $fileOrig to pick that up
+	$file = rtrim($file,'[NEW]');
 
-// Make each path in $file a full path (; seperated list)
-$allFiles = explode(";",$file);
-for ($i=0; $i<count($allFiles); $i++) {
-	if (strpos($allFiles[$i],$docRoot)===false && $_GET['action']!="getRemoteFile") {
-		$allFiles[$i]=str_replace("|","/",$docRoot.$iceRoot.$allFiles[$i]);
-	}
-};
-$file = implode(";",$allFiles);
-
-// Establish the $fileLoc and $fileName (used in single file cases, eg opening. Multiple file cases, eg deleting, is worked out in that loop)
-$fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
-$fileName = basename($file);
-
-// Check through all files to make sure they're valid/safe
-$allFiles = explode(";",$file);
-for ($i=0; $i<count($allFiles); $i++) {
-
-	// Uncomment to alert and console.log the action and file, useful for debugging
-	// echo ";alert('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');console.log('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');";
-
-	// Die if the file requested isn't something we expect
-	if(
-		// A local folder that isn't the doc root or starts with the doc root
-		($_GET['action']!="getRemoteFile" &&
-			rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
-			strpos(realpath(rtrim(dirname($allFiles[$i]),"/")),realpath(rtrim($docRoot,"/"))) !== 0
-		) ||
-		// Or a remote URL that doesn't start http
-		($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
-		) {
-		$error = true;
-		$errorStr = "true";
-		$errorMsg = "Sorry! - problem with file requested";
+	// Make each path in $file a full path (; seperated list)
+	$allFiles = explode(";",$file);
+	for ($i=0; $i<count($allFiles); $i++) {
+		if (strpos($allFiles[$i],$docRoot)===false && $_GET['action']!="getRemoteFile") {
+			$allFiles[$i]=str_replace("|","/",$docRoot.$iceRoot.$allFiles[$i]);
+		}
 	};
+	$file = implode(";",$allFiles);
+
+	// Establish the $fileLoc and $fileName (used in single file cases, eg opening. Multiple file cases, eg deleting, is worked out in that loop)
+	$fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
+	$fileName = basename($file);
+
+	// Check through all files to make sure they're valid/safe
+	$allFiles = explode(";",$file);
+	for ($i=0; $i<count($allFiles); $i++) {
+
+		// Uncomment to alert and console.log the action and file, useful for debugging
+		// echo ";alert('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');console.log('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');";
+
+		// Die if the file requested isn't something we expect
+		if(
+			// A local folder that isn't the doc root or starts with the doc root
+			($_GET['action']!="getRemoteFile" &&
+				rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
+				strpos(realpath(rtrim(dirname($allFiles[$i]),"/")),realpath(rtrim($docRoot,"/"))) !== 0
+			) ||
+			// Or a remote URL that doesn't start http
+			($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
+			) {
+			$error = true;
+			$errorStr = "true";
+			$errorMsg = "Sorry! - problem with file requested";
+		};
+	}
 }
 
 // ============

@@ -117,6 +117,7 @@ $text = array(
 
 	"file-control" =>
 	array(
+		"Sorry, bad filename..."	=> "Sorry, bad filename provided. Check the dev tools console for more info?",
 		"Sorry"				=> "Sorry",
 		"does not seem..."		=> "does not seem to exist on the server",
 		"Sorry, could not..."		=> "Sorry, could not get contents of",
