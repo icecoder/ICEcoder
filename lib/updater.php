@@ -193,13 +193,14 @@ function transposeSettings($oldFile,$newFile,$saveFile) {
 }
 
 function copyOverSettings($icvInfo) {
-	global $updateDone;
+	global $updateDone, $configSettings;
 
 	// System settings
 	echo 'Transposing system settings...<br>';
 	// Create a new config file if it doesn't exist yet.
 	// The reason we create it, is so it has PHP write permissions, meaning we can update it later
 	if (!file_exists(dirname(__FILE__)."/".$configSettings)) {
+		echo 'Creating new settings file...<br>';
 		// Include our params to make use of (as $newConfigSettingsFile)
 		include(dirname(__FILE__)."/settings-system-params.php");
 		if ($fConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
