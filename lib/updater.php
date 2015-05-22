@@ -197,6 +197,18 @@ function copyOverSettings($icvInfo) {
 
 	// System settings
 	echo 'Transposing system settings...<br>';
+	// Create a new config file if it doesn't exist yet.
+	// The reason we create it, is so it has PHP write permissions, meaning we can update it later
+	if (!file_exists(dirname(__FILE__)."/".$configSettings)) {
+		// Include our params to make use of (as $newConfigSettingsFile)
+		include(dirname(__FILE__)."/settings-system-params.php");
+		if ($fConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
+			fwrite($fConfigSettings, $newConfigSettingsFile);
+			fclose($fConfigSettings);
+		} else {
+			die("Cannot update config file lib/".$configSettings.". Please check write permissions on lib/ and try again");
+		}
+	}
 	transposeSettings(PATH."lib/config___settings.php","config___settings.php","config___settings.php");
 
 	// Users template settings
