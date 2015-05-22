@@ -1,3 +1,4 @@
+<?php
 $newConfigSettingsFile = '<?php
 // ICEcoder system settings
 $ICEcoderSettings = array(
@@ -16,3 +17,4 @@ $ICEcoderSettings = array(
 	"enableRegistration"	=> true
 );
 ?>';
+?>
