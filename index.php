@@ -296,7 +296,7 @@ $t = $text['index'];
 							<option><?php echo $t['all filenames'];?></option>
 						</select>
 					</div>
-				<input type="submit" name="submit" value="&gt;&gt;" class="submit">
+				<input type="submit" name="submit" id="findReplaceSubmit" value="&gt;&gt;" class="submit">
 				<div class="results" id="results"></div>
 			</div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
