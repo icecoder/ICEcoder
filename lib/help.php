@@ -64,6 +64,7 @@ $t = $text['help'];
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> -</span> <span class="shortcut"><?php echo $t['Close current tab'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> o</span> <span class="shortcut"><?php echo $t['Open file prompt'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> f</span> <span class="shortcut"><?php echo $t['Find'];?></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> g</span> <span class="shortcut"><?php echo $t['Previous'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> l</span> <span class="shortcut"><?php echo $t['Focus on Go...'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> s</span> <span class="shortcut"><?php echo $t['Save'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Shift <span class="plus">+</span> s</span> <span class="shortcut"><?php echo $t['Save as'];?></span><br>

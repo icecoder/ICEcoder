@@ -239,6 +239,7 @@ $text = array(
 		"Close current tab"		=> "Close current tab",
 		"Open file prompt"		=> "Open file prompt",
 		"Find"				=> "Find",
+		"Previous"			=> "Previous",
 		"Focus on Go..."		=> "Focus on Go to line input",
 		"Save"				=> "Save",
 		"Save as"			=> "Save as...",
