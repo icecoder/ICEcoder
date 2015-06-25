@@ -112,8 +112,7 @@ h2 {color: rgba(0,198,255,0.7)}
 	<div style="float: left">
 		<h2><?php echo $t['files'];?></h2>
 		<span class="heading"><?php echo $t['Last 10 files...'];?></span><br>
-		<ul class="fileManager" style="margin-left: 0; line-height: 20px">
-		<?php
+		<ul class="fileManager" id="last10Files" style="margin-left: 0; line-height: 20px"><?php
 			$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
 			for ($i=0;$i<count($last10FilesArray);$i++) {
 				if ($ICEcoder["last10Files"]=="") {
@@ -123,14 +122,13 @@ h2 {color: rgba(0,198,255,0.7)}
 					// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
 					$ext = "ext-".pathinfo($docRoot.$iceRoot.$fileFolderName, PATHINFO_EXTENSION);
 					echo '<li class="pft-file '.strtolower($ext).'" style="margin-left: -21px">';
-					echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(\''.str_replace("|","/",$last10FilesArray[$i]).'\')">';
+					echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(\''.str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i])).'\')">';
 					echo str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i]));
-					echo '</a></li>'.PHP_EOL;
-					if ($i==count($last10FilesArray)-1) {echo '<br>'.PHP_EOL;};
+					echo '</a></li>';
+					if ($i<count($last10FilesArray)-1) {echo PHP_EOL;};
 				}
 			}
-		;?>
-		</ul>
+		;?></ul>
 	</div>
 
 	<div style="clear: both"></div>
