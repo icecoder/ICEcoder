@@ -121,6 +121,7 @@ $t = $text['index'];
 	<div class="popupVCenter">
 		<div class="popup" id="mediaContainer"></div>
 	</div>
+	<div class="floatingContainer" id="floatingContainer"></div>
 </div>
 
 <div id="loadingMask" class="blackMask" style="visibility: visible" onContextMenu="return false">
