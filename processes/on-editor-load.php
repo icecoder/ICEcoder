@@ -46,6 +46,7 @@ top.ICEcoder.switchMode = function(mode) {
 			: fileExt == "jl"			? "text/x-julia"
 			: fileExt == "c"			? "text/x-csrc"
 			: fileExt == "cpp"			? "text/x-c++src"
+			: fileExt == "ino"			? "text/x-c++src"
 			: fileExt == "cs"			? "text/x-csharp"
 			: fileExt == "go"			? "text/x-go"
 			: fileExt == "lua"			? "text/x-lua"
@@ -158,7 +159,7 @@ top.ICEcoder.updateNestingIndicator = function() {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
 	}
-	if (thisCM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","cs","go","lua","pl","rs","scss"].indexOf(fileExt)==-1) {
+	if (thisCM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","ino","cs","go","lua","pl","rs","scss"].indexOf(fileExt)==-1) {
 		testToken = thisCM.getTokenAt({line:thisCM.lineCount(),ch:thisCM.lineInfo(thisCM.lineCount()-1).text.length});
 		nestOK = testToken.type && testToken.type.indexOf("error") == -1 ? true : false;
 	}
@@ -203,6 +204,7 @@ top.ICEcoder.caretLocationType = function() {
 			: fileExt == "jl"	? "Julia"
 			: fileExt == "c"	? "C"
 			: fileExt == "cpp"	? "C++"
+			: fileExt == "ino"	? "C++"
 			: fileExt == "cs"	? "C#"
 			: fileExt == "go"	? "Go"
 			: fileExt == "lua"	? "Lua"
