@@ -99,15 +99,17 @@ $demoMode = $ICEcoder['demoMode'];
 
 // Check if trial period has ended
 $tPeriod = 1296000-1;
-if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && $ICEcoder['configCreateDate'] > 0 && $ICEcoder['configCreateDate']+$tPeriod < time() && !isset($_GET['get']) && !isset($_POST['code'])) {
+
+if ($_SESSION['loggedIn'] && generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && $ICEcoder['configCreateDate'] > 0 && $ICEcoder['configCreateDate']+$tPeriod < time() && !isset($_GET['get']) && !isset($_POST['code'])) {
 	if (file_exists('lib/login.php')) {
-		header('Location: lib/login.php?get=code&csrf='.$_SESSION["csrf"]);
+		// Go to get code screen in top level window
 		echo "<script>window.location='lib/login.php?get=code&csrf=".$_SESSION["csrf"]."';</script>";
 	} else {
-		header('Location: login.php?get=code&csrf='.$_SESSION["csrf"]);
+		// Go to get code screen in top level window
 		echo "<script>window.location='login.php?get=code&csrf=".$_SESSION["csrf"]."';</script>";
 	}
 	die('Redirecting to donate screen...');
+	exit;
 }
 $tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
 if ($tRemaining > $tPeriod || $ICEcoder['configCreateDate'] == 0) {$tRemaining = $tPeriod;};
