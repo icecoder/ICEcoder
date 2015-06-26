@@ -153,12 +153,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .screenContainer .screenVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
 .screenVCenter .screenCenter {#position: relative; #top: -50%; text-align: center; display: inline}
 .screenCenter .version {position: relative; display: block; margin: 5px 0 15px 0; font-size: 10px; color: #bbb}
-.screenCenter .trialBarContainer {display: inline-block; width: 170px; height: 8px; color: #bbb; background: #0b0b0b; text-align: right; margin-bottom: 40px}
-.screenCenter .trialBarRemaining {display: inline-block; width: 170px; height: 8px; background: rgba(0,198,255,0.7); box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
-	transition: width 0.7s ease-in-out;
-}
-.screenCenter .trialBarText {text-align: center}
-.screenCenter .trialBarText a {color: #fff; text-decoration: none}
 .screenCenter .text {position: relative; display: block; margin-top: 15px; font-size: 10px; color: #888}
 .screenCenter .text input {margin-top: 1px}
 .screenCenter .text a {position: relative; display: block; margin-top: 15px; font-size: 10px; color: #888; text-decoration: none}
