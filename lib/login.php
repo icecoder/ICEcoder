@@ -18,19 +18,13 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 
-<body style="background-color: #141414" onLoad="<?php if (!isset($_GET["get"])) {$inputFocus = $ICEcoder["multiUser"] ? "username" : "password"; echo "document.settingsUpdate.".$inputFocus.".focus(); ";}; ?>setTimeout(function(){document.getElementById('screenContainer').style.opacity=1},50);if (document.getElementById('trialBarRemaining')) {setTimeout(function(){document.getElementById('trialBarRemaining').style.width = '<?php echo $tRemainingPerc*170;?>px';},150)}">
+<body style="background-color: #141414" onLoad="<?php if (!isset($_GET["get"])) {$inputFocus = $ICEcoder["multiUser"] ? "username" : "password"; echo "document.settingsUpdate.".$inputFocus.".focus(); ";}; ?>setTimeout(function(){document.getElementById('screenContainer').style.opacity=1},50)">
 	
 <div class="screenContainer" id="screenContainer" style="background-color: #141414; opacity: 0; transition: opacity 0.1s ease-out">
 	<div class="screenVCenter">
 		<div class="screenCenter">
 		<img src="../images/ice-coder.png" alt="ICEcoder">
 		<div class="version" style="margin-bottom: 22px">v <?php echo $ICEcoder["versionNo"];?></div>
-
-<?php if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && !isset($_GET['get']) && !isset($_POST['code'])) {?>
-		<div class="trialBarContainer"><div class="trialBarRemaining" id="trialBarRemaining"></div><br>
-			<div class="trialBarText"><?php echo $tDaysRemaining;?> days left - <a href="login.php?get=code&csrf=<?php echo $_SESSION["csrf"];?>">Unlock now</a></div>
-		</div>
-<?php ;}; ?>
 
 		<form name="settingsUpdate" action="login.php" method="POST">
 <?php
