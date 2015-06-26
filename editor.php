@@ -80,12 +80,18 @@ h2 {color: rgba(0,198,255,0.7)}
 .diffGreyLighter {background: #888 !important; color: #222 !important}
 .diffNone {}
 .info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}
+.trialBarContainer {display: inline-block; width: 170px; height: 8px; background: #0b0b0b; margin-bottom: 40px}
+.trialBarRemaining {display: inline-block; width: 170px; height: 8px; background: rgba(0,198,255,0.7); box-shadow: 0 0 10px 1px rgba(0,198,255,0.5);
+	transition: width 0.7s ease-in-out;
+}
+.trialBarText {margin-top: 6px; color: #888}
+.trialBarText a {color: #fff; text-decoration: none}
 </style>
 <link rel="stylesheet" href="lib/file-types.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="lib/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
+<body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);" onload="if (document.getElementById('trialBarRemaining')) {setTimeout(function(){document.getElementById('trialBarRemaining').style.width = '<?php echo $tRemainingPerc*170;?>px';},150)}">
 
 <div style="display: none; margin: 32px 43px 0 43px; padding: 10px; width: 500px; font-family: arial; font-size: 10px; color: #ddd; background: #333" id="dataMessage"></div>
 
@@ -110,6 +116,15 @@ h2 {color: rgba(0,198,255,0.7)}
 	</div>
 
 	<div style="float: left">
+		<?php
+		// No valid license code - show the trial remaining bar
+		if (generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode']) {?>
+		<h2><?php echo $t['trial remaining'];?></h2>
+		<div class="trialBarContainer"><div class="trialBarRemaining" id="trialBarRemaining"></div><br>
+			<div class="trialBarText"><?php echo $tDaysRemaining;?> <?php echo $t['days left'];?> - <a href="lib/login.php?get=code&csrf=<?php echo $_SESSION["csrf"];?>" target="_parent">Unlock now</a></div>
+		</div>
+		<?php ;}; ?>
+
 		<h2><?php echo $t['files'];?></h2>
 		<span class="heading"><?php echo $t['Last 10 files...'];?></span><br>
 		<ul class="fileManager" id="last10Files" style="margin-left: 0; line-height: 20px"><?php
