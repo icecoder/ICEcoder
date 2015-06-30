@@ -103,45 +103,62 @@ if (!$error && $_GET['action']=="save") {
 		$doNext = '
 			top.ICEcoder.serverMessage();
 			fileLoc = "'.$fileLoc.'";
+			overwriteOK = false;
+			noConflictSave = false;
 			newFileName = top.ICEcoder.getInput("'.$t['Enter filename to...'].' "+(fileLoc!="" ? fileLoc : "/"),"");
 			if (newFileName) {
 				if (newFileName.substr(0,1)!="/") {newFileName = "/" + newFileName};
 				newFileName = fileLoc + newFileName;
-				if (top.ICEcoder.filesFrame.contentWindow.document.getElementById(newFileName.replace(/\\\//g,"|"))) {
-					overwriteOK = top.ICEcoder.ask("'.$t['That file exists...'].'");
-				}
-			};
 
-			if ("undefined" == typeof newFileName || (newFileName && "undefined" == typeof overwriteOK) || ("undefined" != typeof overwriteOK && overwriteOK)) {
-				newFileName = "'.$docRoot.'" + newFileName;
-				saveURL = "lib/file-control-xhr.php?action=save'.$fileMDTURLPart.'&csrf='.$_GET["csrf"].'";
+				/* Check if file/dir exists */
+				top.ICEcoder.lastFileDirCheckStatusObj = false;
+				top.ICEcoder.checkExists(newFileName);
+				var thisInt = setInterval(function() {
+					if (top.ICEcoder.lastFileDirCheckStatusObj != false) {
+						clearInterval(thisInt);
 
-				var xhr = top.ICEcoder.xhrObj();
-
-				xhr.onreadystatechange=function() {
-					if (xhr.readyState==4 && xhr.status==200) {
-						/* console.log(xhr.responseText); */
-						var statusObj = JSON.parse(xhr.responseText);
-						/* Set the actions end time and time taken in JSON object */
-						statusObj.action.timeEnd = new Date().getTime();
-						statusObj.action.timeTaken = statusObj.action.timeEnd - statusObj.action.timeStart;
-						/* console.log(statusObj); */
-
-						if (statusObj.status.error) {
-							top.ICEcoder.message(statusObj.status.errorMsg);
+						if (top.ICEcoder.lastFileDirCheckStatusObj.file && top.ICEcoder.lastFileDirCheckStatusObj.file.exists) {			
+							overwriteOK = top.ICEcoder.ask("'.$t['That file exists...'].'");
 						} else {
-							eval(statusObj.action.doNext);
+							noConflictSave = true;
 						}
 						
+						/* Saving under conditions: New filename or confirmation of overwrite */
+						if (overwriteOK || noConflictSave) {
+							newFileName = "'.$docRoot.'" + newFileName;
+							saveURL = "lib/file-control-xhr.php?action=save'.$fileMDTURLPart.'&csrf='.$_GET["csrf"].'";
 
+							var xhr = top.ICEcoder.xhrObj();
+							xhr.onreadystatechange=function() {
+								if (xhr.readyState==4 && xhr.status==200) {
+									/* console.log(xhr.responseText); */
+									var statusObj = JSON.parse(xhr.responseText);
+									/* Set the actions end time and time taken in JSON object */
+									statusObj.action.timeEnd = new Date().getTime();
+									statusObj.action.timeTaken = statusObj.action.timeEnd - statusObj.action.timeStart;
+									/* console.log(statusObj); */
+
+									if (statusObj.status.error) {
+										top.ICEcoder.message(statusObj.status.errorMsg);
+									} else {
+										eval(statusObj.action.doNext);
+									}
+						
+
+								}
+							};
+							/* console.log(\'Calling \'+saveURL+\' via XHR\'); */
+							xhr.open("POST",saveURL,true);
+							xhr.setRequestHeader(\'Content-type\', \'application/x-www-form-urlencoded\');
+							xhr.send(\'timeStart='.$_POST["timeStart"].'&file='.$fileURL.'&newFileName=\'+newFileName+\'&contents=\'+top.ICEcoder.saveAsContent);
+							top.ICEcoder.serverMessage("<b>'.$t['Saving'].'</b><br>" + "'.($finalAction == "Save" ? "newFileName" : "'".$fileName."'").'");
+						}
 					}
-				};
-				/* console.log(\'Calling \'+saveURL+\' via XHR\'); */
-				xhr.open("POST",saveURL,true);
-				xhr.setRequestHeader(\'Content-type\', \'application/x-www-form-urlencoded\');
-				xhr.send(\'timeStart='.$_POST["timeStart"].'&file='.$fileURL.'&newFileName=\'+newFileName+\'&contents=\'+top.document.getElementById(\'saveTemp1\').value);
-				top.ICEcoder.serverMessage("<b>'.$t['Saving'].'</b><br>" + "'.($finalAction == "Save" ? "newFileName" : "'".$fileName."'").'");
-			} else {
+				},10);
+			};
+
+			if (!newFileName || newFileName && !overwriteOK) {
+				top.ICEcoder.saveAsContent = top.document.getElementById(\'saveTemp1\').value;
 				top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);
 			}';
 
@@ -591,10 +608,17 @@ if (!$error && $_GET['action']=="perms") {
 		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot change...']." \\n".strClean($file)."');";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
+};
 
+// ====================
+// CHECK FOR A FILE/DIR
+// ====================
 
-
+if (!$error && $_GET['action']=="checkExists") {
+	// This action is called under seperate AJAX call and the responseText object stored in top.ICEcoder.lastFileDirCheckStatusObj
+	$finalAction = "checkExists";
+	$doNext = 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
+};
 
 // ===================
 // JSON DATA TO RETURN
@@ -614,7 +638,9 @@ echo '{
 		"name":	"'.$fileName.'",
 		"path": "'.dirname($file).'",
 		"bytes": "'.filesize($file).'",
-		"modifiedDT": "'.$filemtime.'"
+		"modifiedDT": "'.$filemtime.'",
+		"type": "'.(file_exists($file) ? (is_dir($file) ? "dir" : "file") : "unknown").'",
+		"exists": '.(file_exists($file) ? "true" : "false").'
 	},
 	"action": {
 		"initial" : "'.$_GET["action"].'",
