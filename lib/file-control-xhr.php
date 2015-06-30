@@ -121,14 +121,15 @@ if (!$error && $_GET['action']=="save") {
 							overwriteOK = top.ICEcoder.ask("'.$t['That file exists...'].'");
 						} else {
 							noConflictSave = true;
-						}
+						};
 						
-						/* Saving under conditions: New filename or confirmation of overwrite */
+						/* Saving under conditions: Confirmation of overwrite or there is no filename conflict, it is a new file, in either case we can save */
 						if (overwriteOK || noConflictSave) {
 							newFileName = "'.$docRoot.'" + newFileName;
 							saveURL = "lib/file-control-xhr.php?action=save'.$fileMDTURLPart.'&csrf='.$_GET["csrf"].'";
 
 							var xhr = top.ICEcoder.xhrObj();
+
 							xhr.onreadystatechange=function() {
 								if (xhr.readyState==4 && xhr.status==200) {
 									/* console.log(xhr.responseText); */
@@ -147,6 +148,7 @@ if (!$error && $_GET['action']=="save") {
 
 								}
 							};
+
 							/* console.log(\'Calling \'+saveURL+\' via XHR\'); */
 							xhr.open("POST",saveURL,true);
 							xhr.setRequestHeader(\'Content-type\', \'application/x-www-form-urlencoded\');
@@ -157,6 +159,7 @@ if (!$error && $_GET['action']=="save") {
 				},10);
 			};
 
+			/* UI dialog cancelling and saving contents for save as looparound */
 			if (!newFileName || newFileName && !overwriteOK) {
 				top.ICEcoder.saveAsContent = top.document.getElementById(\'saveTemp1\').value;
 				top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);
@@ -616,6 +619,7 @@ if (!$error && $_GET['action']=="perms") {
 
 if (!$error && $_GET['action']=="checkExists") {
 	// This action is called under seperate AJAX call and the responseText object stored in top.ICEcoder.lastFileDirCheckStatusObj
+	// Nothing really done here though, we do something with the responseText
 	$finalAction = "checkExists";
 	$doNext = 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 };
