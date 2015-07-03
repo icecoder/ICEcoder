@@ -16,6 +16,7 @@ $isGitHubRepoDir = in_array($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
 <link rel="stylesheet" type="text/css" href="lib/file-types.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" type="text/css" href="lib/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 <script src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';}; echo ".js?microtime=".microtime(true);?>" type="text/javascript"></script>
+<!--Updated via settings so must remain 4th stylesheet//-->
 <style>
     ul.fileManager li a span { font-size:  <?php echo $ICEcoder["fontSize"];?>; }
 </style>
