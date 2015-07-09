@@ -38,6 +38,10 @@ if (file_exists(dirname(__FILE__)."/plugins/pesticide/pesticide.js")) {
 if (file_exists(dirname(__FILE__)."/plugins/stats.js/stats.min.js")) {
 	echo '<script src="plugins/stats.js/stats.min.js?microtime='.microtime(true).'"></script>';
 };?>
+<?php
+if (file_exists(dirname(__FILE__)."/plugins/responsive-helper/responsive-helper.js")) {
+	echo '<script src="plugins/responsive-helper/responsive-helper.js?microtime='.microtime(true).'"></script>';
+};?>
 <link rel="stylesheet" href="<?php
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
 echo "?microtime=".microtime(true);

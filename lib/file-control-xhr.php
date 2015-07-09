@@ -236,6 +236,7 @@ if (!$error && $_GET['action']=="save") {
 							top.ICEcoder.previewWindowLoading = false;
 							try {top.ICEcoder.doPesticide();} catch(err) {};
 							try {top.ICEcoder.doStatsJS(\'save\');} catch(err) {};
+							try {top.ICEcoder.doResponsive();} catch(err) {};
 							clearInterval(top.ICEcoder.checkPreviewWindowLoadingInt);
 						} else {
 							top.ICEcoder.previewWindowLoading = top.ICEcoder.previewWindow.document.readyState == "loading" ? true : false;
