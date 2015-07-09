@@ -33,8 +33,10 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .settings .infoPane a:hover {text-decoration: underline}
 .settings .logo {position: relative; margin-top: 2px; width: 100px}
 .settings .version {position: relative; display: block; margin-top: 5px; margin-bottom: 10px; font-size: 10px; color: #bbb}
-.settings .settingsColumn1 {width: 220px; height: 560px; padding: 20px; float: left}
-.settings .settingsColumn2 {width: 420px; height: 560px; padding: 20px 20px 20px 0; float: left}
+.settings .tabContainer {background: #fff; height: 38px; padding-top: 20px}
+.settings .tabContainer .tab {padding: 12px; background: #444; margin-right: 1px; float: left; cursor: pointer}
+.settings .tabContainer .tabActive {background: #1c1c19}
+.settings .section {width: 640px; height: 450px; padding: 20px; margin-top: 10px; float: left}
 .settings input, .settings textarea {border: 1px solid #555; background-color: #444; color: #fff}
 .settings input:focus, .settings textarea:focus {
 	outline: none;
