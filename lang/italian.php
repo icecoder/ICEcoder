@@ -11,7 +11,6 @@ $text = array(
 
 	"editor" =>
 	array(
-	"Click icons for..."	=> "<b>Clicca le icone<br>per l&#39;aiuto &amp;<br>la guida</b>",
 	"server"			=> "server",
 	"Server name, OS..."	=> "Nome server, Sistema operativo e indirizzo IP...",
 	"Root"				=> "Root:",
@@ -25,6 +24,8 @@ $text = array(
 		"Last 10 files..."		=> "Ultimi 10 file aperti:",
 		"none"				=> "[none]",
 		"test suite"			=> "prova suite",
+		"trial remaining"		=> "tempo rimanente alla fine del periodo di prova",
+		"days left"			=> "giorni rimanenti",
 		"Run unit tests"		=> "Esegui test di unità",
 		"dev mode"			=> "modalit&agrave; sviluppo",
 		"Status"			=> "Stato",
@@ -37,6 +38,7 @@ $text = array(
 	array(
 		"Lock"				=> "Blocca",
 		"Refresh"			=> "Aggiorna",
+		"Plugins"			=> "Plugins",
 		"ROOT"				=> "[ROOT]"
 
 	),
@@ -48,8 +50,10 @@ $text = array(
 		"Your version is"		=> "La tua versione Egrave;",
 		"Update now"			=> "Aggiorna ora",
 		"You have some..."		=> "Ci sono modifiche non salvate",
+		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"			=> "working",
 		"Color picker"			=> "Selettore di colore",
+		"Plugins Manager"		=> "Plugins Manager",
 		"New File"			=> "Nuovo file",
 		"New Folder"			=> "Nuova cartella",
 		"Upload File(s)"		=> "Carica File",
@@ -101,7 +105,9 @@ $text = array(
 		"Code Assist"			=> "Code Assist",
 		"Go to Line"			=> "Vai alla linea",
 		"View"				=> "Visualizza",
-		"Bug reporting not active"	=> "Segnalazione bug non attiva"
+		"Bug reporting not active"	=> "Segnalazione bug non attiva",
+"Single pane"			=> "Pannello singolo",
+		"Diff pane also"		=> "Pannello delle differenze"
 	),
 
 // /LIB
@@ -156,6 +162,7 @@ $text = array(
 		"Choose existing path"		=> "Scegli il percorso esistente",
 		"Local path"			=> "Percorso locale",
 		"Remote GitHub path"		=> "Remote GitHub path",
+		"Absolute URL beginning..."	=> "Url assoluto che comincia con https://github.com",
 		"Choose"			=> "Scegli",
 		"Set local and..."		=> "Imposta percorso locale e remoto, lasciare vuoto per per rimuovere",
 		"Update"			=> "Aggiorna",
@@ -242,6 +249,7 @@ $text = array(
 
 	"ice-coder" =>
 	array(
+		"results"			=> "risultati",
 		"No text selected..."		=> "Nessun testo selezionato per la ricerc",
 		"all files"			=> "tutti i file",
 		"all filenames"			=> "tutti i nomi dei file",
@@ -395,6 +403,7 @@ $text = array(
 		"indent type"			=> "tipo di rientro",
 		"indent size"			=> "dimensioni rientro",
 		"font size"			=> "dimensione font ",
+		"auto indent"			=> "auto indent",
 		"layout"			=> "layout",
 		"plugin panel aligned"		=> "Pannello plug inallineato",
 		"file manager"			=> "file manager",
@@ -429,6 +438,19 @@ token di accesso personale (https://help.github.com/articles/creating-an-access-
 	"updater" =>
 	array(
 		"Update appears to..."		=> "L'aggiornamento sembra andato bene"
+	),
+	"find-in-files" =>
+	array(
+		"Enter path to search in" => "Inserire il percorso in cui ricercare",
+		"Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)" => "
+Inserisci maschere separate da punto e virgola i dei file da cercare (e.s. *.php;*.html;*.js)",
+		"Type of text" => "Tipo di testo",
+		"Fixed text" => "Testo fisso",
+		"Regular expression" => "Espressione regolare",
+		"Case sensitive" => "Case sensitive",
+		"Yes" => "Si",
+		"No" => "No",
+		"Search" => "Cerca",
 	)
 
 );
