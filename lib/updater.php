@@ -8,7 +8,7 @@ $t = $text['updater'];
 <title>Updating ICEcoder...</title>
 </head>
 
-<body style="background: #141414; color: #fff; font-size: 10px; font-family: arial, helvetica, swiss, verdana">
+<body style="background: #181817; color: #fff; font-size: 10px; font-family: arial, helvetica, swiss, verdana">
 <?php
 define('PATH', '../tmp/oldVersion/');
 $updateDone = false;

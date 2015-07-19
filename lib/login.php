@@ -18,9 +18,9 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 <link rel="icon" type="image/png" href="../favicon.png">
 </head>
 
-<body style="background-color: #141414" onLoad="<?php if (!isset($_GET["get"])) {$inputFocus = $ICEcoder["multiUser"] ? "username" : "password"; echo "document.settingsUpdate.".$inputFocus.".focus(); ";}; ?>setTimeout(function(){document.getElementById('screenContainer').style.opacity=1},50)">
+<body style="background-color: #181817" onLoad="<?php if (!isset($_GET["get"])) {$inputFocus = $ICEcoder["multiUser"] ? "username" : "password"; echo "document.settingsUpdate.".$inputFocus.".focus(); ";}; ?>setTimeout(function(){document.getElementById('screenContainer').style.opacity=1},50)">
 	
-<div class="screenContainer" id="screenContainer" style="background-color: #141414; opacity: 0; transition: opacity 0.1s ease-out">
+<div class="screenContainer" id="screenContainer" style="background-color: #181817; opacity: 0; transition: opacity 0.1s ease-out">
 	<div class="screenVCenter">
 		<div class="screenCenter">
 		<img src="../images/ice-coder.png" alt="ICEcoder">
