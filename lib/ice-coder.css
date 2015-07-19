@@ -22,7 +22,7 @@ body {overflow: hidden;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	background-color: #222;
+	background-color: #1d1d1b;
 }
 
 h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
@@ -81,7 +81,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .options .optionsList a:hover {color: #fff; cursor: pointer}
 .files input:focus, .findReplace input:focus, .findReplace select:focus, .password:focus {outline: 0; box-shadow: 0 0 10px 1px rgba(0,198,255,0.7)}
 .files .button {position: absolute; border: 0; background: #444; color: #eee; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
-.files .button:hover {background-color: #222; color: #eee}
+.files .button:hover {background-color: #1d1d1b; color: #eee}
 .files .frame {display: inline-block; width: 250px; margin-top: 24px}
 .files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 4px 12px 1px 12px; opacity: 0; 
 	transition: opacity 0.2s;
@@ -109,7 +109,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .tabsBar .newTab {position: absolute; display: inline-block; height: 15px; padding: 4px 7px 3px 7px; background: #ddd; cursor: pointer; z-index: 0;
 	transition: left 0.15s ease-in-out;
 }
-.editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #141612}
+.editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #1d1d1b}
 .findBar .findReplace {position: absolute; padding-top: 2px; z-index: 1}
 .findReplace .selectWrapper {position: relative; display: inline-block}
 .findReplace .selectWrapper select {position: relative; padding: 1px; border: 0; background: url('../images/select-arrow.gif') no-repeat right #444; color: #fff; font-size: 10px; height: 16px; 
@@ -135,7 +135,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findBar .bug {position: fixed; display: inline-block; width: 16px; height: 16px; right: 16px; top: 48px; background: url('../images/bug-reporting-icons.png') 0 0 no-repeat; cursor: pointer; background-position: 0 0}
 .editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px; visibility: hidden}
 
-.footer {position: fixed; display: inline-block; width: 100%; height: 30px; bottom: 0; background-color: rgba(0,0,0,0.7); left: 0; z-index: 1}
+.footer {position: fixed; display: inline-block; width: 100%; height: 30px; bottom: 0; background-color: rgba(0,0,0,0.15); left: 0; z-index: 1}
 .footer .nesting {position: absolute; display: inline-block; padding: 5px; margin-top: 10px; left: 260px; border-radius: 5px; background-color: #0b0; cursor: default}
 .footer .splitPaneControls {position: absolute; display: inline-block; width: 50px; text-align: center; padding: 6px}
 .footer .splitPaneControls .off {display: inline-block; width: 18px; height: 18px; margin-right: 10px; background: url('../images/split-pane-controls.gif') no-repeat 0 0; cursor: pointer}
