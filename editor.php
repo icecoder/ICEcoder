@@ -56,7 +56,7 @@ if (array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","e
 
 <style type="text/css">
 /* Make sure this next one remains the 1st item, updated with JS */
-.CodeMirror {position: absolute; top: 0; width: 100%; font-size: <?php echo $ICEcoder["fontSize"];?>; z-index: 1}
+.CodeMirror {position: absolute; top: 0; width: 100%; font-size: <?php echo $ICEcoder["fontSize"];?>; line-height: 1.3; z-index: 1}
 .CodeMirror-scroll {} /* was: height: auto; overflow: visible */
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
@@ -81,7 +81,7 @@ h2 {color: rgba(0,198,255,0.7)}
 .diffGreen {background: #0b0 !important; color: #000 !important}
 .diffRed {background: #800 !important; color: #fff !important}
 .diffGrey {background: #444 !important; color: #fff !important}
-.diffGreyLighter {background: #888 !important; color: #222 !important}
+.diffGreyLighter {background: #888 !important; color: #1d1d1b !important}
 .diffNone {}
 .info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}
 .trialBarContainer {display: inline-block; width: 170px; height: 8px; background: #0b0b0b; margin-bottom: 40px}
@@ -268,6 +268,10 @@ function createNewCMInstance(num) {
 	// Change
 	window['cM'+num]	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num,changeObj)});
 	window['cM'+num+'diff']	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num+'diff',changeObj)});
+
+	// Before change
+	window['cM'+num]	.on("beforeChange", function(thisCM, changeObj) {top.ICEcoder.cMonBeforeChange(thisCM,'cM'+num,changeObj,CodeMirror)});
+	window['cM'+num+'diff']	.on("beforeChange", function(thisCM, changeObj) {top.ICEcoder.cMonBeforeChange(thisCM,'cM'+num+'diff',changeObj,CodeMirror)});
 
 	// Scroll
 	window['cM'+num]	.on("scroll", function(thisCM) {top.ICEcoder.cMonScroll(thisCM,'cM'+num)});
