@@ -1,6 +1,7 @@
 <?php
 include("headers.php");
 include("settings.php");
+include("ftp-control.php");
 $t = $text['file-control'];
 ?>
 <?php if ($_SESSION['githubDiff']) { ?>
@@ -9,9 +10,6 @@ $t = $text['file-control'];
 <?php ;}; ?>
 <script>
 <?php
-// Get the save type if any
-$saveType = isset($_GET['saveType']) ? strClean($_GET['saveType']) : "";
-
 // Establish the filename/new filename
 $file = str_replace("|","/",strClean(
 	isset($_POST['newFileName']) && $_POST['newFileName']!=""
@@ -54,7 +52,7 @@ for ($i=0; $i<count($allFiles); $i++) {
 	// Die if the file requested isn't something we expect
 	if(
 		// A local folder that isn't the doc root or starts with the doc root
-		($_GET['action']!="getRemoteFile" &&
+		($_GET['action']!="getRemoteFile" && !isset($ftpSite) && 
 			rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
 			strpos(realpath(rtrim(dirname($allFiles[$i]),"/")),realpath(rtrim($docRoot,"/"))) !== 0
 		) ||
@@ -69,10 +67,10 @@ for ($i=0; $i<count($allFiles); $i++) {
 if ($_GET['action']=="load") {
 	echo 'action="load";';
 	$lineNumber = max(isset($_REQUEST['lineNumber'])?intval($_REQUEST['lineNumber']):1, 1);
-	if (file_exists($file)) {
+	if (isset($ftpSite) || file_exists($file)) {
 		$finfo = "text";
 		// Determine what to do based on mime type
-		if (function_exists('finfo_open')) {
+		if (!isset($ftpSite) && function_exists('finfo_open')) {
 			$finfoMIME = finfo_open(FILEINFO_MIME);
 			$finfo = finfo_file($finfoMIME, $file);
 			finfo_close($finfoMIME);
@@ -85,7 +83,26 @@ if ($_GET['action']=="load") {
 		if (strpos($finfo,"text")===0 || strpos($finfo, "application/xml")===0 || strpos($finfo,"empty")!==false) {
 			echo 'fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
+
+		// Get file over FTP?
+		if (isset($ftpSite)) {
+			// Establish connection, result, maybe use pasv and alert error if no good connection
+			$ftpConn = ftp_connect($ftpHost);
+			$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
+			if ($ftpPasv) {
+				ftp_pasv($ftpConn, true);
+			}
+			if (!$ftpConn || !$ftpLogin) {
+				die('alert("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>');
+				exit;
+			}
+			// Get our file contents and close the FTP connection
+			$loadedFile = toUTF8noBOM(ftpGetContents($ftpConn, $root.$fileLoc."/".$fileName, $ftpMode));
+			ftp_close($ftpConn);
+		// Get local file
+		} else {
 			$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
+		}
 			echo '</script><textarea name="loadedFile" id="loadedFile">'.htmlentities($loadedFile).'</textarea><script>';
 			// Run our custom processes
 			include_once("../processes/on-file-load.php");
@@ -109,7 +126,7 @@ if (action=="load") {
 				console.log('<?php echo $t['There was a...']; ?>');
 				window.location.reload(true);
 			<?php
-			if (file_exists($file)) {
+			if (isset($ftpSite) || file_exists($file)) {
 			?>
 			} else {
 				top.ICEcoder.loadingFile = true;
@@ -122,7 +139,7 @@ if (action=="load") {
 				top.ICEcoder.setLayout();
 				top.ICEcoder.content.contentWindow.createNewCMInstance(top.ICEcoder.nextcMInstance);
 
-				<?php if ($_SESSION['githubDiff']) { ?>
+				<?php if (!isset($ftpSite) && $_SESSION['githubDiff']) { ?>
 					// If we're in GitHub diff mode and have a split pane display, get the content for the diff pane
 					if (top.ICEcoder.githubDiff && top.ICEcoder.splitPane) {
 						<?php
@@ -185,7 +202,7 @@ if (action=="load") {
 		top.document.getElementById('blackMask').style.visibility = "visible";
 		top.document.getElementById('mediaContainer').innerHTML = 
 			"<canvas id=\"canvasPicker\" width=\"1\" height=\"1\" style=\"position: absolute; margin: 10px 0 0 10px; cursor: crosshair\" onmouseover=\"top.ICEcoder.overPopup=true\" onmouseout=\"top.ICEcoder.overPopup=false\"></canvas>" + 
-			"<img src=\"<?php echo $fileLoc."/".$fileName;?>\" class=\"whiteGlow\" style=\"border: solid 10px #fff; max-width: 700px; max-height: 500px; background-color: #000; background-image: url('images/checkerboard.png')\" onLoad=\"reducedImgMsg = (this.naturalWidth > 700 || this.naturalHeight > 500) ? ', <?php echo $t['displayed at']; ?> ' + this.width + ' x ' + this.height : ''; document.getElementById('imgInfo').innerHTML += ' (' + this.naturalWidth + ' x ' + this.naturalHeight + reducedImgMsg + ')'; top.ICEcoder.initCanvasImage(this); top.ICEcoder.interactCanvasImage(this)\"><br>" +
+			"<img src=\"<?php echo (isset($ftpSite) ? $ftpSite : "").$fileLoc."/".$fileName;?>\" class=\"whiteGlow\" style=\"border: solid 10px #fff; max-width: 700px; max-height: 500px; background-color: #000; background-image: url('images/checkerboard.png')\" onLoad=\"reducedImgMsg = (this.naturalWidth > 700 || this.naturalHeight > 500) ? ', <?php echo $t['displayed at']; ?> ' + this.width + ' x ' + this.height : ''; document.getElementById('imgInfo').innerHTML += ' (' + this.naturalWidth + ' x ' + this.naturalHeight + reducedImgMsg + ')'; top.ICEcoder.initCanvasImage(this); top.ICEcoder.interactCanvasImage(this)\"><br>" +
 			"<div class=\"whiteGlow\" style=\"display: inline-block; margin-top: -10px; border: solid 10px #fff; color: #000; background-color: #fff\" id=\"imgInfo\"  onmouseover=\"top.ICEcoder.overPopup=true\" onmouseout=\"top.ICEcoder.overPopup=false\">" + 
 				"<b><?php echo $fileLoc."/".$fileName;?></b>" + 
 			"</div><br>" + 
@@ -198,7 +215,6 @@ if (action=="load") {
 
 	top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);
 }
-</script>
 
 // Finally, switch mode in case we have saved, renamed file etc
 top.ICEcoder.switchMode();
