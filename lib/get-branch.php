@@ -135,7 +135,7 @@ if (isset($ftpSite)) {
 		exit;
 	}
 	// Get our simple and detailed lists and close the FTP connection
-	$ftpList = ftpGetList($ftpConn, $root.$location);
+	$ftpList = ftpGetList($ftpConn, $ftpRoot.$location);
 	$finalArray = $ftpList['simpleList'];
 	$ftpItems = $ftpList['detailedList'];
 	ftp_close($ftpConn);
