@@ -132,7 +132,7 @@ function xssClean($data,$type) {
 function toUTF8noBOM($string,$message) {
 	// Attempt to detect encoding
 	if (function_exists('mb_detect_encoding')) {
-		$strictUTF8 = mb_detect_encoding($string, 'UTF-8', true);
+		$encType = mb_detect_encoding($string);
 		// Get rid of any UTF-8 BOM
 		$string = preg_replace('/\x{EF}\x{BB}\x{BF}/','',$string);
 		// Test for any bad characters
@@ -140,7 +140,7 @@ function toUTF8noBOM($string,$message) {
 		$teststringBroken = utf8_decode($teststring);
 		$teststringConverted = iconv("UTF-8", "UTF-8//IGNORE", $teststringBroken);
 		// If we have a matching length, UTF8 encode it
-		if (!$strictUTF8 && strlen($teststringConverted) == strlen($teststringBroken)) {
+		if ($encType != "ASCII" && $encType != "UTF-8" && strlen($teststringConverted) == strlen($teststringBroken)) {
 			$string = utf8_encode($string);
 			if ($message) {
 				echo "top.ICEcoder.message('".$t['Your document does...'].".');";
