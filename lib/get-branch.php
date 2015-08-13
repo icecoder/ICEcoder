@@ -2,6 +2,7 @@
 if (!isset($ICEcoder['root'])) {
 	include("headers.php");
 	include("settings.php");
+	include("ftp-control.php");
 }
 
 if (!$_SESSION['loggedIn']) {
@@ -26,7 +27,7 @@ $t = $text['get-branch'];
 <body>
 <?php
 // Need to get dir contents recursively? (Used by GitHub diff mode)
-if ($_SESSION['githubDiff']) {
+if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	// Function to sort given values alphabetically
 	function alphasort($a, $b) {
 		return strcmp($a->getPathname(), $b->getPathname());
@@ -120,19 +121,48 @@ $location = str_replace("|","/",$_GET['location']);
 if ($location=="/") {$location = "";};
 
 $dirArray = $filesArray = $finalArray = array();
-$finalArray = scanDir($scanDir.$location);
+
+// Get dir/file list over FTP
+if (isset($ftpSite)) {
+	// Establish connection, result, maybe use pasv and alert error if no good connection
+	$ftpConn = ftp_connect($ftpHost);
+	$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
+	if ($ftpPasv) {
+		ftp_pasv($ftpConn, true);
+	}
+	if (!$ftpConn || !$ftpLogin) {
+		die('<script>alert("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");</script>');
+		exit;
+	}
+	// Get our simple and detailed lists and close the FTP connection
+	$ftpList = ftpGetList($ftpConn, $root.$location);
+	$finalArray = $ftpList['simpleList'];
+	$ftpItems = $ftpList['detailedList'];
+	ftp_close($ftpConn);
+// or get local list
+} else {
+	$finalArray = scanDir($scanDir.$location);
+}
+
 foreach($finalArray as $entry) {
 	$canAdd = true;
 	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
 		if($_SESSION['bannedFiles'][$i] != "" && strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
 	}
-	if ($docRoot.$iceRoot.$location."/".$entry == $docRoot.$ICEcoderDir) {
+	// Only applicable for local dir, ignoring ICEcoder's dir
+	if (!isset($ftpSite) && $docRoot.$iceRoot.$location."/".$entry == $docRoot.$ICEcoderDir) {
 		$canAdd = false;
 	}
 	if ($entry != "." && $entry != ".." && $canAdd) {
-		is_dir($docRoot.$iceRoot.$location."/".$entry)
-		? array_push($dirArray,$location."/".$entry)
-		: array_push($filesArray,$location."/".$entry);
+		if (!isset($ftpSite)) {
+			is_dir($docRoot.$iceRoot.$location."/".$entry)
+			? array_push($dirArray,$location."/".$entry)
+			: array_push($filesArray,$location."/".$entry);
+		} else {
+			$ftpItems[$entry]['type'] == "directory"
+			? array_push($dirArray,$location."/".$entry)
+			: array_push($filesArray,$location."/".$entry);
+		}
 	}
 }
 natcasesort($dirArray);
@@ -141,7 +171,11 @@ natcasesort($filesArray);
 $finalArray = array_merge($dirArray,$filesArray);
 for ($i=0;$i<count($finalArray);$i++) {
 	$fileFolderName = str_replace("\\","/",$finalArray[$i]);
-	$type = is_dir($docRoot.$iceRoot.$fileFolderName) ? "folder" : "file";
+	if (!isset($ftpSite)) {
+		$type = is_dir($docRoot.$iceRoot.$fileFolderName) ? "folder" : "file";
+	} else {
+		$type = $ftpItems[basename($fileFolderName)]['type'] == "directory" ? "folder" : "file";
+	}
 	if ($type=="file") {
 		// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
 		$ext = "ext-".pathinfo($docRoot.$iceRoot.$fileFolderName, PATHINFO_EXTENSION);
@@ -161,7 +195,25 @@ for ($i=0;$i<count($finalArray);$i++) {
 	(($type == "folder")?" top.ICEcoder.openCloseDir(this,$loadParam);":"").
 
 	" if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {top.ICEcoder.openFile()}}\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".xssClean(basename($fileFolderName),"html")."</span> ";
-	$thisPermVal = $serverType=="Linux" ? substr(sprintf('%o', fileperms($docRoot.$iceRoot.$fileFolderName)), -3) : '';
+	if (!isset($ftpSite)) {
+		$thisPermVal = $serverType=="Linux" ? substr(sprintf('%o', fileperms($docRoot.$iceRoot.$fileFolderName)), -3) : '';
+	} else {
+		// Work out perms value
+		$thisPermVal = 0;
+		$r = $ftpItems[basename($fileFolderName)]['rights'];
+		// Owner
+		$thisPermVal += substr($r,1,1) == "r" ? 400 : 0;
+		$thisPermVal += substr($r,2,1) == "w" ? 200 : 0;
+		$thisPermVal += substr($r,3,1) == "x" ? 100 : 0;
+		// Group
+		$thisPermVal += substr($r,4,1) == "r" ? 40 : 0;
+		$thisPermVal += substr($r,5,1) == "w" ? 20 : 0;
+		$thisPermVal += substr($r,6,1) == "x" ? 10 : 0;
+		// Public
+		$thisPermVal += substr($r,7,1) == "r" ? 4 : 0;
+		$thisPermVal += substr($r,8,1) == "w" ? 2 : 0;
+		$thisPermVal += substr($r,9,1) == "x" ? 1 : 0;
+	}
 	$permColors = $thisPermVal == 777 ? 'background: #800; color: #eee' : 'color: #888';
 	echo '<span style="'.$permColors.'; font-size: 8px" id="'.str_replace($docRoot,"",str_replace("/","|",$fileFolderName)).'_perms">';
 	echo $thisPermVal;
@@ -170,7 +222,7 @@ for ($i=0;$i<count($finalArray);$i++) {
 
 echo '	</div>';
 
-if ($_SESSION['githubDiff']) {
+if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	// Show the loading screen until we're done comparing files with GitHub
 	echo "<script>setTimeout(function(){top.ICEcoder.showHide('show',top.get('loadingMask'));},4)</script>";
 	$i=0;
@@ -409,7 +461,7 @@ if ($_SESSION['githubDiff']) {
 
 	// If we're not in githubDiff mode, show files here
 	if (folderContent.indexOf('<ul')>-1 || folderContent.indexOf('<li')>-1) {
-		<?php if (!$_SESSION['githubDiff']) {echo 'showFiles();';};?>
+		<?php if (isset($ftpSite) || !$_SESSION['githubDiff']) {echo 'showFiles();';};?>
 	} else {
 		<?php
 		$iceGithubLocalPaths = $ICEcoder["githubLocalPaths"];
