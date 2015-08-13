@@ -1,6 +1,6 @@
 <?php
-$ftpSite = false;
-if ($ftpSite == 1) {
+$ftpSiteConn = false;
+if ($ftpSiteConn == 1) {
 	$ftpSite = "";        // FTP site domain, eg http://yourdomain.com
 	$ftpHost = "";        // FTP host, eg ftp.yourdomain.com
 	$ftpUser = "";        // FTP username
