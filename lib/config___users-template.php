@@ -1,6 +1,6 @@
 <?php
 $ICEcoderUserSettings = array(
-"versionNo"		=> "5.1",
+"versionNo"		=> "5.2",
 "licenseEmail"		=> "",
 "licenseCode"		=> "",
 "configCreateDate"	=> 0,
