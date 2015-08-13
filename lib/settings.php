@@ -1,4 +1,15 @@
 <?php
+$ftpSite = false;
+if ($ftpSite == 1) {
+	$ftpSite = "";        // FTP site domain, eg http://yourdomain.com
+	$ftpHost = "";        // FTP host, eg ftp.yourdomain.com
+	$ftpUser = "";        // FTP username
+	$ftpPass = "";        // FTP password
+	$ftpPasv = false;     // FTP account requires PASV mode?
+	$ftpMode = FTP_ASCII; // FTP transfer mode, FTP_ASCII or FTP_BINARY
+	$ftpRoot = "";        // FTP root dir to use as base, eg /htdocs
+}
+
 // Establish settings and users template filenames
 $configSettings = 'config___settings.php';
 $configUsersTemplate = 'config___users-template.php';
