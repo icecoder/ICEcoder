@@ -1,6 +1,7 @@
 <?php
 include("headers.php");
 include("settings.php");
+include("ftp-control.php");
 $t = $text['file-control'];
 
 // ===============================
@@ -72,7 +73,7 @@ if (!$error) {
 		// Die if the file requested isn't something we expect
 		if(
 			// A local folder that isn't the doc root or starts with the doc root
-			($_GET['action']!="getRemoteFile" &&
+			($_GET['action']!="getRemoteFile" && !isset($ftpSite) && 
 				rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
 				strpos(realpath(rtrim(dirname($allFiles[$i]),"/")),realpath(rtrim($docRoot,"/"))) !== 0
 			) ||
@@ -176,7 +177,7 @@ if (!$error && $_GET['action']=="save") {
 		// FILE IS WRITEABLE
 		// =================
 
-		if (!$demoMode && ((file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && $_POST['newFileName']!="")) {
+		if (!$demoMode && (isset($ftpSite) || (file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && $_POST['newFileName']!="")) {
 			$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 
 			// =======================
@@ -184,36 +185,65 @@ if (!$error && $_GET['action']=="save") {
 			// =======================
 
 			if (!(isset($_GET['fileMDT']))||$filemtime==$_GET['fileMDT']) {
-				// Newly created files have the perms set too
-				$setPerms = (!file_exists($file)) ? true : false;
-				// get old file contents, if file exists, and count stats on usage \n and \r there
-				// in this case we can keep line endings, which file had before, without
-				// making code version control systems going crazy about line endings change in whole file. 
-				$oldContents = file_exists($file)?file_get_contents($file):'';
-				$unixNewLines = preg_match_all('/[^\r][\n]/u', $oldContents);
-				$windowsNewLines = preg_match_all('/[\r][\n]/u', $oldContents);
-				$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
-				// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
-				$contents = $_POST['contents'];
-				$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
-				$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
-				$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
-				if (($unixNewLines > 0) || ($windowsNewLines > 0)){
-					if ($unixNewLines > $windowsNewLines){
-						$contents = str_replace($ICEcoder["lineEnding"], "\n", $contents);
-					} elseif ($windowsNewLines > $unixNewLines){
-						$contents = str_replace($ICEcoder["lineEnding"], "\r\n", $contents);
+
+				$doNext = "";
+
+				// FTP Saving
+				if (isset($ftpSite)) {
+					// Establish connection, result, maybe use pasv and alert error if no good connection
+					$ftpConn = ftp_connect($ftpHost);
+					$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
+					if ($ftpPasv) {
+						ftp_pasv($ftpConn, true);
 					}
+					if (!$ftpConn || !$ftpLogin) {
+						$doNext .= 'top.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");';
+					}
+					// Write our file contents and close the FTP connection
+					$ftpFilepath = ltrim($fileLoc."/".$fileName,"/");
+					// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
+					$contents = $_POST['contents'];
+					$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
+					$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
+					$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
+					if (!ftpWriteFile($ftpConn, $ftpFilepath, $contents, $ftpMode)) {
+						$doNext .= 'top.ICEcoder.message("Sorry, could not write '.$ftpFilepath.' at '.$ftpHost.'");';
+					}
+					ftp_close($ftpConn);
+				// Local saving
+				} else {
+					// Newly created files have the perms set too
+					$setPerms = (!file_exists($file)) ? true : false;
+					// get old file contents, if file exists, and count stats on usage \n and \r there
+					// in this case we can keep line endings, which file had before, without
+					// making code version control systems going crazy about line endings change in whole file. 
+					$oldContents = file_exists($file)?file_get_contents($file):'';
+					$unixNewLines = preg_match_all('/[^\r][\n]/u', $oldContents);
+					$windowsNewLines = preg_match_all('/[\r][\n]/u', $oldContents);
+					$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
+					// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
+					$contents = $_POST['contents'];
+					$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
+					$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
+					$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
+					if (($unixNewLines > 0) || ($windowsNewLines > 0)){
+						if ($unixNewLines > $windowsNewLines){
+							$contents = str_replace($ICEcoder["lineEnding"], "\n", $contents);
+						} elseif ($windowsNewLines > $unixNewLines){
+							$contents = str_replace($ICEcoder["lineEnding"], "\r\n", $contents);
+						}
+					}
+					// Now write that content, close the file and clear the statcache
+					fwrite($fh, $contents);
+					fclose($fh);
+
+					if ($setPerms) {
+						chmod($file,octdec($ICEcoder['newFilePerms']));
+					}
+					clearstatcache();
+					$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
+					$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
 				}
-				// Now write that content, close the file and clear the statcache
-				fwrite($fh, $contents);
-				fclose($fh);
-				if ($setPerms) {
-					chmod($file,octdec($ICEcoder['newFilePerms']));
-				}
-				clearstatcache();
-				$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
-				$doNext = 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
 				// Reload file manager, rename tab & remove old file highlighting if it was a new file
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 					$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'file\');';
@@ -307,7 +337,7 @@ if (!$error && $_GET['action']=="save") {
 // NEW FOLDER
 // ==========
 
-if (!$error && $_GET['action']=="newFolder") {
+if (!isset($ftpSite) && !$error && $_GET['action']=="newFolder") {
 	if (!$demoMode && is_writable($docRoot.$fileLoc)) {
 		mkdir($file, octdec($ICEcoder['newDirPerms']));
 		// Reload file manager
@@ -326,7 +356,7 @@ if (!$error && $_GET['action']=="newFolder") {
 // MOVE FILE/FOLDER
 // ================
 
-if (!$error && $_GET['action']=="move") {
+if (!isset($ftpSite) && !$error && $_GET['action']=="move") {
 	$moved=false;
 	$doNext = "";
 	$srcDir = $docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName']));
@@ -357,7 +387,7 @@ if (!$error && $_GET['action']=="move") {
 // RENAME FILE/FOLDER
 // ==================
 
-if (!$error && $_GET['action']=="rename") {
+if (!isset($ftpSite) && !$error && $_GET['action']=="rename") {
 	$renamed=false;
 	if (!$demoMode && is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
 		if(rename($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])),$docRoot.$fileLoc."/".$fileName)) {
@@ -379,7 +409,7 @@ if (!$error && $_GET['action']=="rename") {
 // PASTE FILE/FOLDER
 // =================
 
-if (!$error && $_GET['action']=="paste") {
+if (!isset($ftpSite) && !$error && $_GET['action']=="paste") {
 	$source = $file;
 	$dest = str_replace("//","/",$docRoot.$iceRoot.strClean(str_replace("|","/",$_GET['location']))."/".basename($source));
 	if (!$demoMode && is_writable(dirname($dest))) {
@@ -436,7 +466,7 @@ if (!$error && $_GET['action']=="paste") {
 // UPLOAD FILE(S)
 // ==============
 
-if (!$error && $_GET['action']=="upload") {
+if (!isset($ftpSite) && !$error && $_GET['action']=="upload") {
 	if (!$demoMode) {
 		$doNext = "";
 		class fileUploader {  
@@ -502,7 +532,7 @@ if (!$error && $_GET['action']=="upload") {
 // DELETE FILE(S)/FOLDER(S)
 // ========================
 
-if (!$error && $_GET['action']=="delete") {
+if (!isset($ftpSite) && !$error && $_GET['action']=="delete") {
 	$doNext = "";
 	$filesArray = explode(";",$file); // May contain more than one file here
 	for ($i=0;$i<count($filesArray);$i++) {
@@ -552,7 +582,7 @@ function rrmdir($dir) {
 // REPLACE TEXT IN A FILE
 // ======================
 
-if (!$error && $_GET['action']=="replaceText") {
+if (!isset($ftpSite) && !$error && $_GET['action']=="replaceText") {
 	$doNext = "";
 	if (!$demoMode && is_writable($file)) {
 		$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
@@ -574,7 +604,7 @@ if (!$error && $_GET['action']=="replaceText") {
 // GET CONTENTS OF REMOTE URL
 // ==========================
 
-if (!$error && $_GET['action']=="getRemoteFile") {
+if (!isset($ftpSite) && !$error && $_GET['action']=="getRemoteFile") {
 	$lineNumber = max(isset($_REQUEST['lineNumber'])?intval($_REQUEST['lineNumber']):1, 1);
 	$doNext = "";
 	if ($remoteFile = toUTF8noBOM(file_get_contents($file,false,$context),true)) {
@@ -599,7 +629,7 @@ if (!$error && $_GET['action']=="getRemoteFile") {
 // CHANGING FILE/DIR PERMS
 // =======================
 
-if (!$error && $_GET['action']=="perms") {
+if (!isset($ftpSite) && !$error && $_GET['action']=="perms") {
 	if (!$demoMode && is_writable($file)) {
 		chmod($file,octdec(numClean($_GET['perms'])));
 		// Reload file manager
@@ -618,7 +648,7 @@ if (!$error && $_GET['action']=="perms") {
 // CHECK FOR A FILE/DIR
 // ====================
 
-if (!$error && $_GET['action']=="checkExists") {
+if (!isset($ftpSite) && !$error && $_GET['action']=="checkExists") {
 	// This action is called under seperate AJAX call and the responseText object stored in top.ICEcoder.lastFileDirCheckStatusObj
 	// Nothing really done here though, we do something with the responseText
 	$finalAction = "checkExists";
