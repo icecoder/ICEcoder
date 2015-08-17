@@ -103,7 +103,10 @@ if ($_GET['action']=="load") {
 		} else {
 			$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 		}
-			echo '</script><textarea name="loadedFile" id="loadedFile">'.htmlentities($loadedFile).'</textarea><script>';
+			$encoding=ini_get("default_charset");
+			if($encoding=="")
+				$encoding="UTF-8";
+			echo '</script><textarea name="loadedFile" id="loadedFile">'.htmlentities($loadedFile,ENT_COMPAT,$encoding).'</textarea><script>';
 			// Run our custom processes
 			include_once("../processes/on-file-load.php");
 		} else if (strpos($finfo,"image")===0) {
