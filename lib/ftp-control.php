@@ -45,4 +45,22 @@ function ftpWriteFile($ftpConn, $filepath, $contents, $ftpMode) {
 	// Write our content and return true/false
 	return ftp_fput($ftpConn, $filepath, $tempHandle, $ftpMode, 0);
 }
+
+// Make a new dir over FTP
+function ftpMkDir($ftpConn, $perms, $dir) {
+	// Create the new dir
+	if (!ftp_mkdir($ftpConn, $dir)) {
+		return false;
+	} else {
+		// Also then set perms (we must be able to do that if we created dir, so can always return true)
+		ftpPerms($ftpConn, $perms, $dir);
+		return true;
+	}
+}
+
+// Change dir/file perms over FTP
+function ftpPerms($ftpConn, $perms, $filePath) {
+	// Return success status of perms change
+	return ftp_chmod($ftpConn, $perms, $filePath);
+}
 ?>
