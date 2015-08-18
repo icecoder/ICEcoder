@@ -337,11 +337,38 @@ if (!$error && $_GET['action']=="save") {
 // NEW FOLDER
 // ==========
 
-if (!isset($ftpSite) && !$error && $_GET['action']=="newFolder") {
-	if (!$demoMode && is_writable($docRoot.$fileLoc)) {
-		mkdir($file, octdec($ICEcoder['newDirPerms']));
-		// Reload file manager
-		$doNext = 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'folder\');';
+if (!$error && $_GET['action']=="newFolder") {
+	if (!$demoMode && ($ftpSite || is_writable($docRoot.$fileLoc))) {
+		$updateFM = false;
+		// FTP
+		if (isset($ftpSite)) {
+			// Establish connection, result, maybe use pasv and alert error if no good connection
+			$ftpConn = ftp_connect($ftpHost);
+			$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
+			if ($ftpPasv) {
+				ftp_pasv($ftpConn, true);
+			}
+			if (!$ftpConn || !$ftpLogin) {
+				$doNext = 'top.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");';
+			} else {
+				$ftpFilepath = ltrim($fileLoc."/".$fileName,"/");
+				if (!ftpMkDir($ftpConn, octdec($ICEcoder['newDirPerms']), $ftpFilepath)) {
+					$doNext = 'top.ICEcoder.message("Sorry, could not create dir '.$ftpFilepath.' at '.$ftpHost.'");';
+				} else {
+					$updateFM = true;
+				}
+			}
+			ftp_close($ftpConn);
+		// Local
+		} else {
+			mkdir($file, octdec($ICEcoder['newDirPerms']));
+			// Reload file manager
+			$updateFM = true;
+		}
+		// Update file manager on success
+		if ($updateFM) {
+			$doNext = 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'folder\');';
+		}
 		$finalAction = "newFolder";
 		// Run our custom processes
 		include_once("../processes/on-new-dir.php");
@@ -629,11 +656,38 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="getRemoteFile") {
 // CHANGING FILE/DIR PERMS
 // =======================
 
-if (!isset($ftpSite) && !$error && $_GET['action']=="perms") {
-	if (!$demoMode && is_writable($file)) {
-		chmod($file,octdec(numClean($_GET['perms'])));
-		// Reload file manager
-		$doNext = 'top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
+if (!$error && $_GET['action']=="perms") {
+	if (!$demoMode && ($ftpSite || is_writable($file))) {
+		$updateFM = false;
+		// FTP
+		if (isset($ftpSite)) {
+			// Establish connection, result, maybe use pasv and alert error if no good connection
+			$ftpConn = ftp_connect($ftpHost);
+			$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
+			if ($ftpPasv) {
+				ftp_pasv($ftpConn, true);
+			}
+			if (!$ftpConn || !$ftpLogin) {
+				$doNext = 'top.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");';
+			} else {
+				$ftpFilepath = ltrim($fileLoc."/".$fileName,"/");
+				if (!ftpPerms($ftpConn, octdec(numClean($_GET['perms'])), $ftpFilepath)) {
+					$doNext = 'top.ICEcoder.message("Sorry, could not set perms on '.$ftpFilepath.' at '.$ftpHost.'");';
+				} else {
+					$updateFM = true;
+				}
+			}
+			ftp_close($ftpConn);
+		// Local
+		} else {
+			chmod($file,octdec(numClean($_GET['perms'])));
+			// Reload file manager
+			$updateFM = true;
+		}
+		// Update file manager on success
+		if ($updateFM) {
+			$doNext = 'top.ICEcoder.updateFileManagerList(\'chmod\',\''.$fileLoc.'\',\''.$fileName.'\',\''.numClean($_GET['perms']).'\');';
+		}
 		$finalAction = "perms";
 		// Run our custom processes
 		include_once("../processes/on-file-dir-perms.php");
