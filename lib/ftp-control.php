@@ -1,4 +1,23 @@
 <?php
+// Start a FTP connection
+function ftpStart() {
+	global $ftpConn, $ftpLogin, $ftpHost, $ftpUser, $ftpPass, $ftpPasv;
+
+	// Establish connection, login and maybe use pasv
+	$ftpConn = ftp_connect($ftpHost);
+	$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
+	if ($ftpPasv) {
+		ftp_pasv($ftpConn, true);
+	}
+}
+
+// End a FTP connection
+function ftpEnd() {
+	global $ftpConn;
+
+	ftp_close($ftpConn);
+}
+
 // Get dir/file lists (simple and detailed) from FTP detailed rawlist response
 function ftpGetList($ftpConn, $directory = '.') {
 	$simpleList = $detailedList = array();
