@@ -406,20 +406,39 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="move") {
 // RENAME FILE/FOLDER
 // ==================
 
-if (!isset($ftpSite) && !$error && $_GET['action']=="rename") {
-	$renamed=false;
-	if (!$demoMode && is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])))) {
-		if(rename($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])),$docRoot.$fileLoc."/".$fileName)) {
-			// Reload file manager
-			$doNext = 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
-			$finalAction = "rename";
-			$renamed=true;
-			// Run our custom processes
-			include_once("../processes/on-file-dir-rename.php");
+if (!$error && $_GET['action']=="rename") {
+	if (!$demoMode && ($ftpSite || is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName']))))) {
+		$updateFM = false;
+		// FTP
+		if (isset($ftpSite)) {
+			ftpStart();
+			// Show user warning if no good connection
+			if (!$ftpConn || !$ftpLogin) {
+				$doNext = 'top.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");';
+			} else {
+				$ftpFilepath = ltrim($fileLoc."/".$fileName,"/");
+				if (!ftpRename($ftpConn, ltrim(strClean($_GET['oldFileName']),"/"), $ftpFilepath)) {
+					$doNext = 'top.ICEcoder.message("Sorry, could not rename '.ltrim(strClean($_GET['oldFileName']),"/").' to '.$ftpFilepath.'");';
+				} else {
+					$updateFM = true;
+				}
+			}
+			ftpEnd();
+		// Local
+		} else {
+			rename($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])),$docRoot.$fileLoc."/".$fileName);
+			$updateFM = true;
 		}
-	}
-	if (!$renamed) {
+		// Update file manager on success
+		if ($updateFM) {
+			$doNext = 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
+		}
+		$finalAction = "rename";
+		// Run our custom processes
+		include_once("../processes/on-file-dir-rename.php");
+	} else {
 		$doNext = "top.ICEcoder.message('".$t['Sorry, cannot rename']."\\\\n".strClean($_GET['oldFileName'])."\\\\n\\\\n".$t['Maybe public write...']."');";
+		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 };

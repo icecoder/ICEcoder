@@ -77,6 +77,12 @@ function ftpMkDir($ftpConn, $perms, $dir) {
 	}
 }
 
+// Rename a dir/dile over FTP
+function ftpRename($ftpConn, $oldPath, $newPath) {
+	// Return success status of rename
+	return ftp_rename($ftpConn, $oldPath, $newPath);
+}
+
 // Change dir/file perms over FTP
 function ftpPerms($ftpConn, $perms, $filePath) {
 	// Return success status of perms change
