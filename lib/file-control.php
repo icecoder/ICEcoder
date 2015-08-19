@@ -86,19 +86,15 @@ if ($_GET['action']=="load") {
 
 		// Get file over FTP?
 		if (isset($ftpSite)) {
-			// Establish connection, result, maybe use pasv and alert error if no good connection
-			$ftpConn = ftp_connect($ftpHost);
-			$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
-			if ($ftpPasv) {
-				ftp_pasv($ftpConn, true);
-			}
+			ftpStart();
+			// Show user warning if no good connection
 			if (!$ftpConn || !$ftpLogin) {
 				die('alert("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>');
 				exit;
 			}
 			// Get our file contents and close the FTP connection
 			$loadedFile = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot.$fileLoc."/".$fileName, $ftpMode));
-			ftp_close($ftpConn);
+			ftpEnd();
 		// Get local file
 		} else {
 			$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);

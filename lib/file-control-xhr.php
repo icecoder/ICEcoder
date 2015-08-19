@@ -190,12 +190,8 @@ if (!$error && $_GET['action']=="save") {
 
 				// FTP Saving
 				if (isset($ftpSite)) {
-					// Establish connection, result, maybe use pasv and alert error if no good connection
-					$ftpConn = ftp_connect($ftpHost);
-					$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
-					if ($ftpPasv) {
-						ftp_pasv($ftpConn, true);
-					}
+					ftpStart();
+					// Show user warning if no good connection
 					if (!$ftpConn || !$ftpLogin) {
 						$doNext .= 'top.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");';
 					}
@@ -209,7 +205,7 @@ if (!$error && $_GET['action']=="save") {
 					if (!ftpWriteFile($ftpConn, $ftpFilepath, $contents, $ftpMode)) {
 						$doNext .= 'top.ICEcoder.message("Sorry, could not write '.$ftpFilepath.' at '.$ftpHost.'");';
 					}
-					ftp_close($ftpConn);
+					ftpEnd();
 				// Local saving
 				} else {
 					// Newly created files have the perms set too
@@ -342,12 +338,8 @@ if (!$error && $_GET['action']=="newFolder") {
 		$updateFM = false;
 		// FTP
 		if (isset($ftpSite)) {
-			// Establish connection, result, maybe use pasv and alert error if no good connection
-			$ftpConn = ftp_connect($ftpHost);
-			$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
-			if ($ftpPasv) {
-				ftp_pasv($ftpConn, true);
-			}
+			ftpStart();
+			// Show user warning if no good connection
 			if (!$ftpConn || !$ftpLogin) {
 				$doNext = 'top.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");';
 			} else {
@@ -358,7 +350,7 @@ if (!$error && $_GET['action']=="newFolder") {
 					$updateFM = true;
 				}
 			}
-			ftp_close($ftpConn);
+			ftpEnd();
 		// Local
 		} else {
 			mkdir($file, octdec($ICEcoder['newDirPerms']));
@@ -661,12 +653,8 @@ if (!$error && $_GET['action']=="perms") {
 		$updateFM = false;
 		// FTP
 		if (isset($ftpSite)) {
-			// Establish connection, result, maybe use pasv and alert error if no good connection
-			$ftpConn = ftp_connect($ftpHost);
-			$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
-			if ($ftpPasv) {
-				ftp_pasv($ftpConn, true);
-			}
+			ftpStart();
+			// Show user warning if no good connection
 			if (!$ftpConn || !$ftpLogin) {
 				$doNext = 'top.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");';
 			} else {
@@ -677,7 +665,7 @@ if (!$error && $_GET['action']=="perms") {
 					$updateFM = true;
 				}
 			}
-			ftp_close($ftpConn);
+			ftpEnd();
 		// Local
 		} else {
 			chmod($file,octdec(numClean($_GET['perms'])));

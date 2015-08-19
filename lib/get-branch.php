@@ -124,12 +124,8 @@ $dirArray = $filesArray = $finalArray = array();
 
 // Get dir/file list over FTP
 if (isset($ftpSite)) {
-	// Establish connection, result, maybe use pasv and alert error if no good connection
-	$ftpConn = ftp_connect($ftpHost);
-	$ftpLogin = ftp_login($ftpConn, $ftpUser, $ftpPass);
-	if ($ftpPasv) {
-		ftp_pasv($ftpConn, true);
-	}
+	ftpStart();
+	// Show user warning if no good connection
 	if (!$ftpConn || !$ftpLogin) {
 		die('<script>alert("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");</script>');
 		exit;
@@ -138,7 +134,7 @@ if (isset($ftpSite)) {
 	$ftpList = ftpGetList($ftpConn, $ftpRoot.$location);
 	$finalArray = $ftpList['simpleList'];
 	$ftpItems = $ftpList['detailedList'];
-	ftp_close($ftpConn);
+	ftpEnd();
 // or get local list
 } else {
 	$finalArray = scanDir($scanDir.$location);
