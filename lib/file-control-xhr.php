@@ -375,28 +375,53 @@ if (!$error && $_GET['action']=="newFolder") {
 // MOVE FILE/FOLDER
 // ================
 
-if (!isset($ftpSite) && !$error && $_GET['action']=="move") {
-	$moved=false;
-	$doNext = "";
-	$srcDir = $docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName']));
-	$tgtDir = $docRoot.$fileLoc."/".$fileName;
+if (!$error && $_GET['action']=="move") {
+	if (isset($ftpSite)) {
+		$srcDir = str_replace("|","/",strClean($_GET['oldFileName']));
+		$tgtDir = $fileLoc."/".$fileName;
+	} else {
+		$srcDir = $docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName']));
+		$tgtDir = $docRoot.$fileLoc."/".$fileName;
+	}
 	if ($srcDir != $tgtDir && $fileLoc != "") {
-		if (!$demoMode && is_writable($srcDir)) {
-			if(rename($srcDir,$tgtDir)) {
-				// Reload file manager
-				$fileOrFolder = is_dir($docRoot.$fileLoc."/".$fileName) ? "folder" : "file";
-				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean(str_replace("|","/",$_GET['oldFileName']))).'\',false,\''.$fileOrFolder.'\');';
-				$finalAction = "move";
-				$moved=true;
-				// Run our custom processes
-				include_once("../processes/on-file-dir-move.php");
+		if (!$demoMode && ($ftpSite || is_writable($srcDir))) {
+			$updateFM = false;
+			// FTP
+			if (isset($ftpSite)) {
+				ftpStart();
+				// Show user warning if no good connection
+				if (!$ftpConn || !$ftpLogin) {
+					$doNext = 'top.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");';
+				} else {
+					if (!ftpRename($ftpConn, $srcDir, $tgtDir)) {
+						$doNext = 'top.ICEcoder.message("Sorry, could not rename '.$srcDir.' to '.$tgtDir.'");';
+					} else {
+						$fileOrFolder = "folder";
+						$updateFM = true;
+					}
+				}
+				ftpEnd();
+			// Local
+			} else {
+				if(rename($srcDir,$tgtDir)) {
+					// Is a dir or file (needed to create new item in file manager)
+					$fileOrFolder = is_dir($docRoot.$fileLoc."/".$fileName) ? "folder" : "file";
+					$updateFM = true;
+				}
 			}
-		}
-		if (!$moved) {
-			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot move']."\\\\n".str_replace("|","/",strClean($_GET['oldFileName']))."\\\\n\\\\n".$t['Maybe public write...']."');";
+			// Update file manager on success
+			if ($updateFM) {
+				$doNext = 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean(str_replace("|","/",$_GET['oldFileName']))).'\',false,\''.$fileOrFolder.'\');';
+			}
+			$finalAction = "move";
+			// Run our custom processes
+			include_once("../processes/on-file-dir-move.php");
+		} else {
+			$doNext = "top.ICEcoder.message('".$t['Sorry, cannot move']."\\\\n".str_replace("|","/",strClean($_GET['oldFileName']))."\\\\n\\\\n".$t['Maybe public write...']."');";
 			$finalAction = "nothing";
 		}
 	} else {
+		$doNext = "";
 		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
