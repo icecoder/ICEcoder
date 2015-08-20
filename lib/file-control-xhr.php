@@ -126,7 +126,7 @@ if (!$error && $_GET['action']=="save") {
 						
 						/* Saving under conditions: Confirmation of overwrite or there is no filename conflict, it is a new file, in either case we can save */
 						if (overwriteOK || noConflictSave) {
-							newFileName = "'.$docRoot.'" + newFileName;
+							newFileName = "'.(isset($ftpSite) ? "" : $docRoot).'" + newFileName;
 							saveURL = "lib/file-control-xhr.php?action=save'.$fileMDTURLPart.'&csrf='.$_GET["csrf"].'";
 
 							var xhr = top.ICEcoder.xhrObj();
@@ -377,8 +377,8 @@ if (!$error && $_GET['action']=="newFolder") {
 
 if (!$error && $_GET['action']=="move") {
 	if (isset($ftpSite)) {
-		$srcDir = str_replace("|","/",strClean($_GET['oldFileName']));
-		$tgtDir = $fileLoc."/".$fileName;
+		$srcDir = ltrim(str_replace("|","/",strClean($_GET['oldFileName'])),"/");
+		$tgtDir = ltrim($fileLoc."/".$fileName,"/");
 	} else {
 		$srcDir = $docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName']));
 		$tgtDir = $docRoot.$fileLoc."/".$fileName;
@@ -411,7 +411,7 @@ if (!$error && $_GET['action']=="move") {
 			}
 			// Update file manager on success
 			if ($updateFM) {
-				$doNext = 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean(str_replace("|","/",$_GET['oldFileName']))).'\',false,\''.$fileOrFolder.'\');';
+				$doNext = 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean(str_replace("|","/",$_GET['oldFileName']))).'\',false,top.ICEcoder.isFileFolder(\''.strClean($_GET['oldFileName']).'\'));';
 			}
 			$finalAction = "move";
 			// Run our custom processes
