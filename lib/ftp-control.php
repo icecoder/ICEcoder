@@ -40,6 +40,19 @@ function ftpGetList($ftpConn, $directory = '.') {
 	return false;
 }
 
+// Get detailed info on a file from returned info from ftpGetList
+function ftpGetFileInfo($ftpConn, $directory = '.', $fileName) {
+	// Get both sets of arrays back and get our detailed list
+	$ftpListArrays = ftpGetList($ftpConn, $directory);
+	$detailedList = $ftpListArrays['detailedList'];
+
+	// Now get the file info for our file
+	$fileInfo = $detailedList[$fileName];
+
+	// Return the info
+	return $fileInfo;
+}
+
 // Get contents over FTP
 function ftpGetContents($ftpConn, $filepath, $ftpMode) {
 	// Create temp handler, this type needed for extended char set
