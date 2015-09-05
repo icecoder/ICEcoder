@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Portugu&ecirc;s do Brasil
 // by: @leonardoroese (GitHub)
 
@@ -271,7 +271,7 @@ $text = array(
 		"Replacing text in"		=> "Substituindo texto em",
 		"Cancelled tasks"		=> "Tarefas canceladas",
 		"Open previous files"		=> "Abrir arquivos anteriores?",
-		"Please enter your..."		=> "Informe sua chave GitHub (chave pessoal ou par). Veja dica pr&oacute;ximo � chave Github em Ajuda > Configura&ccedil;&otilde;es para mais informa&ccedil;&otilde;es",
+		"Please enter your..."		=> "Informe sua chave GitHub (chave pessoal ou par). Veja dica pr&oacute;ximo à chave Github em Ajuda > Configura&ccedil;&otilde;es para mais informa&ccedil;&otilde;es",
 		"This will compare..."		=> "Esta a&ccedil;&atilde;o ir&aacute; comparar e exibir diferen&ccedil;as do seu reposit&oacute;rio local. OK?",
 		"Please note for..."		=> "Aten&ccedil;&atilde;o: para atualizar corretamente, &eacute; necess&aacute;rio permiss&acirc;o de escrita em todos os diret&oacute;rios/arquivos do ICEcoder. \\n\\nSe por algum motivo necessite recuperar esta vers&atilde;o do ICEcoder, estar&aacute; dispon&iacute;vel na pasta /tmp.\\n\\nClique OK para prosseguir com a atualiza&ccedil;&atilde;o, ou cancelar para visitar a p&aacute;gina do ICEcoder na internet onde poder&aacute; baixar a atualiza&ccedil;&atilde;o manualmente.",
 		"You can start..."		=> "Voce pode reportar um bug em Ajuda > Configura&ccedil;&otilde;es",
