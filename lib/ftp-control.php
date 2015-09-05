@@ -101,4 +101,15 @@ function ftpPerms($ftpConn, $perms, $filePath) {
 	// Return success status of perms change
 	return ftp_chmod($ftpConn, $perms, $filePath);
 }
+
+// Delete dir/file over FTP
+function ftpDelete($ftpConn, $type, $path) {
+	if ($type == "file") {
+		// Delete our file and return true/false
+		return ftp_delete($ftpConn, $path);
+	} else {
+		// Delete our dir and return true/false
+		return ftp_rmdir($ftpConn, $path);
+	}
+}
 ?>
