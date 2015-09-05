@@ -245,6 +245,37 @@ if (!$error && $_GET['action']=="save") {
 					$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 					$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
 				}
+
+				// Save a version controlled backup source of the file
+				$backupDirBase = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
+				$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/".$backupDirBase;
+				// Make the base dir for our backup if it doesn't exist
+				if (!is_dir($backupDirBase)) {
+					mkdir($backupDirBase);
+				}
+				// Work out todays backup dir
+				$backupDir = $backupDirBase."/".date("Y")."/".date("M")."-".date("d");
+				// If it doesn't exist, make those 2 subdirs
+				if (!is_dir($backupDir)) {
+					mkdir($backupDirBase."/".date("Y"));
+					mkdir($backupDir);
+				}
+				// Work out an available filename (if the plain filename exists, we'll postfix with a number in parens)
+				$backupFileName = $fileName;
+				if (file_exists($backupDir.'/'.$backupFileName)) {
+					for ($i=2; $i<1000000000; $i++) {
+						if (!file_exists($backupDir.'/'.$backupFileName." (".$i.")")) {
+							$backupFileName .= " (".$i.")";
+							$i=1000000000;
+						}
+					}
+				}
+				// Now save within that backup dir and clear the statcache
+				$fh = fopen($backupDir."/".$backupFileName, "w") or die($t['Sorry, cannot save...']);
+				fwrite($fh, $contents);
+				fclose($fh);
+				clearstatcache();
+				
 				// Reload file manager, rename tab & remove old file highlighting if it was a new file
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 					$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'file\');';
