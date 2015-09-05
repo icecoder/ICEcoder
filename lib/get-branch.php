@@ -127,7 +127,7 @@ if (isset($ftpSite)) {
 	ftpStart();
 	// Show user warning if no good connection
 	if (!$ftpConn || !$ftpLogin) {
-		die('<script>alert("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");</script>');
+		die('<script>top.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");</script>');
 		exit;
 	}
 	// Get our simple and detailed lists and close the FTP connection
