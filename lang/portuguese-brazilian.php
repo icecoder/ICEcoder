@@ -1,5 +1,5 @@
 <?php
-// Português do Brasil
+// Portugu&ecirc;s do Brasil
 // by: @leonardoroese (GitHub)
 
 
@@ -11,25 +11,25 @@ $text = array(
 
 	"editor" =>
 	array(
-		"Click icons for..."		=> "<b>Ícones<br>para ajuda &amp;<br>info. utilização</b>",
+		"Click icons for..."		=> "<b>&Iacute;cones<br>para ajuda &amp;<br>info. utiliza&ccedil;&atilde;o</b>",
 		"server"			=> "Servidor",
 		"Server name, OS..."		=> "Nome do Servidor, OS & IP:",
 		"Root"				=> "Raiz:",
 		"ICEcoder root"			=> "ICEcoder raiz:",
-		"PHP version"			=> "Versâo do PHP:",
+		"PHP version"			=> "Vers&atilde;o do PHP:",
 		"Date & time"			=> "Data e Hora:",
 		"your device"			=> "seu dispositivo",
 		"Browser"			=> "Exibir:",
 		"Your IP"			=> "Seu IP:",
 		"files"				=> "arquivos",
-		"Last 10 files..."		=> "ùltimos 10 arquivos abertos:",
+		"Last 10 files..."		=> "&uacute;ltimos 10 arquivos abertos:",
 		"none"				=> "[nenhum]",
-		"test suite"			=> "suíte de teste",
-		"Run unit tests"		=> "Executar testes unitários",
+		"test suite"			=> "su&iacute;te de teste",
+		"Run unit tests"		=> "Executar testes unit&aacute;rios",
 		"dev mode"			=> "modo desenv.",
 		"Status"			=> "Status",
 		"Using"				=> "Usando",
-		"You can switch..."		=> "Você pode alterar modo desenv. on/off em lib/config__settings.php"
+		"You can switch..."		=> "Voc&ecirc; pode alterar modo desenv. on/off em lib/config__settings.php"
 
 	),
 
@@ -43,11 +43,11 @@ $text = array(
 
 	"index" =>
 	array(
-		"UPDATE INFO"			=> "INFO ATUALIZAÇÃO",
-		"now available"			=> "disponível agora",
-		"Your version is"		=> "Sua versão é",
-		"Update now"			=> "Atualizar já",
-		"You have some..."		=> "Voce possui alterações não salvas",
+		"UPDATE INFO"			=> "INFO ATUALIZA&ccedil;&Atilde;O",
+		"now available"			=> "dispon&iacute;vel agora",
+		"Your version is"		=> "Sua vers&atilde;o &eacute;",
+		"Update now"			=> "Atualizar j&aacute;",
+		"You have some..."		=> "Voce possui altera&ccedil;&otilde;es n&atilde;o salvas",
 		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"			=> "trabalhando",
 		"Color picker"			=> "Color picker",
@@ -60,7 +60,7 @@ $text = array(
 		"Duplicate"			=> "Duplicar",
 		"Delete"			=> "Excluir",
 		"Rename"			=> "Renomear",
-		"View Webpage"			=> "Exibir Página Web",
+		"View Webpage"			=> "Exibir P&aacute;gina Web",
 		"Download"			=> "Download",
 		"Properties"			=> "Propriedades",
 		"File"				=> "Arquivo",
@@ -82,10 +82,10 @@ $text = array(
 		"Indent less"			=> "Indentar -",
 		"Autocomplete"			=> "Autocompletar",
 		"Comment/Uncomment"		=> "Comentar/Descomentar",
-		"Jump to Definition"		=> "Ir para definição",
+		"Jump to Definition"		=> "Ir para defini&ccedil;&atilde;o",
 		"Manual"			=> "Manual",
 		"Shortcuts"			=> "Atalhos",
-		"Settings"			=> "Configurações",
+		"Settings"			=> "Configura&ccedil;&otilde;es",
 		"Search for selected"		=> "Procurar por selecionado",
 		"website"			=> "website",
 		"Close all tabs"		=> "Fechar todas as abas",
@@ -103,7 +103,7 @@ $text = array(
 		"Code Assist"			=> "Assistente",
 		"Go to Line"			=> "Ir para linha",
 		"View"				=> "Exibir",
-		"Bug reporting not active"	=> "Relatório de Bug desativado"
+		"Bug reporting not active"	=> "Relat&oacute;rio de Bug desativado"
 	),
 
 // /LIB
@@ -116,42 +116,42 @@ $text = array(
 	"file-control" =>
 	array(
 		"Sorry"				=> "Desculpe",
-		"does not seem..."		=> "Não encontrado no servidor",
-		"Sorry, could not..."		=> "Desculpe, conteudo não encontrado para",
-		"Sorry, cannot create..."	=> "Desculpe, não é possível criar pasta",
-		"Sorry, cannot copy"		=> "Desculpe, não é possível copy",
+		"does not seem..."		=> "N&atilde;o encontrado no servidor",
+		"Sorry, could not..."		=> "Desculpe, conteudo n&atilde;o encontrado para",
+		"Sorry, cannot create..."	=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel criar pasta",
+		"Sorry, cannot copy"		=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel copy",
 		"into"				=> "into",
 		"Uploaded file(s) OK"		=> "Arquivos carregados",
-		"Sorry, cannot upload"		=> "Desculpe, não é possível carregar",
-		"Sorry, cannot upload..."	=> "Desculpe, não é possível carregar lista no modo DEMO",
-		"Sorry, cannot rename"		=> "Desculpe, não é possível renomear",
-		"Maybe public write..."		=> "A pasta superior possui permissão de escrita?",
-		"Sorry, cannot move"		=> "Desculpe, não é possível mover",
-		"Sorry, cannot save"		=> "Desculpe, não é possível salvar",
-		"Sorry, cannot replace..."	=> "Desculpe, não é possível substituir texto em",
-		"Sorry, cannot change..."	=> "Desculpe, não é possível mudar permissões para",
-		"Sorry, cannot delete..."	=> "Desculpe, não é possível excluir nível raiz",
-		"Sorry, cannot delete"		=> "Desculpe, não é possível remover",
-		"Sorry, this file..."		=> "Desculpe, este arquivo foi modificado, não é possível salvar",
-		"Reload this file..."		=> "Recarregar e copiar sua versão?",
+		"Sorry, cannot upload"		=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel carregar",
+		"Sorry, cannot upload..."	=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel carregar lista no modo DEMO",
+		"Sorry, cannot rename"		=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel renomear",
+		"Maybe public write..."		=> "A pasta superior possui permiss&atilde;o de escrita?",
+		"Sorry, cannot move"		=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel mover",
+		"Sorry, cannot save"		=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel salvar",
+		"Sorry, cannot replace..."	=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel substituir texto em",
+		"Sorry, cannot change..."	=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel mudar permiss&otilde;es para",
+		"Sorry, cannot delete..."	=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel excluir n&iacute;vel raiz",
+		"Sorry, cannot delete"		=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel remover",
+		"Sorry, this file..."		=> "Desculpe, este arquivo foi modificado, n&atilde;o &eacute; poss&iacute;vel salvar",
+		"Reload this file..."		=> "Recarregar e copiar sua vers&atilde;o?",
 		"There was a..."		=> "Ocorreu algum problema. O ICEcoder recarregou o arquivo de controle novamente",
 		"displayed at"			=> "exibido em",
 		"Enter filename to..."		=> "Informe o nome do aquivo para salvar",
-		"That file exists..."		=> "Este arquivo já existe, sobrescrever?",
+		"That file exists..."		=> "Este arquivo j&aacute; existe, sobrescrever?",
 		"Saving"			=> "Salvando"
 	),
 
 	"get-branch" =>
 	array(
-		"There are no..."		=> "Não há diferenças entre loca/Github. Retornar para modo normal?",
-		"Sorry, there was..."		=> "Desculpe, ocorreu um erro, código:",
-		"Your local folder..."		=> "Sua pasta local está vazia, gostaria de clonar"
+		"There are no..."		=> "N&atilde;o h&aacute; diferen&ccedil;as entre loca/Github. Retornar para modo normal?",
+		"Sorry, there was..."		=> "Desculpe, ocorreu um erro, c&oacute;digo:",
+		"Your local folder..."		=> "Sua pasta local est&aacute; vazia, gostaria de clonar"
 	),
 
 	"github-manager" =>
 	array(
-		"Sorry, cannot create..."	=> "Desculpe, não foi possível criar em",
-		"Cannot update config..."	=> "Não é possível atualizar config. Habilitar permissões públicas",
+		"Sorry, cannot create..."	=> "Desculpe, n&atilde;o foi poss&iacute;vel criar em",
+		"Cannot update config..."	=> "N&atilde;o &eacute; poss&iacute;vel atualizar config. Habilitar permiss&otilde;es p&uacute;blicas",
 		"and try again"			=> "e tentar novamente",
 		"saving github paths"		=> "salvando caminhos Github...",
 		"github paths"			=> "caminhos Github",
@@ -159,20 +159,20 @@ $text = array(
 		"Local path"			=> "Caminho local",
 		"Remote GitHub path"		=> "Caminho remoto Github",
 		"Choose"			=> "Selecione",
-		"Set local and..."		=> "Alterar caminho local e remoto como vazio para excluír",
+		"Set local and..."		=> "Alterar caminho local e remoto como vazio para exclu&iacute;r",
 		"Update"			=> "Atualizar",
 		"Add new path"			=> "Adicionar novo caminho",
 		"Add"				=> "Adicionar",
-		"Usage Info"			=> "Info. de utilização:",
+		"Usage Info"			=> "Info. de utiliza&ccedil;&atilde;o:",
 		"Enter relative local..."	=> "Informe os caminhos relativos (ex.: /server/myfiles) e absolutos do GitHub (ex.: https://github.com/user/repo ou https://github.com/user/repo/tree/branch for branches).Com isso estabelece os caminho dos fontes em ambos locais, como pares.",
-		"You can then..."		=> "Você pode então escolher um caminho par para ser a raiz do ICEcoder.",
-		"The file manager..."		=> "O gerenciador de arquivo exibirá o ícone GitHub, você pode clicar para verificar a diferença entre arquivos.Essas diferenças podem ser efetivadas e enviadas ao diretório remoto do GitHub ou clonado para pasta local, para sincronizar seus arquivos.",
-		"If you want..."		=> "Se quiser configurar novo caminho raiz, pode ser feito na tela de configurações."
+		"You can then..."		=> "Voc&ecirc; pode ent&atilde;o escolher um caminho par para ser a raiz do ICEcoder.",
+		"The file manager..."		=> "O gerenciador de arquivo exibir&aacute; o &iacute;cone GitHub, voc&ecirc; pode clicar para verificar a diferen&ccedil;a entre arquivos.Essas diferen&ccedil;as podem ser efetivadas e enviadas ao diret&oacute;rio remoto do GitHub ou clonado para pasta local, para sincronizar seus arquivos.",
+		"If you want..."		=> "Se quiser configurar novo caminho raiz, pode ser feito na tela de configura&ccedil;&otilde;es."
 	),
 
 	"github" =>
 	array(
-		"Sorry, you do..."		=> "Desculpe, o OpenSSL não foi encontrado, https indisponível. Isso é necessário para o GitHub transferir dados, verificar php.ini, reinicie o sistema e tente novamente"
+		"Sorry, you do..."		=> "Desculpe, o OpenSSL n&atilde;o foi encontrado, https indispon&iacute;vel. Isso &eacute; necess&aacute;rio para o GitHub transferir dados, verificar php.ini, reinicie o sistema e tente novamente"
 	),
 
 	"headers" =>
@@ -187,7 +187,7 @@ $text = array(
 		"On Tabs"			=> "Em abas",
 		"Within file manager"		=> "No gerenciador de arquivos",
 		"Anywhere"			=> "Qualquer Lugar",
-		"Space"				=> "Espaço",
+		"Space"				=> "Espa&ccedil;o",
 		"Click"				=> "Clique",
 		"or"				=> "ou",
 		"Left click"			=> "Clique esquerdo",
@@ -197,15 +197,15 @@ $text = array(
 		"Middle scrollwheel"		=> "Meio scroll",
 		"Drag"				=> "Arrastar",
 		"Autocomplete add snippet"	=> "Auto-completar / adicionar snippet",
-		"Multiple select"		=> "Multipla seleção",
+		"Multiple select"		=> "Multipla sele&ccedil;&atilde;o",
 		"Move line up"			=> "Move linha acima",
 		"Move line down"		=> "Move linha abaixo",
 		"Duplicate lines"		=> "Duplicar linha(s)",
 		"Remove lines"			=> "Remover linha(s)",
 		"Insert line before"		=> "Inserir linha antes",
-		"Insert line after"		=> "Inserir linha após",
+		"Insert line after"		=> "Inserir linha ap&oacute;s",
 		"Search for selected"		=> "Procurar selecionado",
-		"Jump to definition"		=> "Ir para definição / voltar",
+		"Jump to definition"		=> "Ir para defini&ccedil;&atilde;o / voltar",
 		"Comment uncomment"		=> "Commentar / descomentar",
 		"Insert tab indent"		=> "Inserir aba / auto indent selected",
 		"Insert more"			=> "Indentar +",
@@ -224,11 +224,11 @@ $text = array(
 		"Close tab"			=> "Fechar aba",
 		"Select file folder"		=> "Selecionar arquivo / pasta",
 		"Open file"			=> "Abrir arquivo",
-		"Range select"			=> "Seleção",
-		"Options for selected"		=> "Opções para seleção",
+		"Range select"			=> "Sele&ccedil;&atilde;o",
+		"Options for selected"		=> "Op&ccedil;&otilde;es para sele&ccedil;&atilde;o",
 		"Delete selected"		=> "Excluir selecionado",
-		"Next previous tab"		=> "Próxima aba / anterior",
-		"Next tab"			=> "Próxima aba",
+		"Next previous tab"		=> "Pr&oacute;xima aba / anterior",
+		"Next tab"			=> "Pr&oacute;xima aba",
 		"Previous tab"			=> "Aba anterior",
 		"New tab"			=> "Nova aba",
 		"Close current tab"		=> "Fechar aba atual",
@@ -237,7 +237,7 @@ $text = array(
 		"Focus on Go..."		=> "Foco campo ir para linha",
 		"Save"				=> "Salvar",
 		"Save as"			=> "Salvar como...",
-		"View webpage"			=> "Exibir página",
+		"View webpage"			=> "Exibir p&aacute;gina",
 		"Contract expand file..."	=> "Contrair / expandir gerenciador de arquivos",
 		"Fold unfold current..."	=> "Contrair / expandir linha atual",
 		"Refocus on document"		=> "Foco no documento",
@@ -252,7 +252,7 @@ $text = array(
 		"selected files"		=> "arquivos selecionados",
 		"selected filenames"		=> "nomes de arquivos selecionados",
 		"Creating Folder"		=> "Criando pasta",
-		"Sorry you can..."		=> "Deculpe, permitido abrir máx. 100 arquivos!",
+		"Sorry you can..."		=> "Deculpe, permitido abrir m&aacute;x. 100 arquivos!",
 		"Opening File"			=> "Abrindo arquivo",
 		"Enter relative file..."	=> "Informe caminho relativo (prefixado por /) ou URL remota",
 		"Getting"			=> "Selecionando",
@@ -261,7 +261,7 @@ $text = array(
 		"Moving to"			=> "Movendo para",
 		"Deleting File"			=> "Excluindo arquivo",
 		"Pasting File"			=> "Colando arquivo",
-		"Sorry cannot paste..."		=> "Desculpe, não é possível colar em toda raiz",
+		"Sorry cannot paste..."		=> "Desculpe, n&atilde;o &eacute; poss&iacute;vel colar em toda raiz",
 		"Nothing to paste..."		=> "Nada para colar,copiar arquivo/pasta primeiro!",
 		"and"				=> "e",
 		"this document"			=> "este documento",
@@ -271,13 +271,13 @@ $text = array(
 		"Replacing text in"		=> "Substituindo texto em",
 		"Cancelled tasks"		=> "Tarefas canceladas",
 		"Open previous files"		=> "Abrir arquivos anteriores?",
-		"Please enter your..."		=> "Informe sua chave GitHub (chave pessoal ou par). Veja dica próximo à chave Github em Ajuda > Configurações para mais informações",
-		"This will compare..."		=> "Esta ação irá comparar e exibir diferenças do seu repositório local. OK?",
-		"Please note for..."		=> "Atenção: para atualizar corretamente, é necessário permissâo de escrita em todos os diretórios/arquivos do ICEcoder. \\n\\nSe por algum motivo necessite recuperar esta versão do ICEcoder, estará disponível na pasta /tmp.\\n\\nClique OK para prosseguir com a atualização, ou cancelar para visitar a página do ICEcoder na internet onde poderá baixar a atualização manualmente.",
-		"You can start..."		=> "Voce pode reportar um bug em Ajuda > Configurações",
-		"Error cannot find..."		=> "Erro: não é possível acessar caminho/arquivo de erros",
+		"Please enter your..."		=> "Informe sua chave GitHub (chave pessoal ou par). Veja dica pr&oacute;ximo à chave Github em Ajuda > Configura&ccedil;&otilde;es para mais informa&ccedil;&otilde;es",
+		"This will compare..."		=> "Esta a&ccedil;&atilde;o ir&aacute; comparar e exibir diferen&ccedil;as do seu reposit&oacute;rio local. OK?",
+		"Please note for..."		=> "Aten&ccedil;&atilde;o: para atualizar corretamente, &eacute; necess&aacute;rio permiss&acirc;o de escrita em todos os diret&oacute;rios/arquivos do ICEcoder. \\n\\nSe por algum motivo necessite recuperar esta vers&atilde;o do ICEcoder, estar&aacute; dispon&iacute;vel na pasta /tmp.\\n\\nClique OK para prosseguir com a atualiza&ccedil;&atilde;o, ou cancelar para visitar a p&aacute;gina do ICEcoder na internet onde poder&aacute; baixar a atualiza&ccedil;&atilde;o manualmente.",
+		"You can start..."		=> "Voce pode reportar um bug em Ajuda > Configura&ccedil;&otilde;es",
+		"Error cannot find..."		=> "Erro: n&atilde;o &eacute; poss&iacute;vel acessar caminho/arquivo de erros",
 		"No new errors..."		=> "Nenhum erro encontrado",
-		"You have made..."		=> "Voce fez alterações. Deseja realmente fechar sem salvar?",
+		"You have made..."		=> "Voce fez altera&ccedil;&otilde;es. Deseja realmente fechar sem salvar?",
 		"Close all tabs"		=> "Fechar todas as abas?",
 		"results"			=> "resultados"
 	),
@@ -286,11 +286,11 @@ $text = array(
 	array(
 		"set password"			=> "altera senha",
 		"login"				=> "login",
-		"To disable registration..."	=> "Para desabilitar modo registro, acesse menu/configurações ou em lib/config___settings.php altere enableRegistration para false e recarregue esta página",
+		"To disable registration..."	=> "Para desabilitar modo registro, acesse menu/configura&ccedil;&otilde;es ou em lib/config___settings.php altere enableRegistration para false e recarregue esta p&aacute;gina",
 		"Registration mode enabled"	=> "Modo registro habilitado",
-		"auto-check for updates"	=> "verificar atualizações auto.",
-		"To put into..."		=> "Para habilitar multi-usuários, acesse menu/configurações ou em lib/config___settings.php altere multiUser para true e recarregue esta página",
-		"multi-user"			=> "multi-usuários"
+		"auto-check for updates"	=> "verificar atualiza&ccedil;&otilde;es auto.",
+		"To put into..."		=> "Para habilitar multi-usu&aacute;rios, acesse menu/configura&ccedil;&otilde;es ou em lib/config___settings.php altere multiUser para true e recarregue esta p&aacute;gina",
+		"multi-user"			=> "multi-usu&aacute;rios"
 	),
 
 	"multiple-results" =>
@@ -308,17 +308,17 @@ $text = array(
 		"No matches found"		=> "Nenhum resultado encontrado",
 		"selected"			=> "selecionado",
 		"found in"			=> "encontrado em",
-		"Replaced"			=> "Substituído(s)"
+		"Replaced"			=> "Substitu&iacute;do(s)"
 	),
 
 	"plugins-manager" =>
 	array(
 		"ICEcoder needs to..."		=> "ICEcoder deve ser reiniciado para habilitar plugin. Deseja Reiniciar?",
 		"saving plugins"		=> "salvando plugins...",
-		"Cannot update config..."	=> "Não foi possível atualizar arquivo de configuração. Verifique permissões de escrita.",
+		"Cannot update config..."	=> "N&atilde;o foi poss&iacute;vel atualizar arquivo de configura&ccedil;&atilde;o. Verifique permiss&otilde;es de escrita.",
 		"and try again"			=> "e tente novamente",
-		"couldnt delete dir"		=> "não foi possível excluir pasta",
-		"couldnt delete file"		=> "não foi possível excluir arquivo",
+		"couldnt delete dir"		=> "n&atilde;o foi poss&iacute;vel excluir pasta",
+		"couldnt delete file"		=> "n&atilde;o foi poss&iacute;vel excluir arquivo",
 		"plugins"			=> "plugins",
 		"Guide to writing..."		=> "Guia para criar plugins",
 		"Manage Installed"		=> "Gerenciar plugins",
@@ -328,7 +328,7 @@ $text = array(
 		"Update"			=> "Atualizar",
 		"Install"			=> "Instalar",
 		"Uninstall"			=> "Desinstalar",
-		"Reload after install..."	=> "Atualização necessária após instalação"
+		"Reload after install..."	=> "Atualiza&ccedil;&atilde;o necess&aacute;ria ap&oacute;s instala&ccedil;&atilde;o"
 	),
 
 	"properties" =>
@@ -336,16 +336,16 @@ $text = array(
 		"properties"			=> "propriedades",
 		"Size"				=> "Tamanho",
 		"Modified"			=> "Modificado",
-		"Last access"			=> "Último acesso",
+		"Last access"			=> "&Uacute;ltimo acesso",
 		"Type"				=> "Tipo",
 		"Readable Writeable"		=> "Leitura / Escrita",
 		"Relative path"			=> "Caminho relativo",
 		"Absolute path"			=> "Caminho absoluto",
 		"Contains"			=> "Contem",
-		"Permissions"			=> "Permissões",
-		"Owner"				=> "Proprietário",
+		"Permissions"			=> "Permiss&otilde;es",
+		"Owner"				=> "Propriet&aacute;rio",
 		"Group"				=> "Grupo",
-		"Public"			=> "Público",
+		"Public"			=> "P&uacute;blico",
 		"Read"				=> "Ler",
 		"Write"				=> "Salvar",
 		"Execute"			=> "Executar",
@@ -355,44 +355,44 @@ $text = array(
 
 	"settings-common" =>
 	array(
-		"Your document does..."		=> "Seu arquivo não está no formato UTF-8, deve ser convertido"
+		"Your document does..."		=> "Seu arquivo n&atilde;o est&aacute; no formato UTF-8, deve ser convertido"
 	),
 
 	"settings-save-current-files" =>
 	array(
-		"Cannot update config..."	=> "Não foi possível atualizar arquivo de configuração. Verifique permissões de acesso (públicas)",
+		"Cannot update config..."	=> "N&atilde;o foi poss&iacute;vel atualizar arquivo de configura&ccedil;&atilde;o. Verifique permiss&otilde;es de acesso (p&uacute;blicas)",
 		"and try again"			=> "e tente novamente"
 	),
 
 	"settings-screen" =>
 	array(
-		"settings"			=> "configurações",
-		"version"			=> "versão",
+		"settings"			=> "configura&ccedil;&otilde;es",
+		"version"			=> "vers&atilde;o",
 		"website"			=> "website",
 		"git"				=> "git",
 		"codemirror dir"		=> "pasta codemirror",
-		"codemirror version"		=> "versão codemirror",
+		"codemirror version"		=> "vers&atilde;o codemirror",
 		"file manager root"		=> "Raiz gerenciador de arquivos",
-		"Free to use..."		=> "Livre para utilização para seus propósitos, comercial ou não, mas aviseme sobre sua implementação se puder. :)<br><br>Sem garantias, Muitas empresas e pessoas fantásticas contribuiram para desenvolver o ICEcoder, há muito o que agradecermos aqui. Veja a lista completa aqui",
+		"Free to use..."		=> "Livre para utiliza&ccedil;&atilde;o para seus prop&oacute;sitos, comercial ou n&atilde;o, mas aviseme sobre sua implementa&ccedil;&atilde;o se puder. :)<br><br>Sem garantias, Muitas empresas e pessoas fant&aacute;sticas contribuiram para desenvolver o ICEcoder, h&aacute; muito o que agradecermos aqui. Veja a lista completa aqui",
 		"functionality"			=> "funcionalidade",
-		"check for updates..."		=> "verificar atualizações ao iniciar",
-		"auto open last..."		=> "carregar últimos arquvos abertos ao iniciar",
+		"check for updates..."		=> "verificar atualiza&ccedil;&otilde;es ao iniciar",
+		"auto open last..."		=> "carregar &uacute;ltimos arquvos abertos ao iniciar",
 		"when finding in..."		=> "ao buscar arquivos, excluir",
 		"assisting"			=> "assistindo",
-		"code assist"			=> "Assist. de cód.",
-		"visible tabs"			=> "Abas visíveis",
+		"code assist"			=> "Assist. de c&oacute;d.",
+		"visible tabs"			=> "Abas vis&iacute;veis",
 		"locked nav"			=> "Trava Nav.",
 		"tag wrapper command"		=> "comando de quebra",
 		"auto-complete on"		=> "hab. auto-completar",
-		"security"			=> "segurança",
+		"security"			=> "seguran&ccedil;a",
 		"new password"			=> "nova senha",
-		"8 chars min"			=> "mín. 8 carac.",
+		"8 chars min"			=> "m&iacute;n. 8 carac.",
 		"confirm password"		=> "confirmar senha",
 		"banned files/folders"		=> "arquivos/pastas bloqueados",
 		"banned paths"			=> "caminhos bloqueados",
-		"ip addresses"			=> "endereços IP",
-		"Slash prefixed comma..."	=> "Prefixo barra, separado por vígula",
-		"Comma delimited"		=> "Separado por vírgula",
+		"ip addresses"			=> "endere&ccedil;os IP",
+		"Slash prefixed comma..."	=> "Prefixo barra, separado por v&iacute;gula",
+		"Comma delimited"		=> "Separado por v&iacute;rgula",
 		"style"				=> "estilo",
 		"theme"				=> "tema",
 		"line wrapping"			=> "quebra de linha",
@@ -408,31 +408,31 @@ $text = array(
 		"bug reporting"			=> "reportar erro",
 		"check in files"		=> "verificar em arquivos",
 		"every"				=> "tudo",
-		"secs getting last"		=> "segs, pegando últimos",
+		"secs getting last"		=> "segs, pegando &uacute;ltimos",
 		"lines"				=> "linhas",
-		"multi-user"			=> "multi-usuário",
-		"Make sure you..."		=> "Cuidado para nâo travar seu usuário",
+		"multi-user"			=> "multi-usu&aacute;rio",
+		"Make sure you..."		=> "Cuidado para n&acirc;o travar seu usu&aacute;rio",
 		"Registration"			=> "Cadastro",
-		"auth token"			=> "Chave de Autenticação",
-		"Required to get..."		=> "RNecessário para verificar diferenças, e efetivar alterações no GitHub. Se não tiver uma pode usar:".PHP_EOL.PHP_EOL.
+		"auth token"			=> "Chave de Autentica&ccedil;&atilde;o",
+		"Required to get..."		=> "RNecess&aacute;rio para verificar diferen&ccedil;as, e efetivar altera&ccedil;&otilde;es no GitHub. Se n&atilde;o tiver uma pode usar:".PHP_EOL.PHP_EOL.
 							"- chave de acesso pessoal (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or".PHP_EOL.
 							"- cliente/par secreto (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-							"Não é recomendado configurar sua chave aqui, mas quando solicitado pelo ICEcoderpara mantes em sessão apenas.".PHP_EOL.PHP_EOL.
-							"No entanto, se trabalhar em ambiente seguro, é melhor setar essa propriedade.",
-		"Sorry cannot commit..."	=> "Desculpe, não é permitido efetivar atulização no modo DEMO",
+							"N&atilde;o &eacute; recomendado configurar sua chave aqui, mas quando solicitado pelo ICEcoderpara mantes em sess&atilde;o apenas.".PHP_EOL.PHP_EOL.
+							"No entanto, se trabalhar em ambiente seguro, &eacute; melhor setar essa propriedade.",
+		"Sorry cannot commit..."	=> "Desculpe, n&atilde;o &eacute; permitido efetivar atuliza&ccedil;&atilde;o no modo DEMO",
 		"update"			=> "atualizar"
 	),
 
 	"settings-update" =>
 	array(
-		"Cannot update config..."	=> "Não foi possível atualizar arquivo de configuração. Verifique permissões de acesso (públicas)",
+		"Cannot update config..."	=> "N&atilde;o foi poss&iacute;vel atualizar arquivo de configura&ccedil;&atilde;o. Verifique permiss&otilde;es de acesso (p&uacute;blicas)",
 		"and try again"			=> "e tentar novamente",
 		"and press refresh"		=> "e pressione atulizar"
 	),
 
 	"updater" =>
 	array(
-		"Update appears to..."		=> "Atualização completada"
+		"Update appears to..."		=> "Atualiza&ccedil;&atilde;o completada"
 	)
 
 );
