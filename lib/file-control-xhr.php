@@ -390,7 +390,8 @@ if (!$error && $_GET['action']=="move") {
 				if (!ftpRename($ftpConn, $srcDir, $tgtDir)) {
 					$doNext .= 'top.ICEcoder.message("Sorry, could not rename '.$srcDir.' to '.$tgtDir.'");';
 				} else {
-					$fileOrFolder = "folder";
+					$ftpFileDirInfo = ftpGetFileInfo($ftpConn, ltrim($fileLoc,"/"), $fileName);
+					$fileOrFolder = $ftpFileDirInfo['type'] == "directory" ? "folder" : "file";
 					$updateFM = true;
 				}
 			// Local
@@ -403,7 +404,7 @@ if (!$error && $_GET['action']=="move") {
 			}
 			// Update file manager on success
 			if ($updateFM) {
-				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean(str_replace("|","/",$_GET['oldFileName']))).'\',false,top.ICEcoder.isFileFolder(\''.strClean($_GET['oldFileName']).'\'));';
+				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean(str_replace("|","/",$_GET['oldFileName']))).'\',false,$fileOrFolder);';
 			}
 			$finalAction = "move";
 			// Run our custom processes
@@ -579,30 +580,54 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="upload") {
 // DELETE FILE(S)/FOLDER(S)
 // ========================
 
-if (!isset($ftpSite) && !$error && $_GET['action']=="delete") {
+if (!$error && $_GET['action']=="delete") {
 	$filesArray = explode(";",$file); // May contain more than one file here
-	for ($i=0;$i<count($filesArray);$i++) {
-		$fullPath = str_replace($docRoot,"",$filesArray[$i]);
-		$fullPath = str_replace($iceRoot,"",$fullPath);
-		$fullPath = $docRoot.$iceRoot.$fullPath;
-
-		if (rtrim($fullPath,"/") == rtrim($docRoot,"/")) {
-			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete...']."');";
-		} else if (!$demoMode && is_writable($fullPath)) {
-			is_dir($fullPath)
-				? rrmdir($fullPath)
-				: unlink($fullPath);
-			$fileName = basename($fullPath);
-			$fileLoc = dirname(str_replace($docRoot,"",$fullPath));
-			if ($fileLoc=="" || $fileLoc=="\\") {$fileLoc="/";};
-			// Reload file manager
-			$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
-			$finalAction = "delete";
-			// Run our custom processes
-			include_once("../processes/on-file-dir-delete.php");
+	// FTP
+	if (isset($ftpSite)) {
+		if (count($filesArray) == 1) {
+			$ftpFileDirInfo = ftpGetFileInfo($ftpConn, ltrim($fileLoc,"/"), $fileName);
+			$itemType = $ftpFileDirInfo['type'] == "directory" ? "dir" : "file";
+			$itemPath = ltrim($fileLoc."/".$fileName,"/");
+			if (!$demoMode && ftpDelete($ftpConn,$itemType,$itemPath)) {
+				if ($fileLoc=="" || $fileLoc=="\\") {$fileLoc="/";};
+				// Reload file manager
+				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
+				$finalAction = "delete";
+				// Run our custom processes
+				include_once("../processes/on-file-dir-delete.php");
+			} else {
+				$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete']."\\\\n".$fileLoc."/".$fileName."');";
+				$finalAction = "nothing";
+			}
 		} else {
-			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete']."\\\\n".str_replace($docRoot,"",$fullPath)."');";
+			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete more...']."');";
 			$finalAction = "nothing";
+		}
+	// Local
+	} else {
+		for ($i=0;$i<count($filesArray);$i++) {
+			$fullPath = str_replace($docRoot,"",$filesArray[$i]);
+			$fullPath = str_replace($iceRoot,"",$fullPath);
+			$fullPath = $docRoot.$iceRoot.$fullPath;
+
+			if (rtrim($fullPath,"/") == rtrim($docRoot,"/")) {
+				$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete...']."');";
+			} else if (!$demoMode && is_writable($fullPath)) {
+				is_dir($fullPath)
+					? rrmdir($fullPath)
+					: unlink($fullPath);
+				$fileName = basename($fullPath);
+				$fileLoc = dirname(str_replace($docRoot,"",$fullPath));
+				if ($fileLoc=="" || $fileLoc=="\\") {$fileLoc="/";};
+				// Reload file manager
+				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
+				$finalAction = "delete";
+				// Run our custom processes
+				include_once("../processes/on-file-dir-delete.php");
+			} else {
+				$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete']."\\\\n".str_replace($docRoot,"",$fullPath)."');";
+				$finalAction = "nothing";
+			}
 		}
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
