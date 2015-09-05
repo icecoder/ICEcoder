@@ -135,6 +135,7 @@ $text = array(
 		"Sorry, cannot save"		=> "Sorry, cannot save",
 		"Sorry, cannot replace..."	=> "Sorry, cannot replace text in",
 		"Sorry, cannot change..."	=> "Sorry, cannot change permissions on",
+		"Sorry, cannot delete more..."	=> "Sorry, cannot delete more then one item at a time under FTP mode",
 		"Sorry, cannot delete..."	=> "Sorry, cannot delete the root level",
 		"Sorry, cannot delete"		=> "Sorry, cannot delete",
 		"Sorry, this file..."		=> "Sorry, this file has changed, cannot save",
