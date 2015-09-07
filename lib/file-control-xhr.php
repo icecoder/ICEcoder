@@ -247,20 +247,27 @@ if (!$error && $_GET['action']=="save") {
 				}
 
 				// Save a version controlled backup source of the file
-				$backupDirBase = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
-				$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/".$backupDirBase;
-				// Make the base dir for our backup if it doesn't exist
-				if (!is_dir($backupDirBase)) {
-					mkdir($backupDirBase);
+				// Establish the base, host and date dir parts...
+				$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
+				$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
+				$backupDirDate = date("M")."-".date("d")."-".date("Y");
+
+				// Establish an array of dirs from base to our file location
+				$subDirsArray = explode("/",ltrim($fileLoc,"/"));
+				array_unshift($subDirsArray,$backupDirHost,$backupDirDate);
+				// Make any dirs that don't exist
+				if (!is_dir($backupDirBase.implode("/",$subDirsArray))) {
+					$pathIncr = "";
+					for ($i=0; $i<count($subDirsArray); $i++) {
+						$pathIncr .= $subDirsArray[$i]."/";
+						if (!is_dir($backupDirBase.$pathIncr)) {
+							mkdir($backupDirBase.$pathIncr);
+						}
+					}
 				}
-				// Work out todays backup dir
-				$backupDir = $backupDirBase."/".date("Y")."/".date("M")."-".date("d");
-				// If it doesn't exist, make those 2 subdirs
-				if (!is_dir($backupDir)) {
-					mkdir($backupDirBase."/".date("Y"));
-					mkdir($backupDir);
-				}
-				// Work out an available filename (if the plain filename exists, we'll postfix with a number in parens)
+				// We should have our dir path now so set that
+				$backupDir = $backupDirBase.implode("/",$subDirsArray);
+				// Finally, work out an available filename (if the plain filename exists, we'll postfix with a number in parens)
 				$backupFileName = $fileName;
 				if (file_exists($backupDir.'/'.$backupFileName)) {
 					for ($i=2; $i<1000000000; $i++) {
