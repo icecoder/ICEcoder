@@ -250,7 +250,7 @@ if (!$error && $_GET['action']=="save") {
 				// Establish the base, host and date dir parts...
 				$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
 				$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
-				$backupDirDate = date("M")."-".date("d")."-".date("Y");
+				$backupDirDate = date("Y")."-".date("m")."-".date("d");
 
 				// Establish an array of dirs from base to our file location
 				$subDirsArray = explode("/",ltrim($fileLoc,"/"));
