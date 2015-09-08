@@ -247,41 +247,59 @@ if (!$error && $_GET['action']=="save") {
 				}
 
 				// Save a version controlled backup source of the file
-				// Establish the base, host and date dir parts...
-				$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
-				$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
-				$backupDirDate = date("Y")."-".date("m")."-".date("d");
+				if ($ICEcoder["backupsKept"]) {
+					$backupDirFormat = "Y-m-d";
 
-				// Establish an array of dirs from base to our file location
-				$subDirsArray = explode("/",ltrim($fileLoc,"/"));
-				array_unshift($subDirsArray,$backupDirHost,$backupDirDate);
-				// Make any dirs that don't exist
-				if (!is_dir($backupDirBase.implode("/",$subDirsArray))) {
-					$pathIncr = "";
-					for ($i=0; $i<count($subDirsArray); $i++) {
-						$pathIncr .= $subDirsArray[$i]."/";
-						if (!is_dir($backupDirBase.$pathIncr)) {
-							mkdir($backupDirBase.$pathIncr);
+					// Establish the base, host and date dir parts...
+					$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
+					$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
+					$backupDirDate = date($backupDirFormat);
+
+					// Establish an array of dirs from base to our file location
+					$subDirsArray = explode("/",ltrim($fileLoc,"/"));
+					array_unshift($subDirsArray,$backupDirHost,$backupDirDate);
+					// Make any dirs that don't exist if full path isn't there
+					if (!is_dir($backupDirBase.implode("/",$subDirsArray))) {
+						$pathIncr = "";
+						for ($i=0; $i<count($subDirsArray); $i++) {
+							$pathIncr .= $subDirsArray[$i]."/";
+							// If this subdir isn't there, make it
+							if (!is_dir($backupDirBase.$pathIncr)) {
+								mkdir($backupDirBase.$pathIncr);
+							}
+						}
+					}
+					// We should have our dir path now so set that
+					$backupDir = $backupDirBase.implode("/",$subDirsArray);
+					// Work out an available filename (if the plain filename exists, we'll postfix with a number in parens)
+					$backupFileName = $fileName;
+					if (file_exists($backupDir.'/'.$backupFileName)) {
+						for ($i=2; $i<1000000000; $i++) {
+							if (!file_exists($backupDir.'/'.$backupFileName." (".$i.")")) {
+								$backupFileName .= " (".$i.")";
+								$i=1000000000;
+							}
+						}
+					}
+
+					// Now save within that backup dir and clear the statcache
+					$fh = fopen($backupDir."/".$backupFileName, "w") or die($t['Sorry, cannot save...']);
+					fwrite($fh, $contents);
+					fclose($fh);
+					clearstatcache();
+
+					// Finally, clear any old backup dirs than user set X days (inclusive)
+					$backupDirsList = scandir($backupDirBase.$backupDirHost);
+					$backupDirsKeep = array();
+					for ($i=0; $i<=$ICEcoder["backupsDays"]; $i++) {
+						$backupDirsKeep[] = date($backupDirFormat, strtotime('-'.$i.' day',strtotime($backupDirDate)));
+					}
+					for ($i=0; $i<count($backupDirsList); $i++) {
+						if ($backupDirsList[$i] != "." && $backupDirsList[$i] != ".." && !in_array($backupDirsList[$i],$backupDirsKeep)) {
+							rrmdir($backupDirBase.$backupDirHost."/".$backupDirsList[$i]);
 						}
 					}
 				}
-				// We should have our dir path now so set that
-				$backupDir = $backupDirBase.implode("/",$subDirsArray);
-				// Finally, work out an available filename (if the plain filename exists, we'll postfix with a number in parens)
-				$backupFileName = $fileName;
-				if (file_exists($backupDir.'/'.$backupFileName)) {
-					for ($i=2; $i<1000000000; $i++) {
-						if (!file_exists($backupDir.'/'.$backupFileName." (".$i.")")) {
-							$backupFileName .= " (".$i.")";
-							$i=1000000000;
-						}
-					}
-				}
-				// Now save within that backup dir and clear the statcache
-				$fh = fopen($backupDir."/".$backupFileName, "w") or die($t['Sorry, cannot save...']);
-				fwrite($fh, $contents);
-				fclose($fh);
-				clearstatcache();
 				
 				// Reload file manager, rename tab & remove old file highlighting if it was a new file
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
