@@ -155,6 +155,13 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<input type="text" name="root" style="width: 300px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["root"];?>">
 		<br><br>
 
+		<h2><?php echo $t['backups'];?></h2><br>
+		<input type="checkbox" onclick="showButton();changeBackupsDaysStatus();" name="backupsKept" value="true"<?php if($ICEcoder["backupsKept"]) {echo ' checked';};?>> <?php echo $t['keep backups for'];?> <input type="text" name="backupsDays" id="backupsDays" style="width: 50px; margin: 3px 5px 0 5px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["backupsDays"];?>" <?php
+			if(!$ICEcoder["backupsKept"]){
+			echo ' disabled=""';
+			}?>> <?php echo $t['days'];?><br>
+		<br><br>
+
 	</div>
 </div>
 
@@ -319,6 +326,9 @@ function changeFontSize() {
 
 var changeEnableRegistrationStatus = function(){
 	document.getElementById('enableRegistration').disabled=!document.getElementById('enableRegistration').disabled;
+}
+var changeBackupsDaysStatus = function(){
+	document.getElementById('backupsDays').disabled=!document.getElementById('backupsDays').disabled;
 }
 var showButton = function() {
 	document.getElementById('updateButton').style.opacity = 1;
