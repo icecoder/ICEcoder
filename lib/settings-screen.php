@@ -156,10 +156,28 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<br><br>
 
 		<h2><?php echo $t['backups'];?></h2><br>
-		<input type="checkbox" onclick="showButton();changeBackupsDaysStatus();" name="backupsKept" value="true"<?php if($ICEcoder["backupsKept"]) {echo ' checked';};?>> <?php echo $t['keep backups for'];?> <input type="text" name="backupsDays" id="backupsDays" style="width: 50px; margin: 3px 5px 0 5px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["backupsDays"];?>" <?php
+		<input type="checkbox" onclick="showButton();changeBackupsDaysStatus();" name="backupsKept" value="true"<?php if($ICEcoder["backupsKept"]) {echo ' checked';};?>> <?php echo $t['keep version control...'];?> <input type="text" name="backupsDays" id="backupsDays" style="width: 50px; margin: 3px 5px 0 5px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["backupsDays"];?>" <?php
 			if(!$ICEcoder["backupsKept"]){
 			echo ' disabled=""';
 			}?>> <?php echo $t['days'];?><br>
+		<div style="padding: 5px 5px 5px 5px; color: #888">
+		<?php
+		// Display number of days backups available
+		$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
+		$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
+		$backupDirsList = scandir($backupDirBase.$backupDirHost);
+		// Remove . and .. from array
+		for ($i=0; $i<count($backupDirsList); $i++) {
+			if ($backupDirsList[$i] == "." || $backupDirsList[$i] == "..") {
+				array_splice($backupDirsList,$i,1);
+				$i--;
+			}
+		}
+		// Display text re the number of days backups have taken place
+		$backupNumDays = $backupDirsList[0] != "" && count($backupDirsList) > 0 ? count($backupDirsList) : 0;
+		echo $backupNumDays." ".($backupNumDays != 1 ? $t['days'] : $t['day'])." ".$t['of backups stored...'];
+		?>
+		</div><br>
 		<br><br>
 
 	</div>
