@@ -112,6 +112,7 @@ if (!$error && $_GET['action']=="save") {
 		$finalAction = strpos($fileOrig,"[NEW]")>0 ? "save as" : "save";
 		$fileURL = isset($file) ? $file : "";
 		$fileMDTURLPart = isset($_GET["fileMDT"]) && $_GET["fileMDT"]!="undefined" ? "&fileMDT=".numClean($_GET['fileMDT']) : "";
+		$fileVersionURLPart = isset($_GET["fileVersion"]) && $_GET["fileVersion"]!="undefined" ? "&fileVersion=".numClean($_GET['fileVersion']) : "";
 		$doNext .= '
 			top.ICEcoder.serverMessage();
 			fileLoc = "'.$fileLoc.'";
@@ -138,7 +139,7 @@ if (!$error && $_GET['action']=="save") {
 						/* Saving under conditions: Confirmation of overwrite or there is no filename conflict, it is a new file, in either case we can save */
 						if (overwriteOK || noConflictSave) {
 							newFileName = "'.(isset($ftpSite) ? "" : $docRoot).'" + newFileName;
-							saveURL = "lib/file-control-xhr.php?action=save'.$fileMDTURLPart.'&csrf='.$_GET["csrf"].'";
+							saveURL = "lib/file-control-xhr.php?action=save'.$fileMDTURLPart.$fileVersionURLPart.'&csrf='.$_GET["csrf"].'";
 
 							var xhr = top.ICEcoder.xhrObj();
 
@@ -211,6 +212,7 @@ if (!$error && $_GET['action']=="save") {
 						$doNext .= 'top.ICEcoder.message("Sorry, could not write '.$ftpFilepath.' at '.$ftpHost.'");';
 					}
 					$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
+					$doNext .= 'top.ICEcoder.openFileVersions[top.ICEcoder.selectedTab-1]+=1;top.ICEcoder.updateVersionsDisplay();';
 				// Local saving
 				} else {
 					// Newly created files have the perms set too
@@ -244,6 +246,7 @@ if (!$error && $_GET['action']=="save") {
 					clearstatcache();
 					$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 					$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
+					$doNext .= 'top.ICEcoder.openFileVersions[top.ICEcoder.selectedTab-1]+=1;top.ICEcoder.updateVersionsDisplay();';
 				}
 
 				// Save a version controlled backup source of the file
@@ -271,20 +274,49 @@ if (!$error && $_GET['action']=="save") {
 					}
 					// We should have our dir path now so set that
 					$backupDir = $backupDirBase.implode("/",$subDirsArray);
-					// Work out an available filename (if the plain filename exists, we'll postfix with a number in parens)
-					$backupFileName = $fileName;
-					if (file_exists($backupDir.'/'.$backupFileName)) {
-						for ($i=2; $i<1000000000; $i++) {
-							if (!file_exists($backupDir.'/'.$backupFileName." (".$i.")")) {
-								$backupFileName .= " (".$i.")";
-								$i=1000000000;
-							}
+					// Work out an available filename (we postfix a number in parens)
+					for ($i=1; $i<1000000000; $i++) {
+						if (!file_exists($backupDir.'/'.$fileName." (".$i.")")) {
+							$backupFileName = $fileName." (".$i.")";
+							$backupFileNum = $i;
+							$i=1000000000;
 						}
 					}
 
 					// Now save within that backup dir and clear the statcache
 					$fh = fopen($backupDir."/".$backupFileName, "w") or die($t['Sorry, cannot save...']);
 					fwrite($fh, $contents);
+					fclose($fh);
+					clearstatcache();
+
+					// Log the version count in an index file, which contains saved version counts
+					$backupIndex = $backupDirBase.$backupDirHost."/".$backupDirDate."/.versions-index";
+					// Have a version index already? Update contents
+					if (file_exists($backupIndex)) {
+						$versionsInfo = "";
+						$versionsInfoOrig = file_get_contents($backupIndex,false,$context);
+						$versionsInfoOrig = explode("\n",$versionsInfoOrig);
+						$replacedLine = false;
+						// For each line, either re-set number or simply include the line
+						for ($i=0; $i<count($versionsInfoOrig); $i++) {
+							if (strpos($versionsInfoOrig[$i],$fileLoc."/".$fileName." = ") === 0) {
+								$versionsInfo .= $fileLoc."/".$fileName." = ".$backupFileNum.PHP_EOL;
+								$replacedLine = true;
+							} else {
+								$versionsInfo .= $versionsInfoOrig[$i].PHP_EOL;
+							}
+						}
+						// Didn't find our line in the file? Add it to the end
+						if (!$replacedLine) {
+							$versionsInfo .= $fileLoc."/".$fileName." = ".$backupFileNum.PHP_EOL;
+						}
+					// No version file yet, set the first line
+					} else {
+						$versionsInfo = $fileLoc."/".$fileName." = ".$backupFileNum.PHP_EOL;
+					}
+					$versionsInfo = rtrim($versionsInfo,PHP_EOL);
+					$fh = fopen($backupIndex, 'w') or die($t['Sorry, cannot save...']);
+					fwrite($fh, $versionsInfo);
 					fclose($fh);
 					clearstatcache();
 
@@ -370,6 +402,7 @@ if (!$error && $_GET['action']=="save") {
 					cM.setValue(loadedFile.value);
 					top.ICEcoder.savedPoints[thisTab-1] = cM.changeGeneration();
 					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "'.$filemtime.'";
+					top.ICEcoder.openFileVersions[top.ICEcoder.selectedTab-1] = ".getVersionsCount($fileLoc,$fileName).";
 					cM.clearHistory();
 					/* Now for the new version in the diff pane */
 					top.ICEcoder.setSplitPane(\'on\');
