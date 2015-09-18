@@ -179,4 +179,40 @@ if (!function_exists('array_replace_recursive')) {
 		return $base;
 	}
 }
+
+// Get number of versions total for a file
+function getVersionsCount($fileLoc,$fileName) {
+	$count = 0;
+	// Establish the base, host and date dirs within...
+	$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
+	$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
+	$backupDateDirs = scandir($backupDirBase.$backupDirHost);
+	// Get rid of . and .. from date dirs array
+	for ($i=0; $i<count($backupDateDirs); $i++) {
+		if ($backupDateDirs[$i] == "." || $backupDateDirs[$i] == "..") {
+			array_splice($backupDateDirs,$i,1);
+			$i--;
+		}
+	}
+	// Check the backup index in each dir and add up the counts from matching lines
+	for ($i=0; $i<count($backupDateDirs); $i++) {
+		$backupIndex = $backupDirBase.$backupDirHost."/".$backupDateDirs[$i]."/.versions-index";
+		// Have a .versions-index file? Get contents
+		if (file_exists($backupIndex)) {
+			$versionsInfo = file_get_contents($backupIndex,false,$context);
+			$versionsInfo = explode("\n",$versionsInfo);
+			// For each line, check if it's our file and if so, add the count to our $count
+			for ($j=0; $j<count($versionsInfo); $j++) {
+				$fileRef = $fileLoc."/".$fileName." = ";
+				if (strpos($versionsInfo[$j],$fileRef) === 0) {
+					// We have a match, so split on the " = " and we can grab number as 2nd part
+					$lineInfo = explode(" = ",$versionsInfo[$j]);
+					$count += intval($lineInfo[1]);
+				}
+			}
+		}
+	}
+
+	return $count;
+}
 ?>
