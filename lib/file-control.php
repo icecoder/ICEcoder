@@ -185,6 +185,9 @@ if (action=="load") {
 				top.ICEcoder['cMActiveLinecM'+top.ICEcoder.selectedTab] = top.ICEcoder.content.contentWindow['cM'+top.ICEcoder.cMInstances[top.ICEcoder.selectedTab-1]].addLineClass(0, "background", "cm-s-activeLine");
 				top.ICEcoder.nextcMInstance++;
 				top.ICEcoder.openFileMDTs.push('<?php echo $serverType=="Linux" ? filemtime($file) : "1000000"; ?>');
+				top.ICEcoder.openFileVersions.push(<?php echo getVersionsCount($fileLoc,$fileName);?>);
+				top.ICEcoder.updateVersionsDisplay();
+				
 				for (var i=0; i<cM.lineCount(); i++) {
 					top.ICEcoder.content.contentWindow.CodeMirror.doFold(cM.getLine(i).indexOf("{")>-1?"brace":"xml",null,"+","-",true)(cM, i);
 				}
