@@ -20,6 +20,8 @@ $text = array(
 		"your device"			=> "su dispositivo",
 		"Browser"			=> "Navegador:",
 		"Your IP"			=> "Su IP:",
+		"trial remaining"		=> "prueba restante",
+		"days left"			=> "dias",
 		"files"				=> "archivos",
 		"Last 10 files..."		=> "Ultimos 10 archivos abiertos:",
 		"none"				=> "[ninguno]",
@@ -36,6 +38,7 @@ $text = array(
 	array(
 		"Lock"				=> "Bloquear",
 		"Refresh"			=> "Actualizar",
+		"Plugins"			=> "Complementos",
 		"ROOT"				=> "[RAIZ]"
 
 	),
@@ -47,9 +50,10 @@ $text = array(
 		"Your version is"		=> "Su versi&oacute;n es",
 		"Update now"			=> "Actualizar ahora",
 		"You have some..."		=> "Usted tiene cambios sin guardar",
-		"Are you sure you want to close?" => "Est&aacute; seguro que desea cerrar?",
+		"Are you sure..." => "Est&aacute; seguro que desea cerrar?",
 		"working"			=> "trabajando",
 		"Color picker"			=> "Selector de color",
+		"Plugins Manager"		=> "Administrar complementos",
 		"New File"			=> "Nuevo archivo",
 		"New Folder"			=> "Nueva carpeta",
 		"Upload File(s)"		=> "Cargar archivo(s)",
@@ -101,7 +105,9 @@ $text = array(
 		"Code Assist"			=> "Asistente de c&oacute;digo",
 		"Go to Line"			=> "Ir a la l&iacute;nea",
 		"View"				=> "Ver",
-		"Bug reporting not active"	=> "Reporte de Errores no activado"
+		"Bug reporting not active"	=> "Reporte de Errores no activado",
+		"Single pane"			=> "Panel unico",
+		"Diff pane also"		=> "Panel de diferencias tambien"
 	),
 
 // /LIB
@@ -113,6 +119,7 @@ $text = array(
 
 	"file-control" =>
 	array(
+		"Sorry, bad filename..."	=> "Lo siento, nombre de archivo incorrecto. Verifique la consola de desarrollo para mas informacion?",
 		"Sorry"				=> "Lo siento",
 		"does not seem..."		=> "parace no existir en el servidor",
 		"Sorry, could not..."		=> "Lo siento, no puedo obtener el contenido de",
@@ -128,6 +135,7 @@ $text = array(
 		"Sorry, cannot save"		=> "Lo siento, no puedo guardar",
 		"Sorry, cannot replace..."	=> "Lo siento, no puedo reemplazar texto en",
 		"Sorry, cannot change..."	=> "Lo siento, no puedo cambiar permisos sobre",
+		"Sorry, cannot delete more..."	=> "Lo siento, no puedo eliminar mas de un item a la vez bajo modo FTP",
 		"Sorry, cannot delete..."	=> "Lo siento, no puedo eliminar el nivel raiz",
 		"Sorry, cannot delete"		=> "Lo siento, no puedo eliminar",
 		"Sorry, this file..."		=> "Lo siento, este archivo ha cambiado, no puedo almacenar",
@@ -155,7 +163,9 @@ $text = array(
 		"github paths"			=> "Rutas de GitHub",
 		"Choose existing path"		=> "Seleccionar una ruta existente",
 		"Local path"			=> "Ruta local",
+		"Slash prefixed"		=> "Prefijo de slash",
 		"Remote GitHub path"		=> "Ruta remota GitHub",
+		"Absolute URL beginning..."	=> "URL absoluta, iniciando https://github.com",
 		"Choose"			=> "Seleccionar",
 		"Set local and..."		=> "Establecer las rutas locales y remotas en blanco para removerlas",
 		"Update"			=> "Actualizar",
@@ -232,6 +242,7 @@ $text = array(
 		"Close current tab"		=> "Cerrar ficha actual",
 		"Open file prompt"		=> "L&iacute;nea de apertura de archivos",
 		"Find"				=> "Buscar",
+		"Previous"			=> "Previo",
 		"Focus on Go..."		=> "Obtener foco en la opci&oacute;n Ir a Linea",
 		"Save"				=> "Guardar",
 		"Save as"			=> "Guardar como...",
@@ -244,6 +255,7 @@ $text = array(
 
 	"ice-coder" =>
 	array(
+		"results"			=> "resultados",
 		"No text selected..."		=> "No hay texto seleccionado para buscar",
 		"all files"			=> "todos los archivos",
 		"all filenames"			=> "todos los nombres de archivo",
@@ -254,6 +266,7 @@ $text = array(
 		"Opening File"			=> "Abriendo archivo",
 		"Enter relative file..."	=> "Entre una ruta relativa (iniciando con /) o una URL remota",
 		"Getting"			=> "Obteniendo",
+		"Saving"			=> "Guardando:",
 		"Please enter the..."		=> "Por favor ingrese el nuevo nombre para",
 		"Renaming to"			=> "Renombrando a",
 		"Moving to"			=> "Moviendo a",
@@ -267,6 +280,7 @@ $text = array(
 		"replace all"			=> "reemplazar todo",
 		"file"				=> "archivo",
 		"Replacing text in"		=> "Reemplazando texto en",
+		"Sorry there was..."		=> "Lo siento, hubo un error con su solicitud.\\n\\nPor favor verifique su consola de desarrollo para mas informacion.",
 		"Cancelled tasks"		=> "Tareas canceladas",
 		"Open previous files"		=> "Abrir archivos previos?",
 		"Please enter your..."		=> "Por favor entre su token de GitHub (para acceso personal). Ver ayuda cerca al Token de autenticaci&oacute;n de Github en la ayuda > Vea pantalla de configuraci&oacute;n para m&aacute;s informaci&oacute;n",
@@ -276,8 +290,7 @@ $text = array(
 		"Error cannot find..."		=> "Error: no puedo encontrar o accesar las rutas de archivos de error",
 		"No new errors..."		=> "No fueron encontrados nuevos errores",
 		"You have made..."		=> "Usted ha realizado cambios. Esta seguro que quiere cerrar sin guardar?",
-		"Close all tabs"		=> "Cerrar todas las fichas?",
-		"results"			=> "resultados"
+		"Close all tabs"		=> "Cerrar todas las fichas?"
 	),
 
 	"login" =>
@@ -371,7 +384,13 @@ $text = array(
 		"codemirror dir"		=> "directorio codemirror",
 		"codemirror version"		=> "version codemirror",
 		"file manager root"		=> "administrador de archivos raiz",
-		"Free to use..."		=> "Libre para usarlo para cualquier prop&oacute;sito, comercial o no, solo dejeme saber cualquier uso o mejora. :)<br><br>No se da garantia de ningun tipo, su uso se encuentra bajo su responsabilidad.<br><br>Muchas personas y compa&ntilde;&iacute;as han ayudado a construir ICEcoder por lo que les damos las gracias. Por favor vea la lista completa en",
+		"Get in contact..."		=> "Pongase en contacto...",
+		"backups"			=> "respaldos",
+		"keep version control..."	=> "mantener control de versiones de respaldo para",
+		"day"	=> "dia",
+		"days"	=> "dias",
+		"of backups stored..."	=> "de respaldos almacenados actualmente",
+		"You may use..."		=> "Libre para usarlo para cualquier prop&oacute;sito, comercial o no, solo dejeme saber cualquier uso o mejora. :)<br><br>No se da garantia de ningun tipo, su uso se encuentra bajo su responsabilidad.",
 		"functionality"			=> "funcionalidad",
 		"check for updates..."		=> "verificar por actualizaciones en la carga",
 		"auto open last..."		=> "auto cargar los ultimos archivos al ingresar",
@@ -430,6 +449,19 @@ $text = array(
 	"updater" =>
 	array(
 		"Update appears to..."		=> "La actualizaci&oacute;n parece haber sido satisfactoria"
+	),
+
+	"find-in-files" =>
+	array(
+		"Enter path to search in" => "Ingrese la ruta para buscar",
+		"Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)" => "Ingrese la mascaras de archivo separadas por punto y coma para buscar (ej. *.php;*.html;*.js)",
+		"Type of text" => "Tipo de texto",
+		"Fixed text" => "Texto fijo",
+		"Regular expression" => "Expresion regular",
+		"Case sensitive" => "Sensible a mayuscula",
+		"Yes" => "Si",
+		"No" => "No",
+		"Search" => "Buscar",
 	)
 
 );
