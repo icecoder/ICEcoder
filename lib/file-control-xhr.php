@@ -212,7 +212,7 @@ if (!$error && $_GET['action']=="save") {
 						$doNext .= 'top.ICEcoder.message("Sorry, could not write '.$ftpFilepath.' at '.$ftpHost.'");';
 					}
 					$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
-					$doNext .= 'top.ICEcoder.openFileVersions[top.ICEcoder.selectedTab-1]+=1;top.ICEcoder.updateVersionsDisplay();';
+					$doNext .= '(function() {var x=top.ICEcoder.openFileVersions; var y=top.ICEcoder.selectedTab-1; x[y] = "undefined" != typeof x[y] ? x[y]+1 : 1})();top.ICEcoder.updateVersionsDisplay();';
 				// Local saving
 				} else {
 					// Newly created files have the perms set too
@@ -246,7 +246,7 @@ if (!$error && $_GET['action']=="save") {
 					clearstatcache();
 					$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 					$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
-					$doNext .= 'top.ICEcoder.openFileVersions[top.ICEcoder.selectedTab-1]+=1;top.ICEcoder.updateVersionsDisplay();';
+					$doNext .= '(function() {var x=top.ICEcoder.openFileVersions; var y=top.ICEcoder.selectedTab-1; x[y] = "undefined" != typeof x[y] ? x[y]+1 : 1})();top.ICEcoder.updateVersionsDisplay();';
 				}
 
 				// Save a version controlled backup source of the file
