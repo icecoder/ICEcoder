@@ -1,6 +1,11 @@
 <!DOCTYPE html>
+<html>
 <head>
 <title>ICEcoder requirements tests</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes">
+<link rel="icon" type="image/png" href="favicon.png">
 </head>
 
 <body style="font-family: Arial">
