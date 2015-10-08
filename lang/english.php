@@ -112,6 +112,13 @@ $text = array(
 
 // /LIB
 
+	"backup-versions" =>
+	array(
+		"backup"			=> "backup",
+		"backups"			=> "backups",
+		"available for"			=> "available for"
+	),
+
 	"bug-files-check" =>
 	array(
 		"Found in"			=> "Found in:"
