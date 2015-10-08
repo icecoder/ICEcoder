@@ -390,6 +390,7 @@ if (!$error && $_GET['action']=="save") {
 			} else {
 				// Only applicable for local files
 				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
+				$fileCountInfo = getVersionsCount($fileLoc,$fileName);
 				$doNext .= '
 				var loadedFile = document.createElement("textarea");
 				loadedFile.value = "'.str_replace('"','\\\"',str_replace("\r","\\\\r",str_replace("\n","\\\\n",str_replace("</textarea>","<ICEcoder:/:textarea>",$loadedFile)))).'";
@@ -402,7 +403,7 @@ if (!$error && $_GET['action']=="save") {
 					cM.setValue(loadedFile.value);
 					top.ICEcoder.savedPoints[thisTab-1] = cM.changeGeneration();
 					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "'.$filemtime.'";
-					top.ICEcoder.openFileVersions[top.ICEcoder.selectedTab-1] = ".getVersionsCount($fileLoc,$fileName).";
+					top.ICEcoder.openFileVersions[top.ICEcoder.selectedTab-1] = "'.$fileCountInfo['count'].'";
 					cM.clearHistory();
 					/* Now for the new version in the diff pane */
 					top.ICEcoder.setSplitPane(\'on\');
