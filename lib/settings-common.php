@@ -183,10 +183,11 @@ if (!function_exists('array_replace_recursive')) {
 // Get number of versions total for a file
 function getVersionsCount($fileLoc,$fileName) {
 	$count = 0;
+	$dateCounts = array();
 	// Establish the base, host and date dirs within...
 	$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
 	$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
-	$backupDateDirs = scandir($backupDirBase.$backupDirHost);
+	$backupDateDirs = scandir($backupDirBase.$backupDirHost,1);
 	// Get rid of . and .. from date dirs array
 	for ($i=0; $i<count($backupDateDirs); $i++) {
 		if ($backupDateDirs[$i] == "." || $backupDateDirs[$i] == "..") {
@@ -201,18 +202,22 @@ function getVersionsCount($fileLoc,$fileName) {
 		if (file_exists($backupIndex)) {
 			$versionsInfo = file_get_contents($backupIndex,false,$context);
 			$versionsInfo = explode("\n",$versionsInfo);
-			// For each line, check if it's our file and if so, add the count to our $count
+			// For each line, check if it's our file and if so, add the count to our $count value and $dateCount array
 			for ($j=0; $j<count($versionsInfo); $j++) {
 				$fileRef = $fileLoc."/".$fileName." = ";
 				if (strpos($versionsInfo[$j],$fileRef) === 0) {
 					// We have a match, so split on the " = " and we can grab number as 2nd part
 					$lineInfo = explode(" = ",$versionsInfo[$j]);
 					$count += intval($lineInfo[1]);
+					$dateCounts[$backupDateDirs[$i]] = intval($lineInfo[1]);
 				}
 			}
 		}
 	}
 
-	return $count;
+	return array(
+		"count" => $count,
+		"dateCounts" => $dateCounts
+	);
 }
 ?>
