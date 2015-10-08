@@ -1,0 +1,29 @@
+/* First, reset everything to a standard */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	font-size: 12px;
+	vertical-align: top;
+}
+
+body {overflow: hidden;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
+a {color: #fff; text-decoration: none}
+
+.backup-versions {font-family: arial, verdana, helvetica, sans-serif; background-color: #1c1c19; color: #fff; padding: 20px}
