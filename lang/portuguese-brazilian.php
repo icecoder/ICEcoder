@@ -1,4 +1,4 @@
-ï»¿<?php
+<?php
 // Portugu&ecirc;s do Brasil
 // by: @leonardoroese (GitHub)
 
@@ -25,7 +25,7 @@ $text = array(
 		"Last 10 files..."		=> "&uacute;ltimos 10 arquivos abertos:",
 		"none"				=> "[nenhum]",
 		"test suite"			=> "su&iacute;te de teste",
-		"Run unit tests"		=> "Executar testes unit&aacute;rios",
+		"Run unit tests"		=> "Executar testes unit&atilde;rios",
 		"dev mode"			=> "modo desenv.",
 		"Status"			=> "Status",
 		"Using"				=> "Usando",
@@ -43,14 +43,14 @@ $text = array(
 
 	"index" =>
 	array(
-		"UPDATE INFO"			=> "INFO ATUALIZA&ccedil;&Atilde;O",
+		"UPDATE INFO"			=> "INFORMA&Ccedil;&Atilde; DE ATUALIZA&Ccedil;&Atilde;O",
 		"now available"			=> "dispon&iacute;vel agora",
 		"Your version is"		=> "Sua vers&atilde;o &eacute;",
-		"Update now"			=> "Atualizar j&aacute;",
+		"Update now"			=> "Atualizar j&atilde;",
 		"You have some..."		=> "Voce possui altera&ccedil;&otilde;es n&atilde;o salvas",
-		"Are you sure you want to close?" => "Are you sure you want to close?",
+		"Are you sure you want to close?" => "Voc&ecirc; tem certeza que deseja fechar?",
 		"working"			=> "trabalhando",
-		"Color picker"			=> "Color picker",
+		"Color picker"			=> "Seletor de Cores",
 		"New File"			=> "Novo Arquivo",
 		"New Folder"			=> "Nova Pasta",
 		"Upload File(s)"		=> "Carregar arquivo(s)",
@@ -60,7 +60,7 @@ $text = array(
 		"Duplicate"			=> "Duplicar",
 		"Delete"			=> "Excluir",
 		"Rename"			=> "Renomear",
-		"View Webpage"			=> "Exibir P&aacute;gina Web",
+		"View Webpage"			=> "Exibir P&atilde;gina Web",
 		"Download"			=> "Download",
 		"Properties"			=> "Propriedades",
 		"File"				=> "Arquivo",
@@ -70,8 +70,8 @@ $text = array(
 		"Help"				=> "Ajuda",
 		"Save"				=> "Salvar",
 		"Save As"			=> "Salvar Como",
-		"Live Preview"			=> "Preview",
-		"Upload"			=> "Upload",
+		"Live Preview"			=> "Visualizar",
+		"Upload"			=> "Enviar",
 		"Zip"				=> "Zip",
 		"Print"				=> "Imprimir",
 		"Fullscreen toggle"		=> "Exibir tela cheia",
@@ -137,15 +137,15 @@ $text = array(
 		"There was a..."		=> "Ocorreu algum problema. O ICEcoder recarregou o arquivo de controle novamente",
 		"displayed at"			=> "exibido em",
 		"Enter filename to..."		=> "Informe o nome do aquivo para salvar",
-		"That file exists..."		=> "Este arquivo j&aacute; existe, sobrescrever?",
+		"That file exists..."		=> "Este arquivo j&atilde; existe, sobrescrever?",
 		"Saving"			=> "Salvando"
 	),
 
 	"get-branch" =>
 	array(
-		"There are no..."		=> "N&atilde;o h&aacute; diferen&ccedil;as entre loca/Github. Retornar para modo normal?",
+		"There are no..."		=> "N&atilde;o h&atilde; diferen&ccedil;as entre loca/Github. Retornar para modo normal?",
 		"Sorry, there was..."		=> "Desculpe, ocorreu um erro, c&oacute;digo:",
-		"Your local folder..."		=> "Sua pasta local est&aacute; vazia, gostaria de clonar"
+		"Your local folder..."		=> "Sua pasta local est&atilde; vazia, gostaria de clonar"
 	),
 
 	"github-manager" =>
@@ -166,13 +166,13 @@ $text = array(
 		"Usage Info"			=> "Info. de utiliza&ccedil;&atilde;o:",
 		"Enter relative local..."	=> "Informe os caminhos relativos (ex.: /server/myfiles) e absolutos do GitHub (ex.: https://github.com/user/repo ou https://github.com/user/repo/tree/branch for branches).Com isso estabelece os caminho dos fontes em ambos locais, como pares.",
 		"You can then..."		=> "Voc&ecirc; pode ent&atilde;o escolher um caminho par para ser a raiz do ICEcoder.",
-		"The file manager..."		=> "O gerenciador de arquivo exibir&aacute; o &iacute;cone GitHub, voc&ecirc; pode clicar para verificar a diferen&ccedil;a entre arquivos.Essas diferen&ccedil;as podem ser efetivadas e enviadas ao diret&oacute;rio remoto do GitHub ou clonado para pasta local, para sincronizar seus arquivos.",
+		"The file manager..."		=> "O gerenciador de arquivo exibir&atilde; o &iacute;cone GitHub, voc&ecirc; pode clicar para verificar a diferen&ccedil;a entre arquivos.Essas diferen&ccedil;as podem ser efetivadas e enviadas ao diret&oacute;rio remoto do GitHub ou clonado para pasta local, para sincronizar seus arquivos.",
 		"If you want..."		=> "Se quiser configurar novo caminho raiz, pode ser feito na tela de configura&ccedil;&otilde;es."
 	),
 
 	"github" =>
 	array(
-		"Sorry, you do..."		=> "Desculpe, o OpenSSL n&atilde;o foi encontrado, https indispon&iacute;vel. Isso &eacute; necess&aacute;rio para o GitHub transferir dados, verificar php.ini, reinicie o sistema e tente novamente"
+		"Sorry, you do..."		=> "Desculpe, o OpenSSL n&atilde;o foi encontrado, https indispon&iacute;vel. Isso &eacute; necess&atilde;rio para o GitHub transferir dados, verificar php.ini, reinicie o sistema e tente novamente"
 	),
 
 	"headers" =>
@@ -206,7 +206,7 @@ $text = array(
 		"Insert line after"		=> "Inserir linha ap&oacute;s",
 		"Search for selected"		=> "Procurar selecionado",
 		"Jump to definition"		=> "Ir para defini&ccedil;&atilde;o / voltar",
-		"Comment uncomment"		=> "Commentar / descomentar",
+		"Comment uncomment"		=> "Comentar / Descomentar",
 		"Insert tab indent"		=> "Inserir aba / auto indent selected",
 		"Insert more"			=> "Indentar +",
 		"Insert less"			=> "Indentar -",
@@ -237,7 +237,7 @@ $text = array(
 		"Focus on Go..."		=> "Foco campo ir para linha",
 		"Save"				=> "Salvar",
 		"Save as"			=> "Salvar como...",
-		"View webpage"			=> "Exibir p&aacute;gina",
+		"View webpage"			=> "Exibir p&atilde;gina",
 		"Contract expand file..."	=> "Contrair / expandir gerenciador de arquivos",
 		"Fold unfold current..."	=> "Contrair / expandir linha atual",
 		"Refocus on document"		=> "Foco no documento",
@@ -252,7 +252,7 @@ $text = array(
 		"selected files"		=> "arquivos selecionados",
 		"selected filenames"		=> "nomes de arquivos selecionados",
 		"Creating Folder"		=> "Criando pasta",
-		"Sorry you can..."		=> "Deculpe, permitido abrir m&aacute;x. 100 arquivos!",
+		"Sorry you can..."		=> "Deculpe, permitido abrir m&atilde;x. 100 arquivos!",
 		"Opening File"			=> "Abrindo arquivo",
 		"Enter relative file..."	=> "Informe caminho relativo (prefixado por /) ou URL remota",
 		"Getting"			=> "Selecionando",
@@ -271,9 +271,9 @@ $text = array(
 		"Replacing text in"		=> "Substituindo texto em",
 		"Cancelled tasks"		=> "Tarefas canceladas",
 		"Open previous files"		=> "Abrir arquivos anteriores?",
-		"Please enter your..."		=> "Informe sua chave GitHub (chave pessoal ou par). Veja dica pr&oacute;ximo Ã  chave Github em Ajuda > Configura&ccedil;&otilde;es para mais informa&ccedil;&otilde;es",
-		"This will compare..."		=> "Esta a&ccedil;&atilde;o ir&aacute; comparar e exibir diferen&ccedil;as do seu reposit&oacute;rio local. OK?",
-		"Please note for..."		=> "Aten&ccedil;&atilde;o: para atualizar corretamente, &eacute; necess&aacute;rio permiss&acirc;o de escrita em todos os diret&oacute;rios/arquivos do ICEcoder. \\n\\nSe por algum motivo necessite recuperar esta vers&atilde;o do ICEcoder, estar&aacute; dispon&iacute;vel na pasta /tmp.\\n\\nClique OK para prosseguir com a atualiza&ccedil;&atilde;o, ou cancelar para visitar a p&aacute;gina do ICEcoder na internet onde poder&aacute; baixar a atualiza&ccedil;&atilde;o manualmente.",
+		"Please enter your..."		=> "Informe sua chave GitHub (chave pessoal ou par). Veja dica pr&oacute;ximo à chave Github em Ajuda > Configura&ccedil;&otilde;es para mais informa&ccedil;&otilde;es",
+		"This will compare..."		=> "Esta a&ccedil;&atilde;o ir&atilde; comparar e exibir diferen&ccedil;as do seu reposit&oacute;rio local. OK?",
+		"Please note for..."		=> "Aten&ccedil;&atilde;o: para atualizar corretamente, &eacute; necess&atilde;rio permiss&atilde;o de escrita em todos os diret&oacute;rios/arquivos do ICEcoder. \\n\\nSe por algum motivo necessite recuperar esta vers&atilde;o do ICEcoder, estar&atilde; dispon&iacute;vel na pasta /tmp.\\n\\nClique OK para prosseguir com a atualiza&ccedil;&atilde;o, ou cancelar para visitar a p&atilde;gina do ICEcoder na internet onde poder&atilde; baixar a atualiza&ccedil;&atilde;o manualmente.",
 		"You can start..."		=> "Voce pode reportar um bug em Ajuda > Configura&ccedil;&otilde;es",
 		"Error cannot find..."		=> "Erro: n&atilde;o &eacute; poss&iacute;vel acessar caminho/arquivo de erros",
 		"No new errors..."		=> "Nenhum erro encontrado",
@@ -286,11 +286,11 @@ $text = array(
 	array(
 		"set password"			=> "altera senha",
 		"login"				=> "login",
-		"To disable registration..."	=> "Para desabilitar modo registro, acesse menu/configura&ccedil;&otilde;es ou em lib/config___settings.php altere enableRegistration para false e recarregue esta p&aacute;gina",
+		"To disable registration..."	=> "Para desabilitar modo registro, acesse menu/configura&ccedil;&otilde;es ou em lib/config___settings.php altere enableRegistration para false e recarregue esta p&atilde;gina",
 		"Registration mode enabled"	=> "Modo registro habilitado",
 		"auto-check for updates"	=> "verificar atualiza&ccedil;&otilde;es auto.",
-		"To put into..."		=> "Para habilitar multi-usu&aacute;rios, acesse menu/configura&ccedil;&otilde;es ou em lib/config___settings.php altere multiUser para true e recarregue esta p&aacute;gina",
-		"multi-user"			=> "multi-usu&aacute;rios"
+		"To put into..."		=> "Para habilitar multi-usu&atilde;rios, acesse menu/configura&ccedil;&otilde;es ou em lib/config___settings.php altere multiUser para true e recarregue esta p&atilde;gina",
+		"multi-user"			=> "multi-usu&atilde;rios"
 	),
 
 	"multiple-results" =>
@@ -328,7 +328,7 @@ $text = array(
 		"Update"			=> "Atualizar",
 		"Install"			=> "Instalar",
 		"Uninstall"			=> "Desinstalar",
-		"Reload after install..."	=> "Atualiza&ccedil;&atilde;o necess&aacute;ria ap&oacute;s instala&ccedil;&atilde;o"
+		"Reload after install..."	=> "Atualiza&ccedil;&atilde;o necess&atilde;ria ap&oacute;s instala&ccedil;&atilde;o"
 	),
 
 	"properties" =>
@@ -336,14 +336,14 @@ $text = array(
 		"properties"			=> "propriedades",
 		"Size"				=> "Tamanho",
 		"Modified"			=> "Modificado",
-		"Last access"			=> "&Uacute;ltimo acesso",
+		"Last access"			=> "Último acesso",
 		"Type"				=> "Tipo",
 		"Readable Writeable"		=> "Leitura / Escrita",
 		"Relative path"			=> "Caminho relativo",
 		"Absolute path"			=> "Caminho absoluto",
 		"Contains"			=> "Contem",
 		"Permissions"			=> "Permiss&otilde;es",
-		"Owner"				=> "Propriet&aacute;rio",
+		"Owner"				=> "Propriet&atilde;rio",
 		"Group"				=> "Grupo",
 		"Public"			=> "P&uacute;blico",
 		"Read"				=> "Ler",
@@ -355,7 +355,7 @@ $text = array(
 
 	"settings-common" =>
 	array(
-		"Your document does..."		=> "Seu arquivo n&atilde;o est&aacute; no formato UTF-8, deve ser convertido"
+		"Your document does..."		=> "Seu arquivo n&atilde;o est&atilde; no formato UTF-8, deve ser convertido"
 	),
 
 	"settings-save-current-files" =>
@@ -373,7 +373,7 @@ $text = array(
 		"codemirror dir"		=> "pasta codemirror",
 		"codemirror version"		=> "vers&atilde;o codemirror",
 		"file manager root"		=> "Raiz gerenciador de arquivos",
-		"Free to use..."		=> "Livre para utiliza&ccedil;&atilde;o para seus prop&oacute;sitos, comercial ou n&atilde;o, mas aviseme sobre sua implementa&ccedil;&atilde;o se puder. :)<br><br>Sem garantias, Muitas empresas e pessoas fant&aacute;sticas contribuiram para desenvolver o ICEcoder, h&aacute; muito o que agradecermos aqui. Veja a lista completa aqui",
+		"Free to use..."		=> "Livre para utiliza&ccedil;&atilde;o para seus prop&oacute;sitos, comercial ou n&atilde;o, mas aviseme sobre sua implementa&ccedil;&atilde;o se puder. :)<br><br>Sem garantias, Muitas empresas e pessoas fant&atilde;sticas contribuiram para desenvolver o ICEcoder, h&atilde; muito o que agradecermos aqui. Veja a lista completa aqui",
 		"functionality"			=> "funcionalidade",
 		"check for updates..."		=> "verificar atualiza&ccedil;&otilde;es ao iniciar",
 		"auto open last..."		=> "carregar &uacute;ltimos arquvos abertos ao iniciar",
@@ -411,10 +411,10 @@ $text = array(
 		"secs getting last"		=> "segs, pegando &uacute;ltimos",
 		"lines"				=> "linhas",
 		"multi-user"			=> "multi-usu&aacute;rio",
-		"Make sure you..."		=> "Cuidado para n&acirc;o travar seu usu&aacute;rio",
+		"Make sure you..."		=> "Cuidado para n&atilde;o travar seu usu&atilde;rio",
 		"Registration"			=> "Cadastro",
 		"auth token"			=> "Chave de Autentica&ccedil;&atilde;o",
-		"Required to get..."		=> "RNecess&aacute;rio para verificar diferen&ccedil;as, e efetivar altera&ccedil;&otilde;es no GitHub. Se n&atilde;o tiver uma pode usar:".PHP_EOL.PHP_EOL.
+		"Required to get..."		=> "RNecess&atilde;rio para verificar diferen&ccedil;as, e efetivar altera&ccedil;&otilde;es no GitHub. Se n&atilde;o tiver uma pode usar:".PHP_EOL.PHP_EOL.
 							"- chave de acesso pessoal (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or".PHP_EOL.
 							"- cliente/par secreto (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
 							"N&atilde;o &eacute; recomendado configurar sua chave aqui, mas quando solicitado pelo ICEcoderpara mantes em sess&atilde;o apenas.".PHP_EOL.PHP_EOL.
