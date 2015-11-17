@@ -9,7 +9,7 @@
 .fileManager span {font-family: helvetica, arial, swiss, verdana; padding: 1px 3px; border-radius: 3px}
 .fileManager a {color: #eee; text-decoration: none; cursor: pointer}
 .fileManager .pft-directory, .fileManager .pft-file {list-style-image: url(../images/blank.gif)}
-.fileManager ul, .fileManager li  {margin-left: 15px}
+.fileManager ul, .fileManager li  {margin-left: 15px; white-space: nowrap}
 	
 /* Default file */
 .fileManager LI.pft-directory:before, .fileManager LI.pft-file:before {
