@@ -32,5 +32,5 @@ $datetime = str_replace("-","<br>",date( "D jS M Y-g:i:sa", filemtime("../backup
 <script>
 parent.document.getElementById('buttonsContainer').style.display = 'inline-block';
 parent.editor.setValue(document.getElementById('loadedFile').value);
-parent.document.getElementById('infoContainer').innerHTML = 'Size:<br><?php echo $size;?><br><br>Date & Time:<br><?php echo $datetime;?>';
+parent.document.getElementById('infoContainer').innerHTML = 'Date & Time:<br><?php echo $datetime;?><br><br>Size:<br><?php echo $size;?>';
 </script>
