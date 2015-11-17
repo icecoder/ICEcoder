@@ -49,7 +49,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 <h2><?php echo $file;?></h2>
 
 <br>
-<div style="display: inline-block">
+<div style="display: inline-block; height: 500px; width: 210px; overflow-y: scroll">
 <?php
 $dateCounts = $fileCountInfo['dateCounts'];
 $displayVersions = $versions;
@@ -61,14 +61,14 @@ foreach ($dateCounts as $key => $value) {
 	echo "<b>".date("jS M Y",strtotime($key))." (".$value." ".($value != 1 ? $t["backups"] : $t["backup"]).")</b>";
 	echo '<br>';
 	for ($j=0; $j<$value; $j++) {
-		echo '<a href="backup-versions-preview-loader.php?file='.str_replace("/","|",$backupDirHost.'/'.$key.$file).' ('.$displayVersions.')&csrf='.$_SESSION['csrf'].'" target="previewLoader">Backup '.$displayVersions.'<br>';
+		echo '<a href="backup-versions-preview-loader.php?file='.str_replace("/","|",$backupDirHost.'/'.$key.$file).' ('.($value-$j).')&csrf='.$_SESSION['csrf'].'" onclick="highlightVersion('.$displayVersions.')" id="backup-'.$displayVersions.'" target="previewLoader">Backup '.$displayVersions.'</a><br>';
 		$displayVersions--;
 	}
 	echo '<br>';
 }
 ?>
 </div>
-<div style="display: inline-block; height: 300px; width: 400px; margin-left: 30px">
+<div style="display: inline-block; width: 480px; height: 550px; margin-left: 20px">
 	<textarea id="code" name="code">Click a backup to the left to preview it</textarea>
 </div>
 <div style="display: none; width: 180px; margin-left: 30px" id="buttonsContainer">
@@ -77,12 +77,22 @@ foreach ($dateCounts as $key => $value) {
 	<!--
 	<div class="button" onclick="alert('Function not available yet - Coming in v5.4')">Restore as new version</div>
 	//-->
+	<div id="infoContainer"></div>
 </div>
 <div style="display: none">
 	<iframe name="previewLoader"></iframe>
 </div>
 
 <script>
+versions = <?php echo $versions;?>;
+var highlightVersion = function(elem) {
+	for (var i=versions; i>=1; i--) {
+		document.getElementById('backup-'+i).style.color = i==elem
+			? 'rgba(0,198,255,0.7)'
+			: null;
+	}
+}
+
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	lineNumbers: true,
 	readOnly: "nocursor",
@@ -91,7 +101,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	mode: "javascript",
 	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
 	});
-editor.setSize("400px","330px");
+editor.setSize("480px","500px");
 
 var openNew = function() {
 	var cM;
