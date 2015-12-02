@@ -51,7 +51,7 @@ in lib/config__settings.php",
 		"Your version is"		=> "Uw versie is",
 		"Update now"			=> "Nu updaten",
 		"You have some..."		=> "Er zijn wijzigingen die niet opgeslagen zijn",
-		"Are you sure you want to close?" => "Are you sure you want to close?",
+		"Are you sure you want to close?" => "Weet u zeker dat u wilt sluiten ?",
 		"working"			=> "bezig",
 		"Color picker"			=> "Kleuren kiezer",
 		"New File"			=> "Nieuw bestand",
@@ -174,7 +174,7 @@ in lib/config__settings.php",
 
 	"github" =>
 	array(
-		"Sorry, you do..."		=> "Sorry, you do not appear to have OpenSSL loaded on your PHP instance, so https is not available. This is required for GitHub data transfer, please amend php.ini settings, restart your server and try again"
+		"Sorry, you do..."		=> "Sorry, het lijkt erop dat U OpenSSL niet beschikbaar heeft op uw server, https is dus niet beschikbaar. Dit is nodig voor GitHub gegevensoverdracht. Wijzig uw php.ini instellingen en herstart uw server en probeer opnieuw."
 	),
 
 	"headers" =>
@@ -262,8 +262,8 @@ in lib/config__settings.php",
 		"Replacing text in"		=> "Wijzig de tekst in",
 		"Cancelled tasks"		=> "Geannuleerde taken",
 		"Open previous files"		=> "Open voorgaande bestand(en)?",
-		"Please enter your..."		=> "Please enter your GitHub token (either personal access token or client/secret pair token). See tooltip next to Github Auth Token on Help > Settings screen for more info",
-		"This will compare..."		=> "This will compare and show a diff view between your local dir and the repo. OK?",
+		"Please enter your..."		=> "Voer uw github token (uw persoonlijke toegang token of uw client/geheime tokens). Zie tooltip naast Github Auth Token op Help-scherm> Instellingen voor meer info",
+		"This will compare..."		=> "Dit zal verschillen bekijken tussen uw lokale folder en uw repo.",
 		"Please note for..."		=> "Let op: om de update goed te laten doorvoeren, moet je schrijfrechten hebben op alle bestanden en mappen van ICEcoder. Moet je deze versie van ICEcoder herstellen, dan vind je die in de map /tmp. Klik op ok om door te gaan met automatisch updaten, of druk op annuleren om af te breken. Voor een handmatige update kun je het zip bestand van de ICEcoder website downloaden.",
 		"You can start..."		=> "U kunt bug rapporteren aanzetten in: Help > Settings",
 		"Error cannot find..."		=> "Fout: kan geen toegang krijgen of de bestands paden vinden",
