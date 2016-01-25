@@ -1,7 +1,7 @@
 <?php
 // Dutch language translation
 // Door: Julian Kaagman
-//	@dutchwaters (GitHub)
+//	@JpaKaagman (GitHub)
 
 // Please preserve formatting, line breaks, special characters, anything in <tags> and HTML equivalents (eg &amp;). Translations on right side.
 // Special chars: http://www.ascii.cl/htmlcodes.htm
@@ -75,7 +75,7 @@ in lib/config__settings.php",
 		"Live Preview"			=> "Voorbeeld",
 		"Upload"			=> "Upload",
 		"Zip"				=> "Zip",
-		"Print"				=> "Print",
+		"Print"				=> "Afdrukken",
 		"Fullscreen toggle"		=> "Schakelen volledig scherm",
 		"Logout"			=> "Uitloggen",
 		"Undo"				=> "Ongedaan maken",
@@ -86,7 +86,7 @@ in lib/config__settings.php",
 		"Comment/Uncomment"		=> "Commentaar maken",
 		"Jump to Definition"		=> "Spring naar definitie",
 		"Manual"			=> "Handleiding",
-		"Shortcuts"			=> "Snelkoppeling",
+		"Shortcuts"			=> "Sneltoetsen",
 		"Settings"			=> "Opties",
 		"Search for selected"		=> "Zoek naar geselecteerd",
 		"website"			=> "website",
@@ -110,6 +110,13 @@ in lib/config__settings.php",
 
 // /LIB
 
+	"backup-versions" =>
+	array(
+		"backup"			=> "backup",
+		"backups"			=> "backups",
+		"available for"			=> "beschikbaar voor"
+	),
+
 	"bug-files-check" =>
 	array(
 		"Found in"			=> "Gevonden in:"
@@ -117,6 +124,7 @@ in lib/config__settings.php",
 
 	"file-control" =>
 	array(
+		"Sorry, bad filename..."	=> "Sorry, ongeldige bestandsnaam opgegeven. Bekijk de dev tools console voor meer informatie.",
 		"Sorry"				=> "Sorry",
 		"does not seem..."		=> "bestaat niet op de server",
 		"Sorry, could not..."		=> "Sorry, kan geen gegevens ophalen van",
@@ -169,7 +177,7 @@ in lib/config__settings.php",
 		"Enter relative local..."	=> "Voer relatieve lokale paden (bv /server/mijnbestanden) en absolute Github paden (bv https://github.com/user/repo of https://github.com/user/repo/tree/branch voor vertakkingen (branches)), zoals het voorbeeld. Als je dit doet worden de bron paden op beide locaties gevestigd als een paar.",
 		"You can then..."		=> "You can then choose a path pair and this then becomes your new root path in ICEcoder.",
 		"The file manager..."		=> "The file manager then displays a new GitHub icon, which you can click on to perform and show a diff check between the 2 sources. These diffs can then be committed and pushed to the remote path at GitHub or cloned to your local path, to sync your files.",
-		"If you want..."		=> "If you want to set another root path, this can be done in the Settings screen."
+		"If you want..."		=> "Als je een ander root pad wilt instellen kan je dit doen in Bewerken > Opties."
 	),
 
 	"github" =>
@@ -184,7 +192,7 @@ in lib/config__settings.php",
 
 	"help" =>
 	array(
-		"shortcuts"			=> "snelkoppelingen",
+		"shortcuts"			=> "Sneltoetsen",
 		"Within document"		=> "Binnen het document",
 		"On Tabs"			=> "Op Tabs",
 		"Within file manager"		=> "Binnen bestandsbeheer",
@@ -262,10 +270,10 @@ in lib/config__settings.php",
 		"Replacing text in"		=> "Wijzig de tekst in",
 		"Cancelled tasks"		=> "Geannuleerde taken",
 		"Open previous files"		=> "Open voorgaande bestand(en)?",
-		"Please enter your..."		=> "Voer uw github token (uw persoonlijke toegang token of uw client/geheime tokens). Zie tooltip naast Github Auth Token op Help-scherm> Instellingen voor meer info",
-		"This will compare..."		=> "Dit zal verschillen bekijken tussen uw lokale folder en uw repo.",
+		"Please enter your..."		=> "Voer alstublieft uw GitHub token (personal access token of client/secret pair token). Zie ook de tooltip bij Github Auth Token binnen Bewerken > Opties voor meer informatie.",
+		"This will compare..."		=> "Er zullen vergelijkingen en veranderingen worden getoond tussen uw lokale map en de repo. Ok?",
 		"Please note for..."		=> "Let op: om de update goed te laten doorvoeren, moet je schrijfrechten hebben op alle bestanden en mappen van ICEcoder. Moet je deze versie van ICEcoder herstellen, dan vind je die in de map /tmp. Klik op ok om door te gaan met automatisch updaten, of druk op annuleren om af te breken. Voor een handmatige update kun je het zip bestand van de ICEcoder website downloaden.",
-		"You can start..."		=> "U kunt bug rapporteren aanzetten in: Help > Settings",
+		"You can start..."		=> "U kunt bug rapporteren aanzetten in: Bewerken > Opties",
 		"Error cannot find..."		=> "Fout: kan geen toegang krijgen of de bestands paden vinden",
 		"No new errors..."		=> "Geen nieuwe fouten gevonden",
 		"You have made..."		=> "Er zijn wijzigingen aangetroffen. Wilt u verder gaan zonder op te slaan?",
@@ -422,8 +430,20 @@ in lib/config__settings.php",
 
 	"updater" =>
 	array(
-		"Update appears to..."		=> "Update lijkt succesvol te zijn verlopen"
+		"Update appears to..."		=> "Update succesvol uitgevoerd!"
+	),
+    
+	"find-in-files" =>
+	array(
+		"Enter path to search in" => "Voer het door te zoeken pad in",
+		"Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)" => "Voer de te zoeken bestandstypen in, en scheid deze met een puntcomma (bijvoorbeeld: *.php;*.html;*.js)",
+		"Type of text" => "Type tekst",
+		"Fixed text" => "Fixed tekst",
+		"Regular expression" => "Reguliere expressie",
+		"Case sensitive" => "Case sensitive",
+		"Yes" => "Ja",
+		"No" => "Nee",
+		"Search" => "Zoek",
 	)
-
 );
 ?>
