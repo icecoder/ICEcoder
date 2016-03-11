@@ -97,6 +97,69 @@ if (isset($ftpSite)) {
 	}
 }
 
+// ============================
+// STITCH CHANGES INTO OUR FILE
+// ============================
+function stitchChanges($fileLines) {
+	global $ICEcoder;
+
+	// Get our JSON changes from difflib and put into an array
+	$changes = json_decode($_POST['changes'],true);
+
+	// For each of those changes, handle the same requests on file on server to to match client view seen
+	for ($i=0; $i<count($changes); $i++) {
+		// Replace line(s)
+		if ($changes[$i][0] == "replace") {
+			for ($j=$changes[$i][1]; $j<=$changes[$i][2]-1; $j++) {			// Take 1 from end
+				// Clear content of line
+				$fileLines[$j] = "";
+				// If it's the last line in the range
+				if ($j == $changes[$i][2]-1) {
+					// Replace the line with our replacement
+					// and if the last line, rtrim the new line from JS
+					$fileLines[$j] =
+						$j==count($fileLines)-1
+						? rtrim($changes[$i][5],$ICEcoder["lineEnding"])
+						: $changes[$i][5];
+				}
+			}
+		}
+		// Insert line(s)
+		if ($changes[$i][0] == "insert") {
+			for ($j=$changes[$i][1]-1; $j<=$changes[$i][2]-1; $j++) {		// Take 1 from start and end
+				// Start of file, insert change and then 1st line afterwards
+				if ($j == -1) {
+					$fileLines[0] = $changes[$i][5].$fileLines[0];
+				// Otherwise, middle or end of file
+				} else {
+					// Replace the line with our replacement
+					// and if the last line, prefix with line return and rtrim the new line from JS
+					$fileLines[$j] .= 
+						$j==count($fileLines)-1
+						? $ICEcoder["lineEnding"].rtrim($changes[$i][5],$ICEcoder["lineEnding"])
+						: $changes[$i][5];
+				}
+			}
+		}
+		// delete line(s)
+		if ($changes[$i][0] == "delete") {
+			for ($j=$changes[$i][1]; $j<=$changes[$i][2]-1; $j++) {			// Take 1 from end
+				// Clear content of line
+				$fileLines[$j] = "";
+				// If the last line, clear line returns from it
+				if ($j == count($fileLines)-1) {
+					$fileLines[$changes[$i][1]-1] = rtrim(rtrim(rtrim($fileLines[$changes[$i][1]-1],"\n"),"\r"),"\r\n");
+				}
+			}
+		}
+	}
+
+	// Set and return the newly stitched together content
+	$contents = implode("",$fileLines);
+
+	return $contents;
+}
+
 
 // ============
 // SAVING FILES
@@ -182,7 +245,7 @@ if (!$error && $_GET['action']=="save") {
 	// FILE CONTENT SAVING
 	// ===================
 
-	} elseif (isset($_POST['contents'])) {
+	} elseif (isset($_POST['changes']) || isset($_POST['contents'])) {
 		$finalAction = isset($_POST["newFileName"]) ? "save as" : "save";
 
 		// =================
@@ -201,13 +264,22 @@ if (!$error && $_GET['action']=="save") {
 
 				// FTP Saving
 				if (isset($ftpSite)) {
-					// Write our file contents
 					$ftpFilepath = ltrim($fileLoc."/".$fileName,"/");
+					if (isset($_POST['changes'])) {
+						// Get existing file contents as lines and stitch changes onto it
+						$contents = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot.$ftpFilepath, $ftpMode));
+						$contents = explode("\n",$contents);
+						$fileLines = file($file);
+						$contents = stitchChanges($fileLines);
+					} else {
+						$contents = $_POST['contents'];
+					}
+
 					// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
-					$contents = $_POST['contents'];
 					$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
 					$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
 					$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
+					// Write our file contents
 					if (!ftpWriteFile($ftpConn, $ftpFilepath, $contents, $ftpMode)) {
 						$doNext .= 'top.ICEcoder.message("Sorry, could not write '.$ftpFilepath.' at '.$ftpHost.'");';
 					}
@@ -215,6 +287,14 @@ if (!$error && $_GET['action']=="save") {
 					$doNext .= '(function() {var x=top.ICEcoder.openFileVersions; var y=top.ICEcoder.selectedTab-1; x[y] = "undefined" != typeof x[y] ? x[y]+1 : 1})();top.ICEcoder.updateVersionsDisplay();';
 				// Local saving
 				} else {
+					if (isset($_POST['changes'])) {
+						// Get existing file contents as lines and stitch changes onto it
+						$fileLines = file($file);
+						$contents = stitchChanges($fileLines);
+					} else {
+						$contents = $_POST['contents'];
+					}
+
 					// Newly created files have the perms set too
 					$setPerms = (!file_exists($file)) ? true : false;
 					// get old file contents, if file exists, and count stats on usage \n and \r there
@@ -224,8 +304,8 @@ if (!$error && $_GET['action']=="save") {
 					$unixNewLines = preg_match_all('/[^\r][\n]/u', $oldContents);
 					$windowsNewLines = preg_match_all('/[\r][\n]/u', $oldContents);
 					$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
+
 					// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
-					$contents = $_POST['contents'];
 					$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
 					$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
 					$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
@@ -378,6 +458,7 @@ if (!$error && $_GET['action']=="save") {
 						top.ICEcoder.setPreviousFiles();
 						setTimeout(function(){top.ICEcoder.indicateChanges()},4);
 						top.ICEcoder.savedPoints[top.ICEcoder.selectedTab-1] = cM.changeGeneration();
+						top.ICEcoder.savedContents[top.ICEcoder.selectedTab-1] = cM.getValue();
 						top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);';
 
 				// Run our custom processes
@@ -402,6 +483,7 @@ if (!$error && $_GET['action']=="save") {
 					/* Revert back to original */
 					cM.setValue(loadedFile.value);
 					top.ICEcoder.savedPoints[thisTab-1] = cM.changeGeneration();
+					top.ICEcoder.savedContents[thisTab-1] = cM.getValue();
 					top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1] = "'.$filemtime.'";
 					top.ICEcoder.openFileVersions[top.ICEcoder.selectedTab-1] = "'.$fileCountInfo['count'].'";
 					cM.clearHistory();
