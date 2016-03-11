@@ -175,6 +175,7 @@ if (action=="load") {
 				cM = top.ICEcoder.getcMInstance();
 				cM.setValue(document.getElementById('loadedFile').value);
 				top.ICEcoder.savedPoints[top.ICEcoder.selectedTab-1] = cM.changeGeneration();
+				top.ICEcoder.savedContents[top.ICEcoder.selectedTab-1] = cM.getValue();
 				top.document.getElementById('content').style.visibility='visible';
 				top.ICEcoder.switchTab(top.ICEcoder.selectedTab,'noFocus');
 				setTimeout(function(){top.ICEcoder.filesFrame.contentWindow.focus();},0);
