@@ -190,10 +190,7 @@ if (action=="load") {
 					$fileCountInfo = getVersionsCount($fileLoc,$fileName);
 					echo $fileCountInfo['count'];?>);
 				top.ICEcoder.updateVersionsDisplay();
-				
-				for (var i=0; i<cM.lineCount(); i++) {
-					top.ICEcoder.content.contentWindow.CodeMirror.doFold(cM.getLine(i).indexOf("{")>-1?"brace":"xml",null,"+","-",true)(cM, i);
-				}
+
 				top.ICEcoder.goToLine(<?php echo $lineNumber; ?>);
 				top.ICEcoder.loadingFile = false;
 			<?php
