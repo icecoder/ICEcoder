@@ -373,7 +373,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 }
 ?>
 	<script>
-	targetElem = top.ICEcoder.filesFrame.contentWindow.document.getElementById('<?php echo $_GET['location'];?>');
+	targetElem = top.ICEcoder.filesFrame.contentWindow.document.getElementById('<?php echo xssClean($_GET['location'],"html");?>');
 	newUL = document.createElement("ul");
 	newUL.style = "display: block";
 	locNest = targetElem.parentNode.parentNode;

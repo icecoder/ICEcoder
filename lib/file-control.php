@@ -175,6 +175,7 @@ if (action=="load") {
 				cM = top.ICEcoder.getcMInstance();
 				cM.setValue(document.getElementById('loadedFile').value);
 				top.ICEcoder.savedPoints[top.ICEcoder.selectedTab-1] = cM.changeGeneration();
+				top.ICEcoder.savedContents[top.ICEcoder.selectedTab-1] = cM.getValue();
 				top.document.getElementById('content').style.visibility='visible';
 				top.ICEcoder.switchTab(top.ICEcoder.selectedTab,'noFocus');
 				setTimeout(function(){top.ICEcoder.filesFrame.contentWindow.focus();},0);
@@ -189,10 +190,7 @@ if (action=="load") {
 					$fileCountInfo = getVersionsCount($fileLoc,$fileName);
 					echo $fileCountInfo['count'];?>);
 				top.ICEcoder.updateVersionsDisplay();
-				
-				for (var i=0; i<cM.lineCount(); i++) {
-					top.ICEcoder.content.contentWindow.CodeMirror.doFold(cM.getLine(i).indexOf("{")>-1?"brace":"xml",null,"+","-",true)(cM, i);
-				}
+
 				top.ICEcoder.goToLine(<?php echo $lineNumber; ?>);
 				top.ICEcoder.loadingFile = false;
 			<?php

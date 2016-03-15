@@ -5,9 +5,9 @@ include_once("settings-common.php");
 $text = $_SESSION['text'];
 $t = $text['bug-files-check'];
 
-$files		= explode(",",str_replace("|","/",$_GET['files']));
-$filesSizesSeen	= explode(",",$_GET['filesSizesSeen']);
-$maxLines	= $_GET['maxLines'];
+$files		= explode(",",str_replace("|","/",xssClean($_GET['files'],"html")));
+$filesSizesSeen	= explode(",",xssClean($_GET['filesSizesSeen'],"html"));
+$maxLines	= xssClean($_GET['maxLines'],"html");
 
 $result = "ok";
 
@@ -28,7 +28,7 @@ if ($result != "error") {
 
 	for ($i=0; $i<count($files); $i++) {
 		// If we have set a filesize value previously and it's different to now, there's new bugs
-		$fileSizesSeenArray = explode(",",$_GET['filesSizesSeen']);
+		$fileSizesSeenArray = explode(",",xssClean($_GET['filesSizesSeen'],"html"));
 		if ($fileSizesSeenArray[$i]!="null" && $fileSizesSeenArray[$i] != $filesSizesSeen[$i]) {
 			$result = "bugs";
 			$filesWithNewBugs++;

@@ -25,7 +25,9 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
 	echo '<script src="plugins/jshint/jshint-2.5.6.min.js?microtime='.microtime(true).'></script>';
 };?>
 <script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
-<script src="lib/foldcode.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldcode.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 	echo '<script src="plugins/emmet/emmet.min.js?microtime='.microtime(true).'"></script>';
@@ -71,10 +73,12 @@ if (array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","e
 .CodeMirror-foldmarker {font-family: arial; line-height: .3; color: #b00; cursor: pointer;
 	text-shadow: #fff 1px 1px 2px, #fff -1px -1px 2px, #fff 1px -1px 2px, #fff -1px 1px 2px;
 }
-.folds {display: inline-block; width: 13px}
-.fold {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
-.foldOn {background: #800; color: #ddd}
-.foldOff {background: rgba(255,255,255,0.04); color: #666}
+.CodeMirror-foldgutter {display: inline-block; width: 13px}
+.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
+.CodeMirror-foldgutter-open {background: rgba(255,255,255,0.04); color: #666}
+.CodeMirror-foldgutter-open:after {position: relative; top: -2px}
+.CodeMirror-foldgutter-folded {background: #800; color: #ddd}
+.CodeMirror-foldgutter-folded:after {position: relative; top: -3px}
 h2 {color: rgba(0,198,255,0.7)}
 .heading {color:#888}
 .cm-s-diff {left: 50%}
@@ -225,7 +229,9 @@ function createNewCMInstance(num) {
 	var cMOptions = {
 		mode: "application/x-httpd-php",
 		lineNumbers: true,
-		gutters: ["folds","CodeMirror-lint-markers","CodeMirror-linenumbers"],
+		gutters: ["CodeMirror-foldgutter","CodeMirror-lint-markers","CodeMirror-linenumbers"],
+		foldGutter: {gutter: "CodeMirror-foldgutter"},
+		foldOptions: {minFoldSize: 1},
 		lineWrapping: top.ICEcoder.lineWrapping,
 		indentWithTabs: top.ICEcoder.indentWithTabs,
 		indentUnit: top.ICEcoder.indentSize,
@@ -276,10 +282,6 @@ function createNewCMInstance(num) {
 	// Scroll
 	window['cM'+num]	.on("scroll", function(thisCM) {top.ICEcoder.cMonScroll(thisCM,'cM'+num)});
 	window['cM'+num+'diff']	.on("scroll", function(thisCM) {top.ICEcoder.cMonScroll(thisCM,'cM'+num+'diff')});
-
-	// Gutter click
-	window['cM'+num]	.on("gutterClick", function(thisCM, line, gutter, clickEvent) {CodeMirror.doFold(thisCM.getLine(line).indexOf("{")>-1 ? "brace" : "xml",null,"+","-",false)(thisCM, line);});
-	window['cM'+num+'diff']	.on("gutterClick", function(thisCM, line, gutter, clickEvent) {CodeMirror.doFold(thisCM.getLine(line).indexOf("{")>-1 ? "brace" : "xml",null,"+","-",false)(thisCM, line);});
 
 	// Input read
 	window['cM'+num]	.on("inputRead", function(thisCM) {top.ICEcoder.cMonInputRead(thisCM,'cM'+num)});
