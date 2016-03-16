@@ -182,6 +182,7 @@ if (!function_exists('array_replace_recursive')) {
 
 // Get number of versions total for a file
 function getVersionsCount($fileLoc,$fileName) {
+	global $context;
 	$count = 0;
 	$dateCounts = array();
 	// Establish the base, host and date dirs within...
@@ -199,7 +200,7 @@ function getVersionsCount($fileLoc,$fileName) {
 	for ($i=0; $i<count($backupDateDirs); $i++) {
 		$backupIndex = $backupDirBase.$backupDirHost."/".$backupDateDirs[$i]."/.versions-index";
 		// Have a .versions-index file? Get contents
-		if (file_exists($backupIndex)) {
+		if (file_exists($backupIndex) && is_readable($backupIndex)) {
 			$versionsInfo = file_get_contents($backupIndex,false,$context);
 			$versionsInfo = explode("\n",$versionsInfo);
 			// For each line, check if it's our file and if so, add the count to our $count value and $dateCount array
