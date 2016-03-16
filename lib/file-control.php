@@ -3,6 +3,14 @@ include("headers.php");
 include("settings.php");
 include("ftp-control.php");
 $t = $text['file-control'];
+
+// Load the LZ String PHP libs and define using LZString
+include(dirname(__FILE__)."/../LZCompressor/LZContext.php");
+include(dirname(__FILE__)."/../LZCompressor/LZData.php");
+include(dirname(__FILE__)."/../LZCompressor/LZReverseDictionary.php");
+include(dirname(__FILE__)."/../LZCompressor/LZString.php");
+include(dirname(__FILE__)."/../LZCompressor/LZUtil.php");
+use LZCompressor\LZString as LZString;
 ?>
 <?php if ($_SESSION['githubDiff']) { ?>
 <script src="github.js?microtime=<?php echo microtime(true);?>"></script>
@@ -102,7 +110,7 @@ if ($_GET['action']=="load") {
 			$encoding=ini_get("default_charset");
 			if($encoding=="")
 				$encoding="UTF-8";
-			echo '</script><textarea name="loadedFile" id="loadedFile">'.htmlentities($loadedFile,ENT_COMPAT,$encoding).'</textarea><script>';
+			echo '</script><textarea name="loadedFile" id="loadedFile">'.htmlentities(LZString::compressToBase64($loadedFile),ENT_COMPAT,$encoding).'</textarea><script>';
 			// Run our custom processes
 			include_once("../processes/on-file-load.php");
 		} else if (strpos($finfo,"image")===0) {
@@ -173,7 +181,7 @@ if (action=="load") {
 				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on ICEcoder's load)
 				top.ICEcoder.switchMode();
 				cM = top.ICEcoder.getcMInstance();
-				cM.setValue(document.getElementById('loadedFile').value);
+				cM.setValue(top.LZString.decompressFromBase64(document.getElementById('loadedFile').value));
 				top.ICEcoder.savedPoints[top.ICEcoder.selectedTab-1] = cM.changeGeneration();
 				top.ICEcoder.savedContents[top.ICEcoder.selectedTab-1] = cM.getValue();
 				top.document.getElementById('content').style.visibility='visible';
