@@ -80,6 +80,7 @@ $t = $text['index'];
 <script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="farbtastic/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="lib/difflib.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="lib/lz-string.min.js?microtime=<?php echo microtime(true);?>"></script>
 <link rel="stylesheet" href="farbtastic/farbtastic.css?microtime=<?php echo microtime(true);?>" type="text/css">
 </head>
 
