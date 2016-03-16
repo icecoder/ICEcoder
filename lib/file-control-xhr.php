@@ -4,6 +4,14 @@ include("settings.php");
 include("ftp-control.php");
 $t = $text['file-control'];
 
+// Load the LZ String PHP libs and define using LZString
+include(dirname(__FILE__)."/../LZCompressor/LZContext.php");
+include(dirname(__FILE__)."/../LZCompressor/LZData.php");
+include(dirname(__FILE__)."/../LZCompressor/LZReverseDictionary.php");
+include(dirname(__FILE__)."/../LZCompressor/LZString.php");
+include(dirname(__FILE__)."/../LZCompressor/LZUtil.php");
+use LZCompressor\LZString as LZString;
+
 // ===============================
 // SET OUR ERROR INFO TO A DEFAULT
 // ===============================
@@ -32,6 +40,14 @@ if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 	$errorStr = "true";
 	$errorMsg = $t['Sorry, bad filename...'];
 };
+
+// If we have changes or whole content, we need to LZ decompress them
+if (isset($_POST['changes'])) {
+	$_POST['changes'] = LZString::decompressFromBase64($_POST['changes']);
+}
+if (isset($_POST['contents'])) {
+	$_POST['contents'] = LZString::decompressFromBase64($_POST['contents']);
+}
 
 // If we have file(s) to work with...
 if (!$error) {
@@ -228,7 +244,7 @@ if (!$error && $_GET['action']=="save") {
 							/* console.log(\'Calling \'+saveURL+\' via XHR\'); */
 							xhr.open("POST",saveURL,true);
 							xhr.setRequestHeader(\'Content-type\', \'application/x-www-form-urlencoded\');
-							xhr.send(\'timeStart='.$_POST["timeStart"].'&file='.$fileURL.'&newFileName=\'+newFileName.replace(/\\\+/g,"%2B")+\'&contents=\'+top.ICEcoder.saveAsContent);
+							xhr.send(\'timeStart='.$_POST["timeStart"].'&file='.$fileURL.'&newFileName=\'+newFileName.replace(/\\\+/g,"%2B")+\'&contents=\'+encodeURIComponent(top.LZString.compressToBase64(top.ICEcoder.saveAsContent)));
 							top.ICEcoder.serverMessage("<b>'.$t['Saving'].'</b><br>" + "'.($finalAction == "Save" ? "newFileName" : "'".$fileName."'").'");
 						}
 					}
