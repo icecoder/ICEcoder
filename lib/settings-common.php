@@ -185,10 +185,18 @@ function getVersionsCount($fileLoc,$fileName) {
 	global $context;
 	$count = 0;
 	$dateCounts = array();
+	$backupDateDirs = array();
 	// Establish the base, host and date dirs within...
 	$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
 	$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
-	$backupDateDirs = scandir($backupDirBase.$backupDirHost,1);
+        // check if folder exists if local before enumerating contents
+        if(!isset($ftpsite)) {
+                if(file_exists($backupDirBase.$backupDirHost) && is_dir($backupDirBase.$backupDirHost)) {
+                        $backupDateDirs = scandir($backupDirBase.$backupDirHost,1);
+                }
+        } else {
+                $backupDateDirs = scandir($backupDirBase.$backupDirHost,1);
+        }
 	// Get rid of . and .. from date dirs array
 	for ($i=0; $i<count($backupDateDirs); $i++) {
 		if ($backupDateDirs[$i] == "." || $backupDateDirs[$i] == "..") {
