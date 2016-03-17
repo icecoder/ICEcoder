@@ -117,7 +117,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 $scanDir = $docRoot.$iceRoot;
 $location = "";
 echo '<div id="branch" style="display: none">';
-$location = str_replace("|","/",$_GET['location']);
+$location = str_replace("|","/",xssClean($_GET['location'],"html"));
 if ($location=="/") {$location = "";};
 
 $dirArray = $filesArray = $finalArray = array();
