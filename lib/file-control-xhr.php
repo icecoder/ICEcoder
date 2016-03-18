@@ -29,11 +29,11 @@ $saveType = isset($_GET['saveType']) ? strClean($_GET['saveType']) : "";
 
 // Establish the filename/new filename
 if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
-	$file = $_POST['newFileName'];	// New file
+	$file = strClean($_POST['newFileName']);	// New file
 } elseif (isset($_REQUEST['file'])) {
-	$file = $_REQUEST['file'];	// Existing file
+	$file = strClean($_REQUEST['file']);		// Existing file
 } else {
-	$file = "";			// Error
+	$file = "";					// Error
 	$finalAction = "nothing";
 	$doNext = "";
 	$error = true;
