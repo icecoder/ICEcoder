@@ -164,7 +164,7 @@ function stitchChanges($fileLines) {
 				$fileLines[$j] = "";
 				// If the last line, clear line returns from it
 				if ($j == count($fileLines)-1) {
-					$fileLines[$changes[$i][1]-1] = rtrim(rtrim(rtrim($fileLines[$changes[$i][1]-1],"\n"),"\r"),"\r\n");
+					$fileLines[$changes[$i][1]-1] = rtrim(rtrim($fileLines[$changes[$i][1]-1],"\r"),"\n");
 				}
 			}
 		}
@@ -282,11 +282,25 @@ if (!$error && $_GET['action']=="save") {
 				if (isset($ftpSite)) {
 					$ftpFilepath = ltrim($fileLoc."/".$fileName,"/");
 					if (isset($_POST['changes'])) {
-						// Get existing file contents as lines and stitch changes onto it
-						$contents = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot.$ftpFilepath, $ftpMode));
-						$contents = explode("\n",$contents);
-						$fileLines = file($file);
+						// Get existing file contents as lines
+						$loadedFile = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot.$fileLoc."/".$fileName, $ftpMode));
+						$fileLines = explode("\n",$loadedFile);
+						// Need to add a new line at the end of each because explode will lose them,
+						// want want to end up with same array that 'file($file)' produces for a local file
+						// - it keeps the line endings at the end of each array item
+						for ($i=0; $i<count($fileLines); $i++) {
+							if ($i<count($fileLines)-1) {
+								$fileLines[$i] .= $ICEcoder["lineEnding"];
+							}
+						}
+						// Stitch changes onto it
 						$contents = stitchChanges($fileLines);
+
+						// get old file contents and count stats on usage \n and \r there
+						// in this case we can keep line endings, which file had before, without
+						// making code version control systems going crazy about line endings change in whole file. 
+						$unixNewLines = preg_match_all('/[^\r][\n]/u', $loadedFile);
+						$windowsNewLines = preg_match_all('/[\r][\n]/u', $loadedFile);
 					} else {
 						$contents = $_POST['contents'];
 					}
@@ -295,6 +309,13 @@ if (!$error && $_GET['action']=="save") {
 					$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
 					$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
 					$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
+					if (isset($_POST['changes']) && ($unixNewLines > 0) || ($windowsNewLines > 0)){
+						if ($unixNewLines > $windowsNewLines){
+							$contents = str_replace($ICEcoder["lineEnding"], "\n", $contents);
+						} elseif ($windowsNewLines > $unixNewLines){
+							$contents = str_replace($ICEcoder["lineEnding"], "\r\n", $contents);
+						}
+					}
 					// Write our file contents
 					if (!ftpWriteFile($ftpConn, $ftpFilepath, $contents, $ftpMode)) {
 						$doNext .= 'top.ICEcoder.message("Sorry, could not write '.$ftpFilepath.' at '.$ftpHost.'");';
@@ -307,25 +328,26 @@ if (!$error && $_GET['action']=="save") {
 						// Get existing file contents as lines and stitch changes onto it
 						$fileLines = file($file);
 						$contents = stitchChanges($fileLines);
+
+						// get old file contents, and count stats on usage \n and \r there
+						// in this case we can keep line endings, which file had before, without
+						// making code version control systems going crazy about line endings change in whole file.
+						$oldContents = file_exists($file)?file_get_contents($file):'';
+						$unixNewLines = preg_match_all('/[^\r][\n]/u', $oldContents);
+						$windowsNewLines = preg_match_all('/[\r][\n]/u', $oldContents);
 					} else {
 						$contents = $_POST['contents'];
 					}
 
 					// Newly created files have the perms set too
 					$setPerms = (!file_exists($file)) ? true : false;
-					// get old file contents, if file exists, and count stats on usage \n and \r there
-					// in this case we can keep line endings, which file had before, without
-					// making code version control systems going crazy about line endings change in whole file. 
-					$oldContents = file_exists($file)?file_get_contents($file):'';
-					$unixNewLines = preg_match_all('/[^\r][\n]/u', $oldContents);
-					$windowsNewLines = preg_match_all('/[\r][\n]/u', $oldContents);
 					$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
 
 					// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 					$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
 					$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
 					$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
-					if (($unixNewLines > 0) || ($windowsNewLines > 0)){
+					if (isset($_POST['changes']) && ($unixNewLines > 0) || ($windowsNewLines > 0)){
 						if ($unixNewLines > $windowsNewLines){
 							$contents = str_replace($ICEcoder["lineEnding"], "\n", $contents);
 						} elseif ($windowsNewLines > $unixNewLines){
