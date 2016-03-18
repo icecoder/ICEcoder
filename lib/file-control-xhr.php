@@ -528,7 +528,7 @@ if (!$error && $_GET['action']=="save") {
 // ==========
 
 if (!$error && $_GET['action']=="newFolder") {
-	if (!$demoMode && ($ftpSite || is_writable($docRoot.$fileLoc))) {
+	if (!$demoMode && (isset($ftpSite) || is_writable($docRoot.$fileLoc))) {
 		$updateFM = false;
 		// FTP
 		if (isset($ftpSite)) {
@@ -571,7 +571,7 @@ if (!$error && $_GET['action']=="move") {
 		$tgtDir = $docRoot.$fileLoc."/".$fileName;
 	}
 	if ($srcDir != $tgtDir && $fileLoc != "") {
-		if (!$demoMode && ($ftpSite || is_writable($srcDir))) {
+		if (!$demoMode && (isset($ftpSite) || is_writable($srcDir))) {
 			$updateFM = false;
 			// FTP
 			if (isset($ftpSite)) {
@@ -613,7 +613,7 @@ if (!$error && $_GET['action']=="move") {
 // ==================
 
 if (!$error && $_GET['action']=="rename") {
-	if (!$demoMode && ($ftpSite || is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName']))))) {
+	if (!$demoMode && (isset($ftpSite) || is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName']))))) {
 		$updateFM = false;
 		// FTP
 		if (isset($ftpSite)) {
@@ -887,7 +887,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="getRemoteFile") {
 // =======================
 
 if (!$error && $_GET['action']=="perms") {
-	if (!$demoMode && ($ftpSite || is_writable($file))) {
+	if (!$demoMode && (isset($ftpSite) || is_writable($file))) {
 		$updateFM = false;
 		// FTP
 		if (isset($ftpSite)) {
@@ -933,7 +933,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="checkExists") {
 // ===================
 
 // No $filemtime yet? Get it now!
-if (!isset($filemtime)) {
+if (!isset($filemtime) && !is_dir($file)) {
 	$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 }
 // Set $timeStart, use 0 if not available
@@ -953,7 +953,7 @@ if (isset($ftpSite)) {
 } else {
 	$itemAbsPath = $file;
 	$itemPath = dirname($file);
-	$itemBytes = filesize($file);
+	$itemBytes = is_dir($file) ? null : filesize($file);
 	$itemType = (file_exists($file) ? (is_dir($file) ? "dir" : "file") : "unknown");
 	$itemExists = (file_exists($file) ? "true" : "false");
 }
