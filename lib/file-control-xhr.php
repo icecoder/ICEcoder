@@ -917,7 +917,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="checkExists") {
 // ===================
 
 // No $filemtime yet? Get it now!
-if (!isset($filemtime)) {
+if (!isset($filemtime) && !is_dir($file)) {
 	$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 }
 // Set $timeStart, use 0 if not available
@@ -937,7 +937,7 @@ if (isset($ftpSite)) {
 } else {
 	$itemAbsPath = $file;
 	$itemPath = dirname($file);
-	$itemBytes = filesize($file);
+	$itemBytes = is_dir($file) ? null : filesize($file);
 	$itemType = (file_exists($file) ? (is_dir($file) ? "dir" : "file") : "unknown");
 	$itemExists = (file_exists($file) ? "true" : "false");
 }
