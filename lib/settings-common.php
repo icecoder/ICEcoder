@@ -191,7 +191,7 @@ function getVersionsCount($fileLoc,$fileName) {
 	$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
         // check if folder exists if local before enumerating contents
         if(!isset($ftpSite)) {
-                if(file_exists($backupDirBase.$backupDirHost) && is_dir($backupDirBase.$backupDirHost)) {
+                if(is_dir($backupDirBase.$backupDirHost)) {
                         $backupDateDirs = scandir($backupDirBase.$backupDirHost,1);
                 }
         } else {
