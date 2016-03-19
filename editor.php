@@ -295,6 +295,10 @@ function createNewCMInstance(num) {
 	window['cM'+num]	.on("mousedown", function(thisCM) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num)});
 	window['cM'+num+'diff']	.on("mousedown", function(thisCM) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num+'diff')});
 
+	// Drag Over
+	window['cM'+num]	.on("dragover", function(thisCM) {top.ICEcoder.cMonDragOver(thisCM,event,'cM'+num)});
+	window['cM'+num+'diff']	.on("dragover", function(thisCM) {top.ICEcoder.cMonDragOver(thisCM,event,'cM'+num+'diff')});
+
 	// Render line
 	window['cM'+num]	.on("renderLine", function(thisCM, line, element) {top.ICEcoder.cMonRenderLine(thisCM,'cM'+num,line,element)});
 	window['cM'+num+'diff']	.on("renderLine", function(thisCM, line, element) {top.ICEcoder.cMonRenderLine(thisCM,'cM'+num+'diff',line,element)});
