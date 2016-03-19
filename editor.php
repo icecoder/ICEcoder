@@ -5,7 +5,7 @@ $t = $text['editor'];
 ?>
 <!DOCTYPE html>
 
-<html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor');top.ICEcoder.canResizeFilesW()}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor')}">
+<html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.mouseDownInCM=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor');top.ICEcoder.canResizeFilesW()}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor')}">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -286,6 +286,14 @@ function createNewCMInstance(num) {
 	// Input read
 	window['cM'+num]	.on("inputRead", function(thisCM) {top.ICEcoder.cMonInputRead(thisCM,'cM'+num)});
 	window['cM'+num+'diff']	.on("inputRead", function(thisCM) {top.ICEcoder.cMonInputRead(thisCM,'cM'+num+'diff')});
+
+	// Gutter Click
+	window['cM'+num]	.on("gutterClick", function(thisCM,line,gutter,evt) {top.ICEcoder.cMonGutterClick(thisCM,line,gutter,evt,'cM'+num)});
+	window['cM'+num+'diff']	.on("gutterClick", function(thisCM,line,gutter,evt) {top.ICEcoder.cMonGutterClick(thisCM,line,gutter,evt,'cM'+num+'diff')});
+
+	// Mouse Down
+	window['cM'+num]	.on("mousedown", function(thisCM) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("mousedown", function(thisCM) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num+'diff')});
 
 	// Render line
 	window['cM'+num]	.on("renderLine", function(thisCM, line, element) {top.ICEcoder.cMonRenderLine(thisCM,'cM'+num,line,element)});

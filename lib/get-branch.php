@@ -117,7 +117,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 $scanDir = $docRoot.$iceRoot;
 $location = "";
 echo '<div id="branch" style="display: none">';
-$location = str_replace("|","/",$_GET['location']);
+$location = str_replace("|","/",xssClean($_GET['location'],"html"));
 if ($location=="/") {$location = "";};
 
 $dirArray = $filesArray = $finalArray = array();
@@ -182,7 +182,7 @@ for ($i=0;$i<count($finalArray);$i++) {
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
 	$loadParam = $type == "folder" ? "true" : "false";
-	echo "<li class=\"".$class."\" draggable=\"false\" ondrag=\"top.ICEcoder.draggingWithKeyTest(event);if(top.ICEcoder.getcMInstance()){top.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? top.ICEcoder.getcMInstance().focus() : top.ICEcoder.getcMdiffInstance().focus()}\" ondragend=\"top.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;top.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;top.ICEcoder.overFileFolder('$type','')\" ".
+	echo "<li class=\"".$class."\" draggable=\"false\" ondragstart=\"top.ICEcoder.addDefaultDragData(this,event)\" ondrag=\"top.ICEcoder.draggingWithKeyTest(event);if(top.ICEcoder.getcMInstance()){top.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? top.ICEcoder.getcMInstance().focus() : top.ICEcoder.getcMdiffInstance().focus()}\" ondragend=\"top.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;top.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;top.ICEcoder.overFileFolder('$type','')\" ".
 
 	(($type == "folder")?"ondragover=\"if(parentNode.nextSibling && parentNode.nextSibling.tagName != 'UL' && top.ICEcoder.thisFileFolderLink != this.childNodes[1].id) {top.ICEcoder.openCloseDir(this,true);}\"":"").
 

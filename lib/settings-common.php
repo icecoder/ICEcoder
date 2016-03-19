@@ -182,12 +182,21 @@ if (!function_exists('array_replace_recursive')) {
 
 // Get number of versions total for a file
 function getVersionsCount($fileLoc,$fileName) {
+	global $context;
 	$count = 0;
 	$dateCounts = array();
+	$backupDateDirs = array();
 	// Establish the base, host and date dirs within...
 	$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
 	$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
-	$backupDateDirs = scandir($backupDirBase.$backupDirHost,1);
+        // check if folder exists if local before enumerating contents
+        if(!isset($ftpSite)) {
+                if(is_dir($backupDirBase.$backupDirHost)) {
+                        $backupDateDirs = scandir($backupDirBase.$backupDirHost,1);
+                }
+        } else {
+                $backupDateDirs = scandir($backupDirBase.$backupDirHost,1);
+        }
 	// Get rid of . and .. from date dirs array
 	for ($i=0; $i<count($backupDateDirs); $i++) {
 		if ($backupDateDirs[$i] == "." || $backupDateDirs[$i] == "..") {
@@ -199,7 +208,7 @@ function getVersionsCount($fileLoc,$fileName) {
 	for ($i=0; $i<count($backupDateDirs); $i++) {
 		$backupIndex = $backupDirBase.$backupDirHost."/".$backupDateDirs[$i]."/.versions-index";
 		// Have a .versions-index file? Get contents
-		if (file_exists($backupIndex)) {
+		if (file_exists($backupIndex) && is_readable($backupIndex)) {
 			$versionsInfo = file_get_contents($backupIndex,false,$context);
 			$versionsInfo = explode("\n",$versionsInfo);
 			// For each line, check if it's our file and if so, add the count to our $count value and $dateCount array

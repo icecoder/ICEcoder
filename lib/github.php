@@ -53,8 +53,8 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			<script>
 			// Start our github object, establish this repo & file path
 			var github = new Github({token: "'.$_SESSION['githubAuthToken'].'", auth: "oauth"});
-			var thisRepo = "'.$_GET['repo'].'";
-			var thisFilePath = "'.$_GET['filePath'].'";
+			var thisRepo = "'.xssClean($_GET['repo'],"html").'";
+			var thisFilePath = "'.xssClean($_GET['filePath'],"html").'";
 
 			// Start our repo and read the data in, then update diff pane with that
 			var repo = github.getRepo(thisRepo.split("|")[0], thisRepo.split("|")[1]);
