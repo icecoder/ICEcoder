@@ -16,7 +16,7 @@ class LZUtil
     */
     public static $keyStrBase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
     public static $keyStrUriSafe = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$";
-    private static $baseReverseDic = [];
+    private static $baseReverseDic = array();
 
     /**
      * @param string $alphabet
@@ -26,7 +26,7 @@ class LZUtil
     public static function getBaseValue($alphabet, $character)
     {
         if(!array_key_exists($alphabet, self::$baseReverseDic)) {
-            self::$baseReverseDic[$alphabet] = [];
+            self::$baseReverseDic[$alphabet] = array();
             for($i=0; $i<strlen($alphabet); $i++) {
                 self::$baseReverseDic[$alphabet][$alphabet{$i}] = $i;
             }
@@ -107,6 +107,4 @@ class LZUtil
     public static function utf8_strlen($str) {
         return mb_strlen($str, 'UTF-8');
     }
-
-
 }

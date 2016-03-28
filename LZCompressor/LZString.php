@@ -25,6 +25,18 @@ class LZString
         });
     }
 
+    public static function compressToUTF16($input) {
+        return self::_compress($input, 15, function($a) {
+            return LZUtil16::fromCharCode($a+32);
+        }) . LZUtil16::utf16_chr(32);
+    }
+
+    public static function decompressFromUTF16($input) {
+        return self::_decompress($input, 16384, function($feed, $index) {
+            return LZUtil16::charCodeAt($feed, $index)-32;
+        });
+    }
+
     /**
      * @param string $uncompressed
      * @return string
@@ -273,7 +285,7 @@ class LZString
             }
 
             $result .= $entry;
-            $dictionary->addEntry($w . $entry{0});
+            $dictionary->addEntry($w . LZUtil::utf8_charAt($entry, 0));
             $w = $entry;
 
             $enlargeIn--;

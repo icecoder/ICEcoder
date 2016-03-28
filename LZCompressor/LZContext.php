@@ -6,12 +6,12 @@ class LZContext
     /**
      * @var array
      */
-    public $dictionary = [];
+    public $dictionary = array();
 
     /**
      * @var array
      */
-    public $dictionaryToCreate = [];
+    public $dictionaryToCreate = array();
 
     /**
      * @var string

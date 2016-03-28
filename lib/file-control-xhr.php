@@ -10,6 +10,7 @@ include(dirname(__FILE__)."/../LZCompressor/LZData.php");
 include(dirname(__FILE__)."/../LZCompressor/LZReverseDictionary.php");
 include(dirname(__FILE__)."/../LZCompressor/LZString.php");
 include(dirname(__FILE__)."/../LZCompressor/LZUtil.php");
+include(dirname(__FILE__)."/../LZCompressor/LZUtil16.php");
 use LZCompressor\LZString as LZString;
 
 // ===============================
