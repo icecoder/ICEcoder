@@ -12,7 +12,7 @@ namespace LZCompressor;
 class LZReverseDictionary
 {
 
-    public $entries = [0, 1 ,2];
+    public $entries = array(0, 1 ,2);
 
     public function size() {
         return count($this->entries);
