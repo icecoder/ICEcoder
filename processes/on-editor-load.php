@@ -25,8 +25,10 @@ top.ICEcoder.switchMode = function(mode) {
 	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
 
 	if (cM && mode) {
-		cM.setOption("mode",mode);
-		cMdiff.setOption("mode",mode);
+		if (mode != cM.getOption("mode")) {
+			cM.setOption("mode",mode);
+			cMdiff.setOption("mode",mode);
+		}
 	} else if (cM && fileName) {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
@@ -55,10 +57,12 @@ top.ICEcoder.switchMode = function(mode) {
 			: fileExt == "scss"			? "text/x-sass"
 			: "application/x-httpd-php";
 
-		cM.setOption("mode",mode);
-		cM.setOption("lint",(fileExt == "js" || fileExt == "json") && top.ICEcoder.codeAssist ? true : false);
-		cMdiff.setOption("mode",mode);
-		cMdiff.setOption("lint",(fileExt == "js" || fileExt == "json") && top.ICEcoder.codeAssist ? true : false);
+		if (mode != cM.getOption("mode")) {
+			cM.setOption("mode",mode);
+			cM.setOption("lint",(fileExt == "js" || fileExt == "json") && top.ICEcoder.codeAssist ? true : false);
+			cMdiff.setOption("mode",mode);
+			cMdiff.setOption("lint",(fileExt == "js" || fileExt == "json") && top.ICEcoder.codeAssist ? true : false);
+		}
 	}
 }
 
