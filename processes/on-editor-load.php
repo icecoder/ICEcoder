@@ -53,7 +53,6 @@ top.ICEcoder.switchMode = function(mode) {
 			: fileExt == "go"			? "text/x-go"
 			: fileExt == "lua"			? "text/x-lua"
 			: fileExt == "pl"			? "text/x-perl"
-			: fileExt == "rs"			? "text/x-rustsrc"
 			: fileExt == "scss"			? "text/x-sass"
 			: "application/x-httpd-php";
 
@@ -71,7 +70,7 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 	var comments, startLine, endLine, commentCH, commentBS, commentBE;
 
 	// Language specific commenting
-	if (["JavaScript","CoffeeScript","PHP","Python","Ruby","CSS","SQL","Erlang","Julia","Java","YAML","C","C++","C#","Go","Lua","Perl","Rust","Sass"].indexOf(top.ICEcoder.caretLocType)>-1) {
+	if (["JavaScript","CoffeeScript","PHP","Python","Ruby","CSS","SQL","Erlang","Julia","Java","YAML","C","C++","C#","Go","Lua","Perl","Sass"].indexOf(top.ICEcoder.caretLocType)>-1) {
 
 		comments = {
 			"JavaScript"	: ["// ", "/* ", " */"],
@@ -91,7 +90,6 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 			"Go"		: ["// ", "/* ", " */"],
 			"Lua"		: ["-- ", "--[[ ", " ]]"],
 			"Perl"		: ["# ", "/* ", " */"],
-			"Rust"		: ["// ", "/* ", " */"],
 			"Sass"		: ["// ", "/* ", " */"]
 		}
 
@@ -163,7 +161,7 @@ top.ICEcoder.updateNestingIndicator = function() {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
 	}
-	if (thisCM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","ino","cs","go","lua","pl","rs","scss"].indexOf(fileExt)==-1) {
+	if (thisCM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","ino","cs","go","lua","pl","scss"].indexOf(fileExt)==-1) {
 		testToken = thisCM.getTokenAt({line:thisCM.lineCount(),ch:thisCM.lineInfo(thisCM.lineCount()-1).text.length});
 		nestOK = testToken.type && testToken.type.indexOf("error") == -1 ? true : false;
 	}
@@ -213,7 +211,6 @@ top.ICEcoder.caretLocationType = function() {
 			: fileExt == "go"	? "Go"
 			: fileExt == "lua"	? "Lua"
 			: fileExt == "pl"	? "Perl"
-			: fileExt == "rs"	? "Rust"
 			: fileExt == "scss"	? "Sass"
 			: "Content";
 	}

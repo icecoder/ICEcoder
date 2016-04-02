@@ -16,7 +16,7 @@ $t = $text['editor'];
 <!--
 codemirror-compressed.js
 incls:	codemirror
-modes:	clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, markdown, perl, php, python, ruby, rust, sass, sql, xml, yaml
+modes:	clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, markdown, perl, php, python, ruby, sass, sql, xml, yaml
 addon:	brace-fold, closebrackets, closetag, css-hint, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, searchcursor, show-hint, sql-hint, trailingspace, xml-fold, xml-hint
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
