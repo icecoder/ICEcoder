@@ -21,6 +21,7 @@ $ICEcoderUserSettings = array(
 "bannedFiles"		=> array(),
 "bannedPaths"		=> array("/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"),
 "allowedIPs"		=> array("*"),
+"autoLogoutMins"	=> 0,
 "theme"			=> "default",
 "fontSize"		=> "13px",
 "lineWrapping"		=> true,
