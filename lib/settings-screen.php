@@ -309,6 +309,10 @@ function findSequence(goal) {
 	<?php echo $t['ip addresses'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>">[?]</span><br>
 	<input type="text" onkeydown="showButton()" name="allowedIPs" style="width: 660px" value="<?php echo implode(", ",$ICEcoder["allowedIPs"]); ?>">
 	<br><br>
+
+	<?php echo $t['auto-logout after'];?> <span class="info" title="<?php echo $t['Set 0 to...'];?>">[?]</span><br>
+	<input type="text" onkeydown="showButton()" name="autoLogoutMins" style="width: 100px" value="<?php echo $ICEcoder["autoLogoutMins"]; ?>"> <span style="display: inline-block; padding: 2px 5px"><?php echo $t['mins of inactivity...'];?></span>
+	<br><br>
 </div>
 
 <script>
