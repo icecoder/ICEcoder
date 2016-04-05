@@ -112,6 +112,12 @@ $text = array(
 
 // /LIB
 
+	"auto-logout-warning" =>
+	array(
+		"Auto Logout Warning"		=> "Auto logout warning",
+		"You will be..."		=> "You will be logged out after 60 seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section."
+	),
+
 	"backup-versions" =>
 	array(
 		"backup"			=> "backup",
@@ -415,6 +421,8 @@ $text = array(
 		"banned files/folders"		=> "banned files/folders",
 		"banned paths"			=> "banned paths",
 		"ip addresses"			=> "ip addresses",
+		"auto-logout after"		=> "auto-logout after",
+		"mins of inactivity..."		=> "mins of inactivity if no unsaved files",
 		"Slash prefixed comma..."	=> "Slash prefixed, comma delimited",
 		"Comma delimited"		=> "Comma delimited",
 		"style"				=> "style",
@@ -428,6 +436,7 @@ $text = array(
 		"plugin panel aligned"		=> "plugin panel aligned",
 		"file manager"			=> "file manager",
 		"root"				=> "root",
+		"Set 0 to..."			=> "Set 0 to disable",
 		"Slash prefixed"		=> "Slash prefixed",
 		"bug reporting"			=> "bug reporting",
 		"check in files"		=> "check in files",
