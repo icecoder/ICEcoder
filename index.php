@@ -37,7 +37,7 @@ if ($ICEcoder["checkUpdates"]) {
 $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 ?>
 <!DOCTYPE html>
-<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.mouseDownInCM=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}" onMouseWheel="if (top.ICEcoder.getcMInstance() && !top.ICEcoder.getcMInstance().hasFocus() && !top.ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? top.ICEcoder.nextTab() : top.ICEcoder.previousTab();}">
+<html onMouseDown="top.ICEcoder.mouseDown=true; top.ICEcoder.resetAutoLogoutTimer();" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.mouseDownInCM=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top'); top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.canResizeFilesW()}" onMouseWheel="top.ICEcoder.resetAutoLogoutTimer(); if (top.ICEcoder.getcMInstance() && !top.ICEcoder.getcMInstance().hasFocus() && !top.ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? top.ICEcoder.nextTab() : top.ICEcoder.previousTab();}">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?></title>
 <!--Updated via settings so must remain 1st stylesheet//-->
@@ -53,12 +53,14 @@ $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
 
 window.onbeforeunload = function() {
-	for(var i=1;i<=ICEcoder.savedPoints.length;i++) {
-		if (ICEcoder.savedPoints[i-1]!=top.ICEcoder.getcMInstance(i).changeGeneration()) {
-			return "<?php echo $t['You have some...'];?>.";
+	if(top.ICEcoder.autoLogoutTimer < top.ICEcoder.autoLogoutMins*60) {
+		for(var i=1;i<=ICEcoder.savedPoints.length;i++) {
+			if (ICEcoder.savedPoints[i-1]!=top.ICEcoder.getcMInstance(i).changeGeneration()) {
+				return "<?php echo $t['You have some...'];?>.";
+			}
 		}
+		return "<?php echo $t['Are you sure...'];?>";
 	}
-	return "<?php echo $t['Are you sure...'];?>";
 }
 
 t = {
@@ -92,6 +94,7 @@ $t = $text['index'];
 		}
 	echo "];";
 	echo "top.ICEcoder.theme = '".($ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"])."';".
+		"top.ICEcoder.autoLogoutMins = ".$ICEcoder["autoLogoutMins"].";".
 		"top.ICEcoder.fontSize = '".$ICEcoder["fontSize"]."';".
 		"top.ICEcoder.openLastFiles = ".($ICEcoder["openLastFiles"] ? 'true' : 'false').";".
 		"top.ICEcoder.updateDiffOnSave = ".($ICEcoder["updateDiffOnSave"] ? 'true' : 'false').";".
