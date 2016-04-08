@@ -249,6 +249,17 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 		fwrite($fh, $settingsContents);
 		fclose($fh);
+		// Create a duplicate version for the IP address of the domain if it doesn't exist yet
+		$serverAddr = $_SERVER['SERVER_ADDR'];
+		if ($serverAddr == "1" || $serverAddr == "::1") {
+			$serverAddr = "127.0.0.1";
+		}
+		$settingsFileAddr = 'config-'.$username.str_replace(".","_",$serverAddr).'.php';
+		if (!file_exists(dirname(__FILE__)."/".$settingsFileAddr)) {
+			if (!copy(dirname(__FILE__)."/".$settingsFile, dirname(__FILE__)."/".$settingsFileAddr)) {
+				die("Couldn't create $settingsFileAddr. Maybe you need write permissions on the lib folder?");
+			}
+		}
 		// Set the session user level
 		if ($ICEcoder["multiUser"]) {
 			$_SESSION['username']=$_POST['username'];
