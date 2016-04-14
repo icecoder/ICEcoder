@@ -67,7 +67,15 @@ for ($i=0; $i<count($allFiles); $i++) {
 if ($_GET['action']=="load") {
 	echo 'action="load";';
 	$lineNumber = max(isset($_REQUEST['lineNumber'])?intval($_REQUEST['lineNumber']):1, 1);
-	if (isset($ftpSite) || file_exists($file)) {
+	// Check this file isn't on the banned list at all
+	$canOpen = true;
+	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
+		if($_SESSION['bannedFiles'][$i] != "" && strpos($file,$_SESSION['bannedFiles'][$i])!==false) {$canOpen = false;}
+	}
+
+	if (!$canOpen) {
+		echo 'fileType="nothing"; top.ICEcoder.message(\''.$t['Sorry, could not...'].' '.$fileLoc."/".$fileName.'\');';
+	} elseif (isset($ftpSite) || file_exists($file)) {
 		$finfo = "text";
 		// Determine what to do based on mime type
 		if (!isset($ftpSite) && function_exists('finfo_open')) {
