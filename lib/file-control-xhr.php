@@ -72,6 +72,8 @@ if (!$error) {
 
 		// Die if the file requested isn't something we expect
 		if(
+			// On the banned file/dir list
+			($_SESSION['bannedFiles'][$i] != "" && strpos($allFiles[$i],$_SESSION['bannedFiles'][$i])!==false) ||
 			// A local folder that isn't the doc root or starts with the doc root
 			($_GET['action']!="getRemoteFile" && !isset($ftpSite) && 
 				rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
@@ -79,7 +81,7 @@ if (!$error) {
 			) ||
 			// Or a remote URL that doesn't start http
 			($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
-			) {
+		) {
 			$error = true;
 			$errorStr = "true";
 			$errorMsg = "Sorry! - problem with file requested";
