@@ -297,7 +297,7 @@ function findSequence(goal) {
 
 <div id="securitySection" class="section" style="display: none">
 	<h2><?php echo $t['security'];?></h2><br>
-	<?php echo $t['banned files/folders'];?><br>
+	<?php echo $t['banned files/folders'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>">[?]</span><br>
 	<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" style="width: 660px" value="<?php echo implode(", ",$ICEcoder["bannedFiles"]); ?>">
 	<br><br>
 
