@@ -57,8 +57,11 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 			}
 		?>
 		<?php
+		if ($ICEcoder["password"] == "" && !$ICEcoder["multiUser"]) {
+			echo '<div class="text" style="position: relative"><input type="checkbox" name="disableFurtherRegistration" value="true" style="position: absolute; margin: -1px 0 0 -20px" checked> '.$t['disable further registrations'].'</div>';
+		}
 		if ($ICEcoder["password"] == "" || $ICEcoder["multiUser"]) {
-			echo '<div class="text"><input type="checkbox" name="checkUpdates" value="true" checked> '.$t['auto-check for updates'].'</div>';
+			echo '<div class="text" style="position: relative"><input type="checkbox" name="checkUpdates" value="true" style="position: absolute; margin: -1px 0 0 -20px" checked> '.$t['auto-check for updates'].'</div>';
 		}
 		if (!$ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\''.$t['To put into...'].'\')">'.$t['multi-user'].'?</a></div>';};
 	}
