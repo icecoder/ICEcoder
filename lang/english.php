@@ -312,6 +312,7 @@ $text = array(
 		"login"				=> "login",
 		"To disable registration..."	=> "To disable registration mode, open the settings menu or open lib/config___settings.php and change enableRegistration to false then reload this page",
 		"Registration mode enabled"	=> "Registration mode enabled",
+		"disable further registrations"	=> "disable further registrations",
 		"auto-check for updates"	=> "auto-check for updates",
 		"To put into..."		=> "To put into multi-user mode, open the settings menu or open lib/config___settings.php and change multiUser to true then reload this page",
 		"multi-user"			=> "multi-user"
