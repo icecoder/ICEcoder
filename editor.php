@@ -228,7 +228,7 @@ function createNewCMInstance(num) {
 	// Define our CodeMirror options
 	var cMOptions = {
 		mode: "application/x-httpd-php",
-		lineNumbers: true,
+		lineNumbers: top.ICEcoder.lineNumbers,
 		gutters: ["CodeMirror-foldgutter","CodeMirror-lint-markers","CodeMirror-linenumbers"],
 		foldGutter: {gutter: "CodeMirror-foldgutter"},
 		foldOptions: {minFoldSize: 1},
@@ -236,12 +236,12 @@ function createNewCMInstance(num) {
 		indentWithTabs: top.ICEcoder.indentWithTabs,
 		indentUnit: top.ICEcoder.indentSize,
 		tabSize: top.ICEcoder.indentSize,
-		matchBrackets: true,
+		matchBrackets: top.ICEcoder.matchBrackets,
 		electricChars: false,
-		autoCloseTags: true,
-		autoCloseBrackets: true,
+		autoCloseTags: top.ICEcoder.autoCloseTags,
+		autoCloseBrackets: top.ICEcoder.autoCloseBrackets,
 		highlightSelectionMatches: true,
-		showTrailingSpace: true,
+		showTrailingSpace: top.ICEcoder.showTrailingSpace,
 		lint: false,
 		keyMap: "ICEcoder"
 	};
