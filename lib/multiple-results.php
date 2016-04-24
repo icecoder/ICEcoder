@@ -130,7 +130,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 				$foundInSelFile = false;
 				// Exclude banned files
 				for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
-					if (strpos($f,$ICEcoder['bannedFiles'][$i])!==false) {$bFile = true;};
+					if (strpos($f,str_replace("*","",$ICEcoder['bannedFiles'][$i]))!==false) {$bFile = true;};
 				}
 				// Exclude the folder ICEcoder is running from
 				$rootPrefix = '/'.str_replace("/","\/",preg_quote(str_replace("\\","/",$docRoot))).'/';

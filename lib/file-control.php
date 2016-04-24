@@ -70,7 +70,7 @@ if ($_GET['action']=="load") {
 	// Check this file isn't on the banned list at all
 	$canOpen = true;
 	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
-		if($_SESSION['bannedFiles'][$i] != "" && strpos($file,$_SESSION['bannedFiles'][$i])!==false) {$canOpen = false;}
+		if(str_replace("*","",$_SESSION['bannedFiles'][$i]) != "" && strpos($file,str_replace("*","",$_SESSION['bannedFiles'][$i]))!==false) {$canOpen = false;}
 	}
 
 	if (!$canOpen) {

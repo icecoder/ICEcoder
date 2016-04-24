@@ -143,7 +143,7 @@ if (isset($ftpSite)) {
 foreach($finalArray as $entry) {
 	$canAdd = true;
 	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
-		if($_SESSION['bannedFiles'][$i] != "" && strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
+		if(str_replace("*","",$_SESSION['bannedFiles'][$i]) != "" && strpos($entry,str_replace("*","",$_SESSION['bannedFiles'][$i]))!==false) {$canAdd = false;}
 	}
 	// Only applicable for local dir, ignoring ICEcoder's dir
 	if (!isset($ftpSite) && $docRoot.$iceRoot.$location."/".$entry == $docRoot.$ICEcoderDir) {

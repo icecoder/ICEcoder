@@ -73,7 +73,7 @@ if (!$error) {
 		// Die if the file requested isn't something we expect
 		if(
 			// On the banned file/dir list
-			($_SESSION['bannedFiles'][$i] != "" && strpos($allFiles[$i],$_SESSION['bannedFiles'][$i])!==false) ||
+			(str_replace("*","",$_SESSION['bannedFiles'][$i]) != "" && strpos($allFiles[$i],str_replace("*","",$_SESSION['bannedFiles'][$i]))!==false) ||
 			// A local folder that isn't the doc root or starts with the doc root
 			($_GET['action']!="getRemoteFile" && !isset($ftpSite) && 
 				rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
