@@ -270,7 +270,7 @@ if (!$error && $_GET['action']=="save") {
 					if (isset($_POST['changes'])) {
 						// Get existing file contents as lines
 						$loadedFile = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot.$fileLoc."/".$fileName, $ftpMode));
-						$fileLines = explode("\n",$loadedFile);
+						$fileLines = explode("\n",str_replace("\r","",$loadedFile));
 						// Need to add a new line at the end of each because explode will lose them,
 						// want want to end up with same array that 'file($file)' produces for a local file
 						// - it keeps the line endings at the end of each array item
@@ -305,13 +305,15 @@ if (!$error && $_GET['action']=="save") {
 					// Write our file contents
 					if (!ftpWriteFile($ftpConn, $ftpFilepath, $contents, $ftpMode)) {
 						$doNext .= 'top.ICEcoder.message("Sorry, could not write '.$ftpFilepath.' at '.$ftpHost.'");';
+					} else {
+						$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
+						$doNext .= '(function() {var x=top.ICEcoder.openFileVersions; var y=top.ICEcoder.selectedTab-1; x[y] = "undefined" != typeof x[y] ? x[y]+1 : 1})();top.ICEcoder.updateVersionsDisplay();';
 					}
-					$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
-					$doNext .= '(function() {var x=top.ICEcoder.openFileVersions; var y=top.ICEcoder.selectedTab-1; x[y] = "undefined" != typeof x[y] ? x[y]+1 : 1})();top.ICEcoder.updateVersionsDisplay();';
 				// Local saving
 				} else {
 					if (isset($_POST['changes'])) {
 						// Get existing file contents as lines and stitch changes onto it
+						$origContent = file_get_contents($file);
 						$fileLines = file($file);
 						$contents = stitchChanges($fileLines);
 
@@ -351,6 +353,13 @@ if (!$error && $_GET['action']=="save") {
 					$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 					$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
 					$doNext .= '(function() {var x=top.ICEcoder.openFileVersions; var y=top.ICEcoder.selectedTab-1; x[y] = "undefined" != typeof x[y] ? x[y]+1 : 1})();top.ICEcoder.updateVersionsDisplay();';
+				}
+
+				// Log info in a file should there be a difference in char counts
+				$docLines = explode("\n",$contents);
+					$doNext .= 'top.ICEcoder.message("Sorry, there was a size difference reported between what you see and what has been saved. Please check your file to see if the change has been applied properly.\\\n\\\nIf not, please send tmp/save-error-log.php to info@icecoder.net along. All files sent to us will be dealt with confidentially and deleted after analysis.");';
+					$fh = fopen(dirname(__FILE__)."/../tmp/save-error-log.php", 'a');
+					fclose($fh);
 				}
 
 				// Save a version controlled backup source of the file
