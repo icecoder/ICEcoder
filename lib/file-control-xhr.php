@@ -357,8 +357,10 @@ if (!$error && $_GET['action']=="save") {
 
 				// Log info in a file should there be a difference in char counts
 				$docLines = explode("\n",$contents);
+				if (strlen($contents)-count($docLines)+1 != $_GET['charCount']) {
 					$doNext .= 'top.ICEcoder.message("Sorry, there was a size difference reported between what you see and what has been saved. Please check your file to see if the change has been applied properly.\\\n\\\nIf not, please send tmp/save-error-log.php to info@icecoder.net along. All files sent to us will be dealt with confidentially and deleted after analysis.");';
 					$fh = fopen(dirname(__FILE__)."/../tmp/save-error-log.php", 'a');
+					fwrite($fh, "<?php".PHP_EOL."/*".PHP_EOL.(strlen($contents)-count($docLines)+1)." vs ".intval($_GET['charCount'])." chars : ".$_POST['changes'].PHP_EOL.PHP_EOL."ORIGINAL:".PHP_EOL.$origContent.PHP_EOL.PHP_EOL."NOW:".PHP_EOL.$contents.PHP_EOL.PHP_EOL."*/".PHP_EOL."?>".PHP_EOL);
 					fclose($fh);
 				}
 
