@@ -133,8 +133,9 @@ function toUTF8noBOM($string,$message) {
 	// Attempt to detect encoding
 	if (function_exists('mb_detect_encoding')) {
 		$strictUTF8 = mb_detect_encoding($string, 'UTF-8', true);
-		// Get rid of any UTF-8 BOM
-		$string = preg_replace('/\x{EF}\x{BB}\x{BF}/','',$string);
+		// Get rid of any UTF-8 BOM, need to replace with a line return
+		$string = preg_replace("/\x{EF}\x{BB}\x{BF}/",PHP_EOL,$string);
+
 		// Test for any bad characters
 		$teststring = $string;
 		$teststringBroken = utf8_decode($teststring);
