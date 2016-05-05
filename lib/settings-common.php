@@ -137,6 +137,7 @@ function toUTF8noBOM($string,$message) {
 		$bom = pack("CCC", 0xef, 0xbb, 0xbf);
 		// If there's a BOM in the first few chars
 		if (0 === strncmp($string, $bom, 3)) {
+			// If there's a BOM followed by a Windows based (2 char) line ending
 			// chop BOM off and prefix returned string with a PHP_EOL
 			if (0 === strncmp($string, $bom."\r\n", 5)) {
 				$string = PHP_EOL.substr($string, 3);
