@@ -313,6 +313,7 @@ if (!$error && $_GET['action']=="save") {
 				} else {
 					if (isset($_POST['changes'])) {
 						// Get existing file contents as lines and stitch changes onto it
+						$origContent = file_get_contents($file);
 						$fileLines = file($file);
 						$contents = stitchChanges($fileLines);
 
