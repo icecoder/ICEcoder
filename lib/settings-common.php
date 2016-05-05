@@ -147,7 +147,7 @@ function toUTF8noBOM($string,$message) {
 			}
 		}
 		// Remove any other BOMs from view
-		$string = preg_replace('/\x{EF}\x{BB}\x{BF}/','',$string); 
+		$string = preg_replace('/'.$bom.'/','',$string); 
 
 		// Test for any bad characters
 		$teststring = $string;
