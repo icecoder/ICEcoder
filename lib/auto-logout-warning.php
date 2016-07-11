@@ -17,7 +17,7 @@ $t = $text['auto-logout-warning'];
 
 <h1 id="title"><?php echo $t['Auto Logout Warning'];?></h1>
 
-<?php echo $t['You will be...'];?>
+<?php echo $t['You will be...'];?> <span id="timeRemaning">60</span> <?php echo $t['seconds due to...'];?>
 
 </body>
 
