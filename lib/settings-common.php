@@ -130,6 +130,9 @@ function xssClean($data,$type) {
 
 // returns a UTF8 based string with any UFT8 BOM removed
 function toUTF8noBOM($string,$message) {
+	global $text;
+	$t = $text['settings-common'];
+
 	// Attempt to detect encoding
 	if (function_exists('mb_detect_encoding')) {
 		$strictUTF8 = mb_detect_encoding($string, 'UTF-8', true);
