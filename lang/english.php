@@ -115,7 +115,8 @@ $text = array(
 	"auto-logout-warning" =>
 	array(
 		"Auto Logout Warning"		=> "Auto logout warning",
-		"You will be..."		=> "You will be logged out after 60 seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section."
+		"You will be..."		=> "You will be logged out after",
+		"seconds due to..."		=> "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section."
 	),
 
 	"backup-versions" =>
