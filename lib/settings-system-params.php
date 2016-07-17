@@ -2,7 +2,7 @@
 $newConfigSettingsFile = '<?php
 // ICEcoder system settings
 $ICEcoderSettings = array(
-	"versionNo"		=> "5.3",
+	"versionNo"		=> "5.5",
 	"codeMirrorDir"		=> "CodeMirror",
 	"docRoot"		=> $_SERVER[\'DOCUMENT_ROOT\'],	// Set absolute path of another location if needed
 	"demoMode"		=> false,

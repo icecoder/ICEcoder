@@ -4,14 +4,6 @@ include("settings.php");
 include("ftp-control.php");
 $t = $text['file-control'];
 
-// Load the LZ String PHP libs and define using LZString
-include(dirname(__FILE__)."/../LZCompressor/LZContext.php");
-include(dirname(__FILE__)."/../LZCompressor/LZData.php");
-include(dirname(__FILE__)."/../LZCompressor/LZReverseDictionary.php");
-include(dirname(__FILE__)."/../LZCompressor/LZString.php");
-include(dirname(__FILE__)."/../LZCompressor/LZUtil.php");
-use LZCompressor\LZString as LZString;
-
 // ===============================
 // SET OUR ERROR INFO TO A DEFAULT
 // ===============================
@@ -40,14 +32,6 @@ if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 	$errorStr = "true";
 	$errorMsg = $t['Sorry, bad filename...'];
 };
-
-// If we have changes or whole content, we need to LZ decompress them
-if (isset($_POST['changes'])) {
-	$_POST['changes'] = LZString::decompressFromBase64($_POST['changes']);
-}
-if (isset($_POST['contents'])) {
-	$_POST['contents'] = LZString::decompressFromBase64($_POST['contents']);
-}
 
 // If we have file(s) to work with...
 if (!$error) {
@@ -88,6 +72,8 @@ if (!$error) {
 
 		// Die if the file requested isn't something we expect
 		if(
+			// On the banned file/dir list
+			(str_replace("*","",$_SESSION['bannedFiles'][$i]) != "" && strpos($allFiles[$i],str_replace("*","",$_SESSION['bannedFiles'][$i]))!==false) ||
 			// A local folder that isn't the doc root or starts with the doc root
 			($_GET['action']!="getRemoteFile" && !isset($ftpSite) && 
 				rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
@@ -95,7 +81,7 @@ if (!$error) {
 			) ||
 			// Or a remote URL that doesn't start http
 			($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
-			) {
+		) {
 			$error = true;
 			$errorStr = "true";
 			$errorMsg = "Sorry! - problem with file requested";
@@ -244,7 +230,7 @@ if (!$error && $_GET['action']=="save") {
 							/* console.log(\'Calling \'+saveURL+\' via XHR\'); */
 							xhr.open("POST",saveURL,true);
 							xhr.setRequestHeader(\'Content-type\', \'application/x-www-form-urlencoded\');
-							xhr.send(\'timeStart='.$_POST["timeStart"].'&file='.$fileURL.'&newFileName=\'+newFileName.replace(/\\\+/g,"%2B")+\'&contents=\'+encodeURIComponent(top.LZString.compressToBase64(top.ICEcoder.saveAsContent)));
+							xhr.send(\'timeStart='.$_POST["timeStart"].'&file='.$fileURL.'&newFileName=\'+newFileName.replace(/\\\+/g,"%2B")+\'&contents=\'+encodeURIComponent(top.ICEcoder.saveAsContent));
 							top.ICEcoder.serverMessage("<b>'.$t['Saving'].'</b><br>" + "'.($finalAction == "Save" ? "newFileName" : "'".$fileName."'").'");
 						}
 					}
@@ -284,7 +270,7 @@ if (!$error && $_GET['action']=="save") {
 					if (isset($_POST['changes'])) {
 						// Get existing file contents as lines
 						$loadedFile = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot.$fileLoc."/".$fileName, $ftpMode));
-						$fileLines = explode("\n",$loadedFile);
+						$fileLines = explode("\n",str_replace("\r","",$loadedFile));
 						// Need to add a new line at the end of each because explode will lose them,
 						// want want to end up with same array that 'file($file)' produces for a local file
 						// - it keeps the line endings at the end of each array item
@@ -319,9 +305,10 @@ if (!$error && $_GET['action']=="save") {
 					// Write our file contents
 					if (!ftpWriteFile($ftpConn, $ftpFilepath, $contents, $ftpMode)) {
 						$doNext .= 'top.ICEcoder.message("Sorry, could not write '.$ftpFilepath.' at '.$ftpHost.'");';
+					} else {
+						$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
+						$doNext .= '(function() {var x=top.ICEcoder.openFileVersions; var y=top.ICEcoder.selectedTab-1; x[y] = "undefined" != typeof x[y] ? x[y]+1 : 1})();top.ICEcoder.updateVersionsDisplay();';
 					}
-					$doNext .= 'top.ICEcoder.openFileMDTs[top.ICEcoder.selectedTab-1]="'.$filemtime.'";';
-					$doNext .= '(function() {var x=top.ICEcoder.openFileVersions; var y=top.ICEcoder.selectedTab-1; x[y] = "undefined" != typeof x[y] ? x[y]+1 : 1})();top.ICEcoder.updateVersionsDisplay();';
 				// Local saving
 				} else {
 					if (isset($_POST['changes'])) {

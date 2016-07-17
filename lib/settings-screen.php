@@ -185,7 +185,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 <div id="styleSection" class="section" style="display: none">
 
-	<div style="display: inline-block; width: 400px; margin-right: 40px">
+	<div style="display: inline-block; width: 400px; margin-right: 35px">
 		<div style="height: 220px">
 			<h2>preview</h2><br>
 			<textarea id="code" name="code">
@@ -213,9 +213,7 @@ function findSequence(goal) {
 		</select>
 		<br><br>
 
-	</div>
-
-	<div style="display: inline-block">
+	</div><div style="display: inline-block">
 		<h2><?php echo $t['style'];?></h2><br>
 		<?php echo $t['theme'];?><br>
 		<select onchange="selectTheme();showButton()" id="select" name="theme" style="width: 95px">
@@ -229,38 +227,77 @@ function findSequence(goal) {
 		</select>
 		<br><br>
 
-		<?php echo $t['font size'];?><br>
-		<input type="text" name="fontSize" id="fontSize" style="width: 44px" onkeydown="showButton()" onkeyup="changeFontSize()" value="<?php echo $ICEcoder["fontSize"];?>">
+		<div style="display: inline-block; width: 95px">
+			<?php echo $t['font size'];?><br>
+			<input type="text" name="fontSize" id="fontSize" style="width: 44px" onkeydown="showButton()" onkeyup="changeFontSize()" value="<?php echo $ICEcoder["fontSize"];?>">
+		</div><div style="display: inline-block">
+			<?php echo $t['indent size'];?><br>
+			<input type="text" name="indentSize" id="indentSize" style="width: 44px" onkeydown="showButton()" onkeyup="changeIndentSize()" value="<?php echo $ICEcoder["indentSize"];?>">
+		</div>
 		<br><br>
 
-		<?php echo $t['indent size'];?><br>
-		<input type="text" name="indentSize" id="indentSize" style="width: 44px" onkeydown="showButton()" onkeyup="changeIndentSize()" value="<?php echo $ICEcoder["indentSize"];?>">
+		<div style="display: inline-block; width: 95px">
+			<?php echo $t['match brackets'];?><br>
+			<select onchange="showButton()" name="matchBrackets">
+				<option value="true"<?php if($ICEcoder["matchBrackets"]) {echo " selected";};?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["matchBrackets"]) {echo " selected";};?>>no</option>
+			</select>
+		</div><div style="display: inline-block">
+			<?php echo $t['show trailing space'];?><br>
+			<select onchange="showButton()" name="showTrailingSpace">
+				<option value="true"<?php if($ICEcoder["showTrailingSpace"]) {echo " selected";};?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["showTrailingSpace"]) {echo " selected";};?>>no</option>
+			</select>
+		</div>
 		<br><br>
 
 		<input type="checkbox" onclick="showButton();showHideTabs()" name="visibleTabs" value="true"<?php if($ICEcoder["visibleTabs"]) {echo ' checked';};?>> <?php echo $t['visible tabs'];?>
 		<br><br>
 
-		<?php echo $t['line wrapping'];?><br>
-		<select onchange="showButton()" name="lineWrapping">
-			<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";};?>>yes</option>
-			<option value="false"<?php if(!$ICEcoder["lineWrapping"]) {echo " selected";};?>>no</option>
-		</select>
-		<br><br>
+		<div style="display: inline-block; width: 95px">
+			<?php echo $t['line wrapping'];?><br>
+			<select onchange="showButton()" name="lineWrapping">
+				<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";};?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["lineWrapping"]) {echo " selected";};?>>no</option>
+			</select>
+		</div><div style="display: inline-block">
+			<?php echo $t['line numbers'];?><br>
+			<select onchange="changeLineNumbersToggle();showButton()" name="lineNumbers" id="lineNumbers">
+				<option value="true"<?php if($ICEcoder["lineNumbers"]) {echo " selected";};?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["lineNumbers"]) {echo " selected";};?>>no</option>
+			</select>
+		</div>
+			<br><br>
 
 		<h2><?php echo $t['functionality'];?></h2><br>
 
-		<?php echo $t['indent type'];?><br>
-		<select onchange="showButton()" name="indentWithTabs">
-			<option value="true"<?php if($ICEcoder["indentWithTabs"]) {echo " selected";};?>>tabs</option>
-			<option value="false"<?php if(!$ICEcoder["indentWithTabs"]) {echo " selected";};?>>spaces</option>
-		</select>
-		<br><br>
+		<div style="display: inline-block; width: 95px">
+			<?php echo $t['indent type'];?><br>
+			<select onchange="showButton()" name="indentWithTabs">
+				<option value="true"<?php if($ICEcoder["indentWithTabs"]) {echo " selected";};?>>tabs</option>
+				<option value="false"<?php if(!$ICEcoder["indentWithTabs"]) {echo " selected";};?>>spaces</option>
+			</select>
+			<br><br>
 
-		<?php echo $t['auto indent'];?><br>
-		<select onchange="showButton()" name="indentAuto">
-			<option value="true"<?php if($ICEcoder["indentAuto"]) {echo " selected";};?>>yes</option>
-			<option value="false"<?php if(!$ICEcoder["indentAuto"]) {echo " selected";};?>>no</option>
-		</select>
+			<?php echo $t['auto indent'];?><br>
+			<select onchange="showButton()" name="indentAuto">
+				<option value="true"<?php if($ICEcoder["indentAuto"]) {echo " selected";};?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["indentAuto"]) {echo " selected";};?>>no</option>
+			</select>
+		</div><div style="display: inline-block">
+			<?php echo $t['auto close tags'];?><br>
+			<select onchange="showButton()" name="autoCloseTags">
+				<option value="true"<?php if($ICEcoder["autoCloseTags"]) {echo " selected";};?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["autoCloseTags"]) {echo " selected";};?>>no</option>
+			</select>
+			<br><br>
+
+			<?php echo $t['auto close brackets'];?><br>
+			<select onchange="showButton()" name="autoCloseBrackets">
+				<option value="true"<?php if($ICEcoder["autoCloseBrackets"]) {echo " selected";};?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["autoCloseBrackets"]) {echo " selected";};?>>no</option>
+			</select>
+		</div>
 		<br><br>
 
 	</div>
@@ -297,7 +334,7 @@ function findSequence(goal) {
 
 <div id="securitySection" class="section" style="display: none">
 	<h2><?php echo $t['security'];?></h2><br>
-	<?php echo $t['banned files/folders'];?><br>
+	<?php echo $t['banned files/folders'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>">[?]</span><br>
 	<input type="text" onkeydown="document.settings.changedFileSettings.value='true';showButton()" name="bannedFiles" style="width: 660px" value="<?php echo implode(", ",$ICEcoder["bannedFiles"]); ?>">
 	<br><br>
 
@@ -309,11 +346,15 @@ function findSequence(goal) {
 	<?php echo $t['ip addresses'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>">[?]</span><br>
 	<input type="text" onkeydown="showButton()" name="allowedIPs" style="width: 660px" value="<?php echo implode(", ",$ICEcoder["allowedIPs"]); ?>">
 	<br><br>
+
+	<?php echo $t['auto-logout after'];?> <span class="info" title="<?php echo $t['Set 0 to...'];?>">[?]</span><br>
+	<input type="text" onkeydown="showButton()" name="autoLogoutMins" style="width: 100px" value="<?php echo $ICEcoder["autoLogoutMins"]; ?>"> <span style="display: inline-block; padding: 2px 5px"><?php echo $t['mins of inactivity...'];?></span>
+	<br><br>
 </div>
 
 <script>
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-	lineNumbers: true,
+	lineNumbers: top.ICEcoder.lineNumbers,
 	readOnly: "nocursor",
 	indentUnit: top.ICEcoder.indentSize,
 	tabSize: top.ICEcoder.indentSize,
@@ -332,6 +373,14 @@ function changeIndentSize() {
 	var indentSize = document.getElementById("indentSize").value;
 	editor.setOption("indentUnit", indentSize);
 	editor.setOption("tabSize", indentSize);
+	editor.refresh();
+}
+
+
+function changeLineNumbersToggle() {
+	var lineNumbersSelect = document.getElementById("lineNumbers");
+	var lineNumbers = lineNumbersSelect.options[lineNumbersSelect.selectedIndex].innerHTML == "yes" ? true : false;
+	editor.setOption("lineNumbers", lineNumbers);
 	editor.refresh();
 }
 

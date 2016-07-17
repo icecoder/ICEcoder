@@ -37,7 +37,7 @@ if ($ICEcoder["checkUpdates"]) {
 $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 ?>
 <!DOCTYPE html>
-<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.mouseDownInCM=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}" onMouseWheel="if (top.ICEcoder.getcMInstance() && !top.ICEcoder.getcMInstance().hasFocus() && !top.ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? top.ICEcoder.nextTab() : top.ICEcoder.previousTab();}">
+<html onMouseDown="top.ICEcoder.mouseDown=true; top.ICEcoder.resetAutoLogoutTimer();" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.mouseDownInCM=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top'); top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.canResizeFilesW()}" onMouseWheel="top.ICEcoder.resetAutoLogoutTimer(); if (top.ICEcoder.getcMInstance() && !top.ICEcoder.getcMInstance().hasFocus() && !top.ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? top.ICEcoder.nextTab() : top.ICEcoder.previousTab();}">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?></title>
 <!--Updated via settings so must remain 1st stylesheet//-->
@@ -53,12 +53,14 @@ $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
 
 window.onbeforeunload = function() {
-	for(var i=1;i<=ICEcoder.savedPoints.length;i++) {
-		if (ICEcoder.savedPoints[i-1]!=top.ICEcoder.getcMInstance(i).changeGeneration()) {
-			return "<?php echo $t['You have some...'];?>.";
+	if(top.ICEcoder.autoLogoutTimer < top.ICEcoder.autoLogoutMins*60) {
+		for(var i=1;i<=ICEcoder.savedPoints.length;i++) {
+			if (ICEcoder.savedPoints[i-1]!=top.ICEcoder.getcMInstance(i).changeGeneration()) {
+				return "<?php echo $t['You have some...'];?>.";
+			}
 		}
+		return "<?php echo $t['Are you sure...'];?>";
 	}
-	return "<?php echo $t['Are you sure...'];?>";
 }
 
 t = {
@@ -80,7 +82,6 @@ $t = $text['index'];
 <script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="farbtastic/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="lib/difflib.js?microtime=<?php echo microtime(true);?>"></script>
-<script src="lib/lz-string.min.js?microtime=<?php echo microtime(true);?>"></script>
 <link rel="stylesheet" href="farbtastic/farbtastic.css?microtime=<?php echo microtime(true);?>" type="text/css">
 </head>
 
@@ -93,6 +94,7 @@ $t = $text['index'];
 		}
 	echo "];";
 	echo "top.ICEcoder.theme = '".($ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"])."';".
+		"top.ICEcoder.autoLogoutMins = ".$ICEcoder["autoLogoutMins"].";".
 		"top.ICEcoder.fontSize = '".$ICEcoder["fontSize"]."';".
 		"top.ICEcoder.openLastFiles = ".($ICEcoder["openLastFiles"] ? 'true' : 'false').";".
 		"top.ICEcoder.updateDiffOnSave = ".($ICEcoder["updateDiffOnSave"] ? 'true' : 'false').";".
@@ -100,6 +102,11 @@ $t = $text['index'];
 		"top.ICEcoder.codeAssist = ".($ICEcoder["codeAssist"] ? 'true' : 'false').";".
 		"top.ICEcoder.lockedNav = ".($ICEcoder["lockedNav"] ? 'true' : 'false').";".
 		"top.ICEcoder.lineWrapping = ".($ICEcoder["lineWrapping"] ? 'true' : 'false').";".
+		"top.ICEcoder.lineNumbers = ".($ICEcoder["lineNumbers"] ? 'true' : 'false').";".
+		"top.ICEcoder.showTrailingSpace = ".($ICEcoder["showTrailingSpace"] ? 'true' : 'false').";".
+		"top.ICEcoder.matchBrackets = ".($ICEcoder["matchBrackets"] ? 'true' : 'false').";".
+		"top.ICEcoder.autoCloseTags = ".($ICEcoder["autoCloseTags"] ? 'true' : 'false').";".
+		"top.ICEcoder.autoCloseBrackets = ".($ICEcoder["autoCloseBrackets"] ? 'true' : 'false').";".
 		"top.ICEcoder.indentWithTabs = ".($ICEcoder["indentWithTabs"] ? 'true' : 'false').";".
 		"top.ICEcoder.indentAuto = ".($ICEcoder["indentAuto"] ? 'true' : 'false').";".
 		"top.ICEcoder.indentSize = ".$ICEcoder["indentSize"].";".
@@ -234,14 +241,16 @@ $t = $text['index'];
 		</div>
 		<div id="optionsSource" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
 			<ul>
-				<li><a nohref onclick="ICEcoder.refreshFileManager()">Localhost</a></li>
+				<li><a nohref onclick="ICEcoder.goLocalhostRoot()">Localhost</a></li>
+				<li><a nohref onclick="ICEcoder.message('FTP integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">FTP</a></li>
 				<li><a nohref onclick="ICEcoder.githubManager()">GitHub</a></li>
+				<!--
 				<li><a nohref onclick="ICEcoder.message('SVN integration coming soon')">SVN</a></li>
 				<li><a nohref onclick="ICEcoder.message('Bitbucket integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Bitbucket</a></li>
 				<li><a nohref onclick="ICEcoder.message('Amazon AWS integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Amazon AWS</a></li>
 				<li><a nohref onclick="ICEcoder.message('Dropbox integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Dropbox</a></li>
-				<li><a nohref onclick="ICEcoder.message('FTP integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">FTP</a></li>
 				<li><a nohref onclick="ICEcoder.message('SSH integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">SSH</a></li>
+				//-->
 			</ul>
 		</div>
 		<div id="optionsHelp" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">

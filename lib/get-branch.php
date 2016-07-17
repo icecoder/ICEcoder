@@ -143,7 +143,7 @@ if (isset($ftpSite)) {
 foreach($finalArray as $entry) {
 	$canAdd = true;
 	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
-		if($_SESSION['bannedFiles'][$i] != "" && strpos($entry,$_SESSION['bannedFiles'][$i])!==false) {$canAdd = false;}
+		if(str_replace("*","",$_SESSION['bannedFiles'][$i]) != "" && strpos($entry,str_replace("*","",$_SESSION['bannedFiles'][$i]))!==false) {$canAdd = false;}
 	}
 	// Only applicable for local dir, ignoring ICEcoder's dir
 	if (!isset($ftpSite) && $docRoot.$iceRoot.$location."/".$entry == $docRoot.$ICEcoderDir) {
@@ -182,7 +182,7 @@ for ($i=0;$i<count($finalArray);$i++) {
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
 	$loadParam = $type == "folder" ? "true" : "false";
-	echo "<li class=\"".$class."\" draggable=\"false\" ondragstart=\"top.ICEcoder.addDefaultDragData(this,event)\" ondrag=\"top.ICEcoder.draggingWithKeyTest(event);if(top.ICEcoder.getcMInstance()){top.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? top.ICEcoder.getcMInstance().focus() : top.ICEcoder.getcMdiffInstance().focus()}\" ondragend=\"top.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;top.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;top.ICEcoder.overFileFolder('$type','')\" ".
+	echo "<li class=\"".$class."\" draggable=\"false\" ondragstart=\"top.ICEcoder.addDefaultDragData(this,event)\" ondrag=\"top.ICEcoder.draggingWithKeyTest(event);if(top.ICEcoder.getcMInstance()){top.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? top.ICEcoder.getcMInstance().focus() : top.ICEcoder.getcMdiffInstance().focus()}\" ondragover=\"top.ICEcoder.setDragCursor(event,".($type == "folder" ? "'folder'" : "'file'").")\" ondragend=\"top.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;top.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;top.ICEcoder.overFileFolder('$type','')\" ".
 
 	(($type == "folder")?"ondragover=\"if(parentNode.nextSibling && parentNode.nextSibling.tagName != 'UL' && top.ICEcoder.thisFileFolderLink != this.childNodes[1].id) {top.ICEcoder.openCloseDir(this,true);}\"":"").
 

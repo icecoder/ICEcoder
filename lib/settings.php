@@ -249,6 +249,28 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 		fwrite($fh, $settingsContents);
 		fclose($fh);
+		// Create a duplicate version for the IP address of the domain if it doesn't exist yet
+		$serverAddr = $_SERVER['SERVER_ADDR'];
+		if ($serverAddr == "1" || $serverAddr == "::1") {
+			$serverAddr = "127.0.0.1";
+		}
+		$settingsFileAddr = 'config-'.$username.str_replace(".","_",$serverAddr).'.php';
+		if (!file_exists(dirname(__FILE__)."/".$settingsFileAddr)) {
+			if (!copy(dirname(__FILE__)."/".$settingsFile, dirname(__FILE__)."/".$settingsFileAddr)) {
+				die("Couldn't create $settingsFileAddr. Maybe you need write permissions on the lib folder?");
+			}
+		}
+		// Disable the enableRegistration config setting if the user had that option chosen
+		if (isset($_POST['disableFurtherRegistration'])) {
+			$updatedConfigSettingsFile = file_get_contents(dirname(__FILE__)."/".$configSettings);
+			if ($fUConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
+				$updatedConfigSettingsFile = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> false',$updatedConfigSettingsFile);
+				fwrite($fUConfigSettings, $updatedConfigSettingsFile);
+				fclose($fUConfigSettings);
+			} else {
+				die("Cannot update config file lib/".$configSettings.". Please check write permissions on lib/ and try again");
+			}
+		}
 		// Set the session user level
 		if ($ICEcoder["multiUser"]) {
 			$_SESSION['username']=$_POST['username'];

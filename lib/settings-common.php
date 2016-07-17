@@ -130,11 +130,28 @@ function xssClean($data,$type) {
 
 // returns a UTF8 based string with any UFT8 BOM removed
 function toUTF8noBOM($string,$message) {
+	global $text;
+	$t = $text['settings-common'];
+
 	// Attempt to detect encoding
 	if (function_exists('mb_detect_encoding')) {
 		$strictUTF8 = mb_detect_encoding($string, 'UTF-8', true);
-		// Get rid of any UTF-8 BOM
-		$string = preg_replace('/\x{EF}\x{BB}\x{BF}/','',$string);
+		// Establish a BOM
+		$bom = pack("CCC", 0xef, 0xbb, 0xbf);
+		// If there's a BOM in the first few chars
+		if (0 === strncmp($string, $bom, 3)) {
+			// If there's a BOM followed by a Windows based (2 char) line ending
+			// chop BOM off and prefix returned string with a PHP_EOL
+			if (0 === strncmp($string, $bom."\r\n", 3)) {
+				$string = PHP_EOL.substr($string, 3);
+			// Else, simply chop off the BOM
+			} else {
+				$string = substr($string, 3);
+			}
+		}
+		// Remove any other BOMs from view
+		$string = preg_replace('/'.$bom.'/','',$string); 
+
 		// Test for any bad characters
 		$teststring = $string;
 		$teststringBroken = utf8_decode($teststring);

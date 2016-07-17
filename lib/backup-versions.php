@@ -94,7 +94,7 @@ var highlightVersion = function(elem) {
 }
 
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-	lineNumbers: true,
+	lineNumbers: top.ICEcoder.lineNumbers,
 	readOnly: "nocursor",
 	indentUnit: top.ICEcoder.indentSize,
 	tabSize: top.ICEcoder.indentSize,

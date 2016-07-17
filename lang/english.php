@@ -112,6 +112,13 @@ $text = array(
 
 // /LIB
 
+	"auto-logout-warning" =>
+	array(
+		"Auto Logout Warning"		=> "Auto logout warning",
+		"You will be..."		=> "You will be logged out after",
+		"seconds due to..."		=> "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section."
+	),
+
 	"backup-versions" =>
 	array(
 		"backup"			=> "backup",
@@ -306,6 +313,7 @@ $text = array(
 		"login"				=> "login",
 		"To disable registration..."	=> "To disable registration mode, open the settings menu or open lib/config___settings.php and change enableRegistration to false then reload this page",
 		"Registration mode enabled"	=> "Registration mode enabled",
+		"disable further registrations"	=> "disable further registrations",
 		"auto-check for updates"	=> "auto-check for updates",
 		"To put into..."		=> "To put into multi-user mode, open the settings menu or open lib/config___settings.php and change multiUser to true then reload this page",
 		"multi-user"			=> "multi-user"
@@ -415,19 +423,27 @@ $text = array(
 		"banned files/folders"		=> "banned files/folders",
 		"banned paths"			=> "banned paths",
 		"ip addresses"			=> "ip addresses",
+		"auto-logout after"		=> "auto-logout after",
+		"mins of inactivity..."		=> "mins of inactivity if no unsaved files",
 		"Slash prefixed comma..."	=> "Slash prefixed, comma delimited",
 		"Comma delimited"		=> "Comma delimited",
 		"style"				=> "style",
 		"theme"				=> "theme",
 		"line wrapping"			=> "line wrapping",
+		"line numbers"			=> "line numbers",
 		"indent type"			=> "indent type",
 		"indent size"			=> "indent size",
+		"match brackets"		=> "match brackets",
+		"show trailing space"		=> "show trailing space",
 		"font size"			=> "font size",
 		"auto indent"			=> "auto indent",
+		"auto close tags"		=> "auto close tags",
+		"auto close brackets"		=> "auto close brackets",
 		"layout"			=> "layout",
 		"plugin panel aligned"		=> "plugin panel aligned",
 		"file manager"			=> "file manager",
 		"root"				=> "root",
+		"Set 0 to..."			=> "Set 0 to disable",
 		"Slash prefixed"		=> "Slash prefixed",
 		"bug reporting"			=> "bug reporting",
 		"check in files"		=> "check in files",

@@ -1,6 +1,6 @@
 <?php
 $ICEcoderUserSettings = array(
-"versionNo"		=> "5.3",
+"versionNo"		=> "5.5",
 "licenseEmail"		=> "",
 "licenseCode"		=> "",
 "configCreateDate"	=> 0,
@@ -21,9 +21,15 @@ $ICEcoderUserSettings = array(
 "bannedFiles"		=> array(),
 "bannedPaths"		=> array("/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"),
 "allowedIPs"		=> array("*"),
+"autoLogoutMins"	=> 0,
 "theme"			=> "default",
 "fontSize"		=> "13px",
 "lineWrapping"		=> true,
+"lineNumbers"		=> true,
+"showTrailingSpace"	=> true,
+"matchBrackets"		=> true,
+"autoCloseTags"		=> true,
+"autoCloseBrackets"	=> true,
 "indentWithTabs"	=> true,
 "indentAuto"		=> true,
 "indentSize"		=> 4,

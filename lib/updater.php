@@ -20,10 +20,10 @@ function startUpdate() {
 	echo 'Checking we can entirely move old ICEcoder version...<br>';
 	foreach ($iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),RecursiveIteratorIterator::SELF_FIRST) as $item) {
 		if (strpos($source.DIRECTORY_SEPARATOR.$iterator->getSubPathName(),"oldVersion")==false) {
-			// Don't move plugins or .git away
+			// Don't move backups, plugins or .git away
 			$testPath = $source.DIRECTORY_SEPARATOR.$iterator->getSubPathName();
 			$testPath = str_replace("\\","/",$testPath);
-			if (strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
+			if (strpos($testPath,"/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
 				if (!is_writeable($item)) {
 					array_push($cantMoveArray,substr($item,count($source)+2));
 				}
@@ -64,10 +64,10 @@ function copyOldVersion() {
 	echo 'Moving current ICEcoder files...<br>';
 	foreach ($iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),RecursiveIteratorIterator::SELF_FIRST) as $item) {
 		if (strpos($source.DIRECTORY_SEPARATOR.$iterator->getSubPathName(),"oldVersion")==false) {
-			// Don't move plugins or .git away
+			// Don't move backups, plugins or .git away
 			$testPath = $source.DIRECTORY_SEPARATOR.$iterator->getSubPathName();
 			$testPath = str_replace("\\","/",$testPath);
-			if (strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
+			if (strpos($testPath,"/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
 				if ($item->isDir()) {
 					mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0755);
 				} else {

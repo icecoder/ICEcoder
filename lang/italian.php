@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Italian language translation
 // by: @pietrondo (GitHub)
 //     @pietrobravo (Twitter)
@@ -138,7 +138,7 @@ $text = array(
 		"Sorry, cannot delete"		=> "Siamo spiacenti, non è possibile cancellare",
 		"Sorry, this file..."		=> "Siamo spiacenti, questo file è stato cambiato, non è possibile salvarlo",
 		"Reload this file..."		=> "Ricarica questo file e copia la tua versione in un pannello differente",
-		"There was a..."		=> "C'è stato un problema tecnico, probabilmente qualcosa che non era ancora pronto. Così ICEcoder ha  ricaricato di nuovo il file.",
+		"There was a..."		=> "C\'è stato un problema tecnico, probabilmente qualcosa che non era ancora pronto. Così ICEcoder ha  ricaricato di nuovo il file.",
 		"displayed at"			=> "visualizzato in",
 		"Enter filename to..."		=> "Inserisci il nome del file da salvare in",
 		"That file exists..."		=> "Questo file esiste già, sovrascrivere??",
@@ -148,7 +148,7 @@ $text = array(
 	"get-branch" =>
 	array(
 		"There are no..."		=> "Non ci sono differenze tra il repo locale e GitHub. Tornare alla modalità normale??",
-		"Sorry, there was..."		=> "Spiacente, c'è stato un errore, il codice:",
+		"Sorry, there was..."		=> "Spiacente, c\'è stato un errore, il codice:",
 		"Your local folder..."		=> "La cartella locale è vuota, ti piacerebbe clonare"
 	),
 
@@ -182,15 +182,15 @@ $text = array(
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "Bad CSRF token. Per favore riporta l'errore a https://github.com/mattpass/ICEcoder così che possa essere fixato."
+		"Bad CSRF token..."		=> "Bad CSRF token. Per favore riporta l\'errore a https://github.com/mattpass/ICEcoder così che possa essere fixato."
 	),
 
 	"help" =>
 	array(
 		"shortcuts"			=> "shortcuts",
-		"Within document"		=> "all'interno del documento",
+		"Within document"		=> "all\'interno del documento",
 		"On Tabs"			=> "Sulle Tabs",
-		"Within file manager"		=> "All'interno del file manager",
+		"Within file manager"		=> "All\'interno del file manager",
 		"Anywhere"			=> "Dappertutto",
 		"Space"				=> "Spazio",
 		"Click"				=> "Click",
@@ -258,7 +258,7 @@ $text = array(
 		"Creating Folder"		=> "Sto creando una cartla",
 		"Sorry you can..."		=> "Spiacente, puoi avere solo 100 file aperti a volta!",
 		"Opening File"			=> "Apertura file",
-		"Enter relative file..."	=> "Digita il percorso relativo (con / di prefisso) o l'url remoto",
+		"Enter relative file..."	=> "Digita il percorso relativo (con / di prefisso) o l\'url remoto",
 		"Getting"			=> "Getting",
 		"Please enter the..."		=> "Per favore digita un nuovo nome per",
 		"Renaming to"			=> "Rinominando a ",
@@ -277,7 +277,7 @@ $text = array(
 		"Open previous files"		=> "Aprire i file precedenti?",
 		"Please enter your..."		=> "Please enter your GitHub token (either personal access token or client/secret pair token). See tooltip next to Github Auth Token on Help > Settings screen for more info",
 		"This will compare..."		=> "Questo confronterà e mostrarà la diff tra il dir locale e il repository. Ok?",
-		"Please note for..."		=> "Si prega di notare: affinche l'aggiornamento funzioni correttamente, è necessario disporre dei permessi di scrittura e cancellazione su tutti le cartelle e file di ICEcoder e. Se è necessario ripristinare questa versione di ICEcoder per qualsiasi motivo, lo troverete nella directory / tmp dir. Fare clic su OK per procedere con l'aggiornamento automatico o annullare a visitare il sito ICEcoder in modo da poter utilizzare la zip e aggiornare manualmente.",
+		"Please note for..."		=> "Si prega di notare: affinche l\'aggiornamento funzioni correttamente, è necessario disporre dei permessi di scrittura e cancellazione su tutti le cartelle e file di ICEcoder e. Se è necessario ripristinare questa versione di ICEcoder per qualsiasi motivo, lo troverete nella directory / tmp dir. Fare clic su OK per procedere con l\'aggiornamento automatico o annullare a visitare il sito ICEcoder in modo da poter utilizzare la zip e aggiornare manualmente.",
 		"You can start..."		=> "Puoi ripoertare il bug in Help >  Settings",
 		"Error cannot find..."		=> "Error: cannot find/access the error file paths",
 		"No new errors..."		=> "Nessun nuovo errore trovato",
@@ -379,7 +379,7 @@ $text = array(
 		"file manager root"		=> "root di file manager ",
 		"Free to use..."		=> "Libero di usarlo per i propri scopi, commerciali e non, facendomelo solo sapere per eventuali nuovi e interessanti utilizzi o personalizzazioni. :) <br> Nessuna garanzia o responsabilità, tutte le responsabilità di utilizzo è vostra. <br> Un sacco di aziende e persone fantastiche hanno contribuito a costruire ICEcoder e ce ne sarebbero troppi da ringraziare. Si prega di consultare la lista completa a",
 		"functionality"			=> "funzionalità",
-		"check for updates..."		=> "controlla aggiornamenti all'avvio",
+		"check for updates..."		=> "controlla aggiornamenti all\'avvio",
 		"auto open last..."		=> "Apri automaticamente ultimi file al login",
 		"when finding in..."		=> "quando trovi nei file, escludi",
 		"assisting"			=> "assisting",
@@ -430,14 +430,14 @@ token di accesso personale (https://help.github.com/articles/creating-an-access-
 
 	"settings-update" =>
 	array(
-		"Cannot update config..."	=> "Non posso aggiornare il file config. Per favore permetti l'accesso pubblico di scrittura",
+		"Cannot update config..."	=> "Non posso aggiornare il file config. Per favore permetti l\'accesso pubblico di scrittura",
 		"and try again"			=> "e prova ancora",
 		"and press refresh"		=> "e premi aggiorna"
 	),
 
 	"updater" =>
 	array(
-		"Update appears to..."		=> "L'aggiornamento sembra andato bene"
+		"Update appears to..."		=> "L\'aggiornamento sembra andato bene"
 	),
 	"find-in-files" =>
 	array(

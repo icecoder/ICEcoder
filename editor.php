@@ -5,7 +5,7 @@ $t = $text['editor'];
 ?>
 <!DOCTYPE html>
 
-<html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.mouseDownInCM=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor');top.ICEcoder.canResizeFilesW()}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor')}">
+<html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true; top.ICEcoder.resetAutoLogoutTimer()" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.mouseDownInCM=false; top.ICEcoder.resetAutoLogoutTimer(); if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor'); top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.canResizeFilesW()}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor')}">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -16,8 +16,8 @@ $t = $text['editor'];
 <!--
 codemirror-compressed.js
 incls:	codemirror
-modes:	clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, markdown, perl, php, python, ruby, rust, sass, sql, xml, yaml
-addon:	brace-fold, closebrackets, closetag, css-hint, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, searchcursor, show-hint, sql-hint, trailingspace, xml-fold, xml-hint
+modes:	clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, markdown, perl, php, python, ruby, sass, sql, xml, yaml
+addon:	brace-fold, closebrackets, closetag, css-hint, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, matchbrackets, searchcursor, show-hint, sql-hint, trailingspace, xml-fold, xml-hint
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 <?php
@@ -228,7 +228,7 @@ function createNewCMInstance(num) {
 	// Define our CodeMirror options
 	var cMOptions = {
 		mode: "application/x-httpd-php",
-		lineNumbers: true,
+		lineNumbers: top.ICEcoder.lineNumbers,
 		gutters: ["CodeMirror-foldgutter","CodeMirror-lint-markers","CodeMirror-linenumbers"],
 		foldGutter: {gutter: "CodeMirror-foldgutter"},
 		foldOptions: {minFoldSize: 1},
@@ -236,11 +236,12 @@ function createNewCMInstance(num) {
 		indentWithTabs: top.ICEcoder.indentWithTabs,
 		indentUnit: top.ICEcoder.indentSize,
 		tabSize: top.ICEcoder.indentSize,
+		matchBrackets: top.ICEcoder.matchBrackets,
 		electricChars: false,
-		autoCloseTags: true,
-		autoCloseBrackets: true,
+		autoCloseTags: top.ICEcoder.autoCloseTags,
+		autoCloseBrackets: top.ICEcoder.autoCloseBrackets,
 		highlightSelectionMatches: true,
-		showTrailingSpace: true,
+		showTrailingSpace: top.ICEcoder.showTrailingSpace,
 		lint: false,
 		keyMap: "ICEcoder"
 	};
@@ -294,6 +295,10 @@ function createNewCMInstance(num) {
 	// Mouse Down
 	window['cM'+num]	.on("mousedown", function(thisCM) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num)});
 	window['cM'+num+'diff']	.on("mousedown", function(thisCM) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num+'diff')});
+
+	// Drag Over
+	window['cM'+num]	.on("dragover", function(thisCM) {top.ICEcoder.cMonDragOver(thisCM,event,'cM'+num)});
+	window['cM'+num+'diff']	.on("dragover", function(thisCM) {top.ICEcoder.cMonDragOver(thisCM,event,'cM'+num+'diff')});
 
 	// Render line
 	window['cM'+num]	.on("renderLine", function(thisCM, line, element) {top.ICEcoder.cMonRenderLine(thisCM,'cM'+num,line,element)});
