@@ -52,6 +52,10 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 				$fh = fopen($settingsFile, 'w');
 				fwrite($fh, $settingsContents);
 				fclose($fh);
+
+				// Clear any FTP session we may have
+				$_SESSION['ftpSiteRef'] = false;
+
 				// Hide this popup and reload file manager
 				echo "<script>top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'));top.ICEcoder.refreshFileManager();</script>";
 			} else {

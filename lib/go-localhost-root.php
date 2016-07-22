@@ -22,6 +22,10 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
 		$fh = fopen($settingsFile, 'w');
 		fwrite($fh, $settingsContents);
 		fclose($fh);
+
+		// Clear any FTP session we may have
+		$_SESSION['ftpSiteRef'] = false;
+
 		// Now we've reset the root path to localhost root, refresh the file manager to show it
 		echo "<script>top.ICEcoder.refreshFileManager();</script>";
 	} else {
