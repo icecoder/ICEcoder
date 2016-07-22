@@ -161,6 +161,37 @@ $text = array(
 		"Saving"			=> "Saving"
 	),
 
+	"ftp-manager" =>
+	array(
+		"Saving FTP sites"		=> "Saving FTP sites",
+		"Cannot update config..."	=> "Cannot update config file. Please set public write permissions on",
+		"and try again"			=> "and try again",
+		"ftp manager"			=> "ftp manager",
+		"Choose existing site"		=> "Choose existing site",
+		"Are you sure..."		=> "Are you sure you wish to remove this site?",
+		"Add new site"			=> "Add new site",
+		"Edit site"			=> "Edit site",
+		"Site name"			=> "Site name",
+		"Host"				=> "Host",
+		"Username"			=> "Username",
+		"Password"			=> "Password",
+		"PASV and mode"			=> "PASV and mode",
+		"Root"				=> "Root",
+		"eg My Site"			=> "eg My Site",
+		"eg ftp.yourdomain.com"		=> "eg ftp.yourdomain.com",
+		"eg user123"			=> "eg user123",
+		"eg pass123"			=> "eg pass123",
+		"Use PASV mode..."		=> "Use PASV mode if your FTP site requires it and choose the data transfer type - ASCII or binary",
+		"eg /htdocs"			=> "eg /htdocs",
+		"PASV connection off"		=> "PASV connection off",
+		"PASV connection on"		=> "PASV connection on",
+		"ASCII transfer"		=> "ASCII transfer",
+		"Binary transfer"		=> "Binary transfer",
+		"Add"				=> "Add",
+		"Choose"			=> "Choose",
+		"Update"			=> "Update"
+	),
+
 	"get-branch" =>
 	array(
 		"There are no..."		=> "There are no differences between the local and GitHub repo. Switch back to regular mode?",
