@@ -39,6 +39,7 @@ $ICEcoderUserSettings = array(
 "bugFileMaxLines"	=> 0,
 "githubAuthToken"	=> "",
 "plugins"		=> array(),
+"ftpSites"		=> array(),
 "githubLocalPaths"	=> array(),
 "githubRemotePaths"	=> array(),
 "previousFiles"		=> "",
