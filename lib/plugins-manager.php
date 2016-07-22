@@ -142,7 +142,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 	// Identify the bit to replace
 	$repPosStart = strpos($settingsContents,'"plugins"');
-	$repPosEnd = strpos($settingsContents,'"githubLocalPaths"');
+	$repPosEnd = strpos($settingsContents,'"ftpSites"');
 
 	// Compile our new settings
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,$repPosEnd,strlen($settingsContents));
