@@ -242,7 +242,7 @@ $t = $text['index'];
 		<div id="optionsSource" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.goLocalhostRoot()">Localhost</a></li>
-				<li><a nohref onclick="ICEcoder.message('FTP integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">FTP</a></li>
+				<li><a nohref onclick="ICEcoder.ftpManager()">FTP</a></li>
 				<li><a nohref onclick="ICEcoder.githubManager()">GitHub</a></li>
 				<!--
 				<li><a nohref onclick="ICEcoder.message('SVN integration coming soon')">SVN</a></li>
