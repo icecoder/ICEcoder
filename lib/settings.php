@@ -1,15 +1,4 @@
 <?php
-$ftpSiteConn = false;
-if ($ftpSiteConn == 1) {
-	$ftpSite = "";        // FTP site domain, eg http://yourdomain.com
-	$ftpHost = "";        // FTP host, eg ftp.yourdomain.com
-	$ftpUser = "";        // FTP username
-	$ftpPass = "";        // FTP password
-	$ftpPasv = false;     // FTP account requires PASV mode?
-	$ftpMode = FTP_ASCII; // FTP transfer mode, FTP_ASCII or FTP_BINARY
-	$ftpRoot = "";        // FTP root dir to use as base, eg /htdocs
-}
-
 // Establish settings and users template filenames
 $configSettings = 'config___settings.php';
 $configUsersTemplate = 'config___users-template.php';
@@ -186,6 +175,18 @@ for($i=0;$i<count($_SESSION['allowedIPs']);$i++) {
 if (!$allowedIP) {
 	die('Sorry, access not permitted');
 };
+
+// Establish any FTP site to use
+if (isset($_SESSION['ftpSiteRef']) && $_SESSION['ftpSiteRef'] !== false) {
+	$ftpSiteArray = $ICEcoder['ftpSites'][$_SESSION['ftpSiteRef']];
+	$ftpSite = $ftpSiteArray['site'];                                         // FTP site domain, eg http://yourdomain.com
+	$ftpHost = $ftpSiteArray['host'];                                         // FTP host, eg ftp.yourdomain.com
+	$ftpUser = $ftpSiteArray['user'];                                         // FTP username
+	$ftpPass = $ftpSiteArray['pass'];                                         // FTP password
+	$ftpPasv = $ftpSiteArray['pasv'];                                         // FTP account requires PASV mode?
+	$ftpMode = $ftpSiteArray['mode'] == "FTP_ASCII" ? FTP_ASCII : FTP_BINARY; // FTP transfer mode, FTP_ASCII or FTP_BINARY
+	$ftpRoot = $ftpSiteArray['root'];                                         // FTP root dir to use as base, eg /htdocs
+}
 
 // Save currently opened files in previousFiles and last10Files arrays
 include(dirname(__FILE__)."/settings-save-current-files.php");
