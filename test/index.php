@@ -243,7 +243,7 @@ test = {
 				setTimeout(function() {
 					ICEcoder.closeTab(1,false,true);
 					console.log('TEST COMPLETE!');
-					alert('Test Complete!\n\nRan '+s+' of '+total+' tests OK.\nSee console for more details.');
+					top.ICEcoder.message('Test Complete!\n\nRan '+s+' of '+total+' tests OK.\nSee console for more details.');
 				},200);
 			} else {
 				testResult("- FAIL",title);
@@ -276,7 +276,7 @@ function displayResults(successful) {
 
 function testStopped() {
 	unitTestResults.innerHTML += " - Test stopped";
-	alert("Test stopped, see console for details.");
+	top.ICEcoder.message("Test stopped, see console for details.");
 }
 </script>
 

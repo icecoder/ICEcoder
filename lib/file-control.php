@@ -59,7 +59,7 @@ for ($i=0; $i<count($allFiles); $i++) {
 		// Or a remote URL that doesn't start http
 		($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
 		) {
-		die("alert('Sorry! - problem with file requested');</script>");
+		die("top.ICEcoder.message('Sorry! - problem with file requested');</script>");
 	};
 }
 
@@ -97,7 +97,7 @@ if ($_GET['action']=="load") {
 			ftpStart();
 			// Show user warning if no good connection
 			if (!$ftpConn || !$ftpLogin) {
-				die('alert("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>');
+				die('top.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>');
 				exit;
 			}
 			// Get our file contents and close the FTP connection

@@ -192,7 +192,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
 				echo '<textarea name="loadedFile'.$i.'" id="loadedFile'.$i.'" style="display: none">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea><br><br>'.PHP_EOL.PHP_EOL;
 			} else {
-				die("<script>alert('Sorry, that file doesn\'t appear to exist');</script>");
+				die("<script>top.ICEcoder.message('Sorry, that file doesn\'t appear to exist');</script>");
 			}
 		}
 		?>
