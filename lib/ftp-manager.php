@@ -166,7 +166,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		<form id="ftpAddEditForm" action="ftp-manager.php?action=<?php echo isset($_GET['action']) && $_GET['action']=="edit" ? "update&ftpSiteRef=".$_GET['ftpSiteRef'] : "add";?>" method="POST">
 			<table>
 			<tr>
-			<td style="padding-left: 5px"><?php echo $t['Site name'];?> <span class="info" title="<?php echo $t['eg My Site'];?>">[?]</span></td>
+			<td style="padding-left: 5px"><?php echo $t['Site base'];?> <span class="info" title="<?php echo $t['eg http://yourdomain.com'];?>">[?]</span></td>
 			<td style="padding-left: 5px"><?php echo $t['Host'];?> <span class="info" title="<?php echo $t['eg ftp.yourdomain.com'];?>">[?]</span></td>
 			</tr>
 			<tr>
