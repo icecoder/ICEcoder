@@ -273,8 +273,8 @@ function createNewCMInstance(num) {
 	window['cM'+num+'diff']	.on("beforeSelectionChange", function(thisCM, changeObj) {top.ICEcoder.prevLineDiff = thisCM.getCursor().line;});
 
 	// Change
-	window['cM'+num]	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num,changeObj)});
-	window['cM'+num+'diff']	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num+'diff',changeObj)});
+	window['cM'+num]	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num,changeObj,CodeMirror)});
+	window['cM'+num+'diff']	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num+'diff',changeObj,CodeMirror)});
 
 	// Before change
 	window['cM'+num]	.on("beforeChange", function(thisCM, changeObj) {top.ICEcoder.cMonBeforeChange(thisCM,'cM'+num,changeObj,CodeMirror)});
