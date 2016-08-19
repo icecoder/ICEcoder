@@ -24,8 +24,25 @@ $versions = $fileCountInfo['count'];
 .CodeMirror {position: absolute; width: 409px; height: 180px; font-size: <?php echo $ICEcoder["fontSize"];?>}
 .CodeMirror-scroll {overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
-.cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
+.cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.15)}
+.cm-trailingspace {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUXCToH00Y1UgAAACFJREFUCNdjPMDBUc/AwNDAAAFMTAwMDA0OP34wQgX/AQBYgwYEx4f9lQAAAABJRU5ErkJggg==);
+        background-position: bottom left;
+        background-repeat: repeat-x;
+      }
+.CodeMirror-foldmarker {font-family: arial; line-height: .3; color: #b00; cursor: pointer;
+	text-shadow: #fff 1px 1px 2px, #fff -1px -1px 2px, #fff 1px -1px 2px, #fff -1px 1px 2px;
+}
+.CodeMirror-foldgutter {display: inline-block; width: 13px}
+.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
+.CodeMirror-foldgutter-open {background: rgba(255,255,255,0.04); color: #666}
+.CodeMirror-foldgutter-open:after {position: relative; top: -2px}
+.CodeMirror-foldgutter-folded {background: #800; color: #ddd}
+.CodeMirror-foldgutter-folded:after {position: relative; top: -3px}
 </style>
+<script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldcode.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="editor.css?microtime=<?php echo microtime(true);?>">
 <?php
 $themeArray = array();
@@ -74,9 +91,7 @@ foreach ($dateCounts as $key => $value) {
 <div style="display: none; width: 180px; margin-left: 30px" id="buttonsContainer">
 	<div class="button" onclick="openNew()">Open in new tab</div>
 	<div class="button" onclick="openDiff()">Open in diff mode</div>
-	<!--
-	<div class="button" onclick="alert('Function not available yet - Coming in v5.4')">Restore as new version</div>
-	//-->
+	<div class="button" onclick="restoreVersion()">Restore as new version</div>
 	<div id="infoContainer"></div>
 </div>
 <div style="display: none">
@@ -93,12 +108,27 @@ var highlightVersion = function(elem) {
 	}
 }
 
+<?php
+echo "fileName = '".basename($file)."';";
+include(dirname(__FILE__)."/language-modes-partial.js");
+?>
+
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+	mode: mode,
 	lineNumbers: top.ICEcoder.lineNumbers,
-	readOnly: "nocursor",
+	gutters: ["CodeMirror-foldgutter","CodeMirror-lint-markers","CodeMirror-linenumbers"],
+	foldGutter: {gutter: "CodeMirror-foldgutter"},
+	foldOptions: {minFoldSize: 1},
+	lineWrapping: top.ICEcoder.lineWrapping,
+	indentWithTabs: top.ICEcoder.indentWithTabs,
 	indentUnit: top.ICEcoder.indentSize,
 	tabSize: top.ICEcoder.indentSize,
-	mode: "javascript",
+	matchBrackets: top.ICEcoder.matchBrackets,
+	electricChars: false,
+	highlightSelectionMatches: true,
+	showTrailingSpace: top.ICEcoder.showTrailingSpace,
+	lint: false,
+	readOnly: "nocursor",
 	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
 	});
 editor.setSize("480px","500px");
@@ -120,6 +150,18 @@ var openDiff = function() {
 	cMDiff = top.ICEcoder.getcMdiffInstance();
 	top.ICEcoder.focus('diff');
 	cMDiff.setValue(editor.getValue());
+}
+
+var restoreVersion = function() {
+	var cM;
+
+	if (top.ICEcoder.ask("To confirm - this will paste the displayed backup content to your current tab and save, OK?")) {
+		top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))
+		cM = top.ICEcoder.getcMInstance();
+		top.ICEcoder.focus();
+		cM.setValue(editor.getValue());
+		top.ICEcoder.saveFile();
+	}
 }
 </script>
 
