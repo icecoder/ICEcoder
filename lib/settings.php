@@ -55,7 +55,7 @@ $ICEcoderUserSettings['previousFiles'] = $prevFilesAvail;
 
 // Replace our config created date with the filemtime?
 if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['configCreateDate'] == 0) {
-	$settingsContents = file_get_contents(dirname(__FILE__)."/".$settingsFile,false,$context);
+	$settingsContents = getData(dirname(__FILE__)."/".$settingsFile);
 	clearstatcache();
 	$configfilemtime = filemtime(dirname(__FILE__)."/"."config___settings.php");
 	// Make it a number (avoids null, undefined etc)
@@ -208,7 +208,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 // If we're unlocking ICEcoder after donating
 } elseif (isset($_POST['submit']) && (strpos($_POST['submit'],"Unlock ICEcoder")>-1)) {
 	if (generateHash(strClean($_POST['email']),$_POST['code'])==$_POST['code']) {
-		$settingsContents = file_get_contents($settingsFile,false,$context);
+		$settingsContents = getData($settingsFile);
 		// Replace our empty email & code with the one submitted by user
 		$settingsContents = str_replace('"licenseEmail"		=> "",','"licenseEmail"		=> "'.$_POST['email'].'",',$settingsContents);
 		$settingsContents = str_replace('"licenseCode"		=> "",','"licenseCode"		=> "'.$_POST['code'].'",',$settingsContents);
@@ -238,7 +238,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 	// If the password hasn't been set and we're setting it
 	if ($ICEcoder["password"] == "" && isset($_POST['submit']) && (strpos($_POST['submit'],"set password")>-1)) {
 		$password = generateHash(strClean($_POST['password']));
-		$settingsContents = file_get_contents($settingsFile,false,$context);
+		$settingsContents = getData($settingsFile);
 		// Replace our empty password with the one submitted by user
 		$settingsContents = str_replace('"password"		=> "",','"password"		=> "'.$password.'",',$settingsContents);
 		// Also set the update checker preference
@@ -263,7 +263,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		}
 		// Disable the enableRegistration config setting if the user had that option chosen
 		if (isset($_POST['disableFurtherRegistration'])) {
-			$updatedConfigSettingsFile = file_get_contents(dirname(__FILE__)."/".$configSettings);
+			$updatedConfigSettingsFile = getData(dirname(__FILE__)."/".$configSettings);
 			if ($fUConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
 				$updatedConfigSettingsFile = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> false',$updatedConfigSettingsFile);
 				fwrite($fUConfigSettings, $updatedConfigSettingsFile);
