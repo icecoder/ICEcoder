@@ -271,8 +271,11 @@ function getVersionsCount($fileLoc,$fileName) {
 			$versionsInfo = explode("\n",$versionsInfo);
 			// For each line, check if it's our file and if so, add the count to our $count value and $dateCount array
 			for ($j=0; $j<count($versionsInfo); $j++) {
-				$fileRef = $fileLoc."/".$fileName." = ";
-				$fileRef = str_replace("//","/",$fileRef);
+				// Replace any backslashes in $fileLoc
+				$fileLoc = str_replace("\\","/",$fileLoc);
+				// Join $fileLock and $fileName into a path and replace double slashes
+				$fileRef = str_replace("//","/",$fileLoc."/".$fileName." = ");
+				// Check if we have a match
 				if (strpos($versionsInfo[$j],$fileRef) === 0) {
 					// We have a match, so split on the " = " and we can grab number as 2nd part
 					$lineInfo = explode(" = ",$versionsInfo[$j]);
