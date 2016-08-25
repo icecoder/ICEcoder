@@ -162,6 +162,13 @@ function xssClean($data,$type) {
 	return $output;
 }
 
+
+// Clean PHP code injection attempts
+function injClean($data) {
+	$output = str_replace("(", "", str_replace(")", "", str_replace(";", "", $data)));
+	return $output;
+}
+
 // returns a UTF8 based string with any UFT8 BOM removed
 function toUTF8noBOM($string,$message) {
 	global $text;
