@@ -88,14 +88,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			$zipURL = $iceGithubRemotePaths[$pathPos].'/zipball/master';
 	    		$zipFile = "../tmp/".basename($zipURL);
 
-			if (ini_get('allow_url_fopen')) {
-				$fileData = file_get_contents($zipURL, false, $context);
-			} elseif (function_exists('curl_init')) {
-    				$client = curl_init($zipURL);
-				curl_setopt($client, CURLOPT_SSL_VERIFYPEER, false);
-		    		curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);  //fixed this line
-				$fileData = curl_exec($client);
-			}
+			$fileData = getData($zipURL,'curl');
 			file_put_contents($zipFile, $fileData);
 
 			// Now unpack the zip
@@ -189,7 +182,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 			// Only get the file if it exists and begins with our $docRoot
 			if (file_exists($file) && strpos($file,$docRoot) === 0) {
-				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
+				$loadedFile = toUTF8noBOM(getData($file,'curl'),true);
 				echo '<textarea name="loadedFile'.$i.'" id="loadedFile'.$i.'" style="display: none">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea><br><br>'.PHP_EOL.PHP_EOL;
 			} else {
 				die("<script>top.ICEcoder.message('Sorry, that file doesn\'t appear to exist');</script>");
