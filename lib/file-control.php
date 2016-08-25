@@ -105,7 +105,7 @@ if ($_GET['action']=="load") {
 			ftpEnd();
 		// Get local file
 		} else {
-			$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
+			$loadedFile = toUTF8noBOM(getData($file),true);
 		}
 			$encoding=ini_get("default_charset");
 			if($encoding=="")

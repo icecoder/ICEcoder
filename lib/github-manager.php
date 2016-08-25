@@ -9,7 +9,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	// Get our old paths & user settings
 	$oldLocal = $ICEcoder["githubLocalPaths"];
 	$oldRemote = $ICEcoder["githubRemotePaths"];
-	$settingsContents = file_get_contents($settingsFile,false,$context);
+	$settingsContents = getData($settingsFile);
 
 	// ========
 	// CHOOSING

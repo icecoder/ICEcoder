@@ -5,7 +5,7 @@ $t = $text['settings-update'];
 
 // Update this config file?
 if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
-	$settingsContents = file_get_contents($settingsFile,false,$context);
+	$settingsContents = getData($settingsFile);
 	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'"root"');
 	$repPosEnd = strpos($settingsContents,'"plugins"');
@@ -84,7 +84,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$refreshFM = $_POST['changedFileSettings']=="true" ? "true" : "false";
 
 	// Change multiUser and enableRegistration in config___settings.php
-	$generalSettingsContents = file_get_contents($configSettings,false,$context);
+	$generalSettingsContents = getData($configSettings);
 	$isMultiUser = isset($_POST['multiUser']) && $_POST['multiUser'] ? "true" : "false";
 	$generalSettingsContents = str_replace('"multiUser"		=> true,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
 	$generalSettingsContents = str_replace('"multiUser"		=> false,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);

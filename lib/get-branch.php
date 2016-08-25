@@ -230,7 +230,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 		// If we're not looking at a .git dir, it's not a .gitignore excluded path and not a dir
 		if (strpos($fileFolderName,".git/") == false && !in_array($docRoot.$iceRoot.$fileFolderName, $excluded) && !is_dir($docRoot.$iceRoot.$fileFolderName)) {
 			// Get contents of file
-			$contents = file_get_contents($docRoot.$iceRoot.$fileFolderName);
+			$contents = getData($docRoot.$iceRoot.$fileFolderName);
 
 			$finfo = "text";
 			// Determine if we should remove \r line endings based on mime type (text files yes, others no)

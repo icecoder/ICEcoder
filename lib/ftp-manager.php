@@ -8,7 +8,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 	// Get our old FTP sites & user settings
 	$oldFTPSites = $ICEcoder["ftpSites"];
-	$settingsContents = file_get_contents($settingsFile,false,$context);
+	$settingsContents = getData($settingsFile);
 
 	// ========
 	// CHOOSING

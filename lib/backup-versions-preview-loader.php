@@ -6,7 +6,7 @@ include("settings.php");
 $file = str_replace("|","/",xssClean($_GET['file'],'html'));
 
 // Get contents
-$loadedFile = toUTF8noBOM(file_get_contents("../backups/".$file,false,$context),true);
+$loadedFile = toUTF8noBOM(getData("../backups/".$file),true);
 $encoding=ini_get("default_charset");
 if($encoding=="")
 	$encoding="UTF-8";

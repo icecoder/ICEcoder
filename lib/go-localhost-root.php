@@ -6,7 +6,7 @@ $t = $text['settings-update'];
 // Update our 'root' value to be blank
 // which resets the file manager to localhost root again
 if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
-	$settingsContents = file_get_contents($settingsFile,false,$context);
+	$settingsContents = getData($settingsFile);
 	// Replace our root var
 	$repPosStart = strpos($settingsContents,'"root"');
 	$repPosEnd = strpos($settingsContents,'"checkUpdates"');
