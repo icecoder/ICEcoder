@@ -319,7 +319,7 @@ if (!$error && $_GET['action']=="save") {
 						// get old file contents, and count stats on usage \n and \r there
 						// in this case we can keep line endings, which file had before, without
 						// making code version control systems going crazy about line endings change in whole file.
-						$oldContents = file_exists($file)?file_get_contents($file):'';
+						$oldContents = file_exists($file)?getData($file):'';
 						$unixNewLines = preg_match_all('/[^\r][\n]/u', $oldContents);
 						$windowsNewLines = preg_match_all('/[\r][\n]/u', $oldContents);
 					} else {
@@ -399,7 +399,7 @@ if (!$error && $_GET['action']=="save") {
 					// Have a version index already? Update contents
 					if (file_exists($backupIndex)) {
 						$versionsInfo = "";
-						$versionsInfoOrig = file_get_contents($backupIndex,false,$context);
+						$versionsInfoOrig = getData($backupIndex);
 						$versionsInfoOrig = explode("\n",$versionsInfoOrig);
 						$replacedLine = false;
 						// For each line, either re-set number or simply include the line
@@ -451,7 +451,7 @@ if (!$error && $_GET['action']=="save") {
 				// Reload previewWindow window if not a Markdown file
 				// In doing this, we check on an interval for the page to be complete and if we last saw it loading
 				// When we are done loading, so set the loading status to false and load plugins ontop...		
-				$doNext .= 'if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {
+				$doNext .= 'if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {
 					top.ICEcoder.previewWindowLoading = false;
 					top.ICEcoder.previewWindow.location.reload(true);
 					
@@ -495,7 +495,7 @@ if (!$error && $_GET['action']=="save") {
 
 			} else {
 				// Only applicable for local files
-				$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
+				$loadedFile = toUTF8noBOM(getData($file),true);
 				$fileCountInfo = getVersionsCount($fileLoc,$fileName);
 				$doNext .= '
 				var loadedFile = document.createElement("textarea");
@@ -852,7 +852,7 @@ function rrmdir($dir) {
 
 if (!isset($ftpSite) && !$error && $_GET['action']=="replaceText") {
 	if (!$demoMode && is_writable($file)) {
-		$loadedFile = toUTF8noBOM(file_get_contents($file,false,$context),true);
+		$loadedFile = toUTF8noBOM(getData($file),true);
 		$newContent = str_replace(strClean($_GET['find']),strClean($_GET['replace']),$loadedFile);
 		$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
 		fwrite($fh, $newContent);
@@ -873,7 +873,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="replaceText") {
 
 if (!isset($ftpSite) && !$error && $_GET['action']=="getRemoteFile") {
 	$lineNumber = max(isset($_REQUEST['lineNumber'])?intval($_REQUEST['lineNumber']):1, 1);
-	if ($remoteFile = toUTF8noBOM(file_get_contents($file,false,$context),true)) {
+	if ($remoteFile = toUTF8noBOM(getData($file,'curl'),true)) {
 		// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 		$remoteFile = str_replace("\r\n", $ICEcoder["lineEnding"], $remoteFile);
 		$remoteFile = str_replace("\r", $ICEcoder["lineEnding"], $remoteFile);
