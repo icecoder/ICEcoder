@@ -78,19 +78,7 @@ function copyOldVersion() {
 	}
 	$icv_url = "https://icecoder.net/latest-version.txt";
 	echo 'Detecting current version of ICEcoder...<br>';
-	if (ini_get('allow_url_fopen')) {
-		$icvInfo = @file_get_contents($icv_url,false,$context);
-		if (!$icvInfo) {
-			$icvInfo = file_get_contents(str_replace("https:","http:",$icv_url), false, $context);
-		}
-	} elseif (function_exists('curl_init')) {
-		$ch = curl_init($icv_url);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		$icvInfo = curl_exec($ch);
-	} else {
-		die('Sorry, couldn\'t figure out latest version.');
-	}
+	$icvInfo = getData($icv_url,'curl','Sorry, couldn\'t figure out latest version.');
 	echo 'Latest version of ICEcoder is '.$icvInfo.'<br>';
 	openZipNew($icvInfo);
 }
@@ -104,18 +92,7 @@ function openZipNew($icvInfo) {
 
 	$remoteFile = 'https://icecoder.net/ICEcoder-v'.(str_replace(" beta", "-beta",$icvInfo)).'.zip';
     	$file = "../tmp/new-version.zip";
-	if (ini_get('allow_url_fopen')) {
-		$fileData = @file_get_contents($remoteFile,false,$context);
-		if (!$fileData) {
-			$fileData = file_get_contents(str_replace("https:","http:",$remoteFile), false, $context);
-		}
-	} elseif (function_exists('curl_init')) {
-	    	$client = curl_init($remoteFile);
-    		curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);  //fixed this line
-		$fileData = curl_exec($client);
-	} else {
-		die('Sorry, couldn\'t get latest version zip file.');
-	}
+	$fileData = getData($remoteFile,'curl','Sorry, couldn\'t get latest version zip file.');
 	echo 'Storing zip file...<br>';
 	file_put_contents($file, $fileData);
 
@@ -156,9 +133,9 @@ function transposeSettings($oldFile,$newFile,$saveFile) {
 
 	echo '- Getting old and new settings...<br>';
 	// Get old and new settings and start a new $contents
-	$oldSettingsContent = file_get_contents($oldFile,false,$context);
+	$oldSettingsContent = getData($oldFile);
 	$oldSettingsArray = explode("\n",$oldSettingsContent);
-	$newSettingsContent = file_get_contents($newFile,false,$context);
+	$newSettingsContent = getData($newFile);
 	$newSettingsArray = explode("\n",$newSettingsContent);
 	$contents = "";
 
