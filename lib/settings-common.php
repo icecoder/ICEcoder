@@ -45,6 +45,40 @@ if (isset($_SESSION['text'])) {
 	$t = $text['settings-common'];
 }
 
+// Get data from a fopen or CURL connection
+function getData($url,$type='fopen',$shouldDie=false) {
+	global $context;
+
+	// Request is to connect via CURL
+	if ($type == "curl" && function_exists('curl_init')) {
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_USERAGENT, 'ICEcoder');
+		curl_setopt($ch, CURLOPT_FAILONERROR, true);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		$data = curl_exec($ch);
+		curl_close($ch);
+	// Otherwise, use an fopen connection
+	} elseif (ini_get('allow_url_fopen')) {
+		$data = @file_get_contents($url,false,$context);
+		if (!$data) {
+			$data = @file_get_contents(str_replace("https:","http:",$url), false, $context);
+		}
+	}
+	// Return data or die
+	if ($data) {
+		return $data;
+	} elseif ($shouldDie) {
+		die('Unable to get data over a fopen or CURL connection');
+		exit;
+	}
+}
+
 // Logout if that's the action we're taking
 if (isset($_GET['logout'])) {
 	include(dirname(__FILE__)."/../processes/on-user-logout.php");
@@ -226,7 +260,6 @@ function getVersionsCount($fileLoc,$fileName) {
 		$backupIndex = $backupDirBase.$backupDirHost."/".$backupDateDirs[$i]."/.versions-index";
 		// Have a .versions-index file? Get contents
 		if (file_exists($backupIndex) && is_readable($backupIndex)) {
-			$versionsInfo = file_get_contents($backupIndex,false,$context);
 			$versionsInfo = explode("\n",$versionsInfo);
 			// For each line, check if it's our file and if so, add the count to our $count value and $dateCount array
 			for ($j=0; $j<count($versionsInfo); $j++) {
