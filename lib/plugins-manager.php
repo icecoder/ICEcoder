@@ -7,17 +7,7 @@ $t = $text['plugins-manager'];
 $pluginsDataSrc = "https://icecoder.net/plugin-data?format=JSON";
 
 // Now get our plugin data and put into a PHP array
-if (ini_get('allow_url_fopen')) {
-	$pluginsDataJS = @file_get_contents($pluginsDataSrc, false, $context);
-	if (!$pluginsDataJS) {
-		$pluginsDataJS = file_get_contents(str_replace("https:","http:",$pluginsDataSrc), false, $context);
-	}
-} elseif (function_exists('curl_init')) {
-	$pDSrc = curl_init($pluginsDataSrc);
-	curl_setopt($pDSrc, CURLOPT_SSL_VERIFYPEER, false);
-	curl_setopt($pDSrc, CURLOPT_RETURNTRANSFER, true);
-	$pluginsDataJS = curl_exec($pDSrc);
-}
+$pluginsDataJS = getData($pluginsDataSrc,'curl');
 $pluginsData = json_decode($pluginsDataJS, true);
 
 // If we have an action to perform
@@ -25,7 +15,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 	// Get our old plugin & user settings
 	$oldPlugins = $ICEcoder["plugins"];
-	$settingsContents = file_get_contents($settingsFile,false,$context);
+	$settingsContents = getData($settingsFile);
 
 	// ==========
 	// INSTALLING
@@ -37,13 +27,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		$target = '../plugins/';
 		$zipURL = $pluginsData[strClean($_GET['plugin'])]['zipURL'];
 	    	$zipFile = "../tmp/".basename($zipURL);
-		if (ini_get('allow_url_fopen')) {
-			$fileData = file_get_contents($zipURL, false, $context);
-		} elseif (function_exists('curl_init')) {
-    			$client = curl_init($zipURL);
-		    	curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);  //fixed this line
-			$fileData = curl_exec($client);
-		}
+		$fileData = getData($zipURL,'curl');
 		file_put_contents($zipFile, $fileData);
 
 		// Now unpack the zip
