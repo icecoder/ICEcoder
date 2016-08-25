@@ -46,7 +46,7 @@ if (isset($_SESSION['text'])) {
 }
 
 // Get data from a fopen or CURL connection
-function getData($url,$type='fopen',$shouldDie=false) {
+function getData($url,$type='fopen',$dieMessage=false) {
 	global $context;
 
 	// Request is to connect via CURL
@@ -70,11 +70,11 @@ function getData($url,$type='fopen',$shouldDie=false) {
 			$data = @file_get_contents(str_replace("https:","http:",$url), false, $context);
 		}
 	}
-	// Return data or die
+	// Return data or die with message
 	if ($data) {
 		return $data;
-	} elseif ($shouldDie) {
-		die('Unable to get data over a fopen or CURL connection');
+	} elseif ($dieMessage) {
+		die($dieMessage);
 		exit;
 	}
 }
