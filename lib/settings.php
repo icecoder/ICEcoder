@@ -164,16 +164,11 @@ for ($i=0;$i<count($settingsArray);$i++) {
 	if (!isset($_SESSION[$settingsArray[$i]])) {$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]];}
 }
 
-// Determin our allowed IP addresses
-$allowedIP = false;
-for($i=0;$i<count($_SESSION['allowedIPs']);$i++) {
-	if ($_SESSION['allowedIPs'][$i]==$_SERVER["REMOTE_ADDR"]||$_SESSION['allowedIPs'][$i]=="*") {
-		$allowedIP = true;
-	}
-}
-// If user not allowed to view, display message
-if (!$allowedIP) {
-	die('Sorry, access not permitted');
+// Check IP permissions
+if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*", $_SESSION['allowedIPs'])) {
+	header('Location: /');
+	die("Sorry, not in allowed IPs list");
+	exit;
 };
 
 // Establish any FTP site to use
