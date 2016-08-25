@@ -13,18 +13,7 @@ $updateMsg = '';
 // Check for updates
 if ($ICEcoder["checkUpdates"]) {
 	$icv_url = "https://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"];
-	if (ini_get('allow_url_fopen')) {
-		$icvInfo = @file_get_contents($icv_url,false,$context);
-		if (!$icvInfo) {
-			$icvInfo = file_get_contents(str_replace("https:","http:",$icv_url), false, $context);
-		}
-		$icvInfo = explode("\n",$icvInfo);
-	} elseif (function_exists('curl_init')) {
-		$ch = curl_init($icv_url);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		$icvInfo = explode("\n", curl_exec($ch));
-	}
+	$icvInfo = explode("\n", getData($icv_url,'curl'));
 	$icv = $icvInfo[0];
 	$icvI = str_replace('"','\\\'',$icvInfo[1]);
 	$thisV = $ICEcoder["versionNo"];
@@ -330,6 +319,8 @@ $t = $text['index'];
 	<div class="nesting" id="nestValid"></div>
 	<div class="versionsDisplay" id="versionsDisplay" onclick="top.ICEcoder.versionsScreen(top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1].replace(/\//g,'|'))"></div>
 	<div class="splitPaneControls" id="splitPaneControls"><div class="off" id="splitPaneControlsOff" title="<?php echo $t['Single pane'];?>" onclick="top.ICEcoder.setSplitPane('off')"></div><div class="on" id="splitPaneControlsOn" title="<?php echo $t['Diff pane also'];?>" onclick="top.ICEcoder.setSplitPane('on')" style="opacity: 0.5"></div></div>
+	<div class="splitPaneNames" id="splitPaneNamesMain">Main Pane</div>
+	<div class="splitPaneNames" id="splitPaneNamesDiff">Diff Pane</div>
 	<div class="byteDisplay" id="byteDisplay" style="display: none" onClick="top.ICEcoder.showDisplay('char')"></div>
 	<div class="charDisplay" id="charDisplay" style="display: inline-block" onClick="top.ICEcoder.showDisplay('byte')"></div>
 </div>
