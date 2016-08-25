@@ -230,7 +230,7 @@ if (!$error && $_GET['action']=="save") {
 							/* console.log(\'Calling \'+saveURL+\' via XHR\'); */
 							xhr.open("POST",saveURL,true);
 							xhr.setRequestHeader(\'Content-type\', \'application/x-www-form-urlencoded\');
-							xhr.send(\'timeStart='.$_POST["timeStart"].'&file='.$fileURL.'&newFileName=\'+newFileName.replace(/\\\+/g,"%2B")+\'&contents=\'+encodeURIComponent(top.ICEcoder.saveAsContent));
+							xhr.send(\'timeStart='.numClean($_POST["timeStart"]).'&file='.$fileURL.'&newFileName=\'+newFileName.replace(/\\\+/g,"%2B")+\'&contents=\'+encodeURIComponent(top.ICEcoder.saveAsContent));
 							top.ICEcoder.serverMessage("<b>'.$t['Saving'].'</b><br>" + "'.($finalAction == "Save" ? "newFileName" : "'".$fileName."'").'");
 						}
 					}
@@ -946,7 +946,7 @@ if (!isset($filemtime) && !is_dir($file)) {
 	$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
 }
 // Set $timeStart, use 0 if not available
-$timeStart = isset($_POST["timeStart"]) ? $_POST["timeStart"] : 0;
+$timeStart = isset($_POST["timeStart"]) ? numClean($_POST["timeStart"]) : 0;
 
 if (isset($ftpSite)) {
 	// Get info on dir/file now
@@ -979,12 +979,12 @@ echo '{
 		"exists": '.$itemExists.'
 	},
 	"action": {
-		"initial" : "'.$_GET["action"].'",
+		"initial" : "'.xssClean($_GET['action'],"html").'",
 		"final" : "'.$finalAction.'",
 		"timeStart": '.$timeStart.',
 		"timeEnd": 0,
 		"timeTaken": 0,
-		"csrf": "'.$_GET["csrf"].'",
+		"csrf": "'.xssClean($_GET['csrf'],"html").'",
 		"doNext" : "'.preg_replace('/\r|\n/','',str_replace('	','',str_replace('"','\"',$doNext))).'top.ICEcoder.switchMode();"
 	},
 	"status": {
