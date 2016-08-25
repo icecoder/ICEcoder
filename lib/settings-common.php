@@ -260,6 +260,7 @@ function getVersionsCount($fileLoc,$fileName) {
 		$backupIndex = $backupDirBase.$backupDirHost."/".$backupDateDirs[$i]."/.versions-index";
 		// Have a .versions-index file? Get contents
 		if (file_exists($backupIndex) && is_readable($backupIndex)) {
+			$versionsInfo = getData($backupIndex);
 			$versionsInfo = explode("\n",$versionsInfo);
 			// For each line, check if it's our file and if so, add the count to our $count value and $dateCount array
 			for ($j=0; $j<count($versionsInfo); $j++) {
