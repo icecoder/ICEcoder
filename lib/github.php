@@ -182,7 +182,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 			// Only get the file if it exists and begins with our $docRoot
 			if (file_exists($file) && strpos($file,$docRoot) === 0) {
-				$loadedFile = toUTF8noBOM(getData($file,'curl'),true);
+				$loadedFile = toUTF8noBOM(getData($file),true);
 				echo '<textarea name="loadedFile'.$i.'" id="loadedFile'.$i.'" style="display: none">'.str_replace("</textarea>","<ICEcoder:/:textarea>",str_replace("&","&amp;",$loadedFile)).'</textarea><br><br>'.PHP_EOL.PHP_EOL;
 			} else {
 				die("<script>top.ICEcoder.message('Sorry, that file doesn\'t appear to exist');</script>");
