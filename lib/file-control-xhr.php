@@ -810,9 +810,14 @@ if (!$error && $_GET['action']=="delete") {
 			if (rtrim($fullPath,"/") == rtrim($docRoot,"/")) {
 				$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete...']."');";
 			} else if (!$demoMode && is_writable($fullPath)) {
-				is_dir($fullPath)
-					? rrmdir($fullPath)
-					: unlink($fullPath);
+				if (is_dir($fullPath)) {
+					rrmdir($fullPath);
+				} else {
+					// Delete file to tmp dir or full delete
+					$ICEcoder['deleteToTmp']					
+						? rename($fullPath,str_replace("\\","/",dirname(__FILE__))."/../tmp/.".str_replace(":","_",str_replace("/","_",$fullPath)))
+						: unlink($fullPath);
+				}
 				$fileName = basename($fullPath);
 				$fileLoc = dirname(str_replace($docRoot,"",$fullPath));
 				if ($fileLoc=="" || $fileLoc=="\\") {$fileLoc="/";};
@@ -831,18 +836,26 @@ if (!$error && $_GET['action']=="delete") {
 };
 
 // The function to recursively remove folders & files
-function rrmdir($dir) { 
+function rrmdir($dir) {
+	global $ICEcoder;
+
 	if (is_dir($dir)) { 
 		$objects = scandir($dir); 
 		foreach ($objects as $object) { 
-			if ($object != "." && $object != "..") { 
-				filetype($dir."/".$object) == "dir" 
-					? rrmdir($dir."/".$object)
-					: unlink($dir."/".$object); 
+			if ($object != "." && $object != "..") {
+				if (filetype($dir."/".$object) == "dir") {
+					rrmdir($dir."/".$object);
+				} else {
+					$ICEcoder['deleteToTmp']
+						? rename($dir."/".$object,str_replace("\\","/",dirname(__FILE__))."/../tmp/.".str_replace(":","_",str_replace("/","_",$dir))."/".$object)
+						: unlink($dir."/".$object);
+				}
 			} 
 		} 
-		reset($objects); 
-	rmdir($dir); 
+		reset($objects);
+		$ICEcoder['deleteToTmp']
+			? rename($dir,str_replace("\\","/",dirname(__FILE__))."/../tmp/.".str_replace(":","_",str_replace("/","_",$dir)))
+			: rmdir($dir);
 	} 
 };
 
