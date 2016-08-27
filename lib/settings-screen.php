@@ -178,6 +178,8 @@ for ($i=0;$i<count($themeArray);$i++) {
 		echo $backupNumDays." ".($backupNumDays != 1 ? $t['days'] : $t['day'])." ".$t['of backups stored...'];
 		?>
 		</div><br>
+
+		<input type="checkbox" onclick="showButton();" name="deleteToTmp" value="true"<?php if($ICEcoder["deleteToTmp"]) {echo ' checked';};?>> <?php echo $t['deleting actually moves...'];?> <span class="info" title="<?php echo $t['local/server items...'];?>" style="position: absolute; margin-top: 6px">[?]</span>
 		<br><br>
 
 	</div>

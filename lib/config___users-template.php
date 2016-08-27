@@ -11,6 +11,7 @@ $ICEcoderUserSettings = array(
 "languageUser"		=> "english.php",
 "backupsKept"		=> true,
 "backupsDays"		=> 14,
+"deleteToTmp"		=> true,
 "findFilesExclude"	=> array(".doc",".gif",".jpg",".jpeg",".pdf",".png",".swf",".xml",".zip"),
 "codeAssist"		=> true,
 "visibleTabs"		=> false,
