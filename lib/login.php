@@ -37,7 +37,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		<?php if (isset($_GET["success"]) && $_GET["success"]=="no") {echo "Sorry, that doesn't seem to be correct.<br>Please check your emailed details and try again.<br><br>";};?>
 		<?php if ($ICEcoder["multiUser"]) {echo '		<input type="text" name="username" value="Username" onfocus="origValue=\'Username\';if(this.value==origValue){this.value=\'\';};" onblur="if(this.value==\'\'){this.value=origValue;};" class="password"><br><br>'.PHP_EOL;};?>
 		<input type="email" name="email" value="Email" onfocus="origValue='Email';if(this.value==origValue){this.value='';};" onblur="if(this.value==''){this.value=origValue;};" class="password"><br><br>
-		<input type="text" name="code" value="Code" onfocus="origValue='Code';if(this.value==origValue){this.value='';};" onblur="if(this.value==''){this.value=origValue;};" class="password"><br><br>
+		<input type="text" name="code" value="Code" onfocus="origValue='Code';if(this.value==origValue){this.value='';};" onblur="if(this.value==''){this.value=origValue;};" class="password" autocomplete="off"><br><br>
 		<input type="submit" name="submit" value="Unlock ICEcoder" style="background: #097695; color: #fff; border: 0; padding: 10px; text-decoration: none; font-size: 17px; font-weight: bold; border-radius: 4px; cursor: pointer"><br><br><br>
 		Future development relies on your donation, to keep making awesome new features.<br><br>
 		Many thanks.</span>
