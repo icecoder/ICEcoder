@@ -748,7 +748,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="upload") {
 
 		function getDetails($fileArr) {
 			foreach($fileArr['name'] as $keyee => $info) {
-				$uploads[$keyee]->name=$fileArr['name'][$keyee];  
+				$uploads[$keyee]->name=xssClean($fileArr['name'][$keyee],"html");  
 				$uploads[$keyee]->type=$fileArr['type'][$keyee];  
 				$uploads[$keyee]->tmp_name=$fileArr['tmp_name'][$keyee];  
 				$uploads[$keyee]->error=$fileArr['error'][$keyee];  
