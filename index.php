@@ -31,6 +31,10 @@ $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="lib/ice-coder.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php
+if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+echo "?microtime=".microtime(true);
+?>">
 <link rel="icon" type="image/png" href="favicon.png">
 <script>
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
@@ -63,6 +67,7 @@ $t = $text['index'];
 </script>
 <script language="JavaScript" src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="lib/draggabilly.pkgd.min.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="farbtastic/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="lib/difflib.js?microtime=<?php echo microtime(true);?>"></script>
 <link rel="stylesheet" href="farbtastic/farbtastic.css?microtime=<?php echo microtime(true);?>" type="text/css">
@@ -303,6 +308,8 @@ $t = $text['index'];
 			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 			<div class="view" title="<?php echo $t['View'];?>" onClick="top.ICEcoder.openPreviewWindow()" id="fMView"></div>
 			<div class="bug" title="<?php echo $t['Bug reporting not active'];?>" onClick="top.ICEcoder.openBugReport()" id="bugIcon"></div>
+			<div class="minimapLink" onclick="top.ICEcoder.docExplorerShow('miniMap')"><?php echo $t['Minimap'];?></div>
+			<div class="functionClassList" onclick="top.ICEcoder.docExplorerShow('functionClassList')"><?php echo $t['Function/Class List'];?></div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 	</div>
@@ -317,6 +324,11 @@ $t = $text['index'];
 	<div class="splitPaneNames" id="splitPaneNamesDiff">Diff Pane</div>
 	<div class="byteDisplay" id="byteDisplay" style="display: none" onClick="top.ICEcoder.showDisplay('char')"></div>
 	<div class="charDisplay" id="charDisplay" style="display: inline-block" onClick="top.ICEcoder.showDisplay('byte')"></div>
+</div>
+
+<div class="docExplorer" style="height: 855px" id="docExplorer">
+	<div class="miniMap" id="miniMap"><div class="miniMapContainer" style="height: 855px" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent"></div></div>
+	<div class="functionClassList" id="functionClassList"></div>
 </div>
 
 <script>
