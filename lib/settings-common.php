@@ -89,7 +89,7 @@ if (isset($_GET['logout'])) {
 	die("Logging you out...");
 }
 
-// If magic quotes are still on (attempted to switch off in php.ini)
+// If magic quotes are still on
 if (get_magic_quotes_gpc ()) {
 	function stripslashes_deep($value) {
 		$value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
