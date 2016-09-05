@@ -27,6 +27,7 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
 <script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldcode.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/runmode.js?microtime=<?php echo microtime(true);?>"></script>
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
@@ -241,6 +242,7 @@ function createNewCMInstance(num) {
 		autoCloseTags: top.ICEcoder.autoCloseTags,
 		autoCloseBrackets: top.ICEcoder.autoCloseBrackets,
 		highlightSelectionMatches: true,
+		scrollbarStyle: null,
 		showTrailingSpace: top.ICEcoder.showTrailingSpace,
 		lint: false,
 		keyMap: "ICEcoder"
@@ -283,6 +285,10 @@ function createNewCMInstance(num) {
 	// Scroll
 	window['cM'+num]	.on("scroll", function(thisCM) {top.ICEcoder.cMonScroll(thisCM,'cM'+num)});
 	window['cM'+num+'diff']	.on("scroll", function(thisCM) {top.ICEcoder.cMonScroll(thisCM,'cM'+num+'diff')});
+
+	// Update
+	window['cM'+num]	.on("update", function(thisCM) {top.ICEcoder.cMonUpdate(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("update", function(thisCM) {top.ICEcoder.cMonUpdate(thisCM,'cM'+num+'diff')});
 
 	// Input read
 	window['cM'+num]	.on("inputRead", function(thisCM) {top.ICEcoder.cMonInputRead(thisCM,'cM'+num)});
