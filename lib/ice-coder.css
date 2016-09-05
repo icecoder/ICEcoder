@@ -153,7 +153,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .fileMenu a:hover {background-color: #666}
 .fileMenu hr {border: 0; height: 1px; padding: 0; margin: 0; background: #444}
 
-.docExplorer {position: absolute; top: 70px; right: -200px; width: 180px; color: #888}
+.docExplorer {position: absolute; top: 70px; right: -200px; width: 180px; overflow: hidden; color: #888}
 .docExplorer .miniMap {position: absolute; display: block}
 .docExplorer .miniMap .miniMapContainer {position: absolute; display: block; width: 200px}
 .docExplorer .miniMap .miniMapContent {position: absolute; display: block; width: 200px}
