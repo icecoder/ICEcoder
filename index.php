@@ -326,8 +326,8 @@ $t = $text['index'];
 	<div class="charDisplay" id="charDisplay" style="display: inline-block" onClick="top.ICEcoder.showDisplay('byte')"></div>
 </div>
 
-<div class="docExplorer" style="height: 855px" id="docExplorer">
-	<div class="miniMap" id="miniMap"><div class="miniMapContainer" style="height: 855px" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent"></div></div>
+<div class="docExplorer" id="docExplorer">
+	<div class="miniMap" id="miniMap"><div class="miniMapContainer" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent"></div></div>
 	<div class="functionClassList" id="functionClassList"></div>
 </div>
 
