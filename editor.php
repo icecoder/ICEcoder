@@ -28,7 +28,9 @@ if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldcode.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/runmode.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.js?microtime=<?php echo microtime(true);?>"></script>
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 	echo '<script src="plugins/emmet/emmet.min.js?microtime='.microtime(true).'"></script>';
@@ -242,7 +244,7 @@ function createNewCMInstance(num) {
 		autoCloseTags: top.ICEcoder.autoCloseTags,
 		autoCloseBrackets: top.ICEcoder.autoCloseBrackets,
 		highlightSelectionMatches: true,
-		scrollbarStyle: null,
+		scrollbarStyle: 'overlay', // null, 'native', 'simple', 'overlay'
 		showTrailingSpace: top.ICEcoder.showTrailingSpace,
 		lint: false,
 		keyMap: "ICEcoder"
