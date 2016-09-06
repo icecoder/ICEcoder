@@ -313,7 +313,7 @@ $t = $text['index'];
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 	</div>
-	<iframe name="contentFrame" id="content" src="editor.php" class="code"></iframe>
+	<iframe name="contentFrame" id="content" src="editor.php" class="code" scrolling="no"></iframe>
 </div>
 
 <div class="footer" id="footer" onContextMenu="return false">
