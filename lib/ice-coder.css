@@ -153,11 +153,14 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .fileMenu a:hover {background-color: #666}
 .fileMenu hr {border: 0; height: 1px; padding: 0; margin: 0; background: #444}
 
-.docExplorer {position: absolute; top: 70px; right: -200px; width: 180px; overflow: hidden; color: #888}
+.docExplorer {position: absolute; top: 70px; right: -420px; width: 200px; padding-left: 20px; transition: right 0.4s ease-in-out; overflow: hidden; color: #888}
 .docExplorer .miniMap {position: absolute; display: block}
 .docExplorer .miniMap .miniMapContainer {position: absolute; display: block; width: 200px}
 .docExplorer .miniMap .miniMapContent {position: absolute; display: block; width: 200px}
-.docExplorer .functionClassList {position: absolute; display: none}
+.docExplorer .functionClassList {position: absolute; display: none; width: 180px; height: 100%; overflow-x: hidden; overflow-y: auto}
+.docExplorer .functionClassList::-webkit-scrollbar {width: 12px; height: 12px}
+.docExplorer .functionClassList::-webkit-scrollbar-thumb {background: rgba(0,198,255,0.1)}
+.docExplorer .functionClassList::-webkit-scrollbar-corner, .docExplorer .functionClassList::-webkit-scrollbar-resizer {background: transparent}
 .docExplorer .functionClassList .functionClassListItem {font-family: monospace; line-height: 14px; margin-bottom: 6px; cursor: pointer}
 .docExplorer .functionClassList .functionClassListItem .name {font-family: monospace; color: rgba(0,198,255,0.5)}
 .docExplorer .functionClassList .functionClassListItem .params {font-family: monospace; font-size: 10px}
