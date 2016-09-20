@@ -39,3 +39,4 @@ body {margin: 0; overflow: auto;
 	-ms-user-select: none;
 	user-select: none;
 }
+li a span:first-of-type {white-space: pre}
