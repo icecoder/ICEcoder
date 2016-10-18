@@ -46,7 +46,7 @@ if (isset($_SESSION['text'])) {
 }
 
 // Get data from a fopen or CURL connection
-function getData($url,$type='fopen',$dieMessage=false) {
+function getData($url,$type='fopen',$dieMessage=false,$timeout=60) {
 	global $context;
 
 	// Request is to connect via CURL
@@ -60,11 +60,16 @@ function getData($url,$type='fopen',$dieMessage=false) {
 		curl_setopt($ch, CURLOPT_FAILONERROR, true);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 		$data = curl_exec($ch);
 		curl_close($ch);
 	// Otherwise, use an fopen connection
 	} elseif (ini_get('allow_url_fopen')) {
+		$context = stream_context_create(array('http'=>
+			array(
+				'timeout' => $timeout // secs
+			)
+		));
 		$data = @file_get_contents($url,false,$context);
 		if (!$data) {
 			$data = @file_get_contents(str_replace("https:","http:",$url), false, $context);
@@ -76,6 +81,8 @@ function getData($url,$type='fopen',$dieMessage=false) {
 	} elseif ($dieMessage) {
 		die($dieMessage);
 		exit;
+	} else {
+		return 'no data';
 	}
 }
 
