@@ -7,7 +7,11 @@ $updateMsg = '';
 // Check for updates
 if ($ICEcoder["checkUpdates"]) {
 	$icv_url = "https://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"];
-	$icvInfo = explode("\n", getData($icv_url,'curl'));
+	$icvData = getData($icv_url,'curl',false,5);
+	if ($icvData == "no data") {
+		$icvData = "1.0\nICEcoder version placeholder";
+	}
+	$icvInfo = explode("\n", $icvData);
 	$icv = $icvInfo[0];
 	$icvI = str_replace('"','\\\'',$icvInfo[1]);
 	$thisV = $ICEcoder["versionNo"];
