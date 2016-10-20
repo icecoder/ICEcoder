@@ -960,6 +960,9 @@ if (!isset($filemtime) && !is_dir($file)) {
 }
 // Set $timeStart, use 0 if not available
 $timeStart = isset($_POST["timeStart"]) ? numClean($_POST["timeStart"]) : 0;
+if ($timeStart == "") {
+	$timeStart = 0;
+}
 
 if (isset($ftpSite)) {
 	// Get info on dir/file now
