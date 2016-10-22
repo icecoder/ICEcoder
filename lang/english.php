@@ -106,8 +106,6 @@ $text = array(
 		"Go to Line"			=> "Go to Line",
 		"View"				=> "View",
 		"Bug reporting not active"	=> "Bug reporting not active",
-		"Minimap"			=> "Minimap",
-		"Function/Class List"		=> "Function/Class List",
 		"Single pane"			=> "Single pane",
 		"Diff pane also"		=> "Diff pane also"
 	),
