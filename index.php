@@ -312,11 +312,13 @@ $t = $text['index'];
 			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
 			<div class="view" title="<?php echo $t['View'];?>" onClick="top.ICEcoder.openPreviewWindow()" id="fMView"></div>
 			<div class="bug" title="<?php echo $t['Bug reporting not active'];?>" onClick="top.ICEcoder.openBugReport()" id="bugIcon"></div>
-			<div class="minimapLink" onclick="top.ICEcoder.docExplorerShow('miniMap')"><?php echo $t['Minimap'];?></div>
-			<div class="functionClassList" onclick="top.ICEcoder.docExplorerShow('functionClassList')"><?php echo $t['Function/Class List'];?></div>
+			<div class="minimapLink" onclick="top.ICEcoder.docExplorerShow('miniMap')"></div>
+			<div class="functionClassListLink" onclick="top.ICEcoder.docExplorerShow('functionClassList')"></div>
+			<div class="terminalLink" onclick="top.ICEcoder.docExplorerShow('terminal')"></div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 	</div>
+	<iframe name="terminalFrame" id="terminal" src="terminal.php" frameborder="0" style="position: fixed; display: none; top: 0; z-index: 2"></iframe>
 	<iframe name="contentFrame" id="content" src="editor.php" class="code" scrolling="no"></iframe>
 </div>
 
