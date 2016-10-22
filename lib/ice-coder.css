@@ -125,16 +125,17 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findReplace .submit {position: relative; top: 3px; height: 16px; border: 0; background-color: #444; color: #eee; font-size: 10px; margin-left: 2px; cursor: pointer}
 .findReplace .submit:hover {background-color: #2187e7; color: #eee}
 .findReplace .results {position: relative; display: inline-block; width: 200px; height: 20px; font-size: 10px; margin: 8px 0 0 20px}
-.findBar .codeAssist {position: fixed; display: inline-block; width: 100px; right: 329px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
+.findBar .codeAssist {position: fixed; display: inline-block; width: 100px; right: 339px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
 .findBar .codeAssist .codeAssistCheckbox {display: none}
 .findBar .codeAssist .codeAssistDisplay {display: inline-block; width: 16px; height: 16px; margin: -1px 4px 0 0; vertical-align: middle; background: url('../images/checkbox.gif') 0 0 no-repeat; cursor: pointer}
-.findBar .goLine {position: fixed; display: inline-block; width: 100px; right: 241px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
+.findBar .goLine {position: fixed; display: inline-block; width: 100px; right: 251px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
 .goLine .goToLine {width: 30px; height: 16px; border: 0; font-size: 10px; margin: -3px 0 0 3px; padding-left: 4px; background: #444; color: #eee}
 .goLine .goToLine:focus {outline: none; box-shadow: 0 0 10px 1px rgba(0,198,255,1)}
-.findBar .view {position: fixed; display: inline-block; width: 16px; height: 16px; right: 225px; top: 49px; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -48px 0; opacity: 0.3}
-.findBar .bug {position: fixed; display: inline-block; width: 16px; height: 16px; right: 199px; top: 48px; background: url('../images/bug-reporting-icons.png') 0 0 no-repeat; cursor: pointer; background-position: 0 0}
-.findBar .minimapLink {position: fixed; display: inline-block; width: 100px; right: 80px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: pointer; z-index: 1}
-.findBar .functionClassList {position: fixed; display: inline-block; width: 100px; right: 30px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: pointer; z-index: 1}
+.findBar .view {position: fixed; display: inline-block; width: 16px; height: 16px; right: 235px; top: 49px; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -48px 0; opacity: 0.3}
+.findBar .bug {position: fixed; display: inline-block; width: 16px; height: 16px; right: 209px; top: 48px; background: url('../images/bug-reporting-icons.png') 0 0 no-repeat; cursor: pointer; background-position: 0 0}
+.findBar .minimapLink {position: fixed; display: inline-block; width: 16px; height: 16px; right: 164px; top: 48px; background: url('../images/doc-explorer-icons.png') 0 0 no-repeat; cursor: pointer; background-position: 0 0; cursor: pointer; z-index: 1}
+.findBar .functionClassListLink {position: fixed; display: inline-block; width: 16px; height: 16px; right: 138px; top: 48px; background: url('../images/doc-explorer-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -16px 0; cursor: pointer; z-index: 1}
+.findBar .terminalLink {position: fixed; display: inline-block; width: 16px; height: 16px; right: 112px; top: 48px; background: url('../images/doc-explorer-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -32px 0; cursor: pointer; z-index: 1}
 .editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px; visibility: hidden}
 
 .footer {position: fixed; display: inline-block; width: 100%; height: 30px; bottom: 0; background-color: rgba(0,0,0,0.15); left: 0; z-index: 1}
