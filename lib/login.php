@@ -47,7 +47,14 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		if ($ICEcoder["multiUser"]) {echo '		<input type="text" name="username" class="password"><br><br>'.PHP_EOL;};	
 		?>
 		<input type="password" name="password" class="password"><br><br>
-		<input type="submit" name="submit" value="<?php if ($ICEcoder["multiUser"] && $ICEcoderSettings["enableRegistration"]) {echo $t['set password']." / ".$t['login'];} else {echo $ICEcoder["password"] == "" ? $t['set password'] : $t['login'];}; ?>" class="button">
+		<input type="submit" name="submit" value="<?php
+			// Multi-user
+			if ($ICEcoder["multiUser"]) {
+				echo $ICEcoderSettings["enableRegistration"] ? $t['set password']." / ".$t['login'] : $t['login'];
+			// Single-user
+			} else {
+				echo $ICEcoderSettings["enableRegistration"] && $ICEcoder["password"] == "" ? $t['set password'] : $t['login'];
+			}; ?>" class="button">
 		<?php
 			if(empty($_SERVER['HTTPS'])) {
 				echo '<div class="text">Using over non-https connection.<br>SSL is recommended!</div>';
