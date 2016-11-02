@@ -227,32 +227,43 @@ function deletePlugin($dir) {
 	<div style="display: inline-block; width: 740px">
 		<h2><?php echo $t['Install'].' / '.$t['Uninstall'];?></h2><br>
 
-		<table>
 		<?php
-		for ($i=0; $i<count($pluginsData); $i++) {
-			if ($i % 2 == 0) {
-				echo '<tr>'.PHP_EOL;
-			}
+		// Show list of plugins
+		if (count($pluginsData) > 0) {
+		?>
+			<table>
+			<?php
+			for ($i=0; $i<count($pluginsData); $i++) {
+				if ($i % 2 == 0) {
+					echo '<tr>'.PHP_EOL;
+				}
 
-			$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=install&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">'.$t['Install'].'</div>';
-			for ($j=0; $j<count($plugins); $j++) {
-				if ($pluginsData[$i]['name'] == $plugins[$j][0]) {
-					$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #333; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=uninstall&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">'.$t['Uninstall'].'</div>';
+				$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=install&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">'.$t['Install'].'</div>';
+				for ($j=0; $j<count($plugins); $j++) {
+					if ($pluginsData[$i]['name'] == $plugins[$j][0]) {
+						$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #333; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=uninstall&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">'.$t['Uninstall'].'</div>';
+					}
+				}
+
+				$reloadExtra = $pluginsData[$i]['reload'] == 'true' ? '<br><span style="color: #888">'.$t['Reload after install...'].'</span>' : '';
+				echo '<td style="padding: 0 10px 18px 0; width: 28px; text-align: center"><img src="https://icecoder.net/'.$pluginsData[$i]['icon'].'" alt="'.$pluginsData[$i]['name'].'"></td>';
+				echo '<td style="padding: 8px 10px 8px 0; width: 250px; white-space: nowrap">'.$pluginsData[$i]['name'].$reloadExtra.'</td>';
+				$styleExtra = ($i % 2 == 1 || $i == count($pluginsData)-1) ? "0" : "30px";
+				echo '<td style="padding: 3px '.$styleExtra.' 8px 0">'.$installUninstallButton.'</td>';
+
+				if ($i % 2 == 1 || $i == count($pluginsData)-1) {
+					echo PHP_EOL.'</tr>'.PHP_EOL;
 				}
 			}
+			?>
+			</table>
 
-			$reloadExtra = $pluginsData[$i]['reload'] == 'true' ? '<br><span style="color: #888">'.$t['Reload after install...'].'</span>' : '';
-			echo '<td style="padding: 0 10px 18px 0; width: 28px; text-align: center"><img src="https://icecoder.net/'.$pluginsData[$i]['icon'].'" alt="'.$pluginsData[$i]['name'].'"></td>';
-			echo '<td style="padding: 8px 10px 8px 0; width: 250px; white-space: nowrap">'.$pluginsData[$i]['name'].$reloadExtra.'</td>';
-			$styleExtra = ($i % 2 == 1 || $i == count($pluginsData)-1) ? "0" : "30px";
-			echo '<td style="padding: 3px '.$styleExtra.' 8px 0">'.$installUninstallButton.'</td>';
-
-			if ($i % 2 == 1 || $i == count($pluginsData)-1) {
-				echo PHP_EOL.'</tr>'.PHP_EOL;
-			}
+		<?php
+		// Cannot get data? Show error info
+		} else {
+			die("Sorry, unable to get plugin data. Please make sure you have either curl or fopen available on your server.");
 		}
 		?>
-		</table>
 	</div>
 </div>
 
