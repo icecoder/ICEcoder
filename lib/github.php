@@ -89,47 +89,50 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	    		$zipFile = "../tmp/".basename($zipURL);
 
 			$fileData = getData($zipURL,'curl');
-			file_put_contents($zipFile, $fileData);
+			if (count($fileData) > 0) {
+				file_put_contents($zipFile, $fileData);
 
-			// Now unpack the zip
-			$zip = new ZipArchive;
-			$zip->open($zipFile);
+				// Now unpack the zip
+				$zip = new ZipArchive;
+				$zip->open($zipFile);
 
-			// Create all files & dirs, in 1kb chunks
-			for($i=0; $i<$zip->numFiles; $i++) {
+				// Create all files & dirs, in 1kb chunks
+				for($i=0; $i<$zip->numFiles; $i++) {
 
-				$name = $zip->getNameIndex($i);
-				if ($i==0) {
-					$dirName = $name;
-				} else {
-					$tgtName = str_replace($dirName,"",$name);
-					// Determine output filename
-					$file = $target.$tgtName;
+					$name = $zip->getNameIndex($i);
+					if ($i==0) {
+						$dirName = $name;
+					} else {
+						$tgtName = str_replace($dirName,"",$name);
+						// Determine output filename
+						$file = $target.$tgtName;
 
-					// Create the directories if necessary
-					$dir = dirname($file);
-					if (!is_dir($dir)) mkdir($dir, 0777, true);
+						// Create the directories if necessary
+						$dir = dirname($file);
+						if (!is_dir($dir)) mkdir($dir, 0777, true);
 
-					// Read from zip and write to disk
-					$fpr = $zip->getStream($name);
-					if (!is_dir($file)) {
-						$fpw = fopen($file, 'w');
-						while ($data = fread($fpr, 1024)) {
-							fwrite($fpw, $data);
+						// Read from zip and write to disk
+						$fpr = $zip->getStream($name);
+						if (!is_dir($file)) {
+							$fpw = fopen($file, 'w');
+							while ($data = fread($fpr, 1024)) {
+								fwrite($fpw, $data);
+							}
+							fclose($fpw);
 						}
-						fclose($fpw);
+						fclose($fpr);
 					}
-					fclose($fpr);
 				}
+				$zip->close();
+
+				// Remove the tmp zip file
+				unlink($zipFile);
+
+				// Refresh the file manager
+				echo "<script>top.ICEcoder.refreshFileManager();</script>";
+			} else {
+				echo "<script>top.ICEcoder.message('Sorry, unable to get plugin data. Please make sure you have either curl or fopen available on your server.');</script>";
 			}
-			$zip->close();
-
-			// Remove the tmp zip file
-			unlink($zipFile);
-
-			// Refresh the file manager
-			echo "<script>top.ICEcoder.refreshFileManager();</script>";
-
 		}
 
 	}
