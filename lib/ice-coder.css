@@ -154,10 +154,10 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .fileMenu a:hover {background-color: #666}
 .fileMenu hr {border: 0; height: 1px; padding: 0; margin: 0; background: #444}
 
-.docExplorer {position: absolute; top: 70px; padding-left: 20px; transition: right 0.4s ease-in-out; overflow: hidden; color: #888}
-.docExplorer .miniMap {position: absolute; display: block; width: 100%}
-.docExplorer .miniMap .miniMapContainer {position: absolute; display: block; width: 100%}
-.docExplorer .miniMap .miniMapContent {position: absolute; display: block; width: 100%}
+.docExplorer {position: absolute; top: 70px; right: -420px; width: 200px; padding-left: 20px; transition: right 0.4s ease-in-out; overflow: hidden; color: #888}
+.docExplorer .miniMap {position: absolute; display: block}
+.docExplorer .miniMap .miniMapContainer {position: absolute; display: block; width: 200px}
+.docExplorer .miniMap .miniMapContent {position: absolute; display: block; width: 200px}
 .docExplorer .functionClassList {position: absolute; display: none; width: 180px; height: 100%; overflow-x: hidden; overflow-y: auto}
 .docExplorer .functionClassList::-webkit-scrollbar {width: 12px; height: 12px}
 .docExplorer .functionClassList::-webkit-scrollbar-thumb {background: rgba(0,198,255,0.1)}
