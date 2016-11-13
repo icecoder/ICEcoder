@@ -71,8 +71,8 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 		if (is_dir($scanpath) && strpos($scanpath,".git") == false) {
 		$thisDir = str_replace("\\","/",$scanpath);
 			if(hasGitignore($thisDir)) {
-			$gi[] = $thisDir."/.gitignore";
-		}
+				$gi[] = $thisDir."/.gitignore";
+			}
 		}
 	}
 
@@ -147,6 +147,10 @@ foreach($finalArray as $entry) {
 	}
 	// Only applicable for local dir, ignoring ICEcoder's dir
 	if (!isset($ftpSite) && $docRoot.$iceRoot.$location."/".$entry == $docRoot.$ICEcoderDir) {
+		$canAdd = false;
+	}
+	// Ignore .git dir in GitHub diff mode
+	if (!isset($ftpSite) && $_SESSION['githubDiff'] && strpos($docRoot.$iceRoot.$location."/".$entry,"/.git") !== false) {
 		$canAdd = false;
 	}
 	if ($entry != "." && $entry != ".." && $canAdd) {
@@ -388,7 +392,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 		// Now display folders & files
 
 		// Animate into view?
-		if (folderItems.length <= 50) {
+		if (<?php echo !$_SESSION['githubDiff'] ? "true" : "false";?> && folderItems.length <= 50) {
 			showFileI=0;
 			animFolders = setInterval(function() {
 				showFileI++;
