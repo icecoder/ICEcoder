@@ -25,13 +25,13 @@ $ICEcoderUserSettings = array(
 "autoLogoutMins"	=> 0,
 "theme"			=> "default",
 "fontSize"		=> "13px",
-"lineWrapping"		=> true,
+"lineWrapping"		=> false,
 "lineNumbers"		=> true,
 "showTrailingSpace"	=> true,
 "matchBrackets"		=> true,
 "autoCloseTags"		=> true,
 "autoCloseBrackets"	=> true,
-"indentWithTabs"	=> true,
+"indentWithTabs"	=> false,
 "indentAuto"		=> true,
 "indentSize"		=> 4,
 "pluginPanelAligned"	=> "left",
@@ -44,6 +44,7 @@ $ICEcoderUserSettings = array(
 "githubLocalPaths"	=> array(),
 "githubRemotePaths"	=> array(),
 "previousFiles"		=> "",
-"last10Files"		=> ""
+"last10Files"		=> "",
+"favoritePaths"		=> array()
 );
 ?>
