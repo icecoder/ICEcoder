@@ -21,6 +21,13 @@ if(!empty($_REQUEST['command'])) {
 	$output = "<span style=\"color: #fff\">".$cwd."\n$&gt; ".$_REQUEST['command']."</span>\n\n";
 }
 
+// If in demo mode, display message and go no further
+if ($demoMode) {
+	$output .= "Sorry, shell usage not enabled in demo mode\n\n";
+	echo $output;
+	exit;
+}
+
 // If command contains cd but no dir
 if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', @$_REQUEST['command'])) {
 	$_SESSION['cwd'] = getcwd(); //dirname(__FILE__);
