@@ -112,11 +112,11 @@ if ($_GET['action']=="load") {
 			if($encoding=="") {
 				$encoding="UTF-8";
 			}
-			// Left trim any \r from start of text after setting HTML entities on it according to encoding
-			$loadedFile = ltrim(htmlentities($loadedFile,ENT_COMPAT,$encoding),"\r");
-			if (substr($loadedFile,0,1) == "\n") {
-				$loadedFile = "&#13;".substr($loadedFile,1);
-			}
+			// Get content and set HTML entities on it according to encoding
+			$loadedFile = htmlentities($loadedFile,ENT_COMPAT,$encoding);
+			// Remove \r chars and replace \n with carriage return HTML entity char
+			$loadedFile = preg_replace('/\\r/','',$loadedFile);
+			$loadedFile = preg_replace('/\\n/','&#13;',$loadedFile);
 			echo '</script><textarea name="loadedFile" id="loadedFile">'.$loadedFile.'</textarea><script>';
 			// Run our custom processes
 			include_once("../processes/on-file-load.php");
