@@ -106,11 +106,18 @@ if ($_GET['action']=="load") {
 		// Get local file
 		} else {
 			$loadedFile = toUTF8noBOM(getData($file),true);
+			//echo 'console.log('.$loadedFile.');';
 		}
 			$encoding=ini_get("default_charset");
-			if($encoding=="")
+			if($encoding=="") {
 				$encoding="UTF-8";
-			echo '</script><textarea name="loadedFile" id="loadedFile">'.htmlentities($loadedFile,ENT_COMPAT,$encoding).'</textarea><script>';
+			}
+			// Left trim any \r from start of text after setting HTML entities on it according to encoding
+			$loadedFile = ltrim(htmlentities($loadedFile,ENT_COMPAT,$encoding),"\r");
+			if (substr($loadedFile,0,1) == "\n") {
+				$loadedFile = "&#13;".substr($loadedFile,1);
+			}
+			echo '</script><textarea name="loadedFile" id="loadedFile">'.$loadedFile.'</textarea><script>';
 			// Run our custom processes
 			include_once("../processes/on-file-load.php");
 		} else if (strpos($finfo,"image")===0) {
