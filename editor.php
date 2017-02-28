@@ -316,6 +316,8 @@ function createNewCMInstance(num) {
 
 <div style="position: absolute; display: none; width: 5px; height: 100%; top: 0; right: 0; background: rgba(255,255,255,0.1); overflow: hidden; z-index: 2" id="resultsBar"></div>
 
+<div style="position: absolute; display: none; height: 100%; width: 100%; top: 0; padding: 3px 0 0 60px; line-height: 16px; font-family: monospace; font-size: 13px; z-index: 2147483647" id="game"></div>
+
 <?php include_once("processes/on-editor-load.php"); ?>
 
 </body>
