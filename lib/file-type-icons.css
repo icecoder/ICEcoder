@@ -23,6 +23,7 @@
 .fileManager LI.ext-scss:before {background-position: -384px 0}
 .fileManager LI.ext-sql:before {background-position: -400px 0}
 .fileManager LI.ext-txt:before {background-position: -416px 0}
-.fileManager LI.ext-xml:before {background-position: -432px 0}
-.fileManager LI.ext-yaml:before {background-position: -448px 0}
-.fileManager LI.ext-zip:before {background-position: -464px 0}
+.fileManager LI.ext-ts:before {background-position: -432px 0}
+.fileManager LI.ext-xml:before {background-position: -448px 0}
+.fileManager LI.ext-yaml:before {background-position: -464px 0}
+.fileManager LI.ext-zip:before {background-position: -480px 0}
