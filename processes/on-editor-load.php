@@ -10,7 +10,7 @@ Langs:		Anything - PHP, JS etc
 <script>
 CodeMirror.commands.autocomplete = function(cm) {
 	var langType = top.ICEcoder.caretLocType;
-	if (["JavaScript","CoffeeScript","SQL","CSS","HTML","XML","Content"].indexOf(langType)>-1) {
+	if (["JavaScript","CoffeeScript","TypeScript","SQL","CSS","HTML","XML","Content"].indexOf(langType)>-1) {
 		if (langType=="XML"||langType=="Content") {langType="HTML"};
 		CodeMirror.showHint(cm,CodeMirror.hint[langType.toLowerCase()]);
 	}
@@ -46,11 +46,12 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 	var comments, startLine, endLine, commentCH, commentBS, commentBE;
 
 	// Language specific commenting
-	if (["JavaScript","CoffeeScript","PHP","Python","Ruby","CSS","SQL","Erlang","Julia","Java","YAML","C","C++","C#","Go","Lua","Perl","Sass"].indexOf(top.ICEcoder.caretLocType)>-1) {
+	if (["JavaScript","CoffeeScript","TypeScript","PHP","Python","Ruby","CSS","SQL","Erlang","Julia","Java","YAML","C","C++","C#","Go","Lua","Perl","Sass"].indexOf(top.ICEcoder.caretLocType)>-1) {
 
 		comments = {
 			"JavaScript"	: ["// ", "/* ", " */"],
-			"CoffeeScript"	: ["// ", "/* ", " */"],
+			"CoffeeScript"	: ["# ", "### ", " ###"],
+			"TypeScript"	: ["// ", "/* ", " */"],
 			"PHP"		: ["// ", "/* ", " */"],
 			"Python"	: ["# ", "/* ", " */"],
 			"Ruby"		: ["# ", "/* ", " */"],
@@ -93,7 +94,7 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 			}
 		// Single line commenting
 		} else {
-			if (["CoffeeScript","CSS","SQL"].indexOf(top.ICEcoder.caretLocType)>-1) {
+			if (["CSS","SQL"].indexOf(top.ICEcoder.caretLocType)>-1) {
 				cM.replaceRange(lineContent.slice(0,commentBS.length)!=commentBS
 				? commentBS + lineContent + commentBE
 				: lineContent.slice(commentBS.length,lCLen-commentBE.length), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
@@ -137,7 +138,7 @@ top.ICEcoder.updateNestingIndicator = function() {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
 	}
-	if (thisCM && fileName && ["js","coffee","css","less","sql","erl","yaml","java","jl","c","cpp","ino","cs","go","lua","pl","scss"].indexOf(fileExt)==-1) {
+	if (thisCM && fileName && ["js","coffee","ts","css","less","sql","erl","yaml","java","jl","c","cpp","ino","cs","go","lua","pl","scss"].indexOf(fileExt)==-1) {
 		testToken = thisCM.getTokenAt({line:thisCM.lineCount(),ch:thisCM.lineInfo(thisCM.lineCount()-1).text.length});
 		nestOK = testToken.type && testToken.type.indexOf("error") == -1 ? true : false;
 	}
@@ -169,6 +170,7 @@ top.ICEcoder.caretLocationType = function() {
 		caretLocType =
 			  fileExt == "js"	? "JavaScript"
 			: fileExt == "coffee"	? "CoffeeScript"
+			: fileExt == "ts"	? "TypeScript"
 			: fileExt == "py"	? "Python"
 			: fileExt == "rb"	? "Ruby"
 			: fileExt == "css"	? "CSS"
