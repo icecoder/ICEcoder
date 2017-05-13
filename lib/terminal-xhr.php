@@ -2,6 +2,16 @@
 include(dirname(__FILE__)."/headers.php");
 include(dirname(__FILE__)."/settings.php");
 
+
+function proc_open_enabled() {
+  $disabled = explode(',', ini_get('disable_functions'));
+  return !in_array('proc_open', $disabled);
+}
+
+if(!proc_open_enabled()) {
+    exit("<span style=\"color: #fff\">sorry but you can't used this terminal if your proc_open is disabled</span>\n\n");
+}
+
 $aliases = array(
 	'la' 	=> 'ls -la',
 	'll' 	=> 'ls -lvhF',
@@ -78,13 +88,13 @@ if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', @$_REQUEST['command'])) {
 		),
 		$io
 	);
-
+    
 	// Read output sent to stdout
-	while (!feof($io[1])) {
+	while (!feof($io[1])) {   /// this will return always false ... and will loop forever until "fork: retry: no child processes" will show if proc_open is disabled;
 		$output .= htmlspecialchars(fgets($io[1]),ENT_COMPAT, 'UTF-8');
 	}
 	// Read output sent to stderr
-	while (!feof($io[2])) {
+	while (!feof($io[2])) { 
 		$output .= htmlspecialchars(fgets($io[2]),ENT_COMPAT, 'UTF-8');
 	}
 	$output .= "\n";
