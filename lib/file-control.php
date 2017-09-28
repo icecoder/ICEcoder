@@ -106,7 +106,6 @@ if ($_GET['action']=="load") {
 		// Get local file
 		} else {
 			$loadedFile = toUTF8noBOM(getData($file),true);
-			//echo 'console.log('.$loadedFile.');';
 		}
 			$encoding=ini_get("default_charset");
 			if($encoding=="") {
