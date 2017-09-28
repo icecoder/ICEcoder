@@ -1,8 +1,8 @@
 <?php
 $ICEcoderUserSettings = array(
 "versionNo"		=> "6.0 beta",
-"licenseEmail"		=> "",
-"licenseCode"		=> "",
+"licenseEmail"		=> "v6free@icecoder.net",
+"licenseCode"		=> "93be18fba1dee0e186031907422a0f8df3462568bfd0161e1504",
 "configCreateDate"	=> 0,
 "root"			=> "",
 "checkUpdates"		=> true,
