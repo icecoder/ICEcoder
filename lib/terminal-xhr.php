@@ -9,7 +9,7 @@ function proc_open_enabled() {
 }
 
 if(!proc_open_enabled()) {
-    exit("<span style=\"color: #fff\">sorry but you can't used this terminal if your proc_open is disabled</span>\n\n");
+    exit("<span style=\"color: #fff\">Sorry but you can't use this terminal if your proc_open is disabled</span>\n\n");
 }
 
 $aliases = array(
