@@ -4,7 +4,7 @@
 
 ICEcoder is a web IDE / browser based code editor, which allows you to develop websites directly within the web browser. It uses the brilliant CodeMirror for code highlighting & editing, with a slick IDE wrapped around it to make the whole thing work.
 
-<img src="https://icecoder.net/images/icecoder-v6-0-beta-browser-code-editor.png" alt="ICEcoder web IDE">
+<img src="https://icecoder.net/images/icecoder-v6-0-browser-code-editor.png" alt="ICEcoder web IDE">
 
 ### Requirements
 
