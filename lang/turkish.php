@@ -11,7 +11,7 @@ $text = array(
 	"editor" =>
 	array(
 		"server"			=> "sunucu",
-		"Server name, SS..."		=> "Sunucu adı, İS & IP:",
+		"Server name, SS..."		=> "Sunucu adı, İşletim Sistemi & IP:",
 		"Root"				=> "Kök dizin:",
 		"ICEcoder root"			=> "ICEcoder root:",
 		"PHP version"			=> "PHP sürümü:",
@@ -20,24 +20,24 @@ $text = array(
 		"Browser"			=> "Tarayıcı:",
 		"Your IP"			=> "IP numaranız:",
 		"trial remaining"		=> "trial remaining",
-		"days left"			=> "days left",
+		"days left"			=> "kalan gün",
 		"files"				=> "dosyalar",
 		"Last 10 files..."		=> "Açılan son 10 dosya :",
 		"none"				=> "[none]",
 		"test suite"			=> "test suite",
-		"Run unit tests"		=> "Run unit tests",
-		"dev mode"			=> "dev mode",
+		"Run unit tests"		=> "Birim Testlerini Çalıştır",
+		"dev mode"			=> "geliştirici modu",
 		"Status"			=> "Durum",
-		"Using"				=> "Using",
+		"Using"				=> "Kullanma",
 		"You can switch..."		=> "You can switch dev mode on/off in lib/config__settings.php"
 
 	),
 
 	"files" =>
 	array(
-		"Lock"				=> "Lock",
-		"Refresh"			=> "Refresh",
-		"Plugins"			=> "Plugins",
+		"Lock"				=> "Kilit",
+		"Refresh"			=> "enile",
+		"Plugins"			=> "Eklentiler",
 		"ROOT"				=> "[ROOT]"
 
 	),
@@ -113,21 +113,21 @@ $text = array(
 
 	"auto-logout-warning" =>
 	array(
-		"Auto Logout Warning"		=> "Auto logout warning",
-		"You will be..."		=> "You will be logged out after",
+		"Auto Logout Warning"		=> "Otomatik oturum kapatma uyarısı",
+		"You will be..."		=> "Sonra çıkış yapacaksınız",
 		"seconds due to..."		=> "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section."
 	),
 
 	"backup-versions" =>
 	array(
-		"backup"			=> "backup",
-		"backups"			=> "backups",
-		"available for"			=> "available for"
+		"backup"			=> "yedek",
+		"backups"			=> "yedekler",
+		"available for"			=> "kullanılabilir"
 	),
 
 	"bug-files-check" =>
 	array(
-		"Found in"			=> "Found in:"
+		"Found in"			=> "İçinde bulunan:"
 	),
 
 	"file-control" =>
