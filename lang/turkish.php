@@ -1,9 +1,8 @@
 <?php
-// English language translation
-// by: @mattpass (GitHub)
-//     @mattpass (Twitter)
+// Turkish language translation
+// by: @kayasukru (GitHub)
 
-// Please preserve formatting, line breaks, special characters, anything in <tags> and HTML equivalents (eg &amp;). Translations on right side.
+// Lütfen, satır sonu, özel karakter, HTML <etiket> ve eşdeğeri (ör. &amp;) öğelere dokunmayın, biçimlendirmeyi koruyun. Sağ taraftakiler çeviridir.
 
 $text = array(
 
@@ -67,7 +66,7 @@ $text = array(
 		"Download"			=> "İndir",
 		"Properties"			=> "Özellikler",
 		"File"				=> "Dosya",
-		"Edit"				=> "Düzenle",
+		"Edit"				=> "Düzen",
 		"Source"			=> "Kaynak",
 		"Help"				=> "Yardım",
 		"Save"				=> "Kaydet",
@@ -82,7 +81,7 @@ $text = array(
 		"Redo"				=> "Yinele",
 		"Indent more"			=> "Indent more",
 		"Indent less"			=> "Indent less",
-		"Autocomplete"			=> "Autocomplete",
+		"Autocomplete"			=> "Otomatik Tamamlama",
 		"Comment/Uncomment"		=> "Comment/Uncomment",
 		"Jump to Definition"		=> "Tanıma Git",
 		"Manual"			=> "Kullanıcı Kitabı",
@@ -101,8 +100,8 @@ $text = array(
 		"open documents"		=> "açık belge",
 		"all files"			=> "tüm dosyalar",
 		"all filenames"			=> "tüm dosya adları",
-		"Turn on/off..."		=> "Turn on/off code assist",
-		"Code Assist"			=> "Code Assist",
+		"Turn on/off..."		=> "Kod Yardımı aç/kapat",
+		"Code Assist"			=> "Kod Yardımı",
 		"Go to Line"			=> "Satıra Git",
 		"View"				=> "Görünüm",
 		"Bug reporting not active"	=> "Hata Raporlayıcı Aktif Değil",
