@@ -1,5 +1,6 @@
 <?php
 // Turkish language translation
+// Türkçe dil çevirisi
 // by: @kayasukru (GitHub)
 
 // Lütfen, satır sonu, özel karakter, HTML <etiket> ve eşdeğeri (ör. &amp;) öğelere dokunmayın, biçimlendirmeyi koruyun. Sağ taraftakiler çeviridir.
@@ -12,8 +13,8 @@ $text = array(
 	array(
 		"server"			    => "Sunucu Bilgileri",
 		"Server name, SS..."	=> "Sunucu adı, İşletim Sistemi & IP:",
-		"Root"				    => "Kök dizin:",
-		"ICEcoder root"			=> "ICEcoder root:",
+		"Root"				    => "Kök klasörü:",
+		"ICEcoder root"			=> "ICEcoder kök klasörü:",
 		"PHP version"			=> "PHP sürümü:",
 		"Date & time"			=> "Tarih & zaman:",
 		"your device"			=> "Yazılım Bilgisi",
@@ -51,7 +52,7 @@ $text = array(
 		"You have some..."	=> "Kaydedilmemiş değişilikleriniz var",
 		"Are you sure..."	=> "Kapatmak istediğinizden emin misiniz?",
 		"working"			=> "Çalışıyor",
-		"Color picker"		=> "Color picker",
+		"Color picker"		=> "Renk seçici",
 		"Plugins Manager"	=> "Eklenti Yöneticisi",
 		"New File"			=> "Yeni Dosya",
 		"New Folder"		=> "Yeni Klasör",
@@ -115,7 +116,7 @@ $text = array(
 	array(
 		"Auto Logout Warning"	=> "Otomatik oturum kapatma uyarısı",
 		"You will be..."		=> "Sonra çıkış yapacaksınız",
-		"seconds due to..."		=> "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section."
+		"seconds due to..."		=> "Güvenlik nedeniyle, hareketsizlik nedeniyle saniye. Devam etmek için fareyi kullanın veya bir tuşa basın. <br> <br> Bunu Düzen > Ayarlar bölümünden ayarlayabilir veya devre dışı bırakabilirsiniz."
 	),
 
 	"backup-versions" =>
@@ -132,30 +133,30 @@ $text = array(
 
 	"file-control" =>
 	array(
-		"Sorry, bad filename..."	=> "Sorry, bad filename provided. Check the dev tools console for more info?",
+		"Sorry, bad filename..."	=> "Üzgünüm, hatalı dosya adı. Daha fazla bilgi için dev araçlar konsolunu kontrol edin.",
 		"Sorry"				        => "Üzgünüm",
-		"does not seem..."		    => "does not seem to exist on the server",
-		"Sorry, could not..."		=> "Sorry, could not get contents of",
-		"Sorry, cannot create..."	=> "Sorry, cannot create folder at",
-		"Sorry, cannot copy"		=> "Sorry, cannot copy",
-		"into"				        => "into",
+		"does not seem..."		    => "Sunucuda mevcut görünmüyor",
+		"Sorry, could not..."		=> "Üzgünüm, içeriği alınamadı",
+		"Sorry, cannot create..."	=> "Üzgünüm, klasör oluşturulamıyor",
+		"Sorry, cannot copy"		=> "Üzgünüm, kopyalanamıyor",
+		"into"				        => "içine",
 		"Uploaded file(s) OK"		=> "Tamam. Dosya(lar) Yüklendi",
-		"Sorry, cannot upload"		=> "Sorry, cannot upload",
-		"Sorry, cannot upload..."	=> "Sorry, cannot upload whilst in demo mode",
-		"Sorry, cannot rename"		=> "Sorry, cannot rename",
-		"Maybe public write..."		=> "Maybe public write permissions needed on this or parent folder?",
-		"Sorry, cannot move"		=> "Sorry, cannot move",
-		"Sorry, cannot save"		=> "Sorry, cannot save",
-		"Sorry, cannot replace..."	=> "Sorry, cannot replace text in",
-		"Sorry, cannot change..."	=> "Sorry, cannot change permissions on",
-		"Sorry, cannot delete more..."	=> "Sorry, cannot delete more then one item at a time under FTP mode",
-		"Sorry, cannot delete..."	=> "Sorry, cannot delete the root level",
-		"Sorry, cannot delete"		=> "Sorry, cannot delete",
-		"Sorry, this file..."		=> "Sorry, this file has changed outside of ICEcoder, cannot save",
-		"Reload this file..."		=> "Reload this file and copy your version to a diff pane?\\\\n(left side = file from server, right side = unsaved file)",
-		"There was a..."		    => "There was a tech hiccup, likely something was not quite ready. So ICEcoder reloaded its file control again.",
-		"displayed at"			    => "displayed at",
-		"Enter filename to..."		=> "Enter filename to save at",
+		"Sorry, cannot upload"		=> "Üzgünüm, yüklenemedi",
+		"Sorry, cannot upload..."	=> "Üzgünüm, demo modundayken yüklenemiyor",
+		"Sorry, cannot rename"		=> "Üzgünüm, ad değiştirilemedi",
+		"Maybe public write..."		=> "Belki bu veya üst klasörde yazma izinlerinin genel olarak ayarlanması gerekiir.",
+		"Sorry, cannot move"		=> "Üzgünüm, taşınamadı",
+		"Sorry, cannot save"		=> "Üzgünüm, kaydedilemedi",
+		"Sorry, cannot replace..."	=> "Üzgünüm, içindeki metni değiştirilemedi",
+		"Sorry, cannot change..."	=> "Üzgünüm, üzerindeki izinleri değiştirilemedi",
+		"Sorry, cannot delete more..."	=> "Üzgünüm, FTP modunda bir seferde daha birden fazla bir öğe silemezsiniz",
+		"Sorry, cannot delete..."	=> "Üzgünüm, kök seviyesini silinemez",
+		"Sorry, cannot delete"		=> "Üzgünüm, silinemedi",
+		"Sorry, this file..."		=> "Üzgünüm, Bu dosya ICEcoder dışında değişti, kaydedilemiyor",
+		"Reload this file..."		=> "Bu dosyayı yeniden yükleyin ve sürümünüzü farklı bir bölüme kopyalayın \\\\ n (Sol taraf = Sunucudaki dosya, Sağ taraf = Kaydedilmemiş dosya)",
+		"There was a..."		    => "Teknik bir hata vardı, muhtemelen bir şey hazır değildi. ICEcoder dosya kontrolünü yeniden yükledi.",
+		"displayed at"			    => "Görüntülenen",
+		"Enter filename to..."		=> "Kaydetmek için dosya adı girin",
 		"That file exists..."		=> "Bu isimde dosya zaten var, üzerine kaydedilsin mi?",
 		"Saving"			        => "Kaydediliyor"
 	),
@@ -163,29 +164,29 @@ $text = array(
 	"ftp-manager" =>
 	array(
 		"Saving FTP sites"		    => "FTP siteleri kaydediliyor",
-		"Cannot update config..."	=> "Cannot update config file. Please set public write permissions on",
+		"Cannot update config..."	=> "Yapılandırma dosyası güncellenemiyor. Lütfen yazma izinlerini genel olarak ayarlayın.",
 		"and try again"			    => "ve tekrar deneyin",
 		"ftp manager"			    => "ftp yöneticisi",
 		"Choose existing site"		=> "Mevcut siteyi seç",
-		"Are you sure..."		    => "Are you sure you wish to remove this site?",
+		"Are you sure..."		    => "Bu siteyi kaldırmak istediğinizden emin misiniz?",
 		"Add new site"			    => "Yeni site ekle",
 		"Edit site"			=> "Site Düzenle",
 		"Site base"			=> "Site base",
 		"Host"				=> "Host",
 		"Username"			=> "Kullanıcı Adı",
 		"Password"			=> "Parola",
-		"PASV and mode"		=> "PASV and mode",
+		"PASV and mode"		=> "PASV ve mod",
 		"Root"				=> "Kök",
-		"eg http://yourdomain.com"	=> "eg http://yourdomain.com",
-		"eg ftp.yourdomain.com"		=> "eg ftp.yourdomain.com",
-		"eg user123"			=> "örnek: user123",
-		"eg pass123"			=> "örnek: pass123",
-		"Use PASV mode..."		=> "Use PASV mode if your FTP site requires it and choose the data transfer type - ASCII or binary",
+		"eg http://yourdomain.com"	=> "eg http://alanadiniz.com",
+		"eg ftp.yourdomain.com"		=> "eg ftp.alanadiniz.com",
+		"eg user123"			=> "örnek: kullanici123",
+		"eg pass123"			=> "örnek: parola123",
+		"Use PASV mode..."		=> "FTP siteniz gerektiriyorsa PASV modunu kullanın ve veri aktarım tipini seçin - ASCII veya binary",
 		"eg /htdocs"			=> "örnek: /htdocs",
-		"PASV connection off"	=> "PASV connection off",
-		"PASV connection on"	=> "PASV connection on",
-		"ASCII transfer"		=> "ASCII transfer",
-		"Binary transfer"		=> "Binary transfer",
+		"PASV connection off"	=> "PASV bağlantısı kapalı",
+		"PASV connection on"	=> "PASV bağlantısı açık",
+		"ASCII transfer"		=> "ASCII aktarım",
+		"Binary transfer"		=> "Binary aktarım",
 		"Add"				=> "Ekle",
 		"Choose"			=> "Seç",
 		"Update"			=> "Güncelle"
@@ -200,36 +201,36 @@ $text = array(
 
 	"github-manager" =>
 	array(
-		"Sorry, cannot create..."	=> "Sorry, cannot create folder at",
-		"Cannot update config..."	=> "Cannot update config file. Please set public write permissions on",
+		"Sorry, cannot create..."	=> "Üzgünüm, klasör oluşturulamıyor",
+		"Cannot update config..."	=> "Yapılandırma dosyası güncellenemiyor. Lütfen yazma izinlerini genel olarak ayarlayın.",
 		"and try again"			    => "ve tekrar deneyin",
-		"saving github paths"		=> "saving github paths...",
-		"github paths"			    => "github paths",
-		"Choose existing path"		=> "Choose existing path",
+		"saving github paths"		=> "github yolları kaydediliyor...",
+		"github paths"			    => "github yolları",
+		"Choose existing path"		=> "Mevcut yolu seçin",
 		"Local path"			    => "Yerel yol",
-		"Slash prefixed"		    => "Slash prefixed",
-		"Remote GitHub path"		=> "Remote GitHub path",
-		"Absolute URL beginning..."	=> "Absolute URL, beginning https://github.com",
-		"Choose"			        => "Choose",
-		"Set local and..."		    => "Set local and remote path to blank to remove",
+		"Slash prefixed"		    => "Ön eklenmiş eğik çizgi '/'",
+		"Remote GitHub path"		=> "Uzak GitHub yolu",
+		"Absolute URL beginning..."	=> "Mutlak URL, https://github.com başlıyor",
+		"Choose"			        => "Seç",
+		"Set local and..."		    => "Kaldırılacak yerel ve uzak yolu boş bırakın",
 		"Update"			        => "Güncelle",
 		"Add new path"			    => "Yeniyol ekle",
 		"Add"				        => "Ekle",
 		"Usage Info"			    => "Kullanım Bilgisi:",
-		"Enter relative local..."	=> "Enter relative local paths (eg /server/myfiles) and absolute GitHub paths (eg https://github.com/user/repo or https://github.com/user/repo/tree/branch for branches), as per the examples. With this done you have established the source paths at both locations, as a pair.",
-		"You can then..."		    => "You can then choose a path pair and this then becomes your new root path in ICEcoder.",
-		"The file manager..."		=> "The file manager then displays a new GitHub icon, which you can click on to perform and show a diff check between the 2 sources. These diffs can then be committed and pushed to the remote path at GitHub or cloned to your local path, to sync your files.",
-		"If you want..."		    => "If you want to set another root path, this can be done in the Settings screen."
+		"Enter relative local..."	=> "İlgili yerel yolları (ör. /sunucu/dosyalarim) ve mutlak GitHub yollarını girin ( dallanma için https://github.com/user/repo veya https://github.com/user/repo/tree/branch ), örneklere göre. Bunu yaptığınızda, iki yoldaki kaynak yollarını bir çift olarak oluşturdunuz.",
+		"You can then..."		    => "Daha sonra bir yol çifti seçebilirsiniz. Bu daha sonra ICEcoder'daki yeni kök yolunuz olur.",
+		"The file manager..."		=> "Dosya yöneticisi daha sonra 2 kaynak arasında bir fark kontrolü gerçekleştirmek için tıklatabileceğiniz yeni bir GitHub simgesi görüntüler. Bu farklar daha sonra GitHub'daki uzak yola aktarılabilir veya dosyalarınızı senkronize etmek için yerel yolunuza klonlanabilir.",
+		"If you want..."		    => "Başka bir kök yolu ayarlamak isterseniz, bu Ayarlar ekranında yapılabilirsiniz."
 	),
 
 	"github" =>
 	array(
-		"Sorry, you do..."		=> "Sorry, you do not appear to have OpenSSL loaded on your PHP instance, so https is not available. This is required for GitHub data transfer, please amend php.ini settings, restart your server and try again"
+		"Sorry, you do..."		=> "Üzgünüm, PHP yapılandırmanızda OpenSSL yüklü görünmüyor, dolayısıyla https kullanılamıyor. GitHub veri aktarımı için bu gereklidir, lütfen php.ini ayarlarını değiştirin, sunucunuzu yeniden başlatın ve tekrar deneyin."
 	),
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "Bad CSRF token. Please report the error info at https://github.com/mattpass/ICEcoder so it can be fixed."
+		"Bad CSRF token..."		=> "Kötü CSRF belirteci. Lütfen, düzeltilebilmesi için https://github.com/mattpass/ICEcoder adresine hata bilgisini bildirin."
 	),
 
 	"help" =>
@@ -243,12 +244,12 @@ $text = array(
 		"Click"				=> "Tıkla",
 		"or"				=> "veya",
 		"Left click"			=> "Sol Tıkla",
-		"Middle click"			=> "Middle click",
+		"Middle click"			=> "Orta tıklama",
 		"Double click tap..."	=> "Çift Tıkla / tap (mobil)",
 		"Right click"			=> "Sağ Tıkla",
-		"Middle scrollwheel"	=> "Middle scrollwheel",
-		"Drag"			        => "Drag",
-		"Autocomplete add snippet"	=> "Otomatik Tamamlama / add snippet",
+		"Middle scrollwheel"	=> "Orta kaydırma tekerleği",
+		"Drag"			        => "Sürükle",
+		"Autocomplete add snippet"	=> "Otomatik Tamamlama / Snippet ekle",
 		"Multiple select"		=> "Çoklu Seçim",
 		"Move line up"			=> "Satırı yukarı taşı",
 		"Move line down"		=> "Satırı aşağı taşı",
@@ -257,44 +258,44 @@ $text = array(
 		"Insert line before"	=> "Öncesine satır ekle",
 		"Insert line after"		=> "Sonrasına satır ekle",
 		"Search for selected"	=> "Seçilenleri ara",
-		"Jump to definition"	=> "Jump to definition / jump back",
-		"Comment uncomment"		=> "Comment / uncomment",
-		"Insert tab indent"		=> "Insert tab / auto indent selected",
+		"Jump to definition"	=> "Tanıma atla / Geri atla",
+		"Comment uncomment"		=> "Yorum / Yorumsuz",
+		"Insert tab indent"		=> "Sekme ekle / Otomatik girinti seç",
 		"Insert more"			=> "Girinti Arttır",
 		"Insert less"			=> "Girinti Azalt",
-		"Wrap with div"			=> "Wrap with &lt;div&gt;",
-		"Wrap with span"		=> "Wrap with &lt;span&gt;",
-		"Wrap unwrap p"			=> "Wrap / unwrap with &lt;p&gt;",
-		"Wrap unwrap a"			=> "Wrap / unwrap with &lt;a&gt;",
-		"Wrap unwrap b"			=> "Wrap / unwrap with &lt;b&gt;",
-		"Wrap unwrap i"			=> "Wrap / unwrap with &lt;i&gt;",
-		"Wrap unwrap strong"	=> "Wrap / unwrap with &lt;strong&gt;",
-		"Wrap unwrap em"		=> "Wrap / unwrap with &lt;em&gt;",
-		"Wrap unwrap li"		=> "Wrap / unwrap with &lt;li&gt;",
-		"Wrap unwrap h1..."		=> "Wrap / unwrap with &lt;h1&gt; - &lt;h3&gt;",
-		"End line with..."		=> "End line with &lt;br&gt;",
+		"Wrap with div"			=> "&lt;div&gt; ile sarın",
+		"Wrap with span"		=> "&lt;span&gt; ile sarın",
+		"Wrap unwrap p"			=> "&lt;p&gt; ile sarın",
+		"Wrap unwrap a"			=> "&lt;a&gt; ile sarın",
+		"Wrap unwrap b"			=> "&lt;b&gt; ile sarın",
+		"Wrap unwrap i"			=> "&lt;i&gt; ile sarın",
+		"Wrap unwrap strong"	=> "&lt;strong&gt; ile sarın",
+		"Wrap unwrap em"		=> "&lt;em&gt; ile sarın",
+		"Wrap unwrap li"		=> "&lt;li&gt; ile sarın",
+		"Wrap unwrap h1..."		=> "&lt;h1&gt; - &lt;h3&gt; ile sarın",
+		"End line with..."		=> "&lt;br&gt; ile satır sonlandır",
 		"Close tab"			    => "Sekme Kapat",
 		"Select file folder"	=> "Dosya / Klasör Seç",
 		"Open file"			    => "Dosya Aç",
-		"Range select"			=> "Range select",
-		"Options for selected"	=> "Options for selected",
+		"Range select"			=> "Aralık seçin",
+		"Options for selected"	=> "Seçilenler için seçenekler",
 		"Delete selected"		=> "Seçili Olanı Sil",
 		"Next previous tab"		=> "Sonraki / Önceki Sekme",
 		"Next tab"			    => "Sonraki Sekme",
 		"Previous tab"			=> "Önceki Sekme",
 		"New tab"			    => "Yeni Sekme",
 		"Close current tab"		=> "Geçerli Sekmeyi Kapat",
-		"Open file prompt"		=> "Open file prompt",
-		"Find"				    => "Find",
+		"Open file prompt"		=> "Dosya istemini aç",
+		"Find"				    => "Bul",
 		"Previous"			    => "Önceki",
-		"Focus on Go..."		=> "Focus on Go to line input",
+		"Focus on Go..."		=> "Go to line girişine odaklanın",
 		"Save"				    => "Kaydet",
 		"Save as"			    => "Farklı Kaydet...",
 		"View webpage"			=> "Web Sayfasını Görüntüle",
-		"Contract expand file..."	=> "Contract / expand file manager",
-		"Fold unfold current..."	=> "Fold / unfold current line",
-		"Refocus on document"		=> "Refocus on document",
-		"Cancel tasks"			    => "Cancel tasks"
+		"Contract expand file..."	=> "Sözleşme / genişletme dosya yöneticisi",
+		"Fold unfold current..."	=> "Mevcut hattı Katla / Katlama",
+		"Refocus on document"		=> "Belgeye yeniden odaklan",
+		"Cancel tasks"			    => "Görevleri iptal et"
 	),
 
 	"ice-coder" =>
@@ -341,11 +342,11 @@ $text = array(
 	array(
 		"set password"		=> "Parola Ayarla",
 		"login"				=> "Giriş",
-		"To disable registration..."	=> "To disable registration mode, open the settings menu or open lib/config___settings.php and change enableRegistration to false then reload this page",
-		"Registration mode enabled"	    => "Registration mode enabled",
-		"disable further registrations"	=> "disable further registrations",
+		"To disable registration..."	=> "Üye Kayıt modunu devre dışı bırakmak için, ayarlar menüsünü kullanın veya lib/config___settings.php dosyasını açın ve enableRegistration özelliğini false olarak değiştirin, ardından bu sayfayı yeniden yükleyin.",
+		"Registration mode enabled"	    => "Kayıt modu etkin",
+		"disable further registrations"	=> "daha fazla üyelik kaydını devre dışı bırak",
 		"auto-check for updates"	=> "Güncellemeleri otomatik kontrol et",
-		"To put into..."		    => "To put into multi-user mode, open the settings menu or open lib/config___settings.php and change multiUser to true then reload this page",
+		"To put into..."		    => "Çoklu kullanıcı moduna geçmek için, Ayarlar menüsünü kullanın veya lib/config___settings.php dosyasını açın ve multiUser özelliğini true olarak değiştirin, ardından bu sayfayı yeniden yükleyin.",
 		"multi-user"			    => "Çoklu Kullanıcı"
 	),
 
@@ -369,14 +370,14 @@ $text = array(
 
 	"plugins-manager" =>
 	array(
-		"ICEcoder needs to..."		=> "ICEcoder needs to reload to make this plugin usable. Reload now?",
+		"ICEcoder needs to..."		=> "ICEcoder'ın bu eklentiyi kullanılabilir hale getirmek için yeniden yüklemesi gerekiyor. Şimdi tekrar yüklensin mi?",
 		"saving plugins"		    => "Eklentileri kaydediliyor...",
-		"Cannot update config..."	=> "Cannot update config file. Please set public write permissions on",
+		"Cannot update config..."	=> "Yapılandırma dosyası güncellenemiyor. Lütfen yazma izinlerini genel olarak ayarlayın.",
 		"and try again"			    => "ve tekrar deneyin",
-		"couldnt delete dir"		=> "could not delete dir",
-		"couldnt delete file"		=> "could not delete file",
+		"couldnt delete dir"		=> "Klasör silinemedi",
+		"couldnt delete file"		=> "Dosya silinemedi",
 		"plugins"			        => "eklentiler",
-		"Guide to writing..."		=> "Guide to writing plugins",
+		"Guide to writing..."		=> "Eklenti yazma rehberi",
 		"Manage Installed"		    => "Yüklemeyi Yönet",
 		"URL"				=> "URL",
 		"Target"			=> "Hedef",
@@ -397,11 +398,11 @@ $text = array(
 		"Readable Writeable"	=> "Okunabilir / Yazılabilir",
 		"Relative path"			=> "Relative path",
 		"Absolute path"			=> "Absolute path",
-		"Contains"			=> "Contains",
-		"Permissions"		=> "Permissions",
-		"Owner"				=> "Owner",
-		"Group"				=> "Group",
-		"Public"			=> "Public",
+		"Contains"			=> "İçeren",
+		"Permissions"		=> "İzinler",
+		"Owner"				=> "Sahip",
+		"Group"				=> "Grup",
+		"Public"			=> "Genel",
 		"Read"				=> "Okuma",
 		"Write"				=> "Yazma",
 		"Execute"			=> "Çalıştırma",
@@ -411,12 +412,12 @@ $text = array(
 
 	"settings-common" =>
 	array(
-		"Your document does..."		=> "Your document does not appear to be in UTF-8 encoding so has been converted"
+		"Your document does..."		=> "Belgeniz UTF-8 kodlamasında görünmüyor, dolayısıyla dönüştürülüyor"
 	),
 
 	"settings-save-current-files" =>
 	array(
-		"Cannot update config..."	=> "Cannot update config file. Please set public write permissions on",
+		"Cannot update config..."	=> "Yapılandırma dosyası güncellenemiyor. Lütfen yazma izinlerini genel olarak ayarlayın.",
 		"and try again"			    => "ve tekrar deneyin"
 	),
 
