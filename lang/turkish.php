@@ -10,26 +10,26 @@ $text = array(
 
     "editor" =>
 	array(
-		"server"			    => "sunucu",
+		"server"			    => "Sunucu Bilgileri",
 		"Server name, SS..."	=> "Sunucu adı, İşletim Sistemi & IP:",
 		"Root"				    => "Kök dizin:",
 		"ICEcoder root"			=> "ICEcoder root:",
 		"PHP version"			=> "PHP sürümü:",
 		"Date & time"			=> "Tarih & zaman:",
-		"your device"			=> "your device",
+		"your device"			=> "Yazılım Bilgisi",
 		"Browser"			    => "Tarayıcı:",
 		"Your IP"			    => "IP numaranız:",
 		"trial remaining"		=> "denemenin kalan",
-		"days left"			    => "kalan gün",
-		"files"				    => "dosyalar",
+		"days left"			    => "Kalan Gün",
+		"files"				    => "Dosyalar",
 		"Last 10 files..."		=> "Açılan son 10 dosya :",
 		"none"				    => "[yok]",
-		"test suite"			=> "test paketi",
+		"test suite"			=> "Testler",
 		"Run unit tests"		=> "Birim Testlerini Çalıştır",
 		"dev mode"			    => "Geliştirici modu",
 		"Status"			    => "Durum",
 		"Using"				    => "Kullanma",
-		"You can switch..."		=> "You can switch dev mode on/off in lib/config__settings.php"
+		"You can switch..."		=> "lib/config__settings.php dosyasında geliştirici modunu açıp kapatabilirsiniz"
 
 	),
 
@@ -193,9 +193,9 @@ $text = array(
 
 	"get-branch" =>
 	array(
-		"There are no..."		=> "There are no differences between the local and GitHub repo. Switch back to regular mode?",
-		"Sorry, there was..."	=> "Sorry, there was an error, code:",
-		"Your local folder..."	=> "Your local folder is empty, would you like to clone"
+		"There are no..."		=> "Yerel ve GitHub repo arasında fark yoktur. Normal moda dönülsün mü?",
+		"Sorry, there was..."	=> "Üzgünüz, bir hata oluştu, hata kodu:",
+		"Your local folder..."	=> "Yerel klasörünüz boş, klonlamak ister misiniz"
 	),
 
 	"github-manager" =>
@@ -234,7 +234,7 @@ $text = array(
 
 	"help" =>
 	array(
-		"shortcuts"			    => "kısayollar",
+		"shortcuts"			    => "Kısayollar",
 		"Within document"		=> "Belge içinde",
 		"On Tabs"			    => "Sekmelerde",
 		"Within file manager"	=> "Dosya Yöneticisi İçinde",
@@ -319,10 +319,10 @@ $text = array(
 		"Sorry cannot paste..."		=> "Sorry, cannot paste a whole root",
 		"Nothing to paste..."		=> "Nothing to paste, copy a file/folder first!",
 		"and"				    => "ve",
-		"this document"			=> "bu belge",
-		"replace"			    => "değiştir",
-		"replace all"			=> "tümünü değiştir",
-		"file"				    => "dosya",
+		"this document"			=> "Bu belge",
+		"replace"			    => "Değiştir",
+		"replace all"			=> "Tümünü değiştir",
+		"file"				    => "Dosya",
 		"Replacing text in"		=> "İçindeki yazı değiştiriliyor",
 		"Sorry there was..."	=> "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
 		"Cancelled tasks"		=> "Cancelled tasks",
@@ -339,14 +339,14 @@ $text = array(
 
 	"login" =>
 	array(
-		"set password"		=> "set password",
-		"login"				=> "login",
+		"set password"		=> "Parola Ayarla",
+		"login"				=> "Giriş",
 		"To disable registration..."	=> "To disable registration mode, open the settings menu or open lib/config___settings.php and change enableRegistration to false then reload this page",
 		"Registration mode enabled"	    => "Registration mode enabled",
 		"disable further registrations"	=> "disable further registrations",
 		"auto-check for updates"	=> "Güncellemeleri otomatik kontrol et",
 		"To put into..."		    => "To put into multi-user mode, open the settings menu or open lib/config___settings.php and change multiUser to true then reload this page",
-		"multi-user"			    => "multi-user"
+		"multi-user"			    => "Çoklu Kullanıcı"
 	),
 
 	"multiple-results" =>
@@ -370,14 +370,14 @@ $text = array(
 	"plugins-manager" =>
 	array(
 		"ICEcoder needs to..."		=> "ICEcoder needs to reload to make this plugin usable. Reload now?",
-		"saving plugins"		    => "saving plugins...",
+		"saving plugins"		    => "Eklentileri kaydediliyor...",
 		"Cannot update config..."	=> "Cannot update config file. Please set public write permissions on",
-		"and try again"			    => "and try again",
+		"and try again"			    => "ve tekrar deneyin",
 		"couldnt delete dir"		=> "could not delete dir",
 		"couldnt delete file"		=> "could not delete file",
 		"plugins"			        => "eklentiler",
 		"Guide to writing..."		=> "Guide to writing plugins",
-		"Manage Installed"		    => "Manage Installed",
+		"Manage Installed"		    => "Yüklemeyi Yönet",
 		"URL"				=> "URL",
 		"Target"			=> "Hedef",
 		"Timer"				=> "Timer",
@@ -402,9 +402,9 @@ $text = array(
 		"Owner"				=> "Owner",
 		"Group"				=> "Group",
 		"Public"			=> "Public",
-		"Read"				=> "Read",
-		"Write"				=> "Write",
-		"Execute"			=> "Execute",
+		"Read"				=> "Okuma",
+		"Write"				=> "Yazma",
+		"Execute"			=> "Çalıştırma",
 		"Change to"			=> "Change to",
 		"update"			=> "update"
 	),
@@ -422,13 +422,13 @@ $text = array(
 
 	"settings-screen" =>
 	array(
-		"settings"			=> "ayarlar",
-		"version"			=> "sürüm",
-		"website"			=> "web sitesi",
-		"git"				=> "git",
+		"settings"			=> "Ayarlar",
+		"version"			=> "Sürüm",
+		"website"			=> "Web sitesi",
+		"git"				=> "git adresi",
 		"codemirror dir"	=> "codemirror klasörü",
 		"codemirror version"	=> "codemirror sürümü",
-		"file manager root"		=> "dosya yöneticisi kök klasörü",
+		"file manager root"		=> "Dosya yöneticisi kök klasörü",
 		"backups"			    => "yedekler",
 		"keep version control..."	=> "keep version control backups for",
 		"day"				        => "gün",
@@ -437,7 +437,7 @@ $text = array(
 		"deleting actually moves..."	=> "deleting actually moves to ICEcoder's tmp dir",
 		"local/server items..."		    => "local/server items only",
 		"Get in contact..."		=> "İletişim için aşağıdaki bağlantıları tıklayın ...",
-		"You may use..."		=> "You may use ICEcoder for your own purposes, commercial or not, just let us know of any cool uses or customisations. :)<br><br>No warranty or liability accepted for anything, all responsibility of use is your own.",
+		"You may use..."		=> "ICEcoder'ı kendi amaçlarınız için kullnabilirsiniz. Ticari amaçlarla kullanılamaz. Herhangi bir soğuk kullanım ya da özelleştirme hakkında bize bilgi verin. :) <br> <br> Hiçbir şey için, hiçbir garanti veya sorumluluk kabul edilmez, tüm kullanım sorumluluğu size aittir.",
 		"functionality"			=> "functionality",
 		"check for updates..."	=> "check for updates on load",
 		"auto open last..."		=> "auto open last files on login",
@@ -451,7 +451,7 @@ $text = array(
 		"security"			    => "security",
 		"new password"			=> "Yeni parola",
 		"8 chars min"			=> "Parola en az 8 karakter olmalı",
-		"confirm password"		=> "Yeni kontrol tekrar",
+		"confirm password"		=> "Yeni parola tekrar",
 		"banned files/folders"	=> "banned files/folders",
 		"banned paths"			=> "banned paths",
 		"ip addresses"			=> "ip adresleri",
@@ -477,7 +477,7 @@ $text = array(
 		"root"				    => "root",
 		"Set 0 to..."			=> "Set 0 to disable",
 		"Slash prefixed"		=> "Girdiler '/' işareti ile başlamalıdır",
-		"bug reporting"			=> "bug reporting",
+		"bug reporting"			=> "Hata raporlama",
 		"check in files"		=> "check in files",
 		"every"				    => "every",
 		"secs getting last"		=> "secs, getting last",
