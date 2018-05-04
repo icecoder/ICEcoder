@@ -74,7 +74,9 @@ function getData($url,$type='fopen',$dieMessage=false,$timeout=60) {
 		if (!$data) {
 			$data = @file_get_contents(str_replace("https:","http:",$url), false, $context);
 		}
-	}
+	} elseif (file_exists($url)) {
+                $data = file_get_contents($url);
+        }
 	// Return data or die with message
 	if ($data) {
 		return $data;
