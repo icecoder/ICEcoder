@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include("headers.php");
 include("settings.php");
 $t = $text['settings-screen'];
@@ -99,8 +99,8 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<h2>language</h2><br>
 		<select onchange="showButton()" name="languageUser">
 		<?php
-		$langFiles = array("chinese-simplified.php","chinese-traditional.php","dutch.php","english.php","french.php","german.php","italian.php","norwegian.php","persian.php","portuguese-brazilian.php","spanish.php");
-		$langText = array("中国（简体）","中國（繁體）","Nederlands","English","Français","Deutsch","Italiano","Norsk","فارسی","Portugues(br)","Espa&ntilde;ol");
+		$langFiles = array("chinese-simplified.php","chinese-traditional.php","dutch.php","english.php","french.php","german.php","italian.php","norwegian.php","persian.php","portuguese-brazilian.php","spanish.php","turkish.php");
+		$langText = array("中国（简体）","中國（繁體）","Nederlands","English","Français","Deutsch","Italiano","Norsk","فارسی","Portugues(br)","Espa&ntilde;ol","Türkçe(tr)");
 		for ($i=0; $i<count($langFiles); $i++) {
 			echo '<option value="'.$langFiles[$i].'"'.($ICEcoder["languageUser"]==$langFiles[$i] ? ' selected' : '').'>'.$langText[$i].'</option>'.PHP_EOL;
 		}
