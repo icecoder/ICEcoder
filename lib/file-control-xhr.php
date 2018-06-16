@@ -291,8 +291,7 @@ if (!$error && $_GET['action']=="save") {
 
 					// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 					$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
-					$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
-					$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
+                    $contents = str_replace(array("\r", "\n"), array($ICEcoder["lineEnding"], $ICEcoder["lineEnding"]), $contents);
 					if (isset($_POST['changes']) && ($unixNewLines > 0) || ($windowsNewLines > 0)){
 						if ($unixNewLines > $windowsNewLines){
 							$contents = str_replace($ICEcoder["lineEnding"], "\n", $contents);
@@ -330,8 +329,7 @@ if (!$error && $_GET['action']=="save") {
 
 					// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 					$contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
-					$contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
-					$contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
+                    $contents = str_replace(array("\r", "\n"), array($ICEcoder["lineEnding"], $ICEcoder["lineEnding"]), $contents);
 					if (isset($_POST['changes']) && ($unixNewLines > 0) || ($windowsNewLines > 0)){
 						if ($unixNewLines > $windowsNewLines){
 							$contents = str_replace($ICEcoder["lineEnding"], "\n", $contents);
@@ -801,8 +799,7 @@ if (!$error && $_GET['action']=="delete") {
 	// Local
 	} else {
 		for ($i=0;$i<count($filesArray);$i++) {
-			$fullPath = str_replace($docRoot,"",$filesArray[$i]);
-			$fullPath = str_replace($iceRoot,"",$fullPath);
+            $fullPath = str_replace(array($docRoot, $iceRoot), "", $filesArray[$i]);
 			$fullPath = $docRoot.$iceRoot.$fullPath;
 
 			if (rtrim($fullPath,"/") == rtrim($docRoot,"/")) {
@@ -887,8 +884,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="getRemoteFile") {
 	if ($remoteFile = toUTF8noBOM(getData($file,'curl'),true)) {
 		// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 		$remoteFile = str_replace("\r\n", $ICEcoder["lineEnding"], $remoteFile);
-		$remoteFile = str_replace("\r", $ICEcoder["lineEnding"], $remoteFile);
-		$remoteFile = str_replace("\n", $ICEcoder["lineEnding"], $remoteFile);
+        $remoteFile = str_replace(array("\r", "\n"), array($ICEcoder["lineEnding"], $ICEcoder["lineEnding"]), $remoteFile);
 		$doNext .= 'top.ICEcoder.newTab();';
 		$doNext .= 'top.ICEcoder.getcMInstance().setValue(\''.str_replace("\r","",str_replace("\t","\\\\t",str_replace("\n","\\\\n",str_replace("'","\\\\'",str_replace("\\","\\\\",preg_quote($remoteFile)))))).'\');';
 		$doNext .= 'top.ICEcoder.goToLine('.$lineNumber.');';

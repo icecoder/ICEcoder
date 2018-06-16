@@ -205,8 +205,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 	if (generateHash(strClean($_POST['email']),$_POST['code'])==$_POST['code']) {
 		$settingsContents = getData($settingsFile);
 		// Replace our empty email & code with the one submitted by user
-		$settingsContents = str_replace('"licenseEmail"		=> "",','"licenseEmail"		=> "'.$_POST['email'].'",',$settingsContents);
-		$settingsContents = str_replace('"licenseCode"		=> "",','"licenseCode"		=> "'.$_POST['code'].'",',$settingsContents);
+        $settingsContents = str_replace(array('"licenseEmail"		=> "",', '"licenseCode"		=> "",'), array('"licenseEmail"		=> "' . $_POST['email'] . '",', '"licenseCode"		=> "' . $_POST['code'] . '",'), $settingsContents);
 		// Now update the config file
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 		fwrite($fh, $settingsContents);
@@ -239,8 +238,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		// Also set the update checker preference
 		$checkUpdates = $_POST['checkUpdates']=="true" ? "true" : "false";
 		// once to cover the true setting, once to cover false
-		$settingsContents = str_replace('"checkUpdates"		=> true,','"checkUpdates"		=> '.$checkUpdates.',',$settingsContents);
-		$settingsContents = str_replace('"checkUpdates"		=> false,','"checkUpdates"		=> '.$checkUpdates.',',$settingsContents);
+        $settingsContents = str_replace(array('"checkUpdates"		=> true,', '"checkUpdates"		=> false,'), array('"checkUpdates"		=> ' . $checkUpdates . ',', '"checkUpdates"		=> ' . $checkUpdates . ','), $settingsContents);
 		// Now update the config file
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 		fwrite($fh, $settingsContents);

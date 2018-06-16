@@ -87,12 +87,10 @@ if (isset($_SESSION['loggedIn'], $_POST["theme"]) && !$demoMode && $_SESSION['lo
 	// Change multiUser and enableRegistration in config___settings.php
 	$generalSettingsContents = getData($configSettings);
 	$isMultiUser = isset($_POST['multiUser']) && $_POST['multiUser'] ? "true" : "false";
-	$generalSettingsContents = str_replace('"multiUser"		=> true,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
-	$generalSettingsContents = str_replace('"multiUser"		=> false,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
+    $generalSettingsContents = str_replace(array('"multiUser"		=> true,', '"multiUser"		=> false,'), array('"multiUser"		=> ' . $isMultiUser . ',', '"multiUser"		=> ' . $isMultiUser . ','), $generalSettingsContents);
 
 	$isEnableRegistration = isset($_POST['enableRegistration']) && $_POST['enableRegistration'] ? "true" : "false";
-	$generalSettingsContents = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
-	$generalSettingsContents = str_replace('"enableRegistration"	=> false','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
+    $generalSettingsContents = str_replace(array('"enableRegistration"	=> true', '"enableRegistration"	=> false'), array('"enableRegistration"	=> ' . $isEnableRegistration, '"enableRegistration"	=> ' . $isEnableRegistration), $generalSettingsContents);
 
 	if (is_writable($configSettings)) {
 		$fConfigSettings = fopen($configSettings, 'w');

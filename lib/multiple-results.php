@@ -46,7 +46,7 @@ foundInSelected = false;
 userTarget = top.document.findAndReplace.target.value;
 findText = top.findAndReplace.find.value;
 <?php
-$findText = str_replace("ICEcoder:","",str_replace("&#39;","\'",$_GET['find']));
+$findText = str_replace(array("&#39;", "ICEcoder:"), array("\'", ""), $_GET['find']);
 // Find in open docs?
 if (!isset($_GET['target'])) {
 $targetName = $t['document'];

@@ -173,7 +173,7 @@ function xssClean($data,$type) {
 
 // Clean PHP code injection attempts
 function injClean($data) {
-	$output = str_replace("(", "", str_replace(")", "", str_replace(";", "", $data)));
+	$output = str_replace(array(")", "("), "", str_replace(";", "", $data));
 	return $output;
 }
 

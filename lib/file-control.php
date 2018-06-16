@@ -165,8 +165,7 @@ if (action=="load") {
 						$ghRemoteURLPaths = $ICEcoder['githubRemotePaths'];
 						$ghRemoteURL = $ghRemoteURLPaths[$ghRemoteURLPos];
 
-						$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
-						$ghRemoteURL = str_replace("/","|",$ghRemoteURL);
+                        $ghRemoteURL = str_replace(array("https://github.com/", "/"), array("", "|"), $ghRemoteURL);
 
 						// If the file is not in a sub-sub dir of the doc root
 						if (!strpos($fileLoc,"/",1)) {
