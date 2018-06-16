@@ -883,7 +883,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="replaceText") {
 // ==========================
 
 if (!isset($ftpSite) && !$error && $_GET['action']=="getRemoteFile") {
-	$lineNumber = max(isset($_REQUEST['lineNumber'])?intval($_REQUEST['lineNumber']):1, 1);
+	$lineNumber = max(isset($_REQUEST['lineNumber'])? (int)$_REQUEST['lineNumber'] :1, 1);
 	if ($remoteFile = toUTF8noBOM(getData($file,'curl'),true)) {
 		// replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
 		$remoteFile = str_replace("\r\n", $ICEcoder["lineEnding"], $remoteFile);

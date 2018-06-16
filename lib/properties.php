@@ -30,7 +30,7 @@ $bytes = filesize($fileName);
 // If it's a dir, get the dir size
 if (is_dir($fileName)) {
 	$io = popen('/usr/bin/du -sb '.$fileName, 'r');
-	$bytes = intval(fgets($io,80));
+	$bytes = (int)fgets($io, 80);
 	pclose($io);
 }
 // Change into kilobytes

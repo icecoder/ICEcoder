@@ -128,7 +128,7 @@ function strClean($var) {
 
 // returns a number, whole or decimal or null
 function numClean($var) {
-	return is_numeric($var) ? floatval($var) : false;
+	return is_numeric($var) ? (float)$var : false;
 }
 
 // Clean XSS attempts using different contexts
@@ -287,8 +287,8 @@ function getVersionsCount($fileLoc,$fileName) {
 				if (strpos($versionsInfo[$j],$fileRef) === 0) {
 					// We have a match, so split on the " = " and we can grab number as 2nd part
 					$lineInfo = explode(" = ",$versionsInfo[$j]);
-					$count += intval($lineInfo[1]);
-					$dateCounts[$backupDateDirs[$i]] = intval($lineInfo[1]);
+					$count += (int)$lineInfo[1];
+					$dateCounts[$backupDateDirs[$i]] = (int)$lineInfo[1];
 				}
 			}
 		}

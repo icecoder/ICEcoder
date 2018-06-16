@@ -59,7 +59,7 @@ if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['c
 	clearstatcache();
 	$configfilemtime = filemtime(__DIR__."/"."config___settings.php");
 	// Make it a number (avoids null, undefined etc)
-	$configfilemtime = intval($configfilemtime);
+	$configfilemtime = (int)$configfilemtime;
 	// Set it to the epoch time now if we don't have a real value
 	if ($configfilemtime == 0) {
 		$configfilemtime = time();
@@ -114,7 +114,7 @@ if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && generateHash(strCle
 $tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
 if ($tRemaining > $tPeriod || $ICEcoder['configCreateDate'] == 0) {$tRemaining = $tPeriod;}
 $tRemainingPerc = number_format($tRemaining/$tPeriod,2);
-$tDaysRemaining = intval($tRemaining/(60*60*24));
+$tDaysRemaining = (int)($tRemaining / (60 * 60 * 24));
 
 // Update this config file?
 include __DIR__."/settings-update.php";

@@ -66,7 +66,7 @@ for ($i=0; $i<count($allFiles); $i++) {
 // If we're due to open a file...
 if ($_GET['action']=="load") {
 	echo 'action="load";';
-	$lineNumber = max(isset($_REQUEST['lineNumber'])?intval($_REQUEST['lineNumber']):1, 1);
+	$lineNumber = max(isset($_REQUEST['lineNumber'])? (int)$_REQUEST['lineNumber'] :1, 1);
 	// Check this file isn't on the banned list at all
 	$canOpen = true;
 	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {

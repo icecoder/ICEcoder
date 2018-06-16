@@ -110,7 +110,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 
 		// Redo the arrays using the form data
 		for ($i=0; $i<count($oldPlugins); $i++) {
-			$timer = intval($_POST['timer'.$i]);
+			$timer = (int)$_POST['timer' . $i];
 			if ($timer == 0) {
 				$timer = "";
 			}
