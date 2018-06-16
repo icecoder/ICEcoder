@@ -112,4 +112,3 @@ function ftpDelete($ftpConn, $type, $path) {
 		return ftp_rmdir($ftpConn, $path);
 	}
 }
-?>

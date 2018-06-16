@@ -37,4 +37,3 @@ if (!headers_sent()) {
 	header('Pragma: no-cache');						// Caching over HTTP 1.0 covered
 	header('Expires: 0');							// Caching over Proxies covered
 }
-?>

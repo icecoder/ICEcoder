@@ -57,4 +57,3 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 	}
 	echo '<script>top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);</script>';
 }
-?>

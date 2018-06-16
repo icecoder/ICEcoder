@@ -489,4 +489,4 @@ $text = array(
 		"Search" => "Zoek",
 	)
 );
-?>
+

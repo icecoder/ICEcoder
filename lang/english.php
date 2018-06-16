@@ -521,4 +521,3 @@ $text = array(
 		"Search" => "Search",
 	)
 );
-?>

@@ -8,4 +8,3 @@ if (!isset($_SESSION['loggedIn'])) {
 // $fh = fopen(dirname(__FILE__)."/../bug-logs.log", 'a');
 // fwrite($fh, "Bug check on: ".date("D dS M Y h:i:sa")."\nresult: ".$result.", status array:".var_export($status, true)."\n");
 // fclose($fh);
-?>

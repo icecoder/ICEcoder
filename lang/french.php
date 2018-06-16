@@ -422,4 +422,3 @@ dans lib/config__settings.php",
 	)
 
 );
-?>

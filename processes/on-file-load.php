@@ -8,4 +8,3 @@ if (!isset($_SESSION['loggedIn'])) {
 // $fh = fopen(dirname(__FILE__)."/../file-dir-access.log", 'a');
 // fwrite($fh, "LOAD >>> ".date("D dS M Y h:i:sa").": ".$fileLoc."/".$fileName."\n");
 // fclose($fh);
-?>
