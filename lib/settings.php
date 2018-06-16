@@ -82,7 +82,7 @@ If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
 }
 
 // Join ICEcoder settings and user settings together to make our final ICEcoder array
-$ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
+$ICEcoder = array_merge($ICEcoderSettings , $ICEcoderUserSettings);
 
 // Include language file
 // Load base first as foundation
