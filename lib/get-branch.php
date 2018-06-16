@@ -245,8 +245,8 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 			} else {
 				$fileExt = explode(" ",pathinfo($docRoot.$iceRoot.$fileFolderName, PATHINFO_EXTENSION));
 				$fileExt = $fileExt[0];
-				if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";}
-                if (array_search($fileExt,array("doc","docx","ppt","rtf","pdf","zip","tar","gz","swf","asx","asf","midi","mp3","wav","aiff","mov","qt","wmv","mp4","odt","odg","odp"))!==false) {$finfo = "other";}
+				if (in_array($fileExt,array("gif","jpg","jpeg","png"))) {$finfo = "image";}
+                if (in_array($fileExt,array("doc","docx","ppt","rtf","pdf","zip","tar","gz","swf","asx","asf","midi","mp3","wav","aiff","mov","qt","wmv","mp4","odt","odg","odp"))) {$finfo = "other";}
             }
 			if (strpos($finfo,"text")===0 || strpos($finfo, "application/xml")===0 || strpos($finfo,"empty")!==false) {
 				$contents = str_replace("\r","",$contents);
