@@ -167,8 +167,7 @@ function xssClean($data,$type) {
 		}
 	}
 
-	$output = str_replace($bad, $good, $data);
-	return $output;
+    return str_replace($bad, $good, $data);
 }
 
 

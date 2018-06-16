@@ -157,9 +157,7 @@ function stitchChanges($fileLines) {
 	}
 
 	// Set and return the newly stitched together content
-	$contents = implode("",$fileLines);
-
-	return $contents;
+    return implode("",$fileLines);
 }
 
 

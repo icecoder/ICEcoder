@@ -47,10 +47,8 @@ function ftpGetFileInfo($ftpConn, $directory = '.', $fileName) {
 	$detailedList = $ftpListArrays['detailedList'];
 
 	// Now get the file info for our file
-	$fileInfo = $detailedList[$fileName];
-
-	// Return the info
-	return $fileInfo;
+    // Return the info
+	return $detailedList[$fileName];
 }
 
 // Get contents over FTP
