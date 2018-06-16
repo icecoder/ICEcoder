@@ -26,7 +26,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 		}
 		$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 		// Now update the config file
-		if (is_writeable($settingsFile)) {
+		if (is_writable($settingsFile)) {
 			$fh = fopen($settingsFile, 'w');
 			fwrite($fh, $settingsContents);
 			fclose($fh);
@@ -45,7 +45,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 				if (count($last10FilesArray)>=10) {$ICEcoder["last10Files"]=substr($ICEcoder["last10Files"],0,strrpos($ICEcoder["last10Files"],','));};
 				$settingsContents = substr($settingsContents,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$ICEcoder["last10Files"].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 				// Now update the config file
-				if (is_writeable($settingsFile)) {
+				if (is_writable($settingsFile)) {
 					$fh = fopen($settingsFile, 'w');
 					fwrite($fh, $settingsContents);
 					fclose($fh);

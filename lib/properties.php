@@ -48,7 +48,7 @@ echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($byte
 <br><br>
 <span class="column" style="width: 180px"><?php echo $t['Type'];?>: <?php echo is_dir($fileName) ? "Folder" : "File"; ?></span>
 <span class="column" style="margin: 0 10px"><?php echo $t['Readable Writeable'];?>: 
-<?php echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writeable($fileName) ? "Yes" : "No";?>
+<?php echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writable($fileName) ? "Yes" : "No";?>
 </span>
 <span class="column"><?php echo $t['Relative path'];?>: <?php echo str_replace($docRoot,"",$fileName);?></span>
 <br><br>

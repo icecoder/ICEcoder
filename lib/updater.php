@@ -24,7 +24,7 @@ function startUpdate() {
 			$testPath = $source.DIRECTORY_SEPARATOR.$iterator->getSubPathName();
 			$testPath = str_replace("\\","/",$testPath);
 			if (strpos($testPath,"/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
-				if (!is_writeable($item)) {
+				if (!is_writable($item)) {
 					array_push($cantMoveArray,substr($item,count($source)+2));
 				}
 			}

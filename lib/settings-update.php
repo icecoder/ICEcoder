@@ -63,7 +63,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,($repPosEnd),strlen($settingsContents));
 
 	// Now update the config file
-	if (is_writeable($settingsFile)) {
+	if (is_writable($settingsFile)) {
 		$fh = fopen($settingsFile, 'w');
 		fwrite($fh, $settingsContents);
 		fclose($fh);
@@ -94,7 +94,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$generalSettingsContents = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
 	$generalSettingsContents = str_replace('"enableRegistration"	=> false','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
 
-	if (is_writeable($configSettings)) {
+	if (is_writable($configSettings)) {
 		$fConfigSettings = fopen($configSettings, 'w');
 		fwrite($fConfigSettings, $generalSettingsContents);
 		fclose($fConfigSettings);
