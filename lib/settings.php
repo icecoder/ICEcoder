@@ -24,8 +24,8 @@ include_once(__DIR__."/settings-common.php");
 
 // Establish user settings file
 $username = "";
-if (isset($_POST['username']) && $_POST['username'] != "") {$username = strClean($_POST['username']."-");};
-if (isset($_SESSION['username']) && $_SESSION['username'] != "") {$username = strClean($_SESSION['username']."-");};
+if (isset($_POST['username']) && $_POST['username'] != "") {$username = strClean($_POST['username']."-");}
+if (isset($_SESSION['username']) && $_SESSION['username'] != "") {$username = strClean($_SESSION['username']."-");}
 $settingsFile = 'config-'.$username.str_replace(".","_",str_replace("www.","",$_SERVER['SERVER_NAME'])).'.php';
 
 // Login is default
@@ -94,7 +94,7 @@ $text = array_replace_recursive($baseText, $text);
 $_SESSION['text'] = $text;
 
 // Login not required or we're in demo mode and have password set in our settings, log us straight in
-if ((!$ICEcoder['loginRequired'] || $ICEcoder['demoMode']) && $ICEcoder['password']!="") {$_SESSION['loggedIn']=true;};
+if ((!$ICEcoder['loginRequired'] || $ICEcoder['demoMode']) && $ICEcoder['password']!="") {$_SESSION['loggedIn']=true;}
 $demoMode = $ICEcoder['demoMode'];
 
 // Check if trial period has ended
@@ -112,7 +112,7 @@ if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && generateHash(strCle
 	exit;
 }
 $tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
-if ($tRemaining > $tPeriod || $ICEcoder['configCreateDate'] == 0) {$tRemaining = $tPeriod;};
+if ($tRemaining > $tPeriod || $ICEcoder['configCreateDate'] == 0) {$tRemaining = $tPeriod;}
 $tRemainingPerc = number_format($tRemaining/$tPeriod,2);
 $tDaysRemaining = intval($tRemaining/(60*60*24));
 
@@ -120,8 +120,8 @@ $tDaysRemaining = intval($tRemaining/(60*60*24));
 include(__DIR__."/settings-update.php");
 
 // Set loggedIn and username to false if not set as yet
-if (!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn'] = false;};
-if (!isset($_SESSION['username'])) {$_SESSION['username'] = false;};
+if (!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn'] = false;}
+if (!isset($_SESSION['username'])) {$_SESSION['username'] = false;}
 
 // Attempt a login with password
 if(isset($_POST['submit']) && $setPWorLogin=="login") {
@@ -139,7 +139,7 @@ if(isset($_POST['submit']) && $setPWorLogin=="login") {
 	} else {
 		include(__DIR__."/../processes/on-user-login-fail.php");
 	}
-};
+}
 
 // Re-establish our loggedIn state and username
 $_SESSION['loggedIn'] = $_SESSION['loggedIn'];
@@ -169,7 +169,7 @@ if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*"
 	header('Location: /');
 	die("Sorry, not in allowed IPs list");
 	exit;
-};
+}
 
 // Establish any FTP site to use
 if (isset($_SESSION['ftpSiteRef']) && $_SESSION['ftpSiteRef'] !== false) {

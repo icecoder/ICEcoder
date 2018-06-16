@@ -212,8 +212,8 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		</form>
 	</div>
 	<?php
-	;};
-	?>
+    }
+    ?>
 
 	<div style="display: inline-block; width: 600px">
 		<h2><?php echo $t['Add new path'];?></h2><br>

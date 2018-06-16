@@ -7,7 +7,7 @@ $t = $text['file-control'];
 <?php if ($_SESSION['githubDiff']) { ?>
 <script src="github.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="underscore-min.js?microtime=<?php echo microtime(true);?>"></script>
-<?php ;}; ?>
+<?php } ?>
 <script>
 <?php
 // Establish the filename/new filename
@@ -35,7 +35,7 @@ for ($i=0; $i<count($allFiles); $i++) {
 	if (strpos($allFiles[$i],$docRoot)===false && $_GET['action']!="getRemoteFile") {
 		$allFiles[$i]=str_replace("|","/",$docRoot.$iceRoot.$allFiles[$i]);
 	}
-};
+}
 $file = implode(";",$allFiles);
 
 // Establish the $fileLoc and $fileName (used in single file cases, eg opening. Multiple file cases, eg deleting, is worked out in that loop)
@@ -60,7 +60,7 @@ for ($i=0; $i<count($allFiles); $i++) {
 		($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
 		) {
 		die("top.ICEcoder.message('Sorry! - problem with file requested');</script>");
-	};
+	}
 }
 
 // If we're due to open a file...
@@ -85,9 +85,9 @@ if ($_GET['action']=="load") {
 		} else {
 			$fileExt = explode(" ",pathinfo($file, PATHINFO_EXTENSION));
 			$fileExt = $fileExt[0];
-			if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
-			if (array_search($fileExt,array("doc","docx","ppt","rtf","pdf","zip","tar","gz","swf","asx","asf","midi","mp3","wav","aiff","mov","qt","wmv","mp4","odt","odg","odp"))!==false) {$finfo = "other";};
-		}
+			if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";}
+            if (array_search($fileExt,array("doc","docx","ppt","rtf","pdf","zip","tar","gz","swf","asx","asf","midi","mp3","wav","aiff","mov","qt","wmv","mp4","odt","odg","odp"))!==false) {$finfo = "other";}
+        }
 		if (strpos($finfo,"text")===0 || strpos($finfo, "application/xml")===0 || strpos($finfo,"empty")!==false) {
 			echo 'fileType="text";';
 			echo 'top.ICEcoder.shortURL = top.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
@@ -123,12 +123,12 @@ if ($_GET['action']=="load") {
 			echo 'fileType="image";fileName=\''.$fileLoc."/".$fileName.'\';';
 		} else {
 			echo 'fileType="other";window.open(\'http://'.$_SERVER['SERVER_NAME'].$fileLoc."/".$fileName.'\');';
-		};
-	} else {
+		}
+    } else {
 		echo 'fileType="nothing"; top.ICEcoder.message(\''.$t['Sorry'].', '.$fileLoc."/".$fileName.' '.$t['does not seem...'].'\');';
 	}
 
-};
+}
 
 
 ?>
@@ -182,7 +182,7 @@ if (action=="load") {
 
 						top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = "github.php?action=read&repo=<?php echo $ghRemoteURL;?>&filePath=<?php echo $ghFilePath;?>&csrf="+top.ICEcoder.csrf;
 					}
-				<?php ;}; ?>
+				<?php} ?>
 
 				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on ICEcoder's load)
 				top.ICEcoder.switchMode();
@@ -207,9 +207,8 @@ if (action=="load") {
 
 				top.ICEcoder.goToLine(<?php echo $lineNumber; ?>);
 				top.ICEcoder.loadingFile = false;
-			<?php
-			;};
-			?>
+			<?php}
+                ?>
 			}
 		},4);
 	}
