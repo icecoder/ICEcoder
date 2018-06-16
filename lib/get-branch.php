@@ -137,7 +137,7 @@ if (isset($ftpSite)) {
 	ftpEnd();
 // or get local list
 } else {
-	$finalArray = scandir($scanDir.$location);
+	$finalArray = scandir($scanDir . $location, SCANDIR_SORT_NONE);
 }
 
 foreach($finalArray as $entry) {

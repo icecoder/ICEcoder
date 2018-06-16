@@ -55,7 +55,7 @@ echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($byte
 <span class="column" style="width: 410px"><?php echo $t['Absolute path'];?>:<br><?php echo $fileName;?></span>
 <?php if (is_dir($fileName)) {?>
 <span class="column" style="width: 180px"><?php echo $t['Contains'];?>:<br><?php
-$dirList = scandir($fileName);
+$dirList = scandir($fileName, SCANDIR_SORT_NONE);
 $dirCount = 0;
 $fileCount = 0;
 for ($i=0, $iMax = count($dirList); $i< $iMax; $i++) {

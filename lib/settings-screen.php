@@ -165,7 +165,7 @@ for ($i=0, $iMax = count($themeArray); $i< $iMax; $i++) {
 		// Display number of days backups available
 		$backupDirBase = str_replace("\\","/",__DIR__)."/../backups/";
 		$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
-		$backupDirsList = scandir($backupDirBase.$backupDirHost);
+		$backupDirsList = scandir($backupDirBase . $backupDirHost, SCANDIR_SORT_NONE);
 		// Remove . and .. from array
 		for ($i=0, $iMax = count($backupDirsList); $i< $iMax; $i++) {
 			if ($backupDirsList[$i] == "." || $backupDirsList[$i] == "..") {

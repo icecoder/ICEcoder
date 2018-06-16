@@ -422,7 +422,7 @@ if (!$error && $_GET['action']=="save") {
 					clearstatcache();
 
 					// Finally, clear any old backup dirs than user set X days (inclusive)
-					$backupDirsList = scandir($backupDirBase.$backupDirHost);
+					$backupDirsList = scandir($backupDirBase . $backupDirHost, SCANDIR_SORT_NONE);
 					$backupDirsKeep = array();
 					for ($i=0; $i<=$ICEcoder["backupsDays"]; $i++) {
 						$backupDirsKeep[] = date($backupDirFormat, strtotime('-'.$i.' day',strtotime($backupDirDate)));
@@ -835,7 +835,7 @@ function rrmdir($dir) {
 	global $ICEcoder;
 
 	if (is_dir($dir)) { 
-		$objects = scandir($dir); 
+		$objects = scandir($dir, SCANDIR_SORT_NONE);
 		foreach ($objects as $object) { 
 			if ($object != "." && $object != "..") {
 				if (filetype($dir."/".$object) == "dir") {
