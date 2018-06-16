@@ -84,8 +84,8 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	  foreach ($lines as $line) {
 		$line = trim($line);
 		if ($line === '') continue;                 # empty line
-		if (substr($line, 0, 1) == '#') continue;   # a comment
-		if (substr($line, 0, 1) == '!') {           # negated glob
+		if (strpos($line, '#') === 0) continue;   # a comment
+		if (strpos($line, '!') === 0) {           # negated glob
 		  $line = substr($line, 1);
 		  $files = array_diff(glob("$dir/*"), glob("$dir/$line"));
 		} else {                                    # normal glob
