@@ -300,4 +300,4 @@ function getVersionsCount($fileLoc,$fileName) {
 		"dateCounts" => $dateCounts
 	);
 }
-?>
+

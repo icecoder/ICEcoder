@@ -1009,4 +1009,3 @@ echo '{
 		"errorMsg" : "'.$errorMsg.'"
 	}
 }';
-?>

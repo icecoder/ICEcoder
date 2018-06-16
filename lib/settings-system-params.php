@@ -17,4 +17,3 @@ $ICEcoderSettings = array(
 	"enableRegistration"	=> true
 );
 ?>';
-?>

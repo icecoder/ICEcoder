@@ -107,4 +107,4 @@ if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', @$_REQUEST['command'])) {
 
 // Finally, output our string
 echo $output;
-?>
+

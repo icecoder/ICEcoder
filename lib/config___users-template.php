@@ -47,4 +47,4 @@ $ICEcoderUserSettings = array(
 "last10Files"		=> "",
 "favoritePaths"		=> array()
 );
-?>
+

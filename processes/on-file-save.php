@@ -51,4 +51,3 @@ if (strtolower($fileExt) == "less" && file_exists(dirname(__FILE__)."/../plugins
 		echo ";top.ICEcoder.message('Couldn\'t compile your LESS, error info below:\\n\\n".$e->getMessage()."');";
 	}
 }
-?>

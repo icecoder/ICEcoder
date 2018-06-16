@@ -8,4 +8,3 @@ if (!isset($_SESSION['loggedIn'])) {
 // $fh = fopen(dirname(__FILE__)."/../user-access.log", 'a');
 // fwrite($fh, "logout  ".date("D dS M Y h:i:sa").": ".$_SESSION['username']."\n");
 // fclose($fh);
-?>

@@ -422,4 +422,4 @@ $text = array(
         "Update appears to..."      => "با موفقیت به روز شد"
     )
 );
-?>
+

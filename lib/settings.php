@@ -290,4 +290,3 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 	// Continue with whatever we're doing
 	// ==================================
 }
-?>

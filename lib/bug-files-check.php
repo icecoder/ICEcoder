@@ -112,4 +112,3 @@ include("../processes/on-bug-check.php");
 // Finally, display our status in JSON format as the XHR response text
 echo json_encode($status);
 
-?>
