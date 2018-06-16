@@ -1,6 +1,6 @@
 <?php
-include("lib/headers.php");
-include("lib/settings.php");
+include "lib/headers.php";
+include "lib/settings.php";
 $t = $text['editor'];
 ?>
 <!DOCTYPE html>
@@ -21,34 +21,34 @@ addon:	brace-fold, closebrackets, closetag, css-hint, foldcode, foldgutter, html
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 <?php
-if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
+if (file_exists(__DIR__."/plugins/jshint/jshint-2.5.6.min.js")) {
 	echo '<script src="plugins/jshint/jshint-2.5.6.min.js?microtime='.microtime(true).'></script>';
-};?>
+} ?>
 <script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 <?php
-if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
+if (file_exists(__DIR__."/plugins/emmet/emmet.min.js")) {
 	echo '<script src="plugins/emmet/emmet.min.js?microtime='.microtime(true).'"></script>';
-};?>
+} ?>
 <?php
-if (file_exists(dirname(__FILE__)."/plugins/pesticide/pesticide.js")) {
+if (file_exists(__DIR__."/plugins/pesticide/pesticide.js")) {
 	echo '<script src="plugins/pesticide/pesticide.js?microtime='.microtime(true).'"></script>';
-};?>
+} ?>
 <?php
-if (file_exists(dirname(__FILE__)."/plugins/stats.js/stats.min.js")) {
+if (file_exists(__DIR__."/plugins/stats.js/stats.min.js")) {
 	echo '<script src="plugins/stats.js/stats.min.js?microtime='.microtime(true).'"></script>';
-};?>
+} ?>
 <?php
-if (file_exists(dirname(__FILE__)."/plugins/responsive-helper/responsive-helper.js")) {
+if (file_exists(__DIR__."/plugins/responsive-helper/responsive-helper.js")) {
 	echo '<script src="plugins/responsive-helper/responsive-helper.js?microtime='.microtime(true).'"></script>';
-};?>
+} ?>
 <link rel="stylesheet" href="<?php
-if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';}
 echo "?microtime=".microtime(true);
-if (array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light")) !== false) {
+if (in_array($ICEcoder["theme"],array("3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light"))) {
 	$activeLineBG = "#ccc";
-} elseif (array_search($ICEcoder["theme"],array("3024-night","blackboard","colorforth","liquibyte","night","tomorrow-night-bright","tomorrow-night-eighties","vibrant-ink")) !== false) {
+} elseif (in_array($ICEcoder["theme"],array("3024-night","blackboard","colorforth","liquibyte","night","tomorrow-night-bright","tomorrow-night-eighties","vibrant-ink"))) {
 	$activeLineBG = "#888";
 } else {
 	$activeLineBG = "#000";
@@ -112,7 +112,7 @@ h2 {color: rgba(0,198,255,0.7)}
 		<span class="heading"><?php echo $t['ICEcoder root'];?></span><br>
 		<?php echo $docRoot.$iceRoot;?><br><br>
 		<span class="heading"><?php echo $t['PHP version'];?></span><br>
-		<?php echo phpversion();?><br><br>
+		<?php echo PHP_VERSION;?><br><br>
 		<span class="heading"><?php echo $t['Date & time'];?></span><br>
 		<span id="serverDT"></span><br><br>
 		<h2><?php echo $t['your device'];?></h2>
@@ -130,13 +130,13 @@ h2 {color: rgba(0,198,255,0.7)}
 		<div class="trialBarContainer"><div class="trialBarRemaining" id="trialBarRemaining"></div><br>
 			<div class="trialBarText"><?php echo $tDaysRemaining;?> <?php echo $t['days left'];?> - <a href="lib/login.php?get=code&csrf=<?php echo $_SESSION["csrf"];?>" target="_parent">Unlock now</a></div>
 		</div>
-		<?php ;}; ?>
+		<?php } ?>
 
 		<h2><?php echo $t['files'];?></h2>
 		<span class="heading"><?php echo $t['Last 10 files...'];?></span><br>
 		<ul class="fileManager" id="last10Files" style="margin-left: 0; line-height: 20px"><?php
 			$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
-			for ($i=0;$i<count($last10FilesArray);$i++) {
+			for ($i=0, $iMax = count($last10FilesArray); $i< $iMax; $i++) {
 				if ($ICEcoder["last10Files"]=="") {
 					echo '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">'.$t['none'].'</div><br><br>';
 				} else {
@@ -147,10 +147,9 @@ h2 {color: rgba(0,198,255,0.7)}
 					echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(\''.str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i])).'\')">';
 					echo str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i]));
 					echo '</a></li>';
-					if ($i<count($last10FilesArray)-1) {echo PHP_EOL;};
-				}
-			}
-		;?></ul>
+					if ($i<count($last10FilesArray)-1) {echo PHP_EOL;}
+                }
+			} ?></ul>
 	</div>
 
 	<div style="clear: both"></div>
@@ -175,8 +174,8 @@ h2 {color: rgba(0,198,255,0.7)}
 		<a nohref onclick="top.ICEcoder.filesFrame.contentWindow.frames['testControl'].location.href = 'test'" style="color: #fff; cursor: pointer"><?php echo $t['Run unit tests'];?></a><div id="unitTestResults"></div>
 	</div>
 	<?php
-	;};
-	?>
+    }
+    ?>
 	<div style="float: left">
 		<h2><?php echo $t['dev mode'];?> <?php echo $ICEcoder['devMode'] ? "on" : "off";?></h2>
 		<span class="heading"><?php echo $t['Status'];?>:</span><br>
@@ -318,7 +317,7 @@ function createNewCMInstance(num) {
 
 <div style="position: absolute; display: none; height: 100%; width: 100%; top: 0; padding: 3px 0 0 60px; line-height: 16px; font-family: monospace; font-size: 13px; z-index: 2147483647" id="game"></div>
 
-<?php include_once("processes/on-editor-load.php"); ?>
+<?php include_once "processes/on-editor-load.php"; ?>
 
 </body>
 

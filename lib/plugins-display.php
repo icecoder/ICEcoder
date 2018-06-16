@@ -1,5 +1,5 @@
 <?php
-include("headers.php");
+include "headers.php";
 
 $onLoadExtras = "";
 $pluginsDisplay = "";
@@ -8,25 +8,25 @@ $pluginsDisplay = "";
 if ($_SESSION['loggedIn']) {
 	// Work out the plugins to display to the user
 	$pluginsDisplay = "";
-	for ($i=0;$i<count($ICEcoder["plugins"]);$i++) {
+	for ($i=0, $iMax = count($ICEcoder["plugins"]); $i< $iMax; $i++) {
 		$target = explode(":",$ICEcoder["plugins"][$i][4]);
 		$pluginsDisplay .= '<a href="'.$ICEcoder["plugins"][$i][3].'" title="'.$ICEcoder["plugins"][$i][0].'" target="'.$target[0].'"><img src="'.$ICEcoder["plugins"][$i][1].'" style="'.$ICEcoder["plugins"][$i][2].'" alt="'.$ICEcoder["plugins"][$i][0].'"></a><br><br>';
-	};
+	}
 
-	// If we're updating plugins, update those shown
+    // If we're updating plugins, update those shown
 	if (isset($_GET['updatedPlugins'])) {
 		echo "<script>top.document.getElementById('pluginsOptional').innerHTML = '".str_replace("'","\\'",$pluginsDisplay)."';</script>";
 	}
 
 	// Work out what plugins we'll need to set on a setInterval
 	$onLoadExtras = "";
-	for ($i=0;$i<count($ICEcoder["plugins"]);$i++) {
+	for ($i=0, $iMax = count($ICEcoder["plugins"]); $i< $iMax; $i++) {
 		if ($ICEcoder["plugins"][$i][5]!="") {
 			$onLoadExtras .= ";top.ICEcoder.startPluginIntervals(".$i.",'".$ICEcoder["plugins"][$i][3]."','".$ICEcoder["plugins"][$i][4]."','".$ICEcoder["plugins"][$i][5]."')";
-		};
-	};
+		}
+    }
 
-	// If we're updating our plugins, clear existing setIntervals & the array refs, then start new ones
+    // If we're updating our plugins, clear existing setIntervals & the array refs, then start new ones
 	if (isset($_GET['updatedPlugins'])) {
 		?>
 		<script>

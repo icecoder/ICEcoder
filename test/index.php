@@ -23,7 +23,7 @@ unitTestResults.innerHTML = "";
 $testFile = "test-file1.txt";
 $testFileFullPath = str_replace("\\","/",dirname($_SERVER['PHP_SELF']))."/".$testFile;
 // Delete any existing test file and create a new one
-if (file_exists($testFile)) {unlink ($testFile);};
+if (file_exists($testFile)) {unlink ($testFile);}
 $fh = fopen($testFile, 'w') or die("<script>noCreate='FAIL Could not create test file';console.log(noCreate);unitTestResults.innerHTML = noCreate;</script>");
 fwrite($fh, 'initial text');
 fclose($fh);

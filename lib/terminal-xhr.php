@@ -1,6 +1,6 @@
 <?php
-include(dirname(__FILE__)."/headers.php");
-include(dirname(__FILE__)."/settings.php");
+include __DIR__."/headers.php";
+include __DIR__."/settings.php";
 
 
 function proc_open_enabled() {
@@ -40,7 +40,7 @@ if ($demoMode) {
 
 // If command contains cd but no dir
 if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', @$_REQUEST['command'])) {
-	$_SESSION['cwd'] = getcwd(); //dirname(__FILE__);
+	$_SESSION['cwd'] = getcwd(); //__DIR__;
 // Else cd to a dir
 } elseif (preg_match('/^[[:blank:]]*cd[[:blank:]]+([^;]+)$/', @$_REQUEST['command'], $regs)) {
 	// The current command is 'cd', which we have to handle as an internal shell command

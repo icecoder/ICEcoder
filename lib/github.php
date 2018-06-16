@@ -1,6 +1,6 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $t = $text['github'];
 
 // SSL check, as everything is over https
@@ -13,7 +13,7 @@ if (!extension_loaded('openssl') || !in_array('https', $wrappers)) {
 }
 
 // If we have an action to perform
-if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_GET['action']) && $sslAvail) {
+if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['loggedIn'] && $sslAvail) {
 
 	// ====
 	// AUTH
@@ -173,7 +173,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		$selectedFiles = xssClean($_GET['selectedFiles'],"html");
 		$selectedFiles = explode(";",$selectedFiles);
 
-		for ($i=0; $i<count($selectedFiles); $i++) {
+		for ($i=0, $iMax = count($selectedFiles); $i< $iMax; $i++) {
 			// Replace pipes with slashes
 			$file = str_replace("|","/",$selectedFiles[$i]);
 

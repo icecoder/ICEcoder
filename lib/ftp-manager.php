@@ -1,10 +1,10 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $t = $text['ftp-manager'];
 
 // If we have an action to perform
-if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_GET['action'])) {
+if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['loggedIn']) {
 
 	// Get our old FTP sites & user settings
 	$oldFTPSites = $ICEcoder["ftpSites"];
@@ -54,7 +54,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	if ($_GET['action']!="choose" && $_GET['action']!="edit") {
 
 		// Look at each of the existing FTP sites
-		for ($i=0; $i<count($oldFTPSites); $i++) {
+		for ($i=0, $iMax = count($oldFTPSites); $i< $iMax; $i++) {
 
 			// Updating
 			if ($_GET['action']=="update" && $i == $_GET['ftpSiteRef']) {
@@ -103,7 +103,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,$repPosEnd,strlen($settingsContents));
 
 		// Now update the config file
-		if (is_writeable($settingsFile)) {
+		if (is_writable($settingsFile)) {
 			$fh = fopen($settingsFile, 'w');
 			fwrite($fh, $settingsContents);
 			fclose($fh);
@@ -142,7 +142,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		<form id="ftpUpdateForm" action="ftp-manager.php?action=update" method="POST">
 			<table style="width: 100%">
 			<?php
-			for ($i=0; $i<count($ftpSites); $i++) {
+			for ($i=0, $iMax = count($ftpSites); $i< $iMax; $i++) {
 				echo '<tr>';
 				echo '<td style="padding: 10px 10px 8px 0">'.$ftpSites[$i]['site'].'</td>';
 				echo '<td style="padding: 10px 10px 8px 0">'.$ftpSites[$i]['host'].'</td>';
@@ -170,16 +170,16 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			<td style="padding-left: 5px"><?php echo $t['Host'];?> <span class="info" title="<?php echo $t['eg ftp.yourdomain.com'];?>">[?]</span></td>
 			</tr>
 			<tr>
-			<td style="padding: 0 10px 8px 0"><input type="text" name="ftpSiteNEW" value="<?php if (isset($_GET['action']) && $_GET['action']=="edit") {echo $ICEcoder['ftpSites'][numClean($_GET['ftpSiteRef'])]['site'];};?>" style="width: 272px"></td>
-			<td style="padding: 0 0 8px 0"><input type="text" name="ftpHostNEW" value="<?php if (isset($_GET['action']) && $_GET['action']=="edit") {echo $ICEcoder['ftpSites'][numClean($_GET['ftpSiteRef'])]['host'];};?>" style="width: 272px"></td>
+			<td style="padding: 0 10px 8px 0"><input type="text" name="ftpSiteNEW" value="<?php if (isset($_GET['action']) && $_GET['action']=="edit") {echo $ICEcoder['ftpSites'][numClean($_GET['ftpSiteRef'])]['site'];} ?>" style="width: 272px"></td>
+			<td style="padding: 0 0 8px 0"><input type="text" name="ftpHostNEW" value="<?php if (isset($_GET['action']) && $_GET['action']=="edit") {echo $ICEcoder['ftpSites'][numClean($_GET['ftpSiteRef'])]['host'];} ?>" style="width: 272px"></td>
 			</tr>
 			<tr>
 			<td style="padding-left: 5px"><?php echo $t['Username'];?> <span class="info" title="<?php echo $t['eg user123'];?>">[?]</span></td>
 			<td style="padding-left: 5px"><?php echo $t['Password'];?> <span class="info" title="<?php echo $t['eg pass123'];?>">[?]</span></td>
 			</tr>
 			<tr>
-			<td style="padding: 0 10px 8px 0"><input type="text" name="ftpUserNEW" value="<?php if (isset($_GET['action']) && $_GET['action']=="edit") {echo $ICEcoder['ftpSites'][numClean($_GET['ftpSiteRef'])]['user'];};?>" style="width: 272px"></td>
-			<td style="padding: 0 0 8px 0"><input type="password" name="ftpPassNEW" value="<?php if (isset($_GET['action']) && $_GET['action']=="edit") {echo $ICEcoder['ftpSites'][numClean($_GET['ftpSiteRef'])]['pass'];};?>" style="width: 272px"></td>
+			<td style="padding: 0 10px 8px 0"><input type="text" name="ftpUserNEW" value="<?php if (isset($_GET['action']) && $_GET['action']=="edit") {echo $ICEcoder['ftpSites'][numClean($_GET['ftpSiteRef'])]['user'];} ?>" style="width: 272px"></td>
+			<td style="padding: 0 0 8px 0"><input type="password" name="ftpPassNEW" value="<?php if (isset($_GET['action']) && $_GET['action']=="edit") {echo $ICEcoder['ftpSites'][numClean($_GET['ftpSiteRef'])]['pass'];} ?>" style="width: 272px"></td>
 			</tr>
 			<tr>
 			<td style="padding-left: 5px"><?php echo $t['PASV and mode'];?> <span class="info" title="<?php echo $t['Use PASV mode...'];?>">[?]</span></td>
@@ -196,7 +196,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 					<option value="FTP_BINARY"<?php echo isset($_GET['action']) && $_GET['action']=="edit" && $ICEcoder['ftpSites'][$_GET['ftpSiteRef']]['mode'] == "FTP_BINARY" ? " selected" : "";?>><?php echo $t['Binary transfer'];?></option>
 				</select>
 			</td>
-			<td style="padding: 0 0 8px 0"><input type="text" name="ftpRootNEW" value="<?php if (isset($_GET['action']) && $_GET['action']=="edit") {echo $ICEcoder['ftpSites'][numClean($_GET['ftpSiteRef'])]['root'];};?>" style="width: 272px"></td>
+			<td style="padding: 0 0 8px 0"><input type="text" name="ftpRootNEW" value="<?php if (isset($_GET['action']) && $_GET['action']=="edit") {echo $ICEcoder['ftpSites'][numClean($_GET['ftpSiteRef'])]['root'];} ?>" style="width: 272px"></td>
 			</tr>
 			<tr>
 			<td colspan="2" style="padding: 3px 0 8px 0; text-align: right"><div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="document.getElementById('ftpAddEditForm').submit()"><?php echo isset($_GET['action']) && $_GET['action']=="edit" ? $t['Update'] : $t['Add'];?></div></td>

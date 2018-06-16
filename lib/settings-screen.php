@@ -1,6 +1,6 @@
 ﻿<?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $t = $text['settings-screen'];
 ?>
 <!DOCTYPE html>
@@ -27,11 +27,11 @@ $themeArray = array();
 $handle = opendir('../'.$ICEcoder["codeMirrorDir"].'/theme/');
 while (false !== ($file = readdir($handle))) {
 	if ($file !== "." && $file != "..") {
-		array_push($themeArray,basename($file,".css"));
+		$themeArray[] = basename($file, ".css");
 	}
 }
 sort($themeArray);
-for ($i=0;$i<count($themeArray);$i++) {
+for ($i=0, $iMax = count($themeArray); $i< $iMax; $i++) {
 	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
 }
 ?>
@@ -101,7 +101,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<?php
 		$langFiles = array("chinese-simplified.php","chinese-traditional.php","dutch.php","english.php","french.php","german.php","italian.php","norwegian.php","persian.php","portuguese-brazilian.php","spanish.php");
 		$langText = array("中国（简体）","中國（繁體）","Nederlands","English","Français","Deutsch","Italiano","Norsk","فارسی","Portugues(br)","Espa&ntilde;ol");
-		for ($i=0; $i<count($langFiles); $i++) {
+		for ($i=0, $iMax = count($langFiles); $i< $iMax; $i++) {
 			echo '<option value="'.$langFiles[$i].'"'.($ICEcoder["languageUser"]==$langFiles[$i] ? ' selected' : '').'>'.$langText[$i].'</option>'.PHP_EOL;
 		}
 		?>
@@ -109,25 +109,25 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<br><br>
 
 		<h2><?php echo $t['functionality'];?></h2><br>
-		<input type="checkbox" onclick="showButton()" name="checkUpdates" value="true"<?php if($ICEcoder["checkUpdates"]) {echo ' checked';};?>> <?php echo $t['check for updates...'];?><br>
-		<input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($ICEcoder["openLastFiles"]) {echo ' checked';};?>> <?php echo $t['auto open last...'];?><br>
-		<input type="checkbox" onclick="showButton()" name="updateDiffOnSave" value="true"<?php if($ICEcoder["updateDiffOnSave"]) {echo ' checked';};?>> update diff pane on save
+		<input type="checkbox" onclick="showButton()" name="checkUpdates" value="true"<?php if($ICEcoder["checkUpdates"]) {echo ' checked';} ?>> <?php echo $t['check for updates...'];?><br>
+		<input type="checkbox" onclick="showButton()" name="openLastFiles" value="true"<?php if($ICEcoder["openLastFiles"]) {echo ' checked';} ?>> <?php echo $t['auto open last...'];?><br>
+		<input type="checkbox" onclick="showButton()" name="updateDiffOnSave" value="true"<?php if($ICEcoder["updateDiffOnSave"]) {echo ' checked';} ?>> update diff pane on save
 		<br><br>
 
 		<h2><?php echo $t['assisting'];?></h2><br>
-		<input type="checkbox" onclick="showButton()" name="codeAssist" value="true"<?php if($ICEcoder["codeAssist"]) {echo ' checked';};?>> <?php echo $t['code assist'];?><br>
+		<input type="checkbox" onclick="showButton()" name="codeAssist" value="true"<?php if($ICEcoder["codeAssist"]) {echo ' checked';} ?>> <?php echo $t['code assist'];?><br>
 		<br>
 		<?php echo $t['tag wrapper command'];?><br>
 		<select onchange="showButton()" name="tagWrapperCommand">
-			<option value="ctrl+alt"<?php if($ICEcoder["tagWrapperCommand"]=='ctrl+alt') {echo " selected";};?>>ctrl/cmd + alt</option>
-			<option value="alt-left"<?php if($ICEcoder["tagWrapperCommand"]=='alt-left') {echo " selected";};?>>alt left</option>
+			<option value="ctrl+alt"<?php if($ICEcoder["tagWrapperCommand"]=='ctrl+alt') {echo " selected";} ?>>ctrl/cmd + alt</option>
+			<option value="alt-left"<?php if($ICEcoder["tagWrapperCommand"]=='alt-left') {echo " selected";} ?>>alt left</option>
 		</select>
 		<br><br>
 
 		<?php echo $t['auto-complete on'];?><br>
 		<select onchange="showButton()" name="autoComplete">
-			<option value="ctrl+space"<?php if($ICEcoder["autoComplete"]=='ctrl+space') {echo " selected";};?>>ctrl/cmd + space</option>
-			<option value="keypress"<?php if($ICEcoder["autoComplete"]=='keypress') {echo " selected";};?>>keypress</option>
+			<option value="ctrl+space"<?php if($ICEcoder["autoComplete"]=='ctrl+space') {echo " selected";} ?>>ctrl/cmd + space</option>
+			<option value="keypress"<?php if($ICEcoder["autoComplete"]=='keypress') {echo " selected";} ?>>keypress</option>
 		</select>
 		<br><br>
 
@@ -156,18 +156,18 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<br><br>
 
 		<h2><?php echo $t['backups'];?></h2><br>
-		<input type="checkbox" onclick="showButton();changeBackupsDaysStatus();" name="backupsKept" value="true"<?php if($ICEcoder["backupsKept"]) {echo ' checked';};?>> <?php echo $t['keep version control...'];?> <input type="text" name="backupsDays" id="backupsDays" style="width: 50px; margin: 3px 5px 0 5px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["backupsDays"];?>" <?php
+		<input type="checkbox" onclick="showButton();changeBackupsDaysStatus();" name="backupsKept" value="true"<?php if($ICEcoder["backupsKept"]) {echo ' checked';} ?>> <?php echo $t['keep version control...'];?> <input type="text" name="backupsDays" id="backupsDays" style="width: 50px; margin: 3px 5px 0 5px" onkeydown="document.settings.changedFileSettings.value='true';showButton()" value="<?php echo $ICEcoder["backupsDays"];?>" <?php
 			if(!$ICEcoder["backupsKept"]){
 			echo ' disabled=""';
 			}?>> <?php echo $t['days'];?><br>
 		<div style="padding: 5px 5px 5px 5px; color: #888">
 		<?php
 		// Display number of days backups available
-		$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
+		$backupDirBase = str_replace("\\","/",__DIR__)."/../backups/";
 		$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
-		$backupDirsList = scandir($backupDirBase.$backupDirHost);
+		$backupDirsList = scandir($backupDirBase . $backupDirHost, SCANDIR_SORT_NONE);
 		// Remove . and .. from array
-		for ($i=0; $i<count($backupDirsList); $i++) {
+		for ($i=0, $iMax = count($backupDirsList); $i< $iMax; $i++) {
 			if ($backupDirsList[$i] == "." || $backupDirsList[$i] == "..") {
 				array_splice($backupDirsList,$i,1);
 				$i--;
@@ -179,7 +179,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 		?>
 		</div><br>
 
-		<input type="checkbox" onclick="showButton();" name="deleteToTmp" value="true"<?php if($ICEcoder["deleteToTmp"]) {echo ' checked';};?>> <?php echo $t['deleting actually moves...'];?> <span class="info" title="<?php echo $t['local/server items...'];?>" style="position: absolute; margin-top: 6px">[?]</span>
+		<input type="checkbox" onclick="showButton();" name="deleteToTmp" value="true"<?php if($ICEcoder["deleteToTmp"]) {echo ' checked';} ?>> <?php echo $t['deleting actually moves...'];?> <span class="info" title="<?php echo $t['local/server items...'];?>" style="position: absolute; margin-top: 6px">[?]</span>
 		<br><br>
 
 	</div>
@@ -207,11 +207,11 @@ function findSequence(goal) {
 		<br><br>
 
 		<h2><?php echo $t['layout'];?></h2><br>
-		<input type="checkbox" onclick="showButton()" name="lockedNav" value="true"<?php if($ICEcoder["lockedNav"]) {echo ' checked';};?>> <?php echo $t['locked nav'];?><br><br>
+		<input type="checkbox" onclick="showButton()" name="lockedNav" value="true"<?php if($ICEcoder["lockedNav"]) {echo ' checked';} ?>> <?php echo $t['locked nav'];?><br><br>
 		<?php echo $t['plugin panel aligned'];?><br>
 		<select onchange="showButton()" name="pluginPanelAligned">
-			<option value="left"<?php if($ICEcoder["pluginPanelAligned"] == "left") {echo " selected";};?>>left</option>
-			<option value="right"<?php if($ICEcoder["pluginPanelAligned"] == "right") {echo " selected";};?>>right</option>
+			<option value="left"<?php if($ICEcoder["pluginPanelAligned"] == "left") {echo " selected";} ?>>left</option>
+			<option value="right"<?php if($ICEcoder["pluginPanelAligned"] == "right") {echo " selected";} ?>>right</option>
 		</select>
 		<br><br>
 
@@ -219,9 +219,9 @@ function findSequence(goal) {
 		<h2><?php echo $t['style'];?></h2><br>
 		<?php echo $t['theme'];?><br>
 		<select onchange="selectTheme();showButton()" id="select" name="theme" style="width: 95px">
-		    <option<?php if ($ICEcoder["theme"]=="default") {echo ' selected';}; ?>>default</option>
+		    <option<?php if ($ICEcoder["theme"]=="default") {echo ' selected';} ?>>default</option>
 		<?php
-		for ($i=0;$i<count($themeArray);$i++) {
+		for ($i=0, $iMax = count($themeArray); $i< $iMax; $i++) {
 			$optionSelected = $ICEcoder["theme"]==$themeArray[$i] ? ' selected' : '';
 			echo '<option'.$optionSelected.'>'.$themeArray[$i].'</option>'.PHP_EOL;
 		}
@@ -241,32 +241,32 @@ function findSequence(goal) {
 		<div style="display: inline-block; width: 95px">
 			<?php echo $t['match brackets'];?><br>
 			<select onchange="showButton()" name="matchBrackets">
-				<option value="true"<?php if($ICEcoder["matchBrackets"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["matchBrackets"]) {echo " selected";};?>>no</option>
+				<option value="true"<?php if($ICEcoder["matchBrackets"]) {echo " selected";} ?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["matchBrackets"]) {echo " selected";} ?>>no</option>
 			</select>
 		</div><div style="display: inline-block">
 			<?php echo $t['show trailing space'];?><br>
 			<select onchange="showButton()" name="showTrailingSpace">
-				<option value="true"<?php if($ICEcoder["showTrailingSpace"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["showTrailingSpace"]) {echo " selected";};?>>no</option>
+				<option value="true"<?php if($ICEcoder["showTrailingSpace"]) {echo " selected";} ?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["showTrailingSpace"]) {echo " selected";} ?>>no</option>
 			</select>
 		</div>
 		<br><br>
 
-		<input type="checkbox" onclick="showButton();showHideTabs()" name="visibleTabs" value="true"<?php if($ICEcoder["visibleTabs"]) {echo ' checked';};?>> <?php echo $t['visible tabs'];?>
+		<input type="checkbox" onclick="showButton();showHideTabs()" name="visibleTabs" value="true"<?php if($ICEcoder["visibleTabs"]) {echo ' checked';} ?>> <?php echo $t['visible tabs'];?>
 		<br><br>
 
 		<div style="display: inline-block; width: 95px">
 			<?php echo $t['line wrapping'];?><br>
 			<select onchange="showButton()" name="lineWrapping">
-				<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["lineWrapping"]) {echo " selected";};?>>no</option>
+				<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";} ?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["lineWrapping"]) {echo " selected";} ?>>no</option>
 			</select>
 		</div><div style="display: inline-block">
 			<?php echo $t['line numbers'];?><br>
 			<select onchange="changeLineNumbersToggle();showButton()" name="lineNumbers" id="lineNumbers">
-				<option value="true"<?php if($ICEcoder["lineNumbers"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["lineNumbers"]) {echo " selected";};?>>no</option>
+				<option value="true"<?php if($ICEcoder["lineNumbers"]) {echo " selected";} ?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["lineNumbers"]) {echo " selected";} ?>>no</option>
 			</select>
 		</div>
 			<br><br>
@@ -276,28 +276,28 @@ function findSequence(goal) {
 		<div style="display: inline-block; width: 95px">
 			<?php echo $t['indent type'];?><br>
 			<select onchange="showButton()" name="indentWithTabs">
-				<option value="true"<?php if($ICEcoder["indentWithTabs"]) {echo " selected";};?>>tabs</option>
-				<option value="false"<?php if(!$ICEcoder["indentWithTabs"]) {echo " selected";};?>>spaces</option>
+				<option value="true"<?php if($ICEcoder["indentWithTabs"]) {echo " selected";} ?>>tabs</option>
+				<option value="false"<?php if(!$ICEcoder["indentWithTabs"]) {echo " selected";} ?>>spaces</option>
 			</select>
 			<br><br>
 
 			<?php echo $t['auto indent'];?><br>
 			<select onchange="showButton()" name="indentAuto">
-				<option value="true"<?php if($ICEcoder["indentAuto"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["indentAuto"]) {echo " selected";};?>>no</option>
+				<option value="true"<?php if($ICEcoder["indentAuto"]) {echo " selected";} ?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["indentAuto"]) {echo " selected";} ?>>no</option>
 			</select>
 		</div><div style="display: inline-block">
 			<?php echo $t['auto close tags'];?><br>
 			<select onchange="showButton()" name="autoCloseTags">
-				<option value="true"<?php if($ICEcoder["autoCloseTags"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["autoCloseTags"]) {echo " selected";};?>>no</option>
+				<option value="true"<?php if($ICEcoder["autoCloseTags"]) {echo " selected";} ?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["autoCloseTags"]) {echo " selected";} ?>>no</option>
 			</select>
 			<br><br>
 
 			<?php echo $t['auto close brackets'];?><br>
 			<select onchange="showButton()" name="autoCloseBrackets">
-				<option value="true"<?php if($ICEcoder["autoCloseBrackets"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["autoCloseBrackets"]) {echo " selected";};?>>no</option>
+				<option value="true"<?php if($ICEcoder["autoCloseBrackets"]) {echo " selected";} ?>>yes</option>
+				<option value="false"<?php if(!$ICEcoder["autoCloseBrackets"]) {echo " selected";} ?>>no</option>
 			</select>
 		</div>
 		<br><br>

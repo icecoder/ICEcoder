@@ -1,6 +1,6 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $t = $text['help'];
 ?>
 <!DOCTYPE html>
@@ -17,7 +17,7 @@ $t = $text['help'];
 
 <h1 id="title"><?php echo $t['shortcuts'];?></h1>
 
-<?php $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;?>
+<?php $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") > -1;?>
 <div style="display: inline-block; width: 385px; margin-right: 20px">
 	<h2><?php echo $t['Within document'];?></h2>
 	<!-- This can only be CTRL+space as Cmd+space is a reserved apple shortcut -->

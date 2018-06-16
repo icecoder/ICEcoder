@@ -1,6 +1,6 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $t = $text['updater'];
 ?>
 <!DOCTYPE html>
@@ -24,15 +24,15 @@ function startUpdate() {
 			$testPath = $source.DIRECTORY_SEPARATOR.$iterator->getSubPathName();
 			$testPath = str_replace("\\","/",$testPath);
 			if (strpos($testPath,"/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
-				if (!is_writeable($item)) {
-					array_push($cantMoveArray,substr($item,count($source)+2));
+				if (!is_writable($item)) {
+					$cantMoveArray[] = substr($item, count($source) + 2);
 				}
 			}
 		}
 	}
 	if (count($cantMoveArray) > 0) {
 		echo '<br>Sorry, there are dirs/files that cannot be moved. Please set write permissions on them so ICEcoder may move the old version, to make way for the new.<br><br>You can reload this page after making perms changes to check the list again.<br><br>';
-		for ($i=0; $i<count($cantMoveArray); $i++) {
+		for ($i=0, $iMax = count($cantMoveArray); $i< $iMax; $i++) {
 			echo $cantMoveArray[$i]."<br>";
 		}
 		die('<br><a href="'.$source.'" style="color: #fff">&lt;&lt; Back to ICEcoder</a>');
@@ -90,7 +90,7 @@ function openZipNew($icvInfo) {
 	$source = 'ICEcoder v'.$icvInfo;
 	$target = '../';
 
-	$remoteFile = 'https://icecoder.net/ICEcoder-v'.(str_replace(" beta", "-beta",$icvInfo)).'.zip';
+	$remoteFile = 'https://icecoder.net/ICEcoder-v'. str_replace(" beta", "-beta",$icvInfo) .'.zip';
     	$file = "../tmp/new-version.zip";
 	$fileData = getData($remoteFile,'curl','Sorry, couldn\'t get latest version zip file.');
 	echo 'Storing zip file...<br>';
@@ -141,7 +141,7 @@ function transposeSettings($oldFile,$newFile,$saveFile) {
 
 	echo '- Transposing settings...<br>';
 	// Now need to copy the old settings over to new settings...
-	for ($i=0; $i<count($newSettingsArray); $i++) {
+	for ($i=0, $iMax = count($newSettingsArray); $i< $iMax; $i++) {
 		$thisKey = "";
 		if (strpos($newSettingsArray[$i],'"') > -1) {
 			$thisKey = explode('"',$newSettingsArray[$i]);
@@ -151,7 +151,7 @@ function transposeSettings($oldFile,$newFile,$saveFile) {
 		}
 		// We set the new line to begin with
 		$contentLine = $newSettingsArray[$i].PHP_EOL;
-		for ($j=0; $j<count($oldSettingsArray); $j++) {
+		for ($j=0, $jMax = count($oldSettingsArray); $j< $jMax; $j++) {
 			// And override with old setting if not blank, not in excluded array and we have a match
 			if ($thisKey != "" && $thisKey != "versionNo" && $thisKey != "codeMirrorDir" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
 				$contentLine = $oldSettingsArray[$j].PHP_EOL;
@@ -176,11 +176,11 @@ function copyOverSettings($icvInfo) {
 	echo 'Transposing system settings...<br>';
 	// Create a new config file if it doesn't exist yet.
 	// The reason we create it, is so it has PHP write permissions, meaning we can update it later
-	if (!file_exists(dirname(__FILE__)."/".$configSettings)) {
+	if (!file_exists(__DIR__."/".$configSettings)) {
 		echo 'Creating new settings file...<br>';
 		// Include our params to make use of (as $newConfigSettingsFile)
-		include(dirname(__FILE__)."/settings-system-params.php");
-		if ($fConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
+		include __DIR__."/settings-system-params.php";
+		if ($fConfigSettings = fopen(__DIR__."/".$configSettings, 'w')) {
 			fwrite($fConfigSettings, $newConfigSettingsFile);
 			fclose($fConfigSettings);
 		} else {
@@ -194,8 +194,8 @@ function copyOverSettings($icvInfo) {
 	transposeSettings(PATH."lib/config___users-template.php","config___users-template.php","config___users-template.php");
 
 	// Users settings files
-	$fileList = scanDir(PATH."lib/");
-	for ($i=0; $i<count($fileList); $i++) {
+	$fileList = scandir(PATH . "lib/", SCANDIR_SORT_NONE);
+	for ($i=0, $iMax = count($fileList); $i< $iMax; $i++) {
 		if (strpos($fileList[$i],"config-") > -1) {
 			echo 'Transposing users settings file '.$fileList[$i].'...<br>';
 			transposeSettings(PATH."lib/".$fileList[$i],"config___users-template.php",$fileList[$i]);

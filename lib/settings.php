@@ -5,10 +5,10 @@ $configUsersTemplate = 'config___users-template.php';
 
 // Create a new config file if it doesn't exist yet.
 // The reason we create it, is so it has PHP write permissions, meaning we can update it later
-if (!file_exists(dirname(__FILE__)."/".$configSettings)) {
+if (!file_exists(__DIR__."/".$configSettings)) {
 	// Include our params to make use of (as $newConfigSettingsFile)
-	include(dirname(__FILE__)."/settings-system-params.php");
-	if ($fConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
+	include __DIR__."/settings-system-params.php";
+	if ($fConfigSettings = fopen(__DIR__."/".$configSettings, 'w')) {
 		fwrite($fConfigSettings, $newConfigSettingsFile);
 		fclose($fConfigSettings);
 	} else {
@@ -17,35 +17,35 @@ if (!file_exists(dirname(__FILE__)."/".$configSettings)) {
 }
 
 // Load config settings
-include(dirname(__FILE__)."/".$configSettings);
+include __DIR__."/".$configSettings;
 
 // Load common functions
-include_once(dirname(__FILE__)."/settings-common.php");
+include_once __DIR__."/settings-common.php";
 
 // Establish user settings file
 $username = "";
-if (isset($_POST['username']) && $_POST['username'] != "") {$username = strClean($_POST['username']."-");};
-if (isset($_SESSION['username']) && $_SESSION['username'] != "") {$username = strClean($_SESSION['username']."-");};
+if (isset($_POST['username']) && $_POST['username'] != "") {$username = strClean($_POST['username']."-");}
+if (isset($_SESSION['username']) && $_SESSION['username'] != "") {$username = strClean($_SESSION['username']."-");}
 $settingsFile = 'config-'.$username.str_replace(".","_",str_replace("www.","",$_SERVER['SERVER_NAME'])).'.php';
 
 // Login is default
 $setPWorLogin = "login";
 
 // Create user settings file if it doesn't exist
-if (!file_exists(dirname(__FILE__)."/".$settingsFile) && $ICEcoderSettings['enableRegistration']) {
-	if (!copy(dirname(__FILE__)."/".$configUsersTemplate, dirname(__FILE__)."/".$settingsFile)) {
+if (!file_exists(__DIR__."/".$settingsFile) && $ICEcoderSettings['enableRegistration']) {
+	if (!copy(__DIR__."/".$configUsersTemplate, __DIR__."/".$settingsFile)) {
 		die("Couldn't create $settingsFile. Maybe you need write permissions on the lib folder?");
 	}
 	$setPWorLogin = "set password";
 }
 
 // Load user settings
-include(dirname(__FILE__)."/".$settingsFile);
+include __DIR__."/".$settingsFile;
 
 // Remove any previous files that are no longer there
 $prevFiles = explode(",",$ICEcoderUserSettings['previousFiles']);
 $prevFilesAvail = "";
-for ($i=0; $i<count($prevFiles); $i++) {
+for ($i=0, $iMax = count($prevFiles); $i< $iMax; $i++) {
 	if (file_exists(str_replace("|","/",$prevFiles[$i]))) {
 		$prevFilesAvail .= $prevFiles[$i].",";
 	}
@@ -55,18 +55,18 @@ $ICEcoderUserSettings['previousFiles'] = $prevFilesAvail;
 
 // Replace our config created date with the filemtime?
 if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['configCreateDate'] == 0) {
-	$settingsContents = getData(dirname(__FILE__)."/".$settingsFile);
+	$settingsContents = getData(__DIR__."/".$settingsFile);
 	clearstatcache();
-	$configfilemtime = filemtime(dirname(__FILE__)."/"."config___settings.php");
+	$configfilemtime = filemtime(__DIR__."/"."config___settings.php");
 	// Make it a number (avoids null, undefined etc)
-	$configfilemtime = intval($configfilemtime);
+	$configfilemtime = (int)$configfilemtime;
 	// Set it to the epoch time now if we don't have a real value
 	if ($configfilemtime == 0) {
 		$configfilemtime = time();
 	}
 	$settingsContents = str_replace('"configCreateDate"	=> 0,','"configCreateDate"	=> '.$configfilemtime.',',$settingsContents);
 	// Now update the config file
-	$fh = fopen(dirname(__FILE__)."/".$settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
+	$fh = fopen(__DIR__."/".$settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 	fwrite($fh, $settingsContents);
 	fclose($fh);
 	// Set the new value in array
@@ -75,26 +75,26 @@ if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['c
 
 // On mismatch of settings file to system, rename to .old and reload
 If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
-	rename(dirname(__FILE__)."/".$settingsFile,dirname(__FILE__)."/".str_replace(".php",".old",$settingsFile));
+	rename(__DIR__."/".$settingsFile,__DIR__."/".str_replace(".php",".old",$settingsFile));
 	header("Location: settings.php");
 	echo "<script>window.location='settings.php';</script>";
 	die('Found old settings file, reloading...');
 }
 
 // Join ICEcoder settings and user settings together to make our final ICEcoder array
-$ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
+$ICEcoder = array_merge($ICEcoderSettings , $ICEcoderUserSettings);
 
 // Include language file
 // Load base first as foundation
-include(dirname(__FILE__)."/../lang/".basename($ICEcoder['languageBase']));
+include __DIR__."/../lang/".basename($ICEcoder['languageBase']);
 $baseText = $text;
 // Load chosen language ontop to replace base
-include(dirname(__FILE__)."/../lang/".basename($ICEcoder['languageUser']));
+include __DIR__."/../lang/".basename($ICEcoder['languageUser']);
 $text = array_replace_recursive($baseText, $text);
 $_SESSION['text'] = $text;
 
 // Login not required or we're in demo mode and have password set in our settings, log us straight in
-if ((!$ICEcoder['loginRequired'] || $ICEcoder['demoMode']) && $ICEcoder['password']!="") {$_SESSION['loggedIn']=true;};
+if ((!$ICEcoder['loginRequired'] || $ICEcoder['demoMode']) && $ICEcoder['password']!="") {$_SESSION['loggedIn']=true;}
 $demoMode = $ICEcoder['demoMode'];
 
 // Check if trial period has ended
@@ -112,16 +112,16 @@ if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && generateHash(strCle
 	exit;
 }
 $tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
-if ($tRemaining > $tPeriod || $ICEcoder['configCreateDate'] == 0) {$tRemaining = $tPeriod;};
+if ($tRemaining > $tPeriod || $ICEcoder['configCreateDate'] == 0) {$tRemaining = $tPeriod;}
 $tRemainingPerc = number_format($tRemaining/$tPeriod,2);
-$tDaysRemaining = intval($tRemaining/(60*60*24));
+$tDaysRemaining = (int)($tRemaining / (60 * 60 * 24));
 
 // Update this config file?
-include(dirname(__FILE__)."/settings-update.php");
+include __DIR__."/settings-update.php";
 
 // Set loggedIn and username to false if not set as yet
-if (!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn'] = false;};
-if (!isset($_SESSION['username'])) {$_SESSION['username'] = false;};
+if (!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn'] = false;}
+if (!isset($_SESSION['username'])) {$_SESSION['username'] = false;}
 
 // Attempt a login with password
 if(isset($_POST['submit']) && $setPWorLogin=="login") {
@@ -132,14 +132,14 @@ if(isset($_POST['submit']) && $setPWorLogin=="login") {
 			$_SESSION['username'] = $_POST['username'];
 		}
 		$_SESSION['loggedIn'] = true;
-		include(dirname(__FILE__)."/../processes/on-user-login.php");
+		include __DIR__."/../processes/on-user-login.php";
 		header('Location: ../');
 		echo "<script>window.location='../';</script>";
 		die('Logging you in...');
 	} else {
-		include(dirname(__FILE__)."/../processes/on-user-login-fail.php");
+		include __DIR__."/../processes/on-user-login-fail.php";
 	}
-};
+}
 
 // Re-establish our loggedIn state and username
 $_SESSION['loggedIn'] = $_SESSION['loggedIn'];
@@ -160,7 +160,7 @@ $ICEcoderDir = preg_replace($rootPrefix, '', $ICEcoderDirFullPath, 1);
 
 // Setup our file security vars
 $settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
-for ($i=0;$i<count($settingsArray);$i++) {
+for ($i=0, $iMax = count($settingsArray); $i< $iMax; $i++) {
 	if (!isset($_SESSION[$settingsArray[$i]])) {$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]];}
 }
 
@@ -169,7 +169,7 @@ if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*"
 	header('Location: /');
 	die("Sorry, not in allowed IPs list");
 	exit;
-};
+}
 
 // Establish any FTP site to use
 if (isset($_SESSION['ftpSiteRef']) && $_SESSION['ftpSiteRef'] !== false) {
@@ -184,10 +184,10 @@ if (isset($_SESSION['ftpSiteRef']) && $_SESSION['ftpSiteRef'] !== false) {
 }
 
 // Save currently opened files in previousFiles and last10Files arrays
-include(dirname(__FILE__)."/settings-save-current-files.php");
+include __DIR__."/settings-save-current-files.php";
 
 // Display the plugins
-include(dirname(__FILE__)."/plugins-display.php");
+include __DIR__."/plugins-display.php";
 
 // If loggedIn is false or we don't have a password set yet and we're not on login screen, boot user to that
 if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER['SCRIPT_NAME'],"lib/login.php")) {
@@ -205,8 +205,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 	if (generateHash(strClean($_POST['email']),$_POST['code'])==$_POST['code']) {
 		$settingsContents = getData($settingsFile);
 		// Replace our empty email & code with the one submitted by user
-		$settingsContents = str_replace('"licenseEmail"		=> "",','"licenseEmail"		=> "'.$_POST['email'].'",',$settingsContents);
-		$settingsContents = str_replace('"licenseCode"		=> "",','"licenseCode"		=> "'.$_POST['code'].'",',$settingsContents);
+        $settingsContents = str_replace(array('"licenseEmail"		=> "",', '"licenseCode"		=> "",'), array('"licenseEmail"		=> "' . $_POST['email'] . '",', '"licenseCode"		=> "' . $_POST['code'] . '",'), $settingsContents);
 		// Now update the config file
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 		fwrite($fh, $settingsContents);
@@ -239,8 +238,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		// Also set the update checker preference
 		$checkUpdates = $_POST['checkUpdates']=="true" ? "true" : "false";
 		// once to cover the true setting, once to cover false
-		$settingsContents = str_replace('"checkUpdates"		=> true,','"checkUpdates"		=> '.$checkUpdates.',',$settingsContents);
-		$settingsContents = str_replace('"checkUpdates"		=> false,','"checkUpdates"		=> '.$checkUpdates.',',$settingsContents);
+        $settingsContents = str_replace(array('"checkUpdates"		=> true,', '"checkUpdates"		=> false,'), array('"checkUpdates"		=> ' . $checkUpdates . ',', '"checkUpdates"		=> ' . $checkUpdates . ','), $settingsContents);
 		// Now update the config file
 		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 		fwrite($fh, $settingsContents);
@@ -251,15 +249,15 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 			$serverAddr = "127.0.0.1";
 		}
 		$settingsFileAddr = 'config-'.$username.str_replace(".","_",$serverAddr).'.php';
-		if (!file_exists(dirname(__FILE__)."/".$settingsFileAddr)) {
-			if (!copy(dirname(__FILE__)."/".$settingsFile, dirname(__FILE__)."/".$settingsFileAddr)) {
+		if (!file_exists(__DIR__."/".$settingsFileAddr)) {
+			if (!copy(__DIR__."/".$settingsFile, __DIR__."/".$settingsFileAddr)) {
 				die("Couldn't create $settingsFileAddr. Maybe you need write permissions on the lib folder?");
 			}
 		}
 		// Disable the enableRegistration config setting if the user had that option chosen
 		if (isset($_POST['disableFurtherRegistration'])) {
-			$updatedConfigSettingsFile = getData(dirname(__FILE__)."/".$configSettings);
-			if ($fUConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
+			$updatedConfigSettingsFile = getData(__DIR__."/".$configSettings);
+			if ($fUConfigSettings = fopen(__DIR__."/".$configSettings, 'w')) {
 				$updatedConfigSettingsFile = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> false',$updatedConfigSettingsFile);
 				fwrite($fUConfigSettings, $updatedConfigSettingsFile);
 				fclose($fUConfigSettings);
@@ -272,7 +270,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 			$_SESSION['username']=$_POST['username'];
 		}
 		$_SESSION['loggedIn'] = true;
-		include(dirname(__FILE__)."/../processes/on-user-new.php");
+		include __DIR__."/../processes/on-user-new.php";
 		// Finally, load again as now this file has changed and auto login
 		header('Location: ../');
 		echo "<script>window.location='../';</script>";

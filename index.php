@@ -1,6 +1,6 @@
 <?php
-include("lib/headers.php");
-include("lib/settings.php");
+include "lib/headers.php";
+include "lib/settings.php";
 $t = $text['index'];
 
 $updateMsg = '';
@@ -15,13 +15,13 @@ if ($ICEcoder["checkUpdates"]) {
 	$icv = $icvInfo[0];
 	$icvI = str_replace('"','\\\'',$icvInfo[1]);
 	$thisV = $ICEcoder["versionNo"];
-	if (strpos($thisV,"beta")>-1 && !strpos($icv,"beta") && str_replace(" beta","",$thisV) == $icv) {$thisV-=0.1;};
-	if ($thisV<$icv) {
+	if (strpos($thisV,"beta")>-1 && !strpos($icv,"beta") && str_replace(" beta","",$thisV) == $icv) {$thisV-=0.1;}
+    if ($thisV<$icv) {
 		$updateMsg = ";top.ICEcoder.dataMessage('<b>".$t['UPDATE INFO'].":</b> ICEcoder v ".$icv." ".$t['now available'].". (".$t['Your version is']." v ".$ICEcoder["versionNo"].").<br><br><a onclick=\\'top.ICEcoder.update()\\' style=\\'color:#fff; background: #b00; padding: 5px; text-decoration: none; cursor: pointer\\'>".$t['Update now']."</a><br><br>".$icvI."');";
 	}
 }
 
-$isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
+$isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") > -1;
 ?>
 <!DOCTYPE html>
 <html onMouseDown="top.ICEcoder.mouseDown=true; top.ICEcoder.resetAutoLogoutTimer();" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.mouseDownInCM=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top'); top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.canResizeFilesW()}" onMouseWheel="top.ICEcoder.resetAutoLogoutTimer(); if (top.ICEcoder.getcMInstance() && !top.ICEcoder.getcMInstance().hasFocus() && !top.ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? top.ICEcoder.nextTab() : top.ICEcoder.previousTab();}">
@@ -36,7 +36,7 @@ $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="lib/ice-coder.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="<?php
-if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';}
 echo "?microtime=".microtime(true);
 ?>">
 <link rel="icon" type="image/png" href="favicon.png">
@@ -69,7 +69,7 @@ $t = $text['index'];
 ?>
 }
 </script>
-<script language="JavaScript" src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';} ?>.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="lib/draggabilly.pkgd.min.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="farbtastic/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
@@ -116,7 +116,7 @@ $t = $text['index'];
 			echo "top.ICEcoder.githubAuthTokenSet = true;";
 		}
 		echo "top.ICEcoder.csrf = '".$_SESSION["csrf"]."';";
-?>ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.content.style.visibility='visible';top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';<?php if(isset($_GET["display"]) && $_GET["display"] == "updated") {echo "top.ICEcoder.updated();";};?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
+?>ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.content.style.visibility='visible';top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';<?php if(isset($_GET["display"]) && $_GET["display"] == "updated") {echo "top.ICEcoder.updated();";} ?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">
 	<div class="popupVCenter">
@@ -171,10 +171,10 @@ $t = $text['index'];
 	</span>
 	<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 	<?php
-	if (file_exists(dirname(__FILE__)."/plugins/zip-it/index.php")) {
+	if (file_exists(__DIR__."/plugins/zip-it/index.php")) {
 		echo '<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()">Zip It!</a>'.PHP_EOL;
-	};
-	?>
+	}
+    ?>
 	<a href="javascript:top.ICEcoder.downloadFile(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()"><?php echo $t['Download'];?></a>
 	<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 	<a href="javascript:top.ICEcoder.propertiesScreen(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()"><?php echo $t['Properties'];?></a>
@@ -306,7 +306,7 @@ $t = $text['index'];
 		</form>
 		<form onSubmit="return ICEcoder.goToLine()">
 			<div class="codeAssist" title="<?php echo $t['Turn on/off...'];?>">
-				<input type="checkbox" name="codeAssist" id="codeAssist" class="codeAssistCheckbox" <?php if ($ICEcoder['codeAssist']) {echo 'checked ';};?>>
+				<input type="checkbox" name="codeAssist" id="codeAssist" class="codeAssistCheckbox" <?php if ($ICEcoder['codeAssist']) {echo 'checked ';} ?>>
 				<span class="codeAssistDisplay" id="codeAssistDisplay" style="background-position: <?php echo $ICEcoder['codeAssist'] ? "0" : "-16";?> 0" onClick="top.ICEcoder.codeAssistToggle()"></span> <?php echo $t['Code Assist'];?>
 			</div>
 			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">

@@ -19,10 +19,10 @@ $success = 0;
 
 
 echo '<b>TEST 1 of 3: PHP Version:</b><br>ICEcoder needs at least PHP 5.0, tho 5.3 and above is recommended:<br><br>';
-echo "Your PHP Version: ".phpversion()."<br><br>";
+echo "Your PHP Version: ". PHP_VERSION ."<br><br>";
 
 echo '<b>TEST RESULT:</b> ';
-if (phpversion()*1 < 5.0) {
+if (PHP_VERSION *1 < 5.0) {
 	echo '<span style="color: #b00; font-weight: bold">Your version of PHP doesn\'t seem to be high enough!</span>';
 } else {
 	echo '<span style="color: #080; font-weight: bold">PHP version is OK</span>';
@@ -64,7 +64,7 @@ echo '<b>TEST 3 of 3: Includes:</b><br>Attempt to include settings file:<br><br>
 $configSettings = 'config___settings.php';
 
 // Load config settings
-include(dirname(__FILE__)."/lib/".$configSettings);
+include __DIR__."/lib/".$configSettings;
 
 echo "This version of ICEcoder is: ".$ICEcoderSettings['versionNo']."<br><br>";
 echo '<b>TEST RESULT:</b> ';

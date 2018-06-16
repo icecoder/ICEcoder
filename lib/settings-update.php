@@ -1,10 +1,10 @@
 <?php
-include_once("settings-common.php");
+include_once "settings-common.php";
 $text = $_SESSION['text'];
 $t = $text['settings-update'];
 
 // Update this config file?
-if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
+if (isset($_SESSION['loggedIn'], $_POST["theme"]) && !$demoMode && $_SESSION['loggedIn'] && $_POST["theme"]) {
 	$settingsContents = getData($settingsFile);
 	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'"root"');
@@ -20,7 +20,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["updateDiffOnSave"]		= isset($_POST['updateDiffOnSave']) && $_POST['updateDiffOnSave'] ? "true" : "false";
 	$ICEcoder["languageUser"]		= strClean($_POST['languageUser']);
 	$ICEcoder["backupsKept"]		= isset($_POST['backupsKept']) && $_POST['backupsKept'] ? "true" : "false";
-	$ICEcoder["backupsDays"]		= intval($_POST['backupsDays']);
+	$ICEcoder["backupsDays"]		= (int)$_POST['backupsDays'];
 	$ICEcoder["deleteToTmp"]		= isset($_POST['deleteToTmp']) && $_POST['deleteToTmp'] ? "true" : "false";
 	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['findFilesExclude']))).'")';
 	$ICEcoder["codeAssist"]			= isset($_POST['codeAssist']) && $_POST['codeAssist'] ? "true" : "false";
@@ -28,11 +28,11 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["lockedNav"]			= isset($_POST['lockedNav']) && $_POST['lockedNav'] ? "true" : "false";
 	$ICEcoder["tagWrapperCommand"]		= strClean($_POST['tagWrapperCommand']);
 	$ICEcoder["autoComplete"]		= strClean($_POST['autoComplete']);
-	if ($_POST['password']!="")		{$ICEcoder["password"] = generateHash(strClean($_POST['password']));};
-	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
+	if ($_POST['password']!="")		{$ICEcoder["password"] = generateHash(strClean($_POST['password']));}
+    $ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
 	$ICEcoder["bannedPaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedPaths']))).'")';
 	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
-	$ICEcoder["autoLogoutMins"]		= intval($_POST['autoLogoutMins']);
+	$ICEcoder["autoLogoutMins"]		= (int)$_POST['autoLogoutMins'];
 	$ICEcoder["theme"]			= strClean($_POST['theme']);
 	$ICEcoder["fontSize"]			= strClean($_POST['fontSize']);
 	$ICEcoder["lineWrapping"]		= strClean($_POST['lineWrapping']);
@@ -43,16 +43,16 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$ICEcoder["autoCloseBrackets"]		= strClean($_POST['autoCloseBrackets']);
 	$ICEcoder["indentWithTabs"]		= strClean($_POST['indentWithTabs']);
 	$ICEcoder["indentAuto"]			= strClean($_POST['indentAuto']);
-	$ICEcoder["indentSize"]			= intval($_POST['indentSize']);
+	$ICEcoder["indentSize"]			= (int)$_POST['indentSize'];
 	$ICEcoder["pluginPanelAligned"]		= strClean($_POST['pluginPanelAligned']);
 	$ICEcoder["bugFilePaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bugFilePaths']))).'")';
-	$ICEcoder["bugFileCheckTimer"]		= intval($_POST['bugFileCheckTimer']) >= 0 ? intval($_POST['bugFileCheckTimer']) : 0;
-	$ICEcoder["bugFileMaxLines"]		= intval($_POST['bugFileMaxLines']);
+	$ICEcoder["bugFileCheckTimer"]		= (int)$_POST['bugFileCheckTimer'] >= 0 ? (int)$_POST['bugFileCheckTimer'] : 0;
+	$ICEcoder["bugFileMaxLines"]		= (int)$_POST['bugFileMaxLines'];
 	$ICEcoder["githubAuthToken"]		= strClean($_POST['githubAuthToken']);
 
 	$settingsArray = array("root","checkUpdates","openLastFiles","updateDiffOnSave","languageUser","backupsKept","backupsDays","deleteToTmp","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","autoLogoutMins","theme","fontSize","lineWrapping","lineNumbers","showTrailingSpace","matchBrackets","autoCloseTags","autoCloseBrackets","indentWithTabs","indentAuto","indentSize","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines","githubAuthToken");
 	$settingsNew = "";
-	for ($i=0;$i<count($settingsArray);$i++) {
+	for ($i=0, $iMax = count($settingsArray); $i< $iMax; $i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"	=> ';
 		// Wrap certain values in double quotes
 		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="password"||$settingsArray[$i]=="languageUser"||$settingsArray[$i]=="theme"||$settingsArray[$i]=="fontSize"||$settingsArray[$i]=="tagWrapperCommand"||$settingsArray[$i]=="autoComplete"||$settingsArray[$i]=="pluginPanelAligned"||$settingsArray[$i]=="githubAuthToken" ? '"' : '';
@@ -60,10 +60,10 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	}
 
 	// Compile our new settings
-	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,($repPosEnd),strlen($settingsContents));
+	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents, $repPosEnd,strlen($settingsContents));
 
 	// Now update the config file
-	if (is_writeable($settingsFile)) {
+	if (is_writable($settingsFile)) {
 		$fh = fopen($settingsFile, 'w');
 		fwrite($fh, $settingsContents);
 		fclose($fh);
@@ -73,7 +73,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 	// OK, now the config file has been updated, update our current session with new arrays
 	$settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
-	for ($i=0;$i<count($settingsArray);$i++) {
+	for ($i=0, $iMax = count($settingsArray); $i< $iMax; $i++) {
 		$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]] = explode(",",str_replace(" ","",strClean($_POST[$settingsArray[$i]])));
 	}
 
@@ -87,14 +87,12 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	// Change multiUser and enableRegistration in config___settings.php
 	$generalSettingsContents = getData($configSettings);
 	$isMultiUser = isset($_POST['multiUser']) && $_POST['multiUser'] ? "true" : "false";
-	$generalSettingsContents = str_replace('"multiUser"		=> true,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
-	$generalSettingsContents = str_replace('"multiUser"		=> false,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
+    $generalSettingsContents = str_replace(array('"multiUser"		=> true,', '"multiUser"		=> false,'), array('"multiUser"		=> ' . $isMultiUser . ',', '"multiUser"		=> ' . $isMultiUser . ','), $generalSettingsContents);
 
 	$isEnableRegistration = isset($_POST['enableRegistration']) && $_POST['enableRegistration'] ? "true" : "false";
-	$generalSettingsContents = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
-	$generalSettingsContents = str_replace('"enableRegistration"	=> false','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
+    $generalSettingsContents = str_replace(array('"enableRegistration"	=> true', '"enableRegistration"	=> false'), array('"enableRegistration"	=> ' . $isEnableRegistration, '"enableRegistration"	=> ' . $isEnableRegistration), $generalSettingsContents);
 
-	if (is_writeable($configSettings)) {
+	if (is_writable($configSettings)) {
 		$fConfigSettings = fopen($configSettings, 'w');
 		fwrite($fConfigSettings, $generalSettingsContents);
 		fclose($fConfigSettings);

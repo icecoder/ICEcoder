@@ -1,7 +1,7 @@
 <?php
 // Load common functions
-include("headers.php");
-include_once("settings-common.php");
+include "headers.php";
+include_once "settings-common.php";
 $text = $_SESSION['text'];
 $t = $text['bug-files-check'];
 
@@ -11,7 +11,7 @@ $maxLines	= xssClean($_GET['maxLines'],"html");
 
 $result = "ok";
 
-for ($i=0; $i<count($files); $i++) {
+for ($i=0, $iMax = count($files); $i< $iMax; $i++) {
 	// Work out the real path for a file
 	$files[$i] = realpath($_SERVER['DOCUMENT_ROOT'].$files[$i]);
 	// If we can't find that file or it doesn't start with the doc root, it's an error
@@ -26,7 +26,7 @@ if ($result != "error") {
 
 	$filesWithNewBugs = 0;
 
-	for ($i=0; $i<count($files); $i++) {
+	for ($i=0, $iMax = count($files); $i< $iMax; $i++) {
 		// If we have set a filesize value previously and it's different to now, there's new bugs
 		$fileSizesSeenArray = explode(",",xssClean($_GET['filesSizesSeen'],"html"));
 		if ($fileSizesSeenArray[$i]!="null" && $fileSizesSeenArray[$i] != $filesSizesSeen[$i]) {
@@ -93,7 +93,7 @@ if ($result != "error") {
 }
 
 // Get dir name tmp dir's parent
-$tmpLoc = dirname(__FILE__);
+$tmpLoc = __DIR__;
 $tmpLoc = explode(DIRECTORY_SEPARATOR,$tmpLoc);
 $tmpLoc = $tmpLoc[count($tmpLoc)-2];
 
@@ -107,7 +107,7 @@ $status = array(
 );
 
 // Include our process once our bug checking work is done
-include("../processes/on-bug-check.php");
+include "../processes/on-bug-check.php";
 
 // Finally, display our status in JSON format as the XHR response text
 echo json_encode($status);

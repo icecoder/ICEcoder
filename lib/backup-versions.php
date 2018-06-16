@@ -1,7 +1,7 @@
 <?php
 // Load common functions
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $text = $_SESSION['text'];
 $t = $text['backup-versions'];
 
@@ -50,11 +50,11 @@ $handle = opendir('../'.$ICEcoder["codeMirrorDir"].'/theme/');
 
 while (false !== ($cssFile = readdir($handle))) {
 	if ($cssFile !== "." && $cssFile != "..") {
-		array_push($themeArray,basename($cssFile,".css"));
+		$themeArray[] = basename($cssFile, ".css");
 	}
 }
 sort($themeArray);
-for ($i=0;$i<count($themeArray);$i++) {
+for ($i=0, $iMax = count($themeArray); $i< $iMax; $i++) {
 	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
 }
 ?>
@@ -110,7 +110,7 @@ var highlightVersion = function(elem) {
 
 <?php
 echo "fileName = '".basename($file)."';";
-include(dirname(__FILE__)."/language-modes-partial.js");
+include __DIR__."/language-modes-partial.js";
 ?>
 
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {

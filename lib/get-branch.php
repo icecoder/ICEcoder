@@ -1,8 +1,8 @@
 <?php
 if (!isset($ICEcoder['root'])) {
-	include("headers.php");
-	include("settings.php");
-	include("ftp-control.php");
+	include "headers.php";
+	include "settings.php";
+	include "ftp-control.php";
 }
 
 if (!$_SESSION['loggedIn']) {
@@ -21,7 +21,7 @@ $t = $text['get-branch'];
 <meta name="robots" content="noindex, nofollow">
 <?php if ($_SESSION['githubDiff']) { ?>
 <script src="github.js?microtime=<?php echo microtime(true);?>"></script>
-<?php ;}; ?>
+<?php } ?>
 </head>
 
 <body>
@@ -84,8 +84,8 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	  foreach ($lines as $line) {
 		$line = trim($line);
 		if ($line === '') continue;                 # empty line
-		if (substr($line, 0, 1) == '#') continue;   # a comment
-		if (substr($line, 0, 1) == '!') {           # negated glob
+		if (strpos($line, '#') === 0) continue;   # a comment
+		if (strpos($line, '!') === 0) {           # negated glob
 		  $line = substr($line, 1);
 		  $files = array_diff(glob("$dir/*"), glob("$dir/$line"));
 		} else {                                    # normal glob
@@ -100,7 +100,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	// Exclude the .git dir as first item as we don't want to see that
 	$excluded = array("/.git");
 	foreach ($gi as $scanpath) {
-		$excludedTest = (parseGitignore($scanpath));
+		$excludedTest = parseGitignore($scanpath);
 		if (count($excludedTest) > 0) {
 			$excluded = array_merge($excluded, $excludedTest);
 		}
@@ -109,7 +109,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	$objectListArray = array();
 	foreach ($objectList as $objectRef) {
 		$fileFolderName = @ltrim(substr(str_replace("\\","/",$objectRef->getPathname()), strlen($path)),"/");
-		array_push($objectListArray,$fileFolderName);
+		$objectListArray[] = $fileFolderName;
 	}
 }
 
@@ -118,7 +118,7 @@ $scanDir = $docRoot.$iceRoot;
 $location = "";
 echo '<div id="branch" style="display: none">';
 $location = str_replace("|","/",xssClean($_GET['location'],"html"));
-if ($location=="/") {$location = "";};
+if ($location=="/") {$location = "";}
 
 $dirArray = $filesArray = $finalArray = array();
 
@@ -137,12 +137,12 @@ if (isset($ftpSite)) {
 	ftpEnd();
 // or get local list
 } else {
-	$finalArray = scanDir($scanDir.$location);
+	$finalArray = scandir($scanDir . $location, SCANDIR_SORT_NONE);
 }
 
 foreach($finalArray as $entry) {
 	$canAdd = true;
-	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
+	for ($i=0, $iMax = count($_SESSION['bannedFiles']); $i< $iMax; $i++) {
 		if(str_replace("*","",$_SESSION['bannedFiles'][$i]) != "" && strpos($entry,str_replace("*","",$_SESSION['bannedFiles'][$i]))!==false) {$canAdd = false;}
 	}
 	// Only applicable for local dir, ignoring ICEcoder's dir
@@ -169,7 +169,7 @@ natcasesort($dirArray);
 natcasesort($filesArray);
 
 $finalArray = array_merge($dirArray,$filesArray);
-for ($i=0;$i<count($finalArray);$i++) {
+for ($i=0, $iMax = count($finalArray); $i< $iMax; $i++) {
 	$fileFolderName = str_replace("\\","/",$finalArray[$i]);
 	if (!isset($ftpSite)) {
 		$type = is_dir($docRoot.$iceRoot.$fileFolderName) ? "folder" : "file";
@@ -228,7 +228,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	$i=0;
 	$dirListArray = $dirSHAArray = $dirTypeArray = array();
 	// For each of the files in our local path...
-	for ($i=0; $i<count($objectListArray); $i++) {
+	for ($i=0, $iMax = count($objectListArray); $i< $iMax; $i++) {
 		$fileFolderName = "/".$objectListArray[$i];
 
 		// If we're not looking at a .git dir, it's not a .gitignore excluded path and not a dir
@@ -245,17 +245,17 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 			} else {
 				$fileExt = explode(" ",pathinfo($docRoot.$iceRoot.$fileFolderName, PATHINFO_EXTENSION));
 				$fileExt = $fileExt[0];
-				if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
-				if (array_search($fileExt,array("doc","docx","ppt","rtf","pdf","zip","tar","gz","swf","asx","asf","midi","mp3","wav","aiff","mov","qt","wmv","mp4","odt","odg","odp"))!==false) {$finfo = "other";};
-			}
+				if (in_array($fileExt,array("gif","jpg","jpeg","png"))) {$finfo = "image";}
+                if (in_array($fileExt,array("doc","docx","ppt","rtf","pdf","zip","tar","gz","swf","asx","asf","midi","mp3","wav","aiff","mov","qt","wmv","mp4","odt","odg","odp"))) {$finfo = "other";}
+            }
 			if (strpos($finfo,"text")===0 || strpos($finfo, "application/xml")===0 || strpos($finfo,"empty")!==false) {
 				$contents = str_replace("\r","",$contents);
-			};
-			// Establish the blob SHA contents and push name, SHA and type into 3 arrays
+			}
+            // Establish the blob SHA contents and push name, SHA and type into 3 arrays
 			$store = "blob ".strlen($contents)."\000".$contents;
-			array_push($dirListArray,ltrim($fileFolderName,"/"));
-			array_push($dirSHAArray,sha1($store));
-			array_push($dirTypeArray,"file");
+			$dirListArray[] = ltrim($fileFolderName, "/");
+			$dirSHAArray[] = sha1($store);
+			$dirTypeArray[] = "file";
 		}
 	}
 
@@ -266,7 +266,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
 
 	// Reduce absolute excluded paths to relative
-	for ($i=0; $i<count($excluded); $i++) {
+	for ($i=0, $iMax = count($excluded); $i< $iMax; $i++) {
 		$excluded[$i] = str_replace($docRoot.$iceRoot,"",$excluded[$i]);
 	}
 	?>
@@ -461,7 +461,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 
 	// If we're not in githubDiff mode, show files here
 	if (folderContent.indexOf('<ul')>-1 || folderContent.indexOf('<li')>-1) {
-		<?php if (isset($ftpSite) || !$_SESSION['githubDiff']) {echo 'showFiles();';};?>
+		<?php if (isset($ftpSite) || !$_SESSION['githubDiff']) {echo 'showFiles();';}?>
 	} else {
 		<?php
 		$iceGithubLocalPaths = $ICEcoder["githubLocalPaths"];
@@ -475,7 +475,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 					top.ICEcoder.filesFrame.contentWindow.frames['fileControl'].location.href = "github.php?action=clone&csrf="+top.ICEcoder.csrf;
 				},4);
 			}
-		<?php ;}; ?>
+		<?php} ?>
 	}
 	</script>
 </body>
