@@ -194,7 +194,7 @@ function copyOverSettings($icvInfo) {
 	transposeSettings(PATH."lib/config___users-template.php","config___users-template.php","config___users-template.php");
 
 	// Users settings files
-	$fileList = scanDir(PATH."lib/");
+	$fileList = scandir(PATH."lib/");
 	for ($i=0; $i<count($fileList); $i++) {
 		if (strpos($fileList[$i],"config-") > -1) {
 			echo 'Transposing users settings file '.$fileList[$i].'...<br>';
