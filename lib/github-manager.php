@@ -4,7 +4,7 @@ include "settings.php";
 $t = $text['github-manager'];
 
 // If we have an action to perform
-if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_GET['action'])) {
+if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['loggedIn']) {
 
 	// Get our old paths & user settings
 	$oldLocal = $ICEcoder["githubLocalPaths"];

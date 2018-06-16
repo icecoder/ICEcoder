@@ -4,7 +4,7 @@ $text = $_SESSION['text'];
 $t = $text['settings-update'];
 
 // Update this config file?
-if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
+if (isset($_SESSION['loggedIn'], $_POST["theme"]) && !$demoMode && $_SESSION['loggedIn'] && $_POST["theme"]) {
 	$settingsContents = getData($settingsFile);
 	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'"root"');

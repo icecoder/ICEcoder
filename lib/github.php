@@ -13,7 +13,7 @@ if (!extension_loaded('openssl') || !in_array('https', $wrappers)) {
 }
 
 // If we have an action to perform
-if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_GET['action']) && $sslAvail) {
+if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['loggedIn'] && $sslAvail) {
 
 	// ====
 	// AUTH
