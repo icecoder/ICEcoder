@@ -142,7 +142,7 @@ if (isset($ftpSite)) {
 
 foreach($finalArray as $entry) {
 	$canAdd = true;
-	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
+	for ($i=0, $iMax = count($_SESSION['bannedFiles']); $i< $iMax; $i++) {
 		if(str_replace("*","",$_SESSION['bannedFiles'][$i]) != "" && strpos($entry,str_replace("*","",$_SESSION['bannedFiles'][$i]))!==false) {$canAdd = false;}
 	}
 	// Only applicable for local dir, ignoring ICEcoder's dir
@@ -169,7 +169,7 @@ natcasesort($dirArray);
 natcasesort($filesArray);
 
 $finalArray = array_merge($dirArray,$filesArray);
-for ($i=0;$i<count($finalArray);$i++) {
+for ($i=0, $iMax = count($finalArray); $i< $iMax; $i++) {
 	$fileFolderName = str_replace("\\","/",$finalArray[$i]);
 	if (!isset($ftpSite)) {
 		$type = is_dir($docRoot.$iceRoot.$fileFolderName) ? "folder" : "file";
@@ -228,7 +228,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	$i=0;
 	$dirListArray = $dirSHAArray = $dirTypeArray = array();
 	// For each of the files in our local path...
-	for ($i=0; $i<count($objectListArray); $i++) {
+	for ($i=0, $iMax = count($objectListArray); $i< $iMax; $i++) {
 		$fileFolderName = "/".$objectListArray[$i];
 
 		// If we're not looking at a .git dir, it's not a .gitignore excluded path and not a dir
@@ -266,7 +266,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
 
 	// Reduce absolute excluded paths to relative
-	for ($i=0; $i<count($excluded); $i++) {
+	for ($i=0, $iMax = count($excluded); $i< $iMax; $i++) {
 		$excluded[$i] = str_replace($docRoot.$iceRoot,"",$excluded[$i]);
 	}
 	?>

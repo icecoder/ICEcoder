@@ -128,7 +128,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 				$bFile = false;
 				$foundInSelFile = false;
 				// Exclude banned files
-				for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
+				for ($i=0, $iMax = count($ICEcoder['bannedFiles']); $i< $iMax; $i++) {
 					if (strpos($f,str_replace("*","",$ICEcoder['bannedFiles'][$i]))!==false) {$bFile = true;}
                 }
 				// Exclude the folder ICEcoder is running from
@@ -138,7 +138,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					$bFile = true;
 				}
 				$findPath = str_replace($base,"",$fullPath);
-				for ($i=0;$i<count($selectedFiles);$i++) {
+				for ($i=0, $iMax = count($selectedFiles); $i< $iMax; $i++) {
 					$stringExtra = $selectedFiles[$i] != "|" ? "/" : "";
 					if (strpos($findPath.$stringExtra,str_replace("|","/",$selectedFiles[$i]).$stringExtra)===0) {
 						$foundInSelFile = true;

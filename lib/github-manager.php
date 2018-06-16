@@ -81,7 +81,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 		}
 
 		// Then set all the old local paths
-		for ($i=0; $i<count($oldLocal); $i++) {
+		for ($i=0, $iMax = count($oldLocal); $i< $iMax; $i++) {
 			$settingsNew .= '"'.$oldLocal[$i].'",';
 		}
 		// Rtrim off the last comma
@@ -97,7 +97,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 		}
 
 		// Then set all the old remote paths
-		for ($i=0; $i<count($oldRemote); $i++) {
+		for ($i=0, $iMax = count($oldRemote); $i< $iMax; $i++) {
 			$settingsNew .= '"'.$oldRemote[$i].'",';
 		}
 		// Rtrim off the last comma
@@ -116,7 +116,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 		$settingsNew = '"githubLocalPaths"	=> array(';
 
 		// Redo the arrays using the form data
-		for ($i=0; $i<count($oldLocal); $i++) {
+		for ($i=0, $iMax = count($oldLocal); $i< $iMax; $i++) {
 			if ($_POST['githubLocalPath'.$i] != "") {
 				$settingsNew .= '"'.injClean(xssClean($_POST['githubLocalPath'.$i],"html")).'",';
 			}
@@ -129,7 +129,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 		$settingsNew .= '"githubRemotePaths"	=> array(';
 
 		// Redo the arrays using the form data
-		for ($i=0; $i<count($oldRemote); $i++) {
+		for ($i=0, $iMax = count($oldRemote); $i< $iMax; $i++) {
 			if ($_POST['githubRemotePath'.$i] != "") {
 				$settingsNew .= '"'.injClean(xssClean($_POST['githubRemotePath'.$i],"html")).'",';
 			}
@@ -195,7 +195,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 			<td style="padding-left: 5px"><?php echo $t['Remote GitHub path'];?> <span class="info" title="<?php echo $t['Absolute URL beginning...'];?>">[?]</span></td>
 			</tr>
 			<?php
-			for ($i=0; $i<count($pathsLocal); $i++) {
+			for ($i=0, $iMax = count($pathsLocal); $i< $iMax; $i++) {
 				echo '<tr>';
 				echo '<td style="padding: 0 10px 8px 0"><input type="text" name="githubLocalPath'.$i.'" value="'.$pathsLocal[$i].'" style="width: 250px"></td>';
 				echo '<td style="padding: 0 10px 8px 0"><input type="text" name="githubRemotePath'.$i.'" value="'.$pathsRemote[$i].'" style="width: 250px"></td>';

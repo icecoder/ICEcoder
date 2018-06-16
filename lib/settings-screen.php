@@ -31,7 +31,7 @@ while (false !== ($file = readdir($handle))) {
 	}
 }
 sort($themeArray);
-for ($i=0;$i<count($themeArray);$i++) {
+for ($i=0, $iMax = count($themeArray); $i< $iMax; $i++) {
 	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
 }
 ?>
@@ -101,7 +101,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<?php
 		$langFiles = array("chinese-simplified.php","chinese-traditional.php","dutch.php","english.php","french.php","german.php","italian.php","norwegian.php","persian.php","portuguese-brazilian.php","spanish.php");
 		$langText = array("中国（简体）","中國（繁體）","Nederlands","English","Français","Deutsch","Italiano","Norsk","فارسی","Portugues(br)","Espa&ntilde;ol");
-		for ($i=0; $i<count($langFiles); $i++) {
+		for ($i=0, $iMax = count($langFiles); $i< $iMax; $i++) {
 			echo '<option value="'.$langFiles[$i].'"'.($ICEcoder["languageUser"]==$langFiles[$i] ? ' selected' : '').'>'.$langText[$i].'</option>'.PHP_EOL;
 		}
 		?>
@@ -167,7 +167,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 		$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
 		$backupDirsList = scandir($backupDirBase.$backupDirHost);
 		// Remove . and .. from array
-		for ($i=0; $i<count($backupDirsList); $i++) {
+		for ($i=0, $iMax = count($backupDirsList); $i< $iMax; $i++) {
 			if ($backupDirsList[$i] == "." || $backupDirsList[$i] == "..") {
 				array_splice($backupDirsList,$i,1);
 				$i--;
@@ -221,7 +221,7 @@ function findSequence(goal) {
 		<select onchange="selectTheme();showButton()" id="select" name="theme" style="width: 95px">
 		    <option<?php if ($ICEcoder["theme"]=="default") {echo ' selected';} ?>>default</option>
 		<?php
-		for ($i=0;$i<count($themeArray);$i++) {
+		for ($i=0, $iMax = count($themeArray); $i< $iMax; $i++) {
 			$optionSelected = $ICEcoder["theme"]==$themeArray[$i] ? ' selected' : '';
 			echo '<option'.$optionSelected.'>'.$themeArray[$i].'</option>'.PHP_EOL;
 		}

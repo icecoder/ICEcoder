@@ -11,7 +11,7 @@ $maxLines	= xssClean($_GET['maxLines'],"html");
 
 $result = "ok";
 
-for ($i=0; $i<count($files); $i++) {
+for ($i=0, $iMax = count($files); $i< $iMax; $i++) {
 	// Work out the real path for a file
 	$files[$i] = realpath($_SERVER['DOCUMENT_ROOT'].$files[$i]);
 	// If we can't find that file or it doesn't start with the doc root, it's an error
@@ -26,7 +26,7 @@ if ($result != "error") {
 
 	$filesWithNewBugs = 0;
 
-	for ($i=0; $i<count($files); $i++) {
+	for ($i=0, $iMax = count($files); $i< $iMax; $i++) {
 		// If we have set a filesize value previously and it's different to now, there's new bugs
 		$fileSizesSeenArray = explode(",",xssClean($_GET['filesSizesSeen'],"html"));
 		if ($fileSizesSeenArray[$i]!="null" && $fileSizesSeenArray[$i] != $filesSizesSeen[$i]) {

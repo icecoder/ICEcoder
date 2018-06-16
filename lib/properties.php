@@ -58,7 +58,7 @@ echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($byte
 $dirList = scandir($fileName);
 $dirCount = 0;
 $fileCount = 0;
-for ($i=0; $i<count($dirList); $i++) {
+for ($i=0, $iMax = count($dirList); $i< $iMax; $i++) {
 	if ($dirList[$i] != "." && $dirList[$i] != "..") {
 		if (is_dir($fileName."/".$dirList[$i])) {
 			$dirCount++;

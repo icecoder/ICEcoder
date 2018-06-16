@@ -54,7 +54,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 	if ($_GET['action']!="choose" && $_GET['action']!="edit") {
 
 		// Look at each of the existing FTP sites
-		for ($i=0; $i<count($oldFTPSites); $i++) {
+		for ($i=0, $iMax = count($oldFTPSites); $i< $iMax; $i++) {
 
 			// Updating
 			if ($_GET['action']=="update" && $i == $_GET['ftpSiteRef']) {
@@ -142,7 +142,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 		<form id="ftpUpdateForm" action="ftp-manager.php?action=update" method="POST">
 			<table style="width: 100%">
 			<?php
-			for ($i=0; $i<count($ftpSites); $i++) {
+			for ($i=0, $iMax = count($ftpSites); $i< $iMax; $i++) {
 				echo '<tr>';
 				echo '<td style="padding: 10px 10px 8px 0">'.$ftpSites[$i]['site'].'</td>';
 				echo '<td style="padding: 10px 10px 8px 0">'.$ftpSites[$i]['host'].'</td>';

@@ -45,7 +45,7 @@ include __DIR__."/".$settingsFile;
 // Remove any previous files that are no longer there
 $prevFiles = explode(",",$ICEcoderUserSettings['previousFiles']);
 $prevFilesAvail = "";
-for ($i=0; $i<count($prevFiles); $i++) {
+for ($i=0, $iMax = count($prevFiles); $i< $iMax; $i++) {
 	if (file_exists(str_replace("|","/",$prevFiles[$i]))) {
 		$prevFilesAvail .= $prevFiles[$i].",";
 	}
@@ -160,7 +160,7 @@ $ICEcoderDir = preg_replace($rootPrefix, '', $ICEcoderDirFullPath, 1);
 
 // Setup our file security vars
 $settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
-for ($i=0;$i<count($settingsArray);$i++) {
+for ($i=0, $iMax = count($settingsArray); $i< $iMax; $i++) {
 	if (!isset($_SESSION[$settingsArray[$i]])) {$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]];}
 }
 

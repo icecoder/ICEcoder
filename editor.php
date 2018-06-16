@@ -136,7 +136,7 @@ h2 {color: rgba(0,198,255,0.7)}
 		<span class="heading"><?php echo $t['Last 10 files...'];?></span><br>
 		<ul class="fileManager" id="last10Files" style="margin-left: 0; line-height: 20px"><?php
 			$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
-			for ($i=0;$i<count($last10FilesArray);$i++) {
+			for ($i=0, $iMax = count($last10FilesArray); $i< $iMax; $i++) {
 				if ($ICEcoder["last10Files"]=="") {
 					echo '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">'.$t['none'].'</div><br><br>';
 				} else {

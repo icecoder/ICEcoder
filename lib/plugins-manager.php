@@ -65,7 +65,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 		$settingsNew = '"plugins"		=> array(';
 
 		// Set all the old plugins
-		for ($i=0; $i<count($oldPlugins); $i++) {
+		for ($i=0, $iMax = count($oldPlugins); $i< $iMax; $i++) {
 			$settingsNew .= '	array("'.$oldPlugins[$i][0].'","'.$oldPlugins[$i][1].'","'.$oldPlugins[$i][2].'","'.$oldPlugins[$i][3].'","'.$oldPlugins[$i][4].'","'.$oldPlugins[$i][5].'"),';
 		}
 		// Then add the new one
@@ -83,7 +83,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 		$settingsNew = '"plugins"		=> array(';
 
 		// Set all the old plugins
-		for ($i=0; $i<count($oldPlugins); $i++) {
+		for ($i=0, $iMax = count($oldPlugins); $i< $iMax; $i++) {
 			// As long as it's not the one we want to remove
 			if ($oldPlugins[$i][0] != $pluginsData[$_GET['plugin']]['name']) {
 				$settingsNew .= '	array("'.$oldPlugins[$i][0].'","'.$oldPlugins[$i][1].'","'.$oldPlugins[$i][2].'","'.$oldPlugins[$i][3].'","'.$oldPlugins[$i][4].'","'.$oldPlugins[$i][5].'"),';
@@ -109,7 +109,7 @@ if (isset($_SESSION['loggedIn'], $_GET['action']) && !$demoMode && $_SESSION['lo
 		$settingsNew = '"plugins"		=> array(';
 
 		// Redo the arrays using the form data
-		for ($i=0; $i<count($oldPlugins); $i++) {
+		for ($i=0, $iMax = count($oldPlugins); $i< $iMax; $i++) {
 			$timer = (int)$_POST['timer' . $i];
 			if ($timer == 0) {
 				$timer = "";
@@ -202,7 +202,7 @@ function deletePlugin($dir) {
 			<td style="padding-left: 5px"><?php echo $t['Timer'];?></td>
 			</tr>
 			<?php
-			for ($i=0; $i<count($plugins); $i++) {
+			for ($i=0, $iMax = count($plugins); $i< $iMax; $i++) {
 				echo '<tr>';
 				echo '<td style="padding: 0 10px 8px 0; width: 28px; text-align: center"><img src="../'.$plugins[$i][1].'" alt="'.$plugins[$i][0].'"><input type="hidden" name="name'.$i.'" value="'.$plugins[$i][0].'"><input type="hidden" name="icon'.$i.'" value="'.$plugins[$i][1].'"><input type="hidden" name="style'.$i.'" value="'.$plugins[$i][2].'"></td>';
 				echo '<td style="padding: 8px 10px 8px 0; width: 250px; white-space: nowrap">'.$plugins[$i][0].'</td>';
@@ -233,13 +233,13 @@ function deletePlugin($dir) {
 		?>
 			<table>
 			<?php
-			for ($i=0; $i<count($pluginsData); $i++) {
+			for ($i=0, $iMax = count($pluginsData); $i< $iMax; $i++) {
 				if ($i % 2 == 0) {
 					echo '<tr>'.PHP_EOL;
 				}
 
 				$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=install&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">'.$t['Install'].'</div>';
-				for ($j=0; $j<count($plugins); $j++) {
+				for ($j=0, $jMax = count($plugins); $j< $jMax; $j++) {
 					if ($pluginsData[$i]['name'] == $plugins[$j][0]) {
 						$installUninstallButton = '<div style="display: inline-block; padding: 5px; background: #333; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'plugins-manager.php?action=uninstall&plugin='.$i.'&csrf='.$_SESSION["csrf"].'\'">'.$t['Uninstall'].'</div>';
 					}

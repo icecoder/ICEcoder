@@ -31,7 +31,7 @@ $file = rtrim($file,'[NEW]');
 
 // Make each path in $file a full path (; seperated list)
 $allFiles = explode(";",$file);
-for ($i=0; $i<count($allFiles); $i++) {
+for ($i=0, $iMax = count($allFiles); $i< $iMax; $i++) {
 	if (strpos($allFiles[$i],$docRoot)===false && $_GET['action']!="getRemoteFile") {
 		$allFiles[$i]=str_replace("|","/",$docRoot.$iceRoot.$allFiles[$i]);
 	}
@@ -44,7 +44,7 @@ $fileName = basename($file);
 
 // Check through all files to make sure they're valid/safe
 $allFiles = explode(";",$file);
-for ($i=0; $i<count($allFiles); $i++) {
+for ($i=0, $iMax = count($allFiles); $i< $iMax; $i++) {
 
 	// Uncomment to alert and console.log the action and file, useful for debugging
 	// echo ";alert('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');console.log('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');";
@@ -69,7 +69,7 @@ if ($_GET['action']=="load") {
 	$lineNumber = max(isset($_REQUEST['lineNumber'])? (int)$_REQUEST['lineNumber'] :1, 1);
 	// Check this file isn't on the banned list at all
 	$canOpen = true;
-	for ($i=0;$i<count($_SESSION['bannedFiles']);$i++) {
+	for ($i=0, $iMax = count($_SESSION['bannedFiles']); $i< $iMax; $i++) {
 		if(str_replace("*","",$_SESSION['bannedFiles'][$i]) != "" && strpos($file,str_replace("*","",$_SESSION['bannedFiles'][$i]))!==false) {$canOpen = false;}
 	}
 

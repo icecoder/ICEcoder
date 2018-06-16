@@ -15,7 +15,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 			$saveFiles=strClean($_GET['saveFiles']);
 			$saveFilesArray = explode(",",$saveFiles);
 			$saveFiles="";
-			for ($i=0;$i<count($saveFilesArray);$i++) {
+			for ($i=0, $iMax = count($saveFilesArray); $i< $iMax; $i++) {
 				$saveFilesArray[$i] = str_replace("/","|",$docRoot).$saveFilesArray[$i];
 				$saveFiles .= $saveFilesArray[$i].",";
 			}
@@ -36,7 +36,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 
 		// Update our last10Files var?
 		$last10FilesArray = explode(",",$ICEcoder["last10Files"]);
-		for ($i=0;$i<count($saveFilesArray);$i++) {
+		for ($i=0, $iMax = count($saveFilesArray); $i< $iMax; $i++) {
 			$inLast10Files = in_array($saveFilesArray[$i],$last10FilesArray);
 			if (!$inLast10Files && $saveFilesArray[$i] !="") {
 				$repPosStart = strpos($settingsContents,'last10Files"		=> "')+18;

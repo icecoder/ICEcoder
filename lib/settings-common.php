@@ -264,21 +264,21 @@ function getVersionsCount($fileLoc,$fileName) {
                 $backupDateDirs = scandir($backupDirBase.$backupDirHost,1);
         }
 	// Get rid of . and .. from date dirs array
-	for ($i=0; $i<count($backupDateDirs); $i++) {
+	for ($i=0, $iMax = count($backupDateDirs); $i< $iMax; $i++) {
 		if ($backupDateDirs[$i] == "." || $backupDateDirs[$i] == "..") {
 			array_splice($backupDateDirs,$i,1);
 			$i--;
 		}
 	}
 	// Check the backup index in each dir and add up the counts from matching lines
-	for ($i=0; $i<count($backupDateDirs); $i++) {
+	for ($i=0, $iMax = count($backupDateDirs); $i< $iMax; $i++) {
 		$backupIndex = $backupDirBase.$backupDirHost."/".$backupDateDirs[$i]."/.versions-index";
 		// Have a .versions-index file? Get contents
 		if (file_exists($backupIndex) && is_readable($backupIndex)) {
 			$versionsInfo = getData($backupIndex);
 			$versionsInfo = explode("\n",$versionsInfo);
 			// For each line, check if it's our file and if so, add the count to our $count value and $dateCount array
-			for ($j=0; $j<count($versionsInfo); $j++) {
+			for ($j=0, $jMax = count($versionsInfo); $j< $jMax; $j++) {
 				// Replace any backslashes in $fileLoc
 				$fileLoc = str_replace("\\","/",$fileLoc);
 				// Join $fileLock and $fileName into a path and replace double slashes

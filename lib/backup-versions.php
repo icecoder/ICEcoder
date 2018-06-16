@@ -54,7 +54,7 @@ while (false !== ($cssFile = readdir($handle))) {
 	}
 }
 sort($themeArray);
-for ($i=0;$i<count($themeArray);$i++) {
+for ($i=0, $iMax = count($themeArray); $i< $iMax; $i++) {
 	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
 }
 ?>

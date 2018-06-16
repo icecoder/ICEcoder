@@ -52,7 +52,7 @@ if (!$error) {
 
 	// Make each path in $file a full path (; seperated list)
 	$allFiles = explode(";",$file);
-	for ($i=0; $i<count($allFiles); $i++) {
+	for ($i=0, $iMax = count($allFiles); $i< $iMax; $i++) {
 		if (strpos($allFiles[$i],$docRoot)===false && $_GET['action']!="getRemoteFile") {
 			$allFiles[$i]=str_replace("|","/",$docRoot.$iceRoot.$allFiles[$i]);
 		}
@@ -65,7 +65,7 @@ if (!$error) {
 
 	// Check through all files to make sure they're valid/safe
 	$allFiles = explode(";",$file);
-	for ($i=0; $i<count($allFiles); $i++) {
+	for ($i=0, $iMax = count($allFiles); $i< $iMax; $i++) {
 
 		// Uncomment to alert and console.log the action and file, useful for debugging
 		// echo ";alert('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');console.log('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');";
@@ -109,7 +109,7 @@ function stitchChanges($fileLines) {
 	$changes = json_decode($_POST['changes'],true);
 
 	// For each of those changes, handle the same requests on file on server to to match client view seen
-	for ($i=0; $i<count($changes); $i++) {
+	for ($i=0, $iMax = count($changes); $i< $iMax; $i++) {
 		// Replace line(s)
 		if ($changes[$i][0] == "replace") {
 			for ($j=$changes[$i][1]; $j<=$changes[$i][2]-1; $j++) {			// Take 1 from end
@@ -272,7 +272,7 @@ if (!$error && $_GET['action']=="save") {
 						// Need to add a new line at the end of each because explode will lose them,
 						// want want to end up with same array that 'file($file)' produces for a local file
 						// - it keeps the line endings at the end of each array item
-						for ($i=0; $i<count($fileLines); $i++) {
+						for ($i=0, $iMax = count($fileLines); $i< $iMax; $i++) {
 							if ($i<count($fileLines)-1) {
 								$fileLines[$i] .= $ICEcoder["lineEnding"];
 							}
@@ -365,7 +365,7 @@ if (!$error && $_GET['action']=="save") {
 					// Make any dirs that don't exist if full path isn't there
 					if (!is_dir($backupDirBase.implode("/",$subDirsArray))) {
 						$pathIncr = "";
-						for ($i=0; $i<count($subDirsArray); $i++) {
+						for ($i=0, $iMax = count($subDirsArray); $i< $iMax; $i++) {
 							$pathIncr .= $subDirsArray[$i]."/";
 							// If this subdir isn't there, make it
 							if (!is_dir($backupDirBase.$pathIncr)) {
@@ -399,7 +399,7 @@ if (!$error && $_GET['action']=="save") {
 						$versionsInfoOrig = explode("\n",$versionsInfoOrig);
 						$replacedLine = false;
 						// For each line, either re-set number or simply include the line
-						for ($i=0; $i<count($versionsInfoOrig); $i++) {
+						for ($i=0, $iMax = count($versionsInfoOrig); $i< $iMax; $i++) {
 							if (strpos($versionsInfoOrig[$i],$fileLoc."/".$fileName." = ") === 0) {
 								$versionsInfo .= $fileLoc."/".$fileName." = ".$backupFileNum.PHP_EOL;
 								$replacedLine = true;
@@ -427,7 +427,7 @@ if (!$error && $_GET['action']=="save") {
 					for ($i=0; $i<=$ICEcoder["backupsDays"]; $i++) {
 						$backupDirsKeep[] = date($backupDirFormat, strtotime('-'.$i.' day',strtotime($backupDirDate)));
 					}
-					for ($i=0; $i<count($backupDirsList); $i++) {
+					for ($i=0, $iMax = count($backupDirsList); $i< $iMax; $i++) {
 						if ($backupDirsList[$i] != "." && $backupDirsList[$i] != ".." && !in_array($backupDirsList[$i],$backupDirsKeep)) {
 							rrmdir($backupDirBase.$backupDirHost."/".$backupDirsList[$i]);
 						}
@@ -798,7 +798,7 @@ if (!$error && $_GET['action']=="delete") {
 		}
 	// Local
 	} else {
-		for ($i=0;$i<count($filesArray);$i++) {
+		for ($i=0, $iMax = count($filesArray); $i< $iMax; $i++) {
             $fullPath = str_replace(array($docRoot, $iceRoot), "", $filesArray[$i]);
 			$fullPath = $docRoot.$iceRoot.$fullPath;
 

@@ -52,7 +52,7 @@ if (isset($_SESSION['loggedIn'], $_POST["theme"]) && !$demoMode && $_SESSION['lo
 
 	$settingsArray = array("root","checkUpdates","openLastFiles","updateDiffOnSave","languageUser","backupsKept","backupsDays","deleteToTmp","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","autoLogoutMins","theme","fontSize","lineWrapping","lineNumbers","showTrailingSpace","matchBrackets","autoCloseTags","autoCloseBrackets","indentWithTabs","indentAuto","indentSize","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines","githubAuthToken");
 	$settingsNew = "";
-	for ($i=0;$i<count($settingsArray);$i++) {
+	for ($i=0, $iMax = count($settingsArray); $i< $iMax; $i++) {
 		$settingsNew .= '"'.$settingsArray[$i].'"	=> ';
 		// Wrap certain values in double quotes
 		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="password"||$settingsArray[$i]=="languageUser"||$settingsArray[$i]=="theme"||$settingsArray[$i]=="fontSize"||$settingsArray[$i]=="tagWrapperCommand"||$settingsArray[$i]=="autoComplete"||$settingsArray[$i]=="pluginPanelAligned"||$settingsArray[$i]=="githubAuthToken" ? '"' : '';
@@ -73,7 +73,7 @@ if (isset($_SESSION['loggedIn'], $_POST["theme"]) && !$demoMode && $_SESSION['lo
 
 	// OK, now the config file has been updated, update our current session with new arrays
 	$settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
-	for ($i=0;$i<count($settingsArray);$i++) {
+	for ($i=0, $iMax = count($settingsArray); $i< $iMax; $i++) {
 		$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]] = explode(",",str_replace(" ","",strClean($_POST[$settingsArray[$i]])));
 	}
 
