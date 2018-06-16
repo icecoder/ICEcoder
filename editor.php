@@ -21,26 +21,26 @@ addon:	brace-fold, closebrackets, closetag, css-hint, foldcode, foldgutter, html
 //-->
 <script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 <?php
-if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
+if (file_exists(__DIR__."/plugins/jshint/jshint-2.5.6.min.js")) {
 	echo '<script src="plugins/jshint/jshint-2.5.6.min.js?microtime='.microtime(true).'></script>';
 };?>
 <script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 <?php
-if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
+if (file_exists(__DIR__."/plugins/emmet/emmet.min.js")) {
 	echo '<script src="plugins/emmet/emmet.min.js?microtime='.microtime(true).'"></script>';
 };?>
 <?php
-if (file_exists(dirname(__FILE__)."/plugins/pesticide/pesticide.js")) {
+if (file_exists(__DIR__."/plugins/pesticide/pesticide.js")) {
 	echo '<script src="plugins/pesticide/pesticide.js?microtime='.microtime(true).'"></script>';
 };?>
 <?php
-if (file_exists(dirname(__FILE__)."/plugins/stats.js/stats.min.js")) {
+if (file_exists(__DIR__."/plugins/stats.js/stats.min.js")) {
 	echo '<script src="plugins/stats.js/stats.min.js?microtime='.microtime(true).'"></script>';
 };?>
 <?php
-if (file_exists(dirname(__FILE__)."/plugins/responsive-helper/responsive-helper.js")) {
+if (file_exists(__DIR__."/plugins/responsive-helper/responsive-helper.js")) {
 	echo '<script src="plugins/responsive-helper/responsive-helper.js?microtime='.microtime(true).'"></script>';
 };?>
 <link rel="stylesheet" href="<?php

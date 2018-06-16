@@ -171,7 +171,7 @@ $t = $text['index'];
 	</span>
 	<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 	<?php
-	if (file_exists(dirname(__FILE__)."/plugins/zip-it/index.php")) {
+	if (file_exists(__DIR__."/plugins/zip-it/index.php")) {
 		echo '<a href="javascript:top.ICEcoder.zipIt(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()">Zip It!</a>'.PHP_EOL;
 	};
 	?>

@@ -359,7 +359,7 @@ if (!$error && $_GET['action']=="save") {
 					$backupDirFormat = "Y-m-d";
 
 					// Establish the base, host and date dir parts...
-					$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
+					$backupDirBase = str_replace("\\","/",__DIR__)."/../backups/";
 					$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
 					$backupDirDate = date($backupDirFormat);
 
@@ -815,7 +815,7 @@ if (!$error && $_GET['action']=="delete") {
 				} else {
 					// Delete file to tmp dir or full delete
 					$ICEcoder['deleteToTmp']					
-						? rename($fullPath,str_replace("\\","/",dirname(__FILE__))."/../tmp/.".str_replace(":","_",str_replace("/","_",$fullPath)))
+						? rename($fullPath,str_replace("\\","/",__DIR__)."/../tmp/.".str_replace(":","_",str_replace("/","_",$fullPath)))
 						: unlink($fullPath);
 				}
 				$fileName = basename($fullPath);
@@ -847,14 +847,14 @@ function rrmdir($dir) {
 					rrmdir($dir."/".$object);
 				} else {
 					$ICEcoder['deleteToTmp']
-						? rename($dir."/".$object,str_replace("\\","/",dirname(__FILE__))."/../tmp/.".str_replace(":","_",str_replace("/","_",$dir))."/".$object)
+						? rename($dir."/".$object,str_replace("\\","/",__DIR__)."/../tmp/.".str_replace(":","_",str_replace("/","_",$dir))."/".$object)
 						: unlink($dir."/".$object);
 				}
 			} 
 		} 
 		reset($objects);
 		$ICEcoder['deleteToTmp']
-			? rename($dir,str_replace("\\","/",dirname(__FILE__))."/../tmp/.".str_replace(":","_",str_replace("/","_",$dir)))
+			? rename($dir,str_replace("\\","/",__DIR__)."/../tmp/.".str_replace(":","_",str_replace("/","_",$dir)))
 			: rmdir($dir);
 	} 
 };

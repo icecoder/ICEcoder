@@ -110,7 +110,7 @@ var highlightVersion = function(elem) {
 
 <?php
 echo "fileName = '".basename($file)."';";
-include(dirname(__FILE__)."/language-modes-partial.js");
+include(__DIR__."/language-modes-partial.js");
 ?>
 
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {

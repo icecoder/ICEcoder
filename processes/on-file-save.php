@@ -5,7 +5,7 @@ if (!isset($_SESSION['loggedIn'])) {
 // Purpose:	This file is run when a user saves a file, has $fileLoc and $fileName strings available to it
 // Langs:	PHP only
 // Example:
-// $fh = fopen(dirname(__FILE__)."/../file-dir-access.log", 'a');
+// $fh = fopen(__DIR__."/../file-dir-access.log", 'a');
 // fwrite($fh, "SAVE >>> ".date("D dS M Y h:i:sa").": ".$fileLoc."/".$fileName."\n");
 // fclose($fh);
 
@@ -16,9 +16,9 @@ $filePieces = explode(".",$file);
 $fileExt = $filePieces[count($filePieces)-1];
 
 // SCSS Compiling if we have SCSSPHP plugin installed
-if (strtolower($fileExt) == "scss" && file_exists(dirname(__FILE__)."/../plugins/scssphp/scss.inc.php")) {
+if (strtolower($fileExt) == "scss" && file_exists(__DIR__."/../plugins/scssphp/scss.inc.php")) {
 	// Load the SCSSPHP lib and start a new instance
-	require dirname(__FILE__)."/../plugins/scssphp/scss.inc.php";
+	require __DIR__."/../plugins/scssphp/scss.inc.php";
 	$scss = new scssc();
 
 	// Set the import path and formatting type
@@ -36,9 +36,9 @@ if (strtolower($fileExt) == "scss" && file_exists(dirname(__FILE__)."/../plugins
 }
 
 // LESS Compiling if we have LESSPHP plugin installed
-if (strtolower($fileExt) == "less" && file_exists(dirname(__FILE__)."/../plugins/lessphp/lessc.inc.php")) {
+if (strtolower($fileExt) == "less" && file_exists(__DIR__."/../plugins/lessphp/lessc.inc.php")) {
 	// Load the LESSPHP lib and start a new instance
-	require dirname(__FILE__)."/../plugins/lessphp/lessc.inc.php";
+	require __DIR__."/../plugins/lessphp/lessc.inc.php";
 	$less = new lessc();
 
 	// Set the formatting type and if we want to preserve comments

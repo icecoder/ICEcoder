@@ -93,7 +93,7 @@ if ($result != "error") {
 }
 
 // Get dir name tmp dir's parent
-$tmpLoc = dirname(__FILE__);
+$tmpLoc = __DIR__;
 $tmpLoc = explode(DIRECTORY_SEPARATOR,$tmpLoc);
 $tmpLoc = $tmpLoc[count($tmpLoc)-2];
 
