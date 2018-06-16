@@ -1,7 +1,7 @@
 <?php
 // Load common functions
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $text = $_SESSION['text'];
 $t = $text['backup-versions'];
 
@@ -110,7 +110,7 @@ var highlightVersion = function(elem) {
 
 <?php
 echo "fileName = '".basename($file)."';";
-include(__DIR__."/language-modes-partial.js");
+include __DIR__."/language-modes-partial.js";
 ?>
 
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {

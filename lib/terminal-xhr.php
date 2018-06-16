@@ -1,6 +1,6 @@
 <?php
-include(__DIR__."/headers.php");
-include(__DIR__."/settings.php");
+include __DIR__."/headers.php";
+include __DIR__."/settings.php";
 
 
 function proc_open_enabled() {

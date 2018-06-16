@@ -1,6 +1,6 @@
 <?php
-include("lib/headers.php");
-include("lib/settings.php");
+include "lib/headers.php";
+include "lib/settings.php";
 $t = $text['index'];
 
 $updateMsg = '';

@@ -1,5 +1,5 @@
 <?php
-include_once("settings.php");
+include_once "settings.php";
 $text = $_SESSION['text'];
 $t = $text['settings-update'];
 
@@ -15,7 +15,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
 	$settingsContents =
 		substr($settingsContents,0,$repPosStart).
 		'"root"			=> "",'.PHP_EOL.
-		substr($settingsContents,($repPosEnd),strlen($settingsContents));
+		substr($settingsContents, $repPosEnd,strlen($settingsContents));
 
 	// Now update the config file
 	if (is_writable($settingsFile)) {

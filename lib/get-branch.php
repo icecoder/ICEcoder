@@ -1,8 +1,8 @@
 <?php
 if (!isset($ICEcoder['root'])) {
-	include("headers.php");
-	include("settings.php");
-	include("ftp-control.php");
+	include "headers.php";
+	include "settings.php";
+	include "ftp-control.php";
 }
 
 if (!$_SESSION['loggedIn']) {
@@ -100,7 +100,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	// Exclude the .git dir as first item as we don't want to see that
 	$excluded = array("/.git");
 	foreach ($gi as $scanpath) {
-		$excludedTest = (parseGitignore($scanpath));
+		$excludedTest = parseGitignore($scanpath);
 		if (count($excludedTest) > 0) {
 			$excluded = array_merge($excluded, $excludedTest);
 		}

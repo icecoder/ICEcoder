@@ -1,7 +1,7 @@
 <?php
-include("headers.php");
-include("settings.php");
-include("ftp-control.php");
+include "headers.php";
+include "settings.php";
+include "ftp-control.php";
 $t = $text['file-control'];
 
 // ===============================
@@ -260,7 +260,7 @@ if (!$error && $_GET['action']=="save") {
 			// MDT'S MATCH, WRITE FILE
 			// =======================
 
-			if (!(isset($_GET['fileMDT']))||$filemtime==$_GET['fileMDT']) {
+			if (!isset($_GET['fileMDT']) ||$filemtime==$_GET['fileMDT']) {
 
 				// FTP Saving
 				if (isset($ftpSite)) {
@@ -485,7 +485,7 @@ if (!$error && $_GET['action']=="save") {
 						top.ICEcoder.redoTabHighlight(top.ICEcoder.selectedTab);';
 
 				// Run our custom processes
-				include_once("../processes/on-file-save.php");
+				include_once "../processes/on-file-save.php";
 
 			// ======================================================
 			// MDT'S DON'T MATCH, OFFER TO LOAD FILE & SHOW DIFF VIEW
@@ -557,7 +557,7 @@ if (!$error && $_GET['action']=="newFolder") {
 		}
 		$finalAction = "newFolder";
 		// Run our custom processes
-		include_once("../processes/on-new-dir.php");
+		include_once "../processes/on-new-dir.php";
 	} else {
 		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot create...']."\\\\n".$fileLoc."');";
 		$finalAction = "nothing";
@@ -603,7 +603,7 @@ if (!$error && $_GET['action']=="move") {
 			}
 			$finalAction = "move";
 			// Run our custom processes
-			include_once("../processes/on-file-dir-move.php");
+			include_once "../processes/on-file-dir-move.php";
 		} else {
 			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot move']."\\\\n".str_replace("|","/",strClean($_GET['oldFileName']))."\\\\n\\\\n".$t['Maybe public write...']."');";
 			$finalAction = "nothing";
@@ -641,7 +641,7 @@ if (!$error && $_GET['action']=="rename") {
 		}
 		$finalAction = "rename";
 		// Run our custom processes
-		include_once("../processes/on-file-dir-rename.php");
+		include_once "../processes/on-file-dir-rename.php";
 	} else {
 		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot rename']."\\\\n".strClean($_GET['oldFileName'])."\\\\n\\\\n".$t['Maybe public write...']."');";
 		$finalAction = "nothing";
@@ -698,7 +698,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="paste") {
 		$doNext .= 'top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.basename($dest).'\',false,false,false,\''.$fileOrFolder.'\');';
 		$finalAction = "pasteFile";
 		// Run our custom processes
-		include_once("../processes/on-file-dir-paste.php");
+		include_once "../processes/on-file-dir-paste.php";
 	} else {
 		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot copy']." \\\\n".str_replace($docRoot,"",$source)."\\\\n ".$t['into']." \\\\n".str_replace($docRoot,"",$dest)."');";
 		$finalAction = "nothing";
@@ -759,7 +759,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="upload") {
 			$fileUploader=new fileUploader($uploads);
 		}
 		// Run our custom processes
-		include_once("../processes/on-file-upload.php");
+		include_once "../processes/on-file-upload.php";
 	} else {
 		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot upload...']."');";
 		$finalAction = "nothing";
@@ -789,7 +789,7 @@ if (!$error && $_GET['action']=="delete") {
 				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
 				$finalAction = "delete";
 				// Run our custom processes
-				include_once("../processes/on-file-dir-delete.php");
+				include_once "../processes/on-file-dir-delete.php";
 			} else {
 				$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete']."\\\\n".$fileLoc."/".$fileName."');";
 				$finalAction = "nothing";
@@ -823,7 +823,7 @@ if (!$error && $_GET['action']=="delete") {
 				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
 				$finalAction = "delete";
 				// Run our custom processes
-				include_once("../processes/on-file-dir-delete.php");
+				include_once "../processes/on-file-dir-delete.php";
 			} else {
 				$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot delete']."\\\\n".str_replace($docRoot,"",$fullPath)."');";
 				$finalAction = "nothing";
@@ -870,7 +870,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="replaceText") {
 		fclose($fh);
 		$finalAction = "replaceText";
 		// Run our custom processes
-		include_once("../processes/on-file-replace-text.php");
+		include_once "../processes/on-file-replace-text.php";
 	} else {
 		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot replace...']."\\\\n".$file."');";
 		$finalAction = "nothing";
@@ -894,7 +894,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="getRemoteFile") {
 		$doNext .= 'top.ICEcoder.goToLine('.$lineNumber.');';
 		$finalAction = "getRemoteFile";
 		// Run our custom processes
-		include_once("../processes/on-get-remote-file.php");
+		include_once "../processes/on-get-remote-file.php";
 	} else {
 		$finalAction = "nothing";
 		$doNext .= 'top.ICEcoder.message(\''.$t['Sorry, could not...'].' '.$file.'\');';
@@ -929,7 +929,7 @@ if (!$error && $_GET['action']=="perms") {
 		}
 		$finalAction = "perms";
 		// Run our custom processes
-		include_once("../processes/on-file-dir-perms.php");
+		include_once "../processes/on-file-dir-perms.php";
 	} else {
 		$finalAction = "nothing";
 		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot change...']." \\n".strClean($file)."');";

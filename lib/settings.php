@@ -7,7 +7,7 @@ $configUsersTemplate = 'config___users-template.php';
 // The reason we create it, is so it has PHP write permissions, meaning we can update it later
 if (!file_exists(__DIR__."/".$configSettings)) {
 	// Include our params to make use of (as $newConfigSettingsFile)
-	include(__DIR__."/settings-system-params.php");
+	include __DIR__."/settings-system-params.php";
 	if ($fConfigSettings = fopen(__DIR__."/".$configSettings, 'w')) {
 		fwrite($fConfigSettings, $newConfigSettingsFile);
 		fclose($fConfigSettings);
@@ -17,10 +17,10 @@ if (!file_exists(__DIR__."/".$configSettings)) {
 }
 
 // Load config settings
-include(__DIR__."/".$configSettings);
+include __DIR__."/".$configSettings;
 
 // Load common functions
-include_once(__DIR__."/settings-common.php");
+include_once __DIR__."/settings-common.php";
 
 // Establish user settings file
 $username = "";
@@ -40,7 +40,7 @@ if (!file_exists(__DIR__."/".$settingsFile) && $ICEcoderSettings['enableRegistra
 }
 
 // Load user settings
-include(__DIR__."/".$settingsFile);
+include __DIR__."/".$settingsFile;
 
 // Remove any previous files that are no longer there
 $prevFiles = explode(",",$ICEcoderUserSettings['previousFiles']);
@@ -86,10 +86,10 @@ $ICEcoder = array_merge($ICEcoderSettings , $ICEcoderUserSettings);
 
 // Include language file
 // Load base first as foundation
-include(__DIR__."/../lang/".basename($ICEcoder['languageBase']));
+include __DIR__."/../lang/".basename($ICEcoder['languageBase']);
 $baseText = $text;
 // Load chosen language ontop to replace base
-include(__DIR__."/../lang/".basename($ICEcoder['languageUser']));
+include __DIR__."/../lang/".basename($ICEcoder['languageUser']);
 $text = array_replace_recursive($baseText, $text);
 $_SESSION['text'] = $text;
 
@@ -117,7 +117,7 @@ $tRemainingPerc = number_format($tRemaining/$tPeriod,2);
 $tDaysRemaining = intval($tRemaining/(60*60*24));
 
 // Update this config file?
-include(__DIR__."/settings-update.php");
+include __DIR__."/settings-update.php";
 
 // Set loggedIn and username to false if not set as yet
 if (!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn'] = false;}
@@ -132,12 +132,12 @@ if(isset($_POST['submit']) && $setPWorLogin=="login") {
 			$_SESSION['username'] = $_POST['username'];
 		}
 		$_SESSION['loggedIn'] = true;
-		include(__DIR__."/../processes/on-user-login.php");
+		include __DIR__."/../processes/on-user-login.php";
 		header('Location: ../');
 		echo "<script>window.location='../';</script>";
 		die('Logging you in...');
 	} else {
-		include(__DIR__."/../processes/on-user-login-fail.php");
+		include __DIR__."/../processes/on-user-login-fail.php";
 	}
 }
 
@@ -184,10 +184,10 @@ if (isset($_SESSION['ftpSiteRef']) && $_SESSION['ftpSiteRef'] !== false) {
 }
 
 // Save currently opened files in previousFiles and last10Files arrays
-include(__DIR__."/settings-save-current-files.php");
+include __DIR__."/settings-save-current-files.php";
 
 // Display the plugins
-include(__DIR__."/plugins-display.php");
+include __DIR__."/plugins-display.php";
 
 // If loggedIn is false or we don't have a password set yet and we're not on login screen, boot user to that
 if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER['SCRIPT_NAME'],"lib/login.php")) {
@@ -272,7 +272,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 			$_SESSION['username']=$_POST['username'];
 		}
 		$_SESSION['loggedIn'] = true;
-		include(__DIR__."/../processes/on-user-new.php");
+		include __DIR__."/../processes/on-user-new.php";
 		// Finally, load again as now this file has changed and auto login
 		header('Location: ../');
 		echo "<script>window.location='../';</script>";

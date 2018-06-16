@@ -1,5 +1,5 @@
 <?php
-include("headers.php");
+include "headers.php";
 
 $onLoadExtras = "";
 $pluginsDisplay = "";

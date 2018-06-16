@@ -5,7 +5,7 @@ if(strpos(str_replace("\\","/",__DIR__),"tmp/oldVersion") !== false) {
 }
 
 // Load common functions
-include_once(__DIR__."/settings-common.php");
+include_once __DIR__."/settings-common.php";
 if (isset($_SESSION['text'])) {
 	$text = $_SESSION['text'];
 	$t = $text['headers'];

@@ -1,5 +1,5 @@
 <?php
-include_once("settings-common.php");
+include_once "settings-common.php";
 $text = $_SESSION['text'];
 $t = $text['settings-save-current-files'];
 
@@ -24,7 +24,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 			$saveFilesArray = array();
 			$saveFiles = "";
 		}
-		$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
+		$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents, $repPosStart+$repPosEnd,strlen($settingsContents));
 		// Now update the config file
 		if (is_writable($settingsFile)) {
 			$fh = fopen($settingsFile, 'w');
@@ -43,7 +43,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 				$repPosEnd = strpos($settingsContents,'"',$repPosStart)-$repPosStart;
 				$commaExtra = $ICEcoder["last10Files"]!="" ? "," : "";
 				if (count($last10FilesArray)>=10) {$ICEcoder["last10Files"]=substr($ICEcoder["last10Files"],0,strrpos($ICEcoder["last10Files"],','));}
-                $settingsContents = substr($settingsContents,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$ICEcoder["last10Files"].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
+                $settingsContents = substr($settingsContents,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$ICEcoder["last10Files"].substr($settingsContents, $repPosStart+$repPosEnd,strlen($settingsContents));
 				// Now update the config file
 				if (is_writable($settingsFile)) {
 					$fh = fopen($settingsFile, 'w');

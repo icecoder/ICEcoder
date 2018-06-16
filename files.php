@@ -1,6 +1,6 @@
 <?php
-include("lib/headers.php");
-include("lib/settings.php");
+include "lib/headers.php";
+include "lib/settings.php";
 $t = $text['files'];
 
 // Is our dir in the list of GitHub local paths?

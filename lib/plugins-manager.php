@@ -1,6 +1,6 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $t = $text['plugins-manager'];
 
 // Set the plugin data source

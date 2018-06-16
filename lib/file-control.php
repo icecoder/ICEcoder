@@ -1,7 +1,7 @@
 <?php
-include("headers.php");
-include("settings.php");
-include("ftp-control.php");
+include "headers.php";
+include "settings.php";
+include "ftp-control.php";
 $t = $text['file-control'];
 ?>
 <?php if ($_SESSION['githubDiff']) { ?>
@@ -118,7 +118,7 @@ if ($_GET['action']=="load") {
 			$loadedFile = preg_replace('/\\n/','&#13;',$loadedFile);
 			echo '</script><textarea name="loadedFile" id="loadedFile">'.$loadedFile.'</textarea><script>';
 			// Run our custom processes
-			include_once("../processes/on-file-load.php");
+			include_once "../processes/on-file-load.php";
 		} else if (strpos($finfo,"image")===0) {
 			echo 'fileType="image";fileName=\''.$fileLoc."/".$fileName.'\';';
 		} else {

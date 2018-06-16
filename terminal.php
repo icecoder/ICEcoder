@@ -1,6 +1,6 @@
 <?php
-include("lib/headers.php");
-include("lib/settings.php");
+include "lib/headers.php";
+include "lib/settings.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

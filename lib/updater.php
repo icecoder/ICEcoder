@@ -1,6 +1,6 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $t = $text['updater'];
 ?>
 <!DOCTYPE html>
@@ -90,7 +90,7 @@ function openZipNew($icvInfo) {
 	$source = 'ICEcoder v'.$icvInfo;
 	$target = '../';
 
-	$remoteFile = 'https://icecoder.net/ICEcoder-v'.(str_replace(" beta", "-beta",$icvInfo)).'.zip';
+	$remoteFile = 'https://icecoder.net/ICEcoder-v'. str_replace(" beta", "-beta",$icvInfo) .'.zip';
     	$file = "../tmp/new-version.zip";
 	$fileData = getData($remoteFile,'curl','Sorry, couldn\'t get latest version zip file.');
 	echo 'Storing zip file...<br>';
@@ -179,7 +179,7 @@ function copyOverSettings($icvInfo) {
 	if (!file_exists(__DIR__."/".$configSettings)) {
 		echo 'Creating new settings file...<br>';
 		// Include our params to make use of (as $newConfigSettingsFile)
-		include(__DIR__."/settings-system-params.php");
+		include __DIR__."/settings-system-params.php";
 		if ($fConfigSettings = fopen(__DIR__."/".$configSettings, 'w')) {
 			fwrite($fConfigSettings, $newConfigSettingsFile);
 			fclose($fConfigSettings);

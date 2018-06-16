@@ -64,7 +64,7 @@ echo '<b>TEST 3 of 3: Includes:</b><br>Attempt to include settings file:<br><br>
 $configSettings = 'config___settings.php';
 
 // Load config settings
-include(__DIR__."/lib/".$configSettings);
+include __DIR__."/lib/".$configSettings;
 
 echo "This version of ICEcoder is: ".$ICEcoderSettings['versionNo']."<br><br>";
 echo '<b>TEST RESULT:</b> ';

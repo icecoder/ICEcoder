@@ -1,6 +1,6 @@
 <?php
-include("lib/headers.php");
-include("lib/settings.php");
+include "lib/headers.php";
+include "lib/settings.php";
 $t = $text['editor'];
 ?>
 <!DOCTYPE html>
@@ -317,7 +317,7 @@ function createNewCMInstance(num) {
 
 <div style="position: absolute; display: none; height: 100%; width: 100%; top: 0; padding: 3px 0 0 60px; line-height: 16px; font-family: monospace; font-size: 13px; z-index: 2147483647" id="game"></div>
 
-<?php include_once("processes/on-editor-load.php"); ?>
+<?php include_once "processes/on-editor-load.php"; ?>
 
 </body>
 

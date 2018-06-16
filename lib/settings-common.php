@@ -90,7 +90,7 @@ function getData($url,$type='fopen',$dieMessage=false,$timeout=60) {
 
 // Logout if that's the action we're taking
 if (isset($_GET['logout'])) {
-	include(__DIR__."/../processes/on-user-logout.php");
+	include __DIR__."/../processes/on-user-logout.php";
 	$_SESSION['loggedIn']=false;
 	$_SESSION['username']=false;
 	session_destroy();

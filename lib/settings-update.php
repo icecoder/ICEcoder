@@ -1,5 +1,5 @@
 <?php
-include_once("settings-common.php");
+include_once "settings-common.php";
 $text = $_SESSION['text'];
 $t = $text['settings-update'];
 
@@ -60,7 +60,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	}
 
 	// Compile our new settings
-	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,($repPosEnd),strlen($settingsContents));
+	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents, $repPosEnd,strlen($settingsContents));
 
 	// Now update the config file
 	if (is_writable($settingsFile)) {
