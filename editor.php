@@ -112,7 +112,7 @@ h2 {color: rgba(0,198,255,0.7)}
 		<span class="heading"><?php echo $t['ICEcoder root'];?></span><br>
 		<?php echo $docRoot.$iceRoot;?><br><br>
 		<span class="heading"><?php echo $t['PHP version'];?></span><br>
-		<?php echo phpversion();?><br><br>
+		<?php echo PHP_VERSION;?><br><br>
 		<span class="heading"><?php echo $t['Date & time'];?></span><br>
 		<span id="serverDT"></span><br><br>
 		<h2><?php echo $t['your device'];?></h2>
