@@ -50,7 +50,7 @@ $handle = opendir('../'.$ICEcoder["codeMirrorDir"].'/theme/');
 
 while (false !== ($cssFile = readdir($handle))) {
 	if ($cssFile !== "." && $cssFile != "..") {
-		array_push($themeArray,basename($cssFile,".css"));
+		$themeArray[] = basename($cssFile, ".css");
 	}
 }
 sort($themeArray);

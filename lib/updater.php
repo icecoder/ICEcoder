@@ -25,7 +25,7 @@ function startUpdate() {
 			$testPath = str_replace("\\","/",$testPath);
 			if (strpos($testPath,"/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
 				if (!is_writable($item)) {
-					array_push($cantMoveArray,substr($item,count($source)+2));
+					$cantMoveArray[] = substr($item, count($source) + 2);
 				}
 			}
 		}

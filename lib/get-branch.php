@@ -109,7 +109,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	$objectListArray = array();
 	foreach ($objectList as $objectRef) {
 		$fileFolderName = @ltrim(substr(str_replace("\\","/",$objectRef->getPathname()), strlen($path)),"/");
-		array_push($objectListArray,$fileFolderName);
+		$objectListArray[] = $fileFolderName;
 	}
 }
 
@@ -253,9 +253,9 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 			}
             // Establish the blob SHA contents and push name, SHA and type into 3 arrays
 			$store = "blob ".strlen($contents)."\000".$contents;
-			array_push($dirListArray,ltrim($fileFolderName,"/"));
-			array_push($dirSHAArray,sha1($store));
-			array_push($dirTypeArray,"file");
+			$dirListArray[] = ltrim($fileFolderName, "/");
+			$dirSHAArray[] = sha1($store);
+			$dirTypeArray[] = "file";
 		}
 	}
 
