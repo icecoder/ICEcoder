@@ -31,7 +31,7 @@ if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 	$error = true;
 	$errorStr = "true";
 	$errorMsg = $t['Sorry, bad filename...'];
-}
+};
 
 // If we have file(s) to work with...
 if (!$error) {
@@ -56,8 +56,8 @@ if (!$error) {
 		if (strpos($allFiles[$i],$docRoot)===false && $_GET['action']!="getRemoteFile") {
 			$allFiles[$i]=str_replace("|","/",$docRoot.$iceRoot.$allFiles[$i]);
 		}
-	}
-    $file = implode(";",$allFiles);
+	};
+	$file = implode(";",$allFiles);
 
 	// Establish the $fileLoc and $fileName (used in single file cases, eg opening. Multiple file cases, eg deleting, is worked out in that loop)
 	$fileLoc = substr(str_replace($docRoot,"",$file),0,strrpos(str_replace($docRoot,"",$file),"/"));
@@ -85,8 +85,8 @@ if (!$error) {
 			$error = true;
 			$errorStr = "true";
 			$errorMsg = "Sorry! - problem with file requested";
-		}
-    }
+		};
+	}
 }
 
 $doNext = "";
@@ -526,7 +526,7 @@ if (!$error && $_GET['action']=="save") {
 		}
 		$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 	}
-}
+};
 
 // ==========
 // NEW FOLDER
@@ -561,7 +561,7 @@ if (!$error && $_GET['action']=="newFolder") {
 		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
+};
 
 // ================
 // MOVE FILE/FOLDER
@@ -611,7 +611,7 @@ if (!$error && $_GET['action']=="move") {
 		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
+};
 
 // ==================
 // RENAME FILE/FOLDER
@@ -645,7 +645,7 @@ if (!$error && $_GET['action']=="rename") {
 		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
+};
 
 // =================
 // PASTE FILE/FOLDER
@@ -702,7 +702,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="paste") {
 		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
+};
 
 // ==============
 // UPLOAD FILE(S)
@@ -767,7 +767,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="upload") {
 
 	// Upload is not handled by XHR methods, but form post, so we need to manually trigger $doNext in a script tag
 	echo "<script>".$doNext."</script>";
-}
+};
 
 // ========================
 // DELETE FILE(S)/FOLDER(S)
@@ -782,8 +782,8 @@ if (!$error && $_GET['action']=="delete") {
 			$itemType = $ftpFileDirInfo['type'] == "directory" ? "dir" : "file";
 			$itemPath = ltrim($fileLoc."/".$fileName,"/");
 			if (!$demoMode && ftpDelete($ftpConn,$itemType,$itemPath)) {
-				if ($fileLoc=="" || $fileLoc=="\\") {$fileLoc="/";}
-                // Reload file manager
+				if ($fileLoc=="" || $fileLoc=="\\") {$fileLoc="/";};
+				// Reload file manager
 				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
 				$finalAction = "delete";
 				// Run our custom processes
@@ -815,8 +815,8 @@ if (!$error && $_GET['action']=="delete") {
 				}
 				$fileName = basename($fullPath);
 				$fileLoc = dirname(str_replace($docRoot,"",$fullPath));
-				if ($fileLoc=="" || $fileLoc=="\\") {$fileLoc="/";}
-                // Reload file manager
+				if ($fileLoc=="" || $fileLoc=="\\") {$fileLoc="/";};
+				// Reload file manager
 				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'delete\',\''.$fileLoc.'\',\''.$fileName.'\');';
 				$finalAction = "delete";
 				// Run our custom processes
@@ -828,7 +828,7 @@ if (!$error && $_GET['action']=="delete") {
 		}
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
+};
 
 // The function to recursively remove folders & files
 function rrmdir($dir) {
@@ -852,7 +852,7 @@ function rrmdir($dir) {
 			? rename($dir,str_replace("\\","/",__DIR__)."/../tmp/.".str_replace(":","_",str_replace("/","_",$dir)))
 			: rmdir($dir);
 	} 
-}
+};
 
 // ======================
 // REPLACE TEXT IN A FILE
@@ -873,7 +873,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="replaceText") {
 		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
+};
 
 // ==========================
 // GET CONTENTS OF REMOTE URL
@@ -896,7 +896,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="getRemoteFile") {
 		$doNext .= 'top.ICEcoder.message(\''.$t['Sorry, could not...'].' '.$file.'\');';
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
+};
 
 // =======================
 // CHANGING FILE/DIR PERMS
@@ -931,7 +931,7 @@ if (!$error && $_GET['action']=="perms") {
 		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot change...']." \\n".strClean($file)."');";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
+};
 
 // ====================
 // CHECK FOR A FILE/DIR
@@ -942,7 +942,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="checkExists") {
 	// Nothing really done here though, we do something with the responseText
 	$finalAction = "checkExists";
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
-}
+};
 
 // ===================
 // JSON DATA TO RETURN

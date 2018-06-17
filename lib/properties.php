@@ -72,7 +72,7 @@ $filePlural = $fileCount != 1 ? "s" : "";
 echo $dirCount." sub-folder".$dirPlural.", ".$fileCount." file".$filePlural;
 ?>
 </span>
-<?php } ?>
+<?php ;};?>
 <br><br><br>
 <span class="column" style="width: 180px">
 <?php echo $t['Permissions'];?>:
@@ -91,19 +91,19 @@ $execVars  = array(1,3,5,7);
 <table>
 <tr><th><?php echo $t['Owner'];?></th><th><?php echo $t['Group'];?></th><th><?php echo $t['Public'];?></th></tr>
 <tr>
-<td><input type="checkbox" name="ownerR" id="owner4"<?php if(in_array($perms[0],$readVars)!="") {echo ' checked';} ?>onClick="changePerms();showButton()"> <?php echo $t['Read'];?></td>
-<td><input type="checkbox" name="groupR" id="group4"<?php if(in_array($perms[1],$readVars)!="") {echo ' checked';} ?>onClick="changePerms();showButton()"> <?php echo $t['Read'];?></td>
-<td><input type="checkbox" name="publicR" id="public4"<?php if(in_array($perms[2],$readVars)!="") {echo ' checked';} ?>onClick="changePerms();showButton()"> <?php echo $t['Read'];?></td>
+<td><input type="checkbox" name="ownerR" id="owner4"<?php if(in_array($perms[0],$readVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Read'];?></td>
+<td><input type="checkbox" name="groupR" id="group4"<?php if(in_array($perms[1],$readVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Read'];?></td>
+<td><input type="checkbox" name="publicR" id="public4"<?php if(in_array($perms[2],$readVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Read'];?></td>
 </tr>
 <tr>
-<td><input type="checkbox" name="ownerW" id="owner2"<?php if(in_array($perms[0],$writeVars)!="") {echo ' checked';} ?>onClick="changePerms();showButton()"> <?php echo $t['Write'];?></td>
-<td><input type="checkbox" name="groupW" id="group2"<?php if(in_array($perms[1],$writeVars)!="") {echo ' checked';} ?>onClick="changePerms();showButton()"> <?php echo $t['Write'];?></td>
-<td><input type="checkbox" name="publicW" id="public2"<?php if(in_array($perms[2],$writeVars)!="") {echo ' checked';} ?>onClick="changePerms();showButton()"> <?php echo $t['Write'];?></td>
+<td><input type="checkbox" name="ownerW" id="owner2"<?php if(in_array($perms[0],$writeVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Write'];?></td>
+<td><input type="checkbox" name="groupW" id="group2"<?php if(in_array($perms[1],$writeVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Write'];?></td>
+<td><input type="checkbox" name="publicW" id="public2"<?php if(in_array($perms[2],$writeVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Write'];?></td>
 </tr>
 <tr>
-<td><input type="checkbox" name="ownerE" id="owner1"<?php if(in_array($perms[0],$execVars)!="") {echo ' checked';} ?>onClick="changePerms();showButton()"> <?php echo $t['Execute'];?></td>
-<td><input type="checkbox" name="groupE" id="group1"<?php if(in_array($perms[1],$execVars)!="") {echo ' checked';} ?>onClick="changePerms();showButton()"> <?php echo $t['Execute'];?></td>
-<td><input type="checkbox" name="publicE" id="public1"<?php if(in_array($perms[2],$execVars)!="") {echo ' checked';} ?>onClick="changePerms();showButton()"> <?php echo $t['Execute'];?></td>
+<td><input type="checkbox" name="ownerE" id="owner1"<?php if(in_array($perms[0],$execVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Execute'];?></td>
+<td><input type="checkbox" name="groupE" id="group1"<?php if(in_array($perms[1],$execVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Execute'];?></td>
+<td><input type="checkbox" name="publicE" id="public1"<?php if(in_array($perms[2],$execVars)!="") {echo ' checked';};?> onClick="changePerms();showButton()"> <?php echo $t['Execute'];?></td>
 </tr>
 </table>
 </span>

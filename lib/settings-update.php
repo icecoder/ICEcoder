@@ -28,8 +28,8 @@ if (isset($_SESSION['loggedIn'], $_POST["theme"]) && !$demoMode && $_SESSION['lo
 	$ICEcoder["lockedNav"]			= isset($_POST['lockedNav']) && $_POST['lockedNav'] ? "true" : "false";
 	$ICEcoder["tagWrapperCommand"]		= strClean($_POST['tagWrapperCommand']);
 	$ICEcoder["autoComplete"]		= strClean($_POST['autoComplete']);
-	if ($_POST['password']!="")		{$ICEcoder["password"] = generateHash(strClean($_POST['password']));}
-    $ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
+	if ($_POST['password']!="")		{$ICEcoder["password"] = generateHash(strClean($_POST['password']));};
+	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
 	$ICEcoder["bannedPaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedPaths']))).'")';
 	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
 	$ICEcoder["autoLogoutMins"]		= (int)$_POST['autoLogoutMins'];

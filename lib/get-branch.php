@@ -21,7 +21,7 @@ $t = $text['get-branch'];
 <meta name="robots" content="noindex, nofollow">
 <?php if ($_SESSION['githubDiff']) { ?>
 <script src="github.js?microtime=<?php echo microtime(true);?>"></script>
-<?php } ?>
+<?php ;}; ?>
 </head>
 
 <body>
@@ -118,7 +118,7 @@ $scanDir = $docRoot.$iceRoot;
 $location = "";
 echo '<div id="branch" style="display: none">';
 $location = str_replace("|","/",xssClean($_GET['location'],"html"));
-if ($location=="/") {$location = "";}
+if ($location=="/") {$location = "";};
 
 $dirArray = $filesArray = $finalArray = array();
 
@@ -250,8 +250,8 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
             }
 			if (strpos($finfo,"text")===0 || strpos($finfo, "application/xml")===0 || strpos($finfo,"empty")!==false) {
 				$contents = str_replace("\r","",$contents);
-			}
-            // Establish the blob SHA contents and push name, SHA and type into 3 arrays
+			};
+			// Establish the blob SHA contents and push name, SHA and type into 3 arrays
 			$store = "blob ".strlen($contents)."\000".$contents;
 			$dirListArray[] = ltrim($fileFolderName, "/");
 			$dirSHAArray[] = sha1($store);
@@ -461,7 +461,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 
 	// If we're not in githubDiff mode, show files here
 	if (folderContent.indexOf('<ul')>-1 || folderContent.indexOf('<li')>-1) {
-		<?php if (isset($ftpSite) || !$_SESSION['githubDiff']) {echo 'showFiles();';}?>
+		<?php if (isset($ftpSite) || !$_SESSION['githubDiff']) {echo 'showFiles();';};?>
 	} else {
 		<?php
 		$iceGithubLocalPaths = $ICEcoder["githubLocalPaths"];
@@ -475,7 +475,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 					top.ICEcoder.filesFrame.contentWindow.frames['fileControl'].location.href = "github.php?action=clone&csrf="+top.ICEcoder.csrf;
 				},4);
 			}
-		<?php} ?>
+		<?php ;}; ?>
 	}
 	</script>
 </body>

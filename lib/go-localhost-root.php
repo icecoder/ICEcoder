@@ -33,5 +33,5 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
 	}
 	?>
 <?php
-}
+;};
 ?>

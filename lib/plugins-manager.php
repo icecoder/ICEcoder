@@ -221,8 +221,8 @@ function deletePlugin($dir) {
 		</form>
 	</div>
 	<?php
-    }
-    ?>
+	;};
+	?>
 
 	<div style="display: inline-block; width: 740px">
 		<h2><?php echo $t['Install'].' / '.$t['Uninstall'];?></h2><br>

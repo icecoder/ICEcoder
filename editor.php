@@ -23,28 +23,28 @@ addon:	brace-fold, closebrackets, closetag, css-hint, foldcode, foldgutter, html
 <?php
 if (file_exists(__DIR__."/plugins/jshint/jshint-2.5.6.min.js")) {
 	echo '<script src="plugins/jshint/jshint-2.5.6.min.js?microtime='.microtime(true).'></script>';
-} ?>
+};?>
 <script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 <?php
 if (file_exists(__DIR__."/plugins/emmet/emmet.min.js")) {
 	echo '<script src="plugins/emmet/emmet.min.js?microtime='.microtime(true).'"></script>';
-} ?>
+};?>
 <?php
 if (file_exists(__DIR__."/plugins/pesticide/pesticide.js")) {
 	echo '<script src="plugins/pesticide/pesticide.js?microtime='.microtime(true).'"></script>';
-} ?>
+};?>
 <?php
 if (file_exists(__DIR__."/plugins/stats.js/stats.min.js")) {
 	echo '<script src="plugins/stats.js/stats.min.js?microtime='.microtime(true).'"></script>';
-} ?>
+};?>
 <?php
 if (file_exists(__DIR__."/plugins/responsive-helper/responsive-helper.js")) {
 	echo '<script src="plugins/responsive-helper/responsive-helper.js?microtime='.microtime(true).'"></script>';
-} ?>
+};?>
 <link rel="stylesheet" href="<?php
-if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';}
+if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
 echo "?microtime=".microtime(true);
 if (in_array($ICEcoder["theme"],array("3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light"))) {
 	$activeLineBG = "#ccc";
@@ -130,7 +130,7 @@ h2 {color: rgba(0,198,255,0.7)}
 		<div class="trialBarContainer"><div class="trialBarRemaining" id="trialBarRemaining"></div><br>
 			<div class="trialBarText"><?php echo $tDaysRemaining;?> <?php echo $t['days left'];?> - <a href="lib/login.php?get=code&csrf=<?php echo $_SESSION["csrf"];?>" target="_parent">Unlock now</a></div>
 		</div>
-		<?php } ?>
+		<?php ;}; ?>
 
 		<h2><?php echo $t['files'];?></h2>
 		<span class="heading"><?php echo $t['Last 10 files...'];?></span><br>
@@ -147,9 +147,10 @@ h2 {color: rgba(0,198,255,0.7)}
 					echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(\''.str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i])).'\')">';
 					echo str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i]));
 					echo '</a></li>';
-					if ($i<count($last10FilesArray)-1) {echo PHP_EOL;}
-                }
-			} ?></ul>
+					if ($i<count($last10FilesArray)-1) {echo PHP_EOL;};
+				}
+			}
+		;?></ul>
 	</div>
 
 	<div style="clear: both"></div>
@@ -174,8 +175,8 @@ h2 {color: rgba(0,198,255,0.7)}
 		<a nohref onclick="top.ICEcoder.filesFrame.contentWindow.frames['testControl'].location.href = 'test'" style="color: #fff; cursor: pointer"><?php echo $t['Run unit tests'];?></a><div id="unitTestResults"></div>
 	</div>
 	<?php
-    }
-    ?>
+	;};
+	?>
 	<div style="float: left">
 		<h2><?php echo $t['dev mode'];?> <?php echo $ICEcoder['devMode'] ? "on" : "off";?></h2>
 		<span class="heading"><?php echo $t['Status'];?>:</span><br>
