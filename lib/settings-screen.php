@@ -363,36 +363,30 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	mode: "javascript",
 	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
 	});
-
 var input = document.getElementById("select");
 function selectTheme() {
 	var theme = input.options[input.selectedIndex].innerHTML;
 	if (theme=="default") {theme = "icecoder"};
 	editor.setOption("theme", theme);
 }
-
 function changeIndentSize() {
 	var indentSize = document.getElementById("indentSize").value;
 	editor.setOption("indentUnit", indentSize);
 	editor.setOption("tabSize", indentSize);
 	editor.refresh();
 }
-
-
 function changeLineNumbersToggle() {
 	var lineNumbersSelect = document.getElementById("lineNumbers");
 	var lineNumbers = lineNumbersSelect.options[lineNumbersSelect.selectedIndex].innerHTML == "yes" ? true : false;
 	editor.setOption("lineNumbers", lineNumbers);
 	editor.refresh();
 }
-
 function changeFontSize() {
 	cMCSS = document.styleSheets[2];
 	cMCSS.rules ? strCSS = 'rules' : strCSS = 'cssRules';
 	cMCSS[strCSS][0].style['fontSize'] = document.getElementById("fontSize").value;
 	editor.refresh();
 }
-
 var changeEnableRegistrationStatus = function(){
 	document.getElementById('enableRegistration').disabled=!document.getElementById('enableRegistration').disabled;
 }
@@ -402,14 +396,12 @@ var changeBackupsDaysStatus = function(){
 var showButton = function() {
 	document.getElementById('updateButton').style.opacity = 1;
 }
-
 var showHideTabs = function() {
 	cMCSS = document.styleSheets[2];
 	cMCSS.rules ? strCSS = 'rules' : strCSS = 'cssRules';
 	cMCSS[strCSS][2].style['border-left-width'] = document.settings.visibleTabs.checked ? '1px' : '0';
 	cMCSS[strCSS][2].style['margin-left'] = document.settings.visibleTabs.checked ? '-1px' : '0';
 }
-
 var validatePasswords = function() {
 	if (document.settings.password.value != 0 && document.settings.password.value.length<8) {
 		top.ICEcoder.message('Please use at least 8 chars in the password');
@@ -421,7 +413,6 @@ var validatePasswords = function() {
 		}
 	}
 }
-
 tabNames = ['general','style','accounts','security'];
 var switchTab = function(tab) {
 	for (var i=0; i<tabNames.length; i++) {
