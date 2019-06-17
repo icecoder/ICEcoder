@@ -17,7 +17,7 @@
 }
 .fileManager LI.dirOpen:before {background-position: -16px 0}
 
-@media screen and (-webkit-min-device-pixel-ratio:0) { /* hacked for chrome and safari */
+@media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { /* hacked for chrome and safari */
 	.fileManager LI.pft-directory:before, .fileManager LI.pft-file:before {
 		margin-top: -19px;
 	}
