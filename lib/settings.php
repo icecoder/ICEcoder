@@ -97,25 +97,6 @@ $_SESSION['text'] = $text;
 if ((!$ICEcoder['loginRequired'] || $ICEcoder['demoMode']) && $ICEcoder['password']!="") {$_SESSION['loggedIn']=true;};
 $demoMode = $ICEcoder['demoMode'];
 
-// Check if trial period has ended
-$tPeriod = 1296000-1;
-
-if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && generateHash(strClean($ICEcoder['licenseEmail']),$ICEcoder['licenseCode'])!=$ICEcoder['licenseCode'] && $ICEcoder['configCreateDate'] > 0 && $ICEcoder['configCreateDate']+$tPeriod < time() && !isset($_GET['get']) && !isset($_POST['code'])) {
-	if (file_exists('lib/login.php')) {
-		// Go to get code screen in top level window
-		echo "<script>window.location='lib/login.php?get=code&csrf=".$_SESSION["csrf"]."';</script>";
-	} else {
-		// Go to get code screen in top level window
-		echo "<script>window.location='login.php?get=code&csrf=".$_SESSION["csrf"]."';</script>";
-	}
-	die('Redirecting to donate screen...');
-	exit;
-}
-$tRemaining = ($ICEcoder['configCreateDate']+$tPeriod)-time();
-if ($tRemaining > $tPeriod || $ICEcoder['configCreateDate'] == 0) {$tRemaining = $tPeriod;};
-$tRemainingPerc = number_format($tRemaining/$tPeriod,2);
-$tDaysRemaining = intval($tRemaining/(60*60*24));
-
 // Update this config file?
 include(dirname(__FILE__)."/settings-update.php");
 
@@ -126,7 +107,7 @@ if (!isset($_SESSION['username'])) {$_SESSION['username'] = false;};
 // Attempt a login with password
 if(isset($_POST['submit']) && $setPWorLogin=="login") {
 	// On success, set username if multiUser, loggedIn to true and redirect
-	if (generateHash(strClean($_POST['password']),$ICEcoder["password"])==$ICEcoder["password"]) {
+	if (verifyHash(strClean($_POST['password']),$ICEcoder["password"])==$ICEcoder["password"]) {
 		session_regenerate_id();
 		if ($ICEcoder["multiUser"]) {
 			$_SESSION['username'] = $_POST['username'];
@@ -200,34 +181,6 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 	}
 	die('Redirecting to login...');
 
-// If we're unlocking ICEcoder after donating
-} elseif (isset($_POST['submit']) && (strpos($_POST['submit'],"Unlock ICEcoder")>-1)) {
-	if (generateHash(strClean($_POST['email']),$_POST['code'])==$_POST['code']) {
-		$settingsContents = getData($settingsFile);
-		// Replace our empty email & code with the one submitted by user
-		$settingsContents = str_replace('"licenseEmail"		=> "",','"licenseEmail"		=> "'.$_POST['email'].'",',$settingsContents);
-		$settingsContents = str_replace('"licenseCode"		=> "",','"licenseCode"		=> "'.$_POST['code'].'",',$settingsContents);
-		// Now update the config file
-		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
-		fwrite($fh, $settingsContents);
-		fclose($fh);
-		if (file_exists('lib/login.php')) {
-			header('Location: lib/login.php?message=trialDonateThanks&csrf='.$_SESSION["csrf"]);
-			echo "<script>window.location='lib/login.php?message=trialDonateThanks&csrf=".$_SESSION["csrf"]."';</script>";
-		} else {
-			header('Location: login.php?message=trialDonateThanks&csrf='.$_SESSION["csrf"]);
-			echo "<script>window.location='login.php?message=trialDonateThanks&csrf=".$_SESSION["csrf"]."';</script>";
-		}
-	} else {
-		if (file_exists('lib/login.php')) {
-			header('Location: lib/login.php?get=code&success=no&csrf='.$_SESSION["csrf"]);
-			echo "<script>window.location='lib/login.php?get=code&success=no&csrf=".$_SESSION["csrf"]."';</script>";
-		} else {
-			header('Location: login.php?get=code&success=no&csrf='.$_SESSION["csrf"]);
-			echo "<script>window.location='login.php?get=code&success=no&csrf=".$_SESSION["csrf"]."';</script>";
-		}
-	}
-	
 // If we are on the login screen and not logged in
 } elseif (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it
