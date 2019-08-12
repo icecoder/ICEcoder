@@ -110,15 +110,24 @@ if (get_magic_quotes_gpc ()) {
 	$_REQUEST = (isset($_REQUEST) && !empty($_REQUEST)) ? array_map('stripslashes_deep', $_REQUEST) : array();
 }
 
-// Function to handle salted hashing
 define('SALT_LENGTH',12);
-function generateHash($plainText,$salt=null) {
-	if ($salt === null) {
-		$salt = substr(md5(uniqid(rand(), true)),0,SALT_LENGTH);
-	} else {
-		$salt = substr($salt,0,SALT_LENGTH);
-	}
-	return $salt.sha1($salt.$plainText);
+// Generate hash
+function generateHash($pw) {
+    // Generate Bcrypt hash
+    return str_replace("\$", "\\$", password_hash($pw, PASSWORD_BCRYPT, $options = ['cost' => 10]));
+}
+
+// Verify hash
+function verifyHash($pw, $orig) {
+    // Verify Bcrypt hash
+    if (substr($orig, 0, 4) === "$2y$") {
+        return password_verify($pw, $orig)
+            ? $orig
+            : "NO MATCH";
+    }
+    // Verify legacy sha1 hash
+    $origSalt = substr($orig,0,SALT_LENGTH);
+    return $origSalt.sha1($origSalt.$pw);
 }
 
 // returns converted entities which have HTML entity equivalents
