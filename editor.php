@@ -5,7 +5,7 @@ $t = $text['editor'];
 ?>
 <!DOCTYPE html>
 
-<html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true; top.ICEcoder.resetAutoLogoutTimer()" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.mouseDownInCM=false; top.ICEcoder.resetAutoLogoutTimer(); if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor'); top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.canResizeFilesW()}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor')}">
+<html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true; top.ICEcoder.resetAutoLogoutTimer()" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.mouseDownInCM=false; top.ICEcoder.resetAutoLogoutTimer(); if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor'); top.ICEcoder.functionClassParamsTooltip(event, 'editor'); top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.canResizeFilesW()}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor')}">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -92,7 +92,7 @@ h2 {color: rgba(0,198,255,0.7)}
 <link rel="stylesheet" href="lib/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
+<body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);" oncontextmenu="return false">
 
 <div style="display: none; margin: 32px 43px 0 43px; padding: 10px; width: 500px; font-family: arial; font-size: 10px; color: #ddd; background: #333" id="dataMessage"></div>
 
@@ -282,8 +282,12 @@ function createNewCMInstance(num) {
 	window['cM'+num+'diff']	.on("gutterClick", function(thisCM,line,gutter,evt) {top.ICEcoder.cMonGutterClick(thisCM,line,gutter,evt,'cM'+num+'diff')});
 
 	// Mouse Down
-	window['cM'+num]	.on("mousedown", function(thisCM) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num)});
-	window['cM'+num+'diff']	.on("mousedown", function(thisCM) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num+'diff')});
+	window['cM'+num]	.on("mousedown", function(thisCM,evt) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num,evt)});
+	window['cM'+num+'diff']	.on("mousedown", function(thisCM,evt) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num+'diff',evt)});
+
+        // Context Menu
+	window['cM'+num]	.on("contextmenu", function(thisCM,evt) {top.ICEcoder.cMonContextMenu(thisCM,'cM'+num,evt)});
+	window['cM'+num+'diff']	.on("contextmenu", function(thisCM,evt) {top.ICEcoder.cMonContextMenu(thisCM,'cM'+num+'diff',evt)});
 
 	// Drag Over
 	window['cM'+num]	.on("dragover", function(thisCM) {top.ICEcoder.cMonDragOver(thisCM,event,'cM'+num)});
