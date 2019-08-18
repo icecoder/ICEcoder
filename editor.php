@@ -285,7 +285,7 @@ function createNewCMInstance(num) {
 	window['cM'+num]	.on("mousedown", function(thisCM,evt) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num,evt)});
 	window['cM'+num+'diff']	.on("mousedown", function(thisCM,evt) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num+'diff',evt)});
 
-        // Context Menu
+	// Context Menu
 	window['cM'+num]	.on("contextmenu", function(thisCM,evt) {top.ICEcoder.cMonContextMenu(thisCM,'cM'+num,evt)});
 	window['cM'+num+'diff']	.on("contextmenu", function(thisCM,evt) {top.ICEcoder.cMonContextMenu(thisCM,'cM'+num+'diff',evt)});
 
