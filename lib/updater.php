@@ -23,7 +23,7 @@ function startUpdate() {
 			// Don't move backups, plugins or .git away
 			$testPath = $source.DIRECTORY_SEPARATOR.$iterator->getSubPathName();
 			$testPath = str_replace("\\","/",$testPath);
-			if (strpos($testPath,"/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
+			if (strpos($testPath,"/data/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
 				if (!is_writeable($item)) {
 					array_push($cantMoveArray,substr($item,count($source)+2));
 				}
@@ -67,7 +67,7 @@ function copyOldVersion() {
 			// Don't move backups, plugins or .git away
 			$testPath = $source.DIRECTORY_SEPARATOR.$iterator->getSubPathName();
 			$testPath = str_replace("\\","/",$testPath);
-			if (strpos($testPath,"/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
+			if (strpos($testPath,"/data/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
 				if ($item->isDir()) {
 					mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0755);
 				} else {
