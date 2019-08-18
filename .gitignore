@@ -1,6 +1,8 @@
 error-log.txt
 backups/*
 !backups/index.php
+data/*
+!data/.gitkeep
 lib/config-*
 plugins/*
 !plugins/index.php
