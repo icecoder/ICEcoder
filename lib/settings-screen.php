@@ -163,7 +163,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<div style="padding: 5px 5px 5px 5px; color: #888">
 		<?php
 		// Display number of days backups available
-		$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
+		$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../data/backups/";
 		$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
 		$backupDirsList = scandir($backupDirBase.$backupDirHost);
 		// Remove . and .. from array
