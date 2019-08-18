@@ -359,7 +359,7 @@ if (!$error && $_GET['action']=="save") {
 					$backupDirFormat = "Y-m-d";
 
 					// Establish the base, host and date dir parts...
-					$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
+					$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../data/backups/";
 					$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
 					$backupDirDate = date($backupDirFormat);
 
