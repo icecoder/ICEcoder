@@ -45,6 +45,11 @@ if (isset($_SESSION['text'])) {
 	$t = $text['settings-common'];
 }
 
+// Create a backups dir in the data dir if it doesn't exist yet
+if (!file_exists(dirname(__FILE__)."/../data/backups")) {
+    mkdir(dirname(__FILE__)."/../data/backups");
+}
+
 // Get data from a fopen or CURL connection
 function getData($url,$type='fopen',$dieMessage=false,$timeout=60) {
 	global $context;
@@ -263,7 +268,7 @@ function getVersionsCount($fileLoc,$fileName) {
 	$dateCounts = array();
 	$backupDateDirs = array();
 	// Establish the base, host and date dirs within...
-	$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../backups/";
+	$backupDirBase = str_replace("\\","/",dirname(__FILE__))."/../data/backups/";
 	$backupDirHost = isset($ftpSite) ? parse_url($ftpSite,PHP_URL_HOST) : "localhost";
         // check if folder exists if local before enumerating contents
         if(!isset($ftpSite)) {
