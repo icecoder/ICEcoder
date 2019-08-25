@@ -5,7 +5,7 @@ $t = $text['settings-update'];
 
 // Update this config file?
 if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
-	$settingsContents = getData($settingsFile);
+	$settingsContents = getData("../data/".$settingsFile);
 	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'"root"');
 	$repPosEnd = strpos($settingsContents,'"plugins"');
@@ -63,12 +63,12 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,($repPosEnd),strlen($settingsContents));
 
 	// Now update the config file
-	if (is_writeable($settingsFile)) {
-		$fh = fopen($settingsFile, 'w');
+	if (is_writeable("../data/".$settingsFile)) {
+		$fh = fopen("../data/".$settingsFile, 'w');
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 	} else {
-		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." lib/".$settingsFile." ".$t['and try again']."');</script>";
+		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." data/".$settingsFile." ".$t['and try again']."');</script>";
 	}
 
 	// OK, now the config file has been updated, update our current session with new arrays
@@ -85,7 +85,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$refreshFM = $_POST['changedFileSettings']=="true" ? "true" : "false";
 
 	// Change multiUser and enableRegistration in config___settings.php
-	$generalSettingsContents = getData($configSettings);
+	$generalSettingsContents = getData(dirname(__FILE__)."/../data/".$configSettings);
 	$isMultiUser = isset($_POST['multiUser']) && $_POST['multiUser'] ? "true" : "false";
 	$generalSettingsContents = str_replace('"multiUser"		=> true,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
 	$generalSettingsContents = str_replace('"multiUser"		=> false,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
@@ -94,12 +94,12 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$generalSettingsContents = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
 	$generalSettingsContents = str_replace('"enableRegistration"	=> false','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
 
-	if (is_writeable($configSettings)) {
-		$fConfigSettings = fopen($configSettings, 'w');
+	if (is_writeable(dirname(__FILE__)."/../data/".$configSettings)) {
+		$fConfigSettings = fopen(dirname(__FILE__)."/../data/".$configSettings, 'w');
 		fwrite($fConfigSettings, $generalSettingsContents);
 		fclose($fConfigSettings);
 	} else {
-		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." lib/".$configSettings." ".$t['and try again']."');</script>";
+		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." data/".$configSettings." ".$t['and try again']."');</script>";
 	}
 
 	$githubAuthTokenSet = $ICEcoder["githubAuthToken"] != "" ? "true" : "false";
