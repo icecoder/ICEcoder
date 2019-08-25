@@ -48,9 +48,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,$repPosEnd,strlen($settingsContents));
 
 			// Now update the config file
-			if (is_writeable($settingsFile)) {
-				$fh = fopen($settingsFile, 'w');
-				fwrite($fh, $settingsContents);
+			if (is_writeable("../data/".$settingsFile)) {
+				$fh = fopen("../data/".$settingsFile, 'w');
+				fwrite($fh, "../data/".$settingsContents);
 				fclose($fh);
 
 				// Clear any FTP session we may have
@@ -59,7 +59,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 				// Hide this popup and reload file manager
 				echo "<script>top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'));top.ICEcoder.refreshFileManager();</script>";
 			} else {
-				echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." lib/".$settingsFile." ".$t['and try again']."');</script>";
+				echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 			}
 
 		}
@@ -151,16 +151,16 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,$repPosEnd,strlen($settingsContents));
 
 		// Now update the config file
-		if (is_writeable($settingsFile)) {
-			$fh = fopen($settingsFile, 'w');
-			fwrite($fh, $settingsContents);
+		if (is_writeable("../data/".$settingsFile)) {
+			$fh = fopen("../data/".$settingsFile, 'w');
+			fwrite($fh, "../data/".$settingsContents);
 			fclose($fh);
 			// Finally, reload the iFrame screen for the user
 			header("Location: github-manager.php?updatedGithubPaths&csrf=".$_SESSION["csrf"]);
 			echo "<script>window.location='github-manager.php?updatedGithubPaths&csrf='+top.ICEcoder.csrf;</script>";
 			die($t['saving github paths']);
 		} else {
-			echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." lib/".$settingsFile." ".$t['and try again']."');</script>";
+			echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 		}
 	}
 }
