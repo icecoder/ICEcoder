@@ -193,7 +193,7 @@ function injClean($data) {
 }
 
 // returns a UTF8 based string with any UFT8 BOM removed
-function toUTF8noBOM($string,$message) {
+function toUTF8noBOM($string,$message=false) {
 	global $text;
 	$t = $text['settings-common'];
 
