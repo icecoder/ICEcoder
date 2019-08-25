@@ -269,7 +269,7 @@ if (!$error && $_GET['action']=="save") {
 					$ftpFilepath = ltrim($fileLoc."/".$fileName,"/");
 					if (isset($_POST['changes'])) {
 						// Get existing file contents as lines
-						$loadedFile = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot.$fileLoc."/".$fileName, $ftpMode));
+						$loadedFile = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot.$fileLoc."/".$fileName, $ftpMode),false);
 						$fileLines = explode("\n",str_replace("\r","",$loadedFile));
 						// Need to add a new line at the end of each because explode will lose them,
 						// want want to end up with same array that 'file($file)' produces for a local file
