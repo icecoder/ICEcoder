@@ -83,9 +83,9 @@ if ($result != "error") {
 			$output = $t['Found in']." ".$filename."...\n".implode("\n",$output);
 
 			if ($filesWithNewBugs==1) {
-				file_put_contents("../tmp/bug-report.log", $output);
+				file_put_contents("../data/bug-report.log", $output);
 			} else {
-				file_put_contents("../tmp/bug-report.log", "\n\n".$output, FILE_APPEND);
+				file_put_contents("../data/bug-report.log", "\n\n".$output, FILE_APPEND);
 			}
 		}
 
@@ -93,16 +93,16 @@ if ($result != "error") {
 }
 
 // Get dir name tmp dir's parent
-$tmpLoc = dirname(__FILE__);
-$tmpLoc = explode(DIRECTORY_SEPARATOR,$tmpLoc);
-$tmpLoc = $tmpLoc[count($tmpLoc)-2];
+$dataLoc = dirname(__FILE__);
+$dataLoc = explode(DIRECTORY_SEPARATOR,$dataLoc);
+$dataLoc = $dataLoc[count($dataLoc)-2];
 
 // Output result and status array
 $status = array(
 	"files" => $files,
 	"filesSizesSeen" => $filesSizesSeen,
 	"maxLines" => $maxLines,
-	"bugReportPath" => "|".$tmpLoc."|tmp|bug-report.log",
+	"bugReportPath" => "|".$dataLoc."|data|bug-report.log",
 	"result" => $result
 );
 
