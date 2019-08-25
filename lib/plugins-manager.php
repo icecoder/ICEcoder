@@ -15,7 +15,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 	// Get our old plugin & user settings
 	$oldPlugins = $ICEcoder["plugins"];
-	$settingsContents = getData($settingsFile);
+	$settingsContents = getData("../data/".$settingsFile);
 
 	// ==========
 	// INSTALLING
@@ -132,9 +132,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,$repPosEnd,strlen($settingsContents));
 
 	// Now update the config file
-	if (is_writeable($settingsFile)) {
-		$fh = fopen($settingsFile, 'w');
-		fwrite($fh, $settingsContents);
+	if (is_writeable("../data/".$settingsFile)) {
+		$fh = fopen("../data/".$settingsFile, 'w');
+		fwrite($fh, "../data/".$settingsContents);
 		fclose($fh);
 		// Finally, reload ICEcoder itself if plugin requires it or just the iFrame screen for the user if it doesn't
 		if ($_GET['action']=="install" && $pluginsData[$_GET['plugin']]['reload'] == "true") {
@@ -145,7 +145,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		}
 		die("<span style='color: #fff'>".$t['saving plugins']."</span>");
 	} else {
-		echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." lib/".$settingsFile." ".$t['and try again']."');</script>";
+		echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 	}
 }
 
