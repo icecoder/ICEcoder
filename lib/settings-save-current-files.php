@@ -5,7 +5,7 @@ $t = $text['settings-save-current-files'];
 
 // Save the currently opened files for next time
 if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
-	$settingsContents = getData($settingsFile);
+	$settingsContents = getData("../data/".$settingsFile);
 
 	// Replace our previousFiles var with the the current
 	$repPosStart = strpos($settingsContents,'previousFiles"		=> "')+20;
@@ -26,12 +26,12 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 		}
 		$settingsContents = substr($settingsContents,0,$repPosStart).$saveFiles.substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 		// Now update the config file
-		if (is_writeable($settingsFile)) {
-			$fh = fopen($settingsFile, 'w');
+		if (is_writeable("../data/".$settingsFile)) {
+			$fh = fopen("../data/".$settingsFile, 'w');
 			fwrite($fh, $settingsContents);
 			fclose($fh);
 		} else {
-			echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." lib/".$settingsFile." ".$t['and try again']."');</script>";
+			echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 		}
 
 		// Update our last10Files var?
@@ -45,12 +45,12 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 				if (count($last10FilesArray)>=10) {$ICEcoder["last10Files"]=substr($ICEcoder["last10Files"],0,strrpos($ICEcoder["last10Files"],','));};
 				$settingsContents = substr($settingsContents,0,$repPosStart).$saveFilesArray[$i].$commaExtra.$ICEcoder["last10Files"].substr($settingsContents,($repPosStart+$repPosEnd),strlen($settingsContents));
 				// Now update the config file
-				if (is_writeable($settingsFile)) {
-					$fh = fopen($settingsFile, 'w');
+				if (is_writeable("../data/".$settingsFile)) {
+					$fh = fopen("../data/".$settingsFile, 'w');
 					fwrite($fh, $settingsContents);
 					fclose($fh);
 				} else {
-					echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." lib/".$settingsFile." ".$t['and try again']."');</script>";
+					echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 				}
 			}
 		}
