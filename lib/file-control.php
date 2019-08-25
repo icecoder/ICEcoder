@@ -101,7 +101,7 @@ if ($_GET['action']=="load") {
 				exit;
 			}
 			// Get our file contents and close the FTP connection
-			$loadedFile = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot.$fileLoc."/".$fileName, $ftpMode));
+			$loadedFile = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot.$fileLoc."/".$fileName, $ftpMode),false);
 			ftpEnd();
 		// Get local file
 		} else {
