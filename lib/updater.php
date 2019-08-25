@@ -176,29 +176,29 @@ function copyOverSettings($icvInfo) {
 	echo 'Transposing system settings...<br>';
 	// Create a new config file if it doesn't exist yet.
 	// The reason we create it, is so it has PHP write permissions, meaning we can update it later
-	if (!file_exists(dirname(__FILE__)."/".$configSettings)) {
+	if (!file_exists(dirname(__FILE__)."/../data/".$configSettings)) {
 		echo 'Creating new settings file...<br>';
 		// Include our params to make use of (as $newConfigSettingsFile)
 		include(dirname(__FILE__)."/settings-system-params.php");
-		if ($fConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
+		if ($fConfigSettings = fopen(dirname(__FILE__)."/../data/".$configSettings, 'w')) {
 			fwrite($fConfigSettings, $newConfigSettingsFile);
 			fclose($fConfigSettings);
 		} else {
-			die("Cannot update config file lib/".$configSettings.". Please check write permissions on lib/ and try again");
+			die("Cannot update config file data/".$configSettings.". Please check write permissions on data/ and try again");
 		}
 	}
-	transposeSettings(PATH."lib/config___settings.php","config___settings.php","config___settings.php");
+	transposeSettings(PATH."data/template-system.php","config-settings.php","config-settings.php");
 
 	// Users template settings
 	echo 'Transposing users template settings...<br>';
-	transposeSettings(PATH."lib/config___users-template.php","config___users-template.php","config___users-template.php");
+	transposeSettings(PATH."data/template-users.php","template-users.php","template-users.php");
 
 	// Users settings files
-	$fileList = scanDir(PATH."lib/");
+	$fileList = scanDir(PATH."data/");
 	for ($i=0; $i<count($fileList); $i++) {
 		if (strpos($fileList[$i],"config-") > -1) {
 			echo 'Transposing users settings file '.$fileList[$i].'...<br>';
-			transposeSettings(PATH."lib/".$fileList[$i],"config___users-template.php",$fileList[$i]);
+			transposeSettings(PATH."data/".$fileList[$i],"template-users.php",$fileList[$i]);
 		}
 	}
 
