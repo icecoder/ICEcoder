@@ -40,8 +40,6 @@ $versions = $fileCountInfo['count'];
 .CodeMirror-foldgutter-folded {background: #800; color: #ddd}
 .CodeMirror-foldgutter-folded:after {position: relative; top: -3px}
 </style>
-<script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldcode.js?microtime=<?php echo microtime(true);?>"></script>
-<script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.js?microtime=<?php echo microtime(true);?>"></script>
 <link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="editor.css?microtime=<?php echo microtime(true);?>">
 <?php
