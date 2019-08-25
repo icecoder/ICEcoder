@@ -2,6 +2,8 @@
 include("headers.php");
 include("settings.php");
 $t = $text['login'];
+
+$settingPW = $ICEcoderSettings["enableRegistration"] && ($ICEcoder["multiUser"] || $ICEcoder["password"] == "");
 ?>
 <!DOCTYPE html>
 
@@ -26,11 +28,22 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		<img src="../images/ice-coder.png" alt="ICEcoder">
 		<div class="version" style="margin-bottom: 22px">v <?php echo $ICEcoder["versionNo"];?></div>
 
-		<form name="settingsUpdate" action="login.php" method="POST">
+		<form name="settingsUpdate" action="login.php" method="POST"<?php if($settingPW) {?> onsubmit="return checkCanSubmit();"<?php } ?>>
         <?php
 		if ($ICEcoder["multiUser"]) {echo '		<input type="text" name="username" class="password"><br><br>'.PHP_EOL;};
 		?>
-		<input type="password" name="password" class="password"><br><br>
+		<input type="password" name="password" class="password" id="password"<?php if($settingPW) {?> onkeyup="pwStrength(this.value)" onchange="pwStrength(this.value)" onpaste="pwStrength(this.value)"<?php } ?>><br>
+		<?php
+		if ($settingPW) {
+			echo    '<div id="pwReqs">'.
+				'<div class="text" style="display: inline-block" id="pwChars">10+</div> &nbsp; '.
+				'<div class="text" style="display: inline-block" id="pwUpper">upper</div> &nbsp; '.
+				'<div class="text" style="display: inline-block" id="pwLower">lower</div> &nbsp; '.
+				'<div class="text" style="display: inline-block" id="pwNum">number</div> &nbsp; '.
+				'<div class="text" style="display: inline-block" id="pwSpecial">special</div>'.
+				'</div>';
+		}
+		?><br>
 		<input type="submit" name="submit" value="<?php
 			// Multi-user
 			if ($ICEcoder["multiUser"]) {
@@ -61,6 +74,55 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 		</div>
 	</div>
 </div>
+
+<script>
+// Get any elem by ID
+var get = function(elem) {
+	return top.document.getElementById(elem);
+};
+
+// Check password strength and color requirements not met
+var pwStrength = function(pw) {
+	// Set variables
+	var chars, upper, lower, num, special;
+
+	// Test password for requirements
+	chars = pw.length >= 10;
+	upper = pw.replace(/[A-Z]/g, "").length < pw.length;
+	lower = pw.replace(/[a-z]/g, "").length < pw.length;
+	num = pw.replace(/[0-9]/g, "").length < pw.length;
+	special = pw.replace(/[A-Za-z0-9]/g, "").length > 0;
+
+	// Set colors based on each requirements
+	get("pwChars").style.color = chars ? "rgba(0,198,255,0.7)" : "";
+	get("pwUpper").style.color = upper ? "rgba(0,198,255,0.7)" : "";
+	get("pwLower").style.color = lower ? "rgba(0,198,255,0.7)" : "";
+	get("pwNum").style.color = num ? "rgba(0,198,255,0.7)" : "";
+	get("pwSpecial").style.color = special ? "rgba(0,198,255,0.7)" : "";
+
+	// Return a bool based on meeting the requirements
+	return (chars && upper && lower && num && special);
+};
+
+// Check if we can submit, else shake requirements
+var checkCanSubmit = function() {
+	// Password isn't strong enough, shake requirements
+	if(!pwStrength(get("password").value)) {
+		var posArray = [6, -6, 3, -3, 0];
+		var pos = -1;
+		var anim = setInterval(function() {
+			if (pos < posArray.length) {
+				pos++;
+				get("pwReqs").style.marginLeft = posArray[pos] + "px";
+			} else {
+				clearInterval(anim);
+			}
+		}, 50);
+		return false;
+	}
+	return true;
+}
+</script>
 
 </body>
 
