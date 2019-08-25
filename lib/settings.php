@@ -1,23 +1,23 @@
 <?php
 // Establish settings and users template filenames
-$configSettings = 'config___settings.php';
-$configUsersTemplate = 'config___users-template.php';
+$configSettings = 'config-settings.php';
+$configUsersTemplate = 'template-users.php';
 
 // Create a new config file if it doesn't exist yet.
 // The reason we create it, is so it has PHP write permissions, meaning we can update it later
-if (!file_exists(dirname(__FILE__)."/".$configSettings)) {
+if (!file_exists(dirname(__FILE__)."/../data/".$configSettings)) {
 	// Include our params to make use of (as $newConfigSettingsFile)
-	include(dirname(__FILE__)."/settings-system-params.php");
-	if ($fConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
+	include(dirname(__FILE__)."/template-system.php");
+	if ($fConfigSettings = fopen(dirname(__FILE__)."/../data/".$configSettings, 'w')) {
 		fwrite($fConfigSettings, $newConfigSettingsFile);
 		fclose($fConfigSettings);
 	} else {
-		die("Cannot update config file lib/".$configSettings.". Please check write permissions on lib/ and try again");
+		die("Cannot update config file data/".$configSettings.". Please check write permissions on data/ and try again");
 	}
 }
 
 // Load config settings
-include(dirname(__FILE__)."/".$configSettings);
+include(dirname(__FILE__)."/../data/".$configSettings);
 
 // Load common functions
 include_once(dirname(__FILE__)."/settings-common.php");
@@ -32,15 +32,15 @@ $settingsFile = 'config-'.$username.str_replace(".","_",str_replace("www.","",$_
 $setPWorLogin = "login";
 
 // Create user settings file if it doesn't exist
-if (!file_exists(dirname(__FILE__)."/".$settingsFile) && $ICEcoderSettings['enableRegistration']) {
-	if (!copy(dirname(__FILE__)."/".$configUsersTemplate, dirname(__FILE__)."/".$settingsFile)) {
-		die("Couldn't create $settingsFile. Maybe you need write permissions on the lib folder?");
+if (!file_exists(dirname(__FILE__)."/../data/".$settingsFile) && $ICEcoderSettings['enableRegistration']) {
+	if (!copy(dirname(__FILE__)."/".$configUsersTemplate, dirname(__FILE__)."/../data/".$settingsFile)) {
+		die("Couldn't create $settingsFile. Maybe you need write permissions on the data folder?");
 	}
 	$setPWorLogin = "set password";
 }
 
 // Load user settings
-include(dirname(__FILE__)."/".$settingsFile);
+include(dirname(__FILE__)."/../data/".$settingsFile);
 
 // Remove any previous files that are no longer there
 $prevFiles = explode(",",$ICEcoderUserSettings['previousFiles']);
@@ -55,9 +55,9 @@ $ICEcoderUserSettings['previousFiles'] = $prevFilesAvail;
 
 // Replace our config created date with the filemtime?
 if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['configCreateDate'] == 0) {
-	$settingsContents = getData(dirname(__FILE__)."/".$settingsFile);
+	$settingsContents = getData(dirname(__FILE__)."/../data/".$settingsFile);
 	clearstatcache();
-	$configfilemtime = filemtime(dirname(__FILE__)."/"."config___settings.php");
+	$configfilemtime = filemtime(dirname(__FILE__)."/../data/"."config-settings.php");
 	// Make it a number (avoids null, undefined etc)
 	$configfilemtime = intval($configfilemtime);
 	// Set it to the epoch time now if we don't have a real value
@@ -66,7 +66,7 @@ if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['c
 	}
 	$settingsContents = str_replace('"configCreateDate"	=> 0,','"configCreateDate"	=> '.$configfilemtime.',',$settingsContents);
 	// Now update the config file
-	$fh = fopen(dirname(__FILE__)."/".$settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
+	$fh = fopen(dirname(__FILE__)."/../data/".$settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
 	fwrite($fh, $settingsContents);
 	fclose($fh);
 	// Set the new value in array
@@ -75,7 +75,7 @@ if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['c
 
 // On mismatch of settings file to system, rename to .old and reload
 If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
-	rename(dirname(__FILE__)."/".$settingsFile,dirname(__FILE__)."/".str_replace(".php",".old",$settingsFile));
+	rename(dirname(__FILE__)."/../data/".$settingsFile,dirname(__FILE__)."/../data/".str_replace(".php",".old",$settingsFile));
 	header("Location: settings.php");
 	echo "<script>window.location='settings.php';</script>";
 	die('Found old settings file, reloading...');
@@ -182,11 +182,12 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 	die('Redirecting to login...');
 
 // If we are on the login screen and not logged in
+// If we are on the login screen and not logged in
 } elseif (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it
 	if ($ICEcoder["password"] == "" && isset($_POST['submit']) && (strpos($_POST['submit'],"set password")>-1)) {
 		$password = generateHash(strClean($_POST['password']));
-		$settingsContents = getData($settingsFile);
+		$settingsContents = getData("../data/".$settingsFile);
 		// Replace our empty password with the one submitted by user
 		$settingsContents = str_replace('"password"		=> "",','"password"		=> "'.$password.'",',$settingsContents);
 		// Also set the update checker preference
@@ -195,7 +196,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		$settingsContents = str_replace('"checkUpdates"		=> true,','"checkUpdates"		=> '.$checkUpdates.',',$settingsContents);
 		$settingsContents = str_replace('"checkUpdates"		=> false,','"checkUpdates"		=> '.$checkUpdates.',',$settingsContents);
 		// Now update the config file
-		$fh = fopen($settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
+		$fh = fopen("../data/".$settingsFile, 'w') or die("Can't update config file. Please set public write permissions on data/".$settingsFile." and press refresh");
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 		// Create a duplicate version for the IP address of the domain if it doesn't exist yet
@@ -204,20 +205,20 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 			$serverAddr = "127.0.0.1";
 		}
 		$settingsFileAddr = 'config-'.$username.str_replace(".","_",$serverAddr).'.php';
-		if (!file_exists(dirname(__FILE__)."/".$settingsFileAddr)) {
-			if (!copy(dirname(__FILE__)."/".$settingsFile, dirname(__FILE__)."/".$settingsFileAddr)) {
-				die("Couldn't create $settingsFileAddr. Maybe you need write permissions on the lib folder?");
+		if (!file_exists(dirname(__FILE__)."/../data/".$settingsFileAddr)) {
+			if (!copy(dirname(__FILE__)."/../data/".$settingsFile, dirname(__FILE__)."/../data/".$settingsFileAddr)) {
+				die("Couldn't create $settingsFileAddr. Maybe you need write permissions on the data folder?");
 			}
 		}
 		// Disable the enableRegistration config setting if the user had that option chosen
 		if (isset($_POST['disableFurtherRegistration'])) {
-			$updatedConfigSettingsFile = getData(dirname(__FILE__)."/".$configSettings);
-			if ($fUConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
+			$updatedConfigSettingsFile = getData(dirname(__FILE__)."/../data/".$configSettings);
+			if ($fUConfigSettings = fopen(dirname(__FILE__)."/../data/".$configSettings, 'w')) {
 				$updatedConfigSettingsFile = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> false',$updatedConfigSettingsFile);
 				fwrite($fUConfigSettings, $updatedConfigSettingsFile);
 				fclose($fUConfigSettings);
 			} else {
-				die("Cannot update config file lib/".$configSettings.". Please check write permissions on lib/ and try again");
+				die("Cannot update config file data/".$configSettings.". Please check write permissions on data/ and try again");
 			}
 		}
 		// Set the session user level
