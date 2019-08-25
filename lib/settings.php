@@ -182,7 +182,6 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 	die('Redirecting to login...');
 
 // If we are on the login screen and not logged in
-// If we are on the login screen and not logged in
 } elseif (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it
 	if ($ICEcoder["password"] == "" && isset($_POST['submit']) && (strpos($_POST['submit'],"set password")>-1)) {
