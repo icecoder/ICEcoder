@@ -8,7 +8,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 	// Get our old FTP sites & user settings
 	$oldFTPSites = $ICEcoder["ftpSites"];
-	$settingsContents = getData($settingsFile);
+	$settingsContents = getData("../data/".$settingsFile);
 
 	// ========
 	// CHOOSING
@@ -103,16 +103,16 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,$repPosEnd,strlen($settingsContents));
 
 		// Now update the config file
-		if (is_writeable($settingsFile)) {
-			$fh = fopen($settingsFile, 'w');
-			fwrite($fh, $settingsContents);
+		if (is_writeable("../data/".$settingsFile)) {
+			$fh = fopen("../data/".$settingsFile, 'w');
+			fwrite($fh, "../data/".$settingsContents);
 			fclose($fh);
 			// Finally, reload the iFrame screen for the user
 			header("Location: ftp-manager.php?updatedFTPSites&csrf=".$_SESSION["csrf"]);
 			echo "<script>window.location='ftp-manager.php?updatedFTPSites&csrf='+top.ICEcoder.csrf;</script>";
 			die($t['Saving FTP sites']);
 		} else {
-			echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." lib/".$settingsFile." ".$t['and try again']."');</script>";
+			echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 		}
 	}
 }
