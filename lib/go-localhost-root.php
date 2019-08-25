@@ -6,7 +6,7 @@ $t = $text['settings-update'];
 // Update our 'root' value to be blank
 // which resets the file manager to localhost root again
 if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
-	$settingsContents = getData($settingsFile);
+	$settingsContents = getData("../data/".$settingsFile);
 	// Replace our root var
 	$repPosStart = strpos($settingsContents,'"root"');
 	$repPosEnd = strpos($settingsContents,'"checkUpdates"');
@@ -18,9 +18,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
 		substr($settingsContents,($repPosEnd),strlen($settingsContents));
 
 	// Now update the config file
-	if (is_writeable($settingsFile)) {
-		$fh = fopen($settingsFile, 'w');
-		fwrite($fh, $settingsContents);
+	if (is_writeable("../data/".$settingsFile)) {
+		$fh = fopen("../data/".$settingsFile, 'w');
+		fwrite($fh, "../data/".$settingsContents);
 		fclose($fh);
 
 		// Clear any FTP session we may have
@@ -29,7 +29,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
 		// Now we've reset the root path to localhost root, refresh the file manager to show it
 		echo "<script>top.ICEcoder.refreshFileManager();</script>";
 	} else {
-		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." lib/".$settingsFile." ".$t['and try again']."');</script>";
+		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." data/".$settingsFile." ".$t['and try again']."');</script>";
 	}
 	?>
 <?php
