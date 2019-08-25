@@ -2,7 +2,7 @@
 // Don't display, but log all errors
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
-ini_set('error_log', dirname(__FILE__).'/../error-log.txt');
+ini_set('error_log', dirname(__FILE__).'/../data/error.log');
 error_reporting(-1);
 
 // Set our default timezone and supress warning with @
@@ -315,3 +315,15 @@ function getVersionsCount($fileLoc,$fileName) {
 	);
 }
 
+function serializedFileData($do, $path, $output=null) {
+	if ($do === "get") {
+		$data = file_get_contents($path);
+		$data = str_replace("<"."?php\n/*\n\n", "", $data);
+		$data = str_replace("\n\n*/\n?".">", "", $data);
+		$data = unserialize($data);
+		return $data;
+	}
+	if ($do === "set") {
+		file_put_contents($path, "<"."?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
+	}
+}
