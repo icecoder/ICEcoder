@@ -89,7 +89,7 @@ sendCmd = function(command) {
 <body>
 <?php
 $user = str_replace("\n","",shell_exec("whoami"));
-$cwd = $ICEcoder['docRoot'].$ICEcoder['root'];
+$cwd = getcwd();
 ?>
 <span class="close" onclick="top.get('terminal').style.display = 'none'">Close X</span>
 
