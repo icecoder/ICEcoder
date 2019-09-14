@@ -93,6 +93,26 @@ function getData($url,$type='fopen',$dieMessage=false,$timeout=60) {
 	}
 }
 
+// Require a re-index dir/file data next time we index
+function requireReIndexNextTime() {
+	// If we have a data/index.php file
+	global $docRoot, $ICEcoderDir;
+	if (file_exists($docRoot.$ICEcoderDir."/data/index.php")) {
+		// Get serialized array back out of PHP file inside a comment block as prevIndexData
+		$prevIndexData = file_get_contents($docRoot.$ICEcoderDir."/data/index.php");
+		if (strpos($prevIndexData, "<?php") !== false) {
+			$prevIndexData = str_replace("<?php\n/*\n\n", "", $prevIndexData);
+			$prevIndexData = str_replace("\n\n*/\n?>", "", $prevIndexData);
+			$prevIndexData = unserialize($prevIndexData);
+
+			// Set timestamp back to epoch to force a re-index next time
+			$prevIndexData['timestamps']['indexed'] = 0;
+
+			file_put_contents($docRoot.$ICEcoderDir."/data/index.php", "<?php\n/*\n\n".serialize($prevIndexData)."\n\n*/\n?".">");
+		}
+	}
+}
+
 // Logout if that's the action we're taking
 if (isset($_GET['logout'])) {
 	include(dirname(__FILE__)."/../processes/on-user-logout.php");
