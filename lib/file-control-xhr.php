@@ -162,7 +162,6 @@ function stitchChanges($fileLines) {
 	return $contents;
 }
 
-
 // ============
 // SAVING FILES
 // ============
@@ -1009,3 +1008,6 @@ echo '{
 		"errorMsg" : "'.$errorMsg.'"
 	}
 }';
+
+// Set timestamp of last index to 0 to force a re-index next time we index
+requireReIndexNextTime();
