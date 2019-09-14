@@ -18,6 +18,7 @@ $aliases = array(
 );
 
 // Get current working dir
+$user = str_replace("\n","",shell_exec("whoami"));
 $cwd = getcwd();
 
 // If we have a command
@@ -28,7 +29,10 @@ if(!empty($_REQUEST['command'])) {
 	}
 
 	// Begin output with prompt and user command
-	$output = "<span style=\"color: #fff\">".$cwd."\n$&gt; ".$_REQUEST['command']."</span>\n\n";
+	$output = '<div class="commandLine"><div class="user">&nbsp;&nbsp;'.$user.'&nbsp;</div>'.
+			'<div class="path">&nbsp;'.$cwd.'&nbsp;</div> : '.date("H:m:s").
+			'<br>'.
+			'<div class="promptVLine"></div><div class="promptHLine">─<div class="promptArrow">▶</div></div> '.$_REQUEST['command'].'</div><br><br>';
 }
 
 // If in demo mode, display message and go no further
