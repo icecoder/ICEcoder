@@ -136,6 +136,10 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findBar .minimapLink {position: fixed; display: inline-block; width: 16px; height: 16px; right: 164px; top: 48px; background: url('../images/doc-explorer-icons.png') 0 0 no-repeat; cursor: pointer; background-position: 0 0; cursor: pointer; z-index: 1}
 .findBar .functionClassListLink {position: fixed; display: inline-block; width: 16px; height: 16px; right: 138px; top: 48px; background: url('../images/doc-explorer-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -16px 0; cursor: pointer; z-index: 1}
 .findBar .terminalLink {position: fixed; display: inline-block; width: 16px; height: 16px; right: 112px; top: 48px; background: url('../images/doc-explorer-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -32px 0; cursor: pointer; z-index: 1}
+.editor .terminal {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
+.editor .output {position: fixed; top: 10000px; padding: 15px 18px 8px 13px; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
+.editor .database {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
+.editor .git {position: fixed; top: 10000px; padding: 15px 18px 8px 13px; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
 .editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px; visibility: hidden}
 
 .tools {position: fixed; display: inline-block; width: 250px; height: 30px; left: 0; bottom: 0; z-index: 3}
