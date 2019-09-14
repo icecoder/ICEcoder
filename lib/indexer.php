@@ -9,9 +9,9 @@ $indexableFileExts = ["php", "js", "coffee", "ts", "rb", "py", "sql", "erl", "ja
 $prevIndexData = [];
 
 // If we have a data/index.php file
-if (file_exists("../data/index.php")) {
+if (file_exists($docRoot.$ICEcoderDir."/data/index.php")) {
     // Get serialized array back out of PHP file inside a comment block as prevIndexData
-    $prevIndexData = file_get_contents("../data/index.php");
+    $prevIndexData = file_get_contents($docRoot.$ICEcoderDir."/data/index.php");
     if (strpos($prevIndexData, "<?php") !== false) {
         $prevIndexData = str_replace("<?php\n/*\n\n", "", $prevIndexData);
         $prevIndexData = str_replace("\n\n*/\n?>", "", $prevIndexData);
@@ -146,14 +146,25 @@ function phpGrep($path, $base) {
     return $ret;
 }
 
-// Start running function to index data
-$results = phpGrep($docRoot.$iceRoot, $docRoot.$iceRoot);
+// If something in the doc root changed, we can do an index...
+if (stat($docRoot)['mtime'] !== $prevIndexData["timestamps"]["indexed"]) {
+	// Start a new indexData for this run
+	$indexData["timestamps"] = [
+		"indexed" => stat($docRoot)['mtime']
+	];
 
-// Overlay indexData ontop of prevIndexData
-$output = array_replace_recursive($prevIndexData, $indexData);
+	// Start running function to index data
+	$results = phpGrep($docRoot.$iceRoot, $docRoot.$iceRoot);
 
-// Store the serialized array in PHP comment block for next time
-file_put_contents($docRoot.$ICEcoderDir."/data/index.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
+	// Overlay indexData ontop of prevIndexData
+	$output = array_replace_recursive($prevIndexData, $indexData);
+
+	// Store the serialized array in PHP comment block for next time
+	file_put_contents($docRoot.$ICEcoderDir."/data/index.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
+// Else it's the same as last time so do nothing...
+} else {
+	$output = $prevIndexData;
+}
 
 // Output the JSON
 echo json_encode($output, JSON_PRETTY_PRINT);
