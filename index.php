@@ -317,10 +317,10 @@ $t = $text['index'];
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 	</div>
-	<iframe name="terminalFrame" id="terminal" src="terminal.php" frameborder="0" style="position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2"></iframe>
-	<pre name="outputDIV" id="output" style="position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2; background: rgba(0,0,0,0.92); padding: 15px 18px 8px 13px"><b>Output</b><br>via top.ICEcoder.output(message);<br><br></pre>
-	<iframe name="databaseFrame" id="database" src="lib/adminer-4.7.3-en.php" frameborder="0" style="position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2"></iframe>
-	<div name="gitDIV" id="git" style="position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2; background: rgba(0,0,0,0.92); padding: 15px 18px 8px 13px"></div>
+	<iframe name="terminalFrame" id="terminal" src="terminal.php" class="terminal"></iframe>
+	<pre id="output" class="output"><b>Output</b><br>via top.ICEcoder.output(message);<br><br></pre>
+	<iframe name="databaseFrame" id="database" src="lib/database.php" class="database"></iframe>
+	<div id="git" class="git">Git diff integration coming soon</div>
 	<iframe name="contentFrame" id="content" src="editor.php" class="code" scrolling="no"></iframe>
 </div>
 
