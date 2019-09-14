@@ -59,8 +59,11 @@ sendCmd = function(command) {
 			// OK reponse?
 			if (xhr.status==200) {
 				// Set the output to also include our response and scroll down to bottom
-				document.getElementById('output').innerHTML += xhr.responseText;
-				document.body.scrollTop = document.body.scrollHeight;
+				var newOutput = document.createElement("DIV");
+				newOutput.innerHTML = xhr.responseText;
+				var cmdElem = document.getElementById("commandLine");
+				cmdElem.parentNode.insertBefore(newOutput, cmdElem);
+				top.document.getElementById("terminal").contentWindow.document.documentElement.scrollTop = document.getElementById('output').scrollHeight;
 
 				// Add command onto end of history array or set as last item in array
 				if (currentLine == 0 || commandHistory[commandHistory.length-1].indexOf("[[ICEcoder]]:") !== 0) {
@@ -91,16 +94,12 @@ $cwd = $ICEcoder['docRoot'].$ICEcoder['root'];
 <span class="close" onclick="top.get('terminal').style.display = 'none'">Close X</span>
 
 <form name="shell" onsubmit="sendCmd(document.getElementById('command').value); return false" method="POST">
-	<pre class="output" id="output">ICEcoder v <?php echo $ICEcoder["versionNo"];?> terminal
+	<pre class="output" id="output"><span style="color: #0a0">ICEcoder v<?php echo $ICEcoder["versionNo"];?> terminal</span>
 This is a full powered terminal, but will have the permissions of the '<?php echo $user;?>' user.
 The more access rights you give that user, the more this terminal has.
 
-Current dir:
-<?php echo $cwd;?>
-
-
-</pre>
-	<div class="commandLine">$&gt; <input type="text" class="command" id="command" onkeyup="key(event)" tabindex="1" autocomplete="off"></div>
+<div class="commandLine" id="commandLine"><div class="user">&nbsp;&nbsp;<?php echo $user;?>&nbsp;</div><div class="path">&nbsp;<?php echo $cwd;?>&nbsp;</div>
+<div class="promptVLine"></div><div class="promptHLine">─<div class="promptArrow">▶</div></div> <input type="text" class="command" id="command" onkeyup="key(event)" tabindex="1" autocomplete="off"></div></pre>
 </form>
 
 </body>
