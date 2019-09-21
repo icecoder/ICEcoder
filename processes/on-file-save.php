@@ -3,7 +3,7 @@ if (!isset($_SESSION['loggedIn'])) {
 	die('Sorry, not logged in.');
 }
 // Purpose:	This file is run when a user saves a file, has $fileLoc and $fileName strings available to it
-// Langs:	PHP only
+// Langs:	PHP (tho can concat JS within $doNext string, see below)
 // Example:
 // $fh = fopen(dirname(__FILE__)."/../file-dir-access.log", 'a');
 // fwrite($fh, "SAVE >>> ".date("D dS M Y h:i:sa").": ".$fileLoc."/".$fileName."\n");
@@ -51,3 +51,6 @@ if (strtolower($fileExt) == "less" && file_exists(dirname(__FILE__)."/../plugins
 		echo ";top.ICEcoder.message('Couldn\'t compile your LESS, error info below:\\n\\n".$e->getMessage()."');";
 	}
 }
+
+// If JS is needed, add within $doNext string below, eg $doNext .= ";alert('saved');";
+$doNext .= "";
