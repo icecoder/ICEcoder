@@ -91,7 +91,6 @@ sendCmd = function(command) {
 $user = str_replace("\n","",shell_exec("whoami"));
 $cwd = getcwd();
 ?>
-<span class="close" onclick="top.get('terminal').style.display = 'none'">Close X</span>
 
 <form name="shell" onsubmit="sendCmd(document.getElementById('command').value); return false" method="POST">
 	<pre class="output" id="output"><span style="color: #0a0">ICEcoder v<?php echo $ICEcoder["versionNo"];?> terminal</span>
