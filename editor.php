@@ -57,7 +57,7 @@ if (array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","e
 
 <style type="text/css">
 /* Make sure this next one remains the 1st item, updated with JS */
-.CodeMirror {position: absolute; top: 0; width: 100%; font-size: <?php echo $ICEcoder["fontSize"];?>; line-height: 1.3; z-index: 1}
+.CodeMirror {position: absolute; top: 0; width: 100%; font-size: <?php echo $ICEcoder["fontSize"];?>; transition: font-size 0.25s ease; line-height: 1.3; z-index: 1}
 .CodeMirror-scroll {} /* was: height: auto; overflow: visible */
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-s-activeLine {background: <?php echo $activeLineBG;?> !important}
@@ -69,6 +69,7 @@ if (array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","e
         background-position: bottom left;
         background-repeat: repeat-x;
       }
+.code-zoomed-out { font-size: 2px }
 .CodeMirror-foldmarker {font-family: arial; line-height: .3; color: #b00; cursor: pointer;
 	text-shadow: #fff 1px 1px 2px, #fff -1px -1px 2px, #fff 1px -1px 2px, #fff -1px 1px 2px;
 }
