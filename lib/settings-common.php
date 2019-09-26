@@ -45,6 +45,9 @@ if (isset($_SESSION['text'])) {
 	$t = $text['settings-common'];
 }
 
+// Check requirements meet minimum spec
+include(dirname(__FILE__)."/requirements.php");
+
 // Create a backups dir in the data dir if it doesn't exist yet
 if (!file_exists(dirname(__FILE__)."/../data/backups")) {
     mkdir(dirname(__FILE__)."/../data/backups");
