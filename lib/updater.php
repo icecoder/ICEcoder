@@ -55,12 +55,7 @@ function copyOldVersion() {
 	}
 	$source = "../";
 	$dest = PATH;
-	// Set a stream context timeout for file reading
-	$context = stream_context_create(array('http'=>
-		array(
-			'timeout' => 60 // secs
-		)
-	));
+
 	echo 'Moving current ICEcoder files...<br>';
 	foreach ($iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),RecursiveIteratorIterator::SELF_FIRST) as $item) {
 		if (strpos($source.DIRECTORY_SEPARATOR.$iterator->getSubPathName(),"oldVersion")==false) {
@@ -84,8 +79,6 @@ function copyOldVersion() {
 }
 
 function openZipNew($icvInfo) {
-	global $context;
-
 	echo 'Retrieving zip from ICEcoder site...<br>';
 	$source = 'ICEcoder v'.$icvInfo;
 	$target = '../';
@@ -129,8 +122,6 @@ function openZipNew($icvInfo) {
 }
 
 function transposeSettings($oldFile,$newFile,$saveFile) {
-	global $context;
-
 	echo '- Getting old and new settings...<br>';
 	// Get old and new settings and start a new $contents
 	$oldSettingsContent = getData($oldFile);
@@ -213,7 +204,7 @@ if ($updateDone) {
 	echo '<script>alert("'.$t['Update appears to...'].'");window.location = "../?display=updated&csrf='.$_SESSION["csrf"].'";</script>';
 } else {
 	echo 'Something appears to have gone wrong :-/<br><br>';
-	echo 'Please report bugs at <a href=\"https://github.com/mattpass/ICEcoder\" style=\"color: #fff\">https://github.com/mattpass/ICEcoder</a><br><br>';
+	echo 'Please report bugs at <a href=\"https://github.com/icecoder/ICEcoder\" style=\"color: #fff\">https://github.com/icecoder/ICEcoder</a><br><br>';
 	echo 'You can recover the old version from ICEcoder\'s tmp dir';
 }
 ?>
