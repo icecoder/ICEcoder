@@ -12,7 +12,7 @@ if ($ICEcoder["checkUpdates"]) {
 		$icvData = "1.0\nICEcoder version placeholder";
 	}
 	$icvInfo = explode("\n", $icvData);
-	$icv = $icvInfo[0];
+	$icv = $icvInfo[0]*1;
 	$icvI = str_replace('"','\\\'',$icvInfo[1]);
 	$thisV = $ICEcoder["versionNo"];
 	if (strpos($thisV,"beta")>-1 && !strpos($icv,"beta") && str_replace(" beta","",$thisV) == $icv) {$thisV-=0.1;};
