@@ -45,6 +45,28 @@ if (isset($_SESSION['text'])) {
 	$t = $text['settings-common'];
 }
 
+// Copy over backups if we've just updated to new version (TODO: can be moved to updater.php one day after 7.0 released)
+if (isset($_GET['display']) && $_GET['display'] === "updated") {
+	// If the backups dir doesn't exist, or it does but is empty
+	if (
+		!file_exists(dirname(__FILE__)."/../data/backups") ||
+		count(array_diff(scandir(dirname(__FILE__)."/../data/backups"), ['.', '..'])) === 0
+	) {
+		// If the old version has some backups to move over
+		if (count(array_diff(scandir(dirname(__FILE__)."/../tmp/oldVersion/backups"), ['.', '..'])) > 0) {
+			// If the data dir is writable
+			if (is_writable(dirname(__FILE__)."/../data")) {
+				// Remove the backups dir if it's there and writable 
+				if (file_exists(dirname(__FILE__)."/../data/backups") && is_writable(dirname(__FILE__)."/../data")) {
+					rmdir(dirname(__FILE__)."/../data/backups");
+				}
+				// Move backups dir from old version to current version
+				rename(dirname(__FILE__)."/../tmp/oldVersion/backups", dirname(__FILE__)."/../data/backups");
+			}
+		}
+	}
+}
+
 // Check requirements meet minimum spec
 include(dirname(__FILE__)."/requirements.php");
 
