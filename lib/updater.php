@@ -204,7 +204,7 @@ if ($updateDone) {
 	echo '<script>alert("'.$t['Update appears to...'].'");window.location = "../?display=updated&csrf='.$_SESSION["csrf"].'";</script>';
 } else {
 	echo 'Something appears to have gone wrong :-/<br><br>';
-	echo 'Please report bugs at <a href=\"https://github.com/icecoder/ICEcoder\" style=\"color: #fff\">https://github.com/icecoder/ICEcoder</a><br><br>';
+	echo 'Please report bugs at <a href=\"https://github.com/ICEcoder/ICEcoder\" style=\"color: #fff\">https://github.com/ICEcoder/ICEcoder</a><br><br>';
 	echo 'You can recover the old version from ICEcoder\'s tmp dir';
 }
 ?>
