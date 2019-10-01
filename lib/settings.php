@@ -12,7 +12,9 @@ if (!file_exists(dirname(__FILE__)."/../data/".$configSettings)) {
 		fwrite($fConfigSettings, $newConfigSettingsFile);
 		fclose($fConfigSettings);
 	} else {
-		die("Cannot update config file data/".$configSettings.". Please check write permissions on data/ and try again");
+		$reqsPassed = false;
+		$reqsFailures = ["phpCreateConfig"];
+		include(dirname(__FILE__)."/requirements.php");
 	}
 }
 
@@ -34,7 +36,9 @@ $setPWorLogin = "login";
 // Create user settings file if it doesn't exist
 if (!file_exists(dirname(__FILE__)."/../data/".$settingsFile) && $ICEcoderSettings['enableRegistration']) {
 	if (!copy(dirname(__FILE__)."/".$configUsersTemplate, dirname(__FILE__)."/../data/".$settingsFile)) {
-		die("Couldn't create $settingsFile. Maybe you need write permissions on the data folder?");
+		$reqsPassed = false;
+		$reqsFailures = ["phpCreateSettings"];
+		include(dirname(__FILE__)."/requirements.php");
 	}
 	$setPWorLogin = "set password";
 }
@@ -66,7 +70,11 @@ if (basename($_SERVER['SCRIPT_NAME']) == "index.php" && $ICEcoderUserSettings['c
 	}
 	$settingsContents = str_replace('"configCreateDate"	=> 0,','"configCreateDate"	=> '.$configfilemtime.',',$settingsContents);
 	// Now update the config file
-	$fh = fopen(dirname(__FILE__)."/../data/".$settingsFile, 'w') or die("Can't update config file. Please set public write permissions on ".$settingsFile." and press refresh");
+	if (!$fh = fopen(dirname(__FILE__)."/../data/".$settingsFile, 'w')) {
+		$reqsPassed = false;
+		$reqsFailures = ["phpUpdateSettings"];
+		include(dirname(__FILE__)."/requirements.php");
+	}
 	fwrite($fh, $settingsContents);
 	fclose($fh);
 	// Set the new value in array
@@ -148,7 +156,9 @@ for ($i=0;$i<count($settingsArray);$i++) {
 // Check IP permissions
 if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*", $_SESSION['allowedIPs'])) {
 	header('Location: /');
-	die("Sorry, not in allowed IPs list");
+	$reqsPassed = false;
+	$reqsFailures = ["systemIPRestriction"];
+	include(dirname(__FILE__)."/requirements.php");
 	exit;
 };
 
@@ -195,7 +205,11 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		$settingsContents = str_replace('"checkUpdates"		=> true,','"checkUpdates"		=> '.$checkUpdates.',',$settingsContents);
 		$settingsContents = str_replace('"checkUpdates"		=> false,','"checkUpdates"		=> '.$checkUpdates.',',$settingsContents);
 		// Now update the config file
-		$fh = fopen("../data/".$settingsFile, 'w') or die("Can't update config file. Please set public write permissions on data/".$settingsFile." and press refresh");
+		if (!$fh = fopen(dirname(__FILE__)."/../data/".$settingsFile, 'w')) {
+			$reqsPassed = false;
+			$reqsFailures = ["phpUpdateSettings"];
+			include(dirname(__FILE__)."/requirements.php");
+		}
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 		// Create a duplicate version for the IP address of the domain if it doesn't exist yet
@@ -206,7 +220,9 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		$settingsFileAddr = 'config-'.$username.str_replace(".","_",$serverAddr).'.php';
 		if (!file_exists(dirname(__FILE__)."/../data/".$settingsFileAddr)) {
 			if (!copy(dirname(__FILE__)."/../data/".$settingsFile, dirname(__FILE__)."/../data/".$settingsFileAddr)) {
-				die("Couldn't create $settingsFileAddr. Maybe you need write permissions on the data folder?");
+				$reqsPassed = false;
+				$reqsFailures = ["phpCreateSettingsFileAddr"];
+				include(dirname(__FILE__)."/requirements.php");
 			}
 		}
 		// Disable the enableRegistration config setting if the user had that option chosen
@@ -217,7 +233,9 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 				fwrite($fUConfigSettings, $updatedConfigSettingsFile);
 				fclose($fUConfigSettings);
 			} else {
-				die("Cannot update config file data/".$configSettings.". Please check write permissions on data/ and try again");
+				$reqsPassed = false;
+				$reqsFailures = ["phpUpdateConfig"];
+				include(dirname(__FILE__)."/requirements.php");
 			}
 		}
 		// Set the session user level
