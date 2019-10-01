@@ -1,7 +1,9 @@
 <?php
-// Start off assuming all is fine with requirements
-$reqsPassed = true;
-$reqsFailures = [];
+if (!isset($reqsPassed)) {
+	// Start off assuming all is fine with requirements
+	$reqsPassed = true;
+	$reqsFailures = [];
+}
 
 // Check PHP version meets minimum requirements
 if (phpversion()*1 < 7.0) {
@@ -58,6 +60,21 @@ if (!$reqsPassed) {
 				}
 				if (in_array("phpReadFile", $reqsFailures)) {
 					echo "You don't seem to be able<br>to read the config file<br><br>";
+				}
+				if (in_array("phpCreateConfig", $reqsFailures)) {
+					echo "Cannot update config file:<br>data/".$configSettings."<br>Please check write permissions<br>on data dir and reload page<br><br>";
+				}
+				if (in_array("phpCreateSettings", $reqsFailures)) {
+					echo "Couldn't create:<br>data/$settingsFile<br>Maybe you need write<br>permissions on the data dir?<br><br>";
+				}
+				if (in_array("phpUpdateSettings", $reqsFailures)) {
+					echo "Can't update config file:<br>data/".$settingsFile."<br>Please check write permissions<br>on data dir and reload page<br><br>";
+				}
+				if (in_array("phpCreateSettingsFileAddr", $reqsFailures)) {
+					echo "Couldn't create:<br>data/$settingsFileAddr<br>Maybe you need write<br>permissions on the data dir?<br><br>";
+				}
+				if (in_array("systemIPRestriction", $reqsFailures)) {
+					echo "Not in permitted IPs list<br><br>";
 				}
 				?>
 			</span>
