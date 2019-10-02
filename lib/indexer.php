@@ -70,7 +70,9 @@ function phpGrep($path, $base) {
             $bFile = false;
             // Exclude banned files
             for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
-                if (strpos($f,str_replace("*","",$ICEcoder['bannedFiles'][$i]))!==false) {$bFile = true;};
+                if ($ICEcoder['bannedFiles'][$i] !== "") {
+                    if (strpos($f,str_replace("*","",$ICEcoder['bannedFiles'][$i]))!==false) {$bFile = true;};
+                }
             }
             if (!$bFile) {
                 $lines = file($filePath);
@@ -146,24 +148,38 @@ function phpGrep($path, $base) {
     return $ret;
 }
 
-// If something in the doc root changed, we can do an index...
-if (stat($docRoot)['mtime'] !== $prevIndexData["timestamps"]["indexed"]) {
-	// Start a new indexData for this run
-	$indexData["timestamps"] = [
-		"indexed" => stat($docRoot)['mtime']
-	];
+// If we don't have a timestamp passed in or it's not the same as what's in the index...
+if (!isset($_GET['timestamp']) || $_GET['timestamp'] != $prevIndexData["timestamps"]["indexed"]) {
+	// If something in the doc root changed, we can do an index...
+	if ($prevIndexData["timestamps"]["indexed"] !== stat($docRoot)['mtime']) {
+		// Start a new indexData for this run
+		$indexData["timestamps"] = [
+			"indexed" => stat($docRoot)['mtime'],
+			"browser" => $_GET['timestamp'] ?? 0,
+			"changed" => true
+		];
 
-	// Start running function to index data
-	$results = phpGrep($docRoot.$iceRoot, $docRoot.$iceRoot);
+		// Start running function to index data
+		$results = phpGrep($docRoot.$iceRoot, $docRoot.$iceRoot);
 
-	// Overlay indexData ontop of prevIndexData
-	$output = array_replace_recursive($prevIndexData, $indexData);
+		// Overlay indexData ontop of prevIndexData
+		$output = array_replace_recursive($prevIndexData, $indexData);
 
-	// Store the serialized array in PHP comment block for next time
-	file_put_contents($docRoot.$ICEcoderDir."/data/index.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
+		// Store the serialized array in PHP comment block for next time
+		file_put_contents($docRoot.$ICEcoderDir."/data/index.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
+	// Output what we have in our index...
+	} else {
+		$output = $prevIndexData;
+	}
 // Else it's the same as last time so do nothing...
 } else {
-	$output = $prevIndexData;
+	$output = [
+		"timestamps" => [
+			"indexed" => stat($docRoot)['mtime'],
+			"browser" => (int) $_GET['timestamp'],
+			"changed" => false
+		]
+	];			
 }
 
 // Output the JSON
