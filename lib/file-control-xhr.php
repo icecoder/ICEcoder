@@ -70,10 +70,18 @@ if (!$error) {
 		// Uncomment to alert and console.log the action and file, useful for debugging
 		// echo ";alert('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');console.log('".xssClean($_GET['action'],"html")." : ".$allFiles[$i]."');";
 
+		$bannedFileFound = false;
+		for ($j=0; $j<count($_SESSION['bannedFiles']); $j++) {
+			$thisFile = str_replace("*","",$_SESSION['bannedFiles'][$j]);
+			if ($thisFile != "" && strpos($allFiles[$i],$thisFile)!==false) {
+				$bannedFileFound = true;
+			}
+		}
+
 		// Die if the file requested isn't something we expect
 		if(
 			// On the banned file/dir list
-			(str_replace("*","",$_SESSION['bannedFiles'][$i]) != "" && strpos($allFiles[$i],str_replace("*","",$_SESSION['bannedFiles'][$i]))!==false) ||
+			($bannedFileFound) ||
 			// A local folder that isn't the doc root or starts with the doc root
 			($_GET['action']!="getRemoteFile" && !isset($ftpSite) && 
 				rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
