@@ -11,8 +11,13 @@ if ($ICEcoder["checkUpdates"]) {
 	if ($icvData == "no data") {
 		$icvData = "1.0\nICEcoder version placeholder";
 	}
-	$icvInfo = explode("\n", $icvData);
-	$icv = $icvInfo[0]*1;
+	$icvInfo = str_replace("\n", "", $icvData);
+	$icv = preg_match("/^[0-9.]+/", $icvInfo, $matches);
+	$icv = floatval($matches[0]);
+	$icvInfo = [
+		0 => $icv,
+		1 => substr($icvInfo, strlen($matches[0]))
+	];
 	$icvI = str_replace('"','\\\'',$icvInfo[1]);
 	$thisV = $ICEcoder["versionNo"];
 	if (strpos($thisV,"beta")>-1 && !strpos($icv,"beta") && str_replace(" beta","",$thisV) == $icv) {$thisV-=0.1;};
