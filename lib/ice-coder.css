@@ -173,6 +173,8 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .docExplorer .functionClassList .functionClassListItem .name {font-family: monospace; color: rgba(0,198,255,0.5)}
 .docExplorer .functionClassList .functionClassListItem .params {font-family: monospace; font-size: 10px}
 
+.tooltip {position: absolute; top: 0; left: 0; padding: 5px; background: #444; color: #bbb}
+
 .screenContainer {position: absolute; display: table; width: 100%; height: 100%; top: 0; left: 0; text-align: center}
 .screenContainer .screenVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
 .screenVCenter .screenCenter {#position: relative; #top: -50%; text-align: center; display: inline}
