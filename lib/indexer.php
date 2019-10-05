@@ -74,26 +74,53 @@ function phpGrep($path, $base) {
                     if (strpos($f,str_replace("*","",$ICEcoder['bannedFiles'][$i]))!==false) {$bFile = true;};
                 }
             }
+            // Exclude *.min.* minified files
+            $minFileText = pathinfo(pathinfo($f)['filename']);
+            if (isset($minFileText['extension']) && $minFileText['extension'] === "min") {
+                continue;
+            }
             if (!$bFile) {
                 $lines = file($filePath);
                 foreach ($lines as $lineNum => $line) {
                     $functionText = "";
                     $classText = "";
-                    // Get function declaration lines
-                    if (strpos($line, "function ") !== false) {
-                        $functionText = substr($line, strpos($line, "function ") + 9);
-                        // Get just the name of the function/class
-                        $functionText = explode("(", explode("{", trim($functionText))[0]);
+                    // Get function declaration lines, covering most language formats
+                    if (
+                        // If we have both parens in ( then ) order on the line and...
+                        (strpos($line, "(") !== false && strpos($line, "(") < strpos($line, ")")) &&
+                        // ...if a particular language and we have a valid format on the same line for it
+                        (($filePathExt === "py" || $filePathExt === "rb") && strpos($line, "def") !== false && strpos($line, "def") < strpos($line, "(")) ||
+                        (($filePathExt === "js" || $filePathExt === "ts") && strpos($line, "=>") !== false) ||
+                        (($filePathExt === "erl" || $filePathExt === "coffee") && strpos($line, "->") !== false) ||
+                        (($filePathExt === "c" || $filePathExt === "cpp") && strpos($line, "{") !== false && strpos($line, "{") > strpos($line, "(")) ||
+                        ($filePathExt === "go" && strpos($line, "func") !== false && strpos($line, "func") < strpos($line, "(")) ||
+                        // ...or if the line contains "function" before opening parens...
+                        (strpos($line, "function") !== false && strpos($line, "function") < strpos($line, "("))
+                    ) {
+                        // ...it's enough of an indication this is a function declaration line, so grab name and args from the line
+                        // First, strip away all non alphanum, underscore and parens chars, plus the word "function"
+                        // (No need to remove "def" or "func" as we're only concerned by the string between function name and parens and both "def" and "func"
+                        // appear before function name in Python, Ruby and Go languages, it's only "function" that's between name and args in some languages
+                        $functionLine = preg_replace('/[^\da-z\s_\(\)]|\bfunction\b/i', '', $line)."\n";
+                        // Then replace one or more spaces that are followed by an open parens with a single space and open parens
+                        // then explode on the open parens to get the split between name and start of args
+                        $functionLine = preg_replace('/\s+\(/', '(', $functionLine)."\n";
+                        $functionLine = explode("(", $functionLine);
+                        // Finally, we have our function name and args we can put into an array after some string manipulation
+                        $functionText = [
+                            0 => ltrim(substr($functionLine[0], strrpos($functionLine[0], " "))),
+                            1 => "(".explode(")",$functionLine[1])[0].")"
+                        ];
                     }
-                    // Get class declaration lines
+                    // Get class declaration lines (far simpler than functions, as all languages have a very similar format
                     if (strpos($line, "class ") !== false) {
                         $classText = substr($line, strpos($line, "class ") + 6);
-                        // Get just the name of the function/class
-                        $classText = explode("(", explode("{", trim($classText))[0]);
+                        // Get just the name of the class
+                        $classText = explode(" ", $classText);
                     }
 
                     // Function data
-                    if (!empty($functionText)) {
+                    if (!empty($functionText) && $functionText[0] !== "") {
                         // Start language block if we don't have one yet
                         if (!isset($indexData['functions'][$filePathExt])) {
                             $indexData['functions'][$filePathExt] = [];
@@ -113,12 +140,12 @@ function phpGrep($path, $base) {
                             ],
                             "filePath" => $filePath,
                             "filePathExt" => $filePathExt,
-                            "params" => trim("(".$functionText[1])
+                            "params" => str_replace(" ", ", ", $functionText[1])
                         ];
                     }
 
                     // Class data
-                    if (!empty($classText)) {
+                    if (!empty($classText) && $classText[0] !== "") {
                         // Start language block if we don't have one yet
                         if (!isset($indexData['classes'][$filePathExt])) {
                             $indexData['classes'][$filePathExt] = [];
@@ -137,8 +164,7 @@ function phpGrep($path, $base) {
                                 ]
                             ],
                             "filePath" => $filePath,
-                            "filePathExt" => $filePathExt,
-                            "params" => trim("(".$classText[1])
+                            "filePathExt" => $filePathExt
                         ];
                     }
                 }
@@ -148,10 +174,10 @@ function phpGrep($path, $base) {
     return $ret;
 }
 
-// If we don't have a timestamp passed in or it's not the same as what's in the index...
-if (!isset($_GET['timestamp']) || $_GET['timestamp'] != $prevIndexData["timestamps"]["indexed"]) {
-	// If something in the doc root changed, we can do an index...
-	if ($prevIndexData["timestamps"]["indexed"] !== stat($docRoot)['mtime']) {
+// If we don't have a timestamp passed in, in prev data, or it's not the same as what's in the index...
+if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET['timestamp'] != $prevIndexData["timestamps"]["indexed"]) {
+	// If we don't have any prev data or something in the doc root changed, we can do an index...
+	if (!isset($prevIndexData["timestamps"]) || $prevIndexData["timestamps"]["indexed"] !== stat($docRoot)['mtime']) {
 		// Start a new indexData for this run
 		$indexData["timestamps"] = [
 			"indexed" => stat($docRoot)['mtime'],
@@ -184,4 +210,3 @@ if (!isset($_GET['timestamp']) || $_GET['timestamp'] != $prevIndexData["timestam
 
 // Output the JSON
 echo json_encode($output, JSON_PRETTY_PRINT);
-?>
