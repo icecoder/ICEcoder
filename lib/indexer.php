@@ -98,18 +98,32 @@ function phpGrep($path, $base) {
                         (strpos($line, "function") !== false && strpos($line, "function") < strpos($line, "("))
                     ) {
                         // ...it's enough of an indication this is a function declaration line, so grab name and args from the line
-                        // First, strip away all non alphanum, underscore and parens chars, plus the word "function"
+
+                        // First, function name - strip away all non alphanum, underscore and parens chars, plus the word "function"
                         // (No need to remove "def" or "func" as we're only concerned by the string between function name and parens and both "def" and "func"
-                        // appear before function name in Python, Ruby and Go languages, it's only "function" that's between name and args in some languages
-                        $functionLine = preg_replace('/[^\da-z\s_\(\)]|\bfunction\b/i', '', $line)."\n";
-                        // Then replace one or more spaces that are followed by an open parens with a single space and open parens
+                        // appear before function name in Python, Ruby and Go languages, it's only "function" that's between name and args in some languages)
+                        $functionLine = preg_replace('/[^\da-z\s_\(\)]|\bfunction\b/i', '', $line);
+                        // Then replace one or more spaces that are followed by an open parens with just the open parens
                         // then explode on the open parens to get the split between name and start of args
-                        $functionLine = preg_replace('/\s+\(/', '(', $functionLine)."\n";
+                        $functionLine = preg_replace('/\s+\(/', '(', $functionLine);
                         $functionLine = explode("(", $functionLine);
-                        // Finally, we have our function name and args we can put into an array after some string manipulation
+                        // Now we have our function name we can put into an array after some string manipulation
+                        $functionName = ltrim(substr($functionLine[0], strrpos($functionLine[0], " ")));
+
+                        // Now, arguments. We need to deal with these seperately as the params may have = chars in them
+                        // Grab the parens and everything between and establish the first match
+                        preg_match('/\(.*\)/i', $line, $matches);
+                        $functionArgs = $matches[0] ?? "";
+                        // Postfix commas and equals chars with spaces, then reduce multiple spaces to singles
+                        // (This all provides tidy formating of tooltip text on hover rather than what may be in file)
+                        $functionArgs = str_replace(',', ', ', $functionArgs);
+                        $functionArgs = str_replace('=', ' = ', $functionArgs);
+                        $functionArgs = preg_replace('/\s+/', ' ', $functionArgs);
+
+                        // Finally, we have our function name and args
                         $functionText = [
-                            0 => ltrim(substr($functionLine[0], strrpos($functionLine[0], " "))),
-                            1 => "(".explode(")",$functionLine[1])[0].")"
+                            0 => $functionName,
+                            1 => $functionArgs
                         ];
                     }
                     // Get class declaration lines (far simpler than functions, as all languages have a very similar format
@@ -140,7 +154,7 @@ function phpGrep($path, $base) {
                             ],
                             "filePath" => $filePath,
                             "filePathExt" => $filePathExt,
-                            "params" => str_replace(" ", ", ", $functionText[1])
+                            "params" => $functionText[1]
                         ];
                     }
 
