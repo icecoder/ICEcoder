@@ -351,7 +351,7 @@ $t = $text['index'];
 	<div class="functionClassList" id="functionClassList"></div>
 </div>
 
-<div id="tooltip" style="position: absolute; display: none; top: 0; left: 0; padding: 5px; background: #444; color: #bbb"></div>
+<div id="tooltip" class="tooltip" style="display: none"></div>
 
 <script>
 ICEcoder.initAliases();
