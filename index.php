@@ -325,7 +325,7 @@ $t = $text['index'];
 	<iframe name="terminalFrame" id="terminal" src="terminal.php" class="terminal"></iframe>
 	<pre id="output" class="output"><b>Output</b><br>via top.ICEcoder.output(message);<br><br></pre>
 	<iframe name="databaseFrame" id="database" src="lib/database.php" class="database"></iframe>
-	<div id="git" class="git">Git diff integration coming soon</div>
+	<pre id="git" class="git" style="font-family: monospace">Looking for git status...</pre>
 	<iframe name="contentFrame" id="content" src="editor.php" class="code" scrolling="no"></iframe>
 </div>
 
