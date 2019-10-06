@@ -205,6 +205,18 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 		// Overlay indexData ontop of prevIndexData
 		$output = array_replace_recursive($prevIndexData, $indexData);
 
+		// If we have a data/git-diff.php file
+		if (file_exists($docRoot.$ICEcoderDir."/data/git-diff.php")) {
+			// Get serialized array back out of PHP file inside a comment block as git data for git diff display
+			$gitData = file_get_contents($docRoot.$ICEcoderDir."/data/git-diff.php");
+			if (strpos($gitData, "<?php") !== false) {
+				$gitData = str_replace("<?php\n/*\n\n", "", $gitData);
+				$gitData = str_replace("\n\n*/\n?>", "", $gitData);
+				$gitData = unserialize($gitData);
+				$output["git"] = $gitData;
+			}
+		}
+		
 		// Store the serialized array in PHP comment block for next time
 		file_put_contents($docRoot.$ICEcoderDir."/data/index.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
 	// Output what we have in our index...
@@ -220,18 +232,6 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 			"changed" => false
 		]
 	];			
-}
-
-// If we have a data/git-diff.php file
-if (file_exists($docRoot.$ICEcoderDir."/data/git-diff.php")) {
-	// Get serialized array back out of PHP file inside a comment block as git data for git diff display
-	$gitData = file_get_contents($docRoot.$ICEcoderDir."/data/git-diff.php");
-	if (strpos($gitData, "<?php") !== false) {
-		$gitData = str_replace("<?php\n/*\n\n", "", $gitData);
-		$gitData = str_replace("\n\n*/\n?>", "", $gitData);
-		$gitData = unserialize($gitData);
-		$output["git"] = $gitData;
-	}
 }
 
 // Output the JSON
