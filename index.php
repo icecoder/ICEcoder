@@ -325,7 +325,12 @@ $t = $text['index'];
 	<iframe name="terminalFrame" id="terminal" src="terminal.php" class="terminal"></iframe>
 	<pre id="output" class="output"><b>Output</b><br>via top.ICEcoder.output(message);<br><br></pre>
 	<iframe name="databaseFrame" id="database" src="lib/database.php" class="database"></iframe>
-	<pre id="git" class="git" style="font-family: monospace">Looking for git status...</pre>
+	<div id="git" class="git" style="font-family: monospace"><?php
+	if (file_exists($docRoot.$ICEcoderDir."/data/git-diff.php")) {
+		echo "Looking for git status...";
+	} else {
+		echo "To provide git diff data to ICEcoder, please run 'php processes/system.php' as a background process (eg using 'nohup')";
+	};?></div>
 	<iframe name="contentFrame" id="content" src="editor.php" class="code" scrolling="no"></iframe>
 </div>
 
