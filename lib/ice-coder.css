@@ -138,7 +138,12 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .editor .terminal {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
 .editor .output {position: fixed; top: 10000px; padding: 15px 18px 8px 13px; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
 .editor .database {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
-.editor .git {position: fixed; top: 10000px; padding: 15px 18px 8px 13px; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
+.editor .git {position: fixed; top: 10000px; padding: 15px 18px 15px 13px; overflow-y: auto; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
+.editor .git::-webkit-scrollbar {width: 12px; height: 12px; background: #666}
+.editor .git::-webkit-scrollbar-thumb {background: rgba(0,198,255,1)}
+.editor .git::-webkit-scrollbar-corner, .editor .git::-webkit-scrollbar-resizer {background: transparent}
+.editor .git .link {font-family: monospace; cursor: pointer}
+.editor .git .link:hover {color:  rgba(0,198,255,1)}
 .editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px; visibility: hidden}
 
 .tools {position: fixed; display: inline-block; width: 250px; height: 30px; left: 0; bottom: 0; z-index: 3}
