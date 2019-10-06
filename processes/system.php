@@ -3,7 +3,7 @@
 if (isset($_SERVER['HTTP_HOST'])) {
     die("Server side script only");
 } else {
-    echo "Checking for changes via git diff every 2 secs...";
+    echo "Checking for changes via git diff every 2 secs...\n";
 }
 
 // Require a re-index dir/file data next time we index
@@ -29,6 +29,7 @@ while(true) {
         $thisMD5 = shell_exec("cd .. && git diff | md5sum");
         // If we have a previous checksum value and the current is different to it
         if (isset($prevMD5) && $thisMD5 !== $prevMD5) {
+                echo "Changed ".date("Y-m-d g:i:s a (U)")."\n";
                 // Set timestamp of last index to 0 to force a re-index next time we index
                 requireReIndexNextTime();
                 // Get a list of all that's changed, into an array (filtered to remove false entries)
@@ -37,9 +38,10 @@ while(true) {
                 $output = ["paths" => array_filter($diffLines)];
                 // Store the serialized array in PHP comment block for pick up
                 file_put_contents(dirname(__FILE__)."/../data/git-diff.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
-                // Set prev MD5 to this one, ready for next time, sleep for 2 secs before loop starts again
-                $prevMD5 = $thisMD5;
-                sleep(2);
         }
+        // Set prev MD5 to this one, ready for next time, sleep for 2 secs before loop starts again
+        $prevMD5 = $thisMD5;
+        sleep(2);
+
 }
 ?>
