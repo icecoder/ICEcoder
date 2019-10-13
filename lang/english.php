@@ -294,9 +294,9 @@ $text = array(
 		"Fold unfold current..."	=> "Fold / unfold current line",
 		"Refocus on document"		=> "Refocus on document",
 		"Cancel tasks"			=> "Cancel tasks",
-		"Zoom out"		=> "Zoom out all non-function/class declarations",
-		"Jump to"		=> "Jump to declaration of class/function",
-		"Jump to previous tab"		=>"Jump to previous tab"
+		"Zoom out"			=> "Zoom out all non-function/class declarations",
+		"Jump to"			=> "Jump to declaration of class/function",
+		"Jump to previous tab"		=> "Jump to previous tab"
 	),
 
 	"ice-coder" =>
