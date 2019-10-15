@@ -216,7 +216,19 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 				$output["gitDiff"] = $gitDiffData;
 			}
 		}
-		
+
+		// If we have a data/git-content.php file
+		if (file_exists($docRoot.$ICEcoderDir."/data/git-content.php")) {
+			// Get serialized array back out of PHP file inside a comment block as git data for git content usage
+			$gitContent = file_get_contents($docRoot.$ICEcoderDir."/data/git-content.php");
+			if (strpos($gitContent, "<?php") !== false) {
+				$gitContent = str_replace("<?php\n/*\n\n", "", $gitContent);
+				$gitContent = str_replace("\n\n*/\n?>", "", $gitContent);
+				$gitContent = unserialize($gitContent);
+				$output["gitContent"] = $gitContent;
+			}
+		}
+
 		// Store the serialized array in PHP comment block for next time
 		file_put_contents($docRoot.$ICEcoderDir."/data/index.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
 	// Output what we have in our index...
