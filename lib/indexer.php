@@ -208,12 +208,12 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 		// If we have a data/git-diff.php file
 		if (file_exists($docRoot.$ICEcoderDir."/data/git-diff.php")) {
 			// Get serialized array back out of PHP file inside a comment block as git data for git diff display
-			$gitData = file_get_contents($docRoot.$ICEcoderDir."/data/git-diff.php");
-			if (strpos($gitData, "<?php") !== false) {
-				$gitData = str_replace("<?php\n/*\n\n", "", $gitData);
-				$gitData = str_replace("\n\n*/\n?>", "", $gitData);
-				$gitData = unserialize($gitData);
-				$output["git"] = $gitData;
+			$gitDiffData = file_get_contents($docRoot.$ICEcoderDir."/data/git-diff.php");
+			if (strpos($gitDiffData, "<?php") !== false) {
+				$gitDiffData = str_replace("<?php\n/*\n\n", "", $gitDiffData);
+				$gitDiffData = str_replace("\n\n*/\n?>", "", $gitDiffData);
+				$gitDiffData = unserialize($gitDiffData);
+				$output["gitDiff"] = $gitDiffData;
 			}
 		}
 		
