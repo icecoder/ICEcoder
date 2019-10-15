@@ -38,6 +38,24 @@ while(true) {
                 $output = ["paths" => array_filter($diffLines)];
                 // Store the serialized array in PHP comment block for pick up
                 file_put_contents(dirname(__FILE__)."/../data/git-diff.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
+            
+                // Set Git contents
+                $output = [];
+                $paths = array_filter($diffLines);
+                shell_exec("cd ..");
+                for ($i=0; $i<count($paths); $i++) {
+                        if (strpos(mime_content_type(dirname(__FILE__)."/../../".$paths[$i]), "text") !== false) {
+                                $content = shell_exec("cd .. && git show HEAD:".$paths[$i]);
+                                if ($content !== "") {
+                                        $output[$paths[$i]] = [
+                                                "type" => "modified",
+                                                "lastHash" => "abc123",
+                                                "lastHashContent" => $content
+                                        ];
+                                }
+                        }
+                }
+                file_put_contents(dirname(__FILE__)."/../data/git-content.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
         }
         // Set prev MD5 to this one, ready for next time, sleep for 2 secs before loop starts again
         $prevMD5 = $thisMD5;
