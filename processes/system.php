@@ -46,8 +46,9 @@ while(true) {
                 for ($i=0; $i<count($paths); $i++) {
                         if (strpos(mime_content_type(dirname(__FILE__)."/../../".$paths[$i]), "text") !== false) {
                                 $content = shell_exec("cd .. && git show HEAD:".$paths[$i]);
+                                $wd = dirname(dirname(dirname(__FILE__)));
                                 if ($content !== "") {
-                                        $output[$paths[$i]] = [
+                                        $output[$wd."/".$paths[$i]] = [
                                                 "type" => "modified",
                                                 "lastHash" => "abc123",
                                                 "lastHashContent" => $content
