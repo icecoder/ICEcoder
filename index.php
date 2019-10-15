@@ -329,7 +329,7 @@ $t = $text['index'];
 	if (file_exists($docRoot.$ICEcoderDir."/data/git-diff.php")) {
 		echo "Looking for git status...";
 	} else {
-		echo "To provide git diff data to ICEcoder, please run '\n\nsudo nohup php processes/system.php > data/nohup.log 2>&1\n\n to run as a background process";
+		echo "To provide git diff data to ICEcoder, please run...<br><br>sudo nohup php processes/system.php > data/nohup.log 2>&1 &<br><br>...to run as a background process";
 	};?></div>
 	<iframe name="contentFrame" id="content" src="editor.php" class="code" scrolling="no"></iframe>
 </div>
