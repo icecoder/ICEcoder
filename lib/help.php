@@ -40,10 +40,13 @@ $t = $text['help'];
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> p</span> <span class="shortcut"><?php echo $t['Wrap unwrap p'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> a</span> <span class="shortcut"><?php echo $t['Wrap unwrap a'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> 1, 2 <?php echo $t['or'];?> 3</span> <span class="shortcut"><?php echo $t['Wrap unwrap h1...'];?></span><br>
-	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> Enter</span> <span class="shortcut"><?php echo $t['End line with...'];?></span><br><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> Enter</span> <span class="shortcut"><?php echo $t['End line with...'];?></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Right click</span> <span class="shortcut"><?php echo $t['Jump to'];?></span><br>
+	<span class="key">F1 <span class="plus"><?php echo $t['or'];?></span> Fn <span class="plus">+</span> F1</span><span class="shortcut"><?php echo $t['Zoom out'];?></span><br><br>
 
 	<h2><?php echo $t['On Tabs'];?></h2>
 	<span class="key"><?php echo $t['Middle click'];?></span> <span class="shortcut"><?php echo $t['Close tab'];?></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Backspace</span> <span class="shortcut"><?php echo $t['Jump to previous tab'];?></span><br><br>
 </div>
 
 <div style="display: inline-block; width: 385px">
