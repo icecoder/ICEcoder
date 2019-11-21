@@ -164,7 +164,7 @@ define('SALT_LENGTH',12);
 // Generate hash
 function generateHash($pw) {
     // Generate Bcrypt hash
-    return str_replace("\$", "\\$", password_hash($pw, PASSWORD_BCRYPT, $options = ['cost' => 10]));
+    return password_hash($pw, PASSWORD_BCRYPT, $options = ['cost' => 10]);
 }
 
 // Verify hash
