@@ -172,6 +172,7 @@ top.ICEcoder.caretLocationType = function() {
 			: fileExt == "coffee"	? "CoffeeScript"
 			: fileExt == "ts"	? "TypeScript"
 			: fileExt == "py"	? "Python"
+			: fileExt == "mpy"	? "Python"
 			: fileExt == "rb"	? "Ruby"
 			: fileExt == "css"	? "CSS"
 			: fileExt == "less"	? "LESS"
