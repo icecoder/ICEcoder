@@ -27,7 +27,7 @@ $fileOrig = $file;
 $file = rtrim(rtrim($file,'+'),' ');
 
 // Also remove [NEW] from $file, we can consider $_GET['action'] or $fileOrig to pick that up
-$file = rtrim($file,'[NEW]');
+$file = preg_replace('/\[NEW\]$/', '', $file);
 
 // Make each path in $file a full path (; seperated list)
 $allFiles = explode(";",$file);
