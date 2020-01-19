@@ -261,6 +261,13 @@ $t = $text['index'];
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1';this.contentWindow.onscroll=function(){top.ICEcoder.mouseDown=false; top.ICEcoder.mouseDownInCM=false}"></iframe>
 	<div class="serverMessage" id="serverMessage"></div>
+
+    <div class="tools" id="tools">
+        <div onclick="top.ICEcoder.toolShowHideToggle('terminal')">Terminal</div>
+        <div onclick="top.ICEcoder.toolShowHideToggle('output')">Output</div>
+        <div onclick="top.ICEcoder.toolShowHideToggle('database')">Database</div>
+        <div onclick="top.ICEcoder.toolShowHideToggle('git')">Git</div>
+    </div>
 </div>
 
 <div id="editor" class="editor">
@@ -278,7 +285,7 @@ $t = $text['index'];
 			<div class="findReplace">
 				<div class="findText"><?php echo $t['Find'];?></div>
 				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace(top.document.getElementById('find').value,true,false,event.keyCode == 27)">
-				
+
 				<div class="selectWrapper" style="width: 41px">
 					<select name="connector" onChange="ICEcoder.findReplaceOptions()" style="width: 40px; margin-top: 4px">
 					<option><?php echo $t['in'];?></option>
@@ -332,13 +339,6 @@ $t = $text['index'];
 		echo "To provide git diff data to ICEcoder, please run...<br><br>sudo nohup php processes/system.php > data/nohup.log 2>&1 &<br><br>...to run as a background process";
 	};?></div>
 	<iframe name="contentFrame" id="content" src="editor.php" class="code" scrolling="no"></iframe>
-</div>
-
-<div class="tools" id="tools">
-	<div onclick="top.ICEcoder.toolShowHideToggle('terminal')">Terminal</div>
-	<div onclick="top.ICEcoder.toolShowHideToggle('output')">Output</div>
-	<div onclick="top.ICEcoder.toolShowHideToggle('database')">Database</div>
-	<div onclick="top.ICEcoder.toolShowHideToggle('git')">Git</div>
 </div>
 
 <div class="footer" id="footer" onContextMenu="return false">
