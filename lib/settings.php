@@ -183,7 +183,7 @@ include(dirname(__FILE__)."/plugins-display.php");
 // If loggedIn is false or we don't have a password set yet and we're not on login screen, boot user to that
 if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER['SCRIPT_NAME'],"lib/login.php")) {
 	if (file_exists('lib/login.php')) {
-		header('Location: lib/login.php');
+		header('Location: ' . $_SERVER['REQUEST_URI'] . '/lib/login.php');
 		echo "<script>window.location='lib/login.php';</script>";
 	} else {
 		header('Location: login.php');
