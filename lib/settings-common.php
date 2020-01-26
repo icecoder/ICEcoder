@@ -17,7 +17,7 @@ $context = stream_context_create(array('http'=>
 
 // Start a session if we haven't already
 if(!isset($_SESSION)) {
-	ini_set('session.use_cookies','1');				// Use cookies not URL parameters 
+	ini_set('session.use_cookies','1');				// Use cookies not URL parameters
 	ini_set('session.use_only_cookies','1');			// Force use of cookies and nothing else
 	ini_set('session.name','ICEcoder_Cookie');			// Set a seperate cookie session name
 	ini_set('session.cookie_lifetime','0');        			// Until the browser restarts by default
@@ -31,7 +31,7 @@ if(!isset($_SESSION)) {
 	ini_set('session.save_path',dirname(__FILE__).'/../tmp');	// Localise the session files to /tmp
 
 	if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-		ini_set('session.cookie_secure','1');			// Only allows access to session ID when protocol is HTTPS, switched on under 'if https' condition 
+		ini_set('session.cookie_secure','1');			// Only allows access to session ID when protocol is HTTPS, switched on under 'if https' condition
 	}
 	@session_start();						// Finally, start the session!
 	if (!isset($_SESSION['csrf'])){
@@ -56,7 +56,7 @@ if (isset($_GET['display']) && $_GET['display'] === "updated") {
 		if (count(array_diff(scandir(dirname(__FILE__)."/../tmp/oldVersion/backups"), ['.', '..'])) > 0) {
 			// If the data dir is writable
 			if (is_writable(dirname(__FILE__)."/../data")) {
-				// Remove the backups dir if it's there and writable 
+				// Remove the backups dir if it's there and writable
 				if (file_exists(dirname(__FILE__)."/../data/backups") && is_writable(dirname(__FILE__)."/../data")) {
 					rmdir(dirname(__FILE__)."/../data/backups");
 				}
@@ -259,12 +259,14 @@ function toUTF8noBOM($string,$message=false) {
 			}
 		}
 		// Remove any other BOMs from view
-		$string = preg_replace('/'.$bom.'/','',$string); 
+		$string = preg_replace('/'.$bom.'/','',$string);
 
 		// Test for any bad characters
 		$teststring = $string;
 		$teststringBroken = utf8_decode($teststring);
-		$teststringConverted = iconv("UTF-8", "UTF-8//IGNORE", $teststringBroken);
+		$teststringConverted = function_exists("iconv")
+            ? iconv("UTF-8", "UTF-8//IGNORE", $teststringBroken)
+            : $teststringBroken;
 		// If we have a matching length, UTF8 encode it
 		if (!$strictUTF8 && strlen($teststringConverted) == strlen($teststringBroken)) {
 			$string = utf8_encode($string);
