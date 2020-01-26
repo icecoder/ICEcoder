@@ -24,8 +24,6 @@ $text = array(
 		"files"				=> "文件",
 		"Last 10 files..."		=> "最后10个打开的文件:",
 		"none"				=> "[none]",
-		"test suite"			=> "测试套件",
-		"Run unit tests"		=> "运行单元测试",
 		"dev mode"			=> "开发模式",
 		"Status"			=> "状态",
 		"Using"				=> "使用",
@@ -422,5 +420,5 @@ $text = array(
 	array(
 		"Update appears to..."		=> "更新似乎是成功的"
 	)
-	
+
 );

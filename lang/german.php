@@ -24,8 +24,6 @@ $text = array(
 		"files"				=> "Dateien",
 		"Last 10 files..."		=> "Die letzten 10 ge&ouml;ffneten Dateien:",
 		"none"				=> "[nichts]",
-		"test suite"			=> "Test Suite",
-		"Run unit tests"		=> "Unittest starten",
 		"dev mode"			=> "Entwicklermodus",
 		"Status"			=> "Status",
 		"Using"				=> "Verwenden",
@@ -269,7 +267,7 @@ $text = array(
 		"found in"			=> "Gefunden in",
 		"Replaced"			=> "Ersetzen"
 	),
-	
+
 	"plugins-manager" =>
 	array(
 		"ICEcoder needs to..."		=> "ICEcoder muss neu geladen werden, damit das Plugin genutzt werden kann. Jetzt neu laden?",

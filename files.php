@@ -52,8 +52,6 @@ $permColors = $thisPermVal == 777 ? 'background: #800; color: #eee' : 'color: #8
 
 <iframe name="fileControl" src="lib/get-branch.php?location=|&csrf=<?php echo $_SESSION['csrf'];?>" style="display: none"></iframe>
 
-<iframe name="testControl" style="display: none"></iframe>
-
 <iframe name="processControl" style="display: none"></iframe>
 
 <iframe name="pingActive" style="display: none"></iframe>
@@ -61,5 +59,5 @@ $permColors = $thisPermVal == 777 ? 'background: #800; color: #eee' : 'color: #8
 <div class="fmDragBox" id="fmDragBox"></div>
 
 </body>
-	
+
 </html>

@@ -23,8 +23,6 @@ $text = array(
 		"files"				=> "files",
 		"Last 10 files..."		=> "Last 10 files opened:",
 		"none"				=> "[none]",
-		"test suite"			=> "test suite",
-		"Run unit tests"		=> "Run unit tests",
 		"dev mode"			=> "dev mode",
 		"Status"			=> "Status",
 		"Using"				=> "Using",
@@ -508,7 +506,7 @@ $text = array(
 	array(
 		"Update appears to..."		=> "Update appears to be successful"
 	),
-    
+
 	"find-in-files" =>
 	array(
 		"Enter path to search in" => "Enter path to search in",

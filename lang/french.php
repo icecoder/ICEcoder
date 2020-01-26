@@ -24,8 +24,6 @@ $text = array(
 		"files"				=> "Fichiers",
 		"Last 10 files..."		=> "10 derniers fichiers ouverts :",
 		"none"				=> "[aucun]",
-		"test suite"			=> "Suite de test",
-		"Run unit tests"		=> "Lancer les tests unit",
 		"dev mode"			=> "Mode dev",
 		"Status"				=> "Statuts",
 		"Using"				=> "Utilise",
@@ -138,7 +136,7 @@ dans lib/config__settings.php",
 		"Enter filename to..."	=> "Saisissez le nom du fichier &agrave; enregistrer sur",
 		"That file exists..."		=> "Ce fichier existe d&eacute;j&agrave;, voulez vous l&apos;&eacute;craser ?",
 		"Saving"				=> "Sauvegard&eacute;"
-	),	
+	),
 
 	"get-branch" =>
 	array(

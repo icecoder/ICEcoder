@@ -154,15 +154,6 @@ h2 {color: rgba(0,198,255,0.7)}
 		}
 	},1000);
 	</script>
-	<?php if(is_dir('test') && !$ICEcoder['demoMode']) {?>
-	<div style="float: left; margin-right: 50px">
-		<h2><?php echo $t['test suite'];?></h2>
-		<span class="heading"><?php echo $t['Run unit tests'];?></span><br>
-		<a nohref onclick="top.ICEcoder.filesFrame.contentWindow.frames['testControl'].location.href = 'test'" style="color: #fff; cursor: pointer"><?php echo $t['Run unit tests'];?></a><div id="unitTestResults"></div>
-	</div>
-	<?php
-	;};
-	?>
 	<div style="float: left">
 		<h2><?php echo $t['dev mode'];?> <?php echo $ICEcoder['devMode'] ? "on" : "off";?></h2>
 		<span class="heading"><?php echo $t['Status'];?>:</span><br>
@@ -193,12 +184,12 @@ CodeMirror.keyMap.ICEcoder = {
 // CodeMirror does not honor indentWithTabs = false properly when handling Tab key
 // Marijn said that it is by design, so we need to make a workaround of our own
 (function(){
-	// let's back up original insertTab function which actually puts  
+	// let's back up original insertTab function which actually puts
 	var originalInsertTabFunction = CodeMirror.commands.insertTab;
 	// and replace it with our own, which branches on whether our ICEcoder.indentWithTabs value is true or false
 	CodeMirror.commands.insertTab = function(cm){
 		if (top.ICEcoder.indentWithTabs){
-			// if it is true, then we should still put there, let's use original function 
+			// if it is true, then we should still put there, let's use original function
 			return originalInsertTabFunction(cm);
 		} else {
 			// otherwise - let's call another handler, insertSoftTab which will do the job
@@ -250,7 +241,7 @@ function createNewCMInstance(num) {
 	// Keyup
 	window['cM'+num]	.on("keyup", function(thisCM) {top.ICEcoder.cMonKeyUp(thisCM,'cM'+num)});
 	window['cM'+num+'diff']	.on("keyup", function(thisCM) {top.ICEcoder.cMonKeyUp(thisCM,'cM'+num+'diff')});
-	
+
 	// Cursor activity
 	window['cM'+num]	.on("cursorActivity", function(thisCM) {top.ICEcoder.cMonCursorActivity(thisCM,'cM'+num)});
 	window['cM'+num+'diff']	.on("cursorActivity", function(thisCM) {top.ICEcoder.cMonCursorActivity(thisCM,'cM'+num+'diff')});
