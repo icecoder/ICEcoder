@@ -83,7 +83,7 @@ if (!$error) {
 			// On the banned file/dir list
 			($bannedFileFound) ||
 			// A local folder that isn't the doc root or starts with the doc root
-			($_GET['action']!="getRemoteFile" && !isset($ftpSite) && 
+			($_GET['action']!="getRemoteFile" && !isset($ftpSite) &&
 				rtrim($allFiles[$i],"/") !== rtrim($docRoot,"/") &&
 				strpos(realpath(rtrim(dirname($allFiles[$i]),"/")),realpath(rtrim($docRoot,"/"))) !== 0
 			) ||
@@ -144,7 +144,7 @@ function stitchChanges($fileLines) {
 				} else {
 					// Replace the line with our replacement
 					// and if the last line, prefix with line return and rtrim the new line from JS
-					$fileLines[$j] .= 
+					$fileLines[$j] .=
 						$j==count($fileLines)-1
 						? $ICEcoder["lineEnding"].rtrim($changes[$i][5],$ICEcoder["lineEnding"])
 						: $changes[$i][5];
@@ -291,7 +291,7 @@ if (!$error && $_GET['action']=="save") {
 
 						// get old file contents and count stats on usage \n and \r there
 						// in this case we can keep line endings, which file had before, without
-						// making code version control systems going crazy about line endings change in whole file. 
+						// making code version control systems going crazy about line endings change in whole file.
 						$unixNewLines = preg_match_all('/[^\r][\n]/u', $loadedFile);
 						$windowsNewLines = preg_match_all('/[\r][\n]/u', $loadedFile);
 					} else {
@@ -444,7 +444,7 @@ if (!$error && $_GET['action']=="save") {
 						}
 					}
 				}
-				
+
 				// Reload file manager, rename tab & remove old file highlighting if it was a new file
 				if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 					$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'add\',\''.$fileLoc.'\',\''.$fileName.'\',false,false,false,\'file\');';
@@ -457,7 +457,7 @@ if (!$error && $_GET['action']=="save") {
 				}
 				// Reload previewWindow window if not a Markdown file
 				// In doing this, we check on an interval for the page to be complete and if we last saw it loading
-				// When we are done loading, so set the loading status to false and load plugins ontop...		
+				// When we are done loading, so set the loading status to false and load plugins ontop...
 				$doNext .= 'if (top.ICEcoder.previewWindow.location && top.ICEcoder.previewWindow.location.pathname && top.ICEcoder.previewWindow.location.pathname.indexOf(".md")==-1) {
 					top.ICEcoder.previewWindowLoading = false;
 					top.ICEcoder.previewWindow.location.reload(true);
@@ -721,11 +721,11 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="paste") {
 
 if (!isset($ftpSite) && !$error && $_GET['action']=="upload") {
 	if (!$demoMode) {
-		class fileUploader {  
+		class fileUploader {
 			public function __construct($uploads) {
 				global $docRoot,$iceRoot,$ICEcoder,$doNext;
 				$uploadDir=$docRoot.$iceRoot.str_replace("..","",str_replace("|","/",strClean($_POST['folder'])."/"));
-				foreach($uploads as $current) {  
+				foreach($uploads as $current) {
 					$this->uploadFile=$uploadDir.$current->name;
 					$fileName = $current->name;
 					// Get & set existing perms for existing files, or set to newFilePerms setting for new files
@@ -742,28 +742,28 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="upload") {
 						$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot upload']." \\\\n".$fileName."\\\\n ".$t['into']." \\\\n'+top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,'/'));";
 						$finalAction = "nothing";
 					}
-				}  
-			}  
+				}
+			}
 
-			public function upload($current,$uploadFile,$setPerms){ 
+			public function upload($current,$uploadFile,$setPerms){
 				if(move_uploaded_file($current->tmp_name,$uploadFile)){
 					chmod($uploadFile,octdec($setPerms));
-					return true;  
-				}  
-			}  
+					return true;
+				}
+			}
 		}
 
 		function getDetails($fileArr) {
 			foreach($fileArr['name'] as $keyee => $info) {
-				$uploads[$keyee]->name=xssClean($fileArr['name'][$keyee],"html");  
-				$uploads[$keyee]->type=$fileArr['type'][$keyee];  
-				$uploads[$keyee]->tmp_name=$fileArr['tmp_name'][$keyee];  
-				$uploads[$keyee]->error=$fileArr['error'][$keyee];  
-			}  
-			return $uploads;  
+				$uploads[$keyee]->name=xssClean($fileArr['name'][$keyee],"html");
+				$uploads[$keyee]->type=$fileArr['type'][$keyee];
+				$uploads[$keyee]->tmp_name=$fileArr['tmp_name'][$keyee];
+				$uploads[$keyee]->error=$fileArr['error'][$keyee];
+			}
+			return $uploads;
 		}
 
-		if($_FILES['filesInput']){  
+		if($_FILES['filesInput']){
 			$uploads = getDetails($_FILES['filesInput']);
 			$fileUploader=new fileUploader($uploads);
 		}
@@ -821,7 +821,7 @@ if (!$error && $_GET['action']=="delete") {
 					rrmdir($fullPath);
 				} else {
 					// Delete file to tmp dir or full delete
-					$ICEcoder['deleteToTmp']					
+					$ICEcoder['deleteToTmp']
 						? rename($fullPath,str_replace("\\","/",dirname(__FILE__))."/../tmp/.".str_replace(":","_",str_replace("/","_",$fullPath)))
 						: unlink($fullPath);
 				}
@@ -846,9 +846,9 @@ if (!$error && $_GET['action']=="delete") {
 function rrmdir($dir) {
 	global $ICEcoder;
 
-	if (is_dir($dir)) { 
-		$objects = scandir($dir); 
-		foreach ($objects as $object) { 
+	if (is_dir($dir)) {
+		$objects = scandir($dir);
+		foreach ($objects as $object) {
 			if ($object != "." && $object != "..") {
 				if (filetype($dir."/".$object) == "dir") {
 					rrmdir($dir."/".$object);
@@ -857,13 +857,13 @@ function rrmdir($dir) {
 						? rename($dir."/".$object,str_replace("\\","/",dirname(__FILE__))."/../tmp/.".str_replace(":","_",str_replace("/","_",$dir))."/".$object)
 						: unlink($dir."/".$object);
 				}
-			} 
-		} 
+			}
+		}
 		reset($objects);
 		$ICEcoder['deleteToTmp']
 			? rename($dir,str_replace("\\","/",dirname(__FILE__))."/../tmp/.".str_replace(":","_",str_replace("/","_",$dir)))
 			: rmdir($dir);
-	} 
+	}
 };
 
 // ======================
@@ -962,9 +962,13 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="checkExists") {
 // ===================
 
 // No $filemtime yet? Get it now!
-if (!isset($filemtime) && !is_dir($file)) {
-	$filemtime = $serverType=="Linux" ? filemtime($file) : "1000000";
+if (false === isset($filemtime) && !is_dir($file)) {
+	$filemtime = $serverType=="Linux" ? filemtime($file) : 1000000;
 }
+if (false === isset($filemtime)) {
+    $filemtime = 1000000;
+}
+
 // Set $timeStart, use 0 if not available
 $timeStart = isset($_POST["timeStart"]) ? numClean($_POST["timeStart"]) : 0;
 if ($timeStart == "") {
