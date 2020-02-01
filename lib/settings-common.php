@@ -33,7 +33,7 @@ if(!isset($_SESSION)) {
 	if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 		ini_set('session.cookie_secure','1');			// Only allows access to session ID when protocol is HTTPS, switched on under 'if https' condition
 	}
-	@session_start();						// Finally, start the session!
+	session_start();						// Finally, start the session!
 	if (!isset($_SESSION['csrf'])){
 		session_regenerate_id(true);				// Create a new ID to help prevent fixation
 	}
@@ -146,18 +146,6 @@ if (isset($_GET['logout'])) {
 	session_destroy();
 	header("Location: .");
 	die("Logging you out...");
-}
-
-// If magic quotes are still on
-if (get_magic_quotes_gpc ()) {
-	function stripslashes_deep($value) {
-		$value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
-		return $value;
-	}
-	$_POST = (isset($_POST) && !empty($_POST)) ? array_map('stripslashes_deep', $_POST) : array();
-	$_GET = (isset($_GET) && !empty($_GET)) ? array_map('stripslashes_deep', $_GET) : array();
-	$_COOKIE = (isset($_COOKIE) && !empty($_COOKIE)) ? array_map('stripslashes_deep', $_COOKIE) : array();
-	$_REQUEST = (isset($_REQUEST) && !empty($_REQUEST)) ? array_map('stripslashes_deep', $_REQUEST) : array();
 }
 
 define('SALT_LENGTH',12);
