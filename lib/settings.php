@@ -195,7 +195,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 } elseif (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it
 	if ($ICEcoder["password"] == "" && isset($_POST['submit']) && (strpos($_POST['submit'],"set password")>-1)) {
-		$password = generateHash(strClean($_POST['password']));
+		$password = str_replace("\$", "\\$", generateHash(strClean($_POST['password'])));
 		$settingsContents = getData("../data/".$settingsFile);
 		// Replace our empty password with the one submitted by user
 		$settingsContents = str_replace('"password"		=> "",','"password"		=> "'.$password.'",',$settingsContents);
