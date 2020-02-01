@@ -213,7 +213,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 		// Create a duplicate version for the IP address of the domain if it doesn't exist yet
-		$serverAddr = $_SERVER['SERVER_ADDR'];
+		$serverAddr = $_SERVER['SERVER_ADDR'] ?? "1";
 		if ($serverAddr == "1" || $serverAddr == "::1") {
 			$serverAddr = "127.0.0.1";
 		}
