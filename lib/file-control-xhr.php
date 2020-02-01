@@ -17,13 +17,13 @@ $errorMsg = "None";
 // ==============================
 
 // Get the save type if any
-$saveType = isset($_GET['saveType']) ? strClean($_GET['saveType']) : "";
+$saveType = isset($_GET['saveType']) ? $_GET['saveType'] : "";
 
 // Establish the filename/new filename
 if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
-	$file = strClean($_POST['newFileName']);	// New file
+	$file = $_POST['newFileName'];	// New file
 } elseif (isset($_REQUEST['file'])) {
-	$file = strClean($_REQUEST['file']);		// Existing file
+	$file = $_REQUEST['file'];		// Existing file
 } else {
 	$file = "";					// Error
 	$finalAction = "nothing";
@@ -36,7 +36,7 @@ if (isset($_POST['newFileName']) && $_POST['newFileName']!="") {
 // If we have file(s) to work with...
 if (!$error) {
 	// Replace pipes with slashes, after cleaning the chars
-	$file = str_replace("|","/",strClean($file));
+	$file = str_replace("|","/",$file);
 
 	// Establish the actual name as we may have HTML entities in filename
 	$file = html_entity_decode($file);
@@ -580,10 +580,10 @@ if (!$error && $_GET['action']=="newFolder") {
 
 if (!$error && $_GET['action']=="move") {
 	if (isset($ftpSite)) {
-		$srcDir = ltrim(str_replace("|","/",strClean($_GET['oldFileName'])),"/");
+		$srcDir = ltrim(str_replace("|","/",$_GET['oldFileName']),"/");
 		$tgtDir = ltrim($fileLoc."/".$fileName,"/");
 	} else {
-		$srcDir = $docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName']));
+		$srcDir = $docRoot.$iceRoot.str_replace("|","/",$_GET['oldFileName']);
 		$tgtDir = $docRoot.$fileLoc."/".$fileName;
 	}
 	if ($srcDir != $tgtDir && $fileLoc != "") {
@@ -608,13 +608,13 @@ if (!$error && $_GET['action']=="move") {
 			}
 			// Update file manager on success
 			if ($updateFM) {
-				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean(str_replace("|","/",$_GET['oldFileName']))).'\',false,\''.$fileOrFolder.'\');';
+				$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'move\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",str_replace("|","/",$_GET['oldFileName'])).'\',false,\''.$fileOrFolder.'\');';
 			}
 			$finalAction = "move";
 			// Run our custom processes
 			include_once("../processes/on-file-dir-move.php");
 		} else {
-			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot move']."\\\\n".str_replace("|","/",strClean($_GET['oldFileName']))."\\\\n\\\\n".$t['Maybe public write...']."');";
+			$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot move']."\\\\n".str_replace("|","/",$_GET['oldFileName'])."\\\\n\\\\n".$t['Maybe public write...']."');";
 			$finalAction = "nothing";
 		}
 	} else {
@@ -629,30 +629,30 @@ if (!$error && $_GET['action']=="move") {
 // ==================
 
 if (!$error && $_GET['action']=="rename") {
-	if (!$demoMode && (isset($ftpSite) || is_writable($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName']))))) {
+	if (!$demoMode && (isset($ftpSite) || is_writable($docRoot.$iceRoot.str_replace("|","/",$_GET['oldFileName'])))) {
 		$updateFM = false;
 		// FTP
 		if (isset($ftpSite)) {
 			$ftpFilepath = ltrim($fileLoc."/".$fileName,"/");
-			if (!ftpRename($ftpConn, ltrim(strClean($_GET['oldFileName']),"/"), $ftpFilepath)) {
-				$doNext .= 'top.ICEcoder.message("Sorry, could not rename '.ltrim(strClean($_GET['oldFileName']),"/").' to '.$ftpFilepath.'");';
+			if (!ftpRename($ftpConn, ltrim($_GET['oldFileName'],"/"), $ftpFilepath)) {
+				$doNext .= 'top.ICEcoder.message("Sorry, could not rename '.ltrim($_GET['oldFileName'],"/").' to '.$ftpFilepath.'");';
 			} else {
 				$updateFM = true;
 			}
 		// Local
 		} else {
-			rename($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['oldFileName'])),$docRoot.$fileLoc."/".$fileName);
+			rename($docRoot.$iceRoot.str_replace("|","/",$_GET['oldFileName']),$docRoot.$fileLoc."/".$fileName);
 			$updateFM = true;
 		}
 		// Update file manager on success
 		if ($updateFM) {
-			$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",strClean($_GET['oldFileName'])).'\');';
+			$doNext .= 'top.ICEcoder.selectedFiles=[];top.ICEcoder.updateFileManagerList(\'rename\',\''.$fileLoc.'\',\''.$fileName.'\',\'\',\''.str_replace($iceRoot,"",$_GET['oldFileName']).'\');';
 		}
 		$finalAction = "rename";
 		// Run our custom processes
 		include_once("../processes/on-file-dir-rename.php");
 	} else {
-		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot rename']."\\\\n".strClean($_GET['oldFileName'])."\\\\n\\\\n".$t['Maybe public write...']."');";
+		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot rename']."\\\\n".$_GET['oldFileName']."\\\\n\\\\n".$t['Maybe public write...']."');";
 		$finalAction = "nothing";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
@@ -664,7 +664,7 @@ if (!$error && $_GET['action']=="rename") {
 
 if (!isset($ftpSite) && !$error && $_GET['action']=="paste") {
 	$source = $file;
-	$dest = str_replace("//","/",$docRoot.$iceRoot.strClean(str_replace("|","/",$_GET['location']))."/".basename($source));
+	$dest = str_replace("//","/",$docRoot.$iceRoot.str_replace("|","/",$_GET['location'])."/".basename($source));
 	if (!$demoMode && is_writable(dirname($dest))) {
 		if (is_dir($source)) {
 			$fileOrFolder = "folder";
@@ -704,7 +704,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="paste") {
 			}
 		}
 		// Reload file manager
-		$doNext .= 'top.ICEcoder.updateFileManagerList(\'add\',\''.strClean(str_replace("|","/",$_GET['location'])).'\',\''.basename($dest).'\',false,false,false,\''.$fileOrFolder.'\');';
+		$doNext .= 'top.ICEcoder.updateFileManagerList(\'add\',\''.str_replace("|","/",$_GET['location']).'\',\''.basename($dest).'\',false,false,false,\''.$fileOrFolder.'\');';
 		$finalAction = "pasteFile";
 		// Run our custom processes
 		include_once("../processes/on-file-dir-paste.php");
@@ -724,7 +724,7 @@ if (!isset($ftpSite) && !$error && $_GET['action']=="upload") {
 		class fileUploader {
 			public function __construct($uploads) {
 				global $docRoot,$iceRoot,$ICEcoder,$doNext;
-				$uploadDir=$docRoot.$iceRoot.str_replace("..","",str_replace("|","/",strClean($_POST['folder'])."/"));
+				$uploadDir=$docRoot.$iceRoot.str_replace("..","",str_replace("|","/",$_POST['folder']."/"));
 				foreach($uploads as $current) {
 					$this->uploadFile=$uploadDir.$current->name;
 					$fileName = $current->name;
@@ -873,7 +873,7 @@ function rrmdir($dir) {
 if (!isset($ftpSite) && !$error && $_GET['action']=="replaceText") {
 	if (!$demoMode && is_writable($file)) {
 		$loadedFile = toUTF8noBOM(getData($file),true);
-		$newContent = str_replace(strClean($_GET['find']),strClean($_GET['replace']),$loadedFile);
+		$newContent = str_replace($_GET['find'],$_GET['replace'],$loadedFile);
 		$fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
 		fwrite($fh, $newContent);
 		fclose($fh);
@@ -941,7 +941,7 @@ if (!$error && $_GET['action']=="perms") {
 		include_once("../processes/on-file-dir-perms.php");
 	} else {
 		$finalAction = "nothing";
-		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot change...']." \\n".strClean($file)."');";
+		$doNext .= "top.ICEcoder.message('".$t['Sorry, cannot change...']." \\n".$file."');";
 	}
 	$doNext .= 'top.ICEcoder.serverMessage();top.ICEcoder.serverQueue("del",0);';
 };
