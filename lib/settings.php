@@ -26,8 +26,8 @@ include_once(dirname(__FILE__)."/settings-common.php");
 
 // Establish user settings file
 $username = "";
-if (isset($_POST['username']) && $_POST['username'] != "") {$username = strClean($_POST['username']."-");};
-if (isset($_SESSION['username']) && $_SESSION['username'] != "") {$username = strClean($_SESSION['username']."-");};
+if (isset($_POST['username']) && $_POST['username'] != "") {$username = $_POST['username']."-";};
+if (isset($_SESSION['username']) && $_SESSION['username'] != "") {$username = $_SESSION['username']."-";};
 $settingsFile = 'config-'.$username.str_replace(".","_",str_replace("www.","",$_SERVER['SERVER_NAME'])).'.php';
 
 // Login is default
@@ -115,7 +115,7 @@ if (!isset($_SESSION['username'])) {$_SESSION['username'] = false;};
 // Attempt a login with password
 if(isset($_POST['submit']) && $setPWorLogin=="login") {
 	// On success, set username if multiUser, loggedIn to true and redirect
-	if (verifyHash(strClean($_POST['password']),$ICEcoder["password"])==$ICEcoder["password"]) {
+	if (verifyHash($_POST['password'],$ICEcoder["password"])==$ICEcoder["password"]) {
 		session_regenerate_id();
 		if ($ICEcoder["multiUser"]) {
 			$_SESSION['username'] = $_POST['username'];
@@ -195,7 +195,7 @@ if ((!$_SESSION['loggedIn'] || $ICEcoder["password"] == "") && !strpos($_SERVER[
 } elseif (!$_SESSION['loggedIn']) {
 	// If the password hasn't been set and we're setting it
 	if ($ICEcoder["password"] == "" && isset($_POST['submit']) && (strpos($_POST['submit'],"set password")>-1)) {
-		$password = str_replace("\$", "\\$", generateHash(strClean($_POST['password'])));
+		$password = str_replace("\$", "\\$", generateHash($_POST['password']));
 		$settingsContents = getData("../data/".$settingsFile);
 		// Replace our empty password with the one submitted by user
 		$settingsContents = str_replace('"password"		=> "",','"password"		=> "'.$password.'",',$settingsContents);

@@ -25,7 +25,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 		// Store the plugin zip to the tmp dir
 		$target = '../plugins/';
-		$zipURL = $pluginsData[strClean($_GET['plugin'])]['zipURL'];
+		$zipURL = $pluginsData[$_GET['plugin']]['zipURL'];
 	    	$zipFile = "../tmp/".basename($zipURL);
 		$fileData = getData($zipURL,'curl');
 		file_put_contents($zipFile, $fileData);
@@ -95,7 +95,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 		// Finally, delete the plugin itself
 		$target = '../plugins/';
-		$dirName = basename($pluginsData[strClean($_GET['plugin'])]['zipURL'],".zip");
+		$dirName = basename($pluginsData[$_GET['plugin']]['zipURL'],".zip");
 		deletePlugin($target.$dirName."/");
 	}
 

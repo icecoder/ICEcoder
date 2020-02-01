@@ -12,7 +12,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 	$repPosEnd = strpos($settingsContents,'",',$repPosStart)-$repPosStart;
 	if (!$demoMode) {
 		if ($_GET['saveFiles']!="CLEAR") {
-			$saveFiles=strClean($_GET['saveFiles']);
+			$saveFiles=$_GET['saveFiles'];
 			$saveFilesArray = explode(",",$saveFiles);
 			$saveFiles="";
 			for ($i=0;$i<count($saveFilesArray);$i++) {

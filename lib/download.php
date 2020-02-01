@@ -3,7 +3,7 @@ include("headers.php");
 include("settings.php");
 
 // Establish the real absolute path to the file
-$file = realpath($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['file'])));
+$file = realpath($docRoot.$iceRoot.str_replace("|","/",$_GET['file']));
 // If it doesn't exist, or doesn't start with the $docRoot, stop here
 if (!file_exists($file) || strpos(str_replace("\\","/",$file),$docRoot) !== 0) {
 	die("<script>top.ICEcoder.message('Sorry, that file doesn\'t appear to exist');</script>");

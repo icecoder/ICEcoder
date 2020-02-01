@@ -4,7 +4,7 @@ include("settings.php");
 $t = $text['properties'];
 
 // Establish the real absolute path to the file/folder
-$fileName=realpath($docRoot.$iceRoot.str_replace("|","/",strClean($_GET['fileName'])));
+$fileName=realpath($docRoot.$iceRoot.str_replace("|","/",$_GET['fileName']));
 // If it doesn't exist, or doesn't start with the $docRoot, stop here
 if (!file_exists($fileName) || strpos(str_replace("\\","/",$fileName),$docRoot) !== 0) {
         die("<script>alert('Sorry - problem with file/folder requested');window.history.back();</script>");
@@ -47,7 +47,7 @@ echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($byte
 <span class="column"><?php echo $t['Last access'];?>: <?php echo date( "D jS M Y g:i:sa", fileatime($fileName)); ?></span>
 <br><br>
 <span class="column" style="width: 180px"><?php echo $t['Type'];?>: <?php echo is_dir($fileName) ? "Folder" : "File"; ?></span>
-<span class="column" style="margin: 0 10px"><?php echo $t['Readable Writeable'];?>: 
+<span class="column" style="margin: 0 10px"><?php echo $t['Readable Writeable'];?>:
 <?php echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writeable($fileName) ? "Yes" : "No";?>
 </span>
 <span class="column"><?php echo $t['Relative path'];?>: <?php echo str_replace($docRoot,"",$fileName);?></span>

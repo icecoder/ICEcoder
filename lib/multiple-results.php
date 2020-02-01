@@ -5,7 +5,7 @@ $t = $text['multiple-results'];
 ?>
 <?php
 if(isset($_GET['selectedFiles'])) {
-	$selectedFiles=explode(":",strClean($_GET['selectedFiles']));
+	$selectedFiles=explode(":",$_GET['selectedFiles']);
 }
 ?>
 <!DOCTYPE html>
@@ -79,7 +79,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 		for (var i=0;i<spansArray.length;i++) {
 			foundInSelected = false;
 			targetURL = spansArray[i].id.replace(/\|/g,"/").toLowerCase();
-			if (	targetURL.lastIndexOf(findText.toLowerCase()) > targetURL.lastIndexOf("/") 
+			if (	targetURL.lastIndexOf(findText.toLowerCase()) > targetURL.lastIndexOf("/")
 				&& targetURL.indexOf(findText.toLowerCase())>-1 && targetURL.indexOf('_perms')>-1) {
 				if (userTarget.indexOf("selected")>-1) {
 					for (var j=0;j<top.ICEcoder.selectedFiles.length;j++) {
@@ -100,7 +100,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					<?php if (!isset($_GET['replace'])) { ?>
 						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+'</div>';
 					<?php ;} else { ?>
-						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+', <?php echo $t['rename to'];?> '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strtolower(strClean($_GET['replace']));};?></b>")+'</div>';
+						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+', <?php echo $t['rename to'];?> '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strtolower($_GET['replace']);};?></b>")+'</div>';
 					<?php
 					;};
 					if (isset($_GET['replace'])) { ?>
@@ -200,7 +200,7 @@ var replaceAll = function() {
 }
 
 var replaceInFileSingle = function(fileRef) {
-	top.ICEcoder.replaceInFile(fileRef,findText,'<?php if(isset($_GET['replace'])) {echo strClean($_GET['replace']);}; ?>');
+	top.ICEcoder.replaceInFile(fileRef,findText,'<?php if(isset($_GET['replace'])) {echo $_GET['replace'];}; ?>');
 }
 
 var replaceInFilesAll = function() {
@@ -212,7 +212,7 @@ var replaceInFilesAll = function() {
 
 var renameSingle = function(arrayRef) {
 	fileRef = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"");
-	newName = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"").replace(find,"<?php if(isset($_GET['replace'])) {echo strClean($_GET['replace']);}; ?>");
+	newName = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"").replace(find,"<?php if(isset($_GET['replace'])) {echo $_GET['replace'];}; ?>");
 	top.ICEcoder.renameFile(fileRef,newName);
 }
 

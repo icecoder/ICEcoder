@@ -14,41 +14,47 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	$languageUserChanged = $ICEcoder['languageUser'] != $_POST['languageUser'];
 
 	// Prepare all our vars
-	$ICEcoder["root"]			= xssClean($_POST['root'],"html");
-	$ICEcoder["checkUpdates"]		= isset($_POST['checkUpdates']) && $_POST['checkUpdates'] ? "true" : "false";
-	$ICEcoder["openLastFiles"]		= isset($_POST['openLastFiles']) && $_POST['openLastFiles'] ? "true" : "false";
-	$ICEcoder["updateDiffOnSave"]		= isset($_POST['updateDiffOnSave']) && $_POST['updateDiffOnSave'] ? "true" : "false";
-	$ICEcoder["languageUser"]		= strClean($_POST['languageUser']);
-	$ICEcoder["backupsKept"]		= isset($_POST['backupsKept']) && $_POST['backupsKept'] ? "true" : "false";
-	$ICEcoder["backupsDays"]		= intval($_POST['backupsDays']);
-	$ICEcoder["deleteToTmp"]		= isset($_POST['deleteToTmp']) && $_POST['deleteToTmp'] ? "true" : "false";
-	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['findFilesExclude']))).'")';
-	$ICEcoder["codeAssist"]			= isset($_POST['codeAssist']) && $_POST['codeAssist'] ? "true" : "false";
-	$ICEcoder["visibleTabs"]		= isset($_POST['visibleTabs']) && $_POST['visibleTabs'] ? "true" : "false";
-	$ICEcoder["lockedNav"]			= isset($_POST['lockedNav']) && $_POST['lockedNav'] ? "true" : "false";
-	$ICEcoder["tagWrapperCommand"]		= strClean($_POST['tagWrapperCommand']);
-	$ICEcoder["autoComplete"]		= strClean($_POST['autoComplete']);
-	if ($_POST['password']!="")		{$ICEcoder["password"] = generateHash(strClean($_POST['password']));};
-	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
-	$ICEcoder["bannedPaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedPaths']))).'")';
-	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
-	$ICEcoder["autoLogoutMins"]		= intval($_POST['autoLogoutMins']);
-	$ICEcoder["theme"]			= strClean($_POST['theme']);
-	$ICEcoder["fontSize"]			= strClean($_POST['fontSize']);
-	$ICEcoder["lineWrapping"]		= strClean($_POST['lineWrapping']);
-	$ICEcoder["lineNumbers"]		= strClean($_POST['lineNumbers']);
-	$ICEcoder["showTrailingSpace"]		= strClean($_POST['showTrailingSpace']);
-	$ICEcoder["matchBrackets"]		= strClean($_POST['matchBrackets']);
-	$ICEcoder["autoCloseTags"]		= strClean($_POST['autoCloseTags']);
-	$ICEcoder["autoCloseBrackets"]		= strClean($_POST['autoCloseBrackets']);
-	$ICEcoder["indentWithTabs"]		= strClean($_POST['indentWithTabs']);
-	$ICEcoder["indentAuto"]			= strClean($_POST['indentAuto']);
-	$ICEcoder["indentSize"]			= intval($_POST['indentSize']);
-	$ICEcoder["pluginPanelAligned"]		= strClean($_POST['pluginPanelAligned']);
-	$ICEcoder["bugFilePaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bugFilePaths']))).'")';
-	$ICEcoder["bugFileCheckTimer"]		= intval($_POST['bugFileCheckTimer']) >= 0 ? intval($_POST['bugFileCheckTimer']) : 0;
-	$ICEcoder["bugFileMaxLines"]		= intval($_POST['bugFileMaxLines']);
-	$ICEcoder["githubAuthToken"]		= strClean($_POST['githubAuthToken']);
+    $ICEcoder = array_merge(
+        $ICEcoder,
+	    [
+	        "root"               => xssClean($_POST['root'],"html"),
+            "checkUpdates"       => isset($_POST['checkUpdates']) && $_POST['checkUpdates'] ? "true" : "false",
+            "openLastFiles"      => isset($_POST['openLastFiles']) && $_POST['openLastFiles'] ? "true" : "false",
+            "updateDiffOnSave"   => isset($_POST['updateDiffOnSave']) && $_POST['updateDiffOnSave'] ? "true" : "false",
+            "languageUser"       => $_POST['languageUser'],
+            "backupsKept"        => isset($_POST['backupsKept']) && $_POST['backupsKept'] ? "true" : "false",
+            "backupsDays"        => intval($_POST['backupsDays']),
+            "deleteToTmp"        => isset($_POST['deleteToTmp']) && $_POST['deleteToTmp'] ? "true" : "false",
+            "findFilesExclude"   => 'array("'.str_replace(',','","',str_replace(" ","",$_POST['findFilesExclude'])).'")',
+            "codeAssist"         => isset($_POST['codeAssist']) && $_POST['codeAssist'] ? "true" : "false",
+            "visibleTabs"        => isset($_POST['visibleTabs']) && $_POST['visibleTabs'] ? "true" : "false",
+            "lockedNav"          => isset($_POST['lockedNav']) && $_POST['lockedNav'] ? "true" : "false",
+            "tagWrapperCommand"  => $_POST['tagWrapperCommand'],
+            "autoComplete"       => $_POST['autoComplete'],
+            "bannedFiles"        => 'array("'.str_replace(',','","',str_replace(" ","",$_POST['bannedFiles'])).'")',
+            "bannedPaths"        => 'array("'.str_replace(',','","',str_replace(" ","",$_POST['bannedPaths'])).'")',
+            "allowedIPs"         => 'array("'.str_replace(',','","',str_replace(" ","",$_POST['allowedIPs'])).'")',
+            "autoLogoutMins"     => intval($_POST['autoLogoutMins']),
+            "theme"              => $_POST['theme'],
+            "fontSize"           => $_POST['fontSize'],
+            "lineWrapping"       => $_POST['lineWrapping'],
+            "lineNumbers"        => $_POST['lineNumbers'],
+            "showTrailingSpace"  => $_POST['showTrailingSpace'],
+            "matchBrackets"      => $_POST['matchBrackets'],
+            "autoCloseTags"      => $_POST['autoCloseTags'],
+            "autoCloseBrackets"  => $_POST['autoCloseBrackets'],
+            "indentWithTabs"     => $_POST['indentWithTabs'],
+            "indentAuto"         => $_POST['indentAuto'],
+            "indentSize"         => intval($_POST['indentSize']),
+            "pluginPanelAligned" => $_POST['pluginPanelAligned'],
+            "bugFilePaths"       => 'array("'.str_replace(',','","',str_replace(" ","",$_POST['bugFilePaths'])).'")',
+            "bugFileCheckTimer"  => intval($_POST['bugFileCheckTimer']) >= 0 ? intval($_POST['bugFileCheckTimer']) : 0,
+            "bugFileMaxLines"    => intval($_POST['bugFileMaxLines']),
+            "githubAuthToken"    => $_POST['githubAuthToken']
+        ]
+    );
+
+    if ($_POST['password']!="")		{$ICEcoder["password"] = generateHash($_POST['password']);};
 
 	$settingsArray = array("root","checkUpdates","openLastFiles","updateDiffOnSave","languageUser","backupsKept","backupsDays","deleteToTmp","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","autoLogoutMins","theme","fontSize","lineWrapping","lineNumbers","showTrailingSpace","matchBrackets","autoCloseTags","autoCloseBrackets","indentWithTabs","indentAuto","indentSize","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines","githubAuthToken");
 	$settingsNew = "";
@@ -56,7 +62,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		$settingsNew .= '"'.$settingsArray[$i].'"	=> ';
 		// Wrap certain values in double quotes
 		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="password"||$settingsArray[$i]=="languageUser"||$settingsArray[$i]=="theme"||$settingsArray[$i]=="fontSize"||$settingsArray[$i]=="tagWrapperCommand"||$settingsArray[$i]=="autoComplete"||$settingsArray[$i]=="pluginPanelAligned"||$settingsArray[$i]=="githubAuthToken" ? '"' : '';
-		
+
 		if ($settingsArray[$i]=="password") {
 			$settingsNew .= str_replace("\$", "\\$", $settingWrap.$ICEcoder[$settingsArray[$i]].$settingWrap.','.PHP_EOL);
 		} else {
@@ -79,7 +85,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	// OK, now the config file has been updated, update our current session with new arrays
 	$settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
 	for ($i=0;$i<count($settingsArray);$i++) {
-		$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]] = explode(",",str_replace(" ","",strClean($_POST[$settingsArray[$i]])));
+		$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]] = explode(",",str_replace(" ","",$_POST[$settingsArray[$i]]));
 	}
 
 	// Work out the theme to use now
@@ -116,6 +122,6 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	}
 
 	// With all that worked out, we can now hide the settings screen and apply the new settings
-	$jsBugFilePaths = "['".str_replace(",","','",str_replace(" ","",strClean($_POST['bugFilePaths'])))."']";
+	$jsBugFilePaths = "['".str_replace(",","','",str_replace(" ","",$_POST['bugFilePaths']))."']";
 	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["lineNumbers"].",".$ICEcoder["showTrailingSpace"].",".$ICEcoder["matchBrackets"].",".$ICEcoder["autoCloseTags"].",".$ICEcoder["autoCloseBrackets"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentAuto"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."',".$jsBugFilePaths.",".$ICEcoder["bugFileCheckTimer"].",".$ICEcoder["bugFileMaxLines"].",'".$githubAuthTokenSet."',".$ICEcoder["updateDiffOnSave"].",".$ICEcoder["autoLogoutMins"].",".$refreshFM.");top.iceRoot = '".$ICEcoder["root"]."';</script>";
 }

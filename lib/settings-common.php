@@ -168,11 +168,6 @@ function verifyHash($pw, $orig) {
     return $origSalt.sha1($origSalt.$pw);
 }
 
-// returns converted entities which have HTML entity equivalents
-function strClean($var) {
-	return preg_replace("/javascript\:/i","javascript&colon;",htmlentities($var, ENT_QUOTES, "UTF-8"));
-}
-
 // returns a number, whole or decimal or null
 function numClean($var) {
 	return is_numeric($var) ? floatval($var) : false;
