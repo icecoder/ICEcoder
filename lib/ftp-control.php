@@ -28,7 +28,7 @@ function ftpGetList($ftpConn, $directory = '.') {
 			$chunks = preg_split("/\s+/", $row);
 			list($item['rights'], $item['number'], $item['user'], $item['group'], $item['size'], $item['month'], $item['day'], $item['time']) = $chunks;
 			// Also set if this is a dir or file
-			$item['type'] = $chunks[0]{0} === 'd' ? 'directory' : 'file';
+			$item['type'] = $chunks[0][0] === 'd' ? 'directory' : 'file';
 			// Splice the array and finally work out $simpleList and $detailedList
 			array_splice($chunks, 0, 8);
 			$detailedList[implode(" ", $chunks)] = $item;
@@ -56,7 +56,7 @@ function ftpGetFileInfo($ftpConn, $directory = '.', $fileName) {
 // Get contents over FTP
 function ftpGetContents($ftpConn, $filepath, $ftpMode) {
 	// Create temp handler, this type needed for extended char set
-	$tempHandle = fopen('php://temp', 'r+'); 
+	$tempHandle = fopen('php://temp', 'r+');
 
 	// Get file from FTP assuming that it exists
 	ftp_fget($ftpConn, $tempHandle, $filepath, $ftpMode, 0);
@@ -68,7 +68,7 @@ function ftpGetContents($ftpConn, $filepath, $ftpMode) {
 // Write file contents over FTP
 function ftpWriteFile($ftpConn, $filepath, $contents, $ftpMode) {
 	// Create temp handler, this type needed for extended char set
-	$tempHandle = fopen('php://temp', 'r+'); 
+	$tempHandle = fopen('php://temp', 'r+');
 
 	// Write contents to handle and rewind head
 	fwrite($tempHandle, $contents);
