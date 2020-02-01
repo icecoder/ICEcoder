@@ -6,7 +6,7 @@ if (!isset($reqsPassed)) {
 }
 
 // Check PHP version meets minimum requirements
-if ((int) phpversion() < 7) {
+if (version_compare(phpversion(), '7.0.0', '<')) {
 	$reqsPassed = false;
 	array_push($reqsFailures, "phpVersion");
 }
@@ -78,7 +78,7 @@ if (!$reqsPassed) {
 				}
 				?>
 			</span>
-		
+
 		</div>
 	</div>
 </div>
