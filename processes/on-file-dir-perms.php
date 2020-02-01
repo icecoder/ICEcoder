@@ -9,5 +9,8 @@ if (!isset($_SESSION['loggedIn'])) {
 // fwrite($fh, "PERMS >>> ".date("D dS M Y h:i:sa").": ".$fileLoc."/".$fileName." = ".$_GET['perms']."\n");
 // fclose($fh);
 
+if (false === isset($doNext)) {
+    $doNext = "";
+}
 // If JS is needed, add within $doNext string below, eg $doNext .= ";alert('perms changed');";
 $doNext .= "";

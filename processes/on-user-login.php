@@ -9,5 +9,8 @@ if (!isset($_SESSION['loggedIn'])) {
 // fwrite($fh, "login   ".date("D dS M Y h:i:sa").": ".$_SESSION['username']."\n");
 // fclose($fh);
 
+if (false === isset($doNext)) {
+    $doNext = "";
+}
 // If JS is needed, add within $doNext string below, eg $doNext .= ";alert('logged in');";
 $doNext .= "";

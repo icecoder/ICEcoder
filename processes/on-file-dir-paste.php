@@ -9,5 +9,8 @@ if (!isset($_SESSION['loggedIn'])) {
 // fwrite($fh, "PASTE >>> ".date("D dS M Y h:i:sa").": ".$dest."\n");
 // fclose($fh);
 
+if (false === isset($doNext)) {
+    $doNext = "";
+}
 // If JS is needed, add within $doNext string below, eg $doNext .= ";alert('pasted');";
 $doNext .= "";

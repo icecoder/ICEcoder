@@ -9,5 +9,8 @@ if (!isset($_SESSION['loggedIn'])) {
 // fwrite($fh, "UPLOAD >>> ".date("D dS M Y h:i:sa").": ".($uploads[0]->name)."\n");
 // fclose($fh);
 
+if (false === isset($doNext)) {
+    $doNext = "";
+}
 // If JS is needed, add within $doNext string below, eg $doNext .= ";alert('uploaded');";
 $doNext .= "";

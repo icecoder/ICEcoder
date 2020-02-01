@@ -9,5 +9,8 @@ if (!isset($_SESSION['loggedIn'])) {
 // fwrite($fh, "REPLACED TEXT >>> ".date("D dS M Y h:i:sa").": ".$_GET['fileRef']."\n");
 // fclose($fh);
 
+if (false === isset($doNext)) {
+    $doNext = "";
+}
 // If JS is needed, add within $doNext string below, eg $doNext .= ";alert('renamed');";
 $doNext .= "";

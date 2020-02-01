@@ -52,5 +52,8 @@ if (strtolower($fileExt) == "less" && file_exists(dirname(__FILE__)."/../plugins
 	}
 }
 
+if (false === isset($doNext)) {
+    $doNext = "";
+}
 // If JS is needed, add within $doNext string below, eg $doNext .= ";alert('saved');";
 $doNext .= "";
