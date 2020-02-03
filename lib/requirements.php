@@ -26,6 +26,12 @@ if (file_exists(dirname(__FILE__)."/../data/config-settings.php")) {
 	}
 }
 
+// Check we have allow_url_fopen enabled
+if (!ini_get('allow_url_fopen')) {
+    $reqsPassed = false;
+    array_push($reqsFailures, "phpAllowURLFOpen");
+}
+
 // If any of these failed, show requirements problem info screen
 if (!$reqsPassed) {
 // $t = $text['reqsIssue'];
@@ -61,6 +67,9 @@ if (!$reqsPassed) {
 				if (in_array("phpReadFile", $reqsFailures)) {
 					echo "You don't seem to be able<br>to read the config file<br><br>";
 				}
+                if (in_array("phpAllowURLFOpen", $reqsFailures)) {
+                    echo "You don't seem to have<br>allow_url_fopen enabled<br><br>";
+                }
 				if (in_array("phpCreateConfig", $reqsFailures)) {
 					echo "Cannot update config file:<br>data/".$configSettings."<br>Please check write permissions<br>on data dir and reload page<br><br>";
 				}
