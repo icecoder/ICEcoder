@@ -134,7 +134,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	// Now update the config file
 	if (is_writeable("../data/".$settingsFile)) {
 		$fh = fopen("../data/".$settingsFile, 'w');
-		fwrite($fh, "../data/".$settingsContents);
+		fwrite($fh, $settingsContents);
 		fclose($fh);
 		// Finally, reload ICEcoder itself if plugin requires it or just the iFrame screen for the user if it doesn't
 		if ($_GET['action']=="install" && $pluginsData[$_GET['plugin']]['reload'] == "true") {

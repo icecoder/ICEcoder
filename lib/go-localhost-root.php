@@ -20,7 +20,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
 	// Now update the config file
 	if (is_writeable("../data/".$settingsFile)) {
 		$fh = fopen("../data/".$settingsFile, 'w');
-		fwrite($fh, "../data/".$settingsContents);
+		fwrite($fh, $settingsContents);
 		fclose($fh);
 
 		// Clear any FTP session we may have

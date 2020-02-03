@@ -105,7 +105,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		// Now update the config file
 		if (is_writeable("../data/".$settingsFile)) {
 			$fh = fopen("../data/".$settingsFile, 'w');
-			fwrite($fh, "../data/".$settingsContents);
+			fwrite($fh, $settingsContents);
 			fclose($fh);
 			// Finally, reload the iFrame screen for the user
 			header("Location: ftp-manager.php?updatedFTPSites&csrf=".$_SESSION["csrf"]);
