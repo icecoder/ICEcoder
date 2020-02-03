@@ -247,9 +247,7 @@ function toUTF8noBOM($string,$message=false) {
 		// Test for any bad characters
 		$teststring = $string;
 		$teststringBroken = utf8_decode($teststring);
-		$teststringConverted = function_exists("iconv")
-            ? iconv("UTF-8", "UTF-8//IGNORE", $teststringBroken)
-            : $teststringBroken;
+		$teststringConverted = mb_convert_encoding($teststringBroken, "UTF-8");
 		// If we have a matching length, UTF8 encode it
 		if (!$strictUTF8 && strlen($teststringConverted) == strlen($teststringBroken)) {
 			$string = utf8_encode($string);
