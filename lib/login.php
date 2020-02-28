@@ -78,7 +78,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 <script>
 // Get any elem by ID
 var get = function(elem) {
-	return top.document.getElementById(elem);
+	return document.getElementById(elem);
 };
 
 // Check password strength and color requirements not met
