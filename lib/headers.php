@@ -4,6 +4,8 @@ if(strpos(str_replace("\\","/",dirname(__FILE__)),"tmp/oldVersion") !== false) {
 	die("This is an old version of ICEcoder. Won't run from tmp/oldVersion/ dir.");
 }
 
+$iceURLPath = rtrim(rtrim($_SERVER['REQUEST_URI'], "index.php"), "/");
+
 // Load common functions
 include_once(dirname(__FILE__)."/settings-common.php");
 if (isset($_SESSION['text'])) {

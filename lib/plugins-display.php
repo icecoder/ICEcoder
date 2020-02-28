@@ -10,19 +10,19 @@ if ($_SESSION['loggedIn']) {
 	$pluginsDisplay = "";
 	for ($i=0;$i<count($ICEcoder["plugins"]);$i++) {
 		$target = explode(":",$ICEcoder["plugins"][$i][4]);
-		$pluginsDisplay .= '<a href="'.$ICEcoder["plugins"][$i][3].'" title="'.$ICEcoder["plugins"][$i][0].'" target="'.$target[0].'"><img src="'.$ICEcoder["plugins"][$i][1].'" style="'.$ICEcoder["plugins"][$i][2].'" alt="'.$ICEcoder["plugins"][$i][0].'"></a><br><br>';
+		$pluginsDisplay .= '<a href="'.$ICEcoder["plugins"][$i][3].'" title="'.$ICEcoder["plugins"][$i][0].'" target="'.$target[0].'"><img src="'.$iceURLPath."/".$ICEcoder["plugins"][$i][1].'" style="'.$ICEcoder["plugins"][$i][2].'" alt="'.$ICEcoder["plugins"][$i][0].'"></a><br><br>';
 	};
 
 	// If we're updating plugins, update those shown
 	if (isset($_GET['updatedPlugins'])) {
-		echo "<script>top.document.getElementById('pluginsOptional').innerHTML = '".str_replace("'","\\'",$pluginsDisplay)."';</script>";
+		echo "<script>document.getElementById('pluginsOptional').innerHTML = '".str_replace("'","\\'",$pluginsDisplay)."';</script>";
 	}
 
 	// Work out what plugins we'll need to set on a setInterval
 	$onLoadExtras = "";
 	for ($i=0;$i<count($ICEcoder["plugins"]);$i++) {
 		if ($ICEcoder["plugins"][$i][5]!="") {
-			$onLoadExtras .= ";top.ICEcoder.startPluginIntervals(".$i.",'".$ICEcoder["plugins"][$i][3]."','".$ICEcoder["plugins"][$i][4]."','".$ICEcoder["plugins"][$i][5]."')";
+			$onLoadExtras .= ";ICEcoder.startPluginIntervals(".$i.",'".$ICEcoder["plugins"][$i][3]."','".$ICEcoder["plugins"][$i][4]."','".$ICEcoder["plugins"][$i][5]."')";
 		};
 	};
 
@@ -30,10 +30,10 @@ if ($_SESSION['loggedIn']) {
 	if (isset($_GET['updatedPlugins'])) {
 		?>
 		<script>
-		for (i=0;i<=top.ICEcoder.pluginIntervalRefs.length-1;i++) {
-			clearInterval(top.ICEcoder['plugTimer'+top.ICEcoder.pluginIntervalRefs[i]]);
+		for (i=0;i<=ICEcoder.pluginIntervalRefs.length-1;i++) {
+			clearInterval(ICEcoder['plugTimer'+ICEcoder.pluginIntervalRefs[i]]);
 		}
-		top.ICEcoder.pluginIntervalRefs = [];
+		ICEcoder.pluginIntervalRefs = [];
 		<?php echo $onLoadExtras.PHP_EOL; ?>
 		</script>
 		<?php
