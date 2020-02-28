@@ -356,10 +356,10 @@ function findSequence(goal) {
 
 <script>
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-	lineNumbers: top.ICEcoder.lineNumbers,
+	lineNumbers: ICEcoder.lineNumbers,
 	readOnly: "nocursor",
-	indentUnit: top.ICEcoder.indentSize,
-	tabSize: top.ICEcoder.indentSize,
+	indentUnit: ICEcoder.indentSize,
+	tabSize: ICEcoder.indentSize,
 	mode: "javascript",
 	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
 	});
@@ -412,10 +412,10 @@ var showHideTabs = function() {
 
 var validatePasswords = function() {
 	if (document.settings.password.value != 0 && document.settings.password.value.length<8) {
-		top.ICEcoder.message('Please use at least 8 chars in the password');
+		ICEcoder.message('Please use at least 8 chars in the password');
 	} else {
 		if (document.settings.password.value != document.settings.passwordConfirm.value) {
-			top.ICEcoder.message('Sorry, your passwords don\'t match')
+			ICEcoder.message('Sorry, your passwords don\'t match')
 		} else {
 			document.settings.submit();
 		}
@@ -432,7 +432,7 @@ var switchTab = function(tab) {
 }
 </script>
 
-<div class="update" id="updateButton" onClick="<?php echo $ICEcoder['demoMode'] ? "top.ICEcoder.message('Sorry, can\'t commit settings in demo mode')" : "validatePasswords()"; ?>">update</div>
+<div class="update" id="updateButton" onClick="<?php echo $ICEcoder['demoMode'] ? "ICEcoder.message('Sorry, can\'t commit settings in demo mode')" : "validatePasswords()"; ?>">update</div>
 <input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
 

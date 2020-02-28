@@ -79,7 +79,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 	} else {
-		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." data/".$settingsFile." ".$t['and try again']."');</script>";
+		echo "<script>ICEcoder.message('".$t['Cannot update config']." data/".$settingsFile." ".$t['and try again']."');</script>";
 	}
 
 	// OK, now the config file has been updated, update our current session with new arrays
@@ -110,18 +110,18 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		fwrite($fConfigSettings, $generalSettingsContents);
 		fclose($fConfigSettings);
 	} else {
-		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." data/".$configSettings." ".$t['and try again']."');</script>";
+		echo "<script>ICEcoder.message('".$t['Cannot update config']." data/".$configSettings." ".$t['and try again']."');</script>";
 	}
 
 	$githubAuthTokenSet = $ICEcoder["githubAuthToken"] != "" ? "true" : "false";
 
 	// If we've changed langugage, reload ICEcoder now
 	if ($languageUserChanged) {
-		echo '<script>top.window.location = "../";</script>';
+		echo '<script>window.location = "../";</script>';
 		die('Reloading ICEcoder after language change');
 	}
 
 	// With all that worked out, we can now hide the settings screen and apply the new settings
 	$jsBugFilePaths = "['".str_replace(",","','",str_replace(" ","",$_POST['bugFilePaths']))."']";
-	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["lineNumbers"].",".$ICEcoder["showTrailingSpace"].",".$ICEcoder["matchBrackets"].",".$ICEcoder["autoCloseTags"].",".$ICEcoder["autoCloseBrackets"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentAuto"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."',".$jsBugFilePaths.",".$ICEcoder["bugFileCheckTimer"].",".$ICEcoder["bugFileMaxLines"].",'".$githubAuthTokenSet."',".$ICEcoder["updateDiffOnSave"].",".$ICEcoder["autoLogoutMins"].",".$refreshFM.");top.iceRoot = '".$ICEcoder["root"]."';</script>";
+	echo "<script>ICEcoder.settingsScreen('hide');ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["lineNumbers"].",".$ICEcoder["showTrailingSpace"].",".$ICEcoder["matchBrackets"].",".$ICEcoder["autoCloseTags"].",".$ICEcoder["autoCloseBrackets"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentAuto"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."',".$jsBugFilePaths.",".$ICEcoder["bugFileCheckTimer"].",".$ICEcoder["bugFileMaxLines"].",'".$githubAuthTokenSet."',".$ICEcoder["updateDiffOnSave"].",".$ICEcoder["autoLogoutMins"].",".$refreshFM.");iceRoot = '".$ICEcoder["root"]."';</script>";
 }
