@@ -26,7 +26,7 @@ $text = array(
 		"dev mode"			=> "modo desarrollo",
 		"Status"			=> "Estado",
 		"Using"				=> "Usando",
-		"You can switch..."		=> "Usted puede cambiar el modo de desarrollo cambiando su valor on/off en lib/config__settings.php"
+		"You can switch..."		=> "Usted puede cambiar el modo de desarrollo cambiando su valor on/off en data/config-settings.php"
 
 	),
 
