@@ -8,7 +8,7 @@ $isGitHubRepoDir = in_array($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
 ?>
 <!DOCTYPE html>
 
-<html onMouseDown="top.ICEcoder.mouseDown=true; top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.boxSelect(event,'down')" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.mouseDownInCM=false; top.ICEcoder.boxSelect(event,'up'); if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'files'); top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.canResizeFilesW(); top.ICEcoder.boxSelect(event,'drag')}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'files')}" onContextMenu="top.ICEcoder.selectFileFolder(event); return top.ICEcoder.showMenu(event)" onClick="if (!top.ICEcoder.fmDraggedBox) {top.ICEcoder.selectFileFolder(event)} else {top.ICEcoder.fmDraggedBox = false}" onDragStart="top.ICEcoder.selectFileFolder(event);" onDragOver="event.preventDefault();event.stopPropagation()">
+<html onMouseDown="parent.ICEcoder.mouseDown=true; parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.boxSelect(event,'down')" onMouseUp="parent.ICEcoder.mouseDown=false; parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.mouseDownInCM=false; parent.ICEcoder.boxSelect(event,'up'); if (!parent.ICEcoder.overCloseLink) {parent.ICEcoder.tabDragEnd()}" onMouseMove="if(parent.ICEcoder) {parent.ICEcoder.getMouseXY(event,'files'); parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.canResizeFilesW(); parent.ICEcoder.boxSelect(event,'drag')}" onDrop="if(parent.ICEcoder) {parent.ICEcoder.getMouseXY(event,'files')}" onContextMenu="parent.ICEcoder.selectFileFolder(event); return parent.ICEcoder.showMenu(event)" onClick="if (!parent.ICEcoder.fmDraggedBox) {parent.ICEcoder.selectFileFolder(event)} else {parent.ICEcoder.fmDraggedBox = false}" onDragStart="parent.ICEcoder.selectFileFolder(event);" onDragOver="event.preventDefault();event.stopPropagation()">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> file manager</title>
 <meta name="robots" content="noindex, nofollow">
@@ -22,11 +22,11 @@ $isGitHubRepoDir = in_array($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
 </style>
 </head>
 
-<body onFocus="top.ICEcoder.files.style.background='#444'" onBlur="top.ICEcoder.files.style.background='#383838'" onload="top.ICEcoder.showHideGithubNav(top.ICEcoder.githubDiff ? 'show' : 'hide')" onDblClick="top.ICEcoder.openFile()" onKeyDown="return top.ICEcoder.interceptKeys('files', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
+<body onFocus="parent.ICEcoder.files.style.background='#444'" onBlur="parent.ICEcoder.files.style.background='#383838'" onload="parent.ICEcoder.showHideGithubNav(parent.ICEcoder.githubDiff ? 'show' : 'hide')" onDblClick="parent.ICEcoder.openFile()" onKeyDown="return parent.ICEcoder.interceptKeys('files', event);" onKeyUp="parent.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
 
-<div title="<?php echo $t['Lock'];?>" onClick="top.ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
-<div title="<?php echo $t['Refresh'];?>" onClick="top.ICEcoder.refreshFileManager()" class="refresh"></div>
-<div title="<?php echo $t['Plugins'];?>" onClick="top.ICEcoder.showHidePlugins(top.get('plugins').style.width != '55px' ? 'show' : 'hide')" class="plugins"></div>
+<div title="<?php echo $t['Lock'];?>" onClick="parent.ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
+<div title="<?php echo $t['Refresh'];?>" onClick="parent.ICEcoder.refreshFileManager()" class="refresh"></div>
+<div title="<?php echo $t['Plugins'];?>" onClick="parent.ICEcoder.showHidePlugins(parent.get('plugins').style.width != '55px' ? 'show' : 'hide')" class="plugins"></div>
 <?php
 $_SESSION['githubDiff'] = false;
 if ($isGitHubRepoDir) {
@@ -34,14 +34,14 @@ if ($isGitHubRepoDir) {
 	if ($classExtra == "On") {
 		$_SESSION['githubDiff'] = true;
 		// Make sure we are showing the diff pane
-		echo "<script>top.ICEcoder.setSplitPane('on');</script>";
+		echo "<script>parent.ICEcoder.setSplitPane('on');</script>";
 	}
-	echo '<div title="GitHub" onClick="top.ICEcoder.githubDiffToggle()" class="github'.$classExtra.'"></div>';
+	echo '<div title="GitHub" onClick="parent.ICEcoder.githubDiffToggle()" class="github'.$classExtra.'"></div>';
 }
 ?>
 
 <ul class="fileManager">
-<li class="pft-directory dirOpen"><a nohref title="/" onMouseOver="top.ICEcoder.overFileFolder('folder','/')" onMouseOut="top.ICEcoder.overFileFolder('folder','')" onClick="top.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="|">/ <?php
+<li class="pft-directory dirOpen"><a nohref title="/" onMouseOver="parent.ICEcoder.overFileFolder('folder','/')" onMouseOut="parent.ICEcoder.overFileFolder('folder','')" onClick="parent.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="|">/ <?php
 echo $iceRoot == "" ? $t['ROOT'] : trim($iceRoot,"/");
 $thisPermVal = $serverType=="Linux" ? substr(sprintf('%o', fileperms($docRoot.$iceRoot)), -3) : "";
 $permColors = $thisPermVal == 777 ? 'background: #800; color: #eee' : 'color: #888';
