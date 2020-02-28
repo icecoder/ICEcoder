@@ -8,7 +8,7 @@ ICEcoder is a web IDE / browser based code editor, which allows you to develop w
 
 ### Requirements
 
-You can run ICEcoder either online or locally, on Linux, Windows or Mac based platforms. The only requirement is to have PHP 5 available (5.3 recommended). You can have this either as a vanilla installation or via a program such as WAMP or XAMPP (for Windows) or MAMP (for Mac).
+You can run ICEcoder either online or locally, on Linux, Windows or Mac based platforms. The only requirement is to have PHP 7 available (7.4 recommended). You can have this either as a vanilla installation or via a program such as WAMP or XAMPP (for Windows) or MAMP (for Mac).
 
 ### Installation
 
@@ -23,7 +23,7 @@ $ git clone git://github.com/mattpass/ICEcoder
 #### Step 2: Place in your document root (online or local)
 
 * Put in a new sub-dir URL such as yourdomain.com/ICEcoder or localhost/ICEcoder
-* Set write permissions (757 or 775 depending on your system) on the 'backups', 'lib', 'plugins', 'test' and 'tmp' folders
+* Set write permissions (757 or 775 depending on your system) on the 'data', 'lib', 'plugins' and 'tmp' folders
 
 *(Note: A small number of web servers give an internal server error here, if you get this, try 755 instead)*
 
@@ -33,7 +33,7 @@ $ git clone git://github.com/mattpass/ICEcoder
 
 **Now you're setup, auto-logged in and ready to code!**
 
-Suitable for commercial & non-commercial projects, just let me know if it's useful to you and any cool customisations you make to it. I take no responsibility for anything, your usage is all down to you.
+Suitable for commercial & non-commercial projects, just let me know if it's useful to you and any cool customisations you make to it. I take no responsibility for anything, all usage is all down to you.
 
 It's fully open source and MIT licensed. I'm happy for you to take it, make it your own and customise to your hearts content and/or contribute to this main repo! :)
 
