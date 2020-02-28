@@ -27,7 +27,7 @@ $text = array(
 		"dev mode"			=> "Entwicklermodus",
 		"Status"			=> "Status",
 		"Using"				=> "Verwenden",
-		"You can switch..."		=> "Du kannst den Entwicklermodus in der in lib/config__settings.php ein- und ausschateln",
+		"You can switch..."		=> "Du kannst den Entwicklermodus in der in data/config-settings.php ein- und ausschateln",
 		"results"			=> "Ergebnis"
 
 	),
