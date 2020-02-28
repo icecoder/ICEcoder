@@ -26,7 +26,7 @@ $text = array(
 		"dev mode"			=> "modalit&agrave; sviluppo",
 		"Status"			=> "Stato",
 		"Using"				=> "Utilizzo",
-		"You can switch..."		=> "&Egrave; possibile attivare/disattivare la modalit&agrave; sviluppo nel file lib/config__settings.php"
+		"You can switch..."		=> "&Egrave; possibile attivare/disattivare la modalit&agrave; sviluppo nel file data/config-settings.php"
 
 	),
 
