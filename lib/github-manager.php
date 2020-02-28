@@ -27,7 +27,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			if (is_writable($docRoot)) {
 				mkdir($docRoot.$chosenLocal, octdec($ICEcoder['newDirPerms']));
 			} else {
-				echo "<script>top.ICEcoder.message('".$t['Sorry, cannot create...']."\\n".$chosenLocal."');</script>";
+				echo "<script>ICEcoder.message('".$t['Sorry, cannot create...']."\\n".$chosenLocal."');</script>";
 			}
 		}
 
@@ -57,9 +57,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 				$_SESSION['ftpSiteRef'] = false;
 
 				// Hide this popup and reload file manager
-				echo "<script>top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'));top.ICEcoder.refreshFileManager();</script>";
+				echo "<script>ICEcoder.showHide('hide',document.getElementById('blackMask'));ICEcoder.refreshFileManager();</script>";
 			} else {
-				echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
+				echo "<script>ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 			}
 
 		}
@@ -157,10 +157,10 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			fclose($fh);
 			// Finally, reload the iFrame screen for the user
 			header("Location: github-manager.php?updatedGithubPaths&csrf=".$_SESSION["csrf"]);
-			echo "<script>window.location='github-manager.php?updatedGithubPaths&csrf='+top.ICEcoder.csrf;</script>";
+			echo "<script>window.location='github-manager.php?updatedGithubPaths&csrf='+ICEcoder.csrf;</script>";
 			die($t['saving github paths']);
 		} else {
-			echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
+			echo "<script>ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 		}
 	}
 }

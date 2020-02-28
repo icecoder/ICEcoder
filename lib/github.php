@@ -8,7 +8,7 @@ $wrappers = stream_get_wrappers();
 $sslAvail = true;
 if (!extension_loaded('openssl') || !in_array('https', $wrappers)) {
 	$sslAvail = false;
-	echo "<script>top.ICEcoder.message('".$t['Sorry, you do...']."');top.ICEcoder.showHide('hide',top.get('loadingMask'));</script>";
+	echo "<script>ICEcoder = parent.ICEcoder; ICEcoder.message('".$t['Sorry, you do...']."');ICEcoder.showHide('hide',get('loadingMask'));</script>";
 	die();
 }
 
@@ -26,13 +26,14 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			<script src="github.js?microtime=<?php echo microtime(true);?>"></script>
 			</body>
 			<script>
-			top.ICEcoder.githubAuthTokenSet = true;
+			ICEcoder = parent.ICEcoder;
+			ICEcoder.githubAuthTokenSet = true;
 			goNext = "'.xssClean($_GET['goNext'],"html").'";
 			if (goNext=="showManager") {
-				top.ICEcoder.githubManager();
+				ICEcoder.githubManager();
 			}
 			if (goNext=="loadFiles") {
-				top.ICEcoder.githubDiffToggle();
+				ICEcoder.githubDiffToggle();
 			}
 			</script>
 			</body>
@@ -43,7 +44,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	// READ
 	// ====
 	if ($_GET['action']=="read") {
-		
+
 		echo '<!DOCTYPE html>
 			<html>
 			<head>
@@ -51,6 +52,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			<script src="underscore-min.js?microtime=<?php echo microtime(true);?>"></script>
 			</body>
 			<script>
+			ICEcoder = parent.ICEcoder;
 			// Start our github object, establish this repo & file path
 			var github = new Github({token: "'.$_SESSION['githubAuthToken'].'", auth: "oauth"});
 			var thisRepo = "'.xssClean($_GET['repo'],"html").'";
@@ -60,9 +62,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			var repo = github.getRepo(thisRepo.split("|")[0], thisRepo.split("|")[1]);
 			repo.read("master", thisFilePath.replace(/\|/g,"/"), function(err, data) {
 				if (err) {
-					top.ICEcoder.message("There has been an error trying to get that file from GitHub.\n\nGitHub response:\n"+err);
+					ICEcoder.message("There has been an error trying to get that file from GitHub.\n\nGitHub response:\n"+err);
 				} else {
-					cMdiff = top.ICEcoder.getcMdiffInstance();
+					cMdiff = ICEcoder.getcMdiffInstance();
 					cMdiff.setValue(data);
 				}
 			});
@@ -129,9 +131,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 				unlink($zipFile);
 
 				// Refresh the file manager
-				echo "<script>top.ICEcoder.refreshFileManager();</script>";
+				echo "<script>ICEcoder = parent.ICEcoder; ICEcoder.refreshFileManager();</script>";
 			} else {
-				echo "<script>top.ICEcoder.message('Sorry, unable to get plugin data. Please make sure you have either curl or fopen available on your server.');</script>";
+				echo "<script>ICEcoder = parent.ICEcoder; ICEcoder.message('Sorry, unable to get plugin data. Please make sure you have either curl or fopen available on your server.');</script>";
 			}
 		}
 
@@ -164,7 +166,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			Message:<br><textarea name="commitMessage" id="commitMessage" style="width: 300px; height: 118px; margin: 5px 0 15px 0"></textarea>
 		</form>
 
-		<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="top.ICEcoder.showHide('show',top.get('loadingMask'));commitFiles()">Commit</div>
+		<div style="display: inline-block; padding: 5px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="parent.ICEcoder.showHide('show',get('loadingMask'));commitFiles()">Commit</div>
 
 		<br><br>
 
@@ -188,25 +190,26 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 				$loadedFile = getData($file);
 				echo '<textarea name="loadedFile'.$i.'" id="loadedFile'.$i.'" style="display: none">'.base64_encode($loadedFile).'</textarea><br><br>'.PHP_EOL.PHP_EOL;
 			} else {
-				die("<script>top.ICEcoder.message('Sorry, that file doesn\'t appear to exist');</script>");
+				die("<script>parent.ICEcoder.message('Sorry, that file doesn\'t appear to exist');</script>");
 			}
 		}
 		?>
 
 		<script>
-		// Start our github object
+        ICEcoder = parent.ICEcoder;
+        // Start our github object
 		var github = new Github({token: "<?php echo $_SESSION['githubAuthToken'];?>", auth: "oauth"});
 
-		committingFiles = ['<?php 
+		committingFiles = ['<?php
 			$cF = implode("','", $selectedFiles);
 			echo $cF;
 			?>'];
 		seqFile = 0;
 		commitFiles = function() {
 			// Commit our files one after another
-			var repo = github.getRepo(top.repo.split("/")[0], top.repo.split("/")[1]);
+			var repo = github.getRepo(repo.split("/")[0], repo.split("/")[1]);
 			repo.write(
-				'master', 
+				'master',
 				committingFiles[seqFile].substr(1).replace(/\|/g,"/"),
 				document.getElementById('loadedFile'+seqFile).value,
 				document.getElementById('commitTitle').value+'\n\n'+document.getElementById('commitMessage').value,
@@ -217,31 +220,31 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 						var file = committingFiles[seqFile].substr(locSplit+1);
 
 						// Splice from diff or deleted paths
-						if (top.diffPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")) > -1) {
-							top.diffPaths.splice(top.diffPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")),1);
+						if (diffPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")) > -1) {
+							diffPaths.splice(diffPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")),1);
 						}
-						if (top.deletedPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")) > -1) {
-							top.deletedPaths.splice(top.deletedPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")),1);
+						if (deletedPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")) > -1) {
+							deletedPaths.splice(deletedPaths.indexOf(committingFiles[seqFile].substr(1).replace(/\|/g,"/")),1);
 						}
-						
+
 						// Then deselect and remove from file manager
-						top.ICEcoder.thisFileFolderLink = committingFiles[seqFile];
-						top.ICEcoder.selectFileFolder(false,'ctrlSim');
-						top.ICEcoder.updateFileManagerList("delete",location,file);
+						ICEcoder.thisFileFolderLink = committingFiles[seqFile];
+						ICEcoder.selectFileFolder(false,'ctrlSim');
+						ICEcoder.updateFileManagerList("delete",location,file);
 						seqFile++;
 						// If there's another file to do
-						if (top.ICEcoder.selectedFiles.length > 0) {
+						if (ICEcoder.selectedFiles.length > 0) {
 							commitFiles();
 						} else {
-							top.ICEcoder.showHide('hide',top.get('loadingMask'));
-							top.ICEcoder.showHide('hide',top.get('blackMask'));
-							if (top.diffPaths.length == 0 && top.deletedPaths.length == 0) {
-								top.ICEcoder.message('All done, switching modes');
-								top.ICEcoder.githubDiffToggle();
+							ICEcoder.showHide('hide',get('loadingMask'));
+							ICEcoder.showHide('hide',get('blackMask'));
+							if (diffPaths.length == 0 && deletedPaths.length == 0) {
+								ICEcoder.message('All done, switching modes');
+								ICEcoder.githubDiffToggle();
 							}
 						}
 					} else {
-						top.ICEcoder.message('There was an error with committing.\n\nSee dev tools console for details.');
+						ICEcoder.message('There was an error with committing.\n\nSee dev tools console for details.');
 						console.log(err);
 					}
 				}
@@ -262,8 +265,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 	if ($_GET['action']=="pull") {
 	?>
 	<script>
-		top.ICEcoder.showHide('hide',top.get('blackMask'));
-		top.ICEcoder.message("Pull actions not yet available. Will be in available soon!");
+        ICEcoder = parent.ICEcoder;
+        ICEcoder.showHide('hide',get('blackMask'));
+		ICEcoder.message("Pull actions not yet available. Will be in available soon!");
 	</script>
 	<?php
 	}
