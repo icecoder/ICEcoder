@@ -27,7 +27,7 @@ $text = array(
         "dev mode"          => "حالت توسعه دهنده",
         "Status"            => "وضعیت",
         "Using"             => "استفاده",
-        "You can switch..."     => "شما میتوانید حالت توسعه را از lib/config__settings.php روشن یا خاموش کنید",
+        "You can switch..."     => "شما میتوانید حالت توسعه را از data/config-settings.php روشن یا خاموش کنید",
         "results"           => "نتایج"
 
     ),
