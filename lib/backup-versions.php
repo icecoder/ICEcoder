@@ -113,18 +113,18 @@ include(dirname(__FILE__)."/language-modes-partial.js");
 
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	mode: mode,
-	lineNumbers: top.ICEcoder.lineNumbers,
+	lineNumbers: ICEcoder.lineNumbers,
 	gutters: ["CodeMirror-foldgutter","CodeMirror-lint-markers","CodeMirror-linenumbers"],
 	foldGutter: {gutter: "CodeMirror-foldgutter"},
 	foldOptions: {minFoldSize: 1},
-	lineWrapping: top.ICEcoder.lineWrapping,
-	indentWithTabs: top.ICEcoder.indentWithTabs,
-	indentUnit: top.ICEcoder.indentSize,
-	tabSize: top.ICEcoder.indentSize,
-	matchBrackets: top.ICEcoder.matchBrackets,
+	lineWrapping: ICEcoder.lineWrapping,
+	indentWithTabs: ICEcoder.indentWithTabs,
+	indentUnit: ICEcoder.indentSize,
+	tabSize: ICEcoder.indentSize,
+	matchBrackets: ICEcoder.matchBrackets,
 	electricChars: false,
 	highlightSelectionMatches: true,
-	showTrailingSpace: top.ICEcoder.showTrailingSpace,
+	showTrailingSpace: ICEcoder.showTrailingSpace,
 	lint: false,
 	readOnly: "nocursor",
 	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
@@ -134,31 +134,31 @@ editor.setSize("480px","500px");
 var openNew = function() {
 	var cM;
 
-	top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))
-	top.ICEcoder.newTab();
-	cM = top.ICEcoder.getcMInstance();
+	ICEcoder.showHide('hide',document.getElementById('blackMask'))
+	ICEcoder.newTab();
+	cM = ICEcoder.getcMInstance();
 	cM.setValue(editor.getValue());
 }
 
 var openDiff = function() {
 	var cMDiff;
 
-	top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))
-	top.ICEcoder.setSplitPane('on');
-	cMDiff = top.ICEcoder.getcMdiffInstance();
-	top.ICEcoder.focus('diff');
+	ICEcoder.showHide('hide',document.getElementById('blackMask'))
+	ICEcoder.setSplitPane('on');
+	cMDiff = ICEcoder.getcMdiffInstance();
+	ICEcoder.focus('diff');
 	cMDiff.setValue(editor.getValue());
 }
 
 var restoreVersion = function() {
 	var cM;
 
-	if (top.ICEcoder.ask("To confirm - this will paste the displayed backup content to your current tab and save, OK?")) {
-		top.ICEcoder.showHide('hide',top.document.getElementById('blackMask'))
-		cM = top.ICEcoder.getcMInstance();
-		top.ICEcoder.focus();
+	if (ICEcoder.ask("To confirm - this will paste the displayed backup content to your current tab and save, OK?")) {
+		ICEcoder.showHide('hide',document.getElementById('blackMask'))
+		cM = ICEcoder.getcMInstance();
+		ICEcoder.focus();
 		cM.setValue(editor.getValue());
-		top.ICEcoder.saveFile();
+		ICEcoder.saveFile();
 	}
 }
 </script>
