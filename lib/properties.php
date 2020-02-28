@@ -166,7 +166,7 @@ var validatePerms = function() {
 		permText.split("")[2]*1 <0 || permText.split("")[2]*1 >7) {
 		canUpdate = false;
 	}
-	if (canUpdate) {top.ICEcoder.chmod('<?php echo str_replace($docRoot,"",$fileName);?>',permText)};
+	if (canUpdate) {ICEcoder.chmod('<?php echo str_replace($docRoot,"",$fileName);?>',permText)};
 }
 </script>
 

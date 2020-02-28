@@ -138,14 +138,14 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		fclose($fh);
 		// Finally, reload ICEcoder itself if plugin requires it or just the iFrame screen for the user if it doesn't
 		if ($_GET['action']=="install" && $pluginsData[$_GET['plugin']]['reload'] == "true") {
-			echo "<script>if (top.confirm('".$t['ICEcoder needs to...']."')) {top.window.location.reload(true);} else {window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;}</script>";
+			echo "<script>if (confirm('".$t['ICEcoder needs to...']."')) {window.location.reload(true);} else {window.location='plugins-manager.php?updatedPlugins&csrf='+ICEcoder.csrf;}</script>";
 		} else {
 			header("Location: plugins-manager.php?updatedPlugins&csrf=".$_SESSION["csrf"]);
-			echo "<script>window.location='plugins-manager.php?updatedPlugins&csrf='+top.ICEcoder.csrf;</script>";
+			echo "<script>window.location='plugins-manager.php?updatedPlugins&csrf='+ICEcoder.csrf;</script>";
 		}
 		die("<span style='color: #fff'>".$t['saving plugins']."</span>");
 	} else {
-		echo "<script>top.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
+		echo "<script>ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 	}
 }
 
@@ -184,7 +184,7 @@ function deletePlugin($dir) {
 
 <h1><?php echo $t['plugins'];?></h1>
 
-<a href="javascript:top.ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>','writingPlugins')" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #333; color: #fff; font-size: 18px"><?php echo $t['Guide to writing...'];?></div></a>
+<a href="javascript:ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>','writingPlugins')" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #333; color: #fff; font-size: 18px"><?php echo $t['Guide to writing...'];?></div></a>
 <div style="display: inline-block; width: 760px; height: 340px; overflow-y: auto">
 	<?php
 	$plugins = $ICEcoder['plugins'];
