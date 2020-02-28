@@ -27,7 +27,7 @@ $text = array(
 		"dev mode"			=> "utvikler modus",
 		"Status"			=> "Status",
 		"Using"				=> "Brukes",
-		"You can switch..."		=> "Du kan slå utvikler modus på/av i lib/config__settings.php",
+		"You can switch..."		=> "Du kan slå utvikler modus på/av i data/config-settings.php",
 		"results"			=> "resultater"
 
 	),
