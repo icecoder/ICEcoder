@@ -4,7 +4,6 @@ include("settings.php");
 include("ftp-control.php");
 $t = $text['file-control'];
 ?>
-<script>ICEcoder = parent.ICEcoder</script>
 <?php if ($_SESSION['githubDiff']) { ?>
 <script src="github.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="underscore-min.js?microtime=<?php echo microtime(true);?>"></script>
@@ -60,7 +59,7 @@ for ($i=0; $i<count($allFiles); $i++) {
 		// Or a remote URL that doesn't start http
 		($_GET['action']=="getRemoteFile" && strpos($allFiles[$i],"http") !== 0)
 		) {
-		die("ICEcoder.message('Sorry! - problem with file requested');</script>");
+		die("parent.parent.ICEcoder.message('Sorry! - problem with file requested');</script>");
 	};
 }
 
@@ -75,7 +74,7 @@ if ($_GET['action']=="load") {
 	}
 
 	if (!$canOpen) {
-		echo 'fileType="nothing"; ICEcoder.message(\''.$t['Sorry, could not...'].' '.$fileLoc."/".$fileName.'\');';
+		echo 'fileType="nothing"; parent.parent.ICEcoder.message(\''.$t['Sorry, could not...'].' '.$fileLoc."/".$fileName.'\');';
 	} elseif (isset($ftpSite) || file_exists($file)) {
 		$finfo = "text";
 		// Determine what to do based on mime type
@@ -91,14 +90,14 @@ if ($_GET['action']=="load") {
 		}
 		if (strpos($finfo,"text")===0 || strpos($finfo, "application/xml")===0 || strpos($finfo,"empty")!==false) {
 			echo 'fileType="text";';
-			echo 'ICEcoder.shortURL = ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
+			echo 'parent.parent.ICEcoder.shortURL = parent.parent.ICEcoder.thisFileFolderLink = "'.$fileLoc."/".$fileName.'";';
 
 		// Get file over FTP?
 		if (isset($ftpSite)) {
 			ftpStart();
 			// Show user warning if no good connection
 			if (!$ftpConn || !$ftpLogin) {
-				die('ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");ICEcoder.serverMessage();ICEcoder.serverQueue("del",0);</script>');
+				die('parent.parent.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");parent.parent.ICEcoder.serverMessage();parent.parent.ICEcoder.serverQueue("del",0);</script>');
 				exit;
 			}
 			// Get our file contents and close the FTP connection
@@ -126,7 +125,7 @@ if ($_GET['action']=="load") {
 			echo 'fileType="other";window.open(\'http://'.$_SERVER['SERVER_NAME'].$fileLoc."/".$fileName.'\');';
 		};
 	} else {
-		echo 'fileType="nothing"; ICEcoder.message(\''.$t['Sorry'].', '.$fileLoc."/".$fileName.' '.$t['does not seem...'].'\');';
+		echo 'fileType="nothing"; parent.parent.ICEcoder.message(\''.$t['Sorry'].', '.$fileLoc."/".$fileName.' '.$t['does not seem...'].'\');';
 	}
 
 };
@@ -136,26 +135,26 @@ if ($_GET['action']=="load") {
 if (action=="load") {
 	if (fileType=="text") {
 		setTimeout(function() {
-			if (!ICEcoder.content.contentWindow.createNewCMInstance) {
+			if (!parent.parent.ICEcoder.content.contentWindow.createNewCMInstance) {
 				console.log('<?php echo $t['There was a...']; ?>');
 				window.location.reload(true);
 			<?php
 			if (isset($ftpSite) || file_exists($file)) {
 			?>
 			} else {
-				ICEcoder.loadingFile = true;
+				parent.parent.ICEcoder.loadingFile = true;
 				// Reset the various states back to their initial setting
-				selectedTab = ICEcoder.openFiles.length;	// The tab that's currently selected
+				selectedTab = parent.parent.ICEcoder.openFiles.length;	// The tab that's currently selected
 
 				// Finally, store all data, show tabs etc
-				ICEcoder.createNewTab();
-				ICEcoder.cMInstances.push(ICEcoder.nextcMInstance);
-				ICEcoder.setLayout();
-				ICEcoder.content.contentWindow.createNewCMInstance(ICEcoder.nextcMInstance);
+				parent.parent.ICEcoder.createNewTab();
+				parent.parent.ICEcoder.cMInstances.push(parent.parent.ICEcoder.nextcMInstance);
+				parent.parent.ICEcoder.setLayout();
+				parent.parent.ICEcoder.content.contentWindow.createNewCMInstance(parent.parent.ICEcoder.nextcMInstance);
 
 				<?php if (!isset($ftpSite) && $_SESSION['githubDiff']) { ?>
 					// If we're in GitHub diff mode and have a split pane display, get the content for the diff pane
-					if (ICEcoder.githubDiff && ICEcoder.splitPane) {
+					if (parent.parent.ICEcoder.githubDiff && parent.parent.ICEcoder.splitPane) {
 						<?php
 						// Get our GitHub relative site path & local path
 						$ghRemoteURLPos = array_search($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
@@ -181,33 +180,33 @@ if (action=="load") {
 						}
 						?>
 
-						ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = "github.php?action=read&repo=<?php echo $ghRemoteURL;?>&filePath=<?php echo $ghFilePath;?>&csrf="+ICEcoder.csrf;
+						parent.parent.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = "github.php?action=read&repo=<?php echo $ghRemoteURL;?>&filePath=<?php echo $ghFilePath;?>&csrf="+parent.parent.ICEcoder.csrf;
 					}
 				<?php ;}; ?>
 
 				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on ICEcoder's load)
-				ICEcoder.switchMode();
-				cM = ICEcoder.getcMInstance();
+				parent.parent.ICEcoder.switchMode();
+				cM = parent.parent.ICEcoder.getcMInstance();
 				cM.setValue(document.getElementById('loadedFile').value);
-				ICEcoder.savedPoints[ICEcoder.selectedTab-1] = cM.changeGeneration();
-				ICEcoder.savedContents[ICEcoder.selectedTab-1] = cM.getValue();
+				parent.parent.ICEcoder.savedPoints[parent.parent.ICEcoder.selectedTab-1] = cM.changeGeneration();
+				parent.parent.ICEcoder.savedContents[parent.parent.ICEcoder.selectedTab-1] = cM.getValue();
                 parent.parent.document.getElementById('content').style.visibility='visible';
-				ICEcoder.switchTab(ICEcoder.selectedTab,'noFocus');
-				setTimeout(function(){ICEcoder.filesFrame.contentWindow.focus();},0);
+				parent.parent.ICEcoder.switchTab(parent.parent.ICEcoder.selectedTab,'noFocus');
+				setTimeout(function(){parent.parent.ICEcoder.filesFrame.contentWindow.focus();},0);
 
 				// Then clean it up, set the text cursor, update the display and get the character data
-				ICEcoder.contentCleanUp();
-				ICEcoder.content.contentWindow['cM'+ICEcoder.cMInstances[ICEcoder.selectedTab-1]].removeLineClass(ICEcoder['cMActiveLinecM'+ICEcoder.cMInstances[ICEcoder.selectedTab-1]], "background");
-				ICEcoder['cMActiveLinecM'+ICEcoder.selectedTab] = ICEcoder.content.contentWindow['cM'+ICEcoder.cMInstances[ICEcoder.selectedTab-1]].addLineClass(0, "background", "cm-s-activeLine");
-				ICEcoder.nextcMInstance++;
-				ICEcoder.openFileMDTs.push('<?php echo $serverType=="Linux" ? filemtime($file) : "1000000"; ?>');
-				ICEcoder.openFileVersions.push(<?php
+				parent.parent.ICEcoder.contentCleanUp();
+				parent.parent.ICEcoder.content.contentWindow['cM'+parent.parent.ICEcoder.cMInstances[parent.parent.ICEcoder.selectedTab-1]].removeLineClass(parent.parent.ICEcoder['cMActiveLinecM'+parent.parent.ICEcoder.cMInstances[parent.parent.ICEcoder.selectedTab-1]], "background");
+                parent.parent.ICEcoder['cMActiveLinecM'+parent.parent.ICEcoder.selectedTab] = parent.parent.ICEcoder.content.contentWindow['cM'+parent.parent.ICEcoder.cMInstances[parent.parent.ICEcoder.selectedTab-1]].addLineClass(0, "background", "cm-s-activeLine");
+				parent.parent.ICEcoder.nextcMInstance++;
+				parent.parent.ICEcoder.openFileMDTs.push('<?php echo $serverType=="Linux" ? filemtime($file) : "1000000"; ?>');
+				parent.parent.ICEcoder.openFileVersions.push(<?php
 					$fileCountInfo = getVersionsCount($fileLoc,$fileName);
 					echo $fileCountInfo['count'];?>);
-				ICEcoder.updateVersionsDisplay();
+				parent.parent.ICEcoder.updateVersionsDisplay();
 
-				ICEcoder.goToLine(<?php echo $lineNumber; ?>);
-				ICEcoder.loadingFile = false;
+				parent.parent.ICEcoder.goToLine(<?php echo $lineNumber; ?>);
+				parent.parent.ICEcoder.loadingFile = false;
 			<?php
 			;};
 			?>
@@ -218,24 +217,24 @@ if (action=="load") {
 	if (fileType=="image") {
         parent.parent.document.getElementById('blackMask').style.visibility = "visible";
         parent.parent.document.getElementById('mediaContainer').innerHTML =
-			"<canvas id=\"canvasPicker\" width=\"1\" height=\"1\" style=\"position: absolute; margin: 10px 0 0 10px; cursor: crosshair\" onmouseover=\"ICEcoder.overPopup=true\" onmouseout=\"ICEcoder.overPopup=false\"></canvas>" +
-			"<img src=\"<?php echo (isset($ftpSite) ? $ftpSite : "").$fileLoc."/".$fileName."?unique=".microtime(true);?>\" class=\"whiteGlow\" style=\"border: solid 10px #fff; max-width: 700px; max-height: 500px; background-color: #000; background-image: url('"+parent.parent.iceLoc+"/images/checkerboard.png')\" onLoad=\"reducedImgMsg = (this.naturalWidth > 700 || this.naturalHeight > 500) ? ', <?php echo $t['displayed at']; ?> ' + this.width + ' x ' + this.height : ''; document.getElementById('imgInfo').innerHTML += ' (' + this.naturalWidth + ' x ' + this.naturalHeight + reducedImgMsg + ')'; ICEcoder.initCanvasImage(this); ICEcoder.interactCanvasImage(this)\"><br>" +
-			"<div class=\"whiteGlow\" style=\"display: inline-block; margin-top: -10px; border: solid 10px #fff; color: #000; background-color: #fff\" id=\"imgInfo\"  onmouseover=\"ICEcoder.overPopup=true\" onmouseout=\"ICEcoder.overPopup=false\">" +
+			"<canvas id=\"canvasPicker\" width=\"1\" height=\"1\" style=\"position: absolute; margin: 10px 0 0 10px; cursor: crosshair\" onmouseover=\"parent.parent.ICEcoder.overPopup=true\" onmouseout=\"parent.parent.ICEcoder.overPopup=false\"></canvas>" +
+			"<img src=\"<?php echo (isset($ftpSite) ? $ftpSite : "").$fileLoc."/".$fileName."?unique=".microtime(true);?>\" class=\"whiteGlow\" style=\"border: solid 10px #fff; max-width: 700px; max-height: 500px; background-color: #000; background-image: url('"+parent.parent.iceLoc+"/images/checkerboard.png')\" onLoad=\"reducedImgMsg = (this.naturalWidth > 700 || this.naturalHeight > 500) ? ', <?php echo $t['displayed at']; ?> ' + this.width + ' x ' + this.height : ''; document.getElementById('imgInfo').innerHTML += ' (' + this.naturalWidth + ' x ' + this.naturalHeight + reducedImgMsg + ')'; parent.parent.ICEcoder.initCanvasImage(this); parent.parent.ICEcoder.interactCanvasImage(this)\"><br>" +
+			"<div class=\"whiteGlow\" style=\"display: inline-block; margin-top: -10px; border: solid 10px #fff; color: #000; background-color: #fff\" id=\"imgInfo\"  onmouseover=\"parent.parent.ICEcoder.overPopup=true\" onmouseout=\"parent.parent.ICEcoder.overPopup=false\">" +
 				"<b><?php echo $fileLoc."/".$fileName;?></b>" +
 			"</div><br>" +
 			"<div id=\"canvasPickerColorInfo\">"+
-			"<input type=\"text\" id=\"hexMouseXY\" style=\"border: 1px solid #888; border-right: 0; width: 70px\" onmouseover=\"ICEcoder.overPopup=true\" onmouseout=\"ICEcoder.overPopup=false\"></input>" +
-			"<input type=\"text\" id=\"rgbMouseXY\" style=\"border: 1px solid #888; margin-right: 10px; width: 70px\" onmouseover=\"ICEcoder.overPopup=true\" onmouseout=\"ICEcoder.overPopup=false\"></input>" +
-			"<input type=\"text\" id=\"hex\" style=\"border: 1px solid #888; border-right: 0; width: 70px\" onmouseover=\"ICEcoder.overPopup=true\" onmouseout=\"ICEcoder.overPopup=false\"></input>" +
-			"<input type=\"text\" id=\"rgb\" style=\"border: 1px solid #888; width: 70px\" onmouseover=\"ICEcoder.overPopup=true\" onmouseout=\"ICEcoder.overPopup=false\"></input>"+
+			"<input type=\"text\" id=\"hexMouseXY\" style=\"border: 1px solid #888; border-right: 0; width: 70px\" onmouseover=\"parent.parent.ICEcoder.overPopup=true\" onmouseout=\"parent.parent.ICEcoder.overPopup=false\"></input>" +
+			"<input type=\"text\" id=\"rgbMouseXY\" style=\"border: 1px solid #888; margin-right: 10px; width: 70px\" onmouseover=\"parent.parent.ICEcoder.overPopup=true\" onmouseout=\"parent.parent.ICEcoder.overPopup=false\"></input>" +
+			"<input type=\"text\" id=\"hex\" style=\"border: 1px solid #888; border-right: 0; width: 70px\" onmouseover=\"parent.parent.ICEcoder.overPopup=true\" onmouseout=\"parent.parent.ICEcoder.overPopup=false\"></input>" +
+			"<input type=\"text\" id=\"rgb\" style=\"border: 1px solid #888; width: 70px\" onmouseover=\"parent.parent.ICEcoder.overPopup=true\" onmouseout=\"parent.parent.ICEcoder.overPopup=false\"></input>"+
 			"</div>"+
 			"<div id=\"canvasPickerCORSInfo\" style=\"display: none; padding-top: 4px\">CORS not enabled on resource site</div>";
         parent.parent.document.getElementById('floatingContainer').style.background = "#fff url('<?php echo $fileLoc."/".$fileName."?unique=".microtime(true);?>') no-repeat 0 0";
 	}
 
-	ICEcoder.serverMessage();ICEcoder.serverQueue("del",0);
+	parent.parent.ICEcoder.serverMessage();parent.parent.ICEcoder.serverQueue("del",0);
 }
 
 // Finally, switch mode in case we have saved, renamed file etc
-ICEcoder.switchMode();
+parent.parent.ICEcoder.switchMode();
 </script>
