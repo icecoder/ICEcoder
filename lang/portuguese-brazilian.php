@@ -27,7 +27,7 @@ $text = array(
 		"dev mode"			=> "modo desenv.",
 		"Status"			=> "Status",
 		"Using"				=> "Usando",
-		"You can switch..."		=> "Voc&ecirc; pode alterar modo desenv. on/off em lib/config__settings.php"
+		"You can switch..."		=> "Voc&ecirc; pode alterar modo desenv. on/off em data/config-settings.php"
 
 	),
 
