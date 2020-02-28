@@ -27,7 +27,7 @@ $text = array(
 		"dev mode"			=> "开发模式",
 		"Status"			=> "状态",
 		"Using"				=> "使用",
-		"You can switch..."		=> "你可以在 lib/config__settings.php 中设置开发模式开关",
+		"You can switch..."		=> "你可以在 data/config-settings.php 中设置开发模式开关",
 		"results"			=> "结果"
 
 	),
