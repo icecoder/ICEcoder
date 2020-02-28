@@ -8,8 +8,9 @@ Purpose:	This file is run when ICEcoder editor has loaded
 Langs:		Anything - PHP, JS etc
 //-->
 <script>
+ICEcoder = parent.ICEcoder;
 CodeMirror.commands.autocomplete = function(cm) {
-	var langType = top.ICEcoder.caretLocType;
+	var langType = ICEcoder.caretLocType;
 	if (["JavaScript","CoffeeScript","TypeScript","SQL","CSS","HTML","XML","Content"].indexOf(langType)>-1) {
 		if (langType=="XML"||langType=="Content") {langType="HTML"};
 		CodeMirror.showHint(cm,CodeMirror.hint[langType.toLowerCase()]);
@@ -17,12 +18,12 @@ CodeMirror.commands.autocomplete = function(cm) {
 }
 
 // Switch the CodeMirror mode on demand
-top.ICEcoder.switchMode = function(mode) {
+ICEcoder.switchMode = function(mode) {
 	var cM, cMdiff, fileName, fileExt;
 
-	cM = top.ICEcoder.getcMInstance();
-	cMdiff = top.ICEcoder.getcMdiffInstance();
-	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+	cM = ICEcoder.getcMInstance();
+	cMdiff = ICEcoder.getcMdiffInstance();
+	fileName = ICEcoder.openFiles[ICEcoder.selectedTab-1];
 
 	if (cM && mode) {
 		if (mode != cM.getOption("mode")) {
@@ -34,19 +35,19 @@ top.ICEcoder.switchMode = function(mode) {
 
 		if (mode != cM.getOption("mode")) {
 			cM.setOption("mode",mode);
-			cM.setOption("lint",(fileExt == "js" || fileExt == "json") && top.ICEcoder.codeAssist ? true : false);
+			cM.setOption("lint",(fileExt == "js" || fileExt == "json") && ICEcoder.codeAssist ? true : false);
 			cMdiff.setOption("mode",mode);
-			cMdiff.setOption("lint",(fileExt == "js" || fileExt == "json") && top.ICEcoder.codeAssist ? true : false);
+			cMdiff.setOption("lint",(fileExt == "js" || fileExt == "json") && ICEcoder.codeAssist ? true : false);
 		}
 	}
 }
 
 // Comment/uncomment line or selected range on keypress
-top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent, lCLen) {
+ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent, lCLen) {
 	var comments, startLine, endLine, commentCH, commentBS, commentBE;
 
 	// Language specific commenting
-	if (["JavaScript","CoffeeScript","TypeScript","PHP","Python","Ruby","CSS","SQL","Erlang","Julia","Java","YAML","C","C++","C#","Go","Lua","Perl","Sass"].indexOf(top.ICEcoder.caretLocType)>-1) {
+	if (["JavaScript","CoffeeScript","TypeScript","PHP","Python","Ruby","CSS","SQL","Erlang","Julia","Java","YAML","C","C++","C#","Go","Lua","Perl","Sass"].indexOf(ICEcoder.caretLocType)>-1) {
 
 		comments = {
 			"JavaScript"	: ["// ", "/* ", " */"],
@@ -71,14 +72,14 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 		}
 
 		// Identify the single line, block start and block end comment chars
-		commentCH = comments[top.ICEcoder.caretLocType][0];
-		commentBS = comments[top.ICEcoder.caretLocType][1];
-		commentBE = comments[top.ICEcoder.caretLocType][2];
+		commentCH = comments[ICEcoder.caretLocType][0];
+		commentBS = comments[ICEcoder.caretLocType][1];
+		commentBE = comments[ICEcoder.caretLocType][2];
 
 		// Block commenting
 		if (cM.somethingSelected()) {
 			// Language has no block commenting, so repeating singles are needed
-			if (["Ruby","Python","Erlang","Julia","YAML","Perl"].indexOf(top.ICEcoder.caretLocType)>-1) {
+			if (["Ruby","Python","Erlang","Julia","YAML","Perl"].indexOf(ICEcoder.caretLocType)>-1) {
 				startLine = cM.getCursor(true).line;
 				endLine = cM.getCursor().line;
 				for (var i=startLine; i<=endLine; i++) {
@@ -94,7 +95,7 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 			}
 		// Single line commenting
 		} else {
-			if (["CSS","SQL"].indexOf(top.ICEcoder.caretLocType)>-1) {
+			if (["CSS","SQL"].indexOf(ICEcoder.caretLocType)>-1) {
 				cM.replaceRange(lineContent.slice(0,commentBS.length)!=commentBS
 				? commentBS + lineContent + commentBE
 				: lineContent.slice(commentBS.length,lCLen-commentBE.length), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
@@ -126,14 +127,14 @@ top.ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent
 }
 
 // Indicate if the nesting structure of the code is OK
-top.ICEcoder.updateNestingIndicator = function() {
+ICEcoder.updateNestingIndicator = function() {
 	var cM, cMdiff, thisCM, testToken, nestOK, fileName, fileExt;
 
-	cM = top.ICEcoder.getcMInstance();
-	cMdiff = top.ICEcoder.getcMdiffInstance();
-	thisCM = top.ICEcoder.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+	cM = ICEcoder.getcMInstance();
+	cMdiff = ICEcoder.getcMdiffInstance();
+	thisCM = ICEcoder.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
 	nestOK = true;
-	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+	fileName = ICEcoder.openFiles[ICEcoder.selectedTab-1];
 	if (fileName) {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
@@ -142,19 +143,19 @@ top.ICEcoder.updateNestingIndicator = function() {
 		testToken = thisCM.getTokenAt({line:thisCM.lineCount(),ch:thisCM.lineInfo(thisCM.lineCount()-1).text.length});
 		nestOK = testToken.type && testToken.type.indexOf("error") == -1 ? true : false;
 	}
-	top.ICEcoder.nestValid.style.background = nestOK ? "#0b0" : "#f00";
-	top.ICEcoder.nestValid.title = nestOK ? "Nesting OK" : "Nesting Broken";
+	ICEcoder.nestValid.style.background = nestOK ? "#0b0" : "#f00";
+	ICEcoder.nestValid.title = nestOK ? "Nesting OK" : "Nesting Broken";
 }
 
 // Determine which area of the document we're in
-top.ICEcoder.caretLocationType = function() {
+ICEcoder.caretLocationType = function() {
 	var cM, cMdiff, thisCM, caretLocType, caretChunk, fileName, fileExt;
 
-	cM = top.ICEcoder.getcMInstance();
-	cMdiff = top.ICEcoder.getcMdiffInstance();
-	thisCM = top.ICEcoder.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+	cM = ICEcoder.getcMInstance();
+	cMdiff = ICEcoder.getcMdiffInstance();
+	thisCM = ICEcoder.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
 	caretLocType = "Unknown";
-	caretChunk = thisCM.getValue().substr(0,top.ICEcoder.caretPos+1);
+	caretChunk = thisCM.getValue().substr(0,ICEcoder.caretPos+1);
 
 	if(caretChunk.lastIndexOf("<script")>caretChunk.lastIndexOf("/script>")&&caretLocType=="Unknown") {caretLocType = "JavaScript";}
 	else if (caretChunk.lastIndexOf("<\?")>caretChunk.lastIndexOf("?\>")&&caretLocType=="Unknown") {caretLocType = "PHP";}
@@ -163,7 +164,7 @@ top.ICEcoder.caretLocationType = function() {
 	else if (caretChunk.lastIndexOf("<")>caretChunk.lastIndexOf(">")&&caretLocType=="Unknown") {caretLocType = "HTML";}
 	else if (caretLocType=="Unknown") {caretLocType = "Content";};
 
-	fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+	fileName = ICEcoder.openFiles[ICEcoder.selectedTab-1];
 	if (caretLocType == "Content" && fileName) {
 		fileExt = fileName.split(".");
 		fileExt = fileExt[fileExt.length-1];
@@ -194,6 +195,6 @@ top.ICEcoder.caretLocationType = function() {
 			: "Content";
 	}
 
-	top.ICEcoder.caretLocType = caretLocType;
+	ICEcoder.caretLocType = caretLocType;
 }
 </script>

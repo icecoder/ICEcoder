@@ -31,7 +31,7 @@ if (strtolower($fileExt) == "scss" && file_exists(dirname(__FILE__)."/../plugins
 		fwrite($fh, $scssContent);
 		fclose($fh);
 	} catch (Exception $e) {
-		echo ";top.ICEcoder.message('Couldn\'t compile your Sass, error info below:\\n\\n".$e->getMessage()."');";
+		echo ";ICEcoder.message('Couldn\'t compile your Sass, error info below:\\n\\n".$e->getMessage()."');";
 	}
 }
 
@@ -48,7 +48,7 @@ if (strtolower($fileExt) == "less" && file_exists(dirname(__FILE__)."/../plugins
 	try {
 		$less->checkedCompile($file, substr($file, 0, -4)."css"); // Note: Only recompiles if changed
 	} catch (Exception $e) {
-		echo ";top.ICEcoder.message('Couldn\'t compile your LESS, error info below:\\n\\n".$e->getMessage()."');";
+		echo ";ICEcoder.message('Couldn\'t compile your LESS, error info below:\\n\\n".$e->getMessage()."');";
 	}
 }
 

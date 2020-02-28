@@ -9,6 +9,6 @@ Langs:		Anything - PHP, JS etc
 Example:
 //-->
 <script>
-// top.ICEcoder.openFile('/index.html');
+// ICEcoder.openFile('/index.html');
 // alert('Thanks for using ICEcoder');
 </script>
