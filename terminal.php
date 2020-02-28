@@ -53,7 +53,7 @@ key = function(e) {
 
 sendCmd = function(command) {
 	// Send command over XHR for response and display
-	xhr = ICEcoder.xhrObj();
+	xhr = parent.ICEcoder.xhrObj();
 	xhr.onreadystatechange=function() {
 		if (xhr.readyState==4) {
 			// OK reponse?
@@ -79,7 +79,7 @@ sendCmd = function(command) {
 		}
 	};
 	// Send the XHR request
-	xhr.open("POST","lib/terminal-xhr.php?csrf="+ICEcoder.csrf,true);
+	xhr.open("POST","lib/terminal-xhr.php?csrf="+parent.ICEcoder.csrf,true);
 	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xhr.send('command='+encodeURIComponent(command));
 }
