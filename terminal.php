@@ -9,7 +9,7 @@ include("lib/settings.php");
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
-<link rel="stylesheet" type="text/css" href="lib/terminal.css?microtime=<?php echo microtime(true);?>" />  
+<link rel="stylesheet" type="text/css" href="lib/terminal.css?microtime=<?php echo microtime(true);?>" />
 <script type="text/javascript" language="JavaScript">
 commandHistory = [];
 currentLine = 0;
@@ -53,7 +53,7 @@ key = function(e) {
 
 sendCmd = function(command) {
 	// Send command over XHR for response and display
-	xhr = top.ICEcoder.xhrObj();
+	xhr = ICEcoder.xhrObj();
 	xhr.onreadystatechange=function() {
 		if (xhr.readyState==4) {
 			// OK reponse?
@@ -63,7 +63,7 @@ sendCmd = function(command) {
 				newOutput.innerHTML = xhr.responseText;
 				var cmdElem = document.getElementById("commandLine");
 				cmdElem.parentNode.insertBefore(newOutput, cmdElem);
-				top.document.getElementById("terminal").contentWindow.document.documentElement.scrollTop = document.getElementById('output').scrollHeight;
+				document.getElementById("terminal").contentWindow.document.documentElement.scrollTop = document.getElementById('output').scrollHeight;
 
 				// Add command onto end of history array or set as last item in array
 				if (currentLine == 0 || commandHistory[commandHistory.length-1].indexOf("[[ICEcoder]]:") !== 0) {
@@ -79,7 +79,7 @@ sendCmd = function(command) {
 		}
 	};
 	// Send the XHR request
-	xhr.open("POST","lib/terminal-xhr.php?csrf="+top.ICEcoder.csrf,true);
+	xhr.open("POST","lib/terminal-xhr.php?csrf="+ICEcoder.csrf,true);
 	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xhr.send('command='+encodeURIComponent(command));
 }
