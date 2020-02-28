@@ -5,7 +5,7 @@ $t = $text['editor'];
 ?>
 <!DOCTYPE html>
 
-<html style="margin: 0" onMouseDown="top.ICEcoder.mouseDown=true; top.ICEcoder.resetAutoLogoutTimer()" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.mouseDownInCM=false; top.ICEcoder.resetAutoLogoutTimer(); if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor'); top.ICEcoder.functionArgsTooltip(event, 'editor'); top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.canResizeFilesW()}" onDrop="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'editor')}">
+<html style="margin: 0" onMouseDown="parent.ICEcoder.mouseDown=true; parent.ICEcoder.resetAutoLogoutTimer()" onMouseUp="parent.ICEcoder.mouseDown=false; parent.ICEcoder.mouseDownInCM=false; parent.ICEcoder.resetAutoLogoutTimer(); if (!parent.ICEcoder.overCloseLink) {parent.ICEcoder.tabDragEnd()}" onMouseMove="if(parent.ICEcoder) {parent.ICEcoder.getMouseXY(event,'editor'); parent.ICEcoder.functionArgsTooltip(event, 'editor'); parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.canResizeFilesW()}" onDrop="if(parent.ICEcoder) {parent.ICEcoder.getMouseXY(event,'editor')}">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -44,7 +44,7 @@ if (file_exists(dirname(__FILE__)."/plugins/responsive-helper/responsive-helper.
 	echo '<script src="plugins/responsive-helper/responsive-helper.js?microtime='.microtime(true).'"></script>';
 };?>
 <link rel="stylesheet" href="<?php
-if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+if ($ICEcoder["theme"]=="default") {echo dirname(basename(__DIR__)).'/lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
 echo "?microtime=".microtime(true);
 if (array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light")) !== false) {
 	$activeLineBG = "#ccc";
@@ -93,7 +93,7 @@ h2 {color: rgba(0,198,255,0.7)}
 <link rel="stylesheet" href="lib/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body style="color: #fff; margin: 0" onKeyDown="return top.ICEcoder.interceptKeys('content', event);" onKeyUp="top.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);" oncontextmenu="return false">
+<body style="color: #fff; margin: 0" onKeyDown="return parent.ICEcoder.interceptKeys('content', event);" onKeyUp="parent.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);" oncontextmenu="return false">
 
 <div style="display: none; margin: 32px 43px 0 43px; padding: 10px; width: 500px; font-family: arial; font-size: 10px; color: #ddd; background: #333" id="dataMessage"></div>
 
@@ -130,7 +130,7 @@ h2 {color: rgba(0,198,255,0.7)}
 					// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
 					$ext = "ext-".pathinfo($docRoot.$iceRoot.$fileFolderName, PATHINFO_EXTENSION);
 					echo '<li class="pft-file '.strtolower($ext).'" style="margin-left: -21px">';
-					echo '<a style="cursor:pointer" onClick="top.ICEcoder.openFile(\''.str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i])).'\')">';
+					echo '<a style="cursor:pointer" onClick="parent.ICEcoder.openFile(\''.str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i])).'\')">';
 					echo str_replace($docRoot,"",str_replace("|","/",$last10FilesArray[$i]));
 					echo '</a></li>';
 					if ($i<count($last10FilesArray)-1) {echo PHP_EOL;};
@@ -166,7 +166,7 @@ h2 {color: rgba(0,198,255,0.7)}
 CodeMirror.keyMap.ICEcoder = {
 	"Tab": function(cm) {
 		return cm.somethingSelected()
-		? (top.ICEcoder.indentAuto
+		? (parent.ICEcoder.indentAuto
 			? cm.execCommand("indentAuto")	// Honour our own setting indentAuto
 			: cm.indentSelection("add")	// Add indent (this is default handler in CodeMirror)
 		  )
@@ -188,7 +188,7 @@ CodeMirror.keyMap.ICEcoder = {
 	var originalInsertTabFunction = CodeMirror.commands.insertTab;
 	// and replace it with our own, which branches on whether our ICEcoder.indentWithTabs value is true or false
 	CodeMirror.commands.insertTab = function(cm){
-		if (top.ICEcoder.indentWithTabs){
+		if (parent.ICEcoder.indentWithTabs){
 			// if it is true, then we should still put there, let's use original function
 			return originalInsertTabFunction(cm);
 		} else {
@@ -200,26 +200,26 @@ CodeMirror.keyMap.ICEcoder = {
 
 function createNewCMInstance(num) {
 	// Establish the filename for the tab
-	var fileName = top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1];
+	var fileName = parent.ICEcoder.openFiles[parent.ICEcoder.selectedTab-1];
 
 	// Define our CodeMirror options
 	var cMOptions = {
 		mode: "application/x-httpd-php",
-		lineNumbers: top.ICEcoder.lineNumbers,
+		lineNumbers: parent.ICEcoder.lineNumbers,
 		gutters: ["CodeMirror-foldgutter","CodeMirror-lint-markers","CodeMirror-linenumbers"],
 		foldGutter: {gutter: "CodeMirror-foldgutter"},
 		foldOptions: {minFoldSize: 1},
-		lineWrapping: top.ICEcoder.lineWrapping,
-		indentWithTabs: top.ICEcoder.indentWithTabs,
-		indentUnit: top.ICEcoder.indentSize,
-		tabSize: top.ICEcoder.indentSize,
-		matchBrackets: top.ICEcoder.matchBrackets,
+		lineWrapping: parent.ICEcoder.lineWrapping,
+		indentWithTabs: parent.ICEcoder.indentWithTabs,
+		indentUnit: parent.ICEcoder.indentSize,
+		tabSize: parent.ICEcoder.indentSize,
+		matchBrackets: parent.ICEcoder.matchBrackets,
 		electricChars: false,
-		autoCloseTags: top.ICEcoder.autoCloseTags,
-		autoCloseBrackets: top.ICEcoder.autoCloseBrackets,
+		autoCloseTags: parent.ICEcoder.autoCloseTags,
+		autoCloseBrackets: parent.ICEcoder.autoCloseBrackets,
 		highlightSelectionMatches: true,
 		scrollbarStyle: 'overlay', // null, 'native', 'simple', 'overlay'
-		showTrailingSpace: top.ICEcoder.showTrailingSpace,
+		showTrailingSpace: parent.ICEcoder.showTrailingSpace,
 		lint: false,
 		keyMap: "ICEcoder"
 	};
@@ -231,68 +231,68 @@ function createNewCMInstance(num) {
 	// Define actions for those...
 
 	// Focus
-	window['cM'+num]	.on("focus", function(thisCM) {top.ICEcoder.cMonFocus(thisCM,'cM'+num)});
-	window['cM'+num+'diff']	.on("focus", function(thisCM) {top.ICEcoder.cMonFocus(thisCM,'cM'+num+'diff')});
+	window['cM'+num]	.on("focus", function(thisCM) {parent.ICEcoder.cMonFocus(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("focus", function(thisCM) {parent.ICEcoder.cMonFocus(thisCM,'cM'+num+'diff')});
 
 	// Blur
-	window['cM'+num]	.on("blur", function(thisCM) {top.ICEcoder.cMonBlur(thisCM,'cM'+num)});
-	window['cM'+num+'diff']	.on("blur", function(thisCM) {top.ICEcoder.cMonBlur(thisCM,'cM'+num+'diff')});
+	window['cM'+num]	.on("blur", function(thisCM) {parent.ICEcoder.cMonBlur(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("blur", function(thisCM) {parent.ICEcoder.cMonBlur(thisCM,'cM'+num+'diff')});
 
 	// Keyup
-	window['cM'+num]	.on("keyup", function(thisCM) {top.ICEcoder.cMonKeyUp(thisCM,'cM'+num)});
-	window['cM'+num+'diff']	.on("keyup", function(thisCM) {top.ICEcoder.cMonKeyUp(thisCM,'cM'+num+'diff')});
+	window['cM'+num]	.on("keyup", function(thisCM) {parent.ICEcoder.cMonKeyUp(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("keyup", function(thisCM) {parent.ICEcoder.cMonKeyUp(thisCM,'cM'+num+'diff')});
 
 	// Cursor activity
-	window['cM'+num]	.on("cursorActivity", function(thisCM) {top.ICEcoder.cMonCursorActivity(thisCM,'cM'+num)});
-	window['cM'+num+'diff']	.on("cursorActivity", function(thisCM) {top.ICEcoder.cMonCursorActivity(thisCM,'cM'+num+'diff')});
+	window['cM'+num]	.on("cursorActivity", function(thisCM) {parent.ICEcoder.cMonCursorActivity(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("cursorActivity", function(thisCM) {parent.ICEcoder.cMonCursorActivity(thisCM,'cM'+num+'diff')});
 
 	// Before selection change
-	window['cM'+num]	.on("beforeSelectionChange", function(thisCM, changeObj) {top.ICEcoder.prevLine = thisCM.getCursor().line;});
-	window['cM'+num+'diff']	.on("beforeSelectionChange", function(thisCM, changeObj) {top.ICEcoder.prevLineDiff = thisCM.getCursor().line;});
+	window['cM'+num]	.on("beforeSelectionChange", function(thisCM, changeObj) {parent.ICEcoder.prevLine = thisCM.getCursor().line;});
+	window['cM'+num+'diff']	.on("beforeSelectionChange", function(thisCM, changeObj) {parent.ICEcoder.prevLineDiff = thisCM.getCursor().line;});
 
 	// Change
-	window['cM'+num]	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num,changeObj,CodeMirror)});
-	window['cM'+num+'diff']	.on("change", function(thisCM, changeObj) {top.ICEcoder.cMonChange(thisCM,'cM'+num+'diff',changeObj,CodeMirror)});
+	window['cM'+num]	.on("change", function(thisCM, changeObj) {parent.ICEcoder.cMonChange(thisCM,'cM'+num,changeObj,CodeMirror)});
+	window['cM'+num+'diff']	.on("change", function(thisCM, changeObj) {parent.ICEcoder.cMonChange(thisCM,'cM'+num+'diff',changeObj,CodeMirror)});
 
 	// Before change
-	window['cM'+num]	.on("beforeChange", function(thisCM, changeObj) {top.ICEcoder.cMonBeforeChange(thisCM,'cM'+num,changeObj,CodeMirror)});
-	window['cM'+num+'diff']	.on("beforeChange", function(thisCM, changeObj) {top.ICEcoder.cMonBeforeChange(thisCM,'cM'+num+'diff',changeObj,CodeMirror)});
+	window['cM'+num]	.on("beforeChange", function(thisCM, changeObj) {parent.ICEcoder.cMonBeforeChange(thisCM,'cM'+num,changeObj,CodeMirror)});
+	window['cM'+num+'diff']	.on("beforeChange", function(thisCM, changeObj) {parent.ICEcoder.cMonBeforeChange(thisCM,'cM'+num+'diff',changeObj,CodeMirror)});
 
 	// Scroll
-	window['cM'+num]	.on("scroll", function(thisCM) {top.ICEcoder.cMonScroll(thisCM,'cM'+num)});
-	window['cM'+num+'diff']	.on("scroll", function(thisCM) {top.ICEcoder.cMonScroll(thisCM,'cM'+num+'diff')});
+	window['cM'+num]	.on("scroll", function(thisCM) {parent.ICEcoder.cMonScroll(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("scroll", function(thisCM) {parent.ICEcoder.cMonScroll(thisCM,'cM'+num+'diff')});
 
 	// Update
-	window['cM'+num]	.on("update", function(thisCM) {top.ICEcoder.cMonUpdate(thisCM,'cM'+num)});
-	window['cM'+num+'diff']	.on("update", function(thisCM) {top.ICEcoder.cMonUpdate(thisCM,'cM'+num+'diff')});
+	window['cM'+num]	.on("update", function(thisCM) {parent.ICEcoder.cMonUpdate(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("update", function(thisCM) {parent.ICEcoder.cMonUpdate(thisCM,'cM'+num+'diff')});
 
 	// Input read
-	window['cM'+num]	.on("inputRead", function(thisCM) {top.ICEcoder.cMonInputRead(thisCM,'cM'+num)});
-	window['cM'+num+'diff']	.on("inputRead", function(thisCM) {top.ICEcoder.cMonInputRead(thisCM,'cM'+num+'diff')});
+	window['cM'+num]	.on("inputRead", function(thisCM) {parent.ICEcoder.cMonInputRead(thisCM,'cM'+num)});
+	window['cM'+num+'diff']	.on("inputRead", function(thisCM) {parent.ICEcoder.cMonInputRead(thisCM,'cM'+num+'diff')});
 
 	// Gutter Click
-	window['cM'+num]	.on("gutterClick", function(thisCM,line,gutter,evt) {top.ICEcoder.cMonGutterClick(thisCM,line,gutter,evt,'cM'+num)});
-	window['cM'+num+'diff']	.on("gutterClick", function(thisCM,line,gutter,evt) {top.ICEcoder.cMonGutterClick(thisCM,line,gutter,evt,'cM'+num+'diff')});
+	window['cM'+num]	.on("gutterClick", function(thisCM,line,gutter,evt) {parent.ICEcoder.cMonGutterClick(thisCM,line,gutter,evt,'cM'+num)});
+	window['cM'+num+'diff']	.on("gutterClick", function(thisCM,line,gutter,evt) {parent.ICEcoder.cMonGutterClick(thisCM,line,gutter,evt,'cM'+num+'diff')});
 
 	// Mouse Down
-	window['cM'+num]	.on("mousedown", function(thisCM,evt) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num,evt)});
-	window['cM'+num+'diff']	.on("mousedown", function(thisCM,evt) {top.ICEcoder.cMonMouseDown(thisCM,'cM'+num+'diff',evt)});
+	window['cM'+num]	.on("mousedown", function(thisCM,evt) {parent.ICEcoder.cMonMouseDown(thisCM,'cM'+num,evt)});
+	window['cM'+num+'diff']	.on("mousedown", function(thisCM,evt) {parent.ICEcoder.cMonMouseDown(thisCM,'cM'+num+'diff',evt)});
 
 	// Context Menu
-	window['cM'+num]	.on("contextmenu", function(thisCM,evt) {top.ICEcoder.cMonContextMenu(thisCM,'cM'+num,evt)});
-	window['cM'+num+'diff']	.on("contextmenu", function(thisCM,evt) {top.ICEcoder.cMonContextMenu(thisCM,'cM'+num+'diff',evt)});
+	window['cM'+num]	.on("contextmenu", function(thisCM,evt) {parent.ICEcoder.cMonContextMenu(thisCM,'cM'+num,evt)});
+	window['cM'+num+'diff']	.on("contextmenu", function(thisCM,evt) {parent.ICEcoder.cMonContextMenu(thisCM,'cM'+num+'diff',evt)});
 
 	// Drag Over
-	window['cM'+num]	.on("dragover", function(thisCM) {top.ICEcoder.cMonDragOver(thisCM,event,'cM'+num)});
-	window['cM'+num+'diff']	.on("dragover", function(thisCM) {top.ICEcoder.cMonDragOver(thisCM,event,'cM'+num+'diff')});
+	window['cM'+num]	.on("dragover", function(thisCM) {parent.ICEcoder.cMonDragOver(thisCM,event,'cM'+num)});
+	window['cM'+num+'diff']	.on("dragover", function(thisCM) {parent.ICEcoder.cMonDragOver(thisCM,event,'cM'+num+'diff')});
 
 	// Render line
-	window['cM'+num]	.on("renderLine", function(thisCM, line, element) {top.ICEcoder.cMonRenderLine(thisCM,'cM'+num,line,element)});
-	window['cM'+num+'diff']	.on("renderLine", function(thisCM, line, element) {top.ICEcoder.cMonRenderLine(thisCM,'cM'+num+'diff',line,element)});
+	window['cM'+num]	.on("renderLine", function(thisCM, line, element) {parent.ICEcoder.cMonRenderLine(thisCM,'cM'+num,line,element)});
+	window['cM'+num+'diff']	.on("renderLine", function(thisCM, line, element) {parent.ICEcoder.cMonRenderLine(thisCM,'cM'+num+'diff',line,element)});
 
 	// Now create the active lines for them
-	top.ICEcoder['cMActiveLinecM'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
-	top.ICEcoder['cMActiveLinecM'+num+'diff'] = window['cM'+num+'diff'].addLineClass(0, "background", "cm-s-activeLine");
+	parent.ICEcoder['cMActiveLinecM'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
+	parent.ICEcoder['cMActiveLinecM'+num+'diff'] = window['cM'+num+'diff'].addLineClass(0, "background", "cm-s-activeLine");
 };
 </script>
 
