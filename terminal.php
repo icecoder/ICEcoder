@@ -35,7 +35,7 @@ key = function(e) {
 				commandHistory[commandHistory.length-1] = "[[ICEcoder]]:"+currentCommand;
 			}
 		}
-		// If ee have at least some items in history, step back a level and display the previous command
+		// If we have at least some items in history, step back a level and display the previous command
 		if (currentLine > 0) {
 			currentLine--;
 			document.getElementById('command').value = commandHistory[currentLine].replace("[[ICEcoder]]:","");
