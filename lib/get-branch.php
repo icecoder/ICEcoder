@@ -186,11 +186,11 @@ for ($i=0;$i<count($finalArray);$i++) {
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
 	$loadParam = $type == "folder" ? "true" : "false";
-	echo "<li class=\"".$class."\" draggable=\"false\" ondragstart=\"parent.parent.ICEcoder.addDefaultDragData(this,event)\" ondrag=\"parent.parent.ICEcoder.draggingWithKeyTest(event);if(parent.parent.ICEcoder.getcMInstance()){parent.parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.parent.ICEcoder.getcMInstance().focus() : parent.parent.ICEcoder.getcMdiffInstance().focus()}\" ondragover=\"parent.parent.ICEcoder.setDragCursor(event,".($type == "folder" ? "'folder'" : "'file'").")\" ondragend=\"parent.parent.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;parent.parent.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;parent.parent.ICEcoder.overFileFolder('$type','')\" ".
+	echo "<li class=\"".$class."\" draggable=\"false\" ondragstart=\"parent.parent.ICEcoder.addDefaultDragData(this,event)\" ondrag=\"parent.parent.ICEcoder.draggingWithKeyTest(event);if(parent.parent.ICEcoder.getcMInstance()){parent.parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.parent.ICEcoder.getcMInstance().focus() : parent.parent.ICEcoder.getcMdiffInstance().focus()}\" ondragover=\"parent.parent.ICEcoder.setDragCursor(event,".($type == "folder" ? "'folder'" : "'file'").")\" ondragend=\"parent.parent.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;parent.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;parent.ICEcoder.overFileFolder('$type','')\" ".
 
 	(($type == "folder")?"ondragover=\"if(parentNode.nextSibling && parentNode.nextSibling.tagName != 'UL' && parent.parent.ICEcoder.thisFileFolderLink != this.childNodes[1].id) {parent.parent.ICEcoder.openCloseDir(this,true);}\"":"").
 
-	" onClick=\"if(!event.ctrlKey && !parent.parent.ICEcoder.cmdKey) {".
+	" onClick=\"if(!event.ctrlKey && !parent.ICEcoder.cmdKey) {".
 
 	(($type == "folder")?" parent.parent.ICEcoder.openCloseDir(this,$loadParam);":"").
 
