@@ -113,18 +113,18 @@ include(dirname(__FILE__)."/language-modes-partial.js");
 
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	mode: mode,
-	lineNumbers: ICEcoder.lineNumbers,
+	lineNumbers: parent.parent.ICEcoder.lineNumbers,
 	gutters: ["CodeMirror-foldgutter","CodeMirror-lint-markers","CodeMirror-linenumbers"],
 	foldGutter: {gutter: "CodeMirror-foldgutter"},
 	foldOptions: {minFoldSize: 1},
-	lineWrapping: ICEcoder.lineWrapping,
-	indentWithTabs: ICEcoder.indentWithTabs,
-	indentUnit: ICEcoder.indentSize,
-	tabSize: ICEcoder.indentSize,
-	matchBrackets: ICEcoder.matchBrackets,
+	lineWrapping: parent.parent.ICEcoder.lineWrapping,
+	indentWithTabs: parent.parent.ICEcoder.indentWithTabs,
+	indentUnit: parent.parent.ICEcoder.indentSize,
+	tabSize: parent.parent.ICEcoder.indentSize,
+	matchBrackets: parent.parent.ICEcoder.matchBrackets,
 	electricChars: false,
 	highlightSelectionMatches: true,
-	showTrailingSpace: ICEcoder.showTrailingSpace,
+	showTrailingSpace: parent.parent.ICEcoder.showTrailingSpace,
 	lint: false,
 	readOnly: "nocursor",
 	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
@@ -134,31 +134,31 @@ editor.setSize("480px","500px");
 var openNew = function() {
 	var cM;
 
-	ICEcoder.showHide('hide',document.getElementById('blackMask'))
-	ICEcoder.newTab();
-	cM = ICEcoder.getcMInstance();
+    parent.parent.ICEcoder.showHide('hide',parent.document.getElementById('blackMask'))
+    parent.parent.ICEcoder.newTab();
+	cM = parent.parent.ICEcoder.getcMInstance();
 	cM.setValue(editor.getValue());
 }
 
 var openDiff = function() {
 	var cMDiff;
 
-	ICEcoder.showHide('hide',document.getElementById('blackMask'))
-	ICEcoder.setSplitPane('on');
-	cMDiff = ICEcoder.getcMdiffInstance();
-	ICEcoder.focus('diff');
+    parent.parent.ICEcoder.showHide('hide',parent.document.getElementById('blackMask'))
+    parent.parent.ICEcoder.setSplitPane('on');
+	cMDiff = parent.parent.ICEcoder.getcMdiffInstance();
+    parent.parent.ICEcoder.focus('diff');
 	cMDiff.setValue(editor.getValue());
 }
 
 var restoreVersion = function() {
 	var cM;
 
-	if (ICEcoder.ask("To confirm - this will paste the displayed backup content to your current tab and save, OK?")) {
-		ICEcoder.showHide('hide',document.getElementById('blackMask'))
-		cM = ICEcoder.getcMInstance();
-		ICEcoder.focus();
+	if (parent.parent.ICEcoder.ask("To confirm - this will paste the displayed backup content to your current tab and save, OK?")) {
+        parent.parent.ICEcoder.showHide('hide',parent.document.getElementById('blackMask'))
+		cM = parent.parent.ICEcoder.getcMInstance();
+        parent.parent.ICEcoder.focus();
 		cM.setValue(editor.getValue());
-		ICEcoder.saveFile();
+        parent.parent.ICEcoder.saveFile();
 	}
 }
 </script>

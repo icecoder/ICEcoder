@@ -138,14 +138,14 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		fclose($fh);
 		// Finally, reload ICEcoder itself if plugin requires it or just the iFrame screen for the user if it doesn't
 		if ($_GET['action']=="install" && $pluginsData[$_GET['plugin']]['reload'] == "true") {
-			echo "<script>if (confirm('".$t['ICEcoder needs to...']."')) {window.location.reload(true);} else {window.location='plugins-manager.php?updatedPlugins&csrf='+ICEcoder.csrf;}</script>";
+			echo "<script>if (confirm('".$t['ICEcoder needs to...']."')) {window.location.reload(true);} else {window.location='plugins-manager.php?updatedPlugins&csrf='+parent.parent.ICEcoder.csrf;}</script>";
 		} else {
 			header("Location: plugins-manager.php?updatedPlugins&csrf=".$_SESSION["csrf"]);
 			echo "<script>window.location='plugins-manager.php?updatedPlugins&csrf='+ICEcoder.csrf;</script>";
 		}
 		die("<span style='color: #fff'>".$t['saving plugins']."</span>");
 	} else {
-		echo "<script>ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
+		echo "<script>parent.parent.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 	}
 }
 

@@ -79,7 +79,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		fwrite($fh, $settingsContents);
 		fclose($fh);
 	} else {
-		echo "<script>ICEcoder.message('".$t['Cannot update config']." data/".$settingsFile." ".$t['and try again']."');</script>";
+		echo "<script>parent.parent.ICEcoder.message('".$t['Cannot update config']." data/".$settingsFile." ".$t['and try again']."');</script>";
 	}
 
 	// OK, now the config file has been updated, update our current session with new arrays
@@ -110,7 +110,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		fwrite($fConfigSettings, $generalSettingsContents);
 		fclose($fConfigSettings);
 	} else {
-		echo "<script>ICEcoder.message('".$t['Cannot update config']." data/".$configSettings." ".$t['and try again']."');</script>";
+		echo "<script>parent.parent.ICEcoder.message('".$t['Cannot update config']." data/".$configSettings." ".$t['and try again']."');</script>";
 	}
 
 	$githubAuthTokenSet = $ICEcoder["githubAuthToken"] != "" ? "true" : "false";
@@ -123,5 +123,5 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 
 	// With all that worked out, we can now hide the settings screen and apply the new settings
 	$jsBugFilePaths = "['".str_replace(",","','",str_replace(" ","",$_POST['bugFilePaths']))."']";
-	echo "<script>ICEcoder.settingsScreen('hide');ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["lineNumbers"].",".$ICEcoder["showTrailingSpace"].",".$ICEcoder["matchBrackets"].",".$ICEcoder["autoCloseTags"].",".$ICEcoder["autoCloseBrackets"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentAuto"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."',".$jsBugFilePaths.",".$ICEcoder["bugFileCheckTimer"].",".$ICEcoder["bugFileMaxLines"].",'".$githubAuthTokenSet."',".$ICEcoder["updateDiffOnSave"].",".$ICEcoder["autoLogoutMins"].",".$refreshFM.");iceRoot = '".$ICEcoder["root"]."';</script>";
+	echo "<script>parent.parent.ICEcoder.settingsScreen('hide');parent.parent.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["lineNumbers"].",".$ICEcoder["showTrailingSpace"].",".$ICEcoder["matchBrackets"].",".$ICEcoder["autoCloseTags"].",".$ICEcoder["autoCloseBrackets"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentAuto"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."',".$jsBugFilePaths.",".$ICEcoder["bugFileCheckTimer"].",".$ICEcoder["bugFileMaxLines"].",'".$githubAuthTokenSet."',".$ICEcoder["updateDiffOnSave"].",".$ICEcoder["autoLogoutMins"].",".$refreshFM.");iceRoot = '".$ICEcoder["root"]."';</script>";
 }

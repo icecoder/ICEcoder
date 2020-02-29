@@ -252,7 +252,7 @@ function toUTF8noBOM($string,$message=false) {
 		if (!$strictUTF8 && strlen($teststringConverted) == strlen($teststringBroken)) {
 			$string = utf8_encode($string);
 			if ($message) {
-				echo "ICEcoder.message('".$t['Your document does...'].".');";
+				echo "parent.parent.ICEcoder.message('".$t['Your document does...'].".');";
 			}
 		}
 	}

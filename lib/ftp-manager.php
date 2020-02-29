@@ -18,7 +18,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 		// Set the site ref in session, hide the popup and reload the file manager
 		$_SESSION['ftpSiteRef'] = numClean($_GET['ftpSiteRef']);
 		// Hide this popup and reload file manager
-		echo "<script>ICEcoder.showHide('hide',document.getElementById('blackMask'));ICEcoder.refreshFileManager();</script>";
+		echo "<script>parent.parent.ICEcoder.showHide('hide',parent.document.getElementById('blackMask'));parent.parent.ICEcoder.refreshFileManager();</script>";
 	} else {
 		// Start creating a new chunk for the FTP sites
 		$settingsNew = '"ftpSites"		=> array(
@@ -109,10 +109,10 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 			fclose($fh);
 			// Finally, reload the iFrame screen for the user
 			header("Location: ftp-manager.php?updatedFTPSites&csrf=".$_SESSION["csrf"]);
-			echo "<script>window.location='ftp-manager.php?updatedFTPSites&csrf='+ICEcoder.csrf;</script>";
+			echo "<script>window.location='ftp-manager.php?updatedFTPSites&csrf='+parent.parent.ICEcoder.csrf;</script>";
 			die($t['Saving FTP sites']);
 		} else {
-			echo "<script>ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
+			echo "<script>parent.parent.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 		}
 	}
 }
@@ -147,7 +147,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 				echo '<td style="padding: 10px 10px 8px 0">'.$ftpSites[$i]['site'].'</td>';
 				echo '<td style="padding: 10px 10px 8px 0">'.$ftpSites[$i]['host'].'</td>';
 				echo '<td style="padding: 10px 10px 8px 0"><a href="ftp-manager.php?action=edit&ftpSiteRef='.$i.'&csrf='.$_SESSION["csrf"].'" class="blue">Edit</a></td>';
-				echo '<td style="padding: 10px 10px 8px 0"><a href="ftp-manager.php?action=remove&ftpSiteRef='.$i.'&csrf='.$_SESSION["csrf"].'" class="blue" onclick="return ICEcoder.ask(\''.$t['Are you sure...'].'\')">Delete</a></td>';
+				echo '<td style="padding: 10px 10px 8px 0"><a href="ftp-manager.php?action=remove&ftpSiteRef='.$i.'&csrf='.$_SESSION["csrf"].'" class="blue" onclick="return parent.parent.ICEcoder.ask(\''.$t['Are you sure...'].'\')">Delete</a></td>';
 				echo '<td style="padding: 2px 20px 8px 0; text-align: right"><div style="display: inline-block; padding: 5px; margin-top: 4px; background: #2187e7; color: #fff; font-size: 12px; cursor: pointer" onclick="window.location=\'ftp-manager.php?action=choose&ftpSiteRef='.$i.'&csrf='.$_SESSION["csrf"].'\'">'.$t['Choose'].'</div></td>';
 				echo '</tr>';
 			}

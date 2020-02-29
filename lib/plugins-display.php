@@ -15,7 +15,7 @@ if ($_SESSION['loggedIn']) {
 
 	// If we're updating plugins, update those shown
 	if (isset($_GET['updatedPlugins'])) {
-		echo "<script>document.getElementById('pluginsOptional').innerHTML = '".str_replace("'","\\'",$pluginsDisplay)."';</script>";
+		echo "<script>parent.document.getElementById('pluginsOptional').innerHTML = '".str_replace("'","\\'",$pluginsDisplay)."';</script>";
 	}
 
 	// Work out what plugins we'll need to set on a setInterval
@@ -30,10 +30,10 @@ if ($_SESSION['loggedIn']) {
 	if (isset($_GET['updatedPlugins'])) {
 		?>
 		<script>
-		for (i=0;i<=ICEcoder.pluginIntervalRefs.length-1;i++) {
-			clearInterval(ICEcoder['plugTimer'+ICEcoder.pluginIntervalRefs[i]]);
+		for (i=0;i<=parent.parent.ICEcoder.pluginIntervalRefs.length-1;i++) {
+			clearInterval(parent.parent.ICEcoder['plugTimer'+parent.parent.ICEcoder.pluginIntervalRefs[i]]);
 		}
-		ICEcoder.pluginIntervalRefs = [];
+        parent.parent.ICEcoder.pluginIntervalRefs = [];
 		<?php echo $onLoadExtras.PHP_EOL; ?>
 		</script>
 		<?php

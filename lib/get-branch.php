@@ -127,7 +127,7 @@ if (isset($ftpSite)) {
 	ftpStart();
 	// Show user warning if no good connection
 	if (!$ftpConn || !$ftpLogin) {
-		die('<script>parent.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");</script>');
+		die('<script>parent.parent.ICEcoder.message("Sorry, no FTP connection to '.$ftpHost.' for user '.$ftpUser.'");</script>');
 		exit;
 	}
 	// Get our simple and detailed lists and close the FTP connection
@@ -186,15 +186,15 @@ for ($i=0;$i<count($finalArray);$i++) {
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
 	$loadParam = $type == "folder" ? "true" : "false";
-	echo "<li class=\"".$class."\" draggable=\"false\" ondragstart=\"parent.ICEcoder.addDefaultDragData(this,event)\" ondrag=\"parent.ICEcoder.draggingWithKeyTest(event);if(parent.ICEcoder.getcMInstance()){parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}\" ondragover=\"parent.ICEcoder.setDragCursor(event,".($type == "folder" ? "'folder'" : "'file'").")\" ondragend=\"parent.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;parent.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;parent.ICEcoder.overFileFolder('$type','')\" ".
+	echo "<li class=\"".$class."\" draggable=\"false\" ondragstart=\"parent.parent.ICEcoder.addDefaultDragData(this,event)\" ondrag=\"parent.parent.ICEcoder.draggingWithKeyTest(event);if(parent.parent.ICEcoder.getcMInstance()){parent.parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.parent.ICEcoder.getcMInstance().focus() : parent.parent.ICEcoder.getcMdiffInstance().focus()}\" ondragover=\"parent.parent.ICEcoder.setDragCursor(event,".($type == "folder" ? "'folder'" : "'file'").")\" ondragend=\"parent.parent.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;parent.parent.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;parent.parent.ICEcoder.overFileFolder('$type','')\" ".
 
-	(($type == "folder")?"ondragover=\"if(parentNode.nextSibling && parentNode.nextSibling.tagName != 'UL' && parent.ICEcoder.thisFileFolderLink != this.childNodes[1].id) {parent.ICEcoder.openCloseDir(this,true);}\"":"").
+	(($type == "folder")?"ondragover=\"if(parentNode.nextSibling && parentNode.nextSibling.tagName != 'UL' && parent.parent.ICEcoder.thisFileFolderLink != this.childNodes[1].id) {parent.parent.ICEcoder.openCloseDir(this,true);}\"":"").
 
-	" onClick=\"if(!event.ctrlKey && !parent.ICEcoder.cmdKey) {".
+	" onClick=\"if(!event.ctrlKey && !parent.parent.ICEcoder.cmdKey) {".
 
-	(($type == "folder")?" parent.ICEcoder.openCloseDir(this,$loadParam);":"").
+	(($type == "folder")?" parent.parent.ICEcoder.openCloseDir(this,$loadParam);":"").
 
-	" if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.ICEcoder.openFile()}}\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".xssClean(basename($fileFolderName),"html")."</span> ";
+	" if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.parent.ICEcoder.openFile()}}\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".xssClean(basename($fileFolderName),"html")."</span> ";
 	if (!isset($ftpSite)) {
 		$thisPermVal = $serverType=="Linux" ? substr(sprintf('%o', fileperms($docRoot.$iceRoot.$fileFolderName)), -3) : '';
 	} else {
@@ -224,7 +224,7 @@ echo '	</div>';
 
 if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 	// Show the loading screen until we're done comparing files with GitHub
-	echo "<script>setTimeout(function(){parent.ICEcoder.showHide('show',parent.get('loadingMask'));},4)</script>";
+	echo "<script>setTimeout(function(){parent.parent.ICEcoder.showHide('show',parent.get('loadingMask'));},4)</script>";
 	$i=0;
 	$dirListArray = $dirSHAArray = $dirTypeArray = array();
 	// For each of the files in our local path...
@@ -356,20 +356,20 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 				// If there are no diffs, ask user if they want to switch back to regular mode
 				setTimeout(function(){
 					if (parent.document.getElementById('|').parentNode.parentNode.parentNode.childNodes[2].childNodes.length==1) {
-						if(parent.ICEcoder.ask('<?php echo $t['There are no...'];?>')) {
-							parent.ICEcoder.githubDiffToggle();
+						if(parent.parent.ICEcoder.ask('<?php echo $t['There are no...'];?>')) {
+							parent.parent.ICEcoder.githubDiffToggle();
 						} else {
-							parent.ICEcoder.showHide('hide',parent.get('loadingMask'));
+							parent.parent.ICEcoder.showHide('hide',parent.get('loadingMask'));
 						}
 					} else {
-						parent.ICEcoder.showHide('hide',parent.get('loadingMask'));
+						parent.parent.ICEcoder.showHide('hide',parent.get('loadingMask'));
 					}
 				},100);
 			},4);
 		} else {
 			// There was an error, display HTTP error code and response message
-			parent.ICEcoder.message('<?php echo $t['Sorry, there was...'];?> '+err.error+'\n\n'+err.request.response);
-			parent.ICEcoder.showHide('hide',parent.get('loadingMask'));
+			parent.parent.ICEcoder.message('<?php echo $t['Sorry, there was...'];?> '+err.error+'\n\n'+err.request.response);
+			parent.parent.ICEcoder.showHide('hide',parent.get('loadingMask'));
 		}
 	});
 	</script>
@@ -432,15 +432,15 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 
 						// If we're adding a deleted dir/file in a sub-dir
 						if ("<?php echo $location;?>" == "/"+thePath) {
-							parent.ICEcoder.updateFileManagerList('add','/'+thePath,theFile,false,false,false,'file');
+							parent.parent.ICEcoder.updateFileManagerList('add','/'+thePath,theFile,false,false,false,'file');
 						// If we're adding a deleted dir/file at the root level
 						} else {
 							// Folder
 							if (thePath != "") {
-								parent.ICEcoder.updateFileManagerList('add',parent.iceRoot,thePath,false,false,false,'folder');
+								parent.parent.ICEcoder.updateFileManagerList('add',parent.iceRoot,thePath,false,false,false,'folder');
 							// File
 							} else {
-								parent.ICEcoder.updateFileManagerList('add',parent.iceRoot+thePath,theFile,false,false,false,'file');
+								parent.parent.ICEcoder.updateFileManagerList('add',parent.iceRoot+thePath,theFile,false,false,false,'file');
 							}
 						}
 
@@ -452,8 +452,8 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 
 				},20);
 			}
-			setTimeout(function(){parent.ICEcoder.redoTabHighlight(parent.ICEcoder.selectedTab);},4);
-			if (!parent.ICEcoder.fmReady) {parent.ICEcoder.fmReady=true;};
+			setTimeout(function(){parent.parent.ICEcoder.redoTabHighlight(parent.parent.ICEcoder.selectedTab);},4);
+			if (!parent.parent.ICEcoder.fmReady) {parent.parent.ICEcoder.fmReady=true;};
 		}
 		newUL.innerHTML = showContent;
 		locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
@@ -469,10 +469,10 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 		$pathPos = array_search($iceRoot,$iceGithubLocalPaths);
 		if ($pathPos !== false) {
 		?>
-			if (parent.ICEcoder.ask("<?php echo $t['Your local folder...'];?> <?php echo $iceGithubRemotePaths[$pathPos];?>?")) {
+			if (parent.parent.ICEcoder.ask("<?php echo $t['Your local folder...'];?> <?php echo $iceGithubRemotePaths[$pathPos];?>?")) {
 				setTimeout(function() {
-					parent.ICEcoder.showHide('show',parent.get('loadingMask'));
-					parent.ICEcoder.filesFrame.contentWindow.frames['fileControl'].location.href = "github.php?action=clone&csrf="+parent.ICEcoder.csrf;
+					parent.parent.ICEcoder.showHide('show',parent.get('loadingMask'));
+					parent.parent.ICEcoder.filesFrame.contentWindow.frames['fileControl'].location.href = "github.php?action=clone&csrf="+parent.parent.ICEcoder.csrf;
 				},4);
 			}
 		<?php ;}; ?>

@@ -27,9 +27,9 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
 		$_SESSION['ftpSiteRef'] = false;
 
 		// Now we've reset the root path to localhost root, refresh the file manager to show it
-		echo "<script>ICEcoder.refreshFileManager();</script>";
+		echo "<script>parent.parent.ICEcoder.refreshFileManager();</script>";
 	} else {
-		echo "<script>ICEcoder.message('".$t['Cannot update config']." data/".$settingsFile." ".$t['and try again']."');</script>";
+		echo "<script>parent.parent.ICEcoder.message('".$t['Cannot update config']." data/".$settingsFile." ".$t['and try again']."');</script>";
 	}
 	?>
 <?php
