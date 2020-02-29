@@ -186,13 +186,13 @@ for ($i=0;$i<count($finalArray);$i++) {
 	}
 	$type == "folder" ? $class = 'pft-directory' : $class = 'pft-file '.strtolower($ext);
 	$loadParam = $type == "folder" ? "true" : "false";
-	echo "<li class=\"".$class."\" draggable=\"false\" ondragstart=\"parent.parent.ICEcoder.addDefaultDragData(this,event)\" ondrag=\"parent.parent.ICEcoder.draggingWithKeyTest(event);if(parent.parent.ICEcoder.getcMInstance()){parent.parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.parent.ICEcoder.getcMInstance().focus() : parent.parent.ICEcoder.getcMdiffInstance().focus()}\" ondragover=\"parent.parent.ICEcoder.setDragCursor(event,".($type == "folder" ? "'folder'" : "'file'").")\" ondragend=\"parent.parent.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;parent.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;parent.ICEcoder.overFileFolder('$type','')\" ".
+	echo "<li class=\"".$class."\" draggable=\"false\" ondragstart=\"parent.ICEcoder.addDefaultDragData(this,event)\" ondrag=\"parent.ICEcoder.draggingWithKeyTest(event);if(parent.ICEcoder.getcMInstance()){parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}\" ondragover=\"parent.ICEcoder.setDragCursor(event,".($type == "folder" ? "'folder'" : "'file'").")\" ondragend=\"parent.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;parent.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;parent.ICEcoder.overFileFolder('$type','')\" ".
 
-	(($type == "folder")?"ondragover=\"if(parentNode.nextSibling && parentNode.nextSibling.tagName != 'UL' && parent.parent.ICEcoder.thisFileFolderLink != this.childNodes[1].id) {parent.parent.ICEcoder.openCloseDir(this,true);}\"":"").
+	(($type == "folder")?"ondragover=\"if(parentNode.nextSibling && parentNode.nextSibling.tagName != 'UL' && parent.parent.ICEcoder.thisFileFolderLink != this.childNodes[1].id) {parent.ICEcoder.openCloseDir(this,true);}\"":"").
 
 	" onClick=\"if(!event.ctrlKey && !parent.ICEcoder.cmdKey) {".
 
-	(($type == "folder")?" parent.parent.ICEcoder.openCloseDir(this,$loadParam);":"").
+	(($type == "folder")?" parent.ICEcoder.openCloseDir(this,$loadParam);":"").
 
 	" if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.parent.ICEcoder.openFile()}}\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".xssClean(basename($fileFolderName),"html")."</span> ";
 	if (!isset($ftpSite)) {
