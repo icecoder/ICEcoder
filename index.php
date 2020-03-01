@@ -155,7 +155,7 @@ $t = $text['index'];
 		<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 		<a href="javascript:ICEcoder.uploadFilesSelect(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()"><?php echo $t['Upload File(s)'];?></a>
 		<div style="display: none">
-			<form enctype="multipart/form-data" id="uploadFilesForm" action="lib/file-control-xhr.php?action=upload&file=/uploaded" method="POST" target="fileControl">
+			<form enctype="multipart/form-data" id="uploadFilesForm" action="<?php echo $iceURLPath;?>/lib/file-control-xhr.php?action=upload&file=/uploaded" method="POST" target="fileControl">
 				<input type="hidden" name="folder" id="uploadDir" value="/">
 				<input type="file" name="filesInput[]" id="fileInput" onchange="ICEcoder.uploadFilesSubmit(this)" multiple>
 				<input type="submit" value="Upload File">
@@ -352,7 +352,7 @@ $t = $text['index'];
 </div>
 
 <div class="docExplorer" id="docExplorer">
-	<div class="miniMap" id="miniMap"><div class="miniMapContainer" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent"></div></div>
+	<div class="miniMap" id="miniMap"><div class="miniMapContainer" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent" onmousedown="ICEcoder.jumpMinimapPositon(event)"></div></div>
 	<div class="functionClassList" id="functionClassList"></div>
 </div>
 
