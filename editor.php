@@ -229,71 +229,31 @@ function createNewCMInstance(num) {
 	window['cM'+num+'diff']	= CodeMirror(document.body, cMOptions);
 
 	// Define actions for those...
-
-	// Focus
-    window['cM'+num]	.on("focus", function(thisCM) {parent.ICEcoder.cMonFocus(thisCM,'cM'+num)});
-    window['cM'+num+'diff']	.on("focus", function(thisCM) {parent.ICEcoder.cMonFocus(thisCM,'cM'+num+'diff')});
-
-	// Blur
-    window['cM'+num]	.on("blur", function(thisCM) {parent.ICEcoder.cMonBlur(thisCM,'cM'+num)});
-    window['cM'+num+'diff']	.on("blur", function(thisCM) {parent.ICEcoder.cMonBlur(thisCM,'cM'+num+'diff')});
-
-	// Keyup
-    window['cM'+num]	.on("keyup", function(thisCM) {parent.ICEcoder.cMonKeyUp(thisCM,'cM'+num)});
-    window['cM'+num+'diff']	.on("keyup", function(thisCM) {parent.ICEcoder.cMonKeyUp(thisCM,'cM'+num+'diff')});
-
-	// Cursor activity
-    window['cM'+num]	.on("cursorActivity", function(thisCM) {parent.ICEcoder.cMonCursorActivity(thisCM,'cM'+num)});
-    window['cM'+num+'diff']	.on("cursorActivity", function(thisCM) {parent.ICEcoder.cMonCursorActivity(thisCM,'cM'+num+'diff')});
-
-	// Before selection change
-    window['cM'+num]	.on("beforeSelectionChange", function(thisCM, changeObj) {parent.ICEcoder.prevLine = thisCM.getCursor().line;});
-    window['cM'+num+'diff']	.on("beforeSelectionChange", function(thisCM, changeObj) {parent.ICEcoder.prevLineDiff = thisCM.getCursor().line;});
-
-	// Change
-    window['cM'+num]	.on("change", function(thisCM, changeObj) {parent.ICEcoder.cMonChange(thisCM,'cM'+num,changeObj,CodeMirror)});
-    window['cM'+num+'diff']	.on("change", function(thisCM, changeObj) {parent.ICEcoder.cMonChange(thisCM,'cM'+num+'diff',changeObj,CodeMirror)});
-
-	// Before change
-    window['cM'+num]	.on("beforeChange", function(thisCM, changeObj) {parent.ICEcoder.cMonBeforeChange(thisCM,'cM'+num,changeObj,CodeMirror)});
-    window['cM'+num+'diff']	.on("beforeChange", function(thisCM, changeObj) {parent.ICEcoder.cMonBeforeChange(thisCM,'cM'+num+'diff',changeObj,CodeMirror)});
-
-	// Scroll
-    window['cM'+num]	.on("scroll", function(thisCM) {parent.ICEcoder.cMonScroll(thisCM,'cM'+num)});
-    window['cM'+num+'diff']	.on("scroll", function(thisCM) {parent.ICEcoder.cMonScroll(thisCM,'cM'+num+'diff')});
-
-	// Update
-    window['cM'+num]	.on("update", function(thisCM) {parent.ICEcoder.cMonUpdate(thisCM,'cM'+num)});
-    window['cM'+num+'diff']	.on("update", function(thisCM) {parent.ICEcoder.cMonUpdate(thisCM,'cM'+num+'diff')});
-
-	// Input read
-    window['cM'+num]	.on("inputRead", function(thisCM) {parent.ICEcoder.cMonInputRead(thisCM,'cM'+num)});
-    window['cM'+num+'diff']	.on("inputRead", function(thisCM) {parent.ICEcoder.cMonInputRead(thisCM,'cM'+num+'diff')});
-
-	// Gutter Click
-    window['cM'+num]	.on("gutterClick", function(thisCM,line,gutter,evt) {parent.ICEcoder.cMonGutterClick(thisCM,line,gutter,evt,'cM'+num)});
-    window['cM'+num+'diff']	.on("gutterClick", function(thisCM,line,gutter,evt) {parent.ICEcoder.cMonGutterClick(thisCM,line,gutter,evt,'cM'+num+'diff')});
-
-	// Mouse Down
-    window['cM'+num]	.on("mousedown", function(thisCM,evt) {parent.ICEcoder.cMonMouseDown(thisCM,'cM'+num,evt)});
-    window['cM'+num+'diff']	.on("mousedown", function(thisCM,evt) {parent.ICEcoder.cMonMouseDown(thisCM,'cM'+num+'diff',evt)});
-
-	// Context Menu
-    window['cM'+num]	.on("contextmenu", function(thisCM,evt) {parent.ICEcoder.cMonContextMenu(thisCM,'cM'+num,evt)});
-    window['cM'+num+'diff']	.on("contextmenu", function(thisCM,evt) {parent.ICEcoder.cMonContextMenu(thisCM,'cM'+num+'diff',evt)});
-
-	// Drag Over
-    window['cM'+num]	.on("dragover", function(thisCM) {parent.ICEcoder.cMonDragOver(thisCM,event,'cM'+num)});
-    window['cM'+num+'diff']	.on("dragover", function(thisCM) {parent.ICEcoder.cMonDragOver(thisCM,event,'cM'+num+'diff')});
-
-	// Render line
-    window['cM'+num]	.on("renderLine", function(thisCM, line, element) {parent.ICEcoder.cMonRenderLine(thisCM,'cM'+num,line,element)});
-    window['cM'+num+'diff']	.on("renderLine", function(thisCM, line, element) {parent.ICEcoder.cMonRenderLine(thisCM,'cM'+num+'diff',line,element)});
+    createNewCMInstanceEvents(num, '');
+    createNewCMInstanceEvents(num, 'diff');
 
 	// Now create the active lines for them
 	parent.ICEcoder['cMActiveLinecM'+num] = window['cM'+num].addLineClass(0, "background", "cm-s-activeLine");
 	parent.ICEcoder['cMActiveLinecM'+num+'diff'] = window['cM'+num+'diff'].addLineClass(0, "background", "cm-s-activeLine");
 };
+
+function createNewCMInstanceEvents(num, pane) {
+    window['cM'+num+pane].on("focus", function(thisCM) {parent.ICEcoder.cMonFocus(thisCM,'cM'+num+pane)});
+    window['cM'+num+pane].on("blur", function(thisCM) {parent.ICEcoder.cMonBlur(thisCM,'cM'+num+pane)});
+    window['cM'+num+pane].on("keyup", function(thisCM) {parent.ICEcoder.cMonKeyUp(thisCM,'cM'+num+pane)});
+    window['cM'+num+pane].on("cursorActivity", function(thisCM) {parent.ICEcoder.cMonCursorActivity(thisCM,'cM'+num+pane)});
+    window['cM'+num+pane].on("beforeSelectionChange", function(thisCM, changeObj) {parent.ICEcoder.prevLine = thisCM.getCursor().line;});
+    window['cM'+num+pane].on("change", function(thisCM, changeObj) {parent.ICEcoder.cMonChange(thisCM,'cM'+num+pane,changeObj,CodeMirror)});
+    window['cM'+num+pane].on("beforeChange", function(thisCM, changeObj) {parent.ICEcoder.cMonBeforeChange(thisCM,'cM'+num+pane,changeObj,CodeMirror)});
+    window['cM'+num+pane].on("scroll", function(thisCM) {parent.ICEcoder.cMonScroll(thisCM,'cM'+num+pane)});
+    window['cM'+num+pane].on("update", function(thisCM) {parent.ICEcoder.cMonUpdate(thisCM,'cM'+num+pane)});
+    window['cM'+num+pane].on("inputRead", function(thisCM) {parent.ICEcoder.cMonInputRead(thisCM,'cM'+num+pane)});
+    window['cM'+num+pane].on("gutterClick", function(thisCM,line,gutter,evt) {parent.ICEcoder.cMonGutterClick(thisCM,line,gutter,evt,'cM'+num+pane)});
+    window['cM'+num+pane].on("mousedown", function(thisCM,evt) {parent.ICEcoder.cMonMouseDown(thisCM,'cM'+num+pane,evt)});
+    window['cM'+num+pane].on("contextmenu", function(thisCM,evt) {parent.ICEcoder.cMonContextMenu(thisCM,'cM'+num+pane,evt)});
+    window['cM'+num+pane].on("dragover", function(thisCM) {parent.ICEcoder.cMonDragOver(thisCM,event,'cM'+num+pane)});
+    window['cM'+num+pane].on("renderLine", function(thisCM, line, element) {parent.ICEcoder.cMonRenderLine(thisCM,'cM'+num+pane,line,element)});
+}
 </script>
 
 <div style="position: absolute; display: none; width: 5px; height: 100%; top: 0; right: 0; background: rgba(255,255,255,0.1); overflow: hidden; z-index: 2" id="resultsBar"></div>
