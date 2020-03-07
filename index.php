@@ -351,7 +351,7 @@ $t = $text['index'];
 </div>
 
 <div class="docExplorer" id="docExplorer">
-	<div class="miniMap" id="miniMap"><div class="miniMapContainer" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent" onmousedown="ICEcoder.mouseDownMinimap = true; ICEcoder.jumpMinimapPositon(event)" onmousemove="ICEcoder.jumpMinimapPositon(event)" onmouseup="ICEcoder.mouseDownMinimap = false"></div></div>
+	<div class="miniMap" id="miniMap" onmousedown="document.body.style.cursor='pointer'"><div class="miniMapContainer" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent" onmousedown="ICEcoder.mouseDownMinimap = true; ICEcoder.jumpMinimapPositon(event.y, event.buttons)" onmousemove="ICEcoder.jumpMinimapPositon(event.y, event.buttons)" onmouseup="ICEcoder.mouseDownMinimap = false"></div></div>
 	<div class="functionClassList" id="functionClassList"></div>
 </div>
 
