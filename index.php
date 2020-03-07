@@ -76,7 +76,6 @@ $t = $text['index'];
 </script>
 <script language="JavaScript" src="<?php echo $iceURLPath;?>/lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
-<script src="<?php echo $iceURLPath;?>/lib/draggabilly.pkgd.min.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/farbtastic/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/lib/difflib.js?microtime=<?php echo microtime(true);?>"></script>
 <link rel="stylesheet" href="<?php echo $iceURLPath;?>/farbtastic/farbtastic.css?microtime=<?php echo microtime(true);?>" type="text/css">
@@ -352,7 +351,7 @@ $t = $text['index'];
 </div>
 
 <div class="docExplorer" id="docExplorer">
-	<div class="miniMap" id="miniMap"><div class="miniMapContainer" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent" onmousedown="ICEcoder.jumpMinimapPositon(event)"></div></div>
+	<div class="miniMap" id="miniMap"><div class="miniMapContainer" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent" onmousedown="ICEcoder.mouseDownMinimap = true; ICEcoder.jumpMinimapPositon(event);" onmousemove="ICEcoder.jumpMinimapPositon(event)" onmouseup="ICEcoder.mouseDownMinimap = false"></div></div>
 	<div class="functionClassList" id="functionClassList"></div>
 </div>
 
