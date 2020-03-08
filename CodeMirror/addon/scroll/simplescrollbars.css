@@ -36,7 +36,11 @@
   position: absolute;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: #888;
+  background: rgba(0,198,255,0.2);
+}
+
+.CodeMirror-simplescroll-horizontal:hover div, .CodeMirror-simplescroll-vertical:hover div {
+  background: rgba(0,198,255,0.8);
 }
 
 .CodeMirror-simplescroll .CodeMirror-scrollbar-filler, .CodeMirror-simplescroll .CodeMirror-gutter-filler {
@@ -53,6 +57,10 @@
 .CodeMirror-overlayscroll-horizontal div, .CodeMirror-overlayscroll-vertical div {
   position: absolute;
   background: rgba(0,198,255,0.2);
+}
+
+.CodeMirror-overlayscroll-horizontal div:hover, .CodeMirror-overlayscroll-vertical div:hover {
+  background: rgba(0,198,255,0.8);
 }
 
 .CodeMirror-overlayscroll .CodeMirror-scrollbar-filler, .CodeMirror-overlayscroll .CodeMirror-gutter-filler {
