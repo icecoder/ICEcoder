@@ -24,9 +24,6 @@ addon:	brace-fold, closebrackets, closetag, css-hint, foldcode, foldgutter, html
 if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
 	echo '<script src="plugins/jshint/jshint-2.5.6.min.js?microtime='.microtime(true).'></script>';
 };?>
-<script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
-<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
 	echo '<script src="plugins/emmet/emmet.min.js?microtime='.microtime(true).'"></script>';
@@ -54,6 +51,9 @@ if (array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","e
 	$activeLineBG = "#000";
 }
 ?>">
+<script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 
 <style type="text/css">
 /* Make sure this next one remains the 1st item, updated with JS */
@@ -256,7 +256,7 @@ function createNewCMInstanceEvents(num, pane) {
 }
 </script>
 
-<div style="position: absolute; display: none; width: 5px; height: 100%; top: 0; right: 0; background: rgba(255,255,255,0.1); overflow: hidden; z-index: 2" id="resultsBar"></div>
+<div style="position: absolute; display: none; width: 12px; height: 100%; top: 0; right: 0; overflow: hidden; pointer-events: none; z-index: 2" id="resultsBar"></div>
 
 <div style="position: absolute; display: none; height: 100%; width: 100%; top: 0; padding: 3px 0 0 60px; line-height: 16px; font-family: monospace; font-size: 13px; z-index: 2147483647" id="game"></div>
 
