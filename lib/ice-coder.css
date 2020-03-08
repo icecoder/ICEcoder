@@ -56,13 +56,13 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 	transition: all 0.07s ease-out;
 }
 
-.header {position: absolute; display: inline-block; top: 0; left: 0; width: 100%; height: 20px; background-color: #fff; text-align: right; z-index: 1}
+.header {position: absolute; display: inline-block; top: 0; left: 0; width: 100%; height: 15px; background-color: #fff; text-align: right; z-index: 1}
 
 .files {position: absolute; display: inline-block; top: 0; left: 0; height: 100%; width: 250px; background-color: #444; background-image: url('../images/files-arrow.png'); background-repeat: no-repeat; background-position: 100% 50%; overflow: hidden; z-index: 2;
 	transition: background 0.2s ease-out;
 }
 .files .fileNav {display: block; height: 36px}
-.files .fileNav ul {list-style-type: none; line-height: 24px; padding-left: 15px}
+.files .fileNav ul {list-style-type: none; line-height: 22px; padding-left: 15px}
 .files .fileNav li {display: inline-block; padding: 18px 15px 0 0}
 .files .fileNav a {color: #666; text-decoration: none}
 .files .fileNav a:hover {color: #fff; cursor: pointer}
@@ -79,8 +79,8 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .options .optionsList ul {list-style-type: none; line-height: 24px}
 .files .options .optionsList a {color: #666; text-decoration: none}
 .files .options .optionsList a:hover {color: #fff; cursor: pointer}
-.files input:focus, .findReplace input:focus, .findReplace select:focus, .password:focus {outline: 0; box-shadow: 0 0 10px 1px rgba(0,198,255,0.7)}
-.files .button {position: absolute; border: 0; background: #444; color: #eee; height:20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
+.files input:focus, .password:focus {outline: 0; box-shadow: 0 0 10px 1px rgba(0,198,255,0.7)}
+.files .button {position: absolute; border: 0; background: #444; color: #eee; height: 20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
 .files .button:hover {background-color: #1d1d1b; color: #eee}
 .files .frame {display: inline-block; width: 250px; margin-top: 24px}
 .files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 4px 12px 1px 12px; opacity: 0;
@@ -93,8 +93,8 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .tools div:hover {color: #fff; cursor: pointer}
 
 .editor {position: absolute; display: inline-block; top: 0; left: 15px; width: 2400px}
-.editor .tabsBar {display: inline-block; height: 22px; width: 2400px; margin-top: 20px; padding-left: 53px; background: #fff}
-.tabsBar .tab {position: absolute; display: none; height: 15px; padding: 5px 8px 2px 9px; border-right: 1px solid #ddd; color: #fff; white-space: nowrap; overflow: hidden; cursor: pointer; z-index: 1;
+.editor .tabsBar {display: inline-block; height: 27px; width: 2400px; margin-top: 15px; padding-left: 53px; background: #fff}
+.tabsBar .tab {position: absolute; display: none; height: 15px; padding: 6px 8px 6px 9px; border-right: 1px solid #ddd; color: #fff; white-space: nowrap; overflow: hidden; cursor: pointer; z-index: 1;
 	transition: width 0.15s ease-in-out;
 	transition: left 0.15s ease-in-out;
 }
@@ -110,35 +110,34 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .tabsBar .alphaTabs:hover {background: #ccc}
 .tabsBar .closeAllTabs {position: absolute; margin: 6px 0 0 -36px}
 .tabsBar .closeAllTabs:hover {background: #ccc}
-.tabsBar .newTab {position: absolute; display: inline-block; height: 15px; padding: 4px 7px 3px 7px; background: #ddd; cursor: pointer; z-index: 0;
+.tabsBar .newTab {position: absolute; display: inline-block; height: 15px; padding: 7px 7px 5px 7px; cursor: pointer; z-index: 0;
 	transition: left 0.15s ease-in-out;
 }
 .editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #1d1d1b}
 .findBar .findReplace {position: absolute; padding-top: 2px; z-index: 1}
-.findReplace .selectWrapper {position: relative; display: inline-block}
-.findReplace .selectWrapper select {position: relative; padding: 1px; border: 0; background: url('../images/select-arrow.gif') no-repeat right #444; color: #fff; font-size: 10px; height: 16px;
+.findReplace .selectWrapper {position: relative; display: inline-block; margin-top: -6px}
+.findReplace .selectWrapper select {position: relative; padding: 1px; border: 0; background: url('../images/select-arrow.gif') no-repeat right #1d1d1b; color: #fff; font-size: 10px; height: 28px;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 }
-.findReplace .findText {display: inline-block; height: 21px; font-size: 10px; margin: 6px 3px 0 43px}
-.findReplace .find {position: relative; width: 120px; height: 16px; border: 0; top: 3px; font-size: 10px; padding-left: 5px; margin-right: 3px; background: #444; color: #eee}
-.findReplace .replaceText {height: 21px; font-size: 10px; margin: 6px 2px 0 2px}
-.findReplace .replace {position: relative; width: 120px; height: 16px; border: 0; top: 3px; font-size: 10px; padding-left: 5px; background: #444; color: #eee}
-.findReplace .targetText {height: 21px; font-size: 10px; margin: 6px 2px 0 2px}
-.findReplace .submit {position: relative; top: 3px; height: 16px; border: 0; background-color: #444; color: #eee; font-size: 10px; margin-left: 2px; cursor: pointer}
+.findReplace .selectWrapper select:focus {outline: 0}
+.findReplace .findText {display: inline-block; height: 28px; font-size: 10px; margin: 7px 3px 0 27px}
+.findReplace .find {position: relative; width: 167px; height: 28px; border: 0; top: -3px; font-size: 12px; padding-left: 5px; margin-right: 3px; background: #444; color: #eee}
+.findReplace .replaceText {height: 28px; font-size: 10px; margin: 7px 3px 0 2px}
+.findReplace .replace {position: relative; width: 167px; height: 28px; border: 0; top: -2px; font-size: 12px; padding-left: 5px; background: #444; color: #eee}
+.findReplace .targetText {height: 28px; font-size: 10px; margin: 7px 3px 0 2px}
+.findReplace .submit {position: relative; top: -2px; height: 28px; padding-top: 2px; border: 0; background-color: #1d1d1b; color: #eee; font-size: 10px; margin-left: 2px; cursor: pointer}
 .findReplace .submit:hover {background-color: #2187e7; color: #eee}
-.findReplace .results {position: relative; display: inline-block; width: 200px; height: 20px; font-size: 10px; margin: 8px 0 0 20px}
-.findBar .codeAssist {position: fixed; display: inline-block; width: 100px; right: 339px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
+.findReplace .results {position: relative; display: inline-block; width: 200px; height: 20px; font-size: 10px; margin: 7px 0 0 20px}
+.findBar .codeAssist {position: fixed; display: inline-block; width: 100px; right: 180px; top: 50px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
 .findBar .codeAssist .codeAssistCheckbox {display: none}
 .findBar .codeAssist .codeAssistDisplay {display: inline-block; width: 16px; height: 16px; margin: -1px 4px 0 0; vertical-align: middle; background: url('../images/checkbox.gif') 0 0 no-repeat; cursor: pointer}
-.findBar .goLine {position: fixed; display: inline-block; width: 100px; right: 251px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
-.goLine .goToLine {width: 30px; height: 16px; border: 0; font-size: 10px; margin: -3px 0 0 3px; padding-left: 4px; background: #444; color: #eee}
-.goLine .goToLine:focus {outline: none; box-shadow: 0 0 10px 1px rgba(0,198,255,1)}
-.findBar .view {position: fixed; display: inline-block; width: 16px; height: 16px; right: 235px; top: 49px; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -48px 0; opacity: 0.3}
-.findBar .bug {position: fixed; display: inline-block; width: 16px; height: 16px; right: 209px; top: 48px; background: url('../images/bug-reporting-icons.png') 0 0 no-repeat; cursor: pointer; background-position: 0 0}
-.findBar .minimapLink {position: fixed; display: inline-block; width: 16px; height: 16px; right: 164px; top: 48px; background: url('../images/doc-explorer-icons.png') 0 0 no-repeat; cursor: pointer; background-position: 0 0; cursor: pointer; z-index: 1}
-.findBar .functionClassListLink {position: fixed; display: inline-block; width: 16px; height: 16px; right: 138px; top: 48px; background: url('../images/doc-explorer-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -16px 0; cursor: pointer; z-index: 1}
+.findBar .goLine {position: fixed; display: inline-block; width: 120px; right: 65px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
+.goLine .goToLine {width: 50px; height: 28px; border: 0; font-size: 12px; margin: -7px 0 0 3px; padding-left: 4px; background: #333; color: #eee}
+.findReplace input:focus, .goLine .goToLine:focus {outline: none; background: rgba(0,198,255,0.5); color: #000}
+.findBar .view {position: fixed; display: inline-block; width: 16px; height: 16px; right: 40px; top: 49px; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -48px 0; opacity: 0.3}
+.findBar .bug {position: fixed; display: inline-block; width: 16px; height: 16px; right: 15px; top: 48px; background: url('../images/bug-reporting-icons.png') 0 0 no-repeat; cursor: pointer; background-position: 0 0}
 .editor .terminal {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
 .editor .output {position: fixed; top: 10000px; padding: 15px 18px 8px 13px; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
 .editor .database {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
@@ -165,18 +164,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .fileMenu a {display: block; padding: 2px 5px; background-color: #333; color: #eee; text-decoration: none}
 .fileMenu a:hover {background-color: #666}
 .fileMenu hr {border: 0; height: 1px; padding: 0; margin: 0; background: #444}
-
-.docExplorer {position: absolute; top: 70px; right: -420px; width: 200px; padding-left: 20px; transition: right 0.4s ease-in-out; overflow: hidden; color: #888}
-.docExplorer .miniMap {position: absolute; display: block}
-.docExplorer .miniMap .miniMapContainer {position: absolute; display: block; width: 200px}
-.docExplorer .miniMap .miniMapContent {position: absolute; display: block; width: 200px}
-.docExplorer .functionClassList {position: absolute; display: none; width: 180px; height: 100%; overflow-x: hidden; overflow-y: auto}
-.docExplorer .functionClassList::-webkit-scrollbar {width: 12px; height: 12px}
-.docExplorer .functionClassList::-webkit-scrollbar-thumb {background: rgba(0,198,255,0.1)}
-.docExplorer .functionClassList::-webkit-scrollbar-corner, .docExplorer .functionClassList::-webkit-scrollbar-resizer {background: transparent}
-.docExplorer .functionClassList .functionClassListItem {font-family: monospace; line-height: 14px; margin-bottom: 6px; cursor: pointer}
-.docExplorer .functionClassList .functionClassListItem .name {font-family: monospace; color: rgba(0,198,255,0.5)}
-.docExplorer .functionClassList .functionClassListItem .params {font-family: monospace; font-size: 10px}
 
 .tooltip {position: absolute; top: 0; left: 0; padding: 5px; background: #444; color: #bbb}
 
