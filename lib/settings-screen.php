@@ -35,6 +35,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
 }
 ?>
+<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="settings">
@@ -361,7 +362,8 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	indentUnit: parent.parent.ICEcoder.indentSize,
 	tabSize: parent.parent.ICEcoder.indentSize,
 	mode: "javascript",
-	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
+	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>",
+    scrollbarStyle: 'overlay', // null, 'native', 'simple', 'overlay'
 	});
 
 var input = document.getElementById("select");
