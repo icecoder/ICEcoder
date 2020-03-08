@@ -283,7 +283,7 @@ $t = $text['index'];
 		<form name="findAndReplace" onSubmit="ICEcoder.findReplace(document.getElementById('find').value,false,true);return false">
 			<div class="findReplace">
 				<div class="findText"><?php echo $t['Find'];?></div>
-				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace(document.getElementById('find').value,true,false,event.keyCode == 27)">
+				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace(document.getElementById('find').value,true,false,event.keyCode == 27);get('findReplaceSubmit').click();this.focus()">
 
 				<div class="selectWrapper" style="width: 41px">
 					<select name="connector" onChange="ICEcoder.findReplaceOptions()" style="width: 40px; margin-top: 4px">
@@ -320,7 +320,7 @@ $t = $text['index'];
 				<input type="checkbox" name="codeAssist" id="codeAssist" class="codeAssistCheckbox" <?php if ($ICEcoder['codeAssist']) {echo 'checked ';};?>>
 				<span class="codeAssistDisplay" id="codeAssistDisplay" style="background-position: <?php echo $ICEcoder['codeAssist'] ? "0" : "-16";?> 0" onClick="ICEcoder.codeAssistToggle()"></span> <?php echo $t['Code Assist'];?>
 			</div>
-			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" id="goToLineNo" onkeyup="ICEcoder.goToLine(this.value, 0, true)" class="textbox goToLine">
+			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" maxlength="5" id="goToLineNo" onkeyup="ICEcoder.goToLine(this.value, 0, true)" class="textbox goToLine">
 			<div class="view" title="<?php echo $t['View'];?>" onClick="ICEcoder.openPreviewWindow()" id="fMView"></div>
 			<div class="bug" title="<?php echo $t['Bug reporting not active'];?>" onClick="ICEcoder.openBugReport()" id="bugIcon"></div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
