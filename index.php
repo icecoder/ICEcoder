@@ -323,8 +323,6 @@ $t = $text['index'];
 			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" id="goToLineNo" onkeyup="ICEcoder.goToLine(this.value, 0, true)" class="textbox goToLine">
 			<div class="view" title="<?php echo $t['View'];?>" onClick="ICEcoder.openPreviewWindow()" id="fMView"></div>
 			<div class="bug" title="<?php echo $t['Bug reporting not active'];?>" onClick="ICEcoder.openBugReport()" id="bugIcon"></div>
-			<div class="minimapLink" onclick="ICEcoder.docExplorerShow('miniMap')"></div>
-			<div class="functionClassListLink" onclick="ICEcoder.docExplorerShow('functionClassList')"></div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 	</div>
@@ -348,11 +346,6 @@ $t = $text['index'];
 	<div class="splitPaneNames" id="splitPaneNamesDiff">Diff Pane</div>
 	<div class="byteDisplay" id="byteDisplay" style="display: none" onClick="ICEcoder.showDisplay('char')"></div>
 	<div class="charDisplay" id="charDisplay" style="display: inline-block" onClick="ICEcoder.showDisplay('byte')"></div>
-</div>
-
-<div class="docExplorer" id="docExplorer">
-	<div class="miniMap" id="miniMap" onmousedown="document.body.style.cursor='pointer'"><div class="miniMapContainer" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent" onmousedown="ICEcoder.mouseDownMinimap = true; ICEcoder.jumpMinimapPositon(event.y, event.buttons)" onmousemove="ICEcoder.jumpMinimapPositon(event.y, event.buttons)" onmouseup="ICEcoder.mouseDownMinimap = false; ICEcoder.getcMInstance().focus();"></div></div>
-	<div class="functionClassList" id="functionClassList"></div>
 </div>
 
 <div id="tooltip" class="tooltip" style="display: none"></div>
