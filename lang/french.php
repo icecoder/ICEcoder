@@ -280,10 +280,10 @@ dans data/config-settings.php",
 	array(
 		"set password"			=> "D&eacute;finir un mot de passe",
 		"login"				=> "Connexion",
-		"To disable registration..."=> "Pour d&eacute;sactiver le mode &apos;enregsitrement&apos;, ouvrir le menu des pr&eacute;f&eacute;rences ou le fichier lib/config___settings.php et modifier enableRegistration &agrave; &apos;false&apos;, puis recharger cette page",
+		"To disable registration..."=> "Pour d&eacute;sactiver le mode &apos;enregsitrement&apos;, ouvrir le menu des pr&eacute;f&eacute;rences ou le fichier data/config-settings.php et modifier enableRegistration &agrave; &apos;false&apos;, puis recharger cette page",
 		"Registration mode enabled"	=> "Mode Enregistrement activ&eacute;",
 		"auto-check for updates"	=> "V&eacute;rification automatique des mises &agrave; jour",
-		"To put into..."			=> "Pour passer en mode &apos;multi-utilisateur&apos;, ouvrir le menu des pref&eacute;rences ou le ifchier lib/config___settings.php et modifier multiUser &agrave; &apos;true&apos;, puis recharger cette page",
+		"To put into..."			=> "Pour passer en mode &apos;multi-utilisateur&apos;, ouvrir le menu des pref&eacute;rences ou le ifchier data/config-settings.php et modifier multiUser &agrave; &apos;true&apos;, puis recharger cette page",
 		"multi-user"			=> "Multi-utilisateur"
 	),
 

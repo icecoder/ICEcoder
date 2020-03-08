@@ -271,10 +271,10 @@ $text = array(
     array(
         "set password"          => "تنظیم واژه رمز",
         "login"             => "ورود",
-        "To disable registration..."    => "برای غیر فعال کردن حالت ثبت نام ، منوی تنظیمات را باز کنید و یا فایل lib/config___settings.php را باز کنید و گزینه enableRegistration را به false تغییر دهید. سپس این صفحه را بارگذاری مجدد نمایید",
+        "To disable registration..."    => "برای غیر فعال کردن حالت ثبت نام ، منوی تنظیمات را باز کنید و یا فایل data/config-settings.php را باز کنید و گزینه enableRegistration را به false تغییر دهید. سپس این صفحه را بارگذاری مجدد نمایید",
         "Registration mode enabled" => "حالت ثبت نام فعال است",
         "auto-check for updates"    => "بررسی خودکار برای به روز رسانی",
-        "To put into..."        => "برای وارد شدن به حالت چند کاربره ، منوی تنظیمات را باز کنید و یا فایل lib/config___settings.php و گزینه multiUser را به true تغییر دهید و و ذخیره کنید. سپس این صفحه را بارگذاری مجدد نمایید",
+        "To put into..."        => "برای وارد شدن به حالت چند کاربره ، منوی تنظیمات را باز کنید و یا فایل data/config-settings.php و گزینه multiUser را به true تغییر دهید و و ذخیره کنید. سپس این صفحه را بارگذاری مجدد نمایید",
         "multi-user"            => "چند کاربره"
     ),
 

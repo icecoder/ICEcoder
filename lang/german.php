@@ -243,10 +243,10 @@ $text = array(
 	array(
 		"set password"			=> "Passwort setzen",
 		"login"				=> "Login",
-		"To disable registration..."	=> "Um den Registrierungsmodus zu deaktivieren, &ouml;ffne im Men&uuml; die Einstellungen oder die Datein lib/config___settings.php und setze unter enableRegistration auf false, danach lade die Seite erneut.",
+		"To disable registration..."	=> "Um den Registrierungsmodus zu deaktivieren, &ouml;ffne im Men&uuml; die Einstellungen oder die Datein data/config-settings.php und setze unter enableRegistration auf false, danach lade die Seite erneut.",
 		"Registration mode enabled"	=> "Registrierungsmodus aktiviert",
 		"auto-check for updates"	=> "Automatisch nach Update suchen",
-		"To put into..."		=> "Um den Mehrbenutzermodus zu aktivieren, &ouml;ffne im Men&uuml; die Einstellungen oder die Datein lib/config___settings.php und setze unter multiUser auf true, danach lade die Seite erneut",
+		"To put into..."		=> "Um den Mehrbenutzermodus zu aktivieren, &ouml;ffne im Men&uuml; die Einstellungen oder die Datein data/config-settings.php und setze unter multiUser auf true, danach lade die Seite erneut",
 		"multi-user"			=> "Mehrbenutzermodus"
 	),
 

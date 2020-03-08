@@ -293,10 +293,10 @@ $text = array(
 	array(
 		"set password"			=> "establecer clave",
 		"login"				=> "ingreso",
-		"To disable registration..."	=> "Para deshabilitar el modo de registro, vaya a la opci&oacute;n de Configuraci&oacute;n or abra el archivo lib/config___settings.php y cambie enableRegistration a false y recargue la p&aacute;gina",
+		"To disable registration..."	=> "Para deshabilitar el modo de registro, vaya a la opci&oacute;n de Configuraci&oacute;n or abra el archivo data/config-settings.php y cambie enableRegistration a false y recargue la p&aacute;gina",
 		"Registration mode enabled"	=> "Modo de registro activado",
 		"auto-check for updates"	=> "auto-buscar por actualizaciones",
-		"To put into..."		=> "Para usar el modo multiusuario, vaya a la opcion de Configuraci&oacute;n o abra el archivo lib/config___settings.php y cambie multiUser a true y recargue la p&aacute;gina",
+		"To put into..."		=> "Para usar el modo multiusuario, vaya a la opcion de Configuraci&oacute;n o abra el archivo data/config-settings.php y cambie multiUser a true y recargue la p&aacute;gina",
 		"multi-user"			=> "multi-usuario"
 	),
 

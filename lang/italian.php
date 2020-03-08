@@ -286,10 +286,10 @@ $text = array(
 	array(
 		"set password"			=> "imposta password",
 		"login"				=> "login",
-		"To disable registration..."	=> "Per disattivare la modalità di registrazione, apri il menu delle impostazioni o aprire lib/config___settings.php e cambia enableRegistration in false quindi ricarica questa pagina",
+		"To disable registration..."	=> "Per disattivare la modalità di registrazione, apri il menu delle impostazioni o aprire data/config-settings.php e cambia enableRegistration in false quindi ricarica questa pagina",
 		"Registration mode enabled"	=> "Modalità di registrazione abilitata",
 		"auto-check for updates"	=> "auto-check per aggiornamenti",
-		"To put into..."		=> "Per mettere in modalità multi-utente, aprire il menu delle impostazioni o apri lib / config ___ settings.php e cambiare multiutente su true quindi ricarica questa pagina",
+		"To put into..."		=> "Per mettere in modalità multi-utente, aprire il menu delle impostazioni o apri data/config-settings.php e cambiare multiutente su true quindi ricarica questa pagina",
 		"multi-user"			=> "multi-user"
 	),
 

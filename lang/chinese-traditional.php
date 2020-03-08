@@ -272,10 +272,10 @@ $text = array(
 	array(
 		"set password"			=> "設置密碼",
 		"login"				=> "登錄",
-		"To disable registration..."	=> "要禁用注冊模式, 請進入選項或打開文件 lib/config___settings.php 并更改 enableRegistration 爲 false , 并重新載入本頁面",
+		"To disable registration..."	=> "要禁用注冊模式, 請進入選項或打開文件 data/config-settings.php 并更改 enableRegistration 爲 false , 并重新載入本頁面",
 		"Registration mode enabled"	=> "注冊模式已啓用",
 		"auto-check for updates"	=> "自動檢測更新",
-		"To put into..."		=> "要禁用多用戶模式, 請進入選項或打開文件 lib/config___settings.php 并更改 multiUser 爲 true , 并重新載入本頁面",
+		"To put into..."		=> "要禁用多用戶模式, 請進入選項或打開文件 data/config-settings.php 并更改 multiUser 爲 true , 并重新載入本頁面",
 		"multi-user"			=> "多用戶"
 	),
 

@@ -308,11 +308,11 @@ $text = array(
 	array(
 		"set password"			=> "sla wachtwoord op",
 		"login"				=> "login",
-		"To disable registration..."	=> "Om de registratie modus uit te zetten, open het menu opties of open lib/config___settings.php en wijzig enableRegistration naar false",
+		"To disable registration..."	=> "Om de registratie modus uit te zetten, open het menu opties of open data/config-settings.php en wijzig enableRegistration naar false",
 		"Registration mode enabled"	=> "Registratie modus aan",
 		"disable further registrations"	=> "uitschakelen van verdere registraties",
 		"auto-check for updates"	=> "automatisch controleren op updates",
-		"To put into..."		=> "Om de multi-user modus te gebruiken, open het menu opties of open lib/config___settings.php en verander multiUser naar true",
+		"To put into..."		=> "Om de multi-user modus te gebruiken, open het menu opties of open data/config-settings.php en verander multiUser naar true",
 		"multi-user"			=> "multi-user"
 	),
 

@@ -272,10 +272,10 @@ $text = array(
 	array(
 		"set password"			=> "sett passord",
 		"login"				=> "logginn",
-		"To disable registration..."	=> "Hvis du vil deaktivere registreringsmodus, åpne innstillingsmenyen eller åpne lib/config ___ settings.php og endre/aktiver Påmelding til 'false', deretter laste siden om igjen",
+		"To disable registration..."	=> "Hvis du vil deaktivere registreringsmodus, åpne innstillingsmenyen eller åpne data/config-settings.php og endre/aktiver Påmelding til 'false', deretter laste siden om igjen",
 		"Registration mode enabled"	=> "Registreringsmodus aktivert",
 		"auto-check for updates"	=> "auto-sjekk for oppdateringer",
-		"To put into..."		=> "Å sette til flerbrukermodus, åpne innstillingsmenyen eller åpne lib/config ___ settings.php og endre flerbruker til 'true', deretter laste siden om igjen",
+		"To put into..."		=> "Å sette til flerbrukermodus, åpne innstillingsmenyen eller åpne data/config-settings.php og endre flerbruker til 'true', deretter laste siden om igjen",
 		"multi-user"			=> "flerbruker"
 	),
 
