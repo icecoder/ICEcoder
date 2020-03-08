@@ -154,7 +154,7 @@ for ($i=0;$i<count($settingsArray);$i++) {
 }
 
 // Check IP permissions
-if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*", $_SESSION['allowedIPs'])) {
+if (!in_array(getUserIP(), $_SESSION['allowedIPs']) && !in_array("*", $_SESSION['allowedIPs'])) {
 	header('Location: /');
 	$reqsPassed = false;
 	$reqsFailures = ["systemIPRestriction"];

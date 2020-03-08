@@ -114,7 +114,7 @@ h2 {color: rgba(0,198,255,0.7)}
 		<span class="heading"><?php echo $t['Browser'];?></span><br>
 		<?php echo xssClean($_SERVER['HTTP_USER_AGENT'],"html");?><br><br>
 		<span class="heading"><?php echo $t['Your IP'];?></span><br>
-		<?php echo $_SERVER['REMOTE_ADDR'];?><br><br>
+		<?php echo getUserIP();?><br><br>
 	</div>
 
 	<div style="float: left">
