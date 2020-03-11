@@ -139,42 +139,11 @@ $text = array(
     ),
 
     "get-branch" =>
-    array(
-        "There are no..."       => "تغییراتی بین مخزن محلی و مخزن گیت وجود دارد ، به حالت معمول برگردد؟",
-        "Sorry, there was..."       => "متاسفانه خطای روی داده است . کد خطا : ",
-        "Your local folder..."      => "شاخه محلی شما خالی است ، آیا میخواهید تکثیر کنید ؟"
-    ),
-
-    "github-manager" =>
-    array(
-        "Sorry, cannot create..."   => "متاسفانه نمیتوانیم یک شاخه بسازیم در :",
-        "Cannot update config..."   => "متاسفانه نمیتوان فایل تنظیمات را به روز کرد. لطفا دسترسی نوشتن را اضافه کنید به",
-        "and try again"         => "و مجددا تلاش نمایید",
-        "saving github paths"       => "ذخیره مسیر های گیت هاب ...",
-        "github paths"          => "مسیر های گیت هاب",
-        "Choose existing path"      => "انتخاب یک مسیر موجود",
-        "Local path"            => "مسیر محلی",
-        "Remote GitHub path"        => "مسیر ریموت گیت هاب",
-        "Choose"            => "انتخاب",
-        "Set local and..."      => "برای حذف مسیر محلی و ریموت ، آنها را به صورت خالی تنظیم کرده و ذخیره کنید",
-        "Update"            => "به روز رسانی",
-        "Add new path"          => "اضافه کردن مسیر جدید",
-        "Add"               => "اضافه کردن",
-        "Usage Info"            => "اطلاعات مورد استفاده :",
-        "Enter relative local..."   => "Enter relative local paths (eg /server/myfiles) and absolute GitHub paths (eg https://github.com/user/repo or https://github.com/user/repo/tree/branch for branches), as per the examples. With this done you have established the source paths at both locations, as a pair.",
-        "You can then..."       => "شما میتوانید یک جفت مسیر انتخاب کنید و مسیر جدید ریشه خود را در ICEcoder وارد کنید.",
-        "The file manager..."       => "The file manager then displays a new GitHub icon, which you can click on to perform and show a diff check between the 2 sources. These diffs can then be committed and pushed to the remote path at GitHub or cloned to your local path, to sync your files.",
-        "If you want..."        => "اگر میخواهید یک مسیر ریشه دیگر تنظیم کنید ، به صفحه تنظیمات بروید."
-    ),
-
-    "github" =>
-    array(
-        "Sorry, you do..."      => "متاسفانه امکان استفاده از OpenSSL در تنظیمات پی اچ پی شما وجود ندارد, بنابر این https در دسترس نیست. این گزینه برای انتقال فایل با گیت هاب لازم است, لطفا تنظیمات php.ini خود را به روز کنید, سرور خود را مجددا راه اندازی کنید و سپس امتحان کنید"
-    ),
+    array(),
 
     "headers" =>
     array(
-        "Bad CSRF token..."     => "توکن CSRF اشتباه. لطفا خطا را در https://github.com/mattpass/ICEcoder گزارش دهید تا اصلاح شود."
+        "Bad CSRF token..."     => "توکن CSRF اشتباه. لطفا خطا را در https://github.com/icecoder/ICEcoder گزارش دهید تا اصلاح شود."
     ),
 
     "help" =>
@@ -257,8 +226,6 @@ $text = array(
         "Replacing text in"     => "جایگزین کردن متن در",
         "Cancelled tasks"       => "تسک های لغو شده ",
         "Open previous files"       => "بازکردن فایل های قبلی؟",
-        "Please enter your..."      => "Please enter your GitHub token (either personal access token or client/secret pair token). See tooltip next to Github Auth Token on Help > Settings screen for more info",
-        "This will compare..."      => "این گزینه تفاوت بین فایل محلی شما و تغییرات سرور را نمایش می دهد. مورد تایید است؟",
         "Please note for..."        => "Please note: for updating to work properly, you need to have write/delete access on all ICEcoder dirs & files. If you need to recover this version of ICEcoder for any reason, you'll find it in the /tmp dir. Click OK to proceed with an auto-update or cancel to visit the ICEcoder site so you can grab the zip and update manually.",
         "You can start..."      => "شما می توانید ارسال خطا را از منوی کمک رسانی > تنظیمات انجام دهید",
         "Error cannot find..."      => "خطا : نمی توانید به فایل / مسیر فایل های خطا دسترسی پیدا کنید.",
@@ -381,6 +348,7 @@ $text = array(
         "style"             => "استایل",
         "theme"             => "قالب",
         "line wrapping"         => "وارپینگ خط",
+        "scrollbars"         => "نوارهای پیمایش",
         "indent type"           => "نوع برجسته کردن",
         "indent size"           => "اندازه برجسته کردن",
         "font size"         => "اندازه فونت",
@@ -398,13 +366,6 @@ $text = array(
         "multi-user"            => "چند کاربره",
         "Make sure you..."      => "مطمئن شوید خود را خاریج از اینجا قفل نکرده اید",
         "Registration"          => "ثبت نام",
-        "auth token"            => "توکن خودکار",
-        "Required to get..."        => "Required to get diffs, commit to your GitHub hosted repo etc. If you do not have one, you can use a:".PHP_EOL.PHP_EOL.
-                            "- personal access token (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or".PHP_EOL.
-                            "- full client/secret pair token (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-                            "It is not recommended you set your token here however and is more secure to enter it when requested by ICEcoder as that will keep it in session only.".PHP_EOL.PHP_EOL.
-                            "However, if you work in a trusted and secure environment, it is more efficient to set it here.",
-        "Sorry cannot commit..."    => "متاسفانه نمی توان در حالت نمایشی تنظیمات را تغییر داد",
         "update"            => "به روز کردن"
     ),
 

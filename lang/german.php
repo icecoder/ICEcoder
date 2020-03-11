@@ -140,42 +140,11 @@ $text = array(
 	),
 
 	"get-branch" =>
-	array(
-		"There are no..."		=> "Es gibt keinen Unterschied zwischen der lokalen Datei und dem im GitHub Repo. Zur&uuml;ck zum regul&auml;ren Modus?",
-		"Sorry, there was..."		=> "Entschuldigung, es ist ein Fehler aufgetreten. Fehlercode:",
-		"Your local folder..."		=> "Dein lokales Verzeichnis ist leer, soll es geklont werden"
-	),
-
-	"github-manager" =>
-	array(
-		"Sorry, cannot create..."	=> "Entschuldigung, kann Verzeichnis nicht anlegen",
-		"Cannot update config..."	=> "Kann die Config Datei nicht aktualisieren. Bitte Schreibrechte setzen",
-		"and try again"			=> "und versuch es noch einmal",
-		"saving github paths"		=> "Speichere GitHub Pfad ...",
-		"github paths"			=> "GitHub Pfad",
-		"Choose existing path"		=> "W&auml;hle existierenden Pfad",
-		"Local path"			=> "Lokaler Pfad",
-		"Remote GitHub path"		=> "Ferner GitHub Pfad",
-		"Choose"			=> "Wh&auml;hle",
-		"Set local and..."		=> "L&ouml;sch lokalen und fernen Pfad",
-		"Update"			=> "Aktualisieren",
-		"Add new path"			=> "Neuen Pfad hinzuf&uuml;gen",
-		"Add"				=> "Hinfzuf&uuml;gen",
-		"Usage Info"			=> "Infos zur Verwendung:",
-		"Enter relative local..."	=> "Gib den relativen, lokalen Pfad (z.B. /server/meineDateien) und absoluten GitHub Pfad (z.B. https://github.com/user/repo oder https://github.com/user/repo/tree/branch f&uuml;r branches), wie im Beispiel an. Dadurch werden die entsprechenden Quellverzeichnisse als Paar angelegt.",
-		"You can then..."		=> "Du kannst ein Paar ausw&auml;hlenn, welches als neues Root Verzeichnis in ICECoder festgelegt wird.",
-		"The file manager..."		=> "Im Dateimanager erscheint ein GitHub Icon. Durch einen Klick auf das Icon, werden die Unterschiede zwischen beiden Versionen angezeigt. Diese Unterschiede können committed und zum GitHub Repo gepusht, oder zum lokale Pfad geklont werden.",
-		"If you want..."		=> "Soll ein weiterers Hauptverzeichnis gesetzt werden, kann dies in den Einstellungen vorgenommen werden."
-	),
-
-	"github" =>
-	array(
-		"Sorry, you do..."		=> "Es scheint so, als sei OpenSSL nicht mit PHP geladen worden, dadurch steht https nicht zur verf&uuml;gung. Dies wird jedoch f&uuml;r den Datentransfer zu GitHub ben&ouml;tigt. Bitte die PHP.ini entsprechend anpassen und neu starten."
-	),
+	array(),
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "Fehlerhafter CSRF Token. Bitte den Fehler an https://github.com/mattpass/ICEcoder damit das Problem gel&ouml;st werden kann."
+		"Bad CSRF token..."		=> "Fehlerhafter CSRF Token. Bitte den Fehler an https://github.com/icecoder/ICEcoder damit das Problem gel&ouml;st werden kann."
 	),
 
 	"help" =>
@@ -353,6 +322,7 @@ $text = array(
 		"style"				=> "Style",
 		"theme"				=> "Theme",
 		"line wrapping"			=> "Zeilenumbruch",
+		"scrollbars"			=> "Bildlaufleisten",
 		"indent type"			=> "Einr&uuml;ckung mit",
 		"indent size"			=> "Tabweite",
 		"font size"			=> "Schriftgr&ouml;&szlig;e",
@@ -370,13 +340,6 @@ $text = array(
 		"multi-user"			=> "Mehrbenutzer",
 		"Make sure you..."		=> "Sei sicher, dass du dich nicht selber aussperrst",
 		"Registration"			=> "Registrieren",
-		"auth token"			=> "Authentifizierungs-Token",
-		"Required to get..."		=> "Notwendig f&uuml;r diffs, commits des bei GitHub gehosteten Repository usw.. Wenn du keinen hast, kannst du einen:".PHP_EOL.PHP_EOL.
-							"- pers&ouml;nlichen Zugriffs Token (https://help.github.com/articles/creating-an-access-token-for-command-line-use) erstellen, oder".PHP_EOL.
-							"- Full Client/geheimen Token (http://developer.github.com/v3/oauth) erstellen.".PHP_EOL.PHP_EOL.
-							"Es ist nicht zu empfehlen den Token hier zu speichern, sondern wenn ICEcoder dazu auffordert. Dadurch gilt der Token immer nur pro Sitzung.".PHP_EOL.PHP_EOL.
-							"Jedoch, wenn du in einer sicheren und vertrauensvollen Umgebung (privater PC, Laptop, ..) arbeitest, ist es Sinnvoll ihn hier einzugeben.",
-		"Sorry cannot commit..."	=> "Entschuldigung, kann Einstellungen im Demo-Modus nicht &uuml;bernehmen",
 		"update"			=> "aktualisieren"
 	),
 

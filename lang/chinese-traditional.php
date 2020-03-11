@@ -140,42 +140,11 @@ $text = array(
 	),
 
 	"get-branch" =>
-	array(
-		"There are no..."		=> "本地文件與 GitHub repo 沒有明顯差異. 切換回普通模式?",
-		"Sorry, there was..."		=> "抱歉, 這裏有一個錯誤, 代碼:",
-		"Your local folder..."		=> "你的本地文件夾是空的, 你是否想克隆"
-	),
-
-	"github-manager" =>
-	array(
-		"Sorry, cannot create..."	=> "抱歉, 不能創建目錄到",
-		"Cannot update config..."	=> "不能更新配置文件. 請對",
-		"and try again"			=> "增加寫入權限, 并再次嘗試",
-		"saving github paths"		=> "正在保存 github 路徑...",
-		"github paths"			=> "github 路徑",
-		"Choose existing path"		=> "選擇現有路徑",
-		"Local path"			=> "本地路徑",
-		"Remote GitHub path"		=> "遠程 GitHub 路徑",
-		"Choose"			=> "選擇",
-		"Set local and..."		=> "設置本地路徑和遠程路徑需要去除空格",
-		"Update"			=> "更新",
-		"Add new path"			=> "增加新路徑",
-		"Add"				=> "增加",
-		"Usage Info"			=> "使用方法",
-		"Enter relative local..."	=> "輸入本地相對路徑 (/server/myfiles) 和 GitHub 絕對路徑 (https://github.com/user/repo 或 https://github.com/user/repo/tree/branch 各分隻), 按照示例. 完成后你就建立了這兩個源路徑, 它應該成對數存在.",
-		"You can then..."		=> "你可以選擇一個路徑作爲 ICEcoder 的根路徑.",
-		"The file manager..."		=> "文件管理器右側會顯示一個新的GitHub圖標, 您可以點擊執行, 會自動校驗并顯示本地與github源之間的差異. 這些差異可以提交和推送到GitHub上的遠程路徑或克隆到您的本地路徑, 用來同步您的文檔.",
-		"If you want..."		=> "如果您想設置一個根路徑, 可以在 幫助 > 設置窗口 中進行設置."
-	),
-
-	"github" =>
-	array(
-		"Sorry, you do..."		=> "抱歉, 您的服務器沒有啓用 OpenSSL 的 PHP 實例, 因此 https 目前不可用. GitHub 的數據傳輸必須要用 https 連接, 請修改 php.ini 設置, 重啓您的服務器并重新嘗試"
-	),
+	array(),
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "錯誤的 CSRF token. 請在 https://github.com/mattpass/ICEcoder 報告錯誤信息, 以便我們修復它."
+		"Bad CSRF token..."		=> "錯誤的 CSRF token. 請在 https://github.com/icecoder/ICEcoder 報告錯誤信息, 以便我們修復它."
 	),
 
 	"help" =>
@@ -258,8 +227,6 @@ $text = array(
 		"Replacing text in"		=> "正在替換文本",
 		"Cancelled tasks"		=> "取消任務",
 		"Open previous files"		=> "打開以前的文件?",
-		"Please enter your..."		=> "請輸入您的 GitHub token (允許使用個人令牌或客戶端令牌). 可以查看 Github Auth Token 的幫助 > 更多信息在 幫助 > 設置窗口",
-		"This will compare..."		=> "將比較和顯示您的本地目錄和 GitHub repo 之間的差異. 確定嗎?",
 		"Please note for..."		=> "請注意: 需要更新才能工作, 您需要爲所有 ICEcoder 文件和文件夾設置寫如何刪除權限. 如果您需要恢復 ICEcoder 到這個版本, 您可以在 /tmp 目錄找到它們. 點擊 OK 繼續使用自動升級或點擊 cancel 訪問 ICEcoder 官方網站, 您也可以到 GitHub 的項目首頁下載 zip 來手動進行更新.",
 		"You can start..."		=> "您可以在 幫助 > 設置中啓動錯誤報告",
 		"Error cannot find..."		=> "錯誤: 無法找到和進入錯誤日志文件路徑",
@@ -382,6 +349,7 @@ $text = array(
 		"style"				=> "樣式",
 		"theme"				=> "主題",
 		"line wrapping"			=> "換行",
+		"scrollbars"			=> "滾動條",
 		"indent type"			=> "縮進類型",
 		"indent size"			=> "縮進大小",
 		"font size"			=> "字體大小",
@@ -399,13 +367,6 @@ $text = array(
 		"multi-user"			=> "多用戶",
 		"Make sure you..."		=> "確保你沒有把自己鎖了",
 		"Registration"			=> "啓用注冊",
-		"auth token"			=> "auth token",
-		"Required to get..."		=> "如需要得到差異列表, 提交您 GitHub 上托管的 repo 等. 如果你還沒有一個, 你可以使用:".PHP_EOL.PHP_EOL.
-							"- 個人令牌訪問 (https://help.github.com/articles/creating-an-access-token-for-command-line-use), 或".PHP_EOL.
-							"- 完整的客戶端/機密雙令牌 (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-							"我們不建議您在此處設置令牌, 更安全的方式是當 ICEcoder 要求輸入時將其隻保存在會話中.".PHP_EOL.PHP_EOL.
-							"然而, 如果你在一個信賴和安全的環境下工作, 把它設置在這裏是更有效的.",
-		"Sorry cannot commit..."	=> "抱歉, 在演示模式下不能提交設置",
 		"update"			=> "更新"
 	),
 

@@ -142,43 +142,11 @@ $text = array(
 	),
 
 	"get-branch" =>
-	array(
-		"There are no..."		=> "Non ci sono differenze tra il repo locale e GitHub. Tornare alla modalità normale??",
-		"Sorry, there was..."		=> "Spiacente, c\'è stato un errore, il codice:",
-		"Your local folder..."		=> "La cartella locale è vuota, ti piacerebbe clonare"
-	),
-
-	"github-manager" =>
-	array(
-		"Sorry, cannot create..."	=> "Siamo spiacenti, non è possibile creare la cartella in",
-		"Cannot update config..."	=> "Impossibile aggiornare il file di configurazione. Si prega di impostare i permessi di scrittura pubblica su",
-		"and try again"			=> "e prova ancora",
-		"saving github paths"		=> "salvando il percorso di github...",
-		"github paths"			=> "percorso di github",
-		"Choose existing path"		=> "Scegli il percorso esistente",
-		"Local path"			=> "Percorso locale",
-		"Remote GitHub path"		=> "Remote GitHub path",
-		"Absolute URL beginning..."	=> "Url assoluto che comincia con https://github.com",
-		"Choose"			=> "Scegli",
-		"Set local and..."		=> "Imposta percorso locale e remoto, lasciare vuoto per per rimuovere",
-		"Update"			=> "Aggiorna",
-		"Add new path"			=> "Aggiungi nuovo percorso",
-		"Add"				=> "Aggiungi",
-		"Usage Info"			=> "Usage Info:",
-		"Enter relative local..."	=> "Inserisci percorsi locali relativi (ad esempio / server / myfiles) e percorsi assoluti GitHub (ad es https://github.com/user/repo o https://github.com/user/repo/tree/branch per le filiali), come da gli esempi.",
-		"You can then..."		=> "È quindi possibile scegliere un percorso e questo allora diventa il tuo nuovo percorso principale in ICEcoder.",
-		"The file manager..."		=> "Il file manager visualizza una nuova icona GitHub, su cui è possibile fare clic su per eseguire e mostrare un controllo diff tra le 2 fonti. Questi diff possono essere validati e inviati al percorso remoto a GitHub o clonati in un percorso locale, per la sincronizzazione dei file.",
-		"If you want..."		=> "If you want to set another root path, this can be done in the Settings screen."
-	),
-
-	"github" =>
-	array(
-		"Sorry, you do..."		=> "Siamo spiacenti, non sembra avere OpenSSL caricato nella vostra installazione PHP, quindi https non è disponibile. Questo è necessario per GitHub il trasferimento dei dati, si prega di modificare le impostazioni di php.ini, di riavviare il server e riprovare"
-	),
+	array(),
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "Bad CSRF token. Per favore riporta l\'errore a https://github.com/mattpass/ICEcoder così che possa essere fixato."
+		"Bad CSRF token..."		=> "Bad CSRF token. Per favore riporta l\'errore a https://github.com/icecoder/ICEcoder così che possa essere fixato."
 	),
 
 	"help" =>
@@ -271,8 +239,6 @@ $text = array(
 		"Replacing text in"		=> "Sostituisci il testo con",
 		"Cancelled tasks"		=> "Compiti cancellati",
 		"Open previous files"		=> "Aprire i file precedenti?",
-		"Please enter your..."		=> "Please enter your GitHub token (either personal access token or client/secret pair token). See tooltip next to Github Auth Token on Help > Settings screen for more info",
-		"This will compare..."		=> "Questo confronterà e mostrarà la diff tra il dir locale e il repository. Ok?",
 		"Please note for..."		=> "Si prega di notare: affinche l\'aggiornamento funzioni correttamente, è necessario disporre dei permessi di scrittura e cancellazione su tutti le cartelle e file di ICEcoder e. Se è necessario ripristinare questa versione di ICEcoder per qualsiasi motivo, lo troverete nella directory / tmp dir. Fare clic su OK per procedere con l\'aggiornamento automatico o annullare a visitare il sito ICEcoder in modo da poter utilizzare la zip e aggiornare manualmente.",
 		"You can start..."		=> "Puoi ripoertare il bug in Help >  Settings",
 		"Error cannot find..."		=> "Error: cannot find/access the error file paths",
@@ -396,6 +362,7 @@ $text = array(
 		"style"				=> "style",
 		"theme"				=> "tema",
 		"line wrapping"			=> "a capo automatico",
+		"scrollbars"			=> "barre di scorrimento",
 		"indent type"			=> "tipo di rientro",
 		"indent size"			=> "dimensioni rientro",
 		"font size"			=> "dimensione font ",
@@ -413,14 +380,6 @@ $text = array(
 		"multi-user"			=> "multi-user",
 		"Make sure you..."		=> "Assicurati di non bloccarti fuori",
 		"Registration"			=> "Registrazione",
-		"auth token"			=> "auth token",
-		"Required to get..."		=> "Necessario per ottenere diff, validare il votro repo GitHub ospitato ecc Se non ne avete uno, è possibile utilizzare un:".PHP_EOL.PHP_EOL.
-							"- 
-token di accesso personale (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or".PHP_EOL.
-							"- full client/secret pair token (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-							"Non è consigliabile impostare il token qui e comunque è più sicuro inserirlo quando richiesto dal ICEcoder e verrà tenuto solamente durante la sessione.".PHP_EOL.PHP_EOL.
-							"However, if you work in a trusted and secure environment, it is more efficient to set it here.",
-		"Sorry cannot commit..."	=> "Siamo spiacenti, non è possibile modificare le impostazioni in modalità demo",
 		"update"			=> "aggiorna"
 	),
 

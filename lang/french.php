@@ -139,42 +139,11 @@ dans data/config-settings.php",
 	),
 
 	"get-branch" =>
-	array(
-		"There are no..."		=> "Il n&apos;y a pas de diff&eacute;rences entre le repo local et celui de GitHub. Revenir en mode normal ?",
-		"Sorry, there was..."		=> "D&eacute;sol&eacute;, il y avait une erreur, le code :",
-		"Your local folder..."		=> " Votre dossier local est vide, voulez-vous le cloner  ?"
-	),
-
-	"github-manager" =>
-	array(
-		"Sorry, cannot create..."	=> "D&eacute;sol&eacute;, impossible de cr&eacute;er un dossier dans",
-		"Cannot update config..."	=> "Impossibilit&eacute; de mettre &agrave; jour le fichier de configuration. Veuillez v&eacute;rifier les permissions d&apos;&eacute;criture.",
-		"and try again"			=> "et essayez de nouveau",
-		"saving github paths"	=> "chemins github sauvegard&eacute;s ...",
-		"github paths"			=> "chemins github",
-		"Choose existing path"	=> "Choisis le chemin existant",
-		"Local path"			=> "Chemin local",
-		"Remote GitHub path"	=> "Chemin distant  GitHub",
-		"Choose"				=> "Choisir",
-		"Set local and..."		=> "D&eacute;finir le chemin d&apos;acc&egrave;s local et distant &agrave; blanc pour le retirer ",
-		"Update"				=> "Mise &agrave; jour",
-		"Add new path"		=> "Ajouter un nouveau chemin",
-		"Add"				=> "Ajouter",
-		"Usage Info"			=> "Info d&apos;utilisation :",
-		"Enter relative local..."	=> "Entrez les chemins  relatifs locaux (par exemple / serveur / mesfichiers) et les chemins absolus GitHub (par exemple https://github.com/user/repo ou https://github.com/user/repo/tree/branch pour les branches). Avec ceci, vous aurez &eacute;tabli les chemins source sur les deux sites, comme une paire.",
-		"You can then..."		=> "Vous pouvez ensuite choisir une paire de chemin, et cela devient alors votre nouveau chemin d&apos;acc&egrave;s racine dans ICEcoder.",
-		"The file manager..."	=> "Le gestionnaire de fichiers affiche alors une nouvelle ic&ocirc;ne GitHub, que vous pouvez cliquer dessus pour ex&eacute;cuter et afficher une v&eacute;rification des diff&eacute;rences entre les 2 sources. Ces diff&eacute;rences peuvent &ecirc;tre vers&eacute;es et bascul&eacute;es dans le projet distant GitHub ou clon&eacute;es sur votre version locale du projet, afin de synchroniser vos fichiers.",
-		"If you want..."			=> " Si vous souhaitez d&eacute;finir un autre chemin d&apos;acc&egrave;s &agrave; la racine, cela peut &ecirc;tre fait dans l&apos;&eacute;cran des param&egrave;tres."
-	),
-
-	"github" =>
-	array(
-		"Sorry, you do..."		=> "D&eacute;sol&eacute;, vous ne semblez pas avoir OpenSSL charg&eacute; sur votre instance de PHP, https n&apos;est donc pas disponible. Cela est n&eacute;cessaire pour le transfert de donn&eacute;es GitHub, veuillez modifier les param&egrave;tres du fichier php.ini, red&eacute;marrez votre serveur et essayez &agrave; nouveau."
-	),
+	array(),
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "Mauvais jeton CSRF. S&apos;il vous pla&icirc;t, envoyer un rapport de l&apos;erreur &agrave; https://github.com/mattpass/ICEcoder si vous d&eacute;sirez qu&apos;il soit corrig&eacute;."
+		"Bad CSRF token..."		=> "Mauvais jeton CSRF. S&apos;il vous pla&icirc;t, envoyer un rapport de l&apos;erreur &agrave; https://github.com/icecoder/ICEcoder si vous d&eacute;sirez qu&apos;il soit corrig&eacute;."
 	),
 
 	"help" =>
@@ -265,8 +234,6 @@ dans data/config-settings.php",
 		"Replacing text in"		=> "Remplacement  de texte dans",
 		"Cancelled tasks"		=> "Tâches annul&eacute;s",
 		"Open previous files"	=> "Ouvrir les fichiers pr&eacute;c&eacute;dents ?",
-		"Please enter your..."	=> "S&apos;il vous pla&icirc;t entrez votre token GitHub (soit l&apos;acc&egrave;s par token personnel ou le token client / paire secr&egrave;te). Voir l&apos;info-bulle &agrave; c&ocirc;t&eacute; de Github Auth Token sur &eacute;cran Aide> Param&egrave;tres pour plus d&apos;infos",
-		"This will compare..."	=> "Ceci compare et montre une vue des diff&eacute;rences entre votre r&eacute;pertoire local et le repo. D&apos;accord ?",
 		"Please note for..."		=> "S&apos;il vous pla&icirc;t, noter : la mise &agrave; jour fonctionne correctement, vous devez avoir les permissions d&apos;&eacute;criture / suppression &agrave; tous les r&eacute;pertoires et fichiers d&apos;ICEcoder. Si vous avez besoin de r&eacute;cup&eacute;rer cette version d&apos;ICEcoder pour une raison quelconque, vous la trouverez dans le r&eacute;pertoire / tmp. Cliquez sur OK pour proc&eacute;der &agrave; une mise &agrave; jour automatique, ou annuler et visiter le site d&apos;ICEcoder de sorte que vous pouvez r&eacute;cup&eacute;rer le fichier zip et mettre &agrave; jour manuellement.",
 		"You can start..."		=> "Vous pouvez reporter un dysfonctionnement dans Aide > Pr&eacute;f&eacute;rences",
 		"Error cannot find..."		=> "Erreur : ne peut pas trouver / acc&eacute;der aux chemins des fichiers d&apos;erreur",
@@ -390,6 +357,7 @@ dans data/config-settings.php",
 		"style"				=> "style",
 		"theme"				=> "th&egrave;me",
 		"line wrapping"			=> "retour &agrave; la ligne",
+		"scrollbars"			=> "barres de défilement",
 		"indent type"			=> "indent type",
 		"indent size"			=> "indent size",
 		"font size"			=> "font size",
@@ -407,13 +375,6 @@ dans data/config-settings.php",
 		"multi-user"			=> "multi-utilisateurs",
 		"Make sure you..."		=> "Assurez-vous que vous ne vous bloquez pas sur",
 		"Registration"			=> "Enregistrement",
-		"auth token"			=> "auth token",
-		"Required to get..."		=> "N&eacute;cessaire pour obtenir les diffs, proc&eacute;der &agrave; un commit sur votre projet sous GitHub. Si vous n&apos;en avez pas, vous pouvez utiliser un :".PHP_EOL.PHP_EOL.
-							"- jeton/token d&apos;acc&egrave;s personel (https://help.github.com/articles/creating-an-access-token-for-command-line-use), ou un jeton/token ".PHP_EOL.
-							" client/paire secr&egrave;te (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-							"Il n&apos;est pas recommand&eacute; de d&eacute;finir votre jeton ici, cependant, il est plus sûr de l&apos;entrer &agrave; la demande d&apos;ICEcoder car cela le garde uniquement  en session.".PHP_EOL.PHP_EOL.
-							"Cependant, si vous travaillez dans un environnement fiable et s&eacute;curis&eacute;, il est plus efficace de le mettre ici.",
-		"Sorry cannot commit..."	=> "D&eacute;sol&eacute;, vous ne pouvez pas modifier les pr&eacute;f&eacute;rences en mode de d&eacute;monstration",
 		"update"				=> "Mise &agrave; jour"
 	),
 

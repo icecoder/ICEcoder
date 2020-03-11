@@ -146,36 +146,9 @@ $text = array(
 		"Your local folder..."		=> "Din lokale mappe er tom, ønsker du å klone"
 	),
 
-	"github-manager" =>
-	array(
-		"Sorry, cannot create..."	=> "Beklager, kan ikke opprette mappe på",
-		"Cannot update config..."	=> "Kan ikke oppdatere konfigurasjonsfilen. Vennligst sett offentlige skriverettigheter",
-		"and try again"			=> "og prøv igjen",
-		"saving github paths"		=> "lagre GitHub stier...",
-		"github paths"			=> "github stier",
-		"Choose existing path"		=> "Velg eksisterende sti",
-		"Local path"			=> "Lokal sti",
-		"Remote GitHub path"		=> "Ekstern GitHub sti",
-		"Choose"			=> "Velg",
-		"Set local and..."		=> "Sett lokal og ekstern sti til tomt, for å fjerne",
-		"Update"			=> "Oppdater",
-		"Add new path"			=> "Legg til ny sti",
-		"Add"				=> "Legg til",
-		"Usage Info"			=> "Bruksinfo:",
-		"Enter relative local..."	=> "Oppgi relative lokale stier (f.e. /server/myfiles) og absolutte GitHub stier (f.e. https://github.com/user/repo eller https://github.com/user/repo/tree/branch for grener), som eksemplene. Med dette har du etablert kildestier på begge steder, som et par.",
-		"You can then..."		=> "Du kan deretter velge en stipar og dette blir da den nye rot stien i ICEcoder.",
-		"The file manager..."		=> "Filbehandleren viser deretter et nytt GitHub-ikon, som du kan klikke på, for å utføre en sjekk og vise forskjell mellom de 2 kildene. Disse forskjellene kan da være påkrevd, og flyttes til den eksterne stien på GitHub eller klones til din lokale sti, for å synkronisere filene dine.",
-		"If you want..."		=> "Hvis du ønsker å velge en annen root sti, kan dette gjøres i skjermbildet Innstillinger."
-	),
-
-	"github" =>
-	array(
-		"Sorry, you do..."		=> "Beklager, det ser ikke ut til å ha lastet inn OpenSSL på PHP instans, så https er ikke tilgjengelig. Dette er nødvendig for GitHub dataoverføring, du kan endre php.ini innstillingene, start serveren på nytt og prøv igjen"
-	),
-
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "Bad CSRF token. Vennligst rapporter feilinfoen på https://github.com/mattpass/ICEcoder slik at det kan fikses."
+		"Bad CSRF token..."		=> "Bad CSRF token. Vennligst rapporter feilinfoen på https://github.com/icecoder/ICEcoder slik at det kan fikses."
 	),
 
 	"help" =>
@@ -258,8 +231,6 @@ $text = array(
 		"Replacing text in"		=> "Erstatte tekst i",
 		"Cancelled tasks"		=> "Kansellerte oppgaver",
 		"Open previous files"		=> "Åpne siste filer?",
-		"Please enter your..."		=> "Skriv inn GitHub token (enten personlig tilgang token eller kunde/hemmelig par token). Se verktøytips ved siden av Github Auth Token på Hjelp-skjermbildet > Innstillinger for mer info",
-		"This will compare..."		=> "Det vil sammenlignes og vise en forskjell mellom din lokale mappe og lagringsstedet. OK?",
 		"Please note for..."		=> "Vennligst merk: for at oppdatering skal fungere skikkelig, må du ha skrive/slette tilgang til alle ICEcoder kataloger og filer. Hvis du trenger å gjenopprette denne versjonen av ICEcoder av en eller annen grunn, vil du finne den i /tmp mappen. Klikk OK for å fortsette med en auto-oppdatering eller avbryt for å besøke ICEcoder området slik at du kan ta tak i zip-filen og oppdatere manuelt.",
 		"You can start..."		=> "Du kan starte feilrapportering i Hjelp > Innstillinger",
 		"Error cannot find..."		=> "Feil: kan ikke finne/få tilgang til feil filstier",
@@ -382,6 +353,7 @@ $text = array(
 		"style"				=> "stil",
 		"theme"				=> "tema",
 		"line wrapping"			=> "linjebryting",
+		"scrollbars"			=> "rullefelt",
 		"indent type"			=> "innrykk type",
 		"indent size"			=> "innrykk størr.",
 		"font size"			=> "skrift størr.",
@@ -399,13 +371,6 @@ $text = array(
 		"multi-user"			=> "flerbruker",
 		"Make sure you..."		=> "Pass på, at du ikke stenger deg ut selv",
 		"Registration"			=> "Registrering",
-		"auth token"			=> "auth token",
-		"Required to get..."		=> "Nødvendig for å skille, bestemme ditt lagringssted på GitHub lageret etc. Hvis du ikke har en, kan du bruke en:".PHP_EOL.PHP_EOL.
-							"- personal access token (https://help.github.com/articles/creating-an-access-token-for-command-line-use), eller".PHP_EOL.
-							"- full client/secret pair token (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-							"Det anbefales ikke, at du setter token din her midlertidig, og vær sikre på å oppgi den, når du blir bedt av ICEcoder, som vil holde den i økten sin.".PHP_EOL.PHP_EOL.
-							"Men hvis du jobber i et trygt og sikkert miljø, er det mer effektivt å sette den her.",
-		"Sorry cannot commit..."	=> "Beklager, kan ikke bekrefte innstillinger i demo-modus",
 		"update"			=> "oppdatere"
 	),
 

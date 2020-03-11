@@ -144,44 +144,11 @@ $text = array(
 	),
 
 	"get-branch" =>
-	array(
-		"There are no..."		=> "No hay diferencias entre el repositorio local y GitHub. Regresar al modo regular?",
-		"Sorry, there was..."		=> "Lo siento, hay un error, c&oacute;digo:",
-		"Your local folder..."		=> "Su carpeta local est&aacute; vac&iacute;a, desea clonarla"
-	),
-
-	"github-manager" =>
-	array(
-		"Sorry, cannot create..."	=> "Lo siento, no puedo crear un archivo en",
-		"Cannot update config..."	=> "No puedo actualizar el archivo de configuraci&oacute;n. Por favor establezca permisos publicos para",
-		"and try again"			=> "e intente nuevamente",
-		"saving github paths"		=> "almacenando rutas de GitHub...",
-		"github paths"			=> "Rutas de GitHub",
-		"Choose existing path"		=> "Seleccionar una ruta existente",
-		"Local path"			=> "Ruta local",
-		"Slash prefixed"		=> "Prefijo de slash",
-		"Remote GitHub path"		=> "Ruta remota GitHub",
-		"Absolute URL beginning..."	=> "URL absoluta, iniciando https://github.com",
-		"Choose"			=> "Seleccionar",
-		"Set local and..."		=> "Establecer las rutas locales y remotas en blanco para removerlas",
-		"Update"			=> "Actualizar",
-		"Add new path"			=> "Agregar nueva ruta",
-		"Add"				=> "Agregar",
-		"Usage Info"			=> "Modo de uso:",
-		"Enter relative local..."	=> "Ingrese las rutas locales relativas (ej /server/myfiles) y las rutas absolutas para GitHub (ej https://github.com/user/repo &oacute; https://github.com/user/repo/tree/branch para indicar ramas), seg&uacute;n los ejemplos. Con esto usted establece las rutas de fuentes para ambas ubicaciones, como un par.",
-		"You can then..."		=> "Entonces usted podr&aacute; seleccionar un par y este se convertira en su nueva raiz de trabajo en ICEcoder.",
-		"The file manager..."		=> "Entonces el administrador de archivos muestra un nuevo icono para GitHub, el cual usted puede usar para ver y verificar diferencias entre las dos rutas. Esas diferencias pueden ser convertidas a un commit y enviadas a la ruta remota en GitHub o clonadas en su ruta local, para sincronizar sus archivos.",
-		"If you want..."		=> "Si lo desea puede crear una nueva ruta ra&iacute;z por medio de la pantalla de Configuraci&oacute;n."
-	),
-
-	"github" =>
-	array(
-		"Sorry, you do..."		=> "Lo siento, usted no parece contar con OpenSSL cargado en su instancia de PHP, por lo tanto conexiones https no est&aacute;n disponibles. Esto es requerido para la transferencia de datos a GitHub, por favor ajuste su php.ini, reinicie su servidor web e intente nuevamente"
-	),
+	array(),
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "Token CSRF incorrecto. Por favor reporte este error en https://github.com/mattpass/ICEcoder para que pueda ser solucionado."
+		"Bad CSRF token..."		=> "Token CSRF incorrecto. Por favor reporte este error en https://github.com/icecoder/ICEcoder para que pueda ser solucionado."
 	),
 
 	"help" =>
@@ -279,8 +246,6 @@ $text = array(
 		"Sorry there was..."		=> "Lo siento, hubo un error con su solicitud.\\n\\nPor favor verifique su consola de desarrollo para mas informacion.",
 		"Cancelled tasks"		=> "Tareas canceladas",
 		"Open previous files"		=> "Abrir archivos previos?",
-		"Please enter your..."		=> "Por favor entre su token de GitHub (para acceso personal). Ver ayuda cerca al Token de autenticaci&oacute;n de Github en la ayuda > Vea pantalla de configuraci&oacute;n para m&aacute;s informaci&oacute;n",
-		"This will compare..."		=> "Esto compara y muestra las diferencias entre su ruta local y el repositorio. OK?",
 		"Please note for..."		=> "Importante: para que la actualizaci&oacute;n trabaje correctamente, usted necesita tener derechos de acceso a todos los directorios y archivos de ICEcoder. Esto sera chequeado previamente y se presentara una lista de archivos sin acceso (por lo tanto no movibles).\\n\\nSi usted necesita restablecer esta version de  ICEcoder por alguna raz&oacute;n, usted la encontrara en la carpeta /tmp.\\n\\nClick en OK para proceder con la verificaci&oacute;n y auto-instalaci&oacute;n, &oacute; cancelar para visitar el sitio de ICEcoder para descargar el ZIP y hacerlo manualmente.",
 		"You can start..."		=> "Usted puede iniciar el reporte de errores en la pantalla de Ayuda > Configuraci&oacute;n",
 		"Error cannot find..."		=> "Error: no puedo encontrar o accesar las rutas de archivos de error",
@@ -409,6 +374,7 @@ $text = array(
 		"style"				=> "estilo",
 		"theme"				=> "tema",
 		"line wrapping"			=> "ajuste de l&iacute;nea",
+		"scrollbars"			=> "barras de desplazamiento",
 		"indent type"			=> "tipode sangr&iacute;a",
 		"indent size"			=> "Tama&ntilde;o de sangr&iacute;a",
 		"font size"			=> "tama&ntilde;o de letra",
@@ -425,13 +391,6 @@ $text = array(
 		"multi-user"			=> "multi-usuario",
 		"Make sure you..."		=> "Este seguro de no bloquearse a s&iacute; mismo",
 		"Registration"			=> "Registro",
-		"auth token"			=> "token autenticaci&oacute;n",
-		"Required to get..."		=> "Requerido para obtener diferencias, enviar cambios a repos GitHub, etc. Si usted no tiene uno, usted puede usar un:".PHP_EOL.PHP_EOL.
-							"- token personal de acceso (https://help.github.com/articles/creating-an-access-token-for-command-line-use), &oacute;".PHP_EOL.
-							"- full client/secret pair token (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-							"Esto no es recomendado para establecer su token pues es mas seguro ingresarlo cuando sea solicitado por ICEcoder y as&iacute; permenecer&aacute; en la sesi&oacute;n activa unicamente.".PHP_EOL.PHP_EOL.
-							"De todas formas, si usted trabaj en un ambiente seguro, es m&aacute;s eficiente establecer esto aqu&iacute;.",
-		"Sorry cannot commit..."	=> "Lo siento, no puedo enviar configuraciones en modo demo",
 		"update"			=> "actualizar"
 	),
 

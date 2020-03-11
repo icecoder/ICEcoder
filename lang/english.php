@@ -189,44 +189,11 @@ $text = array(
 	),
 
 	"get-branch" =>
-	array(
-		"There are no..."		=> "There are no differences between the local and GitHub repo. Switch back to regular mode?",
-		"Sorry, there was..."		=> "Sorry, there was an error, code:",
-		"Your local folder..."		=> "Your local folder is empty, would you like to clone"
-	),
-
-	"github-manager" =>
-	array(
-		"Sorry, cannot create..."	=> "Sorry, cannot create folder at",
-		"Cannot update config..."	=> "Cannot update config file. Please set public write permissions on",
-		"and try again"			=> "and try again",
-		"saving github paths"		=> "saving github paths...",
-		"github paths"			=> "github paths",
-		"Choose existing path"		=> "Choose existing path",
-		"Local path"			=> "Local path",
-		"Slash prefixed"		=> "Slash prefixed",
-		"Remote GitHub path"		=> "Remote GitHub path",
-		"Absolute URL beginning..."	=> "Absolute URL, beginning https://github.com",
-		"Choose"			=> "Choose",
-		"Set local and..."		=> "Set local and remote path to blank to remove",
-		"Update"			=> "Update",
-		"Add new path"			=> "Add new path",
-		"Add"				=> "Add",
-		"Usage Info"			=> "Usage Info:",
-		"Enter relative local..."	=> "Enter relative local paths (eg /server/myfiles) and absolute GitHub paths (eg https://github.com/user/repo or https://github.com/user/repo/tree/branch for branches), as per the examples. With this done you have established the source paths at both locations, as a pair.",
-		"You can then..."		=> "You can then choose a path pair and this then becomes your new root path in ICEcoder.",
-		"The file manager..."		=> "The file manager then displays a new GitHub icon, which you can click on to perform and show a diff check between the 2 sources. These diffs can then be committed and pushed to the remote path at GitHub or cloned to your local path, to sync your files.",
-		"If you want..."		=> "If you want to set another root path, this can be done in the Settings screen."
-	),
-
-	"github" =>
-	array(
-		"Sorry, you do..."		=> "Sorry, you do not appear to have OpenSSL loaded on your PHP instance, so https is not available. This is required for GitHub data transfer, please amend php.ini settings, restart your server and try again"
-	),
+	array(),
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "Bad CSRF token. Please report the error info at https://github.com/mattpass/ICEcoder so it can be fixed."
+		"Bad CSRF token..."		=> "Bad CSRF token. Please report the error info at https://github.com/icecoder/ICEcoder so it can be fixed."
 	),
 
 	"help" =>
@@ -327,8 +294,6 @@ $text = array(
 		"Sorry there was..."		=> "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
 		"Cancelled tasks"		=> "Cancelled tasks",
 		"Open previous files"		=> "Open previous files?",
-		"Please enter your..."		=> "Please enter your GitHub token (either personal access token or client/secret pair token). See tooltip next to Github Auth Token on Help > Settings screen for more info",
-		"This will compare..."		=> "This will compare and show a diff view between your local dir and the repo. OK?",
 		"Please note for..."		=> "Please note: for updating to work properly, you need to have write access on all ICEcoder dirs & files. It will first check if this is the case and list any unwriteable (and therefore unmoveable) files.\\n\\nIf you need to recover this version of ICEcoder for any reason, you'll find it in the /tmp dir.\\n\\nClick OK to proceed with the check and auto-update, or cancel to visit the ICEcoder site so you can grab the zip and update manually.",
 		"You can start..."		=> "You can start bug reporting in Help > Settings",
 		"Error cannot find..."		=> "Error: cannot find/access the error file paths",
@@ -463,6 +428,7 @@ $text = array(
 		"theme"				=> "theme",
 		"line wrapping"			=> "line wrapping",
 		"line numbers"			=> "line numbers",
+		"scrollbars"			=> "scrollbars",
 		"indent type"			=> "indent type",
 		"indent size"			=> "indent size",
 		"match brackets"		=> "match brackets",
@@ -485,13 +451,6 @@ $text = array(
 		"multi-user"			=> "multi-user",
 		"Make sure you..."		=> "Make sure you do not lock yourself out",
 		"Registration"			=> "Registration",
-		"auth token"			=> "auth token",
-		"Required to get..."		=> "Required to get diffs, commit to your GitHub hosted repo etc. If you do not have one, you can use a:".PHP_EOL.PHP_EOL.
-							"- personal access token (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or".PHP_EOL.
-							"- full client/secret pair token (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-							"It is not recommended you set your token here however and is more secure to enter it when requested by ICEcoder as that will keep it in session only.".PHP_EOL.PHP_EOL.
-							"However, if you work in a trusted and secure environment, it is more efficient to set it here.",
-		"Sorry cannot commit..."	=> "Sorry, cannot commit settings in demo mode",
 		"update"			=> "update"
 	),
 

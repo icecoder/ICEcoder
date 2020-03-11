@@ -159,44 +159,11 @@ $text = array(
 	),
 
 	"get-branch" =>
-	array(
-		"There are no..."		=> "Er zijn geen verschillen aangetroffen tussen de lokale en de Github repo. Wilt u terug schakelen naar de normale modus?",
-		"Sorry, there was..."		=> "Sorry, er is een fout opgetreden, foutcode:",
-		"Your local folder..."		=> "Uw lokale map is leeg, wilt u de inhoud klonen"
-	),
-
-	"github-manager" =>
-	array(
-		"Sorry, cannot create..."	=> "Sorry, kan geen map aanmaken op",
-		"Cannot update config..."	=> "Kan het configuratie bestand niet updaten. Zet alstublieft eerst publieke schrijfrechten aan",
-		"and try again"			=> "en probeer het opnieuw",
-		"saving github paths"		=> "opslaan Github paden...",
-		"github paths"			=> "Github paden",
-		"Choose existing path"		=> "Kies een bestaand pad",
-		"Local path"			=> "Lokaal pad",
-		"Slash prefixed"		=> "Slash prefix",
-		"Remote GitHub path"		=> "Extern Github pad",
-		"Absolute URL beginning..."	=> "Absolute link, beginnend met https://github.com",
-		"Choose"			=> "Kies",
-		"Set local and..."		=> "Maak het lokale en externe pad leeg, om te verwijderen",
-		"Update"			=> "Update",
-		"Add new path"			=> "Nieuw pad toevoegen",
-		"Add"				=> "Toevoegen",
-		"Usage Info"			=> "Gebruiks Info:",
-		"Enter relative local..."	=> "Voer relatieve lokale paden (bv /server/mijnbestanden) en absolute Github paden (bv https://github.com/user/repo of https://github.com/user/repo/tree/branch voor vertakkingen (branches)), zoals het voorbeeld. Als je dit doet worden de bron paden op beide locaties gevestigd als een paar.",
-		"You can then..."		=> "You can then choose a path pair and this then becomes your new root path in ICEcoder.",
-		"The file manager..."		=> "The file manager then displays a new GitHub icon, which you can click on to perform and show a diff check between the 2 sources. These diffs can then be committed and pushed to the remote path at GitHub or cloned to your local path, to sync your files.",
-		"If you want..."		=> "Als je een ander root pad wilt instellen kan je dit doen in Bewerken > Opties."
-	),
-
-	"github" =>
-	array(
-		"Sorry, you do..."		=> "Sorry, het lijkt erop dat U OpenSSL niet beschikbaar heeft op uw server, https is dus niet beschikbaar. Dit is nodig voor GitHub gegevensoverdracht. Wijzig uw php.ini instellingen en herstart uw server en probeer opnieuw."
-	),
+	array(),
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "Foute CSRF token. Graag de fout informatie delen op https://github.com/mattpass/ICEcoder zodat het kan worden opgelost."
+		"Bad CSRF token..."		=> "Foute CSRF token. Graag de fout informatie delen op https://github.com/icecoder/ICEcoder zodat het kan worden opgelost."
 	),
 
 	"help" =>
@@ -294,8 +261,6 @@ $text = array(
 		"Sorry there was..."		=> "Helaas er is een fout opgetreden met uw aanvraag.\\n\\nKijk in de dev tools console voor meer informatie.",
 		"Cancelled tasks"		=> "Geannuleerde taken",
 		"Open previous files"		=> "Open voorgaande bestand(en)?",
-		"Please enter your..."		=> "Voer alstublieft uw GitHub token (personal access token of client/secret pair token). Zie ook de tooltip bij Github Auth Token binnen Bewerken > Opties voor meer informatie.",
-		"This will compare..."		=> "Er zullen vergelijkingen en veranderingen worden getoond tussen uw lokale map en de repo. Ok?",
 		"Please note for..."		=> "Let op: om de update goed te laten doorvoeren, moet je schrijfrechten hebben op alle bestanden en mappen van ICEcoder. Moet je deze versie van ICEcoder herstellen, dan vind je die in de map /tmp. Klik op ok om door te gaan met automatisch updaten, of druk op annuleren om af te breken. Voor een handmatige update kun je het zip bestand van de ICEcoder website downloaden.",
 		"You can start..."		=> "U kunt bug rapporteren aanzetten in: Bewerken > Opties",
 		"Error cannot find..."		=> "Fout: kan geen toegang krijgen of de bestands paden vinden",
@@ -428,6 +393,7 @@ $text = array(
 		"theme"				=> "thema",
 		"line wrapping"			=> "regel omslag",
 		"line numbers"			=> "regel nummers",
+		"scrollbars"			=> "schuifbalken",
 		"indent type"			=> "inspring type",
 		"indent size"			=> "inspring size",
 		"match brackets"		=> "match brackets",
@@ -450,13 +416,6 @@ $text = array(
 		"multi-user"			=> "multi-user",
 		"Make sure you..."		=> "Zorg ervoor dat je niet jezelf buitensluit",
 		"Registration"			=> "Registratie",
-		"auth token"			=> "auth token",
-		"Required to get..."		=> "Required to get diffs, commit to your GitHub hosted repo etc. If you do not have one, you can use a:".PHP_EOL.PHP_EOL.
-							"- personal access token (https://help.github.com/articles/creating-an-access-token-for-command-line-use), or".PHP_EOL.
-							"- full client/secret pair token (http://developer.github.com/v3/oauth).".PHP_EOL.PHP_EOL.
-							"It is not recommended you set your token here however and is more secure to enter it when requested by ICEcoder as that will keep it in session only.".PHP_EOL.PHP_EOL.
-							"However, if you work in a trusted and secure environment, it is more efficient to set it here.",
-		"Sorry cannot commit..."	=> "Sorry, cannot commit settings in demo mode",
 		"update"			=> "update"
 	),
 
