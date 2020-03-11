@@ -39,7 +39,7 @@
   background: rgba(0,198,255,0.2);
 }
 
-.CodeMirror-simplescroll-horizontal:hover div, .CodeMirror-simplescroll-vertical:hover div {
+.CodeMirror-simplescroll-horizontal div:hover, .CodeMirror-simplescroll-vertical div:hover {
   background: rgba(0,198,255,0.8);
 }
 
