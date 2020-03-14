@@ -24,11 +24,6 @@ $text = array(
 		"files"				=> "arquivos",
 		"Last 10 files..."		=> "&uacute;ltimos 10 arquivos abertos:",
 		"none"				=> "[nenhum]",
-		"dev mode"			=> "modo desenv.",
-		"Status"			=> "Status",
-		"Using"				=> "Usando",
-		"You can switch..."		=> "Voc&ecirc; pode alterar modo desenv. on/off em data/config-settings.php"
-
 	),
 
 	"files" =>
@@ -36,7 +31,6 @@ $text = array(
 		"Lock"				=> "Trava",
 		"Refresh"			=> "Atualizar",
 		"ROOT"				=> "[RAIZ]"
-
 	),
 
 	"index" =>

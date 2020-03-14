@@ -24,12 +24,7 @@ $text = array(
 		"files"				=> "文件",
 		"Last 10 files..."		=> "最后10个打开的文件:",
 		"none"				=> "[none]",
-		"dev mode"			=> "开发模式",
-		"Status"			=> "状态",
-		"Using"				=> "使用",
-		"You can switch..."		=> "你可以在 data/config-settings.php 中设置开发模式开关",
 		"results"			=> "结果"
-
 	),
 
 	"files" =>
@@ -37,7 +32,6 @@ $text = array(
 		"Lock"				=> "锁定",
 		"Refresh"			=> "刷新",
 		"ROOT"				=> "[ROOT]"
-
 	),
 
 	"index" =>

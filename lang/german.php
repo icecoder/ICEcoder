@@ -24,12 +24,7 @@ $text = array(
 		"files"				=> "Dateien",
 		"Last 10 files..."		=> "Die letzten 10 ge&ouml;ffneten Dateien:",
 		"none"				=> "[nichts]",
-		"dev mode"			=> "Entwicklermodus",
-		"Status"			=> "Status",
-		"Using"				=> "Verwenden",
-		"You can switch..."		=> "Du kannst den Entwicklermodus in der in data/config-settings.php ein- und ausschateln",
 		"results"			=> "Ergebnis"
-
 	),
 
 	"files" =>
@@ -37,7 +32,6 @@ $text = array(
 		"Lock"				=> "Sperren",
 		"Refresh"			=> "Erneueren",
 		"ROOT"				=> "[ROOT]"
-
 	),
 
 	"index" =>

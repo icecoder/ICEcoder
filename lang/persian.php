@@ -24,12 +24,7 @@ $text = array(
         "files"             => "فایل ها",
         "Last 10 files..."      => "آخرین ۱۰ فایل باز شده",
         "none"              => "[پوچ]",
-        "dev mode"          => "حالت توسعه دهنده",
-        "Status"            => "وضعیت",
-        "Using"             => "استفاده",
-        "You can switch..."     => "شما میتوانید حالت توسعه را از data/config-settings.php روشن یا خاموش کنید",
         "results"           => "نتایج"
-
     ),
 
     "files" =>
@@ -37,7 +32,6 @@ $text = array(
         "Lock"              => "قفل",
         "Refresh"           => "بارگذاری مجدد",
         "ROOT"              => "[ریشه]"
-
     ),
 
     "index" =>

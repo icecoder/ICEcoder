@@ -23,11 +23,6 @@ $text = array(
 		"files"				=> "files",
 		"Last 10 files..."		=> "Last 10 files opened:",
 		"none"				=> "[none]",
-		"dev mode"			=> "dev mode",
-		"Status"			=> "Status",
-		"Using"				=> "Using",
-		"You can switch..."		=> "You can switch dev mode on/off in data/config-settings.php"
-
 	),
 
 	"files" =>
@@ -36,7 +31,6 @@ $text = array(
 		"Refresh"			=> "Refresh",
 		"Plugins"			=> "Plugins",
 		"ROOT"				=> "[ROOT]"
-
 	),
 
 	"index" =>

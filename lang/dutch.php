@@ -24,11 +24,6 @@ $text = array(
 		"files"				=> "bestanden",
 		"Last 10 files..."		=> "Laatste 10 geopende bestanden:",
 		"none"				=> "[none]",
-		"dev mode"			=> "Ontwikkelaars modus",
-		"Status"			=> "Status",
-		"Using"				=> "Gebruikt",
-		"You can switch..."		=> "U kunt de ontwikkelaars modus aan/uit zetten in data/config-settings.php",
-
 	),
 
 	"files" =>
@@ -37,7 +32,6 @@ $text = array(
 		"Refresh"			=> "Vernieuwen",
 		"Plugins"			=> "Plugins",
 		"ROOT"				=> "[ROOT]"
-
 	),
 
 	"index" =>

@@ -24,11 +24,6 @@ $text = array(
 		"files"				=> "Fichiers",
 		"Last 10 files..."		=> "10 derniers fichiers ouverts :",
 		"none"				=> "[aucun]",
-		"dev mode"			=> "Mode dev",
-		"Status"				=> "Statuts",
-		"Using"				=> "Utilise",
-		"You can switch..."		=> "Vous pouvez basculer le mode dev on/off
-dans data/config-settings.php",
 		"results"				=> "r&eacute;sultats"
 	),
 

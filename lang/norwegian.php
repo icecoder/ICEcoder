@@ -24,12 +24,7 @@ $text = array(
 		"files"				=> "filer",
 		"Last 10 files..."		=> "Siste 10 åpne filer:",
 		"none"				=> "[none]",
-		"dev mode"			=> "utvikler modus",
-		"Status"			=> "Status",
-		"Using"				=> "Brukes",
-		"You can switch..."		=> "Du kan slå utvikler modus på/av i data/config-settings.php",
 		"results"			=> "resultater"
-
 	),
 
 	"files" =>
@@ -37,7 +32,6 @@ $text = array(
 		"Lock"				=> "Steng",
 		"Refresh"			=> "Last igjen",
 		"ROOT"				=> "[ROOT]"
-
 	),
 
 	"index" =>
