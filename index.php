@@ -106,6 +106,7 @@ $t = $text['index'];
 		"ICEcoder.indentWithTabs = ".($ICEcoder["indentWithTabs"] ? 'true' : 'false').";".
 		"ICEcoder.indentAuto = ".($ICEcoder["indentAuto"] ? 'true' : 'false').";".
 		"ICEcoder.indentSize = ".$ICEcoder["indentSize"].";".
+		"ICEcoder.scrollbarStyle = '".$ICEcoder["scrollbarStyle"]."';".
 		"ICEcoder.demoMode = ".($ICEcoder["demoMode"] ? 'true' : 'false').";".
 		"ICEcoder.tagWrapperCommand = '".$ICEcoder["tagWrapperCommand"]."';".
 		"ICEcoder.autoComplete = '".$ICEcoder["autoComplete"]."';".
@@ -115,10 +116,6 @@ $t = $text['index'];
 		"ICEcoder.fileDirResOutput = '".$ICEcoder["fileDirResOutput"]."';".
 		"ICEcoder.newDirPerms = ".$ICEcoder["newDirPerms"].";".
 		"ICEcoder.newFilePerms = ".$ICEcoder["newFilePerms"].";";
-		if($ICEcoder["githubAuthToken"] != "") {
-			$_SESSION['githubAuthToken'] = $ICEcoder["githubAuthToken"];
-			echo "ICEcoder.githubAuthTokenSet = true;";
-		}
 		echo "ICEcoder.csrf = '".$_SESSION["csrf"]."';";
 ?>ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;ICEcoder.content.style.visibility='visible';ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = iceLoc+'/processes/on-load.php';<?php if(isset($_GET["display"]) && $_GET["display"] == "updated") {echo "ICEcoder.updated();";};?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="ICEcoder.resetKeys(event);" onBlur="ICEcoder.resetKeys(event);">
 
@@ -195,11 +192,6 @@ $t = $text['index'];
 			<li><a nohref onclick="ICEcoder.canShowFMNav=true;ICEcoder.showHideFileNav('show','optionsHelp')" onmouseover="if(ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show','optionsHelp')}" id="optionsHelpNav"><?php echo $t['Help'];?></a></li>
 		</ul>
 	</div>
-	<div id="githubNav" class="githubNav">
-		<div class="commit" id="githubNavCommit" onclick="ICEcoder.githubAction('commit')">Commit</div>
-		<div class="selected" id="githubNavSelectedCount">Selected: 0</div>
-		<div class="pull" id="githubNavPull" onclick="ICEcoder.githubAction('pull')">Pull</div>
-	</div>
 	<div class="options" id="fileOptions">
 		<div id="optionsFile" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show',this.id)" onmouseout="ICEcoder.showHideFileNav('hide',this.id);ICEcoder.canShowFMNav=false">
 			<ul>
@@ -239,14 +231,6 @@ $t = $text['index'];
 			<ul>
 				<li><a nohref onclick="ICEcoder.goLocalhostRoot()">Localhost</a></li>
 				<li><a nohref onclick="ICEcoder.ftpManager()">FTP</a></li>
-				<li><a nohref onclick="ICEcoder.githubManager()">GitHub</a></li>
-				<!--
-				<li><a nohref onclick="ICEcoder.message('SVN integration coming soon')">SVN</a></li>
-				<li><a nohref onclick="ICEcoder.message('Bitbucket integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Bitbucket</a></li>
-				<li><a nohref onclick="ICEcoder.message('Amazon AWS integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Amazon AWS</a></li>
-				<li><a nohref onclick="ICEcoder.message('Dropbox integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Dropbox</a></li>
-				<li><a nohref onclick="ICEcoder.message('SSH integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">SSH</a></li>
-				//-->
 			</ul>
 		</div>
 		<div id="optionsHelp" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show',this.id)" onmouseout="ICEcoder.showHideFileNav('hide',this.id);ICEcoder.canShowFMNav=false">
