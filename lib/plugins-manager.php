@@ -180,7 +180,7 @@ function deletePlugin($dir) {
 <link rel="stylesheet" type="text/css" href="plugins-manager.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body class="pluginsManager" onkeydown="parent.ICEcoder.handleModalKeyUp(event, 'pluginsManager')" onload="this.focus();">
+<body class="pluginsManager" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'pluginsManager')" onload="this.focus();">
 
 <h1><?php echo $t['plugins'];?></h1>
 

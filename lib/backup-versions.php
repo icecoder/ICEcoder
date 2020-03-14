@@ -50,7 +50,7 @@ echo ($ICEcoder["theme"] === "default"
 <link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body class="backup-versions" onkeydown="parent.ICEcoder.handleModalKeyUp(event, 'versions')" onload="this.focus();">
+<body class="backup-versions" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'versions')" onload="this.focus();">
 
 <h1 id="title"><?php echo $versions." ".($versions != 1 ? $t["backups"] : $t["backup"])." ".$t['available for'].":";?></h1>
 <h2><?php echo $file;?></h2>

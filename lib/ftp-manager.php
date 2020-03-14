@@ -127,7 +127,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 <link rel="stylesheet" type="text/css" href="ftp-manager.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body class="ftpManager" onkeydown="parent.ICEcoder.handleModalKeyUp(event, 'ftpManager')" onload="this.focus();">
+<body class="ftpManager" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'ftpManager')" onload="this.focus();">
 
 <h1><?php echo $t['ftp manager'];?></h1>
 

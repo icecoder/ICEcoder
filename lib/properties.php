@@ -20,7 +20,7 @@ if (!file_exists($fileName) || strpos(str_replace("\\","/",$fileName),$docRoot) 
 <link rel="stylesheet" type="text/css" href="properties.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body class="properties" onkeydown="parent.ICEcoder.handleModalKeyUp(event, 'properties')" onload="this.focus();">
+<body class="properties" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'properties')" onload="this.focus();">
 
 <h1 id="title"><?php echo $t['properties'];?></h1>
 

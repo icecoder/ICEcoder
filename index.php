@@ -117,7 +117,7 @@ $t = $text['index'];
 		"ICEcoder.newDirPerms = ".$ICEcoder["newDirPerms"].";".
 		"ICEcoder.newFilePerms = ".$ICEcoder["newFilePerms"].";";
 		echo "ICEcoder.csrf = '".$_SESSION["csrf"]."';";
-?>ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;ICEcoder.content.style.visibility='visible';ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = iceLoc+'/processes/on-load.php';<?php if(isset($_GET["display"]) && $_GET["display"] == "updated") {echo "ICEcoder.updated();";};?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="ICEcoder.resetKeys(event);" onBlur="ICEcoder.resetKeys(event);">
+?>ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;ICEcoder.content.style.visibility='visible';ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = iceLoc+'/processes/on-load.php';<?php if(isset($_GET["display"]) && $_GET["display"] == "updated") {echo "ICEcoder.updated();";};?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="if('visible' === get('blackMask').style.visibility) {ICEcoder.handleModalKeyUp(event, 'modalGeneralCatch')}; ICEcoder.resetKeys(event);" onBlur="ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">
 	<div class="popupVCenter">
