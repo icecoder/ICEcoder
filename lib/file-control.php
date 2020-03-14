@@ -4,10 +4,6 @@ include("settings.php");
 include("ftp-control.php");
 $t = $text['file-control'];
 ?>
-<?php if ($_SESSION['githubDiff']) { ?>
-<script src="github.js?microtime=<?php echo microtime(true);?>"></script>
-<script src="underscore-min.js?microtime=<?php echo microtime(true);?>"></script>
-<?php ;}; ?>
 <script>
 <?php
 // Establish the filename/new filename
@@ -151,38 +147,6 @@ if (action=="load") {
 				parent.parent.ICEcoder.cMInstances.push(parent.parent.ICEcoder.nextcMInstance);
 				parent.parent.ICEcoder.setLayout();
 				parent.parent.ICEcoder.content.contentWindow.createNewCMInstance(parent.parent.ICEcoder.nextcMInstance);
-
-				<?php if (!isset($ftpSite) && $_SESSION['githubDiff']) { ?>
-					// If we're in GitHub diff mode and have a split pane display, get the content for the diff pane
-					if (parent.parent.ICEcoder.githubDiff && parent.parent.ICEcoder.splitPane) {
-						<?php
-						// Get our GitHub relative site path & local path
-						$ghRemoteURLPos = array_search($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
-
-						$ghLocalURLPaths = $ICEcoder['githubLocalPaths'];
-						$ghLocalPath = $ghLocalURLPaths[$ghRemoteURLPos];
-
-						$ghRemoteURLPaths = $ICEcoder['githubRemotePaths'];
-						$ghRemoteURL = $ghRemoteURLPaths[$ghRemoteURLPos];
-
-						$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
-						$ghRemoteURL = str_replace("/","|",$ghRemoteURL);
-
-						// If the file is not in a sub-sub dir of the doc root
-						if (!strpos($fileLoc,"/",1)) {
-							// The file path is simply the file name in the root
-							$ghFilePath = $fileName;
-						} else {
-							// We need to get rid of the root dir and trailing slash
-							$ghFilePath = substr(str_replace($ghLocalPath,"",$fileLoc),1);
-							// If it's not within a sub-dir, it's just the filename, otherwise prefix with dir path and pipe
-							$ghFilePath = $ghFilePath == "" ? $fileName : $ghFilePath."|".$fileName;
-						}
-						?>
-
-						parent.parent.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = "github.php?action=read&repo=<?php echo $ghRemoteURL;?>&filePath=<?php echo $ghFilePath;?>&csrf="+parent.parent.ICEcoder.csrf;
-					}
-				<?php ;}; ?>
 
 				// Set the value & innerHTML of the code textarea to that of our loaded file plus make it visible (it's hidden on ICEcoder's load)
 				parent.parent.ICEcoder.switchMode();
