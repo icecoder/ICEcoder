@@ -13,7 +13,7 @@ $t = $text['help'];
 <link rel="stylesheet" type="text/css" href="help.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body class="help">
+<body class="help" onkeydown="parent.ICEcoder.handleModalKeyUp(event, 'help')" onload="this.focus();">
 
 <h1 id="title"><?php echo $t['shortcuts'];?></h1>
 

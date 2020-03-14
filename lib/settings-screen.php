@@ -38,7 +38,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 <link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body class="settings">
+<body class="settings" onkeydown="parent.ICEcoder.handleModalKeyUp(event, 'settings')" onload="this.focus();">
 
 <div class="infoPane">
 	<a href="https://icecoder.net" target="_blank"><img src="../images/icecoder.png" alt="ICEcoder" class="logo"></a>
@@ -443,9 +443,13 @@ var switchTab = function(tab) {
 	}
 	editor.refresh();
 }
+
+var submitSettings = function() {
+    <?php echo $ICEcoder['demoMode'] ? "parent.parent.ICEcoder.message('Sorry, can\'t commit settings in demo mode')" : "validatePasswords()"; ?>;
+}
 </script>
 
-<div class="update" id="updateButton" onClick="<?php echo $ICEcoder['demoMode'] ? "parent.parent.ICEcoder.message('Sorry, can\'t commit settings in demo mode')" : "validatePasswords()"; ?>">update</div>
+<div class="update" id="updateButton" onClick="submitSettings()">update</div>
 <input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
 

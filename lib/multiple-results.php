@@ -19,7 +19,7 @@ if(isset($_GET['selectedFiles'])) {
 <script>ICEcoder = parent.ICEcoder;</script>
 </head>
 
-<body class="results" onLoad="get('loadingMask').style.visibility = 'hidden'">
+<body class="results" onkeydown="parent.ICEcoder.handleModalKeyUp(event, 'multipleResults')" onload="get('loadingMask').style.visibility = 'hidden'; this.focus();">
 
 <h1 id="title"></h1>
 <div class="resultsPane" id="resultsPane">
