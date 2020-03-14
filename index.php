@@ -74,7 +74,7 @@ $t = $text['index'];
 ?>
 }
 </script>
-<script language="JavaScript" src="<?php echo $iceURLPath;?>/lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/lib/ice-coder.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/farbtastic/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/lib/difflib.js?microtime=<?php echo microtime(true);?>"></script>
