@@ -218,7 +218,7 @@ function createNewCMInstance(num) {
 		autoCloseTags: parent.ICEcoder.autoCloseTags,
 		autoCloseBrackets: parent.ICEcoder.autoCloseBrackets,
 		highlightSelectionMatches: true,
-		scrollbarStyle: 'overlay', // null, 'native', 'simple', 'overlay'
+		scrollbarStyle: parent.ICEcoder.scrollbarStyle,
 		showTrailingSpace: parent.ICEcoder.showTrailingSpace,
 		lint: false,
 		keyMap: "ICEcoder"
