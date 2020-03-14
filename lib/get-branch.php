@@ -19,100 +19,10 @@ $t = $text['get-branch'];
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> get branch</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<?php if ($_SESSION['githubDiff']) { ?>
-<script src="github.js?microtime=<?php echo microtime(true);?>"></script>
-<?php ;}; ?>
 </head>
 
 <body>
 <?php
-// Need to get dir contents recursively? (Used by GitHub diff mode)
-if (!isset($ftpSite) && $_SESSION['githubDiff']) {
-	// Function to sort given values alphabetically
-	function alphasort($a, $b) {
-		return strcmp($a->getPathname(), $b->getPathname());
-	}
-
-	// Class to put forward the values for sorting
-	class SortingIterator implements IteratorAggregate {
-		private $iterator = null;
-		public function __construct(Traversable $iterator, $callback) {
-			$array = iterator_to_array($iterator);
-			usort($array, $callback);
-			$this->iterator = new ArrayIterator($array);
-		}
-		public function getIterator() {
-			return $this->iterator;
-		}
-	}
-
-	// Get a full list of dirs & files and begin sorting using above class & function
-	$path = $docRoot.$iceRoot;
-	$objectList = new SortingIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST), 'alphasort');
-
-	// Iterator to get files
-	$iter = new RecursiveIteratorIterator(
-		new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
-		RecursiveIteratorIterator::SELF_FIRST,
-		RecursiveIteratorIterator::CATCH_GET_CHILD // Ignore "Permission denied"
-	);
-
-	// Check if dir has .gitignore file
-	function hasGitignore($dir) {
-		return is_file("$dir/.gitignore");
-	}
-
-	// Get a list of .gitignore files into $gi array
-	$gi = array();
-	if(hasGitignore($path)) {
-		$gi[] = "$path/.gitignore";
-	}
-	foreach ($iter as $scanpath) {
-		if (is_dir($scanpath) && strpos($scanpath,".git") == false) {
-		$thisDir = str_replace("\\","/",$scanpath);
-			if(hasGitignore($thisDir)) {
-				$gi[] = $thisDir."/.gitignore";
-			}
-		}
-	}
-
-	// Get $matches array containing existing files listed in .gitignore
-	function parseGitignore($file) { # $file = '/absolute/path/to/.gitignore'
-	  $dir = dirname($file);
-	  $matches = array();
-	  $lines = file($file);
-	  foreach ($lines as $line) {
-		$line = trim($line);
-		if ($line === '') continue;                 # empty line
-		if (substr($line, 0, 1) == '#') continue;   # a comment
-		if (substr($line, 0, 1) == '!') {           # negated glob
-		  $line = substr($line, 1);
-		  $files = array_diff(glob("$dir/*"), glob("$dir/$line"));
-		} else {                                    # normal glob
-		  $files = glob("$dir/$line");
-		}
-		$matches = array_merge($matches, $files);
-	  }
-	  return $matches;
-	}
-
-	// Cycle through all .gitignore files running above function to get a list of $excluded files
-	// Exclude the .git dir as first item as we don't want to see that
-	$excluded = array("/.git");
-	foreach ($gi as $scanpath) {
-		$excludedTest = (parseGitignore($scanpath));
-		if (count($excludedTest) > 0) {
-			$excluded = array_merge($excluded, $excludedTest);
-		}
-	}
-
-	$objectListArray = array();
-	foreach ($objectList as $objectRef) {
-		$fileFolderName = @ltrim(substr(str_replace("\\","/",$objectRef->getPathname()), strlen($path)),"/");
-		array_push($objectListArray,$fileFolderName);
-	}
-}
-
 // If we're just getting a branch, get that and set as the finalArray
 $scanDir = $docRoot.$iceRoot;
 $location = "";
@@ -147,10 +57,6 @@ foreach($finalArray as $entry) {
 	}
 	// Only applicable for local dir, ignoring ICEcoder's dir
 	if (!isset($ftpSite) && $docRoot.$iceRoot.$location."/".$entry == $docRoot.$ICEcoderDir) {
-		$canAdd = false;
-	}
-	// Ignore .git dir in GitHub diff mode
-	if (!isset($ftpSite) && $_SESSION['githubDiff'] && strpos($docRoot.$iceRoot.$location."/".$entry,"/.git") !== false) {
 		$canAdd = false;
 	}
 	if ($entry != "." && $entry != ".." && $canAdd) {
@@ -221,160 +127,6 @@ for ($i=0;$i<count($finalArray);$i++) {
 }
 
 echo '	</div>';
-
-if (!isset($ftpSite) && $_SESSION['githubDiff']) {
-	// Show the loading screen until we're done comparing files with GitHub
-	echo "<script>setTimeout(function(){parent.parent.ICEcoder.showHide('show',parent.get('loadingMask'));},4)</script>";
-	$i=0;
-	$dirListArray = $dirSHAArray = $dirTypeArray = array();
-	// For each of the files in our local path...
-	for ($i=0; $i<count($objectListArray); $i++) {
-		$fileFolderName = "/".$objectListArray[$i];
-
-		// If we're not looking at a .git dir, it's not a .gitignore excluded path and not a dir
-		if (strpos($fileFolderName,".git/") == false && !in_array($docRoot.$iceRoot.$fileFolderName, $excluded) && !is_dir($docRoot.$iceRoot.$fileFolderName)) {
-			// Get contents of file
-			$contents = getData($docRoot.$iceRoot.$fileFolderName);
-
-			$finfo = "text";
-			// Determine if we should remove \r line endings based on mime type (text files yes, others no)
-			if (function_exists('finfo_open')) {
-				$finfoMIME = finfo_open(FILEINFO_MIME);
-				$finfo = finfo_file($finfoMIME, $docRoot.$iceRoot.$fileFolderName);
-				finfo_close($finfoMIME);
-			} else {
-				$fileExt = explode(" ",pathinfo($docRoot.$iceRoot.$fileFolderName, PATHINFO_EXTENSION));
-				$fileExt = $fileExt[0];
-				if (array_search($fileExt,array("gif","jpg","jpeg","png"))!==false) {$finfo = "image";};
-				if (array_search($fileExt,array("doc","docx","ppt","rtf","pdf","zip","tar","gz","swf","asx","asf","midi","mp3","wav","aiff","mov","qt","wmv","mp4","odt","odg","odp"))!==false) {$finfo = "other";};
-			}
-			if (strpos($finfo,"text")===0 || strpos($finfo, "application/xml")===0 || strpos($finfo,"empty")!==false) {
-				$contents = str_replace("\r","",$contents);
-			};
-			// Establish the blob SHA contents and push name, SHA and type into 3 arrays
-			$store = "blob ".strlen($contents)."\000".$contents;
-			array_push($dirListArray,ltrim($fileFolderName,"/"));
-			array_push($dirSHAArray,sha1($store));
-			array_push($dirTypeArray,"file");
-		}
-	}
-
-	// Get our GitHub relative site path
-	$ghRemoteURLPos = array_search($ICEcoder["root"],$ICEcoder['githubLocalPaths']);
-	$ghRemoteURLPaths = $ICEcoder['githubRemotePaths'];
-	$ghRemoteURL = $ghRemoteURLPaths[$ghRemoteURLPos];
-	$ghRemoteURL = str_replace("https://github.com/","",$ghRemoteURL);
-
-	// Reduce absolute excluded paths to relative
-	for ($i=0; $i<count($excluded); $i++) {
-		$excluded[$i] = str_replace($docRoot.$iceRoot,"",$excluded[$i]);
-	}
-	?>
-	<script>
-	parent.repo = '<?php echo $ghRemoteURL;?>';
-	parent.path = '<?php echo $path;?>';
-	dirListArray =  [<?php echo "'".implode("','", $dirListArray)."'";?>];
-	dirSHAArray  =  [<?php echo "'".implode("','", $dirSHAArray)."'";?>];
-	dirTypeArray =  [<?php echo "'".implode("','", $dirTypeArray)."'";?>];
-	excludedArray = [<?php echo "'".implode("','", $excluded)."'";?>];
-	// Start our github object
-	var github = new Github({token: "<?php echo $_SESSION['githubAuthToken'];?>", auth: "oauth"});
-	repoListArray = [];
-	repoSHAArray = [];
-
-	// Set our repo and get the tree recursively
-	var repo = github.getRepo(parent.repo.split("/")[0], parent.repo.split("/")[1]);
-	repo.getTree('master?recursive=true', function(err, tree) {
-		if(!err) {
-			parent.treePaths = [];
-			parent.diffPaths = [];
-			parent.deletedPaths = [];
-			// ==========================================================
-			// NEW FILES are not compared for diffs in this loop, so kept
-			// ==========================================================
-			for (var i=0; i<tree.length; i++) {
-				// compare files (when tree types are blobs)
-				if (tree[i].type == "blob") {
-					// ===========================
-					// UNCHANGED FILES are removed
-					// ===========================
-					if (tree[i].sha == dirSHAArray[dirListArray.indexOf(tree[i].path)]) {
-						if (document.getElementById("|"+tree[i].path.replace("/","|")+"_perms")) {
-							thatNode = document.getElementById("|"+tree[i].path.replace("/","|")+"_perms").parentNode.parentNode;
-							thatNode.parentNode.removeChild(thatNode);
-						}
-					} else {
-						// ======================
-						// CHANGED FILES are kept
-						// ======================
-						if ("undefined" != typeof dirSHAArray[dirListArray.indexOf(tree[i].path)]) {
-							parent.diffPaths.push(tree[i].path);
-						// ======================
-						// DELETED FILES are kept
-						// ======================
-						} else {
-							parent.deletedPaths.push(tree[i].path);
-						}
-					}
-				} else {
-					parent.treePaths.push(tree[i].path);
-				}
-			}
-			// Now we are only showing new, changed and deleted files from our GitHub tree list
-			// in short, we have removed unchanged files from what would be visible
-
-			// However, we should now consider dirs that the user hasn't opened yet as we can
-			// maybe remove closed dirs that contain no changes
-			for (var i=0; i<parent.treePaths.length; i++) {
-				canShowDir = false;
-				for (j=0; j<parent.diffPaths.length; j++) {
-					if (parent.diffPaths[j].indexOf(parent.treePaths[i]+"/") === 0) {
-						canShowDir = true;
-					}
-				}
-				// Remove dirs that contain no changes in them
-				if (!canShowDir) {
-					if (document.getElementById("|"+parent.treePaths[i].replace("/","|")+"_perms")) {
-						thatNode = document.getElementById("|"+parent.treePaths[i].replace("/","|")+"_perms").parentNode.parentNode;
-						thatNode.parentNode.removeChild(thatNode);
-					}
-				}
-			}
-
-			// Finally, remove any excluded files as specified in the .gitignore file
-			for (var i=0; i<excludedArray.length; i++) {
-				if (document.getElementById(excludedArray[i].replace(/\//g,"|")+"_perms")) {
-					thatNode = document.getElementById(excludedArray[i].replace(/\//g,"|")+"_perms").parentNode.parentNode;
-					thatNode.parentNode.removeChild(thatNode);
-				}
-			}
-
-			// With everything done, we can now set folderContent, animate those into view and when done, hide the loading screen
-			setTimeout(function(){
-				folderContent = document.getElementById('branch').innerHTML;
-				showFiles();
-				// If there are no diffs, ask user if they want to switch back to regular mode
-				setTimeout(function(){
-					if (parent.document.getElementById('|').parentNode.parentNode.parentNode.childNodes[2].childNodes.length==1) {
-						if(parent.parent.ICEcoder.ask('<?php echo $t['There are no...'];?>')) {
-							parent.parent.ICEcoder.githubDiffToggle();
-						} else {
-							parent.parent.ICEcoder.showHide('hide',parent.get('loadingMask'));
-						}
-					} else {
-						parent.parent.ICEcoder.showHide('hide',parent.get('loadingMask'));
-					}
-				},100);
-			},4);
-		} else {
-			// There was an error, display HTTP error code and response message
-			parent.parent.ICEcoder.message('<?php echo $t['Sorry, there was...'];?> '+err.error+'\n\n'+err.request.response);
-			parent.parent.ICEcoder.showHide('hide',parent.get('loadingMask'));
-		}
-	});
-	</script>
-	<?php
-}
 ?>
 	<script>
 	targetElem = parent.parent.ICEcoder.filesFrame.contentWindow.document.getElementById('<?php echo xssClean($_GET['location'],"html");?>');
@@ -392,7 +144,7 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 		// Now display folders & files
 
 		// Animate into view?
-		if (<?php echo !$_SESSION['githubDiff'] ? "true" : "false";?> && folderItems.length <= 50) {
+		if (folderItems.length <= 50) {
 			showFileI=0;
 			animFolders = setInterval(function() {
 				showFileI++;
@@ -419,39 +171,6 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 			// If we've been animating into view, clear that interval
 			if ("undefined" != typeof animFolders) {clearInterval(animFolders);};
 			showContent = showContent.slice(0,-2);
-			// If we've got some deleted files (as we're in GitHub diff mode), add those into the file manager
-			if ("undefined" != typeof parent.deletedPaths && parent.deletedPaths.length > 0) {
-				i = 0;
-				parent.addDeletedFiles = setInterval(function() {
-					fSplit = parent.deletedPaths[i].lastIndexOf("/");
-					thePath = parent.deletedPaths[i].substr(0,fSplit);
-					theFile = parent.deletedPaths[i].substr(fSplit+1);
-
-					// If it's not excluded
-					if ("undefined" != typeof excludedArray && excludedArray.indexOf((thePath == "" ? "" : "/" + thePath)+"/"+theFile) == -1) {
-
-						// If we're adding a deleted dir/file in a sub-dir
-						if ("<?php echo $location;?>" == "/"+thePath) {
-							parent.parent.ICEcoder.updateFileManagerList('add','/'+thePath,theFile,false,false,false,'file');
-						// If we're adding a deleted dir/file at the root level
-						} else {
-							// Folder
-							if (thePath != "") {
-								parent.parent.ICEcoder.updateFileManagerList('add',parent.iceRoot,thePath,false,false,false,'folder');
-							// File
-							} else {
-								parent.parent.ICEcoder.updateFileManagerList('add',parent.iceRoot+thePath,theFile,false,false,false,'file');
-							}
-						}
-
-					}
-					i++;
-					if ("undefined" == typeof parent.deletedPaths[i]) {
-						clearInterval(parent.addDeletedFiles);
-					}
-
-				},20);
-			}
 			setTimeout(function(){parent.parent.ICEcoder.redoTabHighlight(parent.parent.ICEcoder.selectedTab);},4);
 			if (!parent.parent.ICEcoder.fmReady) {parent.parent.ICEcoder.fmReady=true;};
 		}
@@ -459,23 +178,9 @@ if (!isset($ftpSite) && $_SESSION['githubDiff']) {
 		locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
 	}
 
-	// If we're not in githubDiff mode, show files here
+	// Show files here
 	if (folderContent.indexOf('<ul')>-1 || folderContent.indexOf('<li')>-1) {
-		<?php if (isset($ftpSite) || !$_SESSION['githubDiff']) {echo 'showFiles();';};?>
-	} else {
-		<?php
-		$iceGithubLocalPaths = $ICEcoder["githubLocalPaths"];
-		$iceGithubRemotePaths = $ICEcoder["githubRemotePaths"];
-		$pathPos = array_search($iceRoot,$iceGithubLocalPaths);
-		if ($pathPos !== false) {
-		?>
-			if (parent.parent.ICEcoder.ask("<?php echo $t['Your local folder...'];?> <?php echo $iceGithubRemotePaths[$pathPos];?>?")) {
-				setTimeout(function() {
-					parent.parent.ICEcoder.showHide('show',parent.get('loadingMask'));
-					parent.parent.ICEcoder.filesFrame.contentWindow.frames['fileControl'].location.href = "github.php?action=clone&csrf="+parent.parent.ICEcoder.csrf;
-				},4);
-			}
-		<?php ;}; ?>
+		showFiles();
 	}
 	</script>
 </body>
