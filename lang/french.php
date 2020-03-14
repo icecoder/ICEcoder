@@ -202,7 +202,7 @@ $text = array(
 		"Cancel tasks"			=> "Quitter les tâches"
 	),
 
-	"ice-coder" =>
+	"icecoder" =>
 	array(
 		"No text selected..."		=> "Aucun texte s&eacute;lectionn&eacute; pour la recherche sur",
 		"all files"			=> "tous les fichiers",

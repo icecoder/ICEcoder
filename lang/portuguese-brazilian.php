@@ -205,7 +205,7 @@ $text = array(
 		"Cancel tasks"			=> "Cancelar tarefas"
 	),
 
-	"ice-coder" =>
+	"icecoder" =>
 	array(
 		"No text selected..."		=> "Sem texto selecionado para buscar",
 		"all files"			=> "todos arquivos",

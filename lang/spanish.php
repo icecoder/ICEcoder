@@ -210,7 +210,7 @@ $text = array(
 		"Cancel tasks"			=> "Cancelar tareas"
 	),
 
-	"ice-coder" =>
+	"icecoder" =>
 	array(
 		"results"			=> "resultados",
 		"No text selected..."		=> "No hay texto seleccionado para buscar",

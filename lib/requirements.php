@@ -42,7 +42,7 @@ if (!$reqsPassed) {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="stylesheet" type="text/css" href="lib/ice-coder.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="lib/icecoder.css?microtime=<?php echo microtime(true);?>">
 <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
@@ -51,7 +51,7 @@ if (!$reqsPassed) {
 <div class="screenContainer" id="screenContainer" style="background-color: #181817; opacity: 0; transition: opacity 0.1s ease-out">
 	<div class="screenVCenter">
 		<div class="screenCenter">
-			<img src="images/ice-coder.png" alt="ICEcoder">
+			<img src="images/icecoder.png" alt="ICEcoder">
 			<div class="version" style="margin-bottom: 22px">v <?php echo $ICEcoderSettings['versionNo'];?></div>
 
 			<span style="display: inline-block; color: #fff">

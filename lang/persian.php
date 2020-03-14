@@ -202,7 +202,7 @@ $text = array(
         "Cancel tasks"          => "لغو تسک"
     ),
 
-    "ice-coder" =>
+    "icecoder" =>
     array(
         "No text selected..."       => "هیچ متنی برای جستجو انتخاب نشده است",
         "Creating Folder"       => "در حال ساخت پوشه",

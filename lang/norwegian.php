@@ -207,7 +207,7 @@ $text = array(
 		"Cancel tasks"			=> "Avbryt oppgaver"
 	),
 
-	"ice-coder" =>
+	"icecoder" =>
 	array(
 		"No text selected..."		=> "Ingen tekst valgt til å søke på",
 		"Creating Folder"		=> "Lage mappe",

@@ -258,7 +258,7 @@ $text = array(
 		"Jump to previous tab"		=> "Jump to previous tab"
 	),
 
-	"ice-coder" =>
+	"icecoder" =>
 	array(
 		"results"			=> "results",
 		"No text selected..."		=> "No text selected to search on",

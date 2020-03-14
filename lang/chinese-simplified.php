@@ -203,7 +203,7 @@ $text = array(
 		"Cancel tasks"			=> "取消任务"
 	),
 
-	"ice-coder" =>
+	"icecoder" =>
 	array(
 		"No text selected..."		=> "搜索中没有选中的文本",
 		"Creating Folder"		=> "正在创建文件夹",

@@ -39,7 +39,7 @@ $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
-<link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/lib/ice-coder.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/lib/icecoder.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="<?php echo $iceURLPath . "/";
 if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
 echo "?microtime=".microtime(true);
@@ -62,7 +62,7 @@ window.onbeforeunload = function() {
 t = {
 <?php
 // Load the lang array for what's in the JS file
-$t = $text['ice-coder'];
+$t = $text['icecoder'];
 $tOutput = "";
 foreach ($t as $key => $value) {
 	$tOutput .= '"'.$key.'" : "'.$value.'",'.PHP_EOL;
@@ -74,7 +74,7 @@ $t = $text['index'];
 ?>
 }
 </script>
-<script language="JavaScript" src="<?php echo $iceURLPath;?>/lib/ice-coder.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/lib/icecoder.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/farbtastic/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/lib/difflib.js?microtime=<?php echo microtime(true);?>"></script>

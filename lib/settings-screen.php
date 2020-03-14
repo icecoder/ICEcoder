@@ -41,7 +41,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 <body class="settings">
 
 <div class="infoPane">
-	<a href="https://icecoder.net" target="_blank"><img src="../images/ice-coder.png" alt="ICEcoder" class="logo"></a>
+	<a href="https://icecoder.net" target="_blank"><img src="../images/icecoder.png" alt="ICEcoder" class="logo"></a>
 
 	<h1 style="margin: 10px 0"><?php echo $t['settings'];?></h1>
 

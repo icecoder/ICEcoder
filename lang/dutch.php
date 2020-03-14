@@ -225,7 +225,7 @@ $text = array(
 		"Cancel tasks"			=> "Annuleer taken"
 	),
 
-	"ice-coder" =>
+	"icecoder" =>
 	array(
 		"results"			=> "resultaten",
 		"No text selected..."		=> "Geen tekst geselecteerd om te zoeken",
