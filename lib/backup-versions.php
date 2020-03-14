@@ -40,22 +40,14 @@ $versions = $fileCountInfo['count'];
 .CodeMirror-foldgutter-folded {background: #800; color: #ddd}
 .CodeMirror-foldgutter-folded:after {position: relative; top: -3px}
 </style>
+<link rel="stylesheet" href="<?php
+echo ($ICEcoder["theme"] === "default"
+    ? dirname(basename(__DIR__)).'/editor.css'
+    : "../".$ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css'
+) . "?microtime=".microtime(true);
+?>">
 <link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="editor.css?microtime=<?php echo microtime(true);?>">
-<?php
-$themeArray = array();
-$handle = opendir('../'.$ICEcoder["codeMirrorDir"].'/theme/');
-
-while (false !== ($cssFile = readdir($handle))) {
-	if ($cssFile !== "." && $cssFile != "..") {
-		array_push($themeArray,basename($cssFile,".css"));
-	}
-}
-sort($themeArray);
-for ($i=0;$i<count($themeArray);$i++) {
-	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
-}
-?>
+<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="backup-versions">
@@ -124,10 +116,11 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	matchBrackets: parent.parent.ICEcoder.matchBrackets,
 	electricChars: false,
 	highlightSelectionMatches: true,
+    scrollbarStyle: parent.parent.ICEcoder.scrollbarStyle,
 	showTrailingSpace: parent.parent.ICEcoder.showTrailingSpace,
 	lint: false,
 	readOnly: "nocursor",
-	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
+    theme: parent.parent.ICEcoder.theme
 	});
 editor.setSize("480px","500px");
 
