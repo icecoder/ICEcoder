@@ -55,7 +55,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 	<br><br>
 
 	<?php echo $t['git'];?>:<br>
-	<a href="https://github.com/mattpass/ICEcoder" target="_blank">https://github.com/mattpass/ICEcoder</a>
+	<a href="https://github.com/icecoder/ICEcoder" target="_blank">https://github.com/icecoder/ICEcoder</a>
 	<br><br>
 
 	<?php echo $t['codemirror dir'];?>:<br>
@@ -77,7 +77,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<a href="https://www.twitter.com/icecoder" style="font-size: 10px" target="_blank">Twitter</a><br>
 		<a href="https://facebook.com/ICEcoder.net" style="font-size: 10px" target="_blank">Facebook</a><br>
 		<a href="https://groups.google.com/forum/#!forum/icecoder" style="font-size: 10px" target="_blank">Google Groups</a><br>
-		<a href="https://github.com/mattpass/ICEcoder" style="font-size: 10px" target="_blank">GitHub</a><br>
+		<a href="https://github.com/icecoder/ICEcoder" style="font-size: 10px" target="_blank">GitHub</a><br>
 		<a href="mailto:info@icecoder.net" style="font-size: 10px">Email</a><br><br>
 		<?php echo $t['You may use...'];?>
 	</div>
@@ -272,6 +272,16 @@ function findSequence(goal) {
 		</div>
 			<br><br>
 
+        <div style="display: inline-block; width: 95px">
+            <?php echo $t['scrollbars'];?><br>
+            <select onchange="changescrollbarStyle(); showButton()" name="scrollbarStyle" id="scrollbarStyle">
+                <option value="overlay"<?php if($ICEcoder["scrollbarStyle"] === "overlay") {echo " selected";};?>>overlay</option>
+                <option value="simple"<?php if($ICEcoder["scrollbarStyle"] === "simple") {echo " selected";};?>>simple</option>
+                <option value="native"<?php if($ICEcoder["scrollbarStyle"] === "native") {echo " selected";};?>>native</option>
+            </select>
+        </div>
+        <br><br>
+
 		<h2><?php echo $t['functionality'];?></h2><br>
 
 		<div style="display: inline-block; width: 95px">
@@ -328,11 +338,6 @@ function findSequence(goal) {
 		}
 		echo ' onclick="showButton()" id="enableRegistration"> '.$t['Registration'].' </input>';
 	?>
-	<br><br>
-
-	<h2>github</h2><br>
-	<?php echo $t['auth token'];?> <span class="info" title="<?php echo $t['Required to get...'];?>">[?]</span> &nbsp; <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use" target="_blank" class="info">Personal Access Token</a> &nbsp; <a href="(http://developer.github.com/v3/oauth" target="_blank" class="info">Client/Secret Pair Token</a><br>
-	<input type="text" name="githubAuthToken" style="width: 320px" onkeydown="showButton()" value="<?php echo $ICEcoder["githubAuthToken"];?>" autocomplete="off">
 </div>
 
 <div id="securitySection" class="section" style="display: none">
@@ -363,7 +368,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	tabSize: parent.parent.ICEcoder.indentSize,
 	mode: "javascript",
 	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>",
-    scrollbarStyle: 'overlay', // null, 'native', 'simple', 'overlay'
+    scrollbarStyle: parent.parent.ICEcoder.scrollbarStyle
 	});
 
 var input = document.getElementById("select");
@@ -386,6 +391,12 @@ function changeLineNumbersToggle() {
 	var lineNumbers = lineNumbersSelect.options[lineNumbersSelect.selectedIndex].innerHTML == "yes" ? true : false;
 	editor.setOption("lineNumbers", lineNumbers);
 	editor.refresh();
+}
+
+function changescrollbarStyle() {
+    var scrollbarStyle = document.getElementById("scrollbarStyle").value;
+    editor.setOption("scrollbarStyle", scrollbarStyle);
+    editor.refresh();
 }
 
 function changeFontSize() {
