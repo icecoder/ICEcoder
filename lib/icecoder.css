@@ -52,6 +52,12 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 	100% {transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg)}
 }
 
+.infoBlackMask {position: fixed; display: none; width: 0; height: 0; top: 0; left: 0; border: solid 10000px rgba(0,0,0,0); transition: all 0.5s ease; z-index: 100}
+.infoMessageContainer {position: fixed; display: none; width: 100%; height: 100%; top: 0; left: 0; text-align: center; opacity: 0; transition: all 0.5s ease; z-index: 100}
+.infoMessage {position: relative; margin: -80px auto 0 auto; height: 160px; width: 500px; font-size: 14px; line-height: 21px; color: #fff}
+.infoMessage .title {margin-bottom: 18px; font-size: 18px; font-weight: bold; color: #f80}
+.infoMessage .button {position: absolute; bottom: 0; left: 190px; width: 100px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); cursor: pointer}
+
 .plugins {position: absolute; display: inline-block; width: 3px; height: 100%; top: 0; background: transparent; overflow: hidden; z-index: 3;
 	transition: all 0.07s ease-out;
 }
