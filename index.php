@@ -309,10 +309,6 @@ $t = $text['index'];
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 		<form onSubmit="return ICEcoder.goToLine(get('goToLineNo').value, 0, false)">
-			<div class="codeAssist" title="<?php echo $t['Turn on/off...'];?>">
-				<input type="checkbox" name="codeAssist" id="codeAssist" class="codeAssistCheckbox" <?php if ($ICEcoder['codeAssist']) {echo 'checked ';};?>>
-				<span class="codeAssistDisplay" id="codeAssistDisplay" style="background-position: <?php echo $ICEcoder['codeAssist'] ? "0" : "-16";?> 0" onClick="ICEcoder.codeAssistToggle()"></span> <?php echo $t['Code Assist'];?>
-			</div>
 			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" maxlength="5" id="goToLineNo" onkeyup="ICEcoder.goToLine(this.value, 0, true)" class="textbox goToLine">
 			<div class="view" title="<?php echo $t['View'];?>" onClick="ICEcoder.openPreviewWindow()" id="fMView"></div>
 			<div class="bug" title="<?php echo $t['Bug reporting not active'];?>" onClick="ICEcoder.openBugReport()" id="bugIcon"></div>

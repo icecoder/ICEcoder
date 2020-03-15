@@ -131,9 +131,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findReplace .submit {position: relative; top: -2px; height: 28px; padding-top: 2px; border: 0; background-color: #1d1d1b; color: #eee; font-size: 10px; margin-left: 2px; cursor: pointer}
 .findReplace .submit:hover {background-color: #2187e7; color: #eee}
 .findReplace .results {position: relative; display: inline-block; width: 200px; height: 20px; font-size: 10px; margin: 7px 0 0 20px}
-.findBar .codeAssist {position: fixed; display: inline-block; width: 100px; right: 180px; top: 50px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
-.findBar .codeAssist .codeAssistCheckbox {display: none}
-.findBar .codeAssist .codeAssistDisplay {display: inline-block; width: 16px; height: 16px; margin: -1px 4px 0 0; vertical-align: middle; background: url('../images/checkbox.gif') 0 0 no-repeat; cursor: pointer}
 .findBar .goLine {position: fixed; display: inline-block; width: 120px; right: 65px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
 .goLine .goToLine {width: 50px; height: 28px; border: 0; font-size: 12px; margin: -7px 0 0 3px; padding-left: 4px; background: #333; color: #eee}
 .findReplace input:focus, .goLine .goToLine:focus {outline: none; background: rgba(0,198,255,0.5); color: #000}
