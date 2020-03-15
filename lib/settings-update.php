@@ -4,8 +4,23 @@ $text = $_SESSION['text'];
 $t = $text['settings-update'];
 
 // Update this config file?
-if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
+if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] &&
+    (isset($_POST["theme"]) && $_POST["theme"] || isset($_GET['action']) && "turnOffTutorialOnLogin" === $_GET['action'])
+) {
 	$settingsContents = getData("../data/".$settingsFile);
+
+	// Just updating tutorialOnLogin setting
+	if (true === isset($_GET['action']) && "turnOffTutorialOnLogin" === $_GET['action']) {
+        if (is_writeable("../data/" . $settingsFile)) {
+            $fh = fopen("../data/" . $settingsFile, 'w');
+            fwrite($fh, str_replace('"tutorialOnLogin"	=> true', '"tutorialOnLogin"	=> false', $settingsContents));
+            fclose($fh);
+        } else {
+            echo "<script>parent.parent.ICEcoder.message('" . $t['Cannot update config'] . " data/" . $settingsFile . " " . $t['and try again'] . "');</script>";
+        }
+        exit;
+    }
+
 	// Replace our settings vars
 	$repPosStart = strpos($settingsContents,'"root"');
 	$repPosEnd = strpos($settingsContents,'"plugins"');
