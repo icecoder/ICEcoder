@@ -78,12 +78,12 @@ if (!file_exists(dirname(__FILE__)."/../data/backups")) {
 // Walk through possibilities in the order we'd like to determine an user IP
 function getUserIP() {
     return $_SERVER['HTTP_CLIENT_IP']
-        ?: $_SERVER['HTTP_X_FORWARDED_FOR']
-        ?: $_SERVER['HTTP_X_FORWARDED']
-        ?: $_SERVER['HTTP_FORWARDED_FOR']
-        ?: $_SERVER['HTTP_FORWARDED']
-        ?: $_SERVER['REMOTE_ADDR']
-        ?: 'Unknown';
+        ?? $_SERVER['HTTP_X_FORWARDED_FOR']
+        ?? $_SERVER['HTTP_X_FORWARDED']
+        ?? $_SERVER['HTTP_FORWARDED_FOR']
+        ?? $_SERVER['HTTP_FORWARDED']
+        ?? $_SERVER['REMOTE_ADDR']
+        ?? 'Unknown';
 }
 
 // Get data from a fopen or CURL connection
