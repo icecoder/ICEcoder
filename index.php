@@ -117,6 +117,9 @@ $t = $text['index'];
 		"ICEcoder.newDirPerms = ".$ICEcoder["newDirPerms"].";".
 		"ICEcoder.newFilePerms = ".$ICEcoder["newFilePerms"].";";
 		echo "ICEcoder.csrf = '".$_SESSION["csrf"]."';";
+        if (true === $ICEcoder["tutorialOnLogin"]) {
+            echo "ICEcoder.viewTutorial(false, 700);";
+        }
 ?>ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;ICEcoder.content.style.visibility='visible';ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = iceLoc+'/processes/on-load.php';<?php if(isset($_GET["display"]) && $_GET["display"] == "updated") {echo "ICEcoder.updated();";};?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="if('visible' === get('blackMask').style.visibility) {ICEcoder.handleModalKeyUp(event, 'modalGeneralCatch')}; ICEcoder.resetKeys(event);" onBlur="ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">
@@ -133,6 +136,11 @@ $t = $text['index'];
 			<?php echo $t['working'];?>...
 		</div>
 	</div>
+</div>
+
+<div id="infoBlackMask" class="infoBlackMask" oncontextmenu="return false"></div>
+<div id="infoMessageContainer" class="infoMessageContainer" oncontextmenu="return false">
+    <div id="infoMessage" class="infoMessage"></div>
 </div>
 
 <div id="plugins" class="plugins" style="<?php echo $ICEcoder["pluginPanelAligned"];?>: 0" onMouseOver="ICEcoder.showHidePlugins('show')" onMouseOut="ICEcoder.showHidePlugins('hide')" onClick="ICEcoder.showHidePlugins('hide')">
@@ -235,6 +243,7 @@ $t = $text['index'];
 		</div>
 		<div id="optionsHelp" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show',this.id)" onmouseout="ICEcoder.showHideFileNav('hide',this.id);ICEcoder.canShowFMNav=false">
 			<ul>
+				<li><a nohref onclick="ICEcoder.viewTutorial(false, 500)">Tutorial</a></li>
 				<li><a nohref onclick="ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>')"><?php echo $t['Manual'];?></a></li>
 				<li><a nohref onClick="ICEcoder.helpScreen()"><?php echo $t['Shortcuts'];?></a></li>
 				<li><a nohref onclick="ICEcoder.searchForSelected()"><?php echo $t['Search for selected'];?></a></li>
