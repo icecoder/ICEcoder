@@ -104,7 +104,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] &&
 	}
 
 	// Work out the theme to use now
-	$ICEcoder["theme"]=="default" ? $themeURL = 'lib/editor.css' : $themeURL = $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';
+	$ICEcoder["theme"]=="default" ? $themeURL = 'assets/css/editor.css' : $themeURL = 'assets/css/theme/'.$ICEcoder["theme"].'.css';
 	$themeURL .= "?microtime=".microtime(true);
 
 	// Do we need a file manager refresh?

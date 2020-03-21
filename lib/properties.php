@@ -17,7 +17,7 @@ if (!file_exists($fileName) || strpos(str_replace("\\","/",$fileName),$docRoot) 
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> file/folder properties</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="properties.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="../assets/css/properties.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="properties" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'properties')" onload="this.focus();">
