@@ -9,9 +9,9 @@ $t = $text['files'];
 <head>
     <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> file manager</title>
     <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" type="text/css" href="lib/files.css?microtime=<?php echo microtime(true);?>">
-    <link rel="stylesheet" type="text/css" href="lib/file-types.css?microtime=<?php echo microtime(true);?>">
-    <link rel="stylesheet" type="text/css" href="lib/file-type-icons.css?microtime=<?php echo microtime(true);?>">
+    <link rel="stylesheet" type="text/css" href="assets/css/files.css?microtime=<?php echo microtime(true);?>">
+    <link rel="stylesheet" type="text/css" href="assets/css/file-types.css?microtime=<?php echo microtime(true);?>">
+    <link rel="stylesheet" type="text/css" href="assets/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
     <!--Updated via settings so must remain 4th stylesheet//-->
     <style>
         ul.fileManager li a span { font-size:  <?php echo $ICEcoder["fontSize"];?>; }

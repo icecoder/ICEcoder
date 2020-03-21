@@ -39,12 +39,12 @@ $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
-<link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/lib/icecoder.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/assets/css/icecoder.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="<?php echo $iceURLPath . "/";
-if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+if ($ICEcoder["theme"]=="default") {echo 'assets/css/editor.css';} else {echo 'assets/css/theme/'.$ICEcoder["theme"].'.css';};
 echo "?microtime=".microtime(true);
 ?>">
-<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/png" href="assets/images/favicon.png">
 <script>
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
 
@@ -74,11 +74,11 @@ $t = $text['index'];
 ?>
 }
 </script>
-<script language="JavaScript" src="<?php echo $iceURLPath;?>/lib/icecoder.js?microtime=<?php echo microtime(true);?>"></script>
-<script src="<?php echo $iceURLPath;?>/lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
-<script src="<?php echo $iceURLPath;?>/farbtastic/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
-<script src="<?php echo $iceURLPath;?>/lib/difflib.js?microtime=<?php echo microtime(true);?>"></script>
-<link rel="stylesheet" href="<?php echo $iceURLPath;?>/farbtastic/farbtastic.css?microtime=<?php echo microtime(true);?>" type="text/css">
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/assets/js/icecoder.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="<?php echo $iceURLPath;?>/assets/js/mmd.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="<?php echo $iceURLPath;?>/assets/js/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="<?php echo $iceURLPath;?>/assets/js/difflib.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" href="<?php echo $iceURLPath;?>/assets/css/farbtastic.css?microtime=<?php echo microtime(true);?>" type="text/css">
 </head>
 
 <body onLoad="<?php
@@ -146,7 +146,7 @@ $t = $text['index'];
 <div id="plugins" class="plugins" style="<?php echo $ICEcoder["pluginPanelAligned"];?>: 0" onMouseOver="ICEcoder.showHidePlugins('show')" onMouseOut="ICEcoder.showHidePlugins('hide')" onClick="ICEcoder.showHidePlugins('hide')">
 	<div style="padding: 15px">
 		<a nohref onClick="ICEcoder.showColorPicker(document.getElementById('color') ? document.getElementById('color').value : '#123456')" title="Farbtastic
-<?php echo $t['Color picker'];?>"><img src="<?php echo $iceURLPath;?>/images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
+<?php echo $t['Color picker'];?>"><img src="<?php echo $iceURLPath;?>/assets/images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
 		<div id="pluginsOptional"><?php echo $pluginsDisplay; ?></div>
 		<a nohref onclick="ICEcoder.pluginsManager()" title="<?php echo $t['Plugins Manager'];?>" style="color: #fff; cursor: pointer">+ / -</a>
 	</div>
@@ -264,8 +264,8 @@ $t = $text['index'];
 
 <div id="editor" class="editor">
 	<div id="tabsBar" class="tabsBar" onContextMenu="return false">
-		<a nohref onClick="ICEcoder.closeAllTabs()"><img src="<?php echo $iceURLPath;?>/images/nav-close-all.gif" class="closeAllTabs" title="<?php echo $t['Close all tabs'];?>"></a>
-		<a nohref onClick="ICEcoder.alphaTabs()"><img src="<?php echo $iceURLPath;?>/images/nav-alpha.png" class="alphaTabs" title="<?php echo $t['Alphabetize tabs'];?>"></a>
+		<a nohref onClick="ICEcoder.closeAllTabs()"><img src="<?php echo $iceURLPath;?>/assets/images/nav-close-all.gif" class="closeAllTabs" title="<?php echo $t['Close all tabs'];?>"></a>
+		<a nohref onClick="ICEcoder.alphaTabs()"><img src="<?php echo $iceURLPath;?>/assets/images/nav-alpha.png" class="alphaTabs" title="<?php echo $t['Alphabetize tabs'];?>"></a>
 		<?php
 		for ($i=1;$i<=100;$i++) {
 			echo '<div id="tab'.$i.'" class="tab" onMouseDown="ICEcoder.canSwitchTabs ? ICEcoder.switchTab(parseInt(this.id.slice(3),10)) : ICEcoder.canSwitchTabs=true; thisColor=ICEcoder.tabFGselected; if (!ICEcoder.overCloseLink) {ICEcoder.tabDragStart(parseInt(this.id.slice(3),10))}; if (event.button==1) {ICEcoder.closeTab(parseInt(this.id.slice(3),10)); return false};" onMouseOver="thisColor=this.style.color;this.style.color=ICEcoder.tabFGselected" onMouseOut="this.style.color=thisColor"></div>';

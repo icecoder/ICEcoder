@@ -10,16 +10,16 @@ $t = $text['editor'];
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/hint/show-hint.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/lint/lint.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="assets/css/codemirror.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="assets/css/show-hint.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="assets/css/lint.css?microtime=<?php echo microtime(true);?>">
 <!--
 codemirror-compressed.js
 incls:	codemirror
 modes:	clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, markdown, perl, php, python, ruby, sass, sql, xml, yaml
 addon:	brace-fold, closebrackets, closetag, css-hint, foldcode, foldgutter, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, matchbrackets, runmode, searchcursor, show-hint, simplescrollbars, sql-hint, trailingspace, xml-fold, xml-hint
 //-->
-<script src="<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="assets/js/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 <?php
 if (file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
 	echo '<script src="plugins/jshint/jshint-2.5.6.min.js?microtime='.microtime(true).'></script>';
@@ -41,7 +41,7 @@ if (file_exists(dirname(__FILE__)."/plugins/responsive-helper/responsive-helper.
 	echo '<script src="plugins/responsive-helper/responsive-helper.js?microtime='.microtime(true).'"></script>';
 };?>
 <link rel="stylesheet" href="<?php
-if ($ICEcoder["theme"]=="default") {echo dirname(basename(__DIR__)).'/lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+if ($ICEcoder["theme"]=="default") {echo dirname(basename(__DIR__)).'/assets/css/editor.css';} else {echo 'assets/css/theme/'.$ICEcoder["theme"].'.css';};
 echo "?microtime=".microtime(true);
 if (array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light")) !== false) {
 	$activeLineBG = "#ccc";
@@ -51,9 +51,9 @@ if (array_search($ICEcoder["theme"],array("3024-day","base16-light","eclipse","e
 	$activeLineBG = "#000";
 }
 ?>">
-<script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
-<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
+<script src="assets/js/mmd.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" href="assets/css/foldgutter.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="assets/css/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 
 <style type="text/css">
 /* Make sure this next one remains the 1st item, updated with JS */
@@ -89,8 +89,8 @@ h2 {color: rgba(0,198,255,0.7)}
 .diffNone {}
 .info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}
 </style>
-<link rel="stylesheet" href="lib/file-types.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="lib/file-type-icons.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="assets/css/file-types.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="assets/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body style="color: #fff; margin: 0" onKeyDown="return parent.ICEcoder.interceptKeys('content', event);" onKeyUp="parent.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);" oncontextmenu="return false">
