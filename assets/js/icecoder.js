@@ -1903,7 +1903,7 @@ var ICEcoder = {
 			if(i>-1) {
 				// rename array item and the tab
 				this.openFiles[i] = newName;
-				closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
+				closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
 				fileName = this.openFiles[i];
 				get('tab'+(i+1)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
 				get('tab'+(i+1)).title = newName;
@@ -1924,7 +1924,7 @@ var ICEcoder = {
 			if(i>-1) {
 				// rename array item and the tab
 				this.openFiles[i] = newName;
-				closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
+				closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
 				fileName = this.openFiles[i];
 				get('tab'+(i+1)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
 				get('tab'+(i+1)).title = newName;
@@ -3752,7 +3752,7 @@ var ICEcoder = {
 		this.openFiles.push(this.shortURL);
 
 		// Setup a new tab
-		closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
+		closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
 		get('tab'+(this.openFiles.length)).style.display = "inline-block";
 		fileName = this.openFiles[this.openFiles.length-1];
 		get('tab'+(this.openFiles.length)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
@@ -3798,7 +3798,7 @@ var ICEcoder = {
 		this.openFiles[tabNum-1] = newName;
 
 		// Setup a new tab
-		closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
+		closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
 		fileName = this.openFiles[tabNum-1];
 		get('tab'+tabNum).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
 		get('tab'+tabNum).title = "/" + this.openFiles[tabNum-1].replace(/\//,"");
@@ -4536,7 +4536,7 @@ var ICEcoder = {
 				"height": 55,
 				"top": -55,
 				"left": 0,
-				"title": "<img src=\"images/icecoder.png\" style=\"position: absolute; margin: -105px 0 0 -55px\"><br><br>Code editor awesomeness ...in your browser",
+				"title": "<img src=\"assets/images/icecoder.png\" style=\"position: absolute; margin: -105px 0 0 -55px\"><br><br>Code editor awesomeness ...in your browser",
 				"message": "View the quick start tutorial? (Well worthwhile!) or <a onclick=\"ICEcoder.viewTutorial(12, 0)\" style=\"font-size: 14px; text-decoration: underline; cursor: pointer\">skip it</a>",
 				"button": "view tutorial"
 			},
@@ -4698,7 +4698,7 @@ var ICEcoder = {
 	startSnake: function() {
 		this.snakePlaying = true;
 		this.showHide('show',get('blackMask'));
-		get('mediaContainer').innerHTML = '<span style="font-size: 14px">Let\'s play<br><img src="'+iceLoc+'/images/snake.png" alt="snake"><br><br><br>Use arrow keys to eat your code<br><br>(it returns afterwards of course) :-)</span>';
+		get('mediaContainer').innerHTML = '<span style="font-size: 14px">Let\'s play<br><img src="'+iceLoc+'/assets/images/snake.png" alt="snake"><br><br><br>Use arrow keys to eat your code<br><br>(it returns afterwards of course) :-)</span>';
 		setTimeout(function(ic) {
 			ic.showHide('hide',get('blackMask'));
 			get('mediaContainer').innerHTML = '';
