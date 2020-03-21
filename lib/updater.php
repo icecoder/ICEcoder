@@ -144,11 +144,11 @@ function transposeSettings($oldFile,$newFile,$saveFile) {
 		$contentLine = $newSettingsArray[$i].PHP_EOL;
 		for ($j=0; $j<count($oldSettingsArray); $j++) {
 			// And override with old setting if not blank, not in excluded array and we have a match
-			if ($thisKey != "" && $thisKey != "versionNo" && $thisKey != "codeMirrorDir" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
+			if ($thisKey != "" && $thisKey != "versionNo" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
 				$contentLine = $oldSettingsArray[$j].PHP_EOL;
 				// If the old setting we're copying over isn't replacing the last line and doesn't end in a comma (after an rtrim to remove line endings), and doesn't contain a comment, add one
 				if ($i != count($newSettingsArray)-1 && substr(rtrim($contentLine),-1) != "," && strpos($contentLine,"//") == -1) {
-					$contentLine = str_replace(PHP_EOL,",".PHP_EOL,$contentLine);	
+					$contentLine = str_replace(PHP_EOL,",".PHP_EOL,$contentLine);
 				}
 			}
 		}
