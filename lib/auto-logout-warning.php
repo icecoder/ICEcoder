@@ -10,7 +10,7 @@ $t = $text['auto-logout-warning'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> auto-logout</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="auto-logout-warning.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="../assets/css/auto-logout-warning.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="auto-logout-warning">

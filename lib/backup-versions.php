@@ -16,9 +16,9 @@ $versions = $fileCountInfo['count'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> backup version control</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="backup-versions.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css?microtime=<?php echo microtime(true);?>">
-<script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" type="text/css" href="../assets/css/backup-versions.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="../assets/css/codemirror.css?microtime=<?php echo microtime(true);?>">
+<script src="../assets/js/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 
 <style type="text/css">
 .CodeMirror {position: absolute; width: 409px; height: 180px; font-size: <?php echo $ICEcoder["fontSize"];?>}
@@ -42,12 +42,12 @@ $versions = $fileCountInfo['count'];
 </style>
 <link rel="stylesheet" href="<?php
 echo ($ICEcoder["theme"] === "default"
-    ? dirname(basename(__DIR__)).'/editor.css'
-    : "../".$ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css'
+    ? dirname(basename(__DIR__)).'/../assets/css/editor.css'
+    : "../assets/css/theme/'.$ICEcoder["theme"].'.css'
 ) . "?microtime=".microtime(true);
 ?>">
-<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/fold/foldgutter.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="../assets/css/foldgutter.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="../assets/css/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="backup-versions" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'versions')" onload="this.focus();">
@@ -100,7 +100,7 @@ var highlightVersion = function(elem) {
 
 <?php
 echo "fileName = '".basename($file)."';";
-include(dirname(__FILE__)."/language-modes-partial.js");
+include(dirname(__FILE__)."/../assets/js/language-modes-partial.js");
 ?>
 
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
