@@ -10,7 +10,7 @@ $t = $text['help'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> help</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="help.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="../assets/css/help.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="help" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'help')" onload="this.focus();">

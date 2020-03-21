@@ -124,7 +124,7 @@ if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> FTP manager</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="ftp-manager.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="../assets/css/ftp-manager.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="ftpManager" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'ftpManager')" onload="this.focus();">

@@ -16,8 +16,8 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="stylesheet" type="text/css" href="icecoder.css?microtime=<?php echo microtime(true);?>">
-<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="stylesheet" type="text/css" href="../assets/css/icecoder.css?microtime=<?php echo microtime(true);?>">
+<link rel="icon" type="image/png" href="../assets/images/favicon.png">
 </head>
 
 <body style="background-color: #181817" onLoad="<?php if (!isset($_GET["get"])) {$inputFocus = $ICEcoder["multiUser"] ? "username" : "password"; echo "document.settingsUpdate.".$inputFocus.".focus(); ";}; ?>setTimeout(function(){document.getElementById('screenContainer').style.opacity=1},50)">
@@ -25,7 +25,7 @@ echo $ICEcoder["password"] == "" && !$ICEcoder["multiUser"] ? "Setup" : "Login";
 <div class="screenContainer" id="screenContainer" style="background-color: #181817; opacity: 0; transition: opacity 0.1s ease-out">
 	<div class="screenVCenter">
 		<div class="screenCenter">
-		<img src="../images/icecoder.png" alt="ICEcoder">
+		<img src="../assets/images/icecoder.png" alt="ICEcoder">
 		<div class="version" style="margin-bottom: 22px">v <?php echo $ICEcoder["versionNo"];?></div>
 
 		<form name="settingsUpdate" action="login.php" method="POST"<?php if($settingPW) {?> onsubmit="return checkCanSubmit();"<?php } ?>>

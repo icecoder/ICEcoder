@@ -177,7 +177,7 @@ function deletePlugin($dir) {
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> plugins manager</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="plugins-manager.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="../assets/css/plugins-manager.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="pluginsManager" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'pluginsManager')" onload="this.focus();">
