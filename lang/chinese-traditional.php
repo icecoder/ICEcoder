@@ -314,7 +314,6 @@ $text = [
         "version"                                  => "版本",
         "website"                                  => "網站",
         "git"                                      => "git",
-        "codemirror dir"                           => "codemirror 目錄",
         "codemirror version"                       => "codemirror 版本",
         "file manager root"                        => "文件管理器的根目錄 ROOT",
         "Free to use..."                           => "您可以免費使用它, 無論商業與否, 衹需讓我知道任何很酷的或有定製的:)同樣我們無任何責任和任何擔保, 使用所有的責任都是你的. 很多個人和公司爲 ICEcoder 作出過貢獻, 在此篇幅有限無法一一列舉, 請訪問貢獻者詳細列表",

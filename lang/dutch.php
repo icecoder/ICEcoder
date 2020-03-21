@@ -349,7 +349,6 @@ $text = [
         "version"                                  => "versie",
         "website"                                  => "website",
         "git"                                      => "git",
-        "codemirror dir"                           => "codemirror map",
         "codemirror version"                       => "codemirror versie",
         "file manager root"                        => "bestandsbeheer root",
         "backups"                                  => "backups",

@@ -333,7 +333,6 @@ $text = [
         "version"                                  => "version",
         "website"                                  => "sitio web",
         "git"                                      => "git",
-        "codemirror dir"                           => "directorio codemirror",
         "codemirror version"                       => "version codemirror",
         "file manager root"                        => "administrador de archivos raiz",
         "Get in contact..."                        => "Pongase en contacto...",

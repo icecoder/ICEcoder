@@ -314,7 +314,6 @@ $text = [
         "version"                                  => "versjon",
         "website"                                  => "webside",
         "git"                                      => "git",
-        "codemirror dir"                           => "codemirror mappe",
         "codemirror version"                       => "codemirror versjon",
         "file manager root"                        => "filbehandler root",
         "Free to use..."                           => "Gratis å bruke den til eget formål, kommersielle eller ikke, bare gi meg beskjed om eventuelle kule bruk eller tilpasninger. :) <br>Ingen garanti eller erstatningsansvar aksepteres for noe som helst, det er ditt eget ansvar for all bruk.<br>Mange fantastiske mennesker og bedrifter har bidratt til å bygge ICEcoder og det er for mange å takke her. Vennligst se hele listen på",

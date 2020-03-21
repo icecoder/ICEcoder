@@ -325,7 +325,6 @@ $text = [
         "version"                                  => "vers&atilde;o",
         "website"                                  => "website",
         "git"                                      => "git",
-        "codemirror dir"                           => "pasta codemirror",
         "codemirror version"                       => "vers&atilde;o codemirror",
         "file manager root"                        => "Raiz gerenciador de arquivos",
         "Free to use..."                           => "Livre para utiliza&ccedil;&atilde;o para seus prop&oacute;sitos, comercial ou n&atilde;o, mas aviseme sobre sua implementa&ccedil;&atilde;o se puder. :)<br><br>Sem garantias, Muitas empresas e pessoas fant&atilde;sticas contribuiram para desenvolver o ICEcoder, h&atilde; muito o que agradecermos aqui. Veja a lista completa aqui",

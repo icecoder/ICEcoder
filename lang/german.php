@@ -287,7 +287,6 @@ $text = [
         "version"                                  => "Version",
         "website"                                  => "Website",
         "git"                                      => "git",
-        "codemirror dir"                           => "CodeMirror Verzeichnis",
         "codemirror version"                       => "CodeMirror Version",
         "file manager root"                        => "Stammverzeichnis vom Dateimanager",
         "Free to use..."                           => "Kostenfrei nutzbar, kommerziell oder nicht. Gebt mir Bescheid &uuml;ber eure Nutzung oder Anpassungen. :)<br><br>Keine Garantie oder Haftung, Nutzung auf eigene Gefahr.<br><br>Viele fantastische Leute und Unternehmen haben dabei geholfen ICEcoder zu dem zu machen, was es heute ist. Und es sind zu viele um ihnen einzelen zu danken. Eine vollst&auml;ndige Liste gibt es unter",

@@ -314,7 +314,6 @@ $text = [
         "version"                                  => "نسخه",
         "website"                                  => "وب سایت",
         "git"                                      => "گیت",
-        "codemirror dir"                           => "مسیر کد آینه",
         "codemirror version"                       => "نسخه کد آینه",
         "file manager root"                        => "ریشه مسیر مدیریت فایل",
         "Free to use..."                           => "Free to use it for your own purposes, commercial or not, just let me know of any cool uses or customisations. :)<br><br>No warranty or liability accepted for anything, all responsibility of use is your own.<br><br>A lot of fantastic people and companies have helped build ICEcoder and there is too many to thank here. Please see the full list at",
