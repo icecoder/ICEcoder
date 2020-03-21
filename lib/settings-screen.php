@@ -358,13 +358,13 @@ function findSequence(goal) {
 
 <script>
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-	lineNumbers: parent.parent.ICEcoder.lineNumbers,
+	lineNumbers: parent.ICEcoder.lineNumbers,
 	readOnly: "nocursor",
-	indentUnit: parent.parent.ICEcoder.indentSize,
-	tabSize: parent.parent.ICEcoder.indentSize,
+	indentUnit: parent.ICEcoder.indentSize,
+	tabSize: parent.ICEcoder.indentSize,
 	mode: "javascript",
 	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>",
-    scrollbarStyle: parent.parent.ICEcoder.scrollbarStyle
+    scrollbarStyle: parent.ICEcoder.scrollbarStyle
 	});
 
 var input = document.getElementById("select");
@@ -421,10 +421,10 @@ var showHideTabs = function() {
 
 var validatePasswords = function() {
 	if (document.settings.password.value != 0 && document.settings.password.value.length<8) {
-        parent.parent.ICEcoder.message('Please use at least 8 chars in the password');
+        parent.ICEcoder.message('Please use at least 8 chars in the password');
 	} else {
 		if (document.settings.password.value != document.settings.passwordConfirm.value) {
-            parent.parent.ICEcoder.message('Sorry, your passwords don\'t match')
+            parent.ICEcoder.message('Sorry, your passwords don\'t match')
 		} else {
 			document.settings.submit();
 		}
@@ -441,7 +441,7 @@ var switchTab = function(tab) {
 }
 
 var submitSettings = function() {
-    <?php echo $ICEcoder['demoMode'] ? "parent.parent.ICEcoder.message('Sorry, can\'t commit settings in demo mode')" : "validatePasswords()"; ?>;
+    <?php echo $ICEcoder['demoMode'] ? "parent.ICEcoder.message('Sorry, can\'t commit settings in demo mode')" : "validatePasswords()"; ?>;
 }
 </script>
 
