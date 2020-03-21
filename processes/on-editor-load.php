@@ -31,7 +31,7 @@ ICEcoder.switchMode = function(mode) {
 			cMdiff.setOption("mode",mode);
 		}
 	} else if (cM && fileName) {
-		<?php include(dirname(__FILE__)."/../lib/language-modes-partial.js");?>
+		<?php include(dirname(__FILE__)."/../assets/js/language-modes-partial.js");?>
 
 		if (mode != cM.getOption("mode")) {
 			cM.setOption("mode",mode);
