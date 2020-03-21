@@ -4,7 +4,6 @@
 //     @JpaKaagman (GitHub)
 
 // Please preserve formatting, line breaks, special characters, anything in <tags> and HTML equivalents (eg &amp;). Translations on right side.
-// Special chars: http://www.ascii.cl/htmlcodes.htm
 
 $text = [
 
@@ -31,7 +30,7 @@ $text = [
         "Lock"                                     => "Vergrendelen",
         "Refresh"                                  => "Vernieuwen",
         "Plugins"                                  => "Plugins",
-        "ROOT"                                     => "[ROOT]"
+        "ROOT"                                     => "[ROOT]",
     ],
 
     "index" =>
@@ -96,7 +95,7 @@ $text = [
         "View"                                     => "Beeld",
         "Bug reporting not active"                 => "Bug rapportage niet actief",
         "Single pane"                              => "Enkel pane",
-        "Diff pane also"                           => "Ook diff pane"
+        "Diff pane also"                           => "Ook diff pane",
     ],
 
 // /LIB
@@ -105,19 +104,19 @@ $text = [
     [
         "Auto Logout Warning"                      => "Auto logout waarschuwing",
         "You will be..."                           => "U wordt uitgelogd na",
-        "seconds due to..."                        => "seconden ivm inactiviteit, voor veiligheids doeleinden. Gebruik de muis of druk op een toets om door te gaan.<br><br>U kunt deze functie aanpassen of uitschakelen in Bewerken > Opties."
+        "seconds due to..."                        => "seconden ivm inactiviteit, voor veiligheids doeleinden. Gebruik de muis of druk op een toets om door te gaan.<br><br>U kunt deze functie aanpassen of uitschakelen in Bewerken > Opties.",
     ],
 
     "backup-versions" =>
     [
         "backup"                                   => "backup",
         "backups"                                  => "backups",
-        "available for"                            => "beschikbaar voor"
+        "available for"                            => "beschikbaar voor",
     ],
 
     "bug-files-check" =>
     [
-        "Found in"                                 => "Gevonden in:"
+        "Found in"                                 => "Gevonden in:",
     ],
 
     "file-control" =>
@@ -148,6 +147,37 @@ $text = [
         "Enter filename to..."                     => "Voer een bestandsnaam in om het op te slaan op",
         "That file exists..."                      => "Dit bestand bestaat al, overschrijven?",
         "Saving"                                   => "Opslaan"
+    ],
+
+    "ftp-manager" =>
+    [
+        "Saving FTP sites"                         => "Saving FTP sites",
+        "Cannot update config..."                  => "Cannot update config file. Please set public write permissions on",
+        "and try again"                            => "and try again",
+        "ftp manager"                              => "ftp manager",
+        "Choose existing site"                     => "Choose existing site",
+        "Are you sure..."                          => "Are you sure you wish to remove this site?",
+        "Add new site"                             => "Add new site",
+        "Edit site"                                => "Edit site",
+        "Site base"                                => "Site base",
+        "Host"                                     => "Host",
+        "Username"                                 => "Username",
+        "Password"                                 => "Password",
+        "PASV and mode"                            => "PASV and mode",
+        "Root"                                     => "Root",
+        "eg http://yourdomain.com"                 => "eg http://yourdomain.com",
+        "eg ftp.yourdomain.com"                    => "eg ftp.yourdomain.com",
+        "eg user123"                               => "eg user123",
+        "eg pass123"                               => "eg pass123",
+        "Use PASV mode..."                         => "Use PASV mode if your FTP site requires it and choose the data transfer type - ASCII or binary",
+        "eg /htdocs"                               => "eg /htdocs",
+        "PASV connection off"                      => "PASV connection off",
+        "PASV connection on"                       => "PASV connection on",
+        "ASCII transfer"                           => "ASCII transfer",
+        "Binary transfer"                          => "Binary transfer",
+        "Add"                                      => "Add",
+        "Choose"                                   => "Choose",
+        "Update"                                   => "Update",
     ],
 
     "get-branch" => [],
@@ -219,7 +249,10 @@ $text = [
         "Contract expand file..."                  => "Inklappen / uitklappen bestandsbeheer",
         "Fold unfold current..."                   => "Vouwen / uitvouwen huidige regel",
         "Refocus on document"                      => "Herfocus op document",
-        "Cancel tasks"                             => "Annuleer taken"
+        "Cancel tasks"                             => "Annuleer taken",
+        "Zoom out"                                 => "Zoom out all non-function/class declarations",
+        "Jump to"                                  => "Jump to declaration of class/function",
+        "Jump to previous tab"                     => "Jump to previous tab",
     ],
 
     "icecoder" =>
@@ -257,7 +290,7 @@ $text = [
         "Error cannot find..."                     => "Fout: kan geen toegang krijgen of de bestands paden vinden",
         "No new errors..."                         => "Geen nieuwe fouten gevonden",
         "You have made..."                         => "Er zijn wijzigingen aangetroffen. Wilt u verder gaan zonder op te slaan?",
-        "Close all tabs"                           => "Sluit alle tabbladen?"
+        "Close all tabs"                           => "Sluit alle tabbladen?",
     ],
 
     "login" =>
@@ -269,7 +302,7 @@ $text = [
         "disable further registrations"            => "uitschakelen van verdere registraties",
         "auto-check for updates"                   => "automatisch controleren op updates",
         "To put into..."                           => "Om de multi-user modus te gebruiken, open het menu opties of open data/config-settings.php en verander multiUser naar true",
-        "multi-user"                               => "multi-user"
+        "multi-user"                               => "multi-user",
     ],
 
     "multiple-results" =>
@@ -287,7 +320,7 @@ $text = [
         "No matches found"                         => "Geen overeenkomsten gevonden",
         "selected"                                 => "geselecteerd",
         "found in"                                 => "gevonden in",
-        "Replaced"                                 => "Vervangen"
+        "Replaced"                                 => "Vervangen",
     ],
 
     "plugins-manager" =>
@@ -307,7 +340,7 @@ $text = [
         "Update"                                   => "Update",
         "Install"                                  => "Installeren",
         "Uninstall"                                => "De&Iuml;nstalleren",
-        "Reload after install..."                  => "Opnieuw laden na installatie vereist"
+        "Reload after install..."                  => "Opnieuw laden na installatie vereist",
     ],
 
     "properties" =>
@@ -329,7 +362,7 @@ $text = [
         "Write"                                    => "Schrijven",
         "Execute"                                  => "Uitvoeren",
         "Change to"                                => "Veranderen naar",
-        "update"                                   => "update"
+        "update"                                   => "update",
     ],
 
     "settings-common" =>
@@ -356,6 +389,8 @@ $text = [
         "day"                                      => "dag",
         "days"                                     => "dagen",
         "of backups stored..."                     => "of backups stored currently",
+        "deleting actually moves..."               => "deleting actually moves to ICEcoder's tmp dir",
+        "local/server items..."                    => "local/server items only",
         "Get in contact..."                        => "Kom in contact via...",
         "You may use..."                           => "Vrij voor eigen gebruik, commercieel of persoonlijk. Laat het ons weten als je toffe aanpassingen maakt :)<br><br>Wij zijn niet aansprakelijk en bieden geen garantie, gebruik op eigen risico.",
         "functionality"                            => "functionaliteit",
@@ -432,6 +467,6 @@ $text = [
         "Yes"                                      => "Ja",
         "No"                                       => "Nee",
         "Search"                                   => "Zoek",
-    ]
+    ],
 
 ];

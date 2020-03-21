@@ -11,7 +11,6 @@ $text = [
 
     "editor" =>
     [
-        "Click icons for..."                       => "<b>Cliquez sur les ic&ocirc;nes<br>pour l&apos;aide &amp;<br>et infos d&apos;utilisation</b>",
         "server"                                   => "Serveur",
         "Server name, OS..."                       => "Nom du serveur, OS & IP :",
         "Root"                                     => "Racine :",
@@ -24,13 +23,13 @@ $text = [
         "files"                                    => "Fichiers",
         "Last 10 files..."                         => "10 derniers fichiers ouverts :",
         "none"                                     => "[aucun]",
-        "results"                                  => "r&eacute;sultats"
     ],
 
     "files" =>
     [
         "Lock"                                     => "Verrouiller",
         "Refresh"                                  => "Rafra&icirc;chir",
+        "Plugins"                                  => "Plugins",
         "ROOT"                                     => "[RACINE]"
     ],
 
@@ -44,6 +43,7 @@ $text = [
         "Are you sure you want to close?"          => "Are you sure you want to close?",
         "working"                                  => "en progression",
         "Color picker"                             => "S&eacute;lecteur de couleur",
+        "Plugins Manager"                          => "Plugins Manager",
         "New File"                                 => "Nouveau fichier",
         "New Folder"                               => "Nouveau dossier",
         "Upload File(s)"                           => "T&eacute;l&eacute;charger le(s) Fichier(s)",
@@ -58,7 +58,7 @@ $text = [
         "Properties"                               => "Propri&eacute;t&eacute;s",
         "File"                                     => "Fichier",
         "Edit"                                     => "Editer",
-        "Remote"                                   => "Distant",
+        "Source"                                   => "Source",
         "Help"                                     => "Aide",
         "Save"                                     => "Enregistrer",
         "Save As"                                  => "Enregistrer sous",
@@ -82,21 +82,37 @@ $text = [
         "website"                                  => "Site internet",
         "Close all tabs"                           => "Fermer les onglets",
         "Alphabetize tabs"                         => "Onglets par ordre alphab&eacute;tique",
-//        "Find"                                   => "Chercher",
-//        "in"                                     => "dans",
-//        "and"                                    => "et",
-//        "replace"                                => "remplacer",
-//        "replace all"                            => "remplacer tout",
-//        "this document"                          => "ce document",
-//        "open documents"                         => "les documents ouverts",
-//        "all files"                              => "tous les fichiers",
-//        "all filenames"                          => "tous les noms de fichiers",
+        "Find"                                     => "Chercher",
+        "in"                                       => "dans",
+        "and"                                      => "et",
+        "replace"                                  => "remplacer",
+        "replace all"                              => "remplacer tout",
+        "this document"                            => "ce document",
+        "open documents"                           => "les documents ouverts",
+        "all files"                                => "tous les fichiers",
+        "all filenames"                            => "tous les noms de fichiers",
         "Go to Line"                               => "Aller &agrave; la ligne",
         "View"                                     => "Afficher",
-        "Bug reporting not active"                 => "Le signalement de dysfonctionnement n&apos;est pas actif"
+        "Bug reporting not active"                 => "Le signalement de dysfonctionnement n&apos;est pas actif",
+        "Single pane"                              => "Single pane",
+        "Diff pane also"                           => "Diff pane also",
     ],
 
 // /LIB
+
+    "auto-logout-warning" =>
+    [
+        "Auto Logout Warning"                      => "Auto logout warning",
+        "You will be..."                           => "You will be logged out after",
+        "seconds due to..."                        => "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section.",
+    ],
+
+"backup-versions" =>
+    [
+        "backup"                                   => "backup",
+        "backups"                                  => "backups",
+        "available for"                            => "available for",
+    ],
 
     "bug-files-check" =>
     [
@@ -105,6 +121,7 @@ $text = [
 
     "file-control" =>
     [
+        "Sorry, bad filename..."                   => "Sorry, bad filename provided. Check the dev tools console for more info?",
         "Sorry"                                    => "D&eacute;sol&eacute;",
         "does not seem..."                         => "ne semble pas exister sur le serveur",
         "Sorry, could not..."                      => "D&eacute;sol&eacute;, impossibilit&eacute; de r&eacute;cup&eacute;rer le contenu de",
@@ -120,6 +137,7 @@ $text = [
         "Sorry, cannot save"                       => "D&eacute;sol&eacute;, impossibilit&eacute; de sauvegarder",
         "Sorry, cannot replace..."                 => "D&eacute;sol&eacute;, impossibilit&eacute; de remplacer le texte dans ",
         "Sorry, cannot change..."                  => "D&eacute;sol&eacute;, impossibilit&eacute; de changer les permissions sur",
+        "Sorry, cannot delete more..."             => "Sorry, cannot delete more then one item at a time under FTP mode",
         "Sorry, cannot delete..."                  => "D&eacute;sol&eacute;, imossibilit&eacute; de supprimer le dossier racine",
         "Sorry, cannot delete"                     => "D&eacute;sol&eacute;, impossibilit&eacute; d&apos;effacer",
         "Sorry, this file..."                      => "D&eacute;sol&eacute;, le fichier a &eacute;t&eacute; modifi&eacute;, impossibilit&eacute; de sauvegarder",
@@ -128,14 +146,45 @@ $text = [
         "displayed at"                             => "affich&eacute; sur",
         "Enter filename to..."                     => "Saisissez le nom du fichier &agrave; enregistrer sur",
         "That file exists..."                      => "Ce fichier existe d&eacute;j&agrave;, voulez vous l&apos;&eacute;craser ?",
-        "Saving"                                   => "Sauvegard&eacute;"
+        "Saving"                                   => "Sauvegard&eacute;",
     ],
+
+    "ftp-manager" =>
+        [
+            "Saving FTP sites"                         => "Saving FTP sites",
+            "Cannot update config..."                  => "Cannot update config file. Please set public write permissions on",
+            "and try again"                            => "and try again",
+            "ftp manager"                              => "ftp manager",
+            "Choose existing site"                     => "Choose existing site",
+            "Are you sure..."                          => "Are you sure you wish to remove this site?",
+            "Add new site"                             => "Add new site",
+            "Edit site"                                => "Edit site",
+            "Site base"                                => "Site base",
+            "Host"                                     => "Host",
+            "Username"                                 => "Username",
+            "Password"                                 => "Password",
+            "PASV and mode"                            => "PASV and mode",
+            "Root"                                     => "Root",
+            "eg http://yourdomain.com"                 => "eg http://yourdomain.com",
+            "eg ftp.yourdomain.com"                    => "eg ftp.yourdomain.com",
+            "eg user123"                               => "eg user123",
+            "eg pass123"                               => "eg pass123",
+            "Use PASV mode..."                         => "Use PASV mode if your FTP site requires it and choose the data transfer type - ASCII or binary",
+            "eg /htdocs"                               => "eg /htdocs",
+            "PASV connection off"                      => "PASV connection off",
+            "PASV connection on"                       => "PASV connection on",
+            "ASCII transfer"                           => "ASCII transfer",
+            "Binary transfer"                          => "Binary transfer",
+            "Add"                                      => "Add",
+            "Choose"                                   => "Choose",
+            "Update"                                   => "Update",
+        ],
 
     "get-branch" => [],
 
     "headers" =>
     [
-        "Bad CSRF token..."                        => "Mauvais jeton CSRF. S&apos;il vous pla&icirc;t, envoyer un rapport de l&apos;erreur &agrave; https://github.com/icecoder/ICEcoder si vous d&eacute;sirez qu&apos;il soit corrig&eacute;."
+        "Bad CSRF token..."                        => "Mauvais jeton CSRF. S&apos;il vous pla&icirc;t, envoyer un rapport de l&apos;erreur &agrave; https://github.com/icecoder/ICEcoder si vous d&eacute;sirez qu&apos;il soit corrig&eacute;.",
     ],
 
     "help" =>
@@ -166,6 +215,8 @@ $text = [
         "Jump to definition"                       => "Aller &agrave; la d&eacute;finition / revenir en arri&egrave;re",
         "Comment uncomment"                        => "Commenter / D&eacute;commenter",
         "Insert tab indent"                        => "Ins&eacute;rer un tableau / indent selected",
+        "Insert more"                              => "Indent more",
+        "Insert less"                              => "Indent less",
         "Wrap with div"                            => "Plier avec &lt;div&gt;",
         "Wrap with span"                           => "Plier avec &lt;span&gt;",
         "Wrap unwrap p"                            => "Plier / d&eacute;plier avec &lt;p&gt;",
@@ -174,6 +225,7 @@ $text = [
         "Wrap unwrap i"                            => "Plier / d&eacute;plier avec &lt;i&gt;",
         "Wrap unwrap strong"                       => "Plier / d&eacute;plier avec &lt;strong&gt;",
         "Wrap unwrap em"                           => "Plier / d&eacute;plier avec &lt;em&gt;",
+        "Wrap unwrap li"                           => "Wrap / unwrap with &lt;li&gt;",
         "Wrap unwrap h1..."                        => "Plier / d&eacute;plier avec &lt;h1&gt; - &lt;h3&gt;",
         "End line with..."                         => "Fin de ligne avec &lt;br&gt;",
         "Close tab"                                => "Fermer l&apos;onglet",
@@ -189,6 +241,7 @@ $text = [
         "Close current tab"                        => "Fermer l&apos;onglet courant",
         "Open file prompt"                         => "Ouvrir une invite de fichier",
         "Find"                                     => "Chercher",
+        "Previous"                                 => "Previous",
         "Focus on Go..."                           => " Focus sur le d&eacute;but de ligne",
         "Save"                                     => "Enregistrer",
         "Save as"                                  => "Enregistrer sous...",
@@ -196,11 +249,15 @@ $text = [
         "Contract expand file..."                  => "R&eacute;duire / agrandir le gestionnaire de fichiers",
         "Fold unfold current..."                   => "Plier / d&eacute;plier la ligne courante",
         "Refocus on document"                      => "Revenir sur le document",
-        "Cancel tasks"                             => "Quitter les tâches"
+        "Cancel tasks"                             => "Quitter les tâches",
+        "Zoom out"                                 => "Zoom out all non-function/class declarations",
+        "Jump to"                                  => "Jump to declaration of class/function",
+        "Jump to previous tab"                     => "Jump to previous tab",
     ],
 
     "icecoder" =>
     [
+        "results"                                  => "results",
         "No text selected..."                      => "Aucun texte s&eacute;lectionn&eacute; pour la recherche sur",
         "all files"                                => "tous les fichiers",
         "all filenames"                            => "tous les noms de fichiers",
@@ -211,6 +268,7 @@ $text = [
         "Opening File"                             => "Ouverture de fichier",
         "Enter relative file..."                   => "Entrez le chemin relatif du fichier (pr&eacute;fix&eacute; avec un /) ou l&apos;URL distante",
         "Getting"                                  => "Obtention",
+        "Saving"                                   => "Saving:",
         "Please enter the..."                      => "S&apos;il vous plait, saisissez le nouveau nom pour",
         "Renaming to"                              => "Renomm&eacute; en",
         "Moving to"                                => "D&eacute;plac&eacute; vers",
@@ -224,6 +282,7 @@ $text = [
         "replace all"                              => "tout remplacer",
         "file"                                     => "fichier",
         "Replacing text in"                        => "Remplacement  de texte dans",
+        "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
         "Cancelled tasks"                          => "Tâches annul&eacute;s",
         "Open previous files"                      => "Ouvrir les fichiers pr&eacute;c&eacute;dents ?",
         "Please note for..."                       => "S&apos;il vous pla&icirc;t, noter : la mise &agrave; jour fonctionne correctement, vous devez avoir les permissions d&apos;&eacute;criture / suppression &agrave; tous les r&eacute;pertoires et fichiers d&apos;ICEcoder. Si vous avez besoin de r&eacute;cup&eacute;rer cette version d&apos;ICEcoder pour une raison quelconque, vous la trouverez dans le r&eacute;pertoire / tmp. Cliquez sur OK pour proc&eacute;der &agrave; une mise &agrave; jour automatique, ou annuler et visiter le site d&apos;ICEcoder de sorte que vous pouvez r&eacute;cup&eacute;rer le fichier zip et mettre &agrave; jour manuellement.",
@@ -232,7 +291,6 @@ $text = [
         "No new errors..."                         => "Aucune nouvelle erreur trouv&eacute;e",
         "You have made..."                         => "Vous avez r&eacute;alis&eacute; des modifications. Etes vous sûr(e) de d&eacute;sirer quitter sans sauvegarder ?",
         "Close all tabs"                           => "Fermer tous les onglets?",
-        "results"                                  => "r&eacute;sultats"
     ],
 
     "login" =>
@@ -241,9 +299,10 @@ $text = [
         "login"                                    => "Connexion",
         "To disable registration..."               => "Pour d&eacute;sactiver le mode &apos;enregsitrement&apos;, ouvrir le menu des pr&eacute;f&eacute;rences ou le fichier data/config-settings.php et modifier enableRegistration &agrave; &apos;false&apos;, puis recharger cette page",
         "Registration mode enabled"                => "Mode Enregistrement activ&eacute;",
+        "disable further registrations"            => "disable further registrations",
         "auto-check for updates"                   => "V&eacute;rification automatique des mises &agrave; jour",
         "To put into..."                           => "Pour passer en mode &apos;multi-utilisateur&apos;, ouvrir le menu des pref&eacute;rences ou le ifchier data/config-settings.php et modifier multiUser &agrave; &apos;true&apos;, puis recharger cette page",
-        "multi-user"                               => "Multi-utilisateur"
+        "multi-user"                               => "Multi-utilisateur",
     ],
 
     "multiple-results" =>
@@ -261,7 +320,7 @@ $text = [
         "No matches found"                         => "Aucun r&eacute;sultat de trouver",
         "selected"                                 => "s&eacute;lectionn&eacute;",
         "found in"                                 => "trouv&eacute; dans",
-        "Replaced"                                 => "Remplac&eacute;"
+        "Replaced"                                 => "Remplac&eacute;",
     ],
 
     "plugins-manager" =>
@@ -281,7 +340,7 @@ $text = [
         "Update"                                   => "Mise &agrave; jour",
         "Install"                                  => "Installation",
         "Uninstall"                                => "D&eacute;sinstallation",
-        "Reload after install..."                  => "Une reconnexion est n&eacute;cessaire apr&egrave;s l&apos;installation"
+        "Reload after install..."                  => "Une reconnexion est n&eacute;cessaire apr&egrave;s l&apos;installation",
     ],
 
     "properties" =>
@@ -303,18 +362,18 @@ $text = [
         "Write"                                    => "Ecrire",
         "Execute"                                  => "Ex&eacute;cuter",
         "Change to"                                => "Modifier en",
-        "update"                                   => "mise &agrave; jour"
+        "update"                                   => "mise &agrave; jour",
     ],
 
     "settings-common" =>
     [
-        "Your document does..."                    => "Votre document ne semble pas &ecirc;tre en UTF-8 et a donc &eacute;t&eacute; converti"
+        "Your document does..."                    => "Votre document ne semble pas &ecirc;tre en UTF-8 et a donc &eacute;t&eacute; converti",
     ],
 
     "settings-save-current-files" =>
     [
         "Cannot update config..."                  => "Impossibilit&eacute; de mettre &agrave; jour le fichier de configuration. V&eacute;rifiez les permissions d&apos;&eacute;criture sur celui-ci",
-        "and try again"                            => "et essayez de nouveau"
+        "and try again"                            => "et essayez de nouveau",
     ],
 
     "settings-screen" =>
@@ -325,7 +384,15 @@ $text = [
         "git"                                      => "git",
         "codemirror version"                       => "version de codemirror ",
         "file manager root"                        => "racine du gestionnaire de fichiers",
-        "Free to use..."                           => "Libre de l&apos;utiliser pour vos propres fins, commerciales ou non, faites moi juste savoir de toute utilisation sympa ou personnalisations. :)<br><br>Aucune garantie ou responsabilit&eacute; est accept&eacute;es de notre part, toute responsabilit&eacute; d&apos;utilisation est de votre ressort.<br><br>De nombreuses personnes fantastiques et d&apos;entreprises ont contribu&eacute; &agrave; r&eacute;aliser ICEcoder et il est important de les remercier ici. S&apos;il vous pla&icirc;t, parcourez la liste compl&egrave;te sur",
+        "backups"                                  => "backups",
+        "keep version control..."                  => "keep version control backups for",
+        "day"                                      => "day",
+        "days"                                     => "days",
+        "of backups stored..."                     => "of backups stored currently",
+        "deleting actually moves..."               => "deleting actually moves to ICEcoder's tmp dir",
+        "local/server items..."                    => "local/server items only",
+        "Get in contact..."                        => "Get in contact by...",
+        "You may use..."                           => "You may use ICEcoder for your own purposes, commercial or not, just let us know of any cool uses or customisations. :)<br><br>No warranty or liability accepted for anything, all responsibility of use is your own.",
         "functionality"                            => "fonctionnalit&eacute;s",
         "check for updates..."                     => "V&eacute;rifier les mises &agrave; jour",
         "auto open last..."                        => "affichage des derniers fichiers",
@@ -343,20 +410,28 @@ $text = [
         "banned files/folders"                     => "fichiers/dossiers bannis",
         "banned paths"                             => "chemins bannis",
         "ip addresses"                             => "adresses ip",
+        "auto-logout after"                        => "auto-logout after",
+        "mins of inactivity..."                    => "mins of inactivity if no unsaved files",
         "Slash prefixed comma..."                  => "Slash pr&eacute;fix&eacute;, s&eacute;par&eacute;es par des virgules",
         "Comma delimited"                          => "D&eacute;limit&eacute; par des virgules",
         "style"                                    => "style",
         "theme"                                    => "th&egrave;me",
         "line wrapping"                            => "retour &agrave; la ligne",
+        "line numbers"                             => "line numbers",
         "scrollbars"                               => "barres de défilement",
         "indent type"                              => "indent type",
         "indent size"                              => "indent size",
+        "match brackets"                           => "match brackets",
+        "show trailing space"                      => "show trailing space",
         "font size"                                => "font size",
         "auto indent"                              => "auto indent",
+        "auto close tags"                          => "auto close tags",
+        "auto close brackets"                      => "auto close brackets",
         "layout"                                   => "disposition",
         "plugin panel aligned"                     => "panneau des plugins align&eacute;",
         "file manager"                             => "gestionnaire de fichiers",
         "root"                                     => "racine",
+        "Set 0 to..."                              => "Set 0 to disable",
         "Slash prefixed"                           => "Slash pr&eacute;fix&eacute;",
         "bug reporting"                            => "Rapport de dysfonctionnement",
         "check in files"                           => "v&eacute;rifier dans les fichiers",
@@ -366,19 +441,32 @@ $text = [
         "multi-user"                               => "multi-utilisateurs",
         "Make sure you..."                         => "Assurez-vous que vous ne vous bloquez pas sur",
         "Registration"                             => "Enregistrement",
-        "update"                                   => "Mise &agrave; jour"
+        "update"                                   => "Mise &agrave; jour",
     ],
 
     "settings-update" =>
     [
         "Cannot update config..."                  => "Impossibilit&eacute; de mettre &agrave; jour le fichier de configuration. V&eacute;rifiez les permissions d&apos;&eacute;criture sur celui-ci",
         "and try again"                            => "et essayez de nouveau",
-        "and press refresh"                        => "et pressez le rafra&icirc;chissement de la page"
+        "and press refresh"                        => "et pressez le rafra&icirc;chissement de la page",
     ],
 
     "updater" =>
     [
-        "Update appears to..."                     => "La mise &agrave; jour semble s&apos;&ecirc;tre r&eacute;alis&eacute;e avec succ&egrave;s"
-    ]
+        "Update appears to..."                     => "La mise &agrave; jour semble s&apos;&ecirc;tre r&eacute;alis&eacute;e avec succ&egrave;s",
+    ],
+
+    "find-in-files" =>
+    [
+        "Enter path to search in"                  => "Enter path to search in",
+        "Enter semicolon-separated masks..."       => "Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)",
+        "Type of text"                             => "Type of text",
+        "Fixed text"                               => "Fixed text",
+        "Regular expression"                       => "Regular expression",
+        "Case sensitive"                           => "Case sensitive",
+        "Yes"                                      => "Yes",
+        "No"                                       => "No",
+        "Search"                                   => "Search",
+    ],
 
 ];

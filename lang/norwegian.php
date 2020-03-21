@@ -11,7 +11,6 @@ $text = [
 
     "editor" =>
     [
-        "Click icons for..."                       => "<b>Klikk på ikoner<br>for hjelp &<br>bruk av info</b>",
         "server"                                   => "server",
         "Server name, OS..."                       => "Server navn, OS & IP:",
         "Root"                                     => "Root:",
@@ -24,14 +23,14 @@ $text = [
         "files"                                    => "filer",
         "Last 10 files..."                         => "Siste 10 åpne filer:",
         "none"                                     => "[none]",
-        "results"                                  => "resultater"
     ],
 
     "files" =>
     [
         "Lock"                                     => "Steng",
         "Refresh"                                  => "Last igjen",
-        "ROOT"                                     => "[ROOT]"
+        "Plugins"                                  => "Plugins",
+        "ROOT"                                     => "[ROOT]",
     ],
 
     "index" =>
@@ -41,9 +40,10 @@ $text = [
         "Your version is"                          => "Din versjon er",
         "Update now"                               => "Oppdater nå",
         "You have some..."                         => "Du har noe ulagrede endringer",
-        "Are you sure you want to close?"          => "Are you sure you want to close?",
+        "Are you sure..."                          => "Are you sure you want to close?",
         "working"                                  => "arbeider",
         "Color picker"                             => "Fargevelger",
+        "Plugins Manager"                          => "Plugins Manager",
         "New File"                                 => "Ny Fil",
         "New Folder"                               => "Ny Mappe",
         "Upload File(s)"                           => "Last opp Fil(er)",
@@ -58,7 +58,7 @@ $text = [
         "Properties"                               => "Egenskaper",
         "File"                                     => "Fil",
         "Edit"                                     => "Redigere",
-        "Remote"                                   => "Ekstern",
+        "Source"                                   => "Source",
         "Help"                                     => "Hjelp",
         "Save"                                     => "Lagre",
         "Save As"                                  => "Lagre Som",
@@ -93,18 +93,35 @@ $text = [
         "all filenames"                            => "alle filenavn",
         "Go to Line"                               => "Gå til Linje",
         "View"                                     => "Vis",
-        "Bug reporting not active"                 => "Bug rapportering ikke aktiv"
+        "Bug reporting not active"                 => "Bug rapportering ikke aktiv",
+        "Single pane"                              => "Single pane",
+        "Diff pane also"                           => "Diff pane also",
     ],
 
 // /LIB
 
+    "auto-logout-warning" =>
+    [
+        "Auto Logout Warning"                      => "Auto logout warning",
+        "You will be..."                           => "You will be logged out after",
+        "seconds due to..."                        => "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section.",
+    ],
+
+"backup-versions" =>
+    [
+        "backup"                                   => "backup",
+        "backups"                                  => "backups",
+        "available for"                            => "available for",
+    ],
+
     "bug-files-check" =>
     [
-        "Found in"                                 => "Funnet i:"
+        "Found in"                                 => "Funnet i:",
     ],
 
     "file-control" =>
     [
+        "Sorry, bad filename..."                   => "Sorry, bad filename provided. Check the dev tools console for more info?",
         "Sorry"                                    => "Beklager",
         "does not seem..."                         => "synes ikke å eksistere på serveren",
         "Sorry, could not..."                      => "Beklager, kunne ikke få innholdet i",
@@ -120,6 +137,7 @@ $text = [
         "Sorry, cannot save"                       => "Beklager, kan ikke lagre",
         "Sorry, cannot replace..."                 => "Beklager, kan ikke erstatte tekst i",
         "Sorry, cannot change..."                  => "Beklager, kan ikke endre tillatelser på",
+        "Sorry, cannot delete more..."             => "Sorry, cannot delete more then one item at a time under FTP mode",
         "Sorry, cannot delete..."                  => "Beklager, kan ikke slette rotnivå",
         "Sorry, cannot delete"                     => "Beklager, kan ikke slette",
         "Sorry, this file..."                      => "Beklager, denne filen er endret, kan ikke lagre",
@@ -128,7 +146,38 @@ $text = [
         "displayed at"                             => "vises på",
         "Enter filename to..."                     => "Skriv inn filnavnet for å lagre på",
         "That file exists..."                      => "Denne filen eksisterer allerede, skriv over?",
-        "Saving"                                   => "Lagring"
+        "Saving"                                   => "Lagring",
+    ],
+
+    "ftp-manager" =>
+    [
+        "Saving FTP sites"                         => "Saving FTP sites",
+        "Cannot update config..."                  => "Cannot update config file. Please set public write permissions on",
+        "and try again"                            => "and try again",
+        "ftp manager"                              => "ftp manager",
+        "Choose existing site"                     => "Choose existing site",
+        "Are you sure..."                          => "Are you sure you wish to remove this site?",
+        "Add new site"                             => "Add new site",
+        "Edit site"                                => "Edit site",
+        "Site base"                                => "Site base",
+        "Host"                                     => "Host",
+        "Username"                                 => "Username",
+        "Password"                                 => "Password",
+        "PASV and mode"                            => "PASV and mode",
+        "Root"                                     => "Root",
+        "eg http://yourdomain.com"                 => "eg http://yourdomain.com",
+        "eg ftp.yourdomain.com"                    => "eg ftp.yourdomain.com",
+        "eg user123"                               => "eg user123",
+        "eg pass123"                               => "eg pass123",
+        "Use PASV mode..."                         => "Use PASV mode if your FTP site requires it and choose the data transfer type - ASCII or binary",
+        "eg /htdocs"                               => "eg /htdocs",
+        "PASV connection off"                      => "PASV connection off",
+        "PASV connection on"                       => "PASV connection on",
+        "ASCII transfer"                           => "ASCII transfer",
+        "Binary transfer"                          => "Binary transfer",
+        "Add"                                      => "Add",
+        "Choose"                                   => "Choose",
+        "Update"                                   => "Update",
     ],
 
     "get-branch" => [],
@@ -166,6 +215,8 @@ $text = [
         "Jump to definition"                       => "Hopp til definisjon/hopp tilbake",
         "Comment uncomment"                        => "Kommentar/fjern kommentar",
         "Insert tab indent"                        => "Sett inn innrykk/valgt innrykk",
+        "Insert more"                              => "Indent more",
+        "Insert less"                              => "Indent less",
         "Wrap with div"                            => "Wrap med <div>",
         "Wrap with span"                           => "Wrap med <span>",
         "Wrap unwrap p"                            => "Wrap/uwrap med <p>",
@@ -190,6 +241,7 @@ $text = [
         "Close current tab"                        => "Lukk gjeldende fane",
         "Open file prompt"                         => "Åpne fil prompt",
         "Find"                                     => "Finn",
+        "Previous"                                 => "Previous",
         "Focus on Go..."                           => "Fokus på Gå til linje inndata",
         "Save"                                     => "Lagre",
         "Save as"                                  => "Lagre som...",
@@ -197,17 +249,26 @@ $text = [
         "Contract expand file..."                  => "Trekk sammen/utvid filbehandler",
         "Fold unfold current..."                   => "Brett/utfold gjeldende linje",
         "Refocus on document"                      => "Refokusere på dokument",
-        "Cancel tasks"                             => "Avbryt oppgaver"
+        "Cancel tasks"                             => "Avbryt oppgaver",
+        "Zoom out"                                 => "Zoom out all non-function/class declarations",
+        "Jump to"                                  => "Jump to declaration of class/function",
+        "Jump to previous tab"                     => "Jump to previous tab",
     ],
 
     "icecoder" =>
     [
+        "results"                                  => "results",
         "No text selected..."                      => "Ingen tekst valgt til å søke på",
+        "all files"                                => "all files",
+        "all filenames"                            => "all filenames",
+        "selected files"                           => "selected files",
+        "selected filenames"                       => "selected filenames",
         "Creating Folder"                          => "Lage mappe",
         "Sorry you can..."                         => "Beklager, du kan bare ha 100 filer åpne samtidig!",
         "Opening File"                             => "Åpner Fil",
         "Enter relative file..."                   => "Oppgi den relative filstien (med prefiks /) eller ekstern URL",
         "Getting"                                  => "Får",
+        "Saving"                                   => "Saving:",
         "Please enter the..."                      => "Skriv inn det nye navnet på",
         "Renaming to"                              => "Endre navn til",
         "Moving to"                                => "Flytt til",
@@ -215,7 +276,13 @@ $text = [
         "Pasting File"                             => "Lim inn Fil",
         "Sorry cannot paste..."                    => "Beklager, kan ikke lime inn en hel rot mappe",
         "Nothing to paste..."                      => "Ingenting å lime inn, kopiere en fil/mappe først!",
-        "Replacing text in"                        => "Erstatte tekst i",
+        "and"                                      => "and",
+        "this document"                            => "this document",
+        "replace"                                  => "replace",
+        "replace all"                              => "replace all",
+        "file"                                     => "file",
+        "Replacing text in"                        => "Replacing text in","Replacing text in"                        => "Erstatte tekst i",
+        "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
         "Cancelled tasks"                          => "Kansellerte oppgaver",
         "Open previous files"                      => "Åpne siste filer?",
         "Please note for..."                       => "Vennligst merk: for at oppdatering skal fungere skikkelig, må du ha skrive/slette tilgang til alle ICEcoder kataloger og filer. Hvis du trenger å gjenopprette denne versjonen av ICEcoder av en eller annen grunn, vil du finne den i /tmp mappen. Klikk OK for å fortsette med en auto-oppdatering eller avbryt for å besøke ICEcoder området slik at du kan ta tak i zip-filen og oppdatere manuelt.",
@@ -223,7 +290,7 @@ $text = [
         "Error cannot find..."                     => "Feil: kan ikke finne/få tilgang til feil filstier",
         "No new errors..."                         => "Ingen feil funnet",
         "You have made..."                         => "Du har gjort endringer. Er du sikker på, at du vil lukke uten å lagre?",
-        "Close all tabs"                           => "Lukk alle faner?"
+        "Close all tabs"                           => "Lukk alle faner?",
     ],
 
     "login" =>
@@ -232,9 +299,10 @@ $text = [
         "login"                                    => "logginn",
         "To disable registration..."               => "Hvis du vil deaktivere registreringsmodus, åpne innstillingsmenyen eller åpne data/config-settings.php og endre/aktiver Påmelding til 'false', deretter laste siden om igjen",
         "Registration mode enabled"                => "Registreringsmodus aktivert",
+        "disable further registrations"            => "disable further registrations",
         "auto-check for updates"                   => "auto-sjekk for oppdateringer",
         "To put into..."                           => "Å sette til flerbrukermodus, åpne innstillingsmenyen eller åpne data/config-settings.php og endre flerbruker til 'true', deretter laste siden om igjen",
-        "multi-user"                               => "flerbruker"
+        "multi-user"                               => "flerbruker",
     ],
 
     "multiple-results" =>
@@ -252,7 +320,7 @@ $text = [
         "No matches found"                         => "Ingen treff",
         "selected"                                 => "valgt",
         "found in"                                 => "funnet i",
-        "Replaced"                                 => "Erstattet"
+        "Replaced"                                 => "Erstattet",
     ],
 
     "plugins-manager" =>
@@ -272,7 +340,7 @@ $text = [
         "Update"                                   => "Oppdater",
         "Install"                                  => "Installer",
         "Uninstall"                                => "Avinstaller",
-        "Reload after install..."                  => "Omstart etter installasjon nødvendig"
+        "Reload after install..."                  => "Omstart etter installasjon nødvendig",
     ],
 
     "properties" =>
@@ -294,18 +362,18 @@ $text = [
         "Write"                                    => "Skrive",
         "Execute"                                  => "Kjøre",
         "Change to"                                => "Endre til",
-        "update"                                   => "oppdatere"
+        "update"                                   => "oppdatere",
     ],
 
     "settings-common" =>
     [
-        "Your document does..."                    => "Dokumentet ser ikke ut til å være i UTF-8 koding, derfor har det blitt omgjort"
+        "Your document does..."                    => "Dokumentet ser ikke ut til å være i UTF-8 koding, derfor har det blitt omgjort",
     ],
 
     "settings-save-current-files" =>
     [
         "Cannot update config..."                  => "Kan ikke oppdatere konfigurasjonsfilen. Vennligst sett offentlige skriverettigheter",
-        "and try again"                            => "og prøv igjen"
+        "and try again"                            => "og prøv igjen",
     ],
 
     "settings-screen" =>
@@ -316,7 +384,15 @@ $text = [
         "git"                                      => "git",
         "codemirror version"                       => "codemirror versjon",
         "file manager root"                        => "filbehandler root",
-        "Free to use..."                           => "Gratis å bruke den til eget formål, kommersielle eller ikke, bare gi meg beskjed om eventuelle kule bruk eller tilpasninger. :) <br>Ingen garanti eller erstatningsansvar aksepteres for noe som helst, det er ditt eget ansvar for all bruk.<br>Mange fantastiske mennesker og bedrifter har bidratt til å bygge ICEcoder og det er for mange å takke her. Vennligst se hele listen på",
+        "backups"                                  => "backups",
+        "keep version control..."                  => "keep version control backups for",
+        "day"                                      => "day",
+        "days"                                     => "days",
+        "of backups stored..."                     => "of backups stored currently",
+        "deleting actually moves..."               => "deleting actually moves to ICEcoder's tmp dir",
+        "local/server items..."                    => "local/server items only",
+        "Get in contact..."                        => "Get in contact by...",
+        "You may use..."                           => "You may use ICEcoder for your own purposes, commercial or not, just let us know of any cool uses or customisations. :)<br><br>No warranty or liability accepted for anything, all responsibility of use is your own.",
         "functionality"                            => "funksjonalitet",
         "check for updates..."                     => "se etter oppdateringer ved start",
         "auto open last..."                        => "åpne automatisk siste filer ved innlogging",
@@ -334,20 +410,28 @@ $text = [
         "banned files/folders"                     => "forbudte filer/mapper",
         "banned paths"                             => "forbudte stier",
         "ip addresses"                             => "ip adresser",
+        "auto-logout after"                        => "auto-logout after",
+        "mins of inactivity..."                    => "mins of inactivity if no unsaved files",
         "Slash prefixed comma..."                  => "Slash som prefiks, komma som skille",
         "Comma delimited"                          => "Skilled med komma",
         "style"                                    => "stil",
         "theme"                                    => "tema",
         "line wrapping"                            => "linjebryting",
+        "line numbers"                             => "line numbers",
         "scrollbars"                               => "rullefelt",
         "indent type"                              => "innrykk type",
         "indent size"                              => "innrykk størr.",
+        "match brackets"                           => "match brackets",
+        "show trailing space"                      => "show trailing space",
         "font size"                                => "skrift størr.",
         "auto indent"                              => "auto indent",
+        "auto close tags"                          => "auto close tags",
+        "auto close brackets"                      => "auto close brackets",
         "layout"                                   => "layout",
         "plugin panel aligned"                     => "programtilleggspanel justert",
         "file manager"                             => "filbehandler",
         "root"                                     => "root",
+        "Set 0 to..."                              => "Set 0 to disable",
         "Slash prefixed"                           => "Slash prefiks",
         "bug reporting"                            => "feil rapportering",
         "check in files"                           => "sjekke blant filer",
@@ -357,19 +441,32 @@ $text = [
         "multi-user"                               => "flerbruker",
         "Make sure you..."                         => "Pass på, at du ikke stenger deg ut selv",
         "Registration"                             => "Registrering",
-        "update"                                   => "oppdatere"
+        "update"                                   => "oppdatere",
     ],
 
     "settings-update" =>
     [
         "Cannot update config..."                  => "Kan ikke oppdatere konfigurasjonsfilen. Vennligst sett offentlige skriverettigheter;",
         "and try again"                            => "og prøv igjen",
-        "and press refresh"                        => "og trykk refresh"
+        "and press refresh"                        => "og trykk refresh",
     ],
 
     "updater" =>
     [
-        "Update appears to..."                     => "Oppdatering synes å være vellykket"
-    ]
+        "Update appears to..."                     => "Oppdatering synes å være vellykket",
+    ],
+
+    "find-in-files" =>
+    [
+        "Enter path to search in"                  => "Enter path to search in",
+        "Enter semicolon-separated masks..."       => "Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)",
+        "Type of text"                             => "Type of text",
+        "Fixed text"                               => "Fixed text",
+        "Regular expression"                       => "Regular expression",
+        "Case sensitive"                           => "Case sensitive",
+        "Yes"                                      => "Yes",
+        "No"                                       => "No",
+        "Search"                                   => "Search",
+    ],
 
 ];

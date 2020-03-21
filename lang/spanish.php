@@ -2,6 +2,7 @@
 // Spanish language translation
 // by: @unix4you2 (GitHub)
 
+
 // Please preserve formatting, line breaks, special characters, anything in <tags> and HTML equivalents (eg &amp;). Translations on right side.
 
 $text = [
@@ -10,7 +11,6 @@ $text = [
 
     "editor" =>
     [
-        "Click icons for..."                       => "<b>Clic en los iconos<br>para ayuda &amp;<br>modo de uso</b>",
         "server"                                   => "servidor",
         "Server name, OS..."                       => "Nombre del servidor, OS & IP:",
         "Root"                                     => "Raiz:",
@@ -100,6 +100,20 @@ $text = [
 
 // /LIB
 
+    "auto-logout-warning" =>
+    [
+        "Auto Logout Warning"                      => "Auto logout warning",
+        "You will be..."                           => "You will be logged out after",
+        "seconds due to..."                        => "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section.",
+    ],
+
+    "backup-versions" =>
+    [
+        "backup"                                   => "backup",
+        "backups"                                  => "backups",
+        "available for"                            => "available for",
+    ],
+
     "bug-files-check" =>
     [
         "Found in"                                 => "Encontrado en:"
@@ -135,11 +149,42 @@ $text = [
         "Saving"                                   => "Guardando"
     ],
 
+    "ftp-manager" =>
+    [
+        "Saving FTP sites"                         => "Saving FTP sites",
+        "Cannot update config..."                  => "Cannot update config file. Please set public write permissions on",
+        "and try again"                            => "and try again",
+        "ftp manager"                              => "ftp manager",
+        "Choose existing site"                     => "Choose existing site",
+        "Are you sure..."                          => "Are you sure you wish to remove this site?",
+        "Add new site"                             => "Add new site",
+        "Edit site"                                => "Edit site",
+        "Site base"                                => "Site base",
+        "Host"                                     => "Host",
+        "Username"                                 => "Username",
+        "Password"                                 => "Password",
+        "PASV and mode"                            => "PASV and mode",
+        "Root"                                     => "Root",
+        "eg http://yourdomain.com"                 => "eg http://yourdomain.com",
+        "eg ftp.yourdomain.com"                    => "eg ftp.yourdomain.com",
+        "eg user123"                               => "eg user123",
+        "eg pass123"                               => "eg pass123",
+        "Use PASV mode..."                         => "Use PASV mode if your FTP site requires it and choose the data transfer type - ASCII or binary",
+        "eg /htdocs"                               => "eg /htdocs",
+        "PASV connection off"                      => "PASV connection off",
+        "PASV connection on"                       => "PASV connection on",
+        "ASCII transfer"                           => "ASCII transfer",
+        "Binary transfer"                          => "Binary transfer",
+        "Add"                                      => "Add",
+        "Choose"                                   => "Choose",
+        "Update"                                   => "Update",
+    ],
+
     "get-branch" => [],
 
     "headers" =>
     [
-        "Bad CSRF token..."                        => "Token CSRF incorrecto. Por favor reporte este error en https://github.com/icecoder/ICEcoder para que pueda ser solucionado."
+        "Bad CSRF token..."                        => "Token CSRF incorrecto. Por favor reporte este error en https://github.com/icecoder/ICEcoder para que pueda ser solucionado.",
     ],
 
     "help" =>
@@ -204,7 +249,10 @@ $text = [
         "Contract expand file..."                  => "Contraer / expandir administrador de archivos",
         "Fold unfold current..."                   => "Contraer / expandir l&iacute;nea actual",
         "Refocus on document"                      => "Reasignar foco al documento",
-        "Cancel tasks"                             => "Cancelar tareas"
+        "Cancel tasks"                             => "Cancelar tareas",
+        "Zoom out"                                 => "Zoom out all non-function/class declarations",
+        "Jump to"                                  => "Jump to declaration of class/function",
+        "Jump to previous tab"                     => "Jump to previous tab",
     ],
 
     "icecoder" =>
@@ -242,7 +290,7 @@ $text = [
         "Error cannot find..."                     => "Error: no puedo encontrar o accesar las rutas de archivos de error",
         "No new errors..."                         => "No fueron encontrados nuevos errores",
         "You have made..."                         => "Usted ha realizado cambios. Esta seguro que quiere cerrar sin guardar?",
-        "Close all tabs"                           => "Cerrar todas las fichas?"
+        "Close all tabs"                           => "Cerrar todas las fichas?",
     ],
 
     "login" =>
@@ -251,9 +299,10 @@ $text = [
         "login"                                    => "ingreso",
         "To disable registration..."               => "Para deshabilitar el modo de registro, vaya a la opci&oacute;n de Configuraci&oacute;n or abra el archivo data/config-settings.php y cambie enableRegistration a false y recargue la p&aacute;gina",
         "Registration mode enabled"                => "Modo de registro activado",
+        "disable further registrations"            => "disable further registrations",
         "auto-check for updates"                   => "auto-buscar por actualizaciones",
         "To put into..."                           => "Para usar el modo multiusuario, vaya a la opcion de Configuraci&oacute;n o abra el archivo data/config-settings.php y cambie multiUser a true y recargue la p&aacute;gina",
-        "multi-user"                               => "multi-usuario"
+        "multi-user"                               => "multi-usuario",
     ],
 
     "multiple-results" =>
@@ -271,7 +320,7 @@ $text = [
         "No matches found"                         => "No se encontraron coincidencias",
         "selected"                                 => "seleccionado",
         "found in"                                 => "encontrado en",
-        "Replaced"                                 => "Reemplezado"
+        "Replaced"                                 => "Reemplezado",
     ],
 
     "plugins-manager" =>
@@ -291,7 +340,7 @@ $text = [
         "Update"                                   => "Actualizar",
         "Install"                                  => "Instalar",
         "Uninstall"                                => "Desinstalar",
-        "Reload after install..."                  => "Se requiere recargar despu&eacute;s de instalar"
+        "Reload after install..."                  => "Se requiere recargar despu&eacute;s de instalar",
     ],
 
     "properties" =>
@@ -313,18 +362,18 @@ $text = [
         "Write"                                    => "Escribir",
         "Execute"                                  => "Ejecutar",
         "Change to"                                => "Cambiar a",
-        "update"                                   => "actualizar"
+        "update"                                   => "actualizar",
     ],
 
     "settings-common" =>
     [
-        "Your document does..."                    => "Su documento no parece estar en UTF-8 entonces se ha convertido"
+        "Your document does..."                    => "Su documento no parece estar en UTF-8 entonces se ha convertido",
     ],
 
     "settings-save-current-files" =>
     [
         "Cannot update config..."                  => "No puedo actualizar el archivo de configuracion. Por favor establezca permisos publicos sobre",
-        "and try again"                            => "e intente de nuevo"
+        "and try again"                            => "e intente de nuevo",
     ],
 
     "settings-screen" =>
@@ -335,12 +384,14 @@ $text = [
         "git"                                      => "git",
         "codemirror version"                       => "version codemirror",
         "file manager root"                        => "administrador de archivos raiz",
-        "Get in contact..."                        => "Pongase en contacto...",
         "backups"                                  => "respaldos",
         "keep version control..."                  => "mantener control de versiones de respaldo para",
         "day"                                      => "dia",
         "days"                                     => "dias",
         "of backups stored..."                     => "de respaldos almacenados actualmente",
+        "deleting actually moves..."               => "deleting actually moves to ICEcoder's tmp dir",
+        "local/server items..."                    => "local/server items only",
+        "Get in contact..."                        => "Pongase en contacto...",
         "You may use..."                           => "Libre para usarlo para cualquier prop&oacute;sito, comercial o no, solo dejeme saber cualquier uso o mejora. :)<br><br>No se da garantia de ningun tipo, su uso se encuentra bajo su responsabilidad.",
         "functionality"                            => "funcionalidad",
         "check for updates..."                     => "verificar por actualizaciones en la carga",
@@ -359,19 +410,28 @@ $text = [
         "banned files/folders"                     => "archivos/carpetas prohibidos",
         "banned paths"                             => "rutas prohibidas",
         "ip addresses"                             => "direcciones ip",
+        "auto-logout after"                        => "auto-logout after",
+        "mins of inactivity..."                    => "mins of inactivity if no unsaved files",
         "Slash prefixed comma..."                  => "Prefijo slash, delimitado por comas",
         "Comma delimited"                          => "Delimitado por comas",
         "style"                                    => "estilo",
         "theme"                                    => "tema",
         "line wrapping"                            => "ajuste de l&iacute;nea",
+        "line numbers"                             => "line numbers",
         "scrollbars"                               => "barras de desplazamiento",
         "indent type"                              => "tipode sangr&iacute;a",
         "indent size"                              => "Tama&ntilde;o de sangr&iacute;a",
+        "match brackets"                           => "match brackets",
+        "show trailing space"                      => "show trailing space",
         "font size"                                => "tama&ntilde;o de letra",
+        "auto indent"                              => "auto indent",
+        "auto close tags"                          => "auto close tags",
+        "auto close brackets"                      => "auto close brackets",
         "layout"                                   => "disposici&oacute;n",
         "plugin panel aligned"                     => "alineacion del panel de plugins",
         "file manager"                             => "administrador de archivos",
         "root"                                     => "raiz",
+        "Set 0 to..."                              => "Set 0 to disable",
         "Slash prefixed"                           => "Prefijo Slash",
         "bug reporting"                            => "reporte de errores",
         "check in files"                           => "chequear en archivos",
@@ -381,7 +441,7 @@ $text = [
         "multi-user"                               => "multi-usuario",
         "Make sure you..."                         => "Este seguro de no bloquearse a s&iacute; mismo",
         "Registration"                             => "Registro",
-        "update"                                   => "actualizar"
+        "update"                                   => "actualizar",
     ],
 
     "settings-update" =>
@@ -393,7 +453,7 @@ $text = [
 
     "updater" =>
     [
-        "Update appears to..."                     => "La actualizaci&oacute;n parece haber sido satisfactoria"
+        "Update appears to..."                     => "La actualizaci&oacute;n parece haber sido satisfactoria",
     ],
 
     "find-in-files" =>
@@ -407,6 +467,6 @@ $text = [
         "Yes"                                      => "Si",
         "No"                                       => "No",
         "Search"                                   => "Buscar",
-    ]
+    ],
 
 ];

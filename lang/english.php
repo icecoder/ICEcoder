@@ -30,7 +30,7 @@ $text = [
         "Lock"                                     => "Lock",
         "Refresh"                                  => "Refresh",
         "Plugins"                                  => "Plugins",
-        "ROOT"                                     => "[ROOT]"
+        "ROOT"                                     => "[ROOT]",
     ],
 
     "index" =>
@@ -95,7 +95,7 @@ $text = [
         "View"                                     => "View",
         "Bug reporting not active"                 => "Bug reporting not active",
         "Single pane"                              => "Single pane",
-        "Diff pane also"                           => "Diff pane also"
+        "Diff pane also"                           => "Diff pane also",
     ],
 
 // /LIB
@@ -104,19 +104,19 @@ $text = [
     [
         "Auto Logout Warning"                      => "Auto logout warning",
         "You will be..."                           => "You will be logged out after",
-        "seconds due to..."                        => "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section."
+        "seconds due to..."                        => "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section.",
     ],
 
     "backup-versions" =>
     [
         "backup"                                   => "backup",
         "backups"                                  => "backups",
-        "available for"                            => "available for"
+        "available for"                            => "available for",
     ],
 
     "bug-files-check" =>
     [
-        "Found in"                                 => "Found in:"
+        "Found in"                                 => "Found in:",
     ],
 
     "file-control" =>
@@ -146,7 +146,7 @@ $text = [
         "displayed at"                             => "displayed at",
         "Enter filename to..."                     => "Enter filename to save at",
         "That file exists..."                      => "That file exists already, overwrite?",
-        "Saving"                                   => "Saving"
+        "Saving"                                   => "Saving",
     ],
 
     "ftp-manager" =>
@@ -177,14 +177,14 @@ $text = [
         "Binary transfer"                          => "Binary transfer",
         "Add"                                      => "Add",
         "Choose"                                   => "Choose",
-        "Update"                                   => "Update"
+        "Update"                                   => "Update",
     ],
 
     "get-branch" => [],
 
     "headers" =>
     [
-        "Bad CSRF token..."                        => "Bad CSRF token. Please report the error info at https://github.com/icecoder/ICEcoder so it can be fixed."
+        "Bad CSRF token..."                        => "Bad CSRF token. Please report the error info at https://github.com/icecoder/ICEcoder so it can be fixed.",
     ],
 
     "help" =>
@@ -252,7 +252,7 @@ $text = [
         "Cancel tasks"                             => "Cancel tasks",
         "Zoom out"                                 => "Zoom out all non-function/class declarations",
         "Jump to"                                  => "Jump to declaration of class/function",
-        "Jump to previous tab"                     => "Jump to previous tab"
+        "Jump to previous tab"                     => "Jump to previous tab",
     ],
 
     "icecoder" =>
@@ -290,7 +290,7 @@ $text = [
         "Error cannot find..."                     => "Error: cannot find/access the error file paths",
         "No new errors..."                         => "No new errors found",
         "You have made..."                         => "You have made changes. Are you sure you want to close without saving?",
-        "Close all tabs"                           => "Close all tabs?"
+        "Close all tabs"                           => "Close all tabs?",
     ],
 
     "login" =>
@@ -302,7 +302,7 @@ $text = [
         "disable further registrations"            => "disable further registrations",
         "auto-check for updates"                   => "auto-check for updates",
         "To put into..."                           => "To put into multi-user mode, open the settings menu or open data/config-settings.php and change multiUser to true then reload this page",
-        "multi-user"                               => "multi-user"
+        "multi-user"                               => "multi-user",
     ],
 
     "multiple-results" =>
@@ -320,7 +320,7 @@ $text = [
         "No matches found"                         => "No matches found",
         "selected"                                 => "selected",
         "found in"                                 => "found in",
-        "Replaced"                                 => "Replaced"
+        "Replaced"                                 => "Replaced",
     ],
 
     "plugins-manager" =>
@@ -362,7 +362,7 @@ $text = [
         "Write"                                    => "Write",
         "Execute"                                  => "Execute",
         "Change to"                                => "Change to",
-        "update"                                   => "update"
+        "update"                                   => "update",
     ],
 
     "settings-common" =>
@@ -373,7 +373,7 @@ $text = [
     "settings-save-current-files" =>
     [
         "Cannot update config..."                  => "Cannot update config file. Please set public write permissions on",
-        "and try again"                            => "and try again"
+        "and try again"                            => "and try again",
     ],
 
     "settings-screen" =>
@@ -441,19 +441,19 @@ $text = [
         "multi-user"                               => "multi-user",
         "Make sure you..."                         => "Make sure you do not lock yourself out",
         "Registration"                             => "Registration",
-        "update"                                   => "update"
+        "update"                                   => "update",
     ],
 
     "settings-update" =>
     [
         "Cannot update config..."                  => "Cannot update config file. Please set public write permissions on",
         "and try again"                            => "and try again",
-        "and press refresh"                        => "and press refresh"
+        "and press refresh"                        => "and press refresh",
     ],
 
     "updater" =>
     [
-        "Update appears to..."                     => "Update appears to be successful"
+        "Update appears to..."                     => "Update appears to be successful",
     ],
 
     "find-in-files" =>
@@ -467,6 +467,6 @@ $text = [
         "Yes"                                      => "Yes",
         "No"                                       => "No",
         "Search"                                   => "Search",
-    ]
+    ],
 
 ];

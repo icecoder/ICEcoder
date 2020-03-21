@@ -11,7 +11,6 @@ $text = [
 
     "editor" =>
     [
-        "Click icons for..."                       => "<b>點擊圖標<br>求助 &amp;<br>實用信息</b>",
         "server"                                   => "伺服器",
         "Server name, OS..."                       => "伺服器名稱, OS & IP:",
         "Root"                                     => "根目錄:",
@@ -24,13 +23,13 @@ $text = [
         "files"                                    => "文件",
         "Last 10 files..."                         => "最後10個打開的文件:",
         "none"                                     => "[none]",
-        "results"                                  => "結果"
     ],
 
     "files" =>
     [
         "Lock"                                     => "鎖定",
         "Refresh"                                  => "刷新",
+        "Plugins"                                  => "Plugins",
         "ROOT"                                     => "[ROOT]"
     ],
 
@@ -41,9 +40,10 @@ $text = [
         "Your version is"                          => "你的版本是",
         "Update now"                               => "現在更新",
         "You have some..."                         => "你有一些未保存的更改",
-        "Are you sure you want to close?"          => "Are you sure you want to close?",
+        "Are you sure..."                          => "Are you sure you want to close?",
         "working"                                  => "裝載中",
         "Color picker"                             => "顔色選擇器",
+        "Plugins Manager"                          => "Plugins Manager",
         "New File"                                 => "新建文件",
         "New Folder"                               => "新建文件夾",
         "Upload File(s)"                           => "上傳文件",
@@ -58,7 +58,7 @@ $text = [
         "Properties"                               => "屬性",
         "File"                                     => "文件",
         "Edit"                                     => "編輯",
-        "Remote"                                   => "遠程",
+        "Source"                                   => "Source",
         "Help"                                     => "幫助",
         "Save"                                     => "保存",
         "Save As"                                  => "另存爲",
@@ -82,29 +82,46 @@ $text = [
         "website"                                  => "網站",
         "Close all tabs"                           => "關閉所有選項卡",
         "Alphabetize tabs"                         => "按字母順序排序選項卡",
-//        "Find"                                   => "檢索",
-//        "in"                                     => "in",
-//        "and"                                    => "and",
-//        "replace"                                => "替換",
-//        "replace all"                            => "替換所有",
-//        "this document"                          => "當前文件",
-//        "open documents"                         => "打開的文件",
-//        "all files"                              => "所有文件",
-//        "all filenames"                          => "所有文件名",
+        "Find"                                     => "檢索",
+        "in"                                       => "in",
+        "and"                                      => "and",
+        "replace"                                  => "替換",
+        "replace all"                              => "替換所有",
+        "this document"                            => "當前文件",
+        "open documents"                           => "打開的文件",
+        "all files"                                => "所有文件",
+        "all filenames"                            => "所有文件名",
         "Go to Line"                               => "轉到行",
         "View"                                     => "預覽",
-        "Bug reporting not active"                 => "錯誤報告沒有激活"
+        "Bug reporting not active"                 => "錯誤報告沒有激活",
+        "Single pane"                              => "Single pane",
+        "Diff pane also"                           => "Diff pane also",
     ],
 
 // /LIB
 
+    "auto-logout-warning" =>
+    [
+        "Auto Logout Warning"                      => "Auto logout warning",
+        "You will be..."                           => "You will be logged out after",
+        "seconds due to..."                        => "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section.",
+    ],
+
+    "backup-versions" =>
+    [
+        "backup"                                   => "backup",
+        "backups"                                  => "backups",
+        "available for"                            => "available for",
+    ],
+
     "bug-files-check" =>
     [
-        "Found in"                                 => "檢索到:"
+        "Found in"                                 => "檢索到:",
     ],
 
     "file-control" =>
     [
+        "Sorry, bad filename..."                   => "Sorry, bad filename provided. Check the dev tools console for more info?",
         "Sorry"                                    => "抱歉",
         "does not seem..."                         => "服務器上不存在",
         "Sorry, could not..."                      => "抱歉, 不能獲取内容",
@@ -121,6 +138,7 @@ $text = [
         "Sorry, cannot replace..."                 => "抱歉, 目標不能替換文本",
         "Sorry, cannot change..."                  => "抱歉, 目標不能更改權限",
         "Sorry, cannot delete..."                  => "抱歉, 不能刪除根級別ROOT",
+        "Sorry, cannot delete more..."             => "Sorry, cannot delete more then one item at a time under FTP mode",
         "Sorry, cannot delete"                     => "抱歉, 不能刪除",
         "Sorry, this file..."                      => "抱歉, 此文件已更改, 不能保存",
         "Reload this file..."                      => "重新加載該文件, 你的版本複製到一個新文件?",
@@ -128,14 +146,45 @@ $text = [
         "displayed at"                             => "顯示在",
         "Enter filename to..."                     => "輸入文件名并保存到",
         "That file exists..."                      => "該文件已存在, 要覆蓋嗎?",
-        "Saving"                                   => "正在保存"
+        "Saving"                                   => "正在保存",
+    ],
+
+    "ftp-manager" =>
+    [
+        "Saving FTP sites"                         => "Saving FTP sites",
+        "Cannot update config..."                  => "Cannot update config file. Please set public write permissions on",
+        "and try again"                            => "and try again",
+        "ftp manager"                              => "ftp manager",
+        "Choose existing site"                     => "Choose existing site",
+        "Are you sure..."                          => "Are you sure you wish to remove this site?",
+        "Add new site"                             => "Add new site",
+        "Edit site"                                => "Edit site",
+        "Site base"                                => "Site base",
+        "Host"                                     => "Host",
+        "Username"                                 => "Username",
+        "Password"                                 => "Password",
+        "PASV and mode"                            => "PASV and mode",
+        "Root"                                     => "Root",
+        "eg http://yourdomain.com"                 => "eg http://yourdomain.com",
+        "eg ftp.yourdomain.com"                    => "eg ftp.yourdomain.com",
+        "eg user123"                               => "eg user123",
+        "eg pass123"                               => "eg pass123",
+        "Use PASV mode..."                         => "Use PASV mode if your FTP site requires it and choose the data transfer type - ASCII or binary",
+        "eg /htdocs"                               => "eg /htdocs",
+        "PASV connection off"                      => "PASV connection off",
+        "PASV connection on"                       => "PASV connection on",
+        "ASCII transfer"                           => "ASCII transfer",
+        "Binary transfer"                          => "Binary transfer",
+        "Add"                                      => "Add",
+        "Choose"                                   => "Choose",
+        "Update"                                   => "Update",
     ],
 
     "get-branch" => [],
 
     "headers" =>
     [
-        "Bad CSRF token..."                        => "錯誤的 CSRF token. 請在 https://github.com/icecoder/ICEcoder 報告錯誤信息, 以便我們修復它."
+        "Bad CSRF token..."                        => "錯誤的 CSRF token. 請在 https://github.com/icecoder/ICEcoder 報告錯誤信息, 以便我們修復它.",
     ],
 
     "help" =>
@@ -166,6 +215,8 @@ $text = [
         "Jump to definition"                       => "跳轉到 / 跳轉回",
         "Comment uncomment"                        => "注釋 / 清楚注釋",
         "Insert tab indent"                        => "插入tab / 插入選擇",
+        "Insert more"                              => "Indent more",
+        "Insert less"                              => "Indent less",
         "Wrap with div"                            => "封裝 &lt;div&gt;",
         "Wrap with span"                           => "封裝 &lt;span&gt;",
         "Wrap unwrap p"                            => "封裝 / 撤銷封裝 &lt;p&gt;",
@@ -190,6 +241,7 @@ $text = [
         "Close current tab"                        => "關閉當前選項卡",
         "Open file prompt"                         => "打開文件的提示",
         "Find"                                     => "檢索",
+        "Previous"                                 => "Previous",
         "Focus on Go..."                           => "光標定位到轉到行的輸入框",
         "Save"                                     => "保存",
         "Save as"                                  => "另存爲...",
@@ -197,17 +249,26 @@ $text = [
         "Contract expand file..."                  => "收縮 / 擴展文件管理器",
         "Fold unfold current..."                   => "摺叠 / 展開當前行",
         "Refocus on document"                      => "光標重新聚焦到文檔",
-        "Cancel tasks"                             => "取消任务"
+        "Cancel tasks"                             => "取消任务",
+        "Zoom out"                                 => "Zoom out all non-function/class declarations",
+        "Jump to"                                  => "Jump to declaration of class/function",
+        "Jump to previous tab"                     => "Jump to previous tab",
     ],
 
     "icecoder" =>
     [
+        "results"                                  => "results",
         "No text selected..."                      => "搜索中沒有選中的文件",
+        "all files"                                => "all files",
+        "all filenames"                            => "all filenames",
+        "selected files"                           => "selected files",
+        "selected filenames"                       => "selected filenames",
         "Creating Folder"                          => "正在創建文件夾",
         "Sorry you can..."                         => "抱歉, 衹能同時打開100個文件!",
         "Opening File"                             => "正在打開文件",
         "Enter relative file..."                   => "輸入本地相對路徑 (前綴 /) 或遠程 URL",
         "Getting"                                  => "正在獲取",
+        "Saving"                                   => "Saving:",
         "Please enter the..."                      => "請輸入新的名稱爲",
         "Renaming to"                              => "正在重命名",
         "Moving to"                                => "正在移動到",
@@ -215,7 +276,13 @@ $text = [
         "Pasting File"                             => "正在粘貼文件",
         "Sorry cannot paste..."                    => "抱歉, 無法粘貼到根路徑",
         "Nothing to paste..."                      => "粘貼失敗, 請先複製一個文件 / 文件夾!",
+        "and"                                      => "and",
+        "this document"                            => "this document",
+        "replace"                                  => "replace",
+        "replace all"                              => "replace all",
+        "file"                                     => "file",
         "Replacing text in"                        => "正在替換文本",
+        "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
         "Cancelled tasks"                          => "取消任務",
         "Open previous files"                      => "打開以前的文件?",
         "Please note for..."                       => "請注意: 需要更新才能工作, 您需要爲所有 ICEcoder 文件和文件夾設置寫如何刪除權限. 如果您需要恢復 ICEcoder 到這個版本, 您可以在 /tmp 目錄找到它們. 點擊 OK 繼續使用自動升級或點擊 cancel 訪問 ICEcoder 官方網站, 您也可以到 GitHub 的項目首頁下載 zip 來手動進行更新.",
@@ -223,7 +290,7 @@ $text = [
         "Error cannot find..."                     => "錯誤: 無法找到和進入錯誤日志文件路徑",
         "No new errors..."                         => "沒有新的錯誤被找到",
         "You have made..."                         => "您已做的更改未保存。您確定要關閉它而不保存嗎?",
-        "Close all tabs"                           => "是否關閉所有選項卡?"
+        "Close all tabs"                           => "是否關閉所有選項卡?",
     ],
 
     "login" =>
@@ -232,9 +299,10 @@ $text = [
         "login"                                    => "登錄",
         "To disable registration..."               => "要禁用注冊模式, 請進入選項或打開文件 data/config-settings.php 并更改 enableRegistration 爲 false , 并重新載入本頁面",
         "Registration mode enabled"                => "注冊模式已啓用",
+        "disable further registrations"            => "disable further registrations",
         "auto-check for updates"                   => "自動檢測更新",
         "To put into..."                           => "要禁用多用戶模式, 請進入選項或打開文件 data/config-settings.php 并更改 multiUser 爲 true , 并重新載入本頁面",
-        "multi-user"                               => "多用戶"
+        "multi-user"                               => "多用戶",
     ],
 
     "multiple-results" =>
@@ -272,7 +340,7 @@ $text = [
         "Update"                                   => "更新",
         "Install"                                  => "安裝",
         "Uninstall"                                => "卸載",
-        "Reload after install..."                  => "安裝后需要刷新"
+        "Reload after install..."                  => "安裝后需要刷新",
     ],
 
     "properties" =>
@@ -294,18 +362,18 @@ $text = [
         "Write"                                    => "寫入",
         "Execute"                                  => "執行",
         "Change to"                                => "更改爲",
-        "update"                                   => "更新"
+        "update"                                   => "更新",
     ],
 
     "settings-common" =>
     [
-        "Your document does..."                    => "你的文檔不是 UTF-8 編碼, 它將被轉換"
+        "Your document does..."                    => "你的文檔不是 UTF-8 編碼, 它將被轉換",
     ],
 
     "settings-save-current-files" =>
     [
         "Cannot update config..."                  => "不能更新配置文件. 請爲",
-        "and try again"                            => "增加寫入權限并再次嘗試"
+        "and try again"                            => "增加寫入權限并再次嘗試",
     ],
 
     "settings-screen" =>
@@ -316,7 +384,15 @@ $text = [
         "git"                                      => "git",
         "codemirror version"                       => "codemirror 版本",
         "file manager root"                        => "文件管理器的根目錄 ROOT",
-        "Free to use..."                           => "您可以免費使用它, 無論商業與否, 衹需讓我知道任何很酷的或有定製的:)同樣我們無任何責任和任何擔保, 使用所有的責任都是你的. 很多個人和公司爲 ICEcoder 作出過貢獻, 在此篇幅有限無法一一列舉, 請訪問貢獻者詳細列表",
+        "backups"                                  => "backups",
+        "keep version control..."                  => "keep version control backups for",
+        "day"                                      => "day",
+        "days"                                     => "days",
+        "of backups stored..."                     => "of backups stored currently",
+        "deleting actually moves..."               => "deleting actually moves to ICEcoder's tmp dir",
+        "local/server items..."                    => "local/server items only",
+        "Get in contact..."                        => "Get in contact by...",
+        "You may use..."                           => "You may use ICEcoder for your own purposes, commercial or not, just let us know of any cool uses or customisations. :)<br><br>No warranty or liability accepted for anything, all responsibility of use is your own.",
         "functionality"                            => "功能",
         "check for updates..."                     => "啓動時檢查更新",
         "auto open last..."                        => "啓動時自動載入最后打開的文件",
@@ -334,20 +410,28 @@ $text = [
         "banned files/folders"                     => "禁止文件 / 文件夾",
         "banned paths"                             => "禁止路徑",
         "ip addresses"                             => "ip 地址",
+        "auto-logout after"                        => "auto-logout after",
+        "mins of inactivity..."                    => "mins of inactivity if no unsaved files",
         "Slash prefixed comma..."                  => "斜綫前綴, 以半角逗號分隔",
         "Comma delimited"                          => "以半角逗號分隔",
         "style"                                    => "樣式",
         "theme"                                    => "主題",
         "line wrapping"                            => "換行",
+        "line numbers"                             => "line numbers",
         "scrollbars"                               => "滾動條",
         "indent type"                              => "縮進類型",
         "indent size"                              => "縮進大小",
+        "match brackets"                           => "match brackets",
+        "show trailing space"                      => "show trailing space",
         "font size"                                => "字體大小",
         "auto indent"                              => "auto indent",
+        "auto close tags"                          => "auto close tags",
+        "auto close brackets"                      => "auto close brackets",
         "layout"                                   => "佈局",
         "plugin panel aligned"                     => "插件版對齊",
         "file manager"                             => "文件管理器",
         "root"                                     => "root",
+        "Set 0 to..."                              => "Set 0 to disable",
         "Slash prefixed"                           => "斜綫前綴",
         "bug reporting"                            => "報告錯誤",
         "check in files"                           => "檢查文件",
@@ -370,6 +454,19 @@ $text = [
     "updater" =>
     [
         "Update appears to..."                     => "更新似乎是成功的"
-    ]
+    ],
+
+    "find-in-files" =>
+    [
+        "Enter path to search in"                  => "Enter path to search in",
+        "Enter semicolon-separated masks..."       => "Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)",
+        "Type of text"                             => "Type of text",
+        "Fixed text"                               => "Fixed text",
+        "Regular expression"                       => "Regular expression",
+        "Case sensitive"                           => "Case sensitive",
+        "Yes"                                      => "Yes",
+        "No"                                       => "No",
+        "Search"                                   => "Search",
+    ],
 
 ];
