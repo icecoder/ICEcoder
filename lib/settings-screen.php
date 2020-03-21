@@ -10,9 +10,9 @@ $t = $text['settings-screen'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> settings screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="settings-screen.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css?microtime=<?php echo microtime(true);?>">
-<script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" type="text/css" href="../assets/css/settings-screen.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="../assets/css/codemirror.css?microtime=<?php echo microtime(true);?>">
+<script src="../assets/js/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 
 <style type="text/css">
 .CodeMirror {position: absolute; width: 409px; height: 180px; font-size: <?php echo $ICEcoder["fontSize"];?>; transition: font-size 0.25s ease}
@@ -21,10 +21,10 @@ $t = $text['settings-screen'];
 .cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
 </style>
 
-<link rel="stylesheet" href="editor.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="../assets/css/editor.css?microtime=<?php echo microtime(true);?>">
 <?php
 $themeArray = array();
-$handle = opendir('../'.$ICEcoder["codeMirrorDir"].'/theme/');
+$handle = opendir('../assets/css/theme/');
 while (false !== ($file = readdir($handle))) {
 	if ($file !== "." && $file != "..") {
 		array_push($themeArray,basename($file,".css"));
@@ -32,16 +32,16 @@ while (false !== ($file = readdir($handle))) {
 }
 sort($themeArray);
 for ($i=0;$i<count($themeArray);$i++) {
-	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
+	echo '<link rel="stylesheet" href="../assets/css/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
 }
 ?>
-<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/addon/scroll/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="../assets/css/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="settings" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'settings')" onload="this.focus();">
 
 <div class="infoPane">
-	<a href="https://icecoder.net" target="_blank"><img src="../images/icecoder.png" alt="ICEcoder" class="logo"></a>
+	<a href="https://icecoder.net" target="_blank"><img src="../assets/images/icecoder.png" alt="ICEcoder" class="logo"></a>
 
 	<h1 style="margin: 10px 0"><?php echo $t['settings'];?></h1>
 
@@ -56,10 +56,6 @@ for ($i=0;$i<count($themeArray);$i++) {
 
 	<?php echo $t['git'];?>:<br>
 	<a href="https://github.com/icecoder/ICEcoder" target="_blank">https://github.com/icecoder/ICEcoder</a>
-	<br><br>
-
-	<?php echo $t['codemirror dir'];?>:<br>
-	<?php echo $ICEcoder["codeMirrorDir"]; ?>
 	<br><br>
 
 	<?php echo $t['codemirror version'];?>:<br>
