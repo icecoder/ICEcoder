@@ -8,20 +8,20 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  outline: 0;
-  /*font-size: 12px;*/
-  vertical-align: top;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    /*font-size: 12px;*/
+    vertical-align: top;
 }
 
 body {overflow: hidden;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select:none;
-  user-select: none;
-  font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select:none;
+    user-select: none;
+    font-size: 12px;
 }
 
 h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
@@ -39,10 +39,10 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .settings .section {width: 640px; height: 450px; padding: 20px; margin-top: 10px; float: left}
 .settings input, .settings textarea {border: 1px solid #555; background-color: #444; color: #fff}
 .settings input:focus, .settings textarea:focus {
-  outline: none;
-  -webkit-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
-  -moz-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
-  box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
+    outline: none;
+    -webkit-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
+    -moz-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
+    box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
 }
 .settings input[type="text"]:disabled {opacity: 0.5}
 .settings .info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}

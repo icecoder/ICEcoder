@@ -8,13 +8,13 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, input, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-  font-family: monospace, courier, sans-serif;
-  border: 0;
-  margin: 0;
-  padding: 0;
-  outline: 0;
-  font-size: 12px;
-  vertical-align: top;
+    font-family: monospace, courier, sans-serif;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    font-size: 12px;
+    vertical-align: top;
 }
 
 /* Box sizing */
