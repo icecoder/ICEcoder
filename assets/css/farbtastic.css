@@ -31,7 +31,7 @@
   height: 17px;
   margin: -8px 0 0 -8px;
   overflow: hidden;
-  background: url('../assets/images/marker.png') no-repeat;
+  background: url('../images/marker.png') no-repeat;
 }
 .colorValue {
   border: 0;
