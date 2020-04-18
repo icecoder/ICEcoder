@@ -1,87 +1,87 @@
 // Get any elem by ID
-var get = function(elem) {
+const get = function(elem) {
     return document.getElementById(elem);
 };
 
-var iceLoc = window.location.pathname;
+// URL we're viewing ICEcoder from
+const iceLoc = window.location.pathname;
 
 // Main ICEcoder object
 var ICEcoder = {
 
-// ==============
-// INIT
-// ==============
+    // ====
+    // INIT
+    // ====
 
     // Define settings
-    filesW:			250,		// Width of files pane
-    minFilesW:		14,		// Min width of files pane
-    maxFilesW:		250,		// Max width of files pane
-    selectedTab:		0,		// The tab that's currently selected
-    savedPoints:		[],		// Ints array to indicate save points for docs
-    savedContents:		[],		// Array of last known saved contents
-    canSwitchTabs:		true,		// Stops switching of tabs when trying to close
-    openFiles:		[],		// Array of open file URLs
-    openFileMDTs:		[],		// Array of open file modification datetimes
-    openFileVersions:	[],		// Array of open file version counts
-    cMInstances:		[],		// List of CodeMirror instance no's
-    nextcMInstance:		1,		// Next available CodeMirror instance no
-    selectedFiles:		[],		// Array of selected files
-    findMode:		false,		// States if we're in find/replace mode
-    scrollbarVisible:	false,		// Indicates if the main pane has a scrollbar
-    mouseDown:		false,		// If the mouse is down
-    mouseDownInCM:		false,		// If the mouse is down within CodeMirror instance (can be false, 'editor' or 'gutter')
-    draggingFilesW:		false,		// If we're dragging the file manager width
-    draggingTab:		false,		// If we're dragging a tab
-    draggingWithKey:	false,		// The key that's down while dragging, false if no key
-    tabLeftPos:		[],		// Array of left positions of tabs inside content area
-    tabBGcurrent:		'#1d1d1b',	// BG of current tab
-    tabBGselected:		'#49d',		// BG of selected tab
-    tabBGopen:		'#c3c3c3',	// BG of open tab
-    tabBGnormal:		'transparent',	// BG of normal tab
-    tabFGcurrent:		'#fff',		// FG of selected tab
-    tabFGselected:		'#fff',		// FG of selected tab
-    tabFGopenFile:		'#000',		// FG of open file
-    tabFGnormalFile:	'#eee',		// FG of normal file
-    tabFGnormalTab:		'#888',		// FG of normal tab
-    prevTab:		0,		// Previous tab to current
-    serverQueueItems:	[],		// Array of URLs to call in order
-    previewWindow:		false,		// Target variable for the preview window
-    previewWindowLoading:	false,		// Loading state of preview window
-    pluginIntervalRefs:	[],		// Array of plugin interval refs
-    overPopup:		false,		// Indicates if we're over a popup or not
-    cmdKey:			false,		// Tracking apple Command key up/down state
-    codeZoomedOut:		false,		// If true, code on non declaration lines is zoomed out
-    showingTool:		false,		// Which tool is showing right now (terminal, output, database, git etc)
-    oppTagReplaceData:	[],		// Will contain data for automatic opposite tag replacement to sync them
-    fmReady:		false,		// Indicates if the file manager is ready for action
-    bugReportStatus:	"off",		// Values of: off, error, ok, bugs
-    bugReportPath:		"",		// Bug report file path
-    bugFilesSizesSeen:	[],		// Array of last seen sizes of bug files
-    bugFilesSizesActual:	[],		// Array of actual sizes of bug files
-    splitPane:		false,		// Single or split pane editing
-    splitPaneLeftPerc:	100,		// Width of left pane as a percentage
-    renderLineStyle:	[],		// Array of styles to apply on renderLine event
-    renderPaneShiftAmount:	0,		// Shift comparison main (negative) vs diff pane (positive)
-    debounce:		"",		// Contains debounce timeout object
-    editorFocusInstance:	"",		// Name of editor instance that has focus
-    openSeconds:		0,		// Number of seconds ICEcoder has been open for
-    indexing:		false,		// Indicates if ICEcoder is currently indexing
-    ready:			false,		// Indicates if ICEcoder is ready for action
+    filesW:	               250,           // Width of files pane
+    minFilesW:             14,            // Min width of files pane
+    maxFilesW:             250,           // Max width of files pane
+    selectedTab:           0,             // The tab that's currently selected
+    savedPoints:           [],            // Ints array to indicate save points for docs
+    savedContents:         [],            // Array of last known saved contents
+    canSwitchTabs:         true,          // Stops switching of tabs when trying to close
+    openFiles:             [],            // Array of open file URLs
+    openFileMDTs:          [],            // Array of open file modification datetimes
+    openFileVersions:      [],            // Array of open file version counts
+    cMInstances:           [],            // List of CodeMirror instance no's
+    nextcMInstance:        1,             // Next available CodeMirror instance no
+    selectedFiles:         [],            // Array of selected files
+    findMode:              false,         // States if we're in find/replace mode
+    scrollbarVisible:      false,         // Indicates if the main pane has a scrollbar
+    mouseDown:             false,         // If the mouse is down
+    mouseDownInCM:         false,         // If the mouse is down within CodeMirror instance (can be false, 'editor' or 'gutter')
+    draggingFilesW:        false,         // If we're dragging the file manager width
+    draggingTab:           false,         // If we're dragging a tab
+    draggingWithKey:       false,         // The key that's down while dragging, false if no key
+    tabLeftPos:            [],            // Array of left positions of tabs inside content area
+    tabBGcurrent:          '#1d1d1b',     // BG of current tab
+    tabBGselected:         '#49d',        // BG of selected tab
+    tabBGopen:             '#c3c3c3',     // BG of open tab
+    tabBGnormal:           'transparent', // BG of normal tab
+    tabFGcurrent:          '#fff',        // FG of selected tab
+    tabFGselected:         '#fff',        // FG of selected tab
+    tabFGopenFile:         '#000',        // FG of open file
+    tabFGnormalFile:       '#eee',        // FG of normal file
+    tabFGnormalTab:        '#888',        // FG of normal tab
+    prevTab:               0,             // Previous tab to current
+    serverQueueItems:      [],            // Array of URLs to call in order
+    previewWindow:         false,         // Target variable for the preview window
+    previewWindowLoading:  false,         // Loading state of preview window
+    pluginIntervalRefs:    [],            // Array of plugin interval refs
+    overPopup:             false,         // Indicates if we're over a popup or not
+    cmdKey:                false,         // Tracking apple Command key up/down state
+    codeZoomedOut:         false,         // If true, code on non declaration lines is zoomed out
+    showingTool:           false,         // Which tool is showing right now (terminal, output, database, git etc)
+    oppTagReplaceData:     [],            // Will contain data for automatic opposite tag replacement to sync them
+    fmReady:               false,         // Indicates if the file manager is ready for action
+    bugReportStatus:       "off",         // Values of: off, error, ok, bugs
+    bugReportPath:         "",            // Bug report file path
+    bugFilesSizesSeen:     [],            // Array of last seen sizes of bug files
+    bugFilesSizesActual:   [],            // Array of actual sizes of bug files
+    splitPane:             false,         // Single or split pane editing
+    splitPaneLeftPerc:     100,           // Width of left pane as a percentage
+    renderLineStyle:       [],            // Array of styles to apply on renderLine event
+    renderPaneShiftAmount: 0,             // Shift comparison main (negative) vs diff pane (positive)
+    editorFocusInstance:   "",            // Name of editor instance that has focus
+    openSeconds:           0,             // Number of seconds ICEcoder has been open for
+    indexing:              false,         // Indicates if ICEcoder is currently indexing
+    ready:                 false,         // Indicates if ICEcoder is ready for action
 
     // Set our aliases
     initAliases: function() {
-        var aliasArray = ["header","files", "fileOptions", "optionsFile", "optionsEdit", "optionsSource", "optionsHelp", "filesFrame", "editor", "tabsBar", "findBar", "terminal", "output", "database", "git", "content", "tools", "footer", "nestValid", "versionsDisplay", "splitPaneControls", "splitPaneNamesMain", "splitPaneNamesDiff", "charDisplay", "byteDisplay"];
+        const aliasArray = ["header", "files", "fileOptions", "optionsFile", "optionsEdit", "optionsSource", "optionsHelp", "filesFrame", "editor", "tabsBar", "findBar", "terminal", "output", "database", "git", "content", "tools", "footer", "versionsDisplay", "splitPaneControls", "splitPaneNamesMain", "splitPaneNamesDiff", "charDisplay", "byteDisplay"];
 
         // Create our ID aliases
-        for (var i=0;i<aliasArray.length;i++) {
+        for (var i = 0; i < aliasArray.length; i++) {
             this[aliasArray[i]] = get(aliasArray[i]);
         }
     },
 
-    // On load, set the layout and check any nesting is valid
+    // On load, set the layout
     init: function() {
         // Contract the file manager if the user has set to have it hidden
-        if (!this.lockedNav) {
+        if (false === this.lockedNav) {
             this.filesW = this.minFilesW;
         }
 
@@ -93,60 +93,65 @@ var ICEcoder = {
         this.filesFrame.contentWindow.focus();
 
         // Hide the loading screen & auto open last files?
-        this.showHide('hide',get('loadingMask'));
+        this.showHide('hide', get('loadingMask'));
         this.autoOpenInt = setInterval(function(ic) {
             if (ic.fmReady) {
-                if (ic.openLastFiles) {ic.autoOpenFiles();};
+                if (ic.openLastFiles) {ic.autoOpenFiles();}
                 clearInterval(ic.autoOpenInt);
             }
         }, 4, this);
-
-        // Update the nesting indicator every 30ms
-        setInterval(this.updateNestingIndicator,30);
 
         // Start bug checking
         this.startBugChecking();
 
         // Set the time since last user interaction
         this.autoLogoutTimer = 0;
+
         // Start our interval timer, runs every second
         this.oneSecondInt = setInterval(function(ic) {
             ic.autoLogoutTimer++;
             var unsavedFiles = false;
+
             // Check if we have any unsaved files
-            for(var i=1;i<=ic.savedPoints.length;i++) {
-                if (ic.savedPoints[i-1]!=ic.getcMInstance(i).changeGeneration()) {
+            for(var i = 1; i <= ic.savedPoints.length; i++) {
+                if (ic.savedPoints[i - 1] !== ic.getcMInstance(i).changeGeneration()) {
                     unsavedFiles = true;
                 }
             }
+
             // Show an auto-logout warning 60 secs before a logout
-            if(!unsavedFiles && ic.autoLogoutMins > 1 && ic.autoLogoutTimer == (ic.autoLogoutMins*60)-60) {
+            if(false === unsavedFiles && ic.autoLogoutMins > 1 && ic.autoLogoutTimer == (ic.autoLogoutMins * 60) - 60) {
                 ic.autoLogoutWarningScreen();
             }
+
             if (get('autoLogoutIFrame') && get('autoLogoutIFrame').contentWindow.document.getElementById('timeRemaning')) {
                 get('autoLogoutIFrame').contentWindow.document.getElementById('timeRemaning').innerHTML =
                     ic.autoLogoutTimer > 0
-                        ? (ic.autoLogoutMins*60) - ic.autoLogoutTimer
+                        ? (ic.autoLogoutMins * 60) - ic.autoLogoutTimer
                         : 0;
             }
+
             // If there aren't any unsaved files, we have a timeout period > 0 and the time is up, we can logout
-            if(!unsavedFiles && ic.autoLogoutMins > 0 && ic.autoLogoutTimer >= ic.autoLogoutMins*60) {
+            if (false === unsavedFiles && ic.autoLogoutMins > 0 && ic.autoLogoutTimer >= ic.autoLogoutMins * 60) {
                 ic.logout('autoLogout');
             }
+
             // Increase number of seconds ICEcoder has been open for by 1
             ic.openSeconds++;
+
             // Every 5 mins, ping our file to keep the session alive
-            if (ic.openSeconds % 300 == 0) {
-                ic.filesFrame.contentWindow.frames['pingActive'].location.href = iceLoc+"/lib/session-active-ping.php";
+            if (0 === ic.openSeconds % 300) {
+                ic.filesFrame.contentWindow.frames['pingActive'].location.href = iceLoc + "/lib/session-active-ping.php";
             }
+
             // Every 3 seconds, re-index if we're not already busy
-            if (!ic.indexing && !ic.loadingFile && ic.serverQueueItems.length === 0 && ic.openSeconds % 3 == 0) {
+            if (false === ic.indexing && false === ic.loadingFile && 0 === ic.serverQueueItems.length && 0 === ic.openSeconds % 3) {
                 ic.indexing = true;
                 // Get new data
                 var timestampExtra = ic.indexData
-                    ? "?timestamp="+ic.indexData.timestamps.indexed+"&csrf="+ic.csrf
+                    ? "?timestamp=" + ic.indexData.timestamps.indexed + "&csrf=" + ic.csrf
                     : "";
-                fetch(iceLoc+'/lib/indexer.php'+timestampExtra)
+                fetch(iceLoc + '/lib/indexer.php' + timestampExtra)
                     .then(function(response) {
                         // Convert to JSON
                         return response.json();
@@ -165,99 +170,98 @@ var ICEcoder = {
                     ic.indexing = false;
                 });
             }
-        },1000,this);
+        }, 1000, this);
 
         // ICEcoder is ready to start using
         this.ready = true;
     },
 
-// ==============
+// ======
 // LAYOUT
-// ==============
+// ======
 
     // Set our layout according to the browser size
-    setLayout: function(dontSetEditor) {
-        var winW, winH, headerH, fileNavH, tabsBarH, findBarH, toolsBarH;
+    setLayout: function(setEditor) {
+        let winW, winH, headerH, fileNavH, tabsBarH, findBarH, toolsBarH;
 
-        // Determin width & height available
+        // Determine width & height available
         winW = window.innerWidth;
         winH = window.innerHeight;
 
         // Apply sizes to various elements of the page
-        headerH = 25, fileNavH = 35, tabsBarH = 21, findBarH = 28, toolsBarH = 30;
+        headerH = 15, fileNavH = 38, tabsBarH = 27, findBarH = 28, toolsBarH = 30;
         this.header.style.width = this.tabsBar.style.width = this.findBar.style.width = winW + "px";
         this.files.style.width = this.editor.style.left = this.filesW + "px";
-        this.optionsFile.style.width = this.optionsEdit.style.width = this.optionsSource.style.width = this.optionsHelp.style.width = (this.filesW-60) + "px";
-        this.filesFrame.style.height = (winH-headerH-fileNavH-toolsBarH) + "px";
-        this.nestValid.style.left = (this.filesW+10) + "px";
-        this.versionsDisplay.style.left = (this.filesW+25) + "px";
+        this.optionsFile.style.width = this.optionsEdit.style.width = this.optionsSource.style.width = this.optionsHelp.style.width = this.filesW + "px";
+        this.filesFrame.style.height = (winH - headerH - fileNavH - 7 - toolsBarH) + "px";
+        this.versionsDisplay.style.left = (this.filesW + 10) + "px";
         this.splitPaneControls.style.left =
             parseInt(
-                ((winW-this.filesW)/2) +
+                ((winW - this.filesW) / 2) +
                 this.filesW -
                 (get("splitPaneControls").getBoundingClientRect().width / 2)
                 , 10) + "px";
-        this.splitPaneNamesMain.style.left = (parseInt((winW-this.filesW)*0.25,10)-50+this.filesW) + "px";
-        this.splitPaneNamesDiff.style.left = (parseInt((winW-this.filesW)*0.75,10)-50+this.filesW) + "px";
+        this.splitPaneNamesMain.style.left = (parseInt((winW - this.filesW) * 0.25, 10) - 50 + this.filesW) + "px";
+        this.splitPaneNamesDiff.style.left = (parseInt((winW - this.filesW) * 0.75, 10) - 50 + this.filesW) + "px";
         this.setTabWidths();
 
         // If we need to set the editor sizes
-        if (!dontSetEditor) {
-            this.editor.style.width = this.content.style.width = (winW-this.filesW) + "px";
-            this.terminal.style.width = (winW-this.filesW) + "px";
-            this.output.style.width = (winW-this.filesW-31) + "px";
-            this.database.style.width = (winW-this.filesW) + "px";
-            this.git.style.width = (winW-this.filesW-31) + "px";
-            this.content.style.height = (winH-headerH-tabsBarH-findBarH-26) + "px";
-            this.terminal.style.height = winH + "px";
-            this.output.style.height = winH + "px";
-            this.database.style.height = winH + "px";
-            this.git.style.height = winH + "px";
-            this.terminal.style.top = winH + "px";
-            this.output.style.top = winH + "px";
-            this.database.style.top = winH + "px";
-            this.git.style.top = winH + "px";
-            if (this.showingTool !== false) {
+        if (false !== setEditor) {
+            this.editor.style.width = this.content.style.width = (winW - this.filesW) + "px";
+            this.terminal.style.width = (winW - this.filesW) + "px";
+            this.output.style.width = (winW - this.filesW - 31) + "px";
+            this.database.style.width = (winW - this.filesW) + "px";
+            this.git.style.width = (winW - this.filesW - 31) + "px";
+            this.content.style.height = (winH - headerH - tabsBarH - findBarH - toolsBarH) + "px";
+            this.terminal.style.height =
+                this.output.style.height =
+                    this.database.style.height =
+                        this.git.style.height =
+                            this.terminal.style.top =
+                                this.output.style.top =
+                                    this.database.style.top =
+                                        this.git.style.top = winH + "px";
+            if (false !== this.showingTool) {
                 get(this.showingTool).style.top = 0;
             }
 
             // Resize the CodeMirror instances to match the window size
             setTimeout(function(ic){
-                for (var i=0;i<ic.openFiles.length;i++) {
+                for (var i = 0; i < ic.openFiles.length; i++) {
                     // Done the long way here as we need to call them in specific order to stop showing background and so avoiding a flicker effect
-                    if (!ic.splitPane) {
-                        ic.content.contentWindow['cM'+ic.cMInstances[i]].setSize(ic.splitPaneLeftPerc+"%",ic.content.style.height);
+                    if (false === ic.splitPane) {
+                        ic.content.contentWindow['cM' + ic.cMInstances[i]].setSize(ic.splitPaneLeftPerc + "%", ic.content.style.height);
                     }
-                    ic.content.contentWindow['cM'+ic.cMInstances[i]+'diff'].setSize((100-ic.splitPaneLeftPerc)+"%",ic.content.style.height);
-                    ic.content.contentWindow['cM'+ic.cMInstances[i]+'diff'].getWrapperElement().style.left = ic.splitPaneLeftPerc+"%";
-                    if (ic.splitPane) {
-                        ic.content.contentWindow['cM'+ic.cMInstances[i]].setSize(ic.splitPaneLeftPerc+"%",ic.content.style.height);
+                    ic.content.contentWindow['cM' + ic.cMInstances[i] + 'diff'].setSize((100 - ic.splitPaneLeftPerc) + "%", ic.content.style.height);
+                    ic.content.contentWindow['cM'+ ic.cMInstances[i] + 'diff'].getWrapperElement().style.left = ic.splitPaneLeftPerc + "%";
+                    if (true === ic.splitPane) {
+                        ic.content.contentWindow['cM' + ic.cMInstances[i]].setSize(ic.splitPaneLeftPerc + "%", ic.content.style.height);
                     }
                 }
-                // Place resultsBar ontop scrollbar
-                ic.content.contentWindow.document.getElementById('resultsBar').style.right = !ic.splitPane
+                // Place resultsBar on-top scrollbar
+                ic.content.contentWindow.document.getElementById('resultsBar').style.right = false === ic.splitPane
                     ? 0
-                    : parseInt(parseInt(ic.content.style.width,10)/2,10)+"px";
-            },4,this);
+                    : parseInt(parseInt(ic.content.style.width, 10) / 2, 10) + "px";
+            }, 4, this);
         }
     },
 
     // Set the layout as split pane or not
     setSplitPane: function(onOff) {
-        var cM, cMdiff;
+        let cM, cMdiff;
 
-        this.splitPane = onOff == "on" ? true : false;
+        this.splitPane = "on" === onOff ? true : false;
         get('splitPaneControlsOff').style.opacity = this.splitPane ? 0.2 : 0.5;
         get('splitPaneControlsOn').style.opacity = this.splitPane ? 0.5 : 0.2;
         get('splitPaneNamesMain').style.opacity = get('splitPaneNamesDiff').style.opacity = this.splitPane ? 1 : 0;
         this.setLayout();
 
         // Also clear marks (if going to a single pane) or redo the marks (if split pane)
-        if (this.splitPane) {
+        if (true === this.splitPane) {
             this.updateDiffs();
             // Also set the scroll position to match
             cM = this.getcMInstance();
-            this.cMonScroll(cM,'cM'+this.cMInstances[this.selectedTab-1]);
+            this.cMonScroll(cM, 'cM' + this.cMInstances[this.selectedTab - 1]);
         } else {
             cM = this.getcMInstance();
             cMdiff = this.getcMdiffInstance();
@@ -265,12 +269,12 @@ var ICEcoder = {
             if (cM) {
                 // Clear all main pane marks
                 cMmarks = cM.getAllMarks();
-                for (var i=0; i<cMmarks.length; i++) {
+                for (var i = 0; i < cMmarks.length; i++) {
                     cMmarks[i].clear();
                 }
                 // Clear all diff pane marks
                 cMdiffMarks = cMdiff.getAllMarks();
-                for (var i=0; i<cMdiffMarks.length; i++) {
+                for (var i = 0; i < cMdiffMarks.length; i++) {
                     cMdiffMarks[i].clear();
                 }
             }
@@ -278,33 +282,33 @@ var ICEcoder = {
 
         // Animate in/out the split pane
         // First, clear any existing split pane interval anim
-        if ("undefined" != typeof this.animSplitPaneInt) {
+        if ("undefined" !== typeof this.animSplitPaneInt) {
             clearInterval(this.animSplitPaneInt);
         }
         // Now set the interval to animate it in/out
         this.animSplitPaneInt = setInterval(function(ic) {
             // Animate split pane in
             if (ic.splitPane && ic.splitPaneLeftPerc > 50.1) {
-                ic.splitPaneLeftPerc = ((ic.splitPaneLeftPerc-50)/1.8)+50;
+                ic.splitPaneLeftPerc = ((ic.splitPaneLeftPerc - 50) / 1.8) + 50;
                 // Animate split pane out
             } else if (!ic.splitPane && ic.splitPaneLeftPerc < 99.9) {
-                ic.splitPaneLeftPerc = (50-((100-ic.splitPaneLeftPerc)/1.8))+50;
+                ic.splitPaneLeftPerc = (50 - ((100 - ic.splitPaneLeftPerc) / 1.8)) + 50;
                 // Finish animating split pane in/out
             } else {
                 ic.splitPaneLeftPerc = ic.splitPane ? 50 : 100;
                 clearInterval(ic.animSplitPaneInt);
             }
             ic.setLayout();
-        },4,this);
+        }, 4, this);
     },
 
     // Tool show/hide toggle
     toolShowHideToggle: function(tool) {
-        var winH;
+        let winH;
 
         winH = window.innerHeight;
 
-        if (["terminal","output","database","git"].indexOf(tool) > -1) {
+        if (-1 < ["terminal", "output", "database", "git"].indexOf(tool)) {
             // Set out of view as a start point
             get('terminal').style.top = winH + "px";
             get('output').style.top = winH + "px";
@@ -312,14 +316,14 @@ var ICEcoder = {
             get('git').style.top = winH + "px";
 
             // Now set tool requested, out of view, or in view
-            get(tool).style.top = this.showingTool === tool ? winH + "px" : 0;
+            get(tool).style.top = tool === this.showingTool ? winH + "px" : 0;
 
             // Carry out any extras...
             if (tool === "terminal") {
                 // Focus on command prompt
                 setTimeout(function(ic){
                     ic.terminal.contentWindow.document.getElementById('command').focus();
-                },0,this);
+                }, 0 ,this);
             }
 
             // Note which tool we're showing
@@ -329,20 +333,20 @@ var ICEcoder = {
 
     // Set the width of the file manager on demand
     changeFilesW: function(expandContract) {
-        if (!this.lockedNav||this.filesW==this.minFilesW) {
-            if ("undefined" != typeof this.changeFilesInt) {clearInterval(this.changeFilesInt)};
-            this.changeFilesInt = setInterval(function(ic) {ic.changeFilesWStep(expandContract)},10,this);
+        if (false === this.lockedNav || this.filesW === this.minFilesW) {
+            if ("undefined" !== typeof this.changeFilesInt) {clearInterval(this.changeFilesInt)}
+            this.changeFilesInt = setInterval(function(ic) {ic.changeFilesWStep(expandContract)}, 10, this);
         }
     },
 
     // Expand/contract the file manager in half-steps
     changeFilesWStep: function (expandContract) {
-        if (expandContract=="expand") {
-            this.filesW < this.maxFilesW-1 ? this.filesW += Math.ceil((this.maxFilesW-this.filesW)/2) : this.filesW = this.maxFilesW;
+        if ("expand" === expandContract) {
+            this.filesW < this.maxFilesW - 1 ? this.filesW += Math.ceil((this.maxFilesW - this.filesW) / 2) : this.filesW = this.maxFilesW;
         } else {
-            this.filesW > this.minFilesW+1 ? this.filesW -= Math.ceil((this.filesW-this.minFilesW)/2) : this.filesW = this.minFilesW;
+            this.filesW > this.minFilesW + 1 ? this.filesW -= Math.ceil((this.filesW - this.minFilesW) / 2) : this.filesW = this.minFilesW;
         }
-        if ((expandContract=="expand" && this.filesW == this.maxFilesW)||(expandContract=="contract" && this.filesW == this.minFilesW)) {
+        if (("expand" === expandContract && this.filesW === this.maxFilesW) || ("contract" === expandContract && this.filesW === this.minFilesW)) {
             clearInterval(this.changeFilesInt);
         }
         // Redo the layout to match
@@ -352,11 +356,11 @@ var ICEcoder = {
     // Can click-drag file manager width?
     canResizeFilesW: function() {
         // If we have the cursor set we must be able!
-        if (this.ready && document.body.style.cursor == "w-resize") {
-            // If our mouse is down (and went down on the CM instance's gutter) and we're within a 250-400px range
-            if (this.mouseDown && this.mouseDownInCM == "gutter") {
-                this.filesW = this.maxFilesW = this.mouseX >=250 && this.mouseX <= 400
-                    ? this.mouseX : this.mouseX <250 ? 250 : 400;
+        if (true === this.ready && "w-resize" === document.body.style.cursor) {
+            // If our mouse is down (and went down on the CM instance's gutter) and we're within a 250px - half of avail width range
+            if (true === this.mouseDown && "gutter" === this.mouseDownInCM) {
+                this.filesW = this.maxFilesW = this.mouseX >= 250 && this.mouseX <= window.innerWidth / 2
+                    ? this.mouseX : this.mouseX < 250 ? 250 : window.innerWidth / 2;
                 // Set various widths based on the new width
                 this.files.style.width = this.filesFrame.style.width = this.filesW + "px";
                 this.setLayout();
@@ -369,124 +373,127 @@ var ICEcoder = {
 
     // Lock & unlock the file manager navigation on demand
     lockUnlockNav: function() {
-        var lockIcon;
+        let lockIcon;
 
         lockIcon = this.filesFrame.contentWindow.document.getElementById('fmLock');
-        this.lockedNav = !this.lockedNav;
+        this.lockedNav = false === this.lockedNav;
         lockIcon.style.backgroundPosition = this.lockedNav ? "0 0" : "-16px 0";
     },
 
     // Show/hide the plugins on demand
-    showHidePlugins: function(showHide) {
-        get('plugins').style.width = showHide=="show" ? '55px' : '3px';
-        get('plugins').style.background = showHide=="show" ? '#333' : 'transparent';
-        if (showHide=="show") {
+    showHidePlugins: function(vis) {
+        get('plugins').style.width = "show" === vis ? '55px' : '3px';
+        get('plugins').style.background = "show" === vis ? '#333' : 'transparent';
+        if ("show" === vis) {
             this.changeFilesW('expand');
         }
     },
 
-// ==============
+// ======
 // EDITOR
-// ==============
+// ======
 
-    // On focus
-    cMonFocus: function(thisCM,cMinstance) {
+    // Set editor stats
+    setEditorStats: function() {
         this.getCaretPosition();
         this.updateCharDisplay();
         this.updateByteDisplay();
+    },
+
+    // On focus
+    cMonFocus: function(thisCM, cMinstance) {
+        this.setEditorStats();
         this.editorFocusInstance = cMinstance;
         this.getCaretPosition();
     },
 
     // On blur
-    cMonBlur: function(thisCM,cMinstance) {
+    cMonBlur: function(thisCM, cMinstance) {
         // Nothing as yet
     },
 
     // On key up
-    cMonKeyUp: function(thisCM,cMinstance) {
-        if ("undefined" != typeof doFind) {
+    cMonKeyUp: function(thisCM, cMinstance) {
+        if ("undefined" !== typeof doFind) {
             clearInterval(doFind);
         }
         doFind = setTimeout(function(ic) {
-            ic.findReplace(get('find').value,true,false);
-        },500,this);
-        this.getCaretPosition();
-        this.updateCharDisplay();
-        this.updateByteDisplay();
+            ic.findReplace(get('find').value, true, false);
+        }, 500, this);
+        this.setEditorStats();
     },
 
     // On cursor activity
-    cMonCursorActivity: function(thisCM,cMinstance) {
-        var thisCMPrevLine;
+    cMonCursorActivity: function(thisCM, cMinstance) {
+        let thisCMPrevLine;
 
-        this.getCaretPosition();
-        this.updateCharDisplay();
-        this.updateByteDisplay();
+        this.setEditorStats();
+
         thisCM.removeLineClass(this['cMActiveLine'+cMinstance], "background");
-        if(thisCM.getCursor('start').line == thisCM.getCursor().line) {
-            this['cMActiveLine'+cMinstance] = thisCM.addLineClass(thisCM.getCursor().line, "background","cm-s-activeLine");
+        if(thisCM.getCursor('start').line === thisCM.getCursor().line) {
+            this['cMActiveLine' + cMinstance] = thisCM.addLineClass(thisCM.getCursor().line, "background", "cm-s-activeLine");
         }
-        if (this.caretLocType=="CSS") {
+        if ("CSS" === this.caretLocType) {
             this.cssColorPreview();
         }
 
         thisCMPrevLine = this.editorFocusInstance.indexOf('diff') > -1 ? this.prevLineDiff : this.prevLine;
-        if (thisCMPrevLine != thisCM.getCursor().line &&
+        if (thisCMPrevLine !== thisCM.getCursor().line &&
             thisCM.getLine(thisCMPrevLine) &&
             thisCM.getLine(thisCMPrevLine).length > 0 &&
-            thisCM.getLine(thisCMPrevLine).replace(/\s/g, '').length == 0) {
-            thisCM.replaceRange("",{line: thisCMPrevLine, ch: 0},{line: thisCMPrevLine, ch: 1000000});
+            thisCM.getLine(thisCMPrevLine).replace(/\s/g, '').length === 0) {
+            thisCM.replaceRange("", {line: thisCMPrevLine, ch: 0}, {line: thisCMPrevLine, ch: 1000000});
         }
+
         // Set the cursor to text height, not line height
         setTimeout(function(ic) {
             var paneMatch;
 
             // Loop through styles to check if we have to adjust cursor height
-            for (var i=0; i<ic.renderLineStyle.length; i++) {
+            for (var i = 0; i < ic.renderLineStyle.length; i++) {
 
                 // We have no matching pane to start with
                 paneMatch = false;
 
                 // Is the pane we need to set the cursor on this pane?
                 if (
-                    (ic.renderLineStyle[i][0] != "diff" && cMinstance.indexOf("diff") == -1) ||
-                    (ic.renderLineStyle[i][0] == "diff" && cMinstance.indexOf("diff") > -1)
+                    ("diff" !== ic.renderLineStyle[i][0] && 1 === cMinstance.indexOf("diff")) ||
+                    ("diff" === ic.renderLineStyle[i][0] && -1 < cMinstance.indexOf("diff"))
                 )
                 {paneMatch = true;}
 
                 // If the pane matches & also the line we're on is the line we have a style set for, set that cursor height
-                if (paneMatch && thisCM.getCursor().line+1 == ic.renderLineStyle[i][1]) {
-                    thisCM.setOption("cursorHeight",thisCM.defaultTextHeight() / thisCM.lineInfo(thisCM.getCursor().line).handle.height);
+                if (paneMatch && thisCM.getCursor().line + 1 === ic.renderLineStyle[i][1]) {
+                    thisCM.setOption("cursorHeight", thisCM.defaultTextHeight() / thisCM.lineInfo(thisCM.getCursor().line).handle.height);
                 } else {
-                    thisCM.setOption("cursorHeight",1);
+                    thisCM.setOption("cursorHeight", 1);
                 }
 
             }
-        },0,this);
+        }, 0, this);
     },
 
     // On before change
-    cMonBeforeChange: function(thisCM,cMinstance,changeObj,cM) {
-        var sels, tagInfo, tagOpp, thisData;
+    cMonBeforeChange: function(thisCM, cMinstance, changeObj, cM) {
+        let sels, tagInfo, tagOpp, thisData;
 
         // Get the selections
         sels = thisCM.listSelections();
 
         // For each of the user selections
-        for (var i=0; i<sels.length; i++) {
+        for (var i = 0; i < sels.length; i++) {
             // Get the matching tagInfo for current cursor position
             tagInfo = cM.findMatchingTag(thisCM, sels[i].anchor);
             // If we're not ending a tag (autocompletion) and we have tagInfo and not undoing/redoing (which handles changes itself)
-            if (changeObj.text[0].indexOf(">") !== 0 && "undefined" != typeof tagInfo && changeObj.origin != "undo" && changeObj.origin != "redo") {
+            if (0 !== changeObj.text[0].indexOf(">") && "undefined" !== typeof tagInfo && "undo" !== changeObj.origin && "redo" !== changeObj.origin) {
                 // If we also have both open and close tag info
-                if ("undefined" != typeof tagInfo.open && "undefined" != typeof tagInfo.close) {
+                if ("undefined" !== typeof tagInfo.open && "undefined" !== typeof tagInfo.close) {
                     // Log the opposite tag info
-                    tagOpp = tagInfo.at == "open" ? "close" : "open";
-                    if (tagInfo[tagOpp] !== null) {
+                    tagOpp = tagInfo.at === "open" ? "close" : "open";
+                    if (null !== tagInfo[tagOpp]) {
                         thisData = tagInfo[tagOpp].tag + ";" + tagInfo[tagOpp].from.line + ":" + tagInfo[tagOpp].from.ch;
                         // Check that string firstly isn't in array and if not, push it in
-                        if (this.oppTagReplaceData.indexOf(thisData) == -1) {
+                        if (-1 === this.oppTagReplaceData.indexOf(thisData)) {
                             this.oppTagReplaceData.push(thisData);
                         }
                     }
@@ -496,14 +503,14 @@ var ICEcoder = {
     },
 
     // On change
-    cMonChange: function(thisCM,cMinstance,changeObj,cM) {
-        var sels, rData, theTag, thisLine, thisChar, tagInfo, charDiff, closeDiff, repl1, repl2, thisToken, tTS, filepath, filename, fileExt;
+    cMonChange: function(thisCM, cMinstance, changeObj, cM) {
+        let sels, rData, theTag, thisLine, thisChar, tagInfo, charDiff, closeDiff, repl1, repl2, filepath, filename, fileExt;
 
         // Get the selections
         sels = thisCM.listSelections();
 
         // If we're not loading the file, it's a change, so update tab
-        if (!this.loadingFile) {
+        if (false === this.loadingFile) {
             this.redoTabHighlight(this.selectedTab);
         }
 
@@ -511,17 +518,18 @@ var ICEcoder = {
         setTimeout(function(ic) {
             ic.scrollBarVisible = thisCM.getScrollInfo().height > thisCM.getScrollInfo().clientHeight;
             ic.setLayout();
-        },0,this);
+        }, 0, this);
 
         // If we're replacing opposite tag strings, do that
-        if ("undefined" != typeof this.oppTagReplaceData[0]) {
+        if ("undefined" !== typeof this.oppTagReplaceData[0]) {
+
             // For each one of them, grab our data to work with
-            for (var i=0; i<this.oppTagReplaceData.length; i++) {
+            for (var i = 0; i < this.oppTagReplaceData.length; i++) {
                 // Extract data from that string
                 rData = this.oppTagReplaceData[i].split(";");
                 theTag = rData[0];
-                thisLine = rData[1].split(":")[0]*1;
-                thisChar = rData[1].split(":")[1]*1;
+                thisLine = parseInt(rData[1].split(":")[0], 10);
+                thisChar = parseInt(rData[1].split(":")[1], 10);
 
                 // Get the tag info for matching tag
                 if (sels[i]) {
@@ -529,60 +537,58 @@ var ICEcoder = {
                 }
 
                 // If we have tagInfo
-                if ("undefined" != typeof tagInfo) {
+                if ("undefined" !== typeof tagInfo) {
                     // Get the opposite tag string
-                    theTag = tagInfo.at == "open" ? tagInfo.open.tag : tagInfo.close.tag;
+                    theTag = "open" === tagInfo.at ? tagInfo.open.tag : tagInfo.close.tag;
                     // If we have changeObj.from info to work with
-                    if ("undefined" != typeof changeObj.from) {
-                        // Same line changing needs a chararacter pos shift
-                        charDiff = thisLine == changeObj.from.line
+                    if ("undefined" !== typeof changeObj.from) {
+                        // Same line changing needs a character pos shift
+                        charDiff = thisLine === changeObj.from.line
                             ? changeObj.text[0].length - changeObj.removed[0].length
                             : 0;
                         // Also need to adjust if we're in the close tag on same line
-                        closeDiff = tagInfo.at == "close" && thisLine == changeObj.from.line
+                        closeDiff = "close" === tagInfo.at && thisLine === changeObj.from.line
                             ? changeObj.removed[0].length - changeObj.text[0].length + 1
-                            : 1
+                            : 1;
                         // Work out the replace from and to positions
-                        repl1 = {line: thisLine, ch: thisChar+charDiff+(tagInfo.at == "open" ? 2 : closeDiff)};
-                        repl2 = {line: thisLine, ch: thisChar+charDiff+(tagInfo.at == "open" ? 2 : closeDiff)+rData[0].length};
+                        repl1 = {line: thisLine, ch: thisChar + charDiff+("open" === tagInfo.at ? 2 : closeDiff)};
+                        repl2 = {line: thisLine, ch: thisChar + charDiff+("open" === tagInfo.at ? 2 : closeDiff) + rData[0].length};
                     }
                 }
 
                 // Replace our string over the range, if this token string isn't blank and the end tag matches our original tag
-                if (theTag.trim() != "" && "undefined" != typeof repl1 && "undefined" != typeof repl2 && thisCM.getRange(repl1,repl2) == rData[0]) {
+                if ("" !== theTag.trim() && "undefined" !== typeof repl1 && "undefined" !== typeof repl2 && thisCM.getRange(repl1,repl2) === rData[0]) {
                     thisCM.replaceRange(theTag, repl1, repl2);
                     // If at the close tag, don't autocomplete
-                    if (tagInfo.at == "close") {
+                    if (tagInfo.at === "close") {
                         this.autocompleteSkip = true;
                     }
                 }
-
             }
 
         }
-        // Reset our array for next time
+        // Reset our array for next time and redo editor stats
         this.oppTagReplaceData = [];
+        this.setEditorStats();
 
-        this.getCaretPosition();
-        this.updateCharDisplay();
-        this.updateByteDisplay();
-        this.updateNestingIndicator();
         if (this.findMode) {
-            this.results.splice(this.findResult,1);
+            this.results.splice(this.findResult, 1);
             get('results').innerHTML = this.results.length + " " + t['results'];
             this.findMode = false;
         }
+
         // Update the list of functions and classes
         this.updateFunctionClassList();
-        filepath = this.openFiles[this.selectedTab-1];
+        filepath = this.openFiles[this.selectedTab - 1];
         if (filepath) {
-            filename = filepath.substr(filepath.lastIndexOf("/")+1);
-            fileExt = filename.substr(filename.lastIndexOf(".")+1);
+            filename = filepath.substr(filepath.lastIndexOf("/") + 1);
+            fileExt = filename.substr(filename.lastIndexOf(".") + 1);
         }
+
         // Update diffs if we have a split pane
-        if (this.splitPane) {
+        if (true === this.splitPane) {
             // Need 0ms tickover so we handle char change first
-            setTimeout(function(ic){ic.updateDiffs();},0,this);
+            setTimeout(function(ic){ic.updateDiffs();}, 0, this);
         }
 
         // Highlight Git diff colors in gutter
@@ -591,67 +597,67 @@ var ICEcoder = {
         }
 
         // Update HTML edited files live
-        if (filepath && this.previewWindow.location && filepath != "/[NEW]") {
-            this.updatePreviewWindow(thisCM,filepath,filename,fileExt);
+        if (filepath && this.previewWindow.location && filepath !== "/[NEW]") {
+            this.updatePreviewWindow(thisCM, filepath, filename, fileExt);
         }
+
         // Update the title tag to indicate any changes
         this.indicateChanges();
     },
 
-    cMonUpdate: function(thisCM,cMinstance) {
+    // On update
+    cMonUpdate: function(thisCM, cMinstance) {
+        // Nothing as yet
     },
 
     // On scroll
-    cMonScroll: function(thisCM,cMinstance) {
-        var cM, cMdiff, otherCM;
+    cMonScroll: function(thisCM, cMinstance) {
+        let cM, cMdiff, otherCM;
 
-        this.mouseDown=false;
-        this.mouseDownInCM=false;
+        // this.mouseDown = false;
+        // this.mouseDownInCM = false;
 
-        if (this.splitPane) {
+        if (true === this.splitPane) {
             // Get both main & diff instance and work out the instance we're not scrolling
             cM = this.getcMInstance();
             cMdiff = this.getcMdiffInstance();
             otherCM = cMinstance.indexOf('diff') > -1 ? cM : cMdiff;
 
             if (cM) {
-                // Scroll other pane x & y to match this one we're scrolling, after a 0ms tickover to avoid judder
-                setTimeout(function(){otherCM.scrollTo(thisCM.getScrollInfo().left, thisCM.getScrollInfo().top);},0);
+                // Scroll other pane x & y to match this one we're scrolling, after a tickover to avoid judder
+                // 0ms = drag scrollbar, 50 = mouse wheel
+                setTimeout(function(){otherCM.scrollTo(thisCM.getScrollInfo().left, thisCM.getScrollInfo().top);}, true === this.mouseDown ? 0 : 50);
             }
         }
     },
 
     // On input read
-    cMonInputRead: function(thisCM,cMinstance) {
-        if (this.autoComplete == "keypress" && this.codeAssist) {
-            // Debounce timeout wrapper left here for now, but can be removed in future if no negative effects seen
-            // clearTimeout(this.debounce);
+    cMonInputRead: function(thisCM, cMinstance) {
+        if ("kepypress" === this.autoComplete && this.codeAssist) {
             if (!thisCM.state.completionActive) {
-                // this.debounce = setTimeout(function() {
                 if (!this.autocompleteSkip) {
                     this.autocomplete();
                 } else {
                     this.autocompleteSkip = false;
                 }
-                // },0);
             }
         }
     },
 
     // On gutter click
-    cMonGutterClick: function(thisCM,line,gutter,evt,cMinstance) {
+    cMonGutterClick: function(thisCM, line, gutter, evt, cMinstance) {
         this.mouseDownInCM = "gutter";
     },
 
     // On mouse down
-    cMonMouseDown: function(thisCM,cMinstance,evt) {
+    cMonMouseDown: function(thisCM, cMinstance, evt) {
         this.mouseDownInCM = "editor";
     },
 
     // On context menu
-    cMonContextMenu: function(thisCM,cMinstance,evt) {
+    cMonContextMenu: function(thisCM, cMinstance, evt) {
         // Set cursor
-        var currCoords = thisCM.coordsChar({left: evt.pageX, top: evt.pageY});
+        const currCoords = thisCM.coordsChar({left: evt.pageX, top: evt.pageY});
         thisCM.setCursor(currCoords);
 
         // If CTRL key down
@@ -664,65 +670,71 @@ var ICEcoder = {
                 // Get result and number of results for word in functions and classes from index JSON object list
                 var result = null;
                 var numResults = 0;
-                var filePath = ic.openFiles[ic.selectedTab-1];
-                var filePathExt = filePath.substr(filePath.lastIndexOf(".")+1);
-                for(i in ic.indexData.functions[filePathExt]) {
-                    if (i === word) {
-                        result = ic.indexData.functions[filePathExt][i];
-                        numResults++;
+                var filePath = ic.openFiles[ic.selectedTab - 1];
+                var filePathExt = filePath.substr(filePath.lastIndexOf(".") + 1);
+
+                if ("undefined" !== typeof ic.indexData.functions) {
+                    for(i in ic.indexData.functions[filePathExt]) {
+                        if (i === word) {
+                            result = ic.indexData.functions[filePathExt][i];
+                            numResults++;
+                        }
                     }
-                };
-                for(i in ic.indexData.classes[filePathExt]) {
-                    if (i === word) {
-                        result = ic.indexData.classes[filePathExt][i];
-                        numResults++;
+                }
+
+                if ("undefined" !== typeof ic.indexData.class) {
+                    for (i in ic.indexData.classes[filePathExt]) {
+                        if (i === word) {
+                            result = ic.indexData.classes[filePathExt][i];
+                            numResults++;
+                        }
                     }
-                };
+                }
 
                 // If we have a single result and the cursor isn't already on the definition of it we can jump to where it's defined
-                if (numResults === 1 && [null,"def"].indexOf(cM.getTokenTypeAt(cM.getCursor())) === -1) {
-                    ic.openFile(result.filePath.replace(docRoot,""));
-                    ic.goFindAfterOpenInt = setInterval(function(result){
-                        if (ic.openFiles[ic.selectedTab-1] == result.filePath.replace(docRoot,"") && !ic.loadingFile) {
+                if (1 === numResults && -1 === [null, "def"].indexOf(cM.getTokenTypeAt(cM.getCursor()))) {
+                    ic.openFile(result.filePath.replace(docRoot, ""));
+                    ic.goFindAfterOpenInt = setInterval(function(result) {
+                        if (ic.openFiles[ic.selectedTab - 1] == result.filePath.replace(docRoot, "") && !ic.loadingFile) {
                             cM = ic.getcMInstance();
                             setTimeout(function(result) {
-                                ic.goToLine(result.range.from.line+1);
+                                ic.goToLine(result.range.from.line + 1);
                                 cM.setSelection({line: result.range.from.line, ch: result.range.from.ch}, {line: result.range.to.line, ch: result.range.to.ch});
-                            },20,result);
+                            }, 20, result);
                             clearInterval(ic.goFindAfterOpenInt);
                         }
-                    },20,result);
+                    }, 20, result);
                 }
 
                 ic.mouseDownInCM = "editor";
-            },0,this);
+            }, 0, this);
         }
     },
 
     // On drag over
-    cMonDragOver: function(thisCM,evt,cMinstance) {
-        this.setDragCursor(evt,'editor');
+    cMonDragOver: function(thisCM, evt, cMinstance) {
+        this.setDragCursor(evt, 'editor');
     },
 
     // On render line
-    cMonRenderLine: function(thisCM,cMinstance,line,element) {
-        var paneMatch;
+    cMonRenderLine: function(thisCM, cMinstance, line, element) {
+        let paneMatch;
 
         // Loop through styles to use when rendering lines
-        for (var i=0; i<this.renderLineStyle.length; i++) {
+        for (var i = 0; i < this.renderLineStyle.length; i++) {
 
             // We have no matching pane to start with
             paneMatch = false;
 
             // Is the pane we need to style this pane?
             if (
-                (this.renderLineStyle[i][0] != "diff" && cMinstance.indexOf("diff") == -1) ||
-                (this.renderLineStyle[i][0] == "diff" && cMinstance.indexOf("diff") > -1)
+                ("diff" !== this.renderLineStyle[i][0] && -1 === cMinstance.indexOf("diff")) ||
+                ("diff" === this.renderLineStyle[i][0] && -1 < cMinstance.indexOf("diff"))
             )
             {paneMatch = true;}
 
             // If the pane matches & also the line we're rendering is the line we have a style set for, set that style
-            if (paneMatch && thisCM.lineInfo(line).line+1 == this.renderLineStyle[i][1]) {
+            if (paneMatch && thisCM.lineInfo(line).line + 1 == this.renderLineStyle[i][1]) {
                 element.style[this.renderLineStyle[i][2]] = this.renderLineStyle[i][3];
             }
 
@@ -733,40 +745,40 @@ var ICEcoder = {
     functionArgsTooltip: function(e, area) {
         if (this.indexData) {
             // If we have no files open, return early
-            if (this.openFiles.length === 0) {
+            if (0 === this.openFiles.length) {
                 get('tooltip').style.display = "none";
                 return true;
             }
 
-            var i;
+            let i;
             // Get cM instance, and the word under mouse pointer
-            var cM = this.getcMInstance();
-            var coordsChar = cM.coordsChar({left: this.mouseX-this.maxFilesW, top: this.mouseY-72});
-            var word = (cM.getRange(cM.findWordAt(coordsChar).anchor, cM.findWordAt(coordsChar).head));
+            const cM = this.getcMInstance();
+            const coordsChar = cM.coordsChar({left: this.mouseX - this.maxFilesW, top: this.mouseY - 72});
+            const word = (cM.getRange(cM.findWordAt(coordsChar).anchor, cM.findWordAt(coordsChar).head));
 
             // If it's not a word, return early
-            if (word === "") {
+            if ("" === word) {
                 get('tooltip').style.display = "none";
                 return true;
             }
 
             // Get result and number of results for word in functions from index JSON object list
-            var result = null;
-            var numResults = 0;
-            var filePath = this.openFiles[this.selectedTab-1];
-            var filePathExt = filePath.substr(filePath.lastIndexOf(".")+1);
+            let result = null;
+            let numResults = 0;
+            const filePath = this.openFiles[this.selectedTab - 1];
+            const filePathExt = filePath.substr(filePath.lastIndexOf(".") + 1);
             for(i in this.indexData.functions[filePathExt]) {
                 if (i === word) {
                     result = this.indexData.functions[filePathExt][i];
                     numResults++;
                 }
-            };
+            }
 
             // If we have a single result and the mouse pointer is not over the definition of it (that would be pointless), show tooltip
-            if (numResults === 1 && [null,"def"].indexOf(cM.getTokenTypeAt(coordsChar)) === -1) {
+            if (1 === numResults && -1 === [null, "def"].indexOf(cM.getTokenTypeAt(coordsChar))) {
                 get('tooltip').style.display = "block";
-                get('tooltip').style.left = (this.mouseX-this.maxFilesW+10) + "px";
-                get('tooltip').style.top = (this.mouseY-30) + "px";
+                get('tooltip').style.left = (this.mouseX - this.maxFilesW + 10) + "px";
+                get('tooltip').style.top = (this.mouseY - 30) + "px";
                 get('tooltip').style.zIndex = "1";
                 get('tooltip').innerHTML = result.params;
                 // Else hide it
@@ -778,7 +790,7 @@ var ICEcoder = {
 
     // Update diffs shown to the user in each pane
     updateDiffs: function() {
-        var cM, cMdiff, mainText, diffText, sm, opcodes, cMmarks, cMdiffMarks, amt, sDiffs;
+        let cM, cMdiff, mainText, diffText, sm, opcodes, cMmarks, cMdiffMarks, amt, sDiffs;
 
         // Reset the style array container and main vs diff pane shift difference
         this.renderLineStyle = [];
@@ -801,32 +813,32 @@ var ICEcoder = {
         if (cM) {
             // Clear all main pane marks
             cMmarks = cM.getAllMarks();
-            for (var i=0; i<cMmarks.length; i++) {
+            for (let i = 0; i < cMmarks.length; i++) {
                 cMmarks[i].clear();
             }
             // Clear all diff pane marks
             cMdiffMarks = cMdiff.getAllMarks();
-            for (var i=0; i<cMdiffMarks.length; i++) {
+            for (let i = 0; i < cMdiffMarks.length; i++) {
                 cMdiffMarks[i].clear();
             }
         }
 
-        if (cM && cMdiff.getValue() != "") {
+        if (cM && "" !== cMdiff.getValue()) {
             // For each opcode returned by jsdifflib
-            for (var i=0; i<opcodes.length; i++) {
+            for (let i = 0; i < opcodes.length; i++) {
                 // If not 'equal' status for the section, we have a 'replace', 'delete' or 'insert' status, so do something
-                if (opcodes[i][0] !== "equal") {
+                if ("equal" !== opcodes[i][0]) {
 
                     // =========
                     // MAIN PANE
                     // =========
 
                     // Replacing? Pad out main pane line to match equivalent last line in diff pane
-                    if (opcodes[i][0] == "replace") {
+                    if ("replace" === opcodes[i][0]) {
                         // Line amount is diff between end of both panes at this point in our loop, plus 1 line and our overall document shift, multiplied by font size
                         amt = ((opcodes[i][4] - opcodes[i][2] + 1 + this.renderPaneShiftAmount) * cM.defaultTextHeight());
                         // Add on the extra heights for any wrapped lines
-                        for (var j=opcodes[i][4]-1; j<=opcodes[i][2]-1; j++) {
+                        for (let j = opcodes[i][4] - 1; j <= opcodes[i][2] - 1; j++) {
                             if (cMdiff.getLineHandle(j).height > cM.defaultTextHeight()) {
                                 amt += cMdiff.getLineHandle(j).height - cM.defaultTextHeight();
                             }
@@ -836,22 +848,22 @@ var ICEcoder = {
                             this.renderLineStyle.push(["main", opcodes[i][2], "height", amt + "px"]);
                         }
                         // Mark text in 2 colours, for each line
-                        for (var j=0; j<(opcodes[i][2]) - (opcodes[i][1]); j++)  {
-                            sDiffs = (this.findStringDiffs(cM.getLine(opcodes[i][1]+j),cMdiff.getLine(opcodes[i][3]+j)));
-                            cM.markText({line: opcodes[i][1]+j, ch: 0}, {line: opcodes[i][3]+j + this.renderPaneShiftAmount, ch: sDiffs[0]}, {className: "diffGreyLighter"});
-                            cM.markText({line: opcodes[i][1]+j, ch: sDiffs[0]}, {line: opcodes[i][3]+j + this.renderPaneShiftAmount, ch: sDiffs[0]+sDiffs[1]}, {className: "diffGrey"});
-                            cM.markText({line: opcodes[i][1]+j, ch: sDiffs[0]+sDiffs[1]}, {line: opcodes[i][3]+j + this.renderPaneShiftAmount, ch: 1000000}, {className: "diffGreyLighter"});
+                        for (let j = 0; j<(opcodes[i][2]) - (opcodes[i][1]); j++)  {
+                            sDiffs = (this.findStringDiffs(cM.getLine(opcodes[i][1] + j),cMdiff.getLine(opcodes[i][3] + j)));
+                            cM.markText({line: opcodes[i][1]+j, ch: 0}, {line: opcodes[i][3] + j + this.renderPaneShiftAmount, ch: sDiffs[0]}, {className: "diffGreyLighter"});
+                            cM.markText({line: opcodes[i][1]+j, ch: sDiffs[0]}, {line: opcodes[i][3] + j + this.renderPaneShiftAmount, ch: sDiffs[0] + sDiffs[1]}, {className: "diffGrey"});
+                            cM.markText({line: opcodes[i][1]+j, ch: sDiffs[0] + sDiffs[1]}, {line: opcodes[i][3] + j + this.renderPaneShiftAmount, ch: 1000000}, {className: "diffGreyLighter"});
                         }
                         // Inserting
                     } else {
-                        cM.markText({line: opcodes[i][1], ch: 0}, {line: opcodes[i][2]-1, ch: 1000000}, {className: "diffGreen"});
+                        cM.markText({line: opcodes[i][1], ch: 0}, {line: opcodes[i][2] - 1, ch: 1000000}, {className: "diffGreen"});
                     }
 
                     // If inserting or deleting and the main pane hasn't changed, we need to pad out the line in that pane
-                    if (opcodes[i][0] != "replace" && opcodes[i][1] == opcodes[i][2]) {
+                    if ("replace" !== opcodes[i][0] && opcodes[i][1] === opcodes[i][2]) {
                         this.renderLineStyle.push(["main", opcodes[i][2], "height", ((opcodes[i][4] - opcodes[i][3] + 1) * cM.defaultTextHeight()) + "px"]);
                         // Mark the range with empty class
-                        cM.markText({line: opcodes[i][2]-1, ch: 0}, {line: opcodes[i][2]-1, ch: 1000000}, {className: "diffNone"});
+                        cM.markText({line: opcodes[i][2] - 1, ch: 0}, {line: opcodes[i][2]-1, ch: 1000000}, {className: "diffNone"});
                     }
 
                     // =========
@@ -859,11 +871,11 @@ var ICEcoder = {
                     // =========
 
                     // Replacing? Pad out diff pane line to match equivalent last line in main pane
-                    if (opcodes[i][0] == "replace") {
+                    if ("replace" === opcodes[i][0]) {
                         // Line amount is diff between end of both panes at this point in our loop, plus 1 line and our overall document shift, multiplied by font size
                         amt = ((opcodes[i][2] - opcodes[i][4] + 1 - this.renderPaneShiftAmount) * cM.defaultTextHeight());
                         // Add on the extra heights for any wrapped lines
-                        for (var j=opcodes[i][4]-1; j<=opcodes[i][2]-1; j++) {
+                        for (let j = opcodes[i][4] - 1; j <= opcodes[i][2] - 1; j++) {
                             if (cM.getLineHandle(j).height > cM.defaultTextHeight()) {
                                 amt += cM.getLineHandle(j).height - cM.defaultTextHeight();
                             }
@@ -873,22 +885,22 @@ var ICEcoder = {
                             this.renderLineStyle.push(["diff", opcodes[i][4], "height", amt + "px"]);
                         }
                         // Mark text in 2 colours, for each line
-                        for (var j=0; j<(opcodes[i][4]) - (opcodes[i][3]); j++)  {
-                            sDiffs = (this.findStringDiffs(cM.getLine(opcodes[i][1]+j),cMdiff.getLine(opcodes[i][3]+j)));
-                            cMdiff.markText({line: opcodes[i][1]+j - this.renderPaneShiftAmount, ch: 0}, {line: opcodes[i][3]+j, ch: sDiffs[0]}, {className: "diffGreyLighter"});
-                            cMdiff.markText({line: opcodes[i][1]+j - this.renderPaneShiftAmount, ch: sDiffs[0]}, {line: opcodes[i][3]+j, ch: sDiffs[0]+sDiffs[2]}, {className: "diffGrey"});
-                            cMdiff.markText({line: opcodes[i][1]+j - this.renderPaneShiftAmount, ch: sDiffs[0]+sDiffs[2]}, {line: opcodes[i][3]+j, ch: 1000000}, {className: "diffGreyLighter"});
+                        for (let j = 0; j<(opcodes[i][4]) - (opcodes[i][3]); j++)  {
+                            sDiffs = (this.findStringDiffs(cM.getLine(opcodes[i][1] + j),cMdiff.getLine(opcodes[i][3] + j)));
+                            cMdiff.markText({line: opcodes[i][1] + j - this.renderPaneShiftAmount, ch: 0}, {line: opcodes[i][3] + j, ch: sDiffs[0]}, {className: "diffGreyLighter"});
+                            cMdiff.markText({line: opcodes[i][1] + j - this.renderPaneShiftAmount, ch: sDiffs[0]}, {line: opcodes[i][3] + j, ch: sDiffs[0] + sDiffs[2]}, {className: "diffGrey"});
+                            cMdiff.markText({line: opcodes[i][1] + j - this.renderPaneShiftAmount, ch: sDiffs[0] + sDiffs[2]}, {line: opcodes[i][3] + j, ch: 1000000}, {className: "diffGreyLighter"});
                         }
                         // Deleting
                     } else {
-                        cMdiff.markText({line: opcodes[i][3], ch: 0}, {line: opcodes[i][4]-1, ch: 1000000}, {className: "diffRed"});
+                        cMdiff.markText({line: opcodes[i][3], ch: 0}, {line: opcodes[i][4] - 1, ch: 1000000}, {className: "diffRed"});
                     }
 
                     // If inserting or deleting and the diff pane hasn't changed, we need to pad out the line in that pane
-                    if (opcodes[i][0] != "replace" && opcodes[i][3] == opcodes[i][4]) {
+                    if ("replace" !== opcodes[i][0] && opcodes[i][3] === opcodes[i][4]) {
                         this.renderLineStyle.push(["diff", opcodes[i][4], "height", ((opcodes[i][2] - opcodes[i][1] + 1) * cM.defaultTextHeight()) + "px"]);
                         // Mark the range with empty class
-                        cMdiff.markText({line: opcodes[i][4]-1, ch: 0}, {line: opcodes[i][4]-1, ch: 1000000}, {className: "diffNone"});
+                        cMdiff.markText({line: opcodes[i][4] - 1, ch: 0}, {line: opcodes[i][4] - 1, ch: 1000000}, {className: "diffNone"});
                     }
 
                     // Finally, set the last amount shifted for this change
@@ -900,103 +912,103 @@ var ICEcoder = {
 
     // Find diffs between 2 strings
     findStringDiffs: function(a, b) {
-        if ("undefined" == typeof a) {a = ""};
-        if ("undefined" == typeof b) {b = ""};
-        for (var c = 0,				// start from the first character
-                 d = a.length, e = b.length;	// and from the last characters of both strings
-             a[c] &&				// if not at the end of the string and
-             a[c] == b[c];			// if both strings are equal at this position
-             c++);				// go forward
-        for (; d > c & e > c &			// stop at the position found by the first loop
-               a[d - 1] == b[e - 1];		// if both strings are equal at this position
-               d--) e--;			// go backward
-        return[c, d - c, e - c]			// return position and lengths of the two substrings found
+        if ("undefined" == typeof a) {a = ""}
+        if ("undefined" == typeof b) {b = ""}
+        for (var c = 0,                      // start from the first character
+                 d = a.length, e = b.length; // and from the last characters of both strings
+             a[c] &&                         // if not at the end of the string and
+             a[c] === b[c];                  // if both strings are equal at this position
+             c++);                           // go forward
+        for (; d > c & e > c &               // stop at the position found by the first loop
+               a[d - 1] === b[e - 1];        // if both strings are equal at this position
+               d--) e--;                     // go backward
+        return[c, d - c, e - c]              // return position and lengths of the two substrings found
     },
 
     // Highlight git diffs (between what is in browser and in Git commits)
     highlightGitDiffs: function() {
         // Clear the timeout if we have one already
-        if ("undefined" != typeof highlightGitDiffTimeout) {
+        if ("undefined" !== typeof highlightGitDiffTimeout) {
             clearTimeout(highlightGitDiffTimeout);
         }
         // If we have index data & Git data, after a timeout, if we have a matching path in that Git data
         if (this.indexData && this.indexData.gitContent) {
             highlightGitDiffTimeout = setTimeout(function(ic) {
-                if (ic.indexData.gitContent[docRoot+ic.openFiles[ic.selectedTab-1]]) {
+                if (ic.indexData.gitContent[docRoot + ic.openFiles[ic.selectedTab - 1]]) {
                     // Get the CodeMirror instance and clear the gutter for it
                     cM = ic.getcMInstance();
                     cM.clearGutter("CodeMirror-linenumbers");
                     // Get the baseText and gitText values from the two sources, and split them into lines
-                    var mainText = cM ? difflib.stringAsLines(cM.getValue()) : "";
-                    var gitText = difflib.stringAsLines(ic.indexData.gitContent[docRoot+ic.openFiles[ic.selectedTab-1]].lastHashContent ?? "");
+                    const mainText = cM ? difflib.stringAsLines(cM.getValue()) : "";
+                    const gitText = difflib.stringAsLines(ic.indexData.gitContent[docRoot + ic.openFiles[ic.selectedTab - 1]].lastHashContent ?? "");
 
                     // Create a SequenceMatcher instance that diffs the two sets of lines
-                    var sm = new difflib.SequenceMatcher(gitText, mainText);
+                    const sm = new difflib.SequenceMatcher(gitText, mainText);
 
                     // Get the opcodes from the SequenceMatcher instance
                     // Opcodes is a list of 3-tuples describing what changes should be made to the base text in order to yield the new text
-                    var opcodes = sm.get_opcodes();
+                    const opcodes = sm.get_opcodes();
 
                     // For each opcode returned by jsdifflib
-                    for (var i=0; i<opcodes.length; i++) {
+                    for (let i = 0; i < opcodes.length; i++) {
                         // If not 'equal' status for the section, we have a 'replace', 'delete' or 'insert' status, so do something
-                        if (opcodes[i][0] !== "equal") {
+                        if ("equal" !== opcodes[i][0]) {
                             // Replacing
-                            if (opcodes[i][0] == "replace") {
+                            if ("replace" === opcodes[i][0]) {
                                 // Mark text in one of 2 colours, for each line
-                                for (var j=opcodes[i][3]; j<opcodes[i][4]; j++)  {
-                                    var elem = document.createElement("DIV");
-                                    elem.className="CodeMirror-linenumber";
-                                    // Only whitespace is different, grey
-                                    if (gitText[j-(opcodes[i][4]-opcodes[i][2])] && mainText[j].trim() === gitText[j-(opcodes[i][4]-opcodes[i][2])].trim()) {
+                                for (let j = opcodes[i][3]; j < opcodes[i][4]; j++)  {
+                                    let elem = document.createElement("DIV");
+                                    elem.className = "CodeMirror-linenumber";
+                                    // Only trim whitespace is different, grey
+                                    if (gitText[j - (opcodes[i][4] - opcodes[i][2])] && mainText[j].trim() === gitText[j - (opcodes[i][4] - opcodes[i][2])].trim()) {
                                         elem.style.background = "#888";
                                         // Something other than whitespace is different, orange
                                     } else {
                                         elem.style.background = "#f80";
                                     }
                                     elem.style.color = "#111";
-                                    elem.innerHTML = j+1;
+                                    elem.innerHTML = j + 1;
                                     cM.setGutterMarker(j, "CodeMirror-linenumbers", elem);
                                 }
                                 // Inserting
-                            } else if (opcodes[i][0] == "insert") {
+                            } else if ("insert" === opcodes[i][0]) {
                                 // Mark text in green for each line
-                                for (var j=opcodes[i][3]; j<opcodes[i][4]; j++)  {
-                                    var elem = document.createElement("DIV");
-                                    elem.className="CodeMirror-linenumber";
+                                for (let j = opcodes[i][3]; j < opcodes[i][4]; j++)  {
+                                    let elem = document.createElement("DIV");
+                                    elem.className = "CodeMirror-linenumber";
                                     elem.style.background = "#080";
                                     elem.style.color = "#fff";
-                                    elem.innerHTML = j+1;
+                                    elem.innerHTML = j + 1;
                                     cM.setGutterMarker(j, "CodeMirror-linenumbers", elem);
                                 }
                                 // Deleting
                             } else {
                                 // Add a red line to indicate where lines where deleted
-                                var elem = document.createElement("DIV");
-                                elem.className="CodeMirror-linenumber";
+                                let elem = document.createElement("DIV");
+                                elem.className = "CodeMirror-linenumber";
                                 // If we haven't deleted content at end, line is above numbers
                                 if (cM.lineCount() > opcodes[i][3]) {
                                     elem.style.borderTop = "solid #b00 1px";
-                                    elem.innerHTML = opcodes[i][3]+1;
+                                    elem.innerHTML = opcodes[i][3] + 1;
                                     cM.setGutterMarker(opcodes[i][3], "CodeMirror-linenumbers", elem);
                                     // Otherwise, line is below last number
                                 } else {
                                     elem.style.borderBottom = "solid #b00 1px";
                                     elem.innerHTML = opcodes[i][3];
-                                    cM.setGutterMarker(opcodes[i][3]-1, "CodeMirror-linenumbers", elem);
+                                    cM.setGutterMarker(opcodes[i][3] - 1, "CodeMirror-linenumbers", elem);
                                 }
                             }
                         }
                     }
                 }
-            },this.loadingFile ? 100 : 0, this);
+            }, this.loadingFile ? 100 : 0, this);
         }
     },
 
     // Update Git diff pane (the diffs between saved content and git commits)
     updateGitDiffPane: function() {
         var gitDiffList = "";
-        for (var i=0; i<this.indexData.gitDiff.paths.length; i++) {
+        for (let i = 0; i<this.indexData.gitDiff.paths.length; i++) {
             gitDiffList +=
                 '<div class="link" onclick="this.toolShowHideToggle(\'git\'); this.openFile(\'/' +
                 this.indexData.gitDiff.paths[i] +
@@ -1009,19 +1021,19 @@ var ICEcoder = {
     },
 
     // Update preview window content
-    updatePreviewWindow: function(thisCM,filepath,filename,fileExt) {
-        if (this.previewWindow.location.pathname==filepath) {
-            if (["htm","html","txt"].indexOf(fileExt) > -1) {
+    updatePreviewWindow: function(thisCM, filepath, filename, fileExt) {
+        if (this.previewWindow.location.pathname === filepath) {
+            if (-1 < ["htm", "html", "txt"].indexOf(fileExt)) {
                 this.previewWindow.document.documentElement.innerHTML = thisCM.getValue();
-            } else if (["md"].indexOf(fileExt) > -1) {
+            } else if (-1 < ["md"].indexOf(fileExt)) {
                 this.previewWindow.document.documentElement.innerHTML = mmd(thisCM.getValue());
             }
-        } else if (["css"].indexOf(fileExt) > -1) {
-            if (this.previewWindow.document.documentElement.innerHTML.indexOf(filename) > -1) {
+        } else if (-1 < ["css"].indexOf(fileExt)) {
+            if (-1 < this.previewWindow.document.documentElement.innerHTML.indexOf(filename)) {
                 var css = thisCM.getValue();
                 var style = document.createElement('style');
                 style.type = 'text/css';
-                style.id = "ICEcoder"+filepath.replace(/\//g,"_");
+                style.id = "ICEcoder" + filepath.replace(/\//g,"_");
                 if (style.styleSheet){
                     style.styleSheet.cssText = css;
                 } else {
@@ -1034,78 +1046,60 @@ var ICEcoder = {
             }
         }
         // Do the pesticide plugin if it exists
-        try {this.doPesticide();} catch(err) {};
+        try {this.doPesticide();} catch(err) {}
         // Do the stats.js plugin if it exists
-        try {this.doStatsJS('update');} catch(err) {};
+        try {this.doStatsJS('update');} catch(err) {}
         // Do the responsive plugin if it exists
-        try {this.doResponsive();} catch(err) {};
+        try {this.doResponsive();} catch(err) {}
     },
 
     // Clean up our loaded code
     contentCleanUp: function() {
-        var cM, cMdiff, thisCM, content;
+        let thisCM, content;
+
+        thisCM = this.getThisCM();
 
         // Replace any temp /textarea value
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
         content = thisCM.getValue();
-        content = content.replace(/<ICEcoder:\/:textarea>/g,'<\/textarea>');
+        content = content.replace(/<ICEcoder:\/:textarea>/g, '<\/textarea>');
 
         // Then set the content in the editor & clear the history
         thisCM.setValue(content);
         thisCM.clearHistory();
-        this.savedPoints[this.selectedTab-1] = thisCM.changeGeneration();
-        this.savedContents[this.selectedTab-1] = thisCM.getValue();
+        this.savedPoints[this.selectedTab - 1] = thisCM.changeGeneration();
+        this.savedContents[this.selectedTab - 1] = thisCM.getValue();
     },
 
     // Undo last change
     undo: function() {
-        var cM, cMdiff, thisCM;
-
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-        thisCM.undo();
+        this.getThisCM().undo();
     },
 
     // Redo change
     redo: function() {
-        var cM, cMdiff, thisCM;
-
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-        thisCM.redo();
+        this.getThisCM().redo();
     },
 
     // Indent more/less
     indent: function(moreLess) {
-        var cM, cMdiff, thisCM;
-
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-        if (moreLess=="more") {
-            this.content.contentWindow.CodeMirror.commands.indentMore(thisCM);
+        if ("more" === moreLess) {
+            this.content.contentWindow.CodeMirror.commands.indentMore(this.getThisCM());
         } else {
-            this.content.contentWindow.CodeMirror.commands.indentLess(thisCM);
+            this.content.contentWindow.CodeMirror.commands.indentLess(this.getThisCM());
         }
     },
 
     // Move current line up/down
     moveLines: function(dir) {
-        var cM, cMdiff, thisCM, lineStart, lineEnd, swapLineNo, swapLine;
+        let thisCM, lineStart, lineEnd, swapLineNo, swapLine;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
 
         // Get start & end lines plus the line we'll swap with
         lineStart = thisCM.getCursor('start');
         lineEnd = thisCM.getCursor('end');
-        if (dir=="up" && lineStart.line>0) {swapLineNo = lineStart.line-1}
-        if (dir=="down" && lineEnd.line<thisCM.lineCount()-1) {swapLineNo = lineEnd.line+1}
+        if ("up" === dir && 0 < lineStart.line) {swapLineNo = lineStart.line - 1}
+        if ("down" === dir && lineEnd.line < thisCM.lineCount() - 1) {swapLineNo = lineEnd.line + 1}
 
         // If we have a line to swap with
         if (!isNaN(swapLineNo)) {
@@ -1113,40 +1107,38 @@ var ICEcoder = {
             swapLine = thisCM.getLine(swapLineNo);
             thisCM.operation(function() {
                 // Move lines in turn up
-                if (dir=="up") {
-                    for (var i=lineStart.line; i<=lineEnd.line; i++) {
-                        thisCM.replaceRange(thisCM.getLine(i),{line:i-1,ch:0},{line:i-1,ch:1000000});
+                if ("up" === dir) {
+                    for (let i = lineStart.line; i <= lineEnd.line; i++) {
+                        thisCM.replaceRange(thisCM.getLine(i), {line: i - 1, ch: 0}, {line: i - 1, ch: 1000000});
                     }
                     // ...or down
                 } else {
-                    for (var i=lineEnd.line; i>=lineStart.line; i--) {
-                        thisCM.replaceRange(thisCM.getLine(i),{line:i+1,ch:0},{line:i+1,ch:1000000});
+                    for (let i = lineEnd.line; i >= lineStart.line; i--) {
+                        thisCM.replaceRange(thisCM.getLine(i), {line: i + 1, ch: 0}, {line: i + 1, ch: 1000000});
                     }
                 }
                 // Now swap our final line with the swap line to complete the move
-                thisCM.replaceRange(swapLine,{line: dir=="up" ? lineEnd.line : lineStart.line, ch: 0},{line: dir=="up" ? lineEnd.line : lineStart.line, ch:1000000});
+                thisCM.replaceRange(swapLine, {line: "up" === dir ? lineEnd.line : lineStart.line, ch: 0}, {line: "up" === dir ? lineEnd.line : lineStart.line, ch: 1000000});
                 // Finally set the moved selection
                 thisCM.setSelection(
-                    {line: lineStart.line+(dir=="up" ? -1 : 1), ch: lineStart.ch},
-                    {line: lineEnd.line+(dir=="up" ? -1 : 1), ch: lineEnd.ch}
+                    {line: lineStart.line + ("up" === dir ? -1 : 1), ch: lineStart.ch},
+                    {line: lineEnd.line + ("up" === dir ? -1 : 1), ch: lineEnd.ch}
                 );
-            });
+            })
         }
     },
 
     // Highlight specified line
     highlightLine: function(line) {
-        var cM, cMdiff, thisCM;
+        let thisCM;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-        thisCM.setSelection({line:line,ch:0}, {line:line,ch:thisCM.lineInfo(line).text.length});
+        thisCM = this.getThisCM();
+        thisCM.setSelection({line: line, ch: 0}, {line: line, ch: thisCM.lineInfo(line).text.length});
     },
 
     // Focus the editor
     focus: function(diff) {
-        var cM, cMdiff, thisCM;
+        let cM, cMdiff, thisCM;
 
         if (!(/iPhone|iPad|iPod/i.test(navigator.userAgent))) {
             cM = this.getcMInstance();
@@ -1160,46 +1152,42 @@ var ICEcoder = {
 
     // Go to a specific line number
     goToLine: function(lineNo, charNo, noFocus) {
-        var cM, cMdiff, thisCM;
+        var thisCM;
 
-        lineNo = lineNo ? lineNo-1 : get('goToLineNo').value-1;
+        lineNo = lineNo ? lineNo - 1 : get('goToLineNo').value - 1;
         charNo = charNo ? charNo : 0;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
 
         this.scrollingOnLine = thisCM.getCursor().line;
 
         // Scroll cursor into middle of view
-        if ("undefined" != typeof this.scrollInt) {
+        if ("undefined" !== typeof this.scrollInt) {
             clearInterval(this.scrollInt);
         }
 
         this.scrollInt = setInterval(function(ic) {
-            ic.scrollingOnLine = ic.scrollingOnLine+((lineNo-ic.scrollingOnLine)/5);
-            thisCM.scrollTo(0,(thisCM.defaultTextHeight()*ic.scrollingOnLine)-(thisCM.getScrollInfo().clientHeight/10));
-            if (Math.round(ic.scrollingOnLine) == lineNo) {
+            ic.scrollingOnLine = ic.scrollingOnLine + ((lineNo - ic.scrollingOnLine) / 5);
+            thisCM.scrollTo(0, (thisCM.defaultTextHeight() * ic.scrollingOnLine) - (thisCM.getScrollInfo().clientHeight / 10));
+            if (lineNo === Math.round(ic.scrollingOnLine)) {
                 clearInterval(ic.scrollInt);
             }
-        },10,this);
+        }, 10, this);
 
         thisCM.setCursor(lineNo, charNo);
         if (!noFocus) {
             this.focus();
             // Also do this after a 0ms tickover incase DOM wasn't ready
-            setTimeout(function(ic){ic.focus();},0,this);
+            setTimeout(function(ic) {ic.focus();}, 0, this);
         }
         return false;
     },
 
     // Comment/uncomment line or selected range on keypress
     lineCommentToggle: function() {
-        var cM, cMdiff, thisCM, cursorPos, linePos, lineContent, lCLen;
+        let thisCM, cursorPos, linePos, lineContent, lCLen;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
 
         cursorPos = thisCM.getCursor().ch;
         linePos = thisCM.getCursor().line;
@@ -1211,124 +1199,121 @@ var ICEcoder = {
 
     // Wrap our selected text/cursor with tags
     tagWrapper: function(tag) {
-        var cM, cMdiff, thisCM, tagStart, tagEnd, startLine, endLine;
+        let thisCM, tagStart, tagEnd, startLine, endLine;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
+
         tagStart = tag;
         tagEnd = tag;
-        if (tag=='div') {
+        if ('div' === tag) {
             startLine = thisCM.getCursor('start').line;
             endLine = thisCM.getCursor().line;
             thisCM.operation(function() {
-                thisCM.replaceSelection("<div>\n"+thisCM.getSelection()+"\n</div>","around");
-                for (var i=startLine+1; i<=endLine+1; i++) {
+                thisCM.replaceSelection("<div>\n" + thisCM.getSelection() + "\n</div>", "around");
+                for (let i = startLine + 1; i <= endLine + 1; i++) {
                     thisCM.indentLine(i);
                 }
-                thisCM.indentLine(endLine+2,'prev');
-                thisCM.indentLine(endLine+2,'subtract');
+                thisCM.indentLine(endLine + 2, 'prev');
+                thisCM.indentLine(endLine + 2, 'subtract');
             });
         } else {
-            if (	['p','a','h1','h2','h3'].indexOf(tag)>-1 &&
-                thisCM.getSelection().substr(0,tag.length+1) == "<"+tagStart &&
-                thisCM.getSelection().substr(-(tag.length+3)) == "</"+tagEnd+">") {
+            if (
+                -1 < ['p', 'a', 'h1', 'h2', 'h3'].indexOf(tag) &&
+                thisCM.getSelection().substr(0,tag.length + 1) === "<" + tagStart &&
+                thisCM.getSelection().substr(-(tag.length + 3)) === "</" + tagEnd + ">") {
                 // Undo wrapper
-                thisCM.replaceSelection(thisCM.getSelection().substr(thisCM.getSelection().indexOf(">")+1,thisCM.getSelection().length-thisCM.getSelection().indexOf(">")-1-tag.length-3),"around");
+                thisCM.replaceSelection(
+                    thisCM.getSelection().substr(thisCM.getSelection().indexOf(">") + 1,
+                        thisCM.getSelection().length-thisCM.getSelection().indexOf(">") - 1 - tag.length - 3),
+                    "around");
             } else {
-                if (tag=='a') {tagStart='a href=""';}
+                if ("a" === tag) {tagStart = 'a href=""';}
                 // Do wrapper
-                thisCM.replaceSelection("<"+tagStart+">"+thisCM.getSelection()+"</"+tagEnd+">","around");
-                if (tag=='a') {thisCM.setCursor({line:thisCM.getCursor('start').line,ch:thisCM.getCursor('start').ch+9})}
+                thisCM.replaceSelection("<" + tagStart + ">" + thisCM.getSelection() + "</" + tagEnd + ">", "around");
+                if ("a" === tag) {thisCM.setCursor({line: thisCM.getCursor('start').line, ch: thisCM.getCursor('start').ch + 9})}
             }
         }
     },
 
     // Add a line break at end of current or specified line
     addLineBreakAtEnd: function(line) {
-        var cM,cMdiff, thisCM;
+        let thisCM;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-        if (!line) {line = thisCM.getCursor().line};
-        thisCM.replaceRange(thisCM.getLine(line)+"<br>",{line:line,ch:0},{line:line,ch:1000000});
+        thisCM = this.getThisCM();
+
+        if (!line) {line = thisCM.getCursor().line}
+        thisCM.replaceRange(thisCM.getLine(line) + "<br>", {line: line, ch: 0}, {line : line, ch: 1000000});
     },
 
     // Insert a line before and auto-indent
     insertLineBefore: function(line) {
-        var cM, cMdiff, thisCM;
+        let thisCM;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-        if (!line) {line = thisCM.getCursor().line};
+        thisCM = this.getThisCM();
+
+        if (!line) {line = thisCM.getCursor().line}
         thisCM.operation(function() {
-            thisCM.replaceRange("\n"+thisCM.getLine(line),{line:line,ch:0},{line:line,ch:1000000});
-            thisCM.setCursor({line: thisCM.getCursor().line-1, ch: 0});
+            thisCM.replaceRange("\n" + thisCM.getLine(line), {line: line, ch: 0}, {line: line, ch: 1000000});
+            thisCM.setCursor({line: thisCM.getCursor().line - 1, ch: 0});
             thisCM.execCommand('indentAuto');
         });
     },
 
     // Insert a line after and auto-indent
     insertLineAfter: function(line) {
-        var cM, cMdiff, thisCM;
+        let thisCM;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-        if (!line) {line = thisCM.getCursor().line};
+        thisCM = this.getThisCM();
+
+        if (!line) {line = thisCM.getCursor().line}
         thisCM.operation(function() {
-            thisCM.replaceRange(thisCM.getLine(line)+"\n",{line:line,ch:0},{line:line,ch:1000000});
+            thisCM.replaceRange(thisCM.getLine(line) + "\n", {line: line, ch: 0}, {line: line, ch: 1000000});
             thisCM.execCommand('indentAuto');
         });
     },
 
     // Duplicate line
     duplicateLines: function(line) {
-        var cM, cMdiff, thisCM, ch, lineExtra, userSelStart, userSelEnd, lineBreak;
+        let thisCM, ch, lineExtra, userSelStart, userSelEnd;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
+
         if (!line && thisCM.somethingSelected()) {
             userSelStart = thisCM.getCursor('start');
             userSelEnd = thisCM.getCursor('end');
-            lineExtra = userSelStart.line != userSelEnd.line && userSelEnd.ch == thisCM.getLine(userSelEnd.line).length ? "\n" : "";
-            thisCM.replaceSelection(thisCM.getSelection()+lineExtra+thisCM.getSelection(), "end");
+            lineExtra = userSelStart.line !== userSelEnd.line && userSelEnd.ch === thisCM.getLine(userSelEnd.line).length ? "\n" : "";
+            thisCM.replaceSelection(thisCM.getSelection() + lineExtra+thisCM.getSelection(), "end");
             thisCM.setSelection(userSelStart, userSelEnd);
         } else {
-            if (!line) {line = thisCM.getCursor().line};
+            if (!line) {line = thisCM.getCursor().line}
             ch = thisCM.getCursor().ch;
-            thisCM.replaceRange(thisCM.getLine(line)+"\n"+thisCM.getLine(line),{line:line,ch:0},{line:line,ch:1000000});
-            thisCM.setCursor(line+1,ch);
+            thisCM.replaceRange(thisCM.getLine(line) + "\n" + thisCM.getLine(line), {line: line, ch: 0}, {line: line, ch: 1000000});
+            thisCM.setCursor(line + 1, ch);
         }
     },
 
     // Remove line
     removeLines: function(line) {
-        var cM, cMdiff, thisCM, ch;
+        var thisCM, ch;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
+
         if (!line && thisCM.somethingSelected()) {
-            thisCM.replaceSelection("","end");
+            thisCM.replaceSelection("", "end");
         } else {
-            if (!line) {line = thisCM.getCursor().line};
+            if (!line) {line = thisCM.getCursor().line}
             ch = thisCM.getCursor().ch;
             thisCM.execCommand('deleteLine');
-            thisCM.setCursor(line-1,ch);
+            thisCM.setCursor(line - 1, ch);
         }
     },
 
     // Jump to and highlight the function definition current token
     jumpToDefinition: function() {
-        var cM, cMdiff, thisCM, tokenString, defVars;
+        let thisCM, tokenString, defVars;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
+
         tokenString = thisCM.getTokenAt(thisCM.getCursor()).string;
 
         if (thisCM.somethingSelected() && this.origCurorPos) {
@@ -1336,17 +1321,18 @@ var ICEcoder = {
         } else {
             this.origCurorPos = thisCM.getCursor();
             defVars = [
-                "var "+tokenString,
-                "function "+tokenString,
-                tokenString+"=function", tokenString+"= function", tokenString+" =function", tokenString+" = function",
-                tokenString+"=new function", tokenString+"= new function", tokenString+" =new function", tokenString+" = new function",
-                "window['"+tokenString+"']", "window[\""+tokenString+"\"]",
-                "this['"+tokenString+"']", "this[\""+tokenString+"\"]",
-                tokenString+":", tokenString+" :",
-                "def "+tokenString,
-                "class "+tokenString];
-            for (var i=0; i<defVars.length; i++) {
-                if (this.findReplace(defVars[i],false,false)) {
+                "var " + tokenString,
+                "function " + tokenString,
+                tokenString + "=function", tokenString + "= function", tokenString + " =function", tokenString + " = function",
+                tokenString + "=new function", tokenString + "= new function", tokenString + " =new function", tokenString + " = new function",
+                "window['" + tokenString + "']", "window[\"" + tokenString + "\"]",
+                "this['" + tokenString + "']", "this[\"" + tokenString + "\"]",
+                tokenString + ":", tokenString + " :",
+                "def " + tokenString,
+                "class " + tokenString
+            ];
+            for (let i = 0; i < defVars.length; i++) {
+                if (this.findReplace(defVars[i], false, false)) {
                     break;
                 }
             }
@@ -1355,12 +1341,12 @@ var ICEcoder = {
 
     // Update function & class list {
     updateFunctionClassList: function() {
-        var cM, functionClassList;
+        let cM;
 
         cM = this.getcMInstance();
         this.functionClassList = [];
 
-        if(cM) {
+        if (cM) {
             // For each line, establish if there's a function or class item on it
             cM.doc.eachLine(function(handle){ICEcoder.updateFunctionClassListItems(handle)});
         }
@@ -1368,10 +1354,11 @@ var ICEcoder = {
 
     // Update function/class list items
     updateFunctionClassListItems: function(handle) {
-        var cM, functionClassText;
+        let cM, functionClassText;
 
         cM = this.getcMInstance();
         functionClassText = "";
+
         // Get function declaration lines
         if (handle.text.indexOf("function ") > -1 && handle.text.replace(/\$function/g,"").indexOf("function ") > -1) {
             functionClassText = handle.text.substring(handle.text.indexOf("function ") + 9);
@@ -1384,65 +1371,54 @@ var ICEcoder = {
         functionClassText = functionClassText.trim().split("{")[0].split("(");
 
         // Push items into array
-        if (functionClassText[0] != "") {
+        if (functionClassText[0] !== "") {
             this.functionClassList.push({
                 line: cM.getLineNumber(handle),
                 name: functionClassText[0],
-                params: "("+(functionClassText[1] ? functionClassText[1].replace(/[,]/g,", ") : ""),
+                params: "(" + (functionClassText[1] ? functionClassText[1].replace(/[,]/g,", ") : ""),
                 verified: false
             });
             // After a 0ms tickover, verify the item
             setTimeout(function(ic) {
                 // If we're defining a function/class
-                if (!handle.styles || (handle.styles && handle.styles.indexOf('def') > -1 && cM.getLineNumber(handle))) {
+                if (!handle.styles || (-1 < handle.styles && handle.styles.indexOf('def') && cM.getLineNumber(handle))) {
                     // Find our item in the array and mark it as verified
-                    for (var i=0; i< ic.functionClassList.length; i++) {
+                    for (var i = 0; i < ic.functionClassList.length; i++) {
                         if (ic.functionClassList[i]['line'] == cM.getLineNumber(handle)) {
                             ic.functionClassList[i]['verified'] = true;
                         }
                     };
                 }
-            },0,this);
+            }, 0, this);
         }
     },
 
     // Autocomplete
     autocomplete: function() {
-        var cM, cMdiff, thisCM;
-
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-        this.content.contentWindow.CodeMirror.commands.autocomplete(thisCM);
+        this.content.contentWindow.CodeMirror.commands.autocomplete(this.getThisCM());
     },
 
     // Paste a URL, locally or absolutely if CTRL/Cmd key down
     pasteURL: function(url) {
-        var cM, cMdiff, thisCM;
-
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-        if(this.draggingWithKey == "CTRL") {
+        if("CTRL" === this.draggingWithKey) {
             url = window.location.protocol + "//" + window.location.hostname + url;
         }
-        thisCM.replaceSelection(url,"around");
+        this.getThisCM().replaceSelection(url, "around");
     },
 
     // Search for selected text online
     searchForSelected: function() {
-        var cM, cMdiff, thisCM;
+        var thisCM;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
+
         if (this.caretLocType) {
-            if (thisCM.getSelection() != "") {
-                var searchPrefix = this.caretLocType.toLowerCase()+" ";
-                if (this.caretLocType=="Content") {
+            if ("" !== thisCM.getSelection()) {
+                var searchPrefix = this.caretLocType.toLowerCase() + " ";
+                if (this.caretLocType === "Content") {
                     searchPrefix = "";
                 }
-                window.open("http://www.google.com/#output=search&q="+searchPrefix+thisCM.getSelection());
+                window.open("http://www.google.com/#output=search&q=" + searchPrefix + thisCM.getSelection());
             } else {
                 this.message(t['No text selected...']);
             }
@@ -1545,7 +1521,7 @@ var ICEcoder = {
     },
 
     // Select file or folder on demand
-    selectFileFolder: function(evt,ctrlSim,shiftSim) {
+    selectFileFolder: function(evt, ctrlSim, shiftSim) {
         var tgtFile, shortURL, selecting, dirList, lastFileClicked, startFile, endFile, thisFileObj;
 
         // If we've clicked somewhere other than a file/folder
@@ -2425,7 +2401,7 @@ var ICEcoder = {
 
     // Find & replace text according to user selections
     findReplace: function(findString,resultsOnly,buttonClick,isCancel,findPrevious) {
-        var find, replace, results, cM, cMdiff, thisCM, content, cursor, avgBlockH, addPadding, rBlocks, blockColor, replaceQS, targetQS, filesQS;
+        var find, replace, results, thisCM, content, cursor, avgBlockH, addPadding, rBlocks, blockColor, replaceQS, targetQS, filesQS;
 
         if (isCancel){
             // Deselect by setting value to itself, then focus on editor
@@ -2444,9 +2420,8 @@ var ICEcoder = {
         results		= get('results');
 
         // If we have something to find in currrent document
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
+
         if (thisCM && find.length>0 && document.findAndReplace.target.value==t['this document']) {
             content = thisCM.getValue().toLowerCase();
             // Find & replace the next instance, or all?
@@ -2607,11 +2582,9 @@ var ICEcoder = {
 
     // Get the caret position
     getCaretPosition: function() {
-        var cM, cMdiff, thisCM, line, ch, chPos;
+        var thisCM, line, ch, chPos;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
 
         line = thisCM.getCursor().line;
         ch = thisCM.getCursor().ch;
@@ -2624,11 +2597,9 @@ var ICEcoder = {
 
     // Update the code type, line & character display
     updateCharDisplay: function() {
-        var cM, cMdiff, thisCM;
+        var thisCM;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
         this.caretLocationType();
         this.charDisplay.innerHTML = this.caretLocType + ", Line: " + (thisCM.getCursor().line+1) + ", Char: " + thisCM.getCursor().ch;
     },
@@ -2645,12 +2616,7 @@ var ICEcoder = {
 
     // Update the byte display
     updateByteDisplay: function() {
-        var cM, cMdiff, thisCM;
-
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-        this.byteDisplay.innerHTML = thisCM.getValue().length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " bytes";
+        this.byteDisplay.innerHTML = this.getThisCM().getValue().length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " bytes";
     },
 
     // Toggle the char/byte display
@@ -2766,11 +2732,9 @@ var ICEcoder = {
 
     // Show a CSS color block next to our text cursor
     cssColorPreview: function() {
-        var cM, cMdiff, thisCM, string, rx, match, oldBlock, newBlock;
+        var thisCM, string, rx, match, oldBlock, newBlock;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
 
         if (thisCM) {
             string = thisCM.getLine(thisCM.getCursor().line);
@@ -2800,11 +2764,11 @@ var ICEcoder = {
     // Show color picker
     showColorPicker: function(color) {
         get('blackMask').style.visibility = "visible";
-        get('mediaContainer').innerHTML = 	'<div id="picker" class="picker"></div><br><br>'+
+        get('mediaContainer').innerHTML = 	'<div id="picker" class="picker" onmouseover="ICEcoder.overPopup=true" onmouseout="ICEcoder.overPopup=false"></div><br><br>'+
             '<input type="text" id="color" name="color" value="#000" class="colorValue">'+
-            '<input type="button" onClick="this.insertColorValue(get(\'color\').value)" value="insert &gt;" class="insertColorValue"><br>'+
+            '<input type="button" onClick="ICEcoder.insertColorValue(get(\'color\').value)" value="insert &gt;" class="insertColorValue"><br>'+
             '<input type="text" id="colorRGB" name="colorRGB" value="rgb(0,0,0)" class="colorValue">'+
-            '<input type="button" onClick="this.insertColorValue(get(\'colorRGB\').value)" value="insert &gt;" class="insertColorValue">';
+            '<input type="button" onClick="ICEcoder.insertColorValue(get(\'colorRGB\').value)" value="insert &gt;" class="insertColorValue">';
         farbtastic('picker','color');
         if (color) {
             get('picker').farbtastic.setColor(color);
@@ -2914,13 +2878,12 @@ var ICEcoder = {
 
     // Insert new color value
     insertColorValue: function(color) {
-        var cM, cMdiff, thisCM, cursor;
+        var thisCM, cursor;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
+
         cursor = thisCM.getTokenAt(thisCM.getCursor());
-        thisCM.replaceRange(color,{line:thisCM.getCursor().line,ch:cursor.start},{line:thisCM.getCursor().line,ch:1000000});
+        thisCM.replaceRange(color,{line:thisCM.getCursor().line,ch:cursor.start},{line:thisCM.getCursor().line,ch:cursor.end});
     },
 
     // Change opacity of the file manager icons
@@ -2945,6 +2908,12 @@ var ICEcoder = {
 // ==============
 // SYSTEM
 // ==============
+
+    getThisCM: function() {
+        return this.editorFocusInstance.indexOf('diff') > -1
+            ? this.getcMdiffInstance()
+            : this.getcMInstance();
+    },
 
     // Start running plugin intervals according to given specifics
     startPluginIntervals: function(plugRef,plugURL,plugTarget,plugTimer) {
@@ -3225,7 +3194,7 @@ var ICEcoder = {
 
     // Show the plugins manager
     pluginsManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/plugins-manager.php" id="pluginsManagerIFrame" class="whiteGlow" style="width: 800px; height: 450px"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/plugins-manager.php" id="pluginsManagerIFrame" class="whiteGlow" style="width: 800px; height: 450px" scrolling="no"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
@@ -3236,7 +3205,7 @@ var ICEcoder = {
 
     // Show the FTP manager
     ftpManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/ftp-manager.php" id="ftpManagerIFrame" class="whiteGlow" style="width: 660px; height: 550px"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/ftp-manager.php" id="ftpManagerIFrame" class="whiteGlow" style="width: 620px; height: 550px"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
@@ -3417,22 +3386,20 @@ var ICEcoder = {
     // Open/show the preview window
     openPreviewWindow: function() {
         if (this.openFiles.length>0) {
-            var cM, cMdiff, thisCM, filepath, filename, fileExt;
+            var filepath, filename, fileExt;
 
             filepath = this.openFiles[this.selectedTab-1];
             filename = filepath.substr(filepath.lastIndexOf("/")+1);
             fileExt = filename.substr(filename.lastIndexOf(".")+1);
-            cM = this.getcMInstance();
-            cMdiff = this.getcMdiffInstance();
-            thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
 
             this.previewWindowLoading = true;
             this.previewWindow = window.open(filepath,"previewWindow",500,500);
             if (["md"].indexOf(fileExt) > -1) {
-                this.previewWindow.onload = function() {
-                    this.previewWindowLoading = false;
-                    this.previewWindow.document.documentElement.innerHTML = mmd(thisCM.getValue())
-                };
+                this.previewWindow.addEventListener('load', function(ic, content) {
+                    ic.previewWindowLoading = false;
+                    ic.previewWindow.document.documentElement.innerHTML = ""
+                    setTimeout(function() {ic.previewWindow.document.documentElement.innerHTML = content}, 100);
+                }(ic, mmd(ic.getThisCM().getValue())), false);
             } else {
                 this.previewWindow.onload = function() {
                     this.previewWindowLoading = false;
@@ -3617,11 +3584,10 @@ var ICEcoder = {
 
     // Print code of current tab
     printCode: function() {
-        var cM, cMdiff, thisCM, printIFrame;
+        var thisCM, printIFrame;
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
+
         printIFrame = this.filesFrame.contentWindow.frames['fileControl'];
         // Print page content injected into iFrame, escaped with pre and xssClean
         printIFrame.window.document.body.innerHTML = '<!DOCTYPE html><head><title>ICEcoder code output</title></head><body><pre style="white-space: pre-wrap">'+this.xssClean(thisCM.getValue())+'</pre></body></html>';
@@ -3829,13 +3795,11 @@ var ICEcoder = {
 
     // Close the tab upon request
     closeTab: function(closeTabNum, dontSetPV, dontAsk) {
-        var cM, cMdiff, thisCM, okToRemove, closeFileName;
+        var okToRemove, closeFileName;
 
         // If we haven't specified, close current tab
         if (!closeTabNum) {closeTabNum = this.selectedTab};
 
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
         okToRemove = true;
         if (!dontAsk && this.savedPoints[closeTabNum-1]!=this.getcMInstance(closeTabNum).changeGeneration()) {
             okToRemove = this.ask(t['You have made...']);
@@ -4235,10 +4199,7 @@ var ICEcoder = {
                 // CTRL/Cmd+G (Find previous)
             } else if((key==70||key==71) && (evt.ctrlKey||this.cmdKey)) {
                 var find = get('find');
-                cM = this.getcMInstance();
-                cMdiff = this.getcMdiffInstance();
-                thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-                var selections = thisCM.getSelections();
+                var selections = this.getThisCM().getSelections();
                 if (selections.length > 0){
                     if (selections[0].length > 0){
                         find.value = selections[0];
@@ -4381,18 +4342,13 @@ var ICEcoder = {
 
                 // CTRL + . (Fold/unfold current line)
             } else if(key==190 && (evt.ctrlKey||this.cmdKey)) {
-                cM = this.getcMInstance();
-                cMdiff = this.getcMdiffInstance();
-                thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-                var line = thisCM.getCursor().line;
+                var line = this.getThisCM().getCursor().line;
 
                 return false;
 
                 // ESC in content area (Comment/Uncomment line)
             } else if(key==27 && area == "content") {
-                cM = this.getcMInstance();
-                cMdiff = this.getcMdiffInstance();
-                thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+                thisCM = this.getThisCM();
 
                 if (thisCM.getSelections().length > 1) {
                     thisCM.execCommand("singleSelection");
@@ -4458,12 +4414,10 @@ var ICEcoder = {
 
     // Add snippet code completion
     addSnippet: function() {
-        var cM, cMdiff, thisCM, lineNo, whiteSpace, content;
+        var thisCM, lineNo, whiteSpace, content;
 
         // Get line content after trimming whitespace
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
         lineNo = thisCM.getCursor().line;
         whiteSpace = thisCM.getLine(lineNo).length - thisCM.getLine(lineNo).replace(/^\s\s*/, '').length;
         content = thisCM.getLine(lineNo).slice(whiteSpace);
@@ -4481,12 +4435,10 @@ var ICEcoder = {
 
     // Action a snippet
     doSnippet: function(tgtString,replaceString) {
-        var cM, cMdiff, thisCM, lineNo, lineContents, remainder, strPos, replacedLine, whiteSpace, curPos, sPos, lineNoCount;
+        var thisCM, lineNo, lineContents, remainder, strPos, replacedLine, whiteSpace, curPos, sPos, lineNoCount;
 
         // Get line contents
-        cM = this.getcMInstance();
-        cMdiff = this.getcMdiffInstance();
-        thisCM = this.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
+        thisCM = this.getThisCM();
         lineNo = thisCM.getCursor().line;
         lineContents = thisCM.getLine(lineNo);
 
