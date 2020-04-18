@@ -33,7 +33,7 @@
 .cm-s-icecoder span.cm-link {color: #e1c76e}                       /* yellow */
 .cm-s-icecoder span.cm-error {color: #d00}                         /* red */
 
-.cm-s-icecoder .CodeMirror-cursor {border-left: 1px solid white !important}
+.cm-s-icecoder .CodeMirror-cursor {border-left: 1px solid #ee0 !important; box-shadow: -1px 0 0 0 #ee0}
 .cm-s-icecoder .CodeMirror-selected {color: #fff !important; background: #037 !important}
 .cm-s-icecoder .CodeMirror-gutters {background: #1d1d1b; min-width: 41px; border-right: 0}
 .cm-s-icecoder .CodeMirror-linenumber {color: #555; cursor: default}
