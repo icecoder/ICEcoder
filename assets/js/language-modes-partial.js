@@ -1,7 +1,8 @@
 // Provide a fileName and get fileExt and mode set based on supported languages
 
 fileExt = fileName.split(".");
-fileExt = fileExt[fileExt.length-1];
+fileExt = fileExt[fileExt.length - 1];
+
 var mode =
     fileExt == "js"     ? "text/javascript"
   : fileExt == "json"   ? "text/javascript"
