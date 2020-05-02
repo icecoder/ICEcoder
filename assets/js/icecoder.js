@@ -73,7 +73,7 @@ var ICEcoder = {
         const aliasArray = ["header", "files", "fileOptions", "optionsFile", "optionsEdit", "optionsSource", "optionsHelp", "filesFrame", "editor", "tabsBar", "findBar", "terminal", "output", "database", "git", "content", "tools", "footer", "versionsDisplay", "splitPaneControls", "splitPaneNamesMain", "splitPaneNamesDiff", "charDisplay", "byteDisplay"];
 
         // Create our ID aliases
-        for (var i = 0; i < aliasArray.length; i++) {
+        for (let i = 0; i < aliasArray.length; i++) {
             this[aliasArray[i]] = get(aliasArray[i]);
         }
     },
@@ -110,10 +110,10 @@ var ICEcoder = {
         // Start our interval timer, runs every second
         this.oneSecondInt = setInterval(function(ic) {
             ic.autoLogoutTimer++;
-            var unsavedFiles = false;
+            let unsavedFiles = false;
 
             // Check if we have any unsaved files
-            for(var i = 1; i <= ic.savedPoints.length; i++) {
+            for(let i = 1; i <= ic.savedPoints.length; i++) {
                 if (ic.savedPoints[i - 1] !== ic.getcMInstance(i).changeGeneration()) {
                     unsavedFiles = true;
                 }
@@ -148,7 +148,7 @@ var ICEcoder = {
             if (false === ic.indexing && false === ic.loadingFile && 0 === ic.serverQueueItems.length && 0 === ic.openSeconds % 3) {
                 ic.indexing = true;
                 // Get new data
-                var timestampExtra = ic.indexData
+                let timestampExtra = ic.indexData
                     ? "?timestamp=" + ic.indexData.timestamps.indexed + "&csrf=" + ic.csrf
                     : "";
                 fetch(iceLoc + '/lib/indexer.php' + timestampExtra)
@@ -227,7 +227,7 @@ var ICEcoder = {
 
             // Resize the CodeMirror instances to match the window size
             setTimeout(function(ic){
-                for (var i = 0; i < ic.openFiles.length; i++) {
+                for (let i = 0; i < ic.openFiles.length; i++) {
                     // Done the long way here as we need to call them in specific order to stop showing background and so avoiding a flicker effect
                     if (false === ic.splitPane) {
                         ic.content.contentWindow['cM' + ic.cMInstances[i]].setSize(ic.splitPaneLeftPerc + "%", ic.content.style.height);
@@ -269,12 +269,12 @@ var ICEcoder = {
             if (cM) {
                 // Clear all main pane marks
                 cMmarks = cM.getAllMarks();
-                for (var i = 0; i < cMmarks.length; i++) {
+                for (let i = 0; i < cMmarks.length; i++) {
                     cMmarks[i].clear();
                 }
                 // Clear all diff pane marks
                 cMdiffMarks = cMdiff.getAllMarks();
-                for (var i = 0; i < cMdiffMarks.length; i++) {
+                for (let i = 0; i < cMdiffMarks.length; i++) {
                     cMdiffMarks[i].clear();
                 }
             }
@@ -447,10 +447,10 @@ var ICEcoder = {
 
         // Set the cursor to text height, not line height
         setTimeout(function(ic) {
-            var paneMatch;
+            let paneMatch;
 
             // Loop through styles to check if we have to adjust cursor height
-            for (var i = 0; i < ic.renderLineStyle.length; i++) {
+            for (let i = 0; i < ic.renderLineStyle.length; i++) {
 
                 // We have no matching pane to start with
                 paneMatch = false;
@@ -481,7 +481,7 @@ var ICEcoder = {
         sels = thisCM.listSelections();
 
         // For each of the user selections
-        for (var i = 0; i < sels.length; i++) {
+        for (let i = 0; i < sels.length; i++) {
             // Get the matching tagInfo for current cursor position
             tagInfo = cM.findMatchingTag(thisCM, sels[i].anchor);
             // If we're not ending a tag (autocompletion) and we have tagInfo and not undoing/redoing (which handles changes itself)
@@ -524,7 +524,7 @@ var ICEcoder = {
         if ("undefined" !== typeof this.oppTagReplaceData[0]) {
 
             // For each one of them, grab our data to work with
-            for (var i = 0; i < this.oppTagReplaceData.length; i++) {
+            for (let i = 0; i < this.oppTagReplaceData.length; i++) {
                 // Extract data from that string
                 rData = this.oppTagReplaceData[i].split(";");
                 theTag = rData[0];
@@ -664,14 +664,14 @@ var ICEcoder = {
         if (evt.ctrlKey) {
             setTimeout(function(ic) {
                 // Get cM and word under mouse pointer
-                var cM = thisCM;
-                var word = (cM.getRange(cM.findWordAt(cM.getCursor()).anchor, cM.findWordAt(cM.getCursor()).head));
+                let cM = thisCM;
+                let word = (cM.getRange(cM.findWordAt(cM.getCursor()).anchor, cM.findWordAt(cM.getCursor()).head));
 
                 // Get result and number of results for word in functions and classes from index JSON object list
-                var result = null;
-                var numResults = 0;
-                var filePath = ic.openFiles[ic.selectedTab - 1];
-                var filePathExt = filePath.substr(filePath.lastIndexOf(".") + 1);
+                let result = null;
+                let numResults = 0;
+                let filePath = ic.openFiles[ic.selectedTab - 1];
+                let filePathExt = filePath.substr(filePath.lastIndexOf(".") + 1);
 
                 if ("undefined" !== typeof ic.indexData.functions) {
                     for(i in ic.indexData.functions[filePathExt]) {
@@ -721,7 +721,7 @@ var ICEcoder = {
         let paneMatch;
 
         // Loop through styles to use when rendering lines
-        for (var i = 0; i < this.renderLineStyle.length; i++) {
+        for (let i = 0; i < this.renderLineStyle.length; i++) {
 
             // We have no matching pane to start with
             paneMatch = false;
@@ -1007,7 +1007,7 @@ var ICEcoder = {
 
     // Update Git diff pane (the diffs between saved content and git commits)
     updateGitDiffPane: function() {
-        var gitDiffList = "";
+        let gitDiffList = "";
         for (let i = 0; i<this.indexData.gitDiff.paths.length; i++) {
             gitDiffList +=
                 '<div class="link" onclick="this.toolShowHideToggle(\'git\'); this.openFile(\'/' +
@@ -1030,8 +1030,8 @@ var ICEcoder = {
             }
         } else if (-1 < ["css"].indexOf(fileExt)) {
             if (-1 < this.previewWindow.document.documentElement.innerHTML.indexOf(filename)) {
-                var css = thisCM.getValue();
-                var style = document.createElement('style');
+                let css = thisCM.getValue();
+                let style = document.createElement('style');
                 style.type = 'text/css';
                 style.id = "ICEcoder" + filepath.replace(/\//g,"_");
                 if (style.styleSheet){
@@ -1152,7 +1152,7 @@ var ICEcoder = {
 
     // Go to a specific line number
     goToLine: function(lineNo, charNo, noFocus) {
-        var thisCM;
+        let thisCM;
 
         lineNo = lineNo ? lineNo - 1 : get('goToLineNo').value - 1;
         charNo = charNo ? charNo : 0;
@@ -1294,7 +1294,7 @@ var ICEcoder = {
 
     // Remove line
     removeLines: function(line) {
-        var thisCM, ch;
+        let thisCM, ch;
 
         thisCM = this.getThisCM();
 
@@ -1383,7 +1383,7 @@ var ICEcoder = {
                 // If we're defining a function/class
                 if (!handle.styles || (-1 < handle.styles && handle.styles.indexOf('def') && cM.getLineNumber(handle))) {
                     // Find our item in the array and mark it as verified
-                    for (var i = 0; i < ic.functionClassList.length; i++) {
+                    for (let i = 0; i < ic.functionClassList.length; i++) {
                         if (ic.functionClassList[i]['line'] == cM.getLineNumber(handle)) {
                             ic.functionClassList[i]['verified'] = true;
                         }
@@ -1408,13 +1408,13 @@ var ICEcoder = {
 
     // Search for selected text online
     searchForSelected: function() {
-        var thisCM;
+        let thisCM;
 
         thisCM = this.getThisCM();
 
         if (this.caretLocType) {
             if ("" !== thisCM.getSelection()) {
-                var searchPrefix = this.caretLocType.toLowerCase() + " ";
+                let searchPrefix = this.caretLocType.toLowerCase() + " ";
                 if (this.caretLocType === "Content") {
                     searchPrefix = "";
                 }
@@ -1425,76 +1425,87 @@ var ICEcoder = {
         }
     },
 
-// ==============
+// =====
 // FILES
-// ==============
+// =====
 
     // Actions on file manager
-    fmAction: function(evt,action) {
-        var selElem, sPN, fileFolder, goElem,
+    fmAction: function(evt, action) {
+        let selElem, sPN, fileFolder, goElem;
 
-            // Get selected elem, the parent node of that, if it's a file/folder and set elem to go to next
-            selElem = get('filesFrame').contentWindow.document.getElementById(this.selectedFiles[this.selectedFiles.length-1]+"_perms").parentNode;
+        // Get selected elem, the parent node of that, if it's a file/folder and set elem to go to next
+        selElem = get('filesFrame').contentWindow.document.getElementById(this.selectedFiles[this.selectedFiles.length - 1] + "_perms").parentNode;
         sPN = selElem.parentNode;
         fileFolder = selElem.onmouseover.toString().indexOf("'folder'") > -1 ? "folder" : "file";
         goElem = false;
 
-        if (action == "up") {
+        if ("up" === action) {
             if (sPN.previousSibling && sPN.previousSibling.previousSibling) {
-                goElem = sPN.previousSibling.previousSibling;				// Jump to previous sibling
-                if (goElem.tagName == "UL") {
-                    goElem = goElem.childNodes[goElem.childNodes.length-1];		// Jump to last item in previous sibling dir
+                // Jump to previous sibling
+                goElem = sPN.previousSibling.previousSibling;
+                if ("UL" === goElem.tagName) {
+                    // Jump to last item in previous sibling dir
+                    goElem = goElem.childNodes[goElem.childNodes.length - 1];
                 }
             } else if (sPN.parentNode.previousSibling) {
-                goElem = sPN.parentNode.previousSibling;				// Jump to parent dir
+                // Jump to parent dir
+                goElem = sPN.parentNode.previousSibling;
             }
-            if (goElem) {goElem = goElem.childNodes[0]};
+            if (goElem) {goElem = goElem.childNodes[0]}
         }
-        if (action == "down") {
+        if ("down" === action) {
             if (sPN.nextSibling && sPN.nextSibling.childNodes[0]) {
-                goElem = sPN.nextSibling.childNodes[0];					// Jump to first item in dir
+                // Jump to first item in dir
+                goElem = sPN.nextSibling.childNodes[0];
             } else if (sPN.nextSibling && sPN.nextSibling.nextSibling) {
-                goElem = sPN.nextSibling.nextSibling;					// Jump to next sibling
+                // Jump to next sibling
+                goElem = sPN.nextSibling.nextSibling;
             } else if (sPN.parentNode.nextSibling) {
-                goElem = sPN.parentNode.nextSibling.nextSibling;			// Jump to next parent sibling item
+                // Jump to next parent sibling item
+                goElem = sPN.parentNode.nextSibling.nextSibling;
             }
-            if (goElem) {goElem = goElem.childNodes[0]};
+            if (goElem) {goElem = goElem.childNodes[0]}
         }
         if (action == "left") {
-            if (fileFolder == "folder" && sPN.parentNode.previousSibling) {
-                this.openCloseDir(selElem,false);				// contract dir
+            if ("folder" === fileFolder && sPN.parentNode.previousSibling) {
+                // contract dir
+                this.openCloseDir(selElem,false);
             }
         }
-        if (action == "right" || action == "enter") {
-            fileFolder == "folder"
-                ? this.openCloseDir(selElem,true)				// expand dir
-                : this.openFile(selElem.childNodes[1].id.replace(/\|/g,"/"));	// open file
+        if ("right" === action || "enter" === action) {
+            "folder" === fileFolder
+                // expand dir
+                ? this.openCloseDir(selElem,true)
+                // open file
+                : this.openFile(selElem.childNodes[1].id.replace(/\|/g, "/"));
         }
         if (goElem && goElem.childNodes[1]) {
-            this.overFileFolder(fileFolder, goElem.childNodes[1].id);		// If we have an elem to go to, select it
+            // If we have an elem to go to, select it
+            this.overFileFolder(fileFolder, goElem.childNodes[1].id);
             this.selectFileFolder(evt);
         }
     },
 
     // Open/close dirs on demand
-    openCloseDir: function(dir,load) {
-        var node, d;
+    openCloseDir: function(dir, load) {
+        let node, d;
 
         dir.onclick = function(event) {
             if(!event.ctrlKey && !this.cmdKey) {
-                ICEcoder.openCloseDir(this,!load);
+                ICEcoder.openCloseDir(this, !load);
             }
         };
         node = dir.parentNode;
-        if (node.nextSibling) {node = node.nextSibling};
-        if (node && node.tagName=="UL") {
-            d = node.style.display=="none";
+        if (node.nextSibling) {node = node.nextSibling}
+        dir.parentNode.className = dir.className = "pft-directory dirOpen";
+        if (node && "UL" === node.tagName) {
+            d = "none" === node.style.display;
             d ? load = true : node.style.display = "none";
-            dir.parentNode.className = dir.className = d ? "pft-directory dirOpen" : "pft-directory";
+            dir.parentNode.className = dir.className = "pft-directory";
         }
         if (load) {
-            this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc+"/lib/get-branch.php?location="+dir.childNodes[1].id+"&csrf="+this.csrf;
-        } else if(node.tagName == "UL") {
+            this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc + "/lib/get-branch.php?location=" + dir.childNodes[1].id + "&csrf=" + this.csrf;
+        } else if("UL" === node.tagName) {
             node.parentNode.removeChild(node);
         }
         return false;
@@ -1502,15 +1513,15 @@ var ICEcoder = {
 
     // Note which files or folders we are over on mouseover/mouseout
     overFileFolder: function(type, link) {
-        this.thisFileFolderType=type;
-        this.thisFileFolderLink=link;
+        this.thisFileFolderType = type;
+        this.thisFileFolderLink = link;
     },
 
     // Detect and return dir/file/false for this DOM ref (false for not found)
     isFileFolder: function(ref) {
-        var domElem;
+        let domElem;
 
-        domElem = get('filesFrame').contentWindow.document.getElementById(ref.replace(iceRoot,"").replace(/\/$/, "").replace(/\//g,"|"));
+        domElem = get('filesFrame').contentWindow.document.getElementById(ref.replace(iceRoot,"").replace(/\/$/, "").replace(/\//g, "|"));
         if (domElem) {
             return domElem.parentNode.parentNode.className.indexOf("directory") > -1
                 ? "folder"
@@ -1522,10 +1533,10 @@ var ICEcoder = {
 
     // Select file or folder on demand
     selectFileFolder: function(evt, ctrlSim, shiftSim) {
-        var tgtFile, shortURL, selecting, dirList, lastFileClicked, startFile, endFile, thisFileObj;
+        let tgtFile, shortURL, selecting, dirList, lastFileClicked, startFile, endFile, thisFileObj;
 
         // If we've clicked somewhere other than a file/folder
-        if (this.thisFileFolderLink=="") {
+        if ("" == this.thisFileFolderLink) {
             if (!ctrlSim && !evt.ctrlKey && !this.cmdKey) {
                 this.deselectAllFiles();
             }
@@ -1537,45 +1548,45 @@ var ICEcoder = {
             // If we have the CTRL/Cmd key down
             if (ctrlSim || evt.ctrlKey || this.cmdKey) {
                 // Deselect or select file
-                if (this.selectedFiles.indexOf(shortURL)>-1) {
-                    this.selectDeselectFile('deselect',tgtFile);
-                    this.selectedFiles.splice(this.selectedFiles.indexOf(shortURL),1);
+                if (-1 < this.selectedFiles.indexOf(shortURL)) {
+                    this.selectDeselectFile('deselect', tgtFile);
+                    this.selectedFiles.splice(this.selectedFiles.indexOf(shortURL), 1);
                 } else {
-                    this.selectDeselectFile('select',tgtFile);
+                    this.selectDeselectFile('select', tgtFile);
                     this.selectedFiles.push(shortURL);
                 }
                 // Select from last click to this one
             } else if (shiftSim || evt.shiftKey) {
                 selecting = false;
                 dirList = tgtFile.parentNode.parentNode.parentNode;
-                lastFileClicked = this.selectedFiles[this.selectedFiles.length-1];
+                lastFileClicked = this.selectedFiles[this.selectedFiles.length - 1];
 
                 // Prefix numbers with up to 20 leading zeros
                 // This is so we can have some kind of natural comparison on the regex below
                 function prefixer(match, p1, offset, string) {
-                    return ('00000000000000000000'+match).substr(-20);
+                    return ('00000000000000000000' + match).substr(-20);
                 }
 
                 startFile = shortURL.replace(/\d+/g, prefixer) < lastFileClicked.replace(/\d+/g, prefixer) ? shortURL : lastFileClicked;
                 endFile = shortURL.replace(/\d+/g, prefixer) > lastFileClicked.replace(/\d+/g, prefixer) ? shortURL : lastFileClicked;
 
-                if (this.selectedFiles.length > 0 && startFile.substr(0,startFile.lastIndexOf("|")) == endFile.substr(0,endFile.lastIndexOf("|"))) {
-                    for (var i=0; i<1000000; i+=2) {
-                        if(dirList.childNodes[i].nodeName != "LI") {i++;};
+                if (0 < this.selectedFiles.length && startFile.substr(0, startFile.lastIndexOf("|")) === endFile.substr(0, endFile.lastIndexOf("|"))) {
+                    for (let i = 0; i < 1000000; i += 2) {
+                        if (dirList.childNodes[i].nodeName !== "LI") {i++;}
                         thisFileObj = dirList.childNodes[i].childNodes[0].childNodes[1];
-                        if (thisFileObj.id == startFile) {
+                        if (thisFileObj.id === startFile) {
                             selecting = true;
                         }
-                        if (selecting==true && this.selectedFiles.indexOf(thisFileObj.id)==-1) {
-                            this.selectDeselectFile('select',thisFileObj);
+                        if (true === selecting && -1 === this.selectedFiles.indexOf(thisFileObj.id)) {
+                            this.selectDeselectFile('select', thisFileObj);
                             this.selectedFiles.push(thisFileObj.id);
                         }
-                        if (thisFileObj.id == endFile) {
+                        if (thisFileObj.id === endFile) {
                             break;
                         }
                     }
                 } else {
-                    this.selectDeselectFile('select',tgtFile);
+                    this.selectDeselectFile('select', tgtFile);
                     this.selectedFiles.push(shortURL);
                 }
                 // We are single clicking
@@ -1583,7 +1594,7 @@ var ICEcoder = {
                 this.deselectAllFiles();
 
                 // Add our URL and highlight the file
-                this.selectDeselectFile('select',tgtFile);
+                this.selectDeselectFile('select', tgtFile);
                 this.selectedFiles.push(shortURL);
             }
         }
@@ -1598,42 +1609,42 @@ var ICEcoder = {
 
     // Deselect all files
     deselectAllFiles: function() {
-        var tgtFile;
+        let tgtFile;
 
-        for (var i=0;i<this.selectedFiles.length;i++) {
+        for (let i = 0; i < this.selectedFiles.length; i++) {
             tgtFile = this.filesFrame.contentWindow.document.getElementById(this.selectedFiles[i]);
-            this.selectDeselectFile('deselect',tgtFile);
+            this.selectDeselectFile('deselect', tgtFile);
         }
         this.selectedFiles.length = 0;
     },
 
     // Select or deselect file
-    selectDeselectFile: function(action,file) {
-        var isOpen;
+    selectDeselectFile: function(action, file) {
+        let isOpen;
 
         if (file) {
-            isOpen = this.openFiles.indexOf(file.id.replace(/\|/g,"/")) > -1 ? true : false;
+            isOpen = this.openFiles.indexOf(file.id.replace(/\|/g, "/")) > -1 ? true : false;
 
-            if (this.openFiles[this.selectedTab-1] == file.id.replace(/\|/g,"/")) {
-                file.style.backgroundColor = action=="select"
+            if (this.openFiles[this.selectedTab-1] === file.id.replace(/\|/g, "/")) {
+                file.style.backgroundColor = "select" === action
                     ? this.tabBGselected : this.tabBGcurrent;
             } else {
-                file.style.backgroundColor = action=="select"
+                file.style.backgroundColor = "select" === action
                     ? this.tabBGselected : file.style.backgroundColor = isOpen
                         ? this.tabBGopen : this.tabBGnormal;
             }
-            file.style.color = action=="select" ? this.tabFGselected : this.tabFGnormalFile;
+            file.style.color = "select" === action ? this.tabFGselected : this.tabFGnormalFile;
         }
     },
 
     // Box select files
     boxSelect: function(evt, mouseAction) {
-        var fmDragBox, positive;
+        let fmDragBox, positive;
 
         fmDragBox = this.filesFrame.contentWindow.document.getElementById('fmDragBox');
 
         // On mouse down, set start X & Y and reset first and last items in box area select
-        if (mouseAction == "down") {
+        if ("down" === mouseAction) {
             this.fmDragBoxStartX = this.mouseX;
             this.fmDragBoxStartY = this.mouseY;
             this.fmDragSelectFirst = "";
@@ -1641,18 +1652,18 @@ var ICEcoder = {
         }
 
         // On mouse drag, state we're dragging, set the box size and position properties and select files
-        if(this.mouseDown && !this.mouseDownInCM && mouseAction == "drag") {
+        if(this.mouseDown && !this.mouseDownInCM && "drag" === mouseAction) {
             this.fmDraggedBox = true;
 
             // Handle X-axis properties
-            positive = this.mouseX-this.fmDragBoxStartX > 0;
+            positive = this.mouseX - 0 < this.fmDragBoxStartX;
             fmDragBox.style.left = (positive ? this.fmDragBoxStartX : this.mouseX) + "px";
-            fmDragBox.style.width = Math.abs(this.mouseX-this.fmDragBoxStartX) + "px";
+            fmDragBox.style.width = Math.abs(this.mouseX - this.fmDragBoxStartX) + "px";
 
             // Handle Y-axis properties
-            positive = this.mouseY-this.fmDragBoxStartY > 0;
-            fmDragBox.style.top = (positive ? this.fmDragBoxStartY-70 : this.mouseY-70) + "px";
-            fmDragBox.style.height = Math.abs(this.mouseY-this.fmDragBoxStartY) + "px";
+            positive = 0 < this.mouseY - this.fmDragBoxStartY;
+            fmDragBox.style.top = (positive ? this.fmDragBoxStartY - 70 : this.mouseY - 70) + "px";
+            fmDragBox.style.height = Math.abs(this.mouseY - this.fmDragBoxStartY) + "px";
 
             // Select the files
             if (this.thisFileFolderLink != "") {
@@ -1663,13 +1674,13 @@ var ICEcoder = {
                 } else {
                     this.fmDragSelectLast = this.thisFileFolderLink;
                     this.overFileFolder(this.thisFileFolderLink.indexOf('.') > 0 ? 'file' : 'folder', this.fmDragSelectLast);
-                    this.selectFileFolder(evt,false,'shiftSim');
+                    this.selectFileFolder(evt, false, 'shiftSim');
                 }
             }
         }
 
         // On mouse up, set width and height to 0 to hide
-        if(mouseAction == "up") {
+        if("up" === mouseAction) {
             fmDragBox.style.width = 0;
             fmDragBox.style.height = 0;
         }
@@ -1682,22 +1693,22 @@ var ICEcoder = {
 
     // Create a new folder
     newFolder: function() {
-        var shortURL, newFolder;
+        let shortURL, newFolder;
 
-        shortURL = this.selectedFiles[this.selectedFiles.length-1].replace(/\|/g,"/");
-        newFolder = this.getInput('Enter new folder name at '+shortURL,'');
+        shortURL = this.selectedFiles[this.selectedFiles.length - 1].replace(/\|/g, "/");
+        newFolder = this.getInput('Enter new folder name at ' + shortURL, '');
         if (newFolder) {
-            newFolder = (shortURL + "/" + newFolder).replace(/\/\//,"/");
-            this.serverQueue("add",iceLoc+"/lib/file-control-xhr.php?action=newFolder&csrf="+this.csrf,encodeURIComponent(newFolder.replace(/\//g,"|")));
-            this.serverMessage('<b>'+t['Creating Folder']+'</b><br>'+newFolder);
+            newFolder = (shortURL + "/" + newFolder).replace(/\/\//, "/");
+            this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=newFolder&csrf=" + this.csrf, encodeURIComponent(newFolder.replace(/\//g, "|")));
+            this.serverMessage('<b>' + t['Creating Folder'] + '</b><br>' + newFolder);
         }
     },
 
-    // Provide a path and line ref and we return the seperate pieces
+    // Provide a path and line ref and we return the separate pieces
     returnFileAndLine: function(fileLink) {
-        var line = 1;
-        var re = /^([^ ]*)\s+(on\s+)?(line\s+)?(\d+)/;
-        var reMatch = re.exec(fileLink);
+        let line = 1;
+        const re = /^([^ ]*)\s+(on\s+)?(line\s+)?(\d+)/;
+        const reMatch = re.exec(fileLink);
 
         if (null !== reMatch) {
             line = reMatch[4];
@@ -1715,36 +1726,36 @@ var ICEcoder = {
             line = fileLink.split('(')[1].split(')')[0];
             fileLink = fileLink.split('(')[0];
         }
-        return [fileLink,line];
+        return [fileLink, line];
     },
 
     // Open a file
     openFile: function(fileLink) {
-        var flSplit, line, shortURL, canOpenFile;
+        let flSplit, line, shortURL, canOpenFile;
 
-        if ("undefined" != typeof fileLink) {
+        if ("undefined" !== typeof fileLink) {
             flSplit = this.returnFileAndLine(fileLink);
             fileLink = flSplit[0];
-            line     = flSplit[1];
+            line = flSplit[1];
         }
 
         if (fileLink) {
-            this.thisFileFolderLink=fileLink;
-            this.thisFileFolderType="file";
+            this.thisFileFolderLink = fileLink;
+            this.thisFileFolderType = "file";
         }
-        if (this.thisFileFolderLink != "/[NEW]" && this.isOpen(this.thisFileFolderLink)!==false) {
-            this.switchTab(this.isOpen(this.thisFileFolderLink)+1);
-            if (line > 1){
+        if ("/[NEW]" !== this.thisFileFolderLink && false !== this.isOpen(this.thisFileFolderLink)) {
+            this.switchTab(this.isOpen(this.thisFileFolderLink) + 1);
+            if (1 < line){
                 this.goToLine(line);
             }
-        } else if (this.thisFileFolderLink!="" && this.thisFileFolderType=="file") {
+        } else if ("" != this.thisFileFolderLink && "file" === this.thisFileFolderType) {
 
             // work out a shortened URL for the file
-            shortURL = this.thisFileFolderLink.replace(/\|/g,"/");
+            shortURL = this.thisFileFolderLink.replace(/\|/g, "/");
             // No reason why we can't open a file (so far)
             canOpenFile = true;
             // Limit to 100 files open at a time
-            if (this.openFiles.length>=100) {
+            if (100 <= this.openFiles.length) {
                 this.message(t['Sorry you can...']);
                 canOpenFile = false;
             }
@@ -1753,33 +1764,33 @@ var ICEcoder = {
             if (canOpenFile) {
                 this.shortURL = shortURL;
 
-                if (shortURL!="/[NEW]") {
-                    this.thisFileFolderLink = this.thisFileFolderLink.replace(/\//g,"|");
-                    this.serverQueue("add",iceLoc+"/lib/file-control.php?action=load&file="+encodeURIComponent(this.thisFileFolderLink)+"&csrf="+this.csrf+"&lineNumber="+line);
-                    this.serverMessage('<b>'+t['Opening File']+'</b><br>'+this.shortURL);
+                if ("/[NEW]" !== shortURL) {
+                    this.thisFileFolderLink = this.thisFileFolderLink.replace(/\//g, "|");
+                    this.serverQueue("add", iceLoc + "/lib/file-control.php?action=load&file=" + encodeURIComponent(this.thisFileFolderLink) + "&csrf=" + this.csrf + "&lineNumber=" + line);
+                    this.serverMessage('<b>' + t['Opening File'] + '</b><br>' + this.shortURL);
                 } else {
                     this.createNewTab('new');
                 }
-                this.fMIconVis('fMView',1);
+                this.fMIconVis('fMView', 1);
             }
         }
     },
 
     // Open selected files
     openFilesFromList: function(fileList) {
-        for (var i=0;i<fileList.length;i++) {
-            this.thisFileFolderLink=fileList[i].replace('|','/');
-            this.thisFileFolderType='file';
+        for (let i = 0; i < fileList.length; i++) {
+            this.thisFileFolderLink = fileList[i].replace('|', '/');
+            this.thisFileFolderType = 'file';
             this.openFile();
         }
     },
 
     // Show file prompt to open file
     openPrompt: function() {
-        var fileLink;
+        let fileLink;
 
-        if(fileLink = this.getInput(t['Enter relative file...'],'')) {
-            fileLink.indexOf("://")>-1
+        if(fileLink = this.getInput(t['Enter relative file...'], '')) {
+            fileLink.indexOf("://") > -1
                 ? this.getRemoteFile(fileLink)
                 : this.openFile(fileLink);
         }
@@ -1787,26 +1798,26 @@ var ICEcoder = {
 
     // Get remote file contents
     getRemoteFile: function(remoteFile) {
-        var flSplit, line;
+        let flSplit, line;
 
-        if ("undefined" != typeof remoteFile) {
+        if ("undefined" !== typeof remoteFile) {
             flSplit = this.returnFileAndLine(remoteFile);
             remoteFile = flSplit[0];
-            line       = flSplit[1];
+            line = flSplit[1];
         }
 
-        this.serverQueue("add",iceLoc+"/lib/file-control-xhr.php?action=getRemoteFile&csrf="+this.csrf+"&lineNumber="+line,encodeURIComponent(remoteFile));
-        this.serverMessage('<b>'+t['Getting']+'</b><br>'+remoteFile);
+        this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=getRemoteFile&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(remoteFile));
+        this.serverMessage('<b>' + t['Getting'] + '</b><br>' + remoteFile);
     },
 
     // Get changes to save (used when simply saving, gets diff changes between current and last known version)
     getChangesToSave: function() {
-        var cM, savedText, newText, sm, opcodes;
+        let cM, savedText, newText, sm, opcodes;
 
         cM = this.getcMInstance();
 
         // Get the last known saved version of file from array
-        savedText = this.savedContents[this.selectedTab-1];
+        savedText = this.savedContents[this.selectedTab - 1];
 
         // Get the text values and split it into lines
         newText = difflib.stringAsLines(cM.getValue());
@@ -1819,20 +1830,20 @@ var ICEcoder = {
         // Opcodes is a list of 3-tuples describing what changes should be made to the base text in order to yield the new text
         opcodes = sm.get_opcodes();
 
-        for (var i=0; i<opcodes.length; i++) {
+        for (let i = 0; i < opcodes.length; i++) {
             // opcode events may be:
             // equal   = do nothing for this range
             // replace = replace [1]-[2] with [3]-[4]
             // insert  = replace [1]-[2] with [3]-[4]
             // delete  = replace [1]-[2] with [3]-[4]
-            for (j=opcodes[i][3]; j<opcodes[i][4]; j++) {
-                if (opcodes[i][0] != "equal") {
+            for (let j = opcodes[i][3]; j < opcodes[i][4]; j++) {
+                if ("equal" !== opcodes[i][0]) {
                     // Add a new array item if we don't have one yet
-                    if ("undefined" == typeof opcodes[i][5]) {
+                    if ("undefined" === typeof opcodes[i][5]) {
                         opcodes[i][5] = "";
                     }
                     // Add text line from newText to that array item along with line break
-                    opcodes[i][5] += newText[j]+"\n";
+                    opcodes[i][5] += newText[j] + "\n";
                 }
             }
         }
@@ -1842,72 +1853,72 @@ var ICEcoder = {
 
     // Save a file
     saveFile: function(saveAs) {
-        var changes, saveType, filePath, pathPrefix;
+        let changes, saveType, filePath, pathPrefix;
         // If we're not 'saving as', establish changes between current and known saved version from array
         if (!saveAs) {
             changes = this.getChangesToSave();
         }
 
         saveType = saveAs ? "saveAs" : "save";
-        filePath = this.openFiles[this.selectedTab-1].replace(iceRoot,"").replace(/\//g,"|");
-        if (filePath=="|[NEW]" && this.selectedFiles.length>0) {
+        filePath = this.openFiles[this.selectedTab - 1].replace(iceRoot, "").replace(/\//g, "|");
+        if ("|[NEW]" === filePath && 0 < this.selectedFiles.length) {
             pathPrefix = this.selectedFiles[0];
-            filePath = pathPrefix.lastIndexOf(".") == -1 || pathPrefix.lastIndexOf(".") < pathPrefix.lastIndexOf("|")
-                ? pathPrefix+filePath
+            filePath = -1 == pathPrefix.lastIndexOf(".") || pathPrefix.lastIndexOf(".") < pathPrefix.lastIndexOf("|")
+                ? pathPrefix + filePath
                 : "|[NEW]";
         }
-        filePath = filePath.replace("||","|");
-        this.serverQueue("add",iceLoc+"/lib/file-control-xhr.php?action=save&fileMDT="+this.openFileMDTs[this.selectedTab-1]+"&fileVersion="+this.openFileVersions[this.selectedTab-1]+"&saveType="+saveType+"&csrf="+this.csrf,encodeURIComponent(filePath),changes);
-        this.serverMessage('<b>'+t['Saving']+'</b><br>'+this.openFiles[this.selectedTab-1].replace(iceRoot,""));
+        filePath = filePath.replace("||", "|");
+        this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=save&fileMDT=" + this.openFileMDTs[this.selectedTab - 1] + "&fileVersion=" + this.openFileVersions[this.selectedTab - 1] + "&saveType=" + saveType + "&csrf=" + this.csrf,encodeURIComponent(filePath), changes);
+        this.serverMessage('<b>' + t['Saving'] + '</b><br>' + this.openFiles[this.selectedTab - 1].replace(iceRoot, ""));
     },
 
     // Prompt a rename dialog
-    renameFile: function(oldName,newName) {
-        var shortURL, fileName, i;
+    renameFile: function(oldName, newName) {
+        let shortURL, fileName, i;
 
         if (!oldName) {
-            shortURL = this.selectedFiles[this.selectedFiles.length-1].replace(/\|/g,"/");
-            oldName = this.selectedFiles[this.selectedFiles.length-1].replace(/\|/g,"/");
+            shortURL = this.selectedFiles[this.selectedFiles.length - 1].replace(/\|/g, "/");
+            oldName = this.selectedFiles[this.selectedFiles.length - 1].replace(/\|/g, "/");
         } else {
-            shortURL = oldName.replace(/\|/g,"/");
+            shortURL = oldName.replace(/\|/g, "/");
         }
         if (!newName) {
-            newName = this.getInput(t['Please enter the...'],shortURL);
+            newName = this.getInput(t['Please enter the...'], shortURL);
         }
         if (newName) {
-            i = this.openFiles.indexOf(shortURL.replace(/\|/g,"/"));
-            if(i>-1) {
+            i = this.openFiles.indexOf(shortURL.replace(/\|/g, "/"));
+            if (-1 < i) {
                 // rename array item and the tab
                 this.openFiles[i] = newName;
-                closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
+                closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
                 fileName = this.openFiles[i];
-                get('tab'+(i+1)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
-                get('tab'+(i+1)).title = newName;
+                get('tab' + (i + 1)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
+                get('tab' + (i + 1)).title = newName;
             }
-            this.serverQueue("add",iceLoc+"/lib/file-control-xhr.php?action=rename&oldFileName="+encodeURIComponent(oldName.replace(/\|/g,"/"))+"&csrf="+this.csrf,encodeURIComponent(newName));
-            this.serverMessage('<b>'+t['Renaming to']+'</b><br>'+newName);
+            this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=rename&oldFileName=" + encodeURIComponent(oldName.replace(/\|/g, "/")) + "&csrf=" + this.csrf,encodeURIComponent(newName));
+            this.serverMessage('<b>' + t['Renaming to'] + '</b><br>' + newName);
 
             this.setPreviousFiles();
         }
     },
 
     // Move a file from old location to new
-    moveFile: function(oldName,newName) {
-        var fileName, i;
+    moveFile: function(oldName, newName) {
+        let i, closeTabLink, fileName;
 
-        if (newName && newName != oldName) {
-            i = this.openFiles.indexOf(oldName.replace(/\|/g,"/"));
-            if(i>-1) {
+        if (newName && newName !== oldName) {
+            i = this.openFiles.indexOf(oldName.replace(/\|/g, "/"));
+            if(-1 < i) {
                 // rename array item and the tab
                 this.openFiles[i] = newName;
-                closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
+                closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
                 fileName = this.openFiles[i];
-                get('tab'+(i+1)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
-                get('tab'+(i+1)).title = newName;
+                get('tab' + (i + 1)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
+                get('tab' + (i + 1)).title = newName;
             }
             if (this.ask("Are you sure you want to move file " + oldName + " to " + newName + " ?")){
-                this.serverQueue("add",iceLoc+"/lib/file-control-xhr.php?action=move&oldFileName="+encodeURIComponent(oldName.replace(/\//g,"|"))+"&csrf="+this.csrf,encodeURIComponent(newName.replace(/\//g,"|")));
-                this.serverMessage('<b>'+t['Moving to']+'</b><br>'+newName);
+                this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=move&oldFileName=" + encodeURIComponent(oldName.replace(/\//g, "|")) + "&csrf=" + this.csrf, encodeURIComponent(newName.replace(/\//g, "|")));
+                this.serverMessage('<b>' + t['Moving to'] + '</b><br>' + newName);
             }
 
             this.setPreviousFiles();
@@ -1916,20 +1927,20 @@ var ICEcoder = {
 
     // Delete a file
     deleteFiles: function(fileList) {
-        var tgtFiles, tgtListDisplay;
+        let tgtFiles, tgtListDisplay;
 
         tgtFiles = fileList ? fileList : this.selectedFiles;
-        tgtListDisplay = tgtFiles.toString().replace(/\|/g,"/").replace(/,/g,"\n");
-        if (tgtFiles.length>0 && this.ask('Delete:\n\n'+tgtListDisplay+'?')) {
-            this.serverQueue("add",iceLoc+"/lib/file-control-xhr.php?action=delete&&csrf="+this.csrf,encodeURIComponent(tgtFiles.join(";")));
-            this.serverMessage('<b>'+t['Deleting File']+'</b><br>'+tgtListDisplay);
-        };
+        tgtListDisplay = tgtFiles.toString().replace(/\|/g, "/").replace(/,/g, "\n");
+        if (0 < tgtFiles.length && this.ask('Delete:\n\n' + tgtListDisplay + '?')) {
+            this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=delete&csrf=" + this.csrf,encodeURIComponent(tgtFiles.join(";")));
+            this.serverMessage('<b>' + t['Deleting File'] + '</b><br>' + tgtListDisplay);
+        }
     },
 
     // Copy files
-    copyFiles: function(fileList,dontShowPaste,dontHide) {
+    copyFiles: function(fileList, dontShowPaste, dontHide) {
         this.copiedFiles = [];
-        for (var i=0; i<fileList.length; i++) {
+        for (let i = 0; i < fileList.length; i++) {
             this.copiedFiles[i] = fileList[i];
         }
         if (!dontShowPaste) {
@@ -1943,10 +1954,10 @@ var ICEcoder = {
     // Paste files
     pasteFiles: function(location) {
         if (this.copiedFiles) {
-            for (var i=0; i<this.copiedFiles.length; i++) {
-                if (this.copiedFiles[i]!="|") {
-                    this.serverQueue("add",iceLoc+"/lib/file-control-xhr.php?action=paste&location="+location+"&csrf="+this.csrf,encodeURIComponent(this.copiedFiles[i]));
-                    this.serverMessage('<b>'+t['Pasting File']+'</b><br>'+this.copiedFiles[i].toString().replace(/\|/g,"/").replace(/,/g,"\n"));
+            for (let i = 0; i < this.copiedFiles.length; i++) {
+                if ("|" !== this.copiedFiles[i]) {
+                    this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=paste&location=" + location + "&csrf=" + this.csrf, encodeURIComponent(this.copiedFiles[i]));
+                    this.serverMessage('<b>' + t['Pasting File'] + '</b><br>' + this.copiedFiles[i].toString().replace(/\|/g, "/").replace(/,/g, "\n"));
                 } else {
                     this.message(t['Sorry cannot paste...']);
                 }
@@ -1958,19 +1969,19 @@ var ICEcoder = {
 
     // Duplicate (copy & paste) files
     duplicateFiles: function(fileList) {
-        var copiedFiles, location;
+        let copiedFiles, location;
 
         // Take a snapshot of copied files
         if (this.copiedFiles) {
             copiedFiles = this.copiedFiles;
         }
 
-        this.copyFiles(fileList,'dontShowPaste','dontHide');
-        location = fileList[0].substr(0,fileList[0].lastIndexOf("|"));
+        this.copyFiles(fileList, 'dontShowPaste', 'dontHide');
+        location = fileList[0].substr(0, fileList[0].lastIndexOf("|"));
         this.pasteFiles(location);
 
         // Restore copied files back to the snapshot
-        if ("undefined" != typeof copiedFiles) {
+        if ("undefined" !== typeof copiedFiles) {
             this.copiedFiles = copiedFiles;
         }
     },
@@ -1981,53 +1992,53 @@ var ICEcoder = {
         get("fileInput").click();
     },
     uploadFilesSubmit: function(obj) {
-        if (get('fileInput').value!="") {
-            this.showHide('show',get('loadingMask'));
+        if ("" !== get('fileInput').value) {
+            this.showHide('show', get('loadingMask'));
             get('uploadFilesForm').submit();
             event.preventDefault();
         }
     },
 
     // Show/hide file manager nav options
-    showHideFileNav: function(vis,elem) {
-        var options = ["optionsFile","optionsEdit","optionsSource","optionsHelp"];
-        if (vis=="hide") {
+    showHideFileNav: function(vis, elem) {
+        let options = ["optionsFile", "optionsEdit", "optionsSource", "optionsHelp"];
+        if ("hide" === vis) {
             fileNavInt = setTimeout(function(ic) {
-                for (var i=0; i<options.length; i++) {
-                    ic.showHide('hide',get(options[i]));
-                    get(options[i]+'Nav').style.color = '';
+                for (let i = 0; i < options.length; i++) {
+                    ic.showHide('hide', get(options[i]));
+                    get(options[i] + 'Nav').style.color = '';
                 }
-            },150,this);
+            }, 150, this);
         } else {
-            for (var i=0; i<options.length; i++) {
-                this.showHide('hide',get(options[i]));
-                get(options[i]+'Nav').style.color = '';
+            for (let i = 0; i < options.length; i++) {
+                this.showHide('hide', get(options[i]));
+                get(options[i] + 'Nav').style.color = '';
             }
         }
-        get('fileOptions').style.opacity = 0;
-        if (vis=="show") {
-            if ("undefined" != typeof fileNavInt) {
+        get('fileOptions').style.opacity = "0";
+        if ("show" === vis) {
+            if ("undefined" !== typeof fileNavInt) {
                 clearTimeout(fileNavInt);
             }
-            this.showHide(vis,get(elem));
-            get(elem+'Nav').style.color = '#fff';
-            get('fileOptions').style.opacity = 1;
+            this.showHide(vis, get(elem));
+            get(elem + 'Nav').style.color = '#fff';
+            get('fileOptions').style.opacity = "1";
         }
     },
 
     // Is a specified path a folder? (Note: path is string encoded path with / replaced with |)
-    isPathFolder: function(path){
+    isPathFolder: function(path) {
         // let's enumerate all folders to find whether clicked file is a folder or not
-        var dir = this.filesFrame.contentDocument.getElementsByClassName("pft-directory");
-        var thisFileId = this.selectedFiles[0];
-        var liNode, aNode, spanNode;
-        for (var i = 0 ; i < dir.length; i++){
+        const dir = this.filesFrame.contentDocument.getElementsByClassName("pft-directory");
+        const thisFileId = this.selectedFiles[0];
+        let liNode, aNode, spanNode;
+        for (let i = 0; i < dir.length; i++){
             liNode = dir[i];
-            if ("underfined" != typeof liNode){
+            if ("undefined" !== typeof liNode){
                 aNode = liNode.childNodes[0];
-                if ("undefined" != typeof aNode){
+                if ("undefined" !== typeof aNode){
                     spanNode = aNode.childNodes[1];
-                    if ("undefined" != typeof spanNode){
+                    if ("undefined" !== typeof spanNode){
                         if (thisFileId === spanNode.getAttribute('id')){
                             // It's a folder
                             return true;
@@ -2040,23 +2051,23 @@ var ICEcoder = {
         return false;
     },
 
-    // Check for existance of a file/dir
+    // Check for existence of a file/dir
     checkExists: function(path) {
-        var xhr, statusObj, timeStart;
+        let xhr, statusObj, timeStart;
 
-        path = path.replace(/\|/g,"/");
+        path = path.replace(/\|/g, "/");
         // Clear any prefixed iceRoot from path
-        if (path.indexOf(iceRoot) === 0) {
-            path = path.replace(iceRoot,"");
+        if (0 === path.indexOf(iceRoot)) {
+            path = path.replace(iceRoot, "");
         }
 
         // Start a seperate XHR call. We run seperately rather than add into the serverQueue because we may need to run
         // immediately, eg need to if a file/dir exists mid flow in 'Save As' function, so can't go into queue
         xhr = this.xhrObj();
         xhr.onreadystatechange=function() {
-            if (xhr.readyState==4) {
-                // OK reponse?
-                if (xhr.status==200) {
+            if (4 === xhr.readyState) {
+                // OK response?
+                if (200 === xhr.status) {
                     // Parse the response as a JSON object
                     statusObj = JSON.parse(xhr.responseText);
 
@@ -2065,11 +2076,11 @@ var ICEcoder = {
                     statusObj.action.timeTaken = statusObj.action.timeEnd - statusObj.action.timeStart;
 
                     // User wanted raw (or both) output of the response?
-                    if (["raw","both"].indexOf(this.fileDirResOutput) >= 0) {
+                    if (0 <= ["raw", "both"].indexOf(this.fileDirResOutput)) {
                         console.log(xhr.responseText);
                     }
                     // User wanted object (or both) output of the response?
-                    if (["object","both"].indexOf(this.fileDirResOutput) >= 0) {
+                    if (0 <= ["object", "both"].indexOf(this.fileDirResOutput)) {
                         console.log(statusObj);
                     }
 
@@ -2082,7 +2093,7 @@ var ICEcoder = {
                         console.log("ICEcoder error info for your request...");
                         console.log(statusObj);
                         this.serverMessage();
-                        this.serverQueue('del',0);
+                        this.serverQueue('del', 0);
                     } else {
                         eval(statusObj.action.doNext);
                     }
@@ -2092,139 +2103,140 @@ var ICEcoder = {
                     console.log("ICEcoder error info for your request...");
                     console.log(statusObj);
                     this.serverMessage();
-                    this.serverQueue('del',0);
+                    this.serverQueue('del', 0);
                 }
             }
         };
-        xhr.open("POST",iceLoc+"/lib/file-control-xhr.php?action=checkExists&csrf="+this.csrf,true);
+        xhr.open("POST", iceLoc + "/lib/file-control-xhr.php?action=checkExists&csrf=" + this.csrf, true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         timeStart = new Date().getTime();
-        xhr.send('timeStart='+timeStart+'&file='+encodeURIComponent(path));
+        xhr.send('timeStart=' + timeStart + '&file=' + encodeURIComponent(path));
     },
 
     // Show menu on right clicking in file manager
     showMenu: function(evt) {
-        var menuType, menuHeight, winH, fmYPos;
+        let menuType, menuHeight, winH, fmYPos;
 
-        if (	this.selectedFiles.length == 0 ||
-            this.selectedFiles.indexOf(this.selectedFiles[this.selectedFiles.length-1].replace(/\//g,"|")) == -1) {
+        if (0 === this.selectedFiles.length ||
+            -1 === this.selectedFiles.indexOf(this.selectedFiles[this.selectedFiles.length-1].replace(/\//g, "|"))) {
             this.selectFileFolder(evt);
         }
 
-        menuHeight = 124+5; // general options height in px plus 5px space
+        menuHeight = 124 + 5; // general options height in px plus 5px space
         winH = window.innerHeight;
-        if ("undefined" != typeof this.thisFileFolderLink && this.thisFileFolderLink!="") {
+        if ("undefined" !== typeof this.thisFileFolderLink && "" != this.thisFileFolderLink) {
             menuType = this.isPathFolder(this.selectedFiles[0]) ? "folder" : "file";
-            get('folderMenuItems').style.display = menuType == "folder" && this.selectedFiles.length == 1 ? "block" : "none";
-            if (menuType == "folder" && this.selectedFiles.length == 1) {
-                menuHeight += 20+20+1+23+1+2; // new file, new folder, hr, upload files(s), hr, padding
-                if (get('fmMenuPasteOption').style.display == "block") {
+            get('folderMenuItems').style.display = "folder" === menuType && 1 === this.selectedFiles.length ? "block" : "none";
+            if ("folder" === menuType && 1 === this.selectedFiles.length) {
+                menuHeight += 20 + 20 + 1 + 23 + 1 + 2; // new file, new folder, hr, upload files(s), hr, padding
+                if ("block" === get('fmMenuPasteOption').style.display) {
                     menuHeight += 19;
                 }
             }
             get('singleFileMenuItems').style.display = this.selectedFiles.length > 1 ? "none" : "block";
-            if (this.selectedFiles.length == 1) {
+            if (1 === this.selectedFiles.length) {
                 menuHeight += 43;
             }
             get('fileMenu').style.display = "inline-block";
-            setTimeout(function() {get('fileMenu').style.opacity = "1"},4);
-            get('fileMenu').style.left = (this.mouseX+20) + "px";
-            fmYPos = this.mouseY-this.filesFrame.contentWindow.document.body.scrollTop-10;
-            if (fmYPos+menuHeight > winH) {
-                fmYPos -= (fmYPos+menuHeight-winH);
+            setTimeout(function() {get('fileMenu').style.opacity = "1"}, 4);
+            get('fileMenu').style.left = (this.mouseX + 20) + "px";
+            fmYPos = this.mouseY - this.filesFrame.contentWindow.document.body.scrollTop - 10;
+            if (fmYPos + menuHeight > winH) {
+                fmYPos -= (fmYPos + menuHeight - winH);
             }
             get('fileMenu').style.top = fmYPos + "px";
         }
         return false;
     },
 
-    // Continue to show the file manager
+    // Continue to show the file menu
     showFileMenu: function() {
-        get('fileMenu').style.display='inline-block';
-        setTimeout(function() {get('fileMenu').style.opacity = "1"},4);
+        get('fileMenu').style.display = 'inline-block';
+        setTimeout(function() {get('fileMenu').style.opacity = "1"}, 4);
     },
 
-    // Hide the file manager
+    // Hide the file menu
     hideFileMenu: function() {
-        get('fileMenu').style.display='none';
+        get('fileMenu').style.display = 'none';
         get('fileMenu').style.opacity = "0";
     },
 
     // Update the file manager tree list on demand
-    updateFileManagerList: function(action,location,file,perms,oldName,uploaded,fileOrFolder) {
-        var actionElemType, cssStyle, perms, targetElem, locNest, newText, innerLI, permColors, newUL, newLI, elemType, nameLI, shortURL, newMouseOver;
+    updateFileManagerList: function(action, location, file, perms, oldName, uploaded, fileOrFolder) {
+        let actionElemType, cssStyle, targetElem, locNest, newText, innerLI, permColors, newUL, newLI, elemType, nameLI, shortURL;
+
+        perms = parseInt(perms, 10);
 
         // Adding files
-        if (action=="add" && !get('filesFrame').contentWindow.document.getElementById(location.replace(iceRoot,"").replace(/\/$/, "").replace(/\//g,"|")+"|"+file)) {
+        if ("add" === action && !get('filesFrame').contentWindow.document.getElementById(location.replace(iceRoot, "").replace(/\/$/, "").replace(/\//g, "|") + "|" + file)) {
             // Is this is a file or folder and based on that, set the CSS styling & link
             actionElemType = fileOrFolder;
-            cssStyle = actionElemType=="file" ? "pft-file ext-" + file.substr(file.indexOf(".")+1) : "pft-directory";
-            perms = actionElemType=="file" ? this.newFilePerms : this.newDirPerms;
+            cssStyle = "file" === actionElemType ? "pft-file ext-" + file.substr(file.indexOf(".") + 1) : "pft-directory";
+            perms = "file" === actionElemType ? this.newFilePerms : this.newDirPerms;
 
             // Identify our target element & the first child element in it's location
-            if (!location) {location="/"}
-            location = location.replace(iceRoot,"/");
-            location = location.replace("//","/");
-            targetElem = get('filesFrame').contentWindow.document.getElementById(location.replace(/\//g,"|"));
+            if (!location) {location = "/"}
+            location = location.replace(iceRoot, "/").replace("//", "/");
+            targetElem = get('filesFrame').contentWindow.document.getElementById(location.replace(/\//g, "|"));
             locNest = targetElem.parentNode.parentNode.nextSibling;
             newText = document.createTextNode("\n");
-            permColors = perms == 777 ? 'background: #800; color: #eee' : 'color: #888';
-            innerLI = '<a nohref title="'+location.replace(/\/$/, "")+"/"+file+'" onMouseOver="parentNode.draggable=true;ICEcoder.overFileFolder(\''+actionElemType+'\',this.childNodes[1].id)" onMouseOut="parentNode.draggable=false;ICEcoder.overFileFolder(\''+actionElemType+'\',\'\')" '+
+            permColors = 777 === perms ? 'background: #800; color: #eee' : 'color: #888';
+            innerLI = '<a nohref title="'+location.replace(/\/$/, "")+"/"+file+'" onMouseOver="parentNode.draggable=true;parent.ICEcoder.overFileFolder(\''+actionElemType+'\',this.childNodes[1].id)" onMouseOut="parentNode.draggable=false;parent.ICEcoder.overFileFolder(\''+actionElemType+'\',\'\')" '+
 
                 (actionElemType == "folder" ? 'ondragover="if(parentNode.nextSibling && parentNode.nextSibling.tagName != \'UL\' && this.thisFileFolderLink != this.childNodes[1].id) {this.openCloseDir(this,true);}"':'')+
 
-                ' onClick="if(!event.ctrlKey && !this.cmdKey) {'+
+                ' onClick="if(!event.ctrlKey && !this.cmdKey) {' +
 
-                (actionElemType == "folder" ? 'ICEcoder.openCloseDir(this,'+(actionElemType=="folder" ? 'true' : 'false')+');':'')+
+                ("folder" === actionElemType ? 'ICEcoder.openCloseDir(this,' + ("folder" === actionElemType ? 'true' : 'false') + ');' : '') +
 
-                ' if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {this.openFile()}}" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'">'+file+'</span> <span style="'+permColors+'; font-size: 8px" id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'_perms">'+perms+'</span></a>';
+                ' if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.parent.ICEcoder.openFile()}}" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'">'+file+'</span> <span style="'+permColors+'; font-size: 8px" id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'_perms">'+perms+'</span></a>';
 
             // If we don't have a locNest or at least 3 DOM items in there, it's an empty folder
-            if(!locNest || locNest.childNodes.length<3) {
+            if(!locNest || 3 > locNest.childNodes.length) {
                 // We now need to begin a new UL list
                 newUL = document.createElement("ul");
                 locNest = targetElem.parentNode.parentNode;
-                locNest.parentNode.insertBefore(newUL,locNest.nextSibling);
+                locNest.parentNode.insertBefore(newUL, locNest.nextSibling);
 
                 // Now we can add the first LI for this file/folder we're adding
                 newLI = document.createElement("li");
                 newLI.className = cssStyle;
                 newLI.draggable = false;
-                newLI.ondragstart = function(event) {this.addDefaultDragData(this,event)};
+                newLI.ondragstart = function(event) {this.addDefaultDragData(this, event)};
                 newLI.ondrag = function(event) {this.draggingWithKeyTest(event);if(this.getcMInstance()){this.editorFocusInstance.indexOf('diff') == -1 ? this.getcMInstance().focus() : this.getcMdiffInstance().focus()}};
-                newLI.ondragover = function(event) {this.setDragCursor(event,actionElemType=="folder" ? 'folder' : 'file')};
+                newLI.ondragover = function(event) {this.setDragCursor(event, "folder" === actionElemType ? 'folder' : 'file')};
                 newLI.ondragend = function() {this.dropFile(this)};
-                newLI.innerHTML = innerLI
+                newLI.innerHTML = innerLI;
                 locNest.nextSibling.appendChild(newLI);
                 locNest.nextSibling.appendChild(newText);
 
                 // There are items in that location, so add our new item in the right position
             } else {
-                for (var i=0;i<locNest.childNodes.length;i++) {
+                for (let i = 0; i < locNest.childNodes.length; i++) {
                     if (locNest.childNodes[i].className) {
                         // Identify if the item we're considering is a file or folder
-                        elemType = locNest.childNodes[i].className.indexOf('directory')>0 ? "folder" : "file";
+                        elemType = 0 < locNest.childNodes[i].className.indexOf('directory') ? "folder" : "file";
 
                         // Get the name of the item
                         nameLI = locNest.childNodes[i].getElementsByTagName('span')[0].innerHTML;
 
                         // If it's of the same type & the name is greater, or we're adding a folder and it's a file or if we're at the end of the list
-                        if ((elemType==actionElemType && nameLI > file) || (actionElemType=="folder" && elemType=="file") || i==locNest.childNodes.length-1) {
+                        if ((elemType == actionElemType && nameLI > file) || ("folder" === actionElemType && "file" === elemType) || i == locNest.childNodes.length - 1) {
                             newLI = document.createElement("li");
                             newLI.className = cssStyle;
                             newLI.draggable = false;
-                            newLI.ondragstart = function(event) {this.addDefaultDragData(this,event)};
+                            newLI.ondragstart = function(event) {this.addDefaultDragData(this, event)};
                             newLI.ondrag = function(event) {this.draggingWithKeyTest(event);if(this.getcMInstance()){this.editorFocusInstance.indexOf('diff') == -1 ? this.getcMInstance().focus() : this.getcMdiffInstance().focus()}};
-                            newLI.ondragover = function(event) {this.setDragCursor(event,actionElemType=="folder" ? 'folder' : 'file')};
+                            newLI.ondragover = function(event) {this.setDragCursor(event, "folder" === actionElemType ? 'folder' : 'file')};
                             newLI.ondragend = function() {this.dropFile(this)};
                             newLI.innerHTML = innerLI;
                             // Append or insert depending on which of the above if statements is true
-                            if (i==locNest.childNodes.length-1) {
+                            if (i == locNest.childNodes.length - 1) {
                                 locNest.appendChild(newLI);
                                 locNest.appendChild(newText);
                             } else {
                                 locNest.insertBefore(newLI,locNest.childNodes[i]);
-                                locNest.insertBefore(newText,locNest.childNodes[i+1]);
+                                locNest.insertBefore(newText,locNest.childNodes[i + 1]);
                             }
                             break;
                         }
@@ -2232,74 +2244,74 @@ var ICEcoder = {
                 }
             }
             // If we added a new file, we've saved it under a new filename, so set that
-            if (actionElemType=="file" && !uploaded) {
-                this.openFiles[this.selectedTab-1]=location+file;
+            if ("file" === actionElemType && !uploaded) {
+                this.openFiles[this.selectedTab - 1] = location + file;
             }
         }
 
         // Renaming files
-        if (action=="rename") {
+        if ("rename" === action) {
             // Get short URL of our right clicked file and get target elem based on this
-            shortURL = oldName.replace(/\//g,"|");
+            shortURL = oldName.replace(/\//g, "|");
             targetElem = get('filesFrame').contentWindow.document.getElementById(shortURL);
             // Set the name to be as per our new file/folder name
             targetElem.innerHTML = file;
             // Update the ID of the target & set a new title and perms ID
-            targetElem.id = location.replace(/\//g,"|") + "|" + file;
-            targetElem.parentNode.title = targetElem.id.replace(/\|/g,"/");
-            targetElemPerms = get('filesFrame').contentWindow.document.getElementById(shortURL+"_perms");
-            targetElemPerms.id = location.replace(/\//g,"|") + "|" + file + "_perms";
+            targetElem.id = location.replace(/\//g, "|") + "|" + file;
+            targetElem.parentNode.title = targetElem.id.replace(/\|/g, "/");
+            targetElemPerms = get('filesFrame').contentWindow.document.getElementById(shortURL + "_perms");
+            targetElemPerms.id = location.replace(/\//g, "|") + "|" + file + "_perms";
             // Finally, rename also within any children
             this.renameInChildren(targetElem, oldName, location, file);
         }
 
         // Moving files
-        if (action=="move") {
-            this.updateFileManagerList("add",location,file,false,false,false,fileOrFolder);
-            this.updateFileManagerList("delete",oldName.substr(0,oldName.lastIndexOf("/")),file);
+        if ("move" === action) {
+            this.updateFileManagerList("add", location, file, false, false, false, fileOrFolder);
+            this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")), file);
         }
 
         // Chmod on files
-        if (action=="chmod") {
+        if ("chmod" === action) {
             // Get short URL for our file and get our target elem based on this
-            shortURL = this.selectedFiles[this.selectedFiles.length-1].replace(/\|/g,"/");
-            targetElem = get('filesFrame').contentWindow.document.getElementById(shortURL.replace(/\//g,"|")+"_perms");
+            shortURL = this.selectedFiles[this.selectedFiles.length - 1].replace(/\|/g, "/");
+            targetElem = get('filesFrame').contentWindow.document.getElementById(shortURL.replace(/\//g, "|") + "_perms");
             // Set the color for the perms
-            targetElem.style.background = perms == 777 ? '#800' : 'none';
-            targetElem.style.color = perms == 777 ? '#eee' : '#888';
+            targetElem.style.background = 777 === perms ? '#800' : 'none';
+            targetElem.style.color = 777 === perms ? '#eee' : '#888';
             // Set the new perms
             targetElem.innerHTML = perms;
         }
 
         // Deleting files
-        if (action=="delete") {
-            if (!location) {location=""}
-            location = location.replace(iceRoot,"/");
-            location = location.replace("//","/");
-            location = location.replace(/\/$/, "").replace(/\//g,"|");
-            targetElem = (location +"|"+file).replace("||","|");
+        if ("delete" === action) {
+            if (!location) {location = ""}
+            location = location.replace(iceRoot, "/");
+            location = location.replace("//", "/");
+            location = location.replace(/\/$/, "").replace(/\//g, "|");
+            targetElem = (location + "|" + file).replace("||", "|");
             targetElem = get('filesFrame').contentWindow.document.getElementById(targetElem).parentNode.parentNode;
-            this.openCloseDir(targetElem.childNodes[0],false);
+            this.openCloseDir(targetElem.childNodes[0], false);
             targetElem.parentNode.removeChild(targetElem);
         }
     },
 
     // Rename node attributes within any renamed dirs recursively
     renameInChildren: function(elem, oldName, location, file) {
-        var innerItems, targetElem, targetElemPerms;
+        let innerItems, targetElem, targetElemPerms;
 
         // If our elem has a sibling and it's a UL, we renamed a dir
-        if(elem.parentNode.parentNode.nextSibling && elem.parentNode.parentNode.nextSibling.nodeName == "UL") {
+        if(elem.parentNode.parentNode.nextSibling && "UL" === elem.parentNode.parentNode.nextSibling.nodeName) {
             innerItems = elem.parentNode.parentNode.nextSibling;
 
             // For each one of the children in the UL, if it's a LI (may be a file or dir)
-            for (var i=0; i<innerItems.childNodes.length; i++) {
-                if (innerItems.childNodes[i].nodeName == "LI") {
+            for (let i = 0; i < innerItems.childNodes.length; i++) {
+                if ("LI" === innerItems.childNodes[i].nodeName) {
                     // Get the span elem inside as our targetElem
                     targetElem = innerItems.childNodes[i].childNodes[0].childNodes[1];
                     // Update the ID of the target & set a new title
-                    targetElem.id = targetElem.id.replace(oldName.replace(/\//g,"|"),location.replace(/\//g,"|")+"|"+file);
-                    targetElem.parentNode.title = targetElem.id.replace(/\|/g,"/");
+                    targetElem.id = targetElem.id.replace(oldName.replace(/\//g, "|"),location.replace(/\//g, "|") + "|" + file);
+                    targetElem.parentNode.title = targetElem.id.replace(/\|/g, "/");
                     // Also update the perms ID
                     targetElemPerms = get('filesFrame').contentWindow.document.getElementById(targetElem.id).nextSibling.nextSibling;
                     targetElemPerms.id = targetElem.id + "_perms";
@@ -2312,49 +2324,48 @@ var ICEcoder = {
 
     // Refresh file manager
     refreshFileManager: function() {
-        this.showHide('show',get('loadingMask'));
         this.filesFrame.contentWindow.location.reload(true);
-        this.filesFrame.style.opacity="0";
+        this.filesFrame.style.opacity = "0";
         this.filesFrame.onload = function() {
-            ICEcoder.filesFrame.style.opacity="1";
-            ICEcoder.showHide('hide',get('loadingMask'));
+            ICEcoder.filesFrame.style.opacity = "1";
         }
     },
 
     // Detect CTRL/Cmd key whilst dragging files
     draggingWithKeyTest: function(evt) {
-        var key;
+        let key;
 
         key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+        key = parseInt(key, 10);
 
         // Mac command key handling (224 = Moz, 91/93 = Webkit Left/Right Apple)
-        if (key==224 || key==91 || key==93) {
+        if (-1 < [224, 91, 93].indexOf(key)) {
             this.cmdKey = true;
         }
 
-        this.draggingWithKey = evt.ctrlKey||this.cmdKey ? "CTRL" : false;
+        this.draggingWithKey = evt.ctrlKey || this.cmdKey ? "CTRL" : false;
     },
 
     // Add default drag data (dragging in Firefox on DOM elems not possible otherwise)
-    addDefaultDragData: function(elem,evt) {
+    addDefaultDragData: function(elem, evt) {
         evt.dataTransfer.setData('Text', elem.id);
     },
 
     // Set a copy, move or none drag cursor type
-    setDragCursor: function(evt,dropType) {
-        var cursorIcon;
+    setDragCursor: function(evt, dropType) {
+        let cursorIcon;
 
         // Prevent the default and establish if CTRL key is down
         evt.preventDefault();
         this.draggingWithKeyTest(evt);
         // Establish the cursor to show
         cursorIcon =
-            dropType == "editor"
-                ? this.draggingWithKey == "CTRL"
+            "editor" === dropType
+                ? "CTRL" === this.draggingWithKey
                 ? "copy"
                 : "link"
-                : dropType == "folder"
-                ? this.draggingWithKey == "CTRL"
+                : "folder" === dropType
+                ? "CTRL" === this.draggingWithKey
                     ? "copy"
                     : "move"
                 : "none";
@@ -2364,26 +2375,26 @@ var ICEcoder = {
 
     // On dropping a file, do something
     dropFile: function(elem) {
-        var filePath, tgtPath;
+        let filePath, tgtPath;
 
-        filePath = elem.childNodes[0].childNodes[1].id.replace(/\|/g,"/");
-        fileName = filePath.substr(filePath.lastIndexOf("/")+1);
-        if (this.area=='editor') {
+        filePath = elem.childNodes[0].childNodes[1].id.replace(/\|/g, "/");
+        fileName = filePath.substr(filePath.lastIndexOf("/") + 1);
+        if ('editor' === this.area) {
             this.pasteURL(filePath);
-        };
-        if (this.area=='files') {
-            setTimeout(function() {
-                tgtPath = ic.thisFileFolderType == "folder" ? ic.thisFileFolderLink : ic.thisFileFolderLink.substr(0,ic.thisFileFolderLink.lastIndexOf("|"));
-                if(ic.draggingWithKey == "CTRL") {
+        }
+        if ('files' === this.area) {
+            setTimeout(function(ic) {
+                tgtPath = "folder" === ic.thisFileFolderType ? ic.thisFileFolderLink : ic.thisFileFolderLink.substr(0, ic.thisFileFolderLink.lastIndexOf("|"));
+                if("CTRL" === ic.draggingWithKey) {
                     ic.copyFiles(ic.selectedFiles);
                     ic.pasteFiles(tgtPath);
                 } else {
-                    ic.moveFile(filePath,tgtPath.replace(/\|/g,"/") + "/" + fileName);
+                    ic.moveFile(filePath,tgtPath.replace(/\|/g, "/") + "/" + fileName);
                 }
-            },4,this);
-        };
-        this.mouseDown=false;
-        this.mouseDownInCM=false;
+            }, 4, this);
+        }
+        this.mouseDown = false;
+        this.mouseDownInCM = false;
     },
 
 // ==============
@@ -2834,7 +2845,7 @@ var ICEcoder = {
             B = imgData[2];
             rgb = R+','+G+','+B;
             // Get hex from RGB value
-            hex = this.rgbToHex(R,G,B);
+            hex = ICEcoder.rgbToHex(R,G,B);
             // set the values & BG colours of the input boxes
             get('rgbMouseXY').value = rgb;
             get('hexMouseXY').value = '#' + hex;
@@ -3182,30 +3193,30 @@ var ICEcoder = {
 
     // Show the properties screen
     propertiesScreen: function(fileName) {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/properties.php?fileName='+fileName.replace(/\//g,"|")+'&csrf='+this.csrf+'" id="propertiesIFrame" class="whiteGlow" style="width: 660px; height: 330px"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'lib/properties.php?fileName='+fileName.replace(/\//g,"|")+'&csrf='+this.csrf+'" id="propertiesIFrame" class="whiteGlow" style="width: 660px; height: 330px"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
     // Show the auto-logout warning screen
     autoLogoutWarningScreen: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/auto-logout-warning.php" id="autoLogoutIFrame" class="whiteGlow" style="width: 400px; height: 160px"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'lib/auto-logout-warning.php" id="autoLogoutIFrame" class="whiteGlow" style="width: 400px; height: 160px"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
     // Show the plugins manager
     pluginsManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/plugins-manager.php" id="pluginsManagerIFrame" class="whiteGlow" style="width: 800px; height: 450px" scrolling="no"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'lib/plugins-manager.php" id="pluginsManagerIFrame" class="whiteGlow" style="width: 800px; height: 450px" scrolling="no"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
     // Go to localhost root
     goLocalhostRoot: function() {
-        this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc+"/lib/go-localhost-root.php";
+        this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc+"lib/go-localhost-root.php";
     },
 
     // Show the FTP manager
     ftpManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/ftp-manager.php" id="ftpManagerIFrame" class="whiteGlow" style="width: 620px; height: 550px"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'lib/ftp-manager.php" id="ftpManagerIFrame" class="whiteGlow" style="width: 620px; height: 550px"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
@@ -4342,6 +4353,24 @@ var ICEcoder = {
 
                 // CTRL + . (Fold/unfold current line)
             } else if(key==190 && (evt.ctrlKey||this.cmdKey)) {
+
+
+
+
+
+
+
+
+
+
+                // TODO: doesn't seem to be working
+
+
+
+
+
+
+
                 var line = this.getThisCM().getCursor().line;
 
                 return false;
