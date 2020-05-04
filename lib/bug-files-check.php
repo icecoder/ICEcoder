@@ -1,7 +1,7 @@
 <?php
 // Load common functions
-include("headers.php");
-include_once("settings-common.php");
+include "headers.php";
+include_once "settings-common.php";
 $text = $_SESSION['text'];
 $t = $text['bug-files-check'];
 
@@ -107,7 +107,7 @@ $status = array(
 );
 
 // Include our process once our bug checking work is done
-include("../processes/on-bug-check.php");
+include "../processes/on-bug-check.php";
 
 // Finally, display our status in JSON format as the XHR response text
 echo json_encode($status);

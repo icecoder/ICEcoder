@@ -1,6 +1,6 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 
 // Establish the real absolute path to the file
 $file = realpath($docRoot . $iceRoot . str_replace("|", "/", $_GET['file']));

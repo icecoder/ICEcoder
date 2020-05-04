@@ -1,7 +1,7 @@
 <?php
-include("headers.php");
-include("settings.php");
-include("ftp-control.php");
+include "headers.php";
+include "settings.php";
+include "ftp-control.php";
 $t = $text['file-control'];
 ?>
 <script>
@@ -119,7 +119,7 @@ if ("load" === $_GET['action']) {
 			$loadedFile = preg_replace('/\\n/', '&#13;', $loadedFile);
 			echo '</script><textarea name="loadedFile" id="loadedFile">' . $loadedFile . '</textarea><script>';
 			// Run our custom processes
-			include_once("../processes/on-file-load.php");
+			include_once "../processes/on-file-load.php";
 		} else if (0 === strpos($finfo, "image")) {
 			echo 'fileType="image";fileName=\'' . $fileLoc . "/" . $fileName . '\';';
 		} else {

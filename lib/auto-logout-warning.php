@@ -1,6 +1,6 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php" ;
 $t = $text['auto-logout-warning'];
 ?>
 <!DOCTYPE html>

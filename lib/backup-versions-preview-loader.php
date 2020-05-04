@@ -1,7 +1,7 @@
 <?php
 // Load common functions
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 
 $file = str_replace("|", "/", xssClean($_GET['file'], 'html'));
 
