@@ -8,7 +8,7 @@ ICEcoder is a web IDE / browser based code editor, which allows you to develop w
 
 ### Requirements
 
-You can run ICEcoder either online or locally, on Linux, Windows or Mac based platforms. The only requirement is to have PHP 5 available (5.3 recommended). You can have this either as a vanilla installation or via a program such as WAMP or XAMPP (for Windows) or MAMP (for Mac).
+You can run ICEcoder either online or locally, on Linux, Windows or Mac based platforms. The only requirement is to have PHP 7 available (7.4 recommended). You can have this either as a vanilla installation or via a program such as WAMP or XAMPP (for Windows) or MAMP (for Mac).
 
 ### Installation
 
