@@ -1,6 +1,6 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $t = $text['help'];
 ?>
 <!DOCTYPE html>
@@ -10,6 +10,7 @@ $t = $text['help'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> help</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" type="text/css" href="../assets/css/resets.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" type="text/css" href="../assets/css/help.css?microtime=<?php echo microtime(true);?>">
 </head>
 
@@ -17,7 +18,7 @@ $t = $text['help'];
 
 <h1 id="title"><?php echo $t['shortcuts'];?></h1>
 
-<?php $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;?>
+<?php $isMac = -1 < strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : false;?>
 <div style="display: inline-block; width: 385px; margin-right: 20px">
 	<h2><?php echo $t['Within document'];?></h2>
 	<!-- This can only be CTRL+space as Cmd+space is a reserved apple shortcut -->
