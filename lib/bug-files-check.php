@@ -5,6 +5,11 @@ include_once "settings-common.php";
 $text = $_SESSION['text'];
 $t = $text['bug-files-check'];
 
+// Classes
+require_once "../classes/_ExtraProcesses.php";
+
+use ICEcoder\ExtraProcesses;
+
 $files	= explode(",", str_replace("|", "/", xssClean($_GET['files'], "html")));
 $filesSizesSeen	= explode(",", xssClean($_GET['filesSizesSeen'], "html"));
 $maxLines = xssClean($_GET['maxLines'], "html");
@@ -107,7 +112,8 @@ $status = array(
 );
 
 // Include our process once our bug checking work is done
-include "../processes/on-bug-check.php";
+$extraProcesses = new ExtraProcesses();
+$doNext = $extraProcesses->onFileDirPaste($result, $status);
 
 // Finally, display our status in JSON format as the XHR response text
 echo json_encode($status);

@@ -1,7 +1,7 @@
 <?php
-include "headers.php";
-include "settings.php";
-include "ftp-control.php";
+require "icecoder.php";
+use ICEcoder\ExtraProcesses;
+
 $t = $text['file-control'];
 ?>
 <script>
@@ -119,7 +119,8 @@ if ("load" === $_GET['action']) {
 			$loadedFile = preg_replace('/\\n/', '&#13;', $loadedFile);
 			echo '</script><textarea name="loadedFile" id="loadedFile">' . $loadedFile . '</textarea><script>';
 			// Run our custom processes
-			include_once "../processes/on-file-load.php";
+            $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+            $extraProcesses->onFileLoad();
 		} else if (0 === strpos($finfo, "image")) {
 			echo 'fileType="image";fileName=\'' . $fileLoc . "/" . $fileName . '\';';
 		} else {

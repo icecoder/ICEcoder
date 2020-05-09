@@ -1,7 +1,7 @@
 <?php
-include "headers.php";
-include "settings.php";
-include "ftp-control.php";
+require "icecoder.php";
+use ICEcoder\ExtraProcesses;
+
 $t = $text['file-control'];
 
 // ===============================
@@ -497,8 +497,10 @@ if (!$error && "save" === $_GET['action']) {
 						ICEcoder.savedContents[ICEcoder.selectedTab-1] = cM.getValue();
 						ICEcoder.redoTabHighlight(ICEcoder.selectedTab);';
 
-				// Run our custom processes
-				include_once "../processes/on-file-save.php";
+				include_once "on-file-save.php";
+				// Run any extra processes
+                $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+                $doNext = $extraProcesses->onFileSave($doNext);
 
 			// ======================================================
 			// MDT'S DON'T MATCH, OFFER TO LOAD FILE & SHOW DIFF VIEW
@@ -569,8 +571,9 @@ if (!$error && "newFolder" === $_GET['action']) {
 			$doNext .= 'ICEcoder.selectedFiles=[]; ICEcoder.updateFileManagerList(\'add\', \'' . $fileLoc . '\', \'' . $fileName . '\', false, false, false, \'folder\');';
 		}
 		$finalAction = "newFolder";
-		// Run our custom processes
-		include_once "../processes/on-new-dir.php";
+		// Run any extra processes
+        $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+        $doNext = $extraProcesses->onDirNew($doNext);
 	} else {
 		$doNext .= "ICEcoder.message('" . $t['Sorry, cannot create...'] . "\\\\n" . $fileLoc . "');";
 		$finalAction = "nothing";
@@ -615,8 +618,9 @@ if (!$error && "move" === $_GET['action']) {
 				$doNext .= 'ICEcoder.selectedFiles=[]; ICEcoder.updateFileManagerList(\'move\', \'' . $fileLoc . '\', \'' . $fileName . '\', \'\', \'' .str_replace($iceRoot, "", str_replace("|", "/", $_GET['oldFileName'])) . '\', false, \'' . $fileOrFolder . '\');';
 			}
 			$finalAction = "move";
-			// Run our custom processes
-			include_once "../processes/on-file-dir-move.php";
+			// Run any extra processes
+            $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+            $doNext = $extraProcesses->onFileDirMove($doNext);
 		} else {
 			$doNext .= "ICEcoder.message('" . $t['Sorry, cannot move'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
 			$finalAction = "nothing";
@@ -653,8 +657,9 @@ if (!$error && "rename" === $_GET['action']) {
 			$doNext .= 'ICEcoder.selectedFiles=[]; ICEcoder.updateFileManagerList(\'rename\', \'' . $fileLoc . '\', \'' . $fileName . '\', \'\', \'' . str_replace($iceRoot, "", $_GET['oldFileName']) . '\');';
 		}
 		$finalAction = "rename";
-		// Run our custom processes
-		include_once "../processes/on-file-dir-rename.php";
+		// Run any extra processes
+        $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+        $doNext = $extraProcesses->onFileDirRename($doNext);
 	} else {
 		$doNext .= "ICEcoder.message('".$t['Sorry, cannot rename'] . "\\\\n" . $_GET['oldFileName'] . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
 		$finalAction = "nothing";
@@ -710,8 +715,9 @@ if (!isset($ftpSite) && !$error && "paste" === $_GET['action']) {
 		// Reload file manager
 		$doNext .= 'ICEcoder.updateFileManagerList(\'add\', \'' . str_replace("|", "/", $_GET['location']) . '\', \'' . basename($dest) . '\', false, false, false, \'' . $fileOrFolder . '\');';
 		$finalAction = "pasteFile";
-		// Run our custom processes
-		include_once "../processes/on-file-dir-paste.php";
+		// Run any extra processes
+        $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+        $doNext = $extraProcesses->onFileDirPaste($doNext, $dest);
 	} else {
 		$doNext .= "ICEcoder.message('" . $t['Sorry, cannot copy'] . " \\\\n" . str_replace($docRoot, "", $source) . "\\\\n " . $t['into'] . " \\\\n" . str_replace($docRoot, "", $dest) . "');";
 		$finalAction = "nothing";
@@ -771,8 +777,9 @@ if (!isset($ftpSite) && !$error && "upload" === $_GET['action']) {
 			$uploads = getDetails($_FILES['filesInput']);
 			$fileUploader = new fileUploader($uploads);
 		}
-		// Run our custom processes
-		include_once "../processes/on-file-upload.php";
+		// Run any extra processes
+        $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+        $doNext = $extraProcesses->onFileUpload($doNext, $uploads);
 	} else {
 		$doNext .= "parent.parent.ICEcoder.message('" . $t['Sorry, cannot upload...'] . "');";
 		$finalAction = "nothing";
@@ -803,8 +810,9 @@ if (!$error && "delete" === $_GET['action']) {
 				// Reload file manager
 				$doNext .= 'ICEcoder.selectedFiles = []; ICEcoder.updateFileManagerList(\'delete\', \'' . $fileLoc . '\', \'' . $fileName . '\');';
 				$finalAction = "delete";
-				// Run our custom processes
-				include_once "../processes/on-file-dir-delete.php";
+				// Run any extra processes
+                $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+                $doNext = $extraProcesses->onFileDirDelete($doNext);
 			} else {
 				$doNext .= "ICEcoder.message('" . $t['Sorry, cannot delete'] . "\\\\n" . $fileLoc . "/" . $fileName . "');";
 				$finalAction = "nothing";
@@ -839,8 +847,9 @@ if (!$error && "delete" === $_GET['action']) {
 				// Reload file manager
 				$doNext .= 'ICEcoder.selectedFiles = []; ICEcoder.updateFileManagerList(\'delete\', \'' . $fileLoc . '\', \'' . $fileName . '\');';
 				$finalAction = "delete";
-				// Run our custom processes
-				include_once "../processes/on-file-dir-delete.php";
+				// Run any extra processes
+                $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+                $doNext = $extraProcesses->onFileDirDelete($doNext);
 			} else {
 				$doNext .= "ICEcoder.message('" . $t['Sorry, cannot delete'] . "\\\\n" . str_replace($docRoot, "", $fullPath) . "');";
 				$finalAction = "nothing";
@@ -886,8 +895,9 @@ if (!isset($ftpSite) && !$error && "replaceText" === $_GET['action']) {
 		fwrite($fh, $newContent);
 		fclose($fh);
 		$finalAction = "replaceText";
-		// Run our custom processes
-		include_once "../processes/on-file-replace-text.php";
+		// Run any extra processes
+        $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+        $doNext = $extraProcesses->onFileReplaceText($doNext, $_GET['fileRef']);
 	} else {
 		$doNext .= "ICEcoder.message('" . $t['Sorry, cannot replace...'] . "\\\\n" . $file . "');";
 		$finalAction = "nothing";
@@ -910,8 +920,9 @@ if (!isset($ftpSite) && !$error && "getRemoteFile" === $_GET['action']) {
 		$doNext .= 'ICEcoder.getcMInstance().setValue(\'' . str_replace("\r", "", str_replace("\t", "\\\\t", str_replace("\n", "\\\\n", str_replace("'", "\\\\'", str_replace("\\", "\\\\", preg_quote($remoteFile)))))) . '\');';
 		$doNext .= 'ICEcoder.goToLine(' . $lineNumber . ');';
 		$finalAction = "getRemoteFile";
-		// Run our custom processes
-		include_once "../processes/on-get-remote-file.php";
+		// Run any extra processes
+        $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+        $doNext = $extraProcesses->onGetRemoteFile($doNext);
 	} else {
 		$finalAction = "nothing";
 		$doNext .= 'ICEcoder.message(\'' . $t['Sorry, could not...'] . ' '.$file . '\');';
@@ -945,8 +956,9 @@ if (!$error && "perms" === $_GET['action']) {
 			$doNext .= 'ICEcoder.updateFileManagerList(\'chmod\', \'' . $fileLoc . '\', \'' . $fileName . '\', \'' . numClean($_GET['perms']) . '\');';
 		}
 		$finalAction = "perms";
-		// Run our custom processes
-		include_once "../processes/on-file-dir-perms.php";
+		// Run any custom processes
+        $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
+        $doNext = $extraProcesses->onFileDirPerms($doNext, $_GET['perms']);
 	} else {
 		$finalAction = "nothing";
 		$doNext .= "ICEcoder.message('" . $t['Sorry, cannot change...'] . " \\n" . $file . "');";
