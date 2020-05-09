@@ -3,10 +3,6 @@ if (!isset($_SESSION['loggedIn'])) {
 	die('Sorry, not logged in.');
 }
 ?>
-<!--
-Purpose:	This file is run when ICEcoder editor has loaded
-Langs:		Anything - PHP, JS etc
-//-->
 <script>
 ICEcoder = parent.ICEcoder;
 CodeMirror.commands.autocomplete = function(cm) {
@@ -124,28 +120,7 @@ ICEcoder.lineCommentToggleSub = function(cM, cursorPos, linePos, lineContent, lC
 	}
 
 	if (!cM.somethingSelected()) {cM.setCursor(linePos, cursorPos+adjustCursor)};
-}
-
-// Indicate if the nesting structure of the code is OK
-ICEcoder.updateNestingIndicator = function() {
-	var cM, cMdiff, thisCM, testToken, nestOK, fileName, fileExt;
-
-	cM = ICEcoder.getcMInstance();
-	cMdiff = ICEcoder.getcMdiffInstance();
-	thisCM = ICEcoder.editorFocusInstance.indexOf('diff') > -1 ? cMdiff : cM;
-	nestOK = true;
-	fileName = ICEcoder.openFiles[ICEcoder.selectedTab-1];
-	if (fileName) {
-		fileExt = fileName.split(".");
-		fileExt = fileExt[fileExt.length-1];
-	}
-	if (thisCM && fileName && ["js","coffee","ts","css","less","sql","erl","yaml","java","jl","c","cpp","ino","cs","go","lua","pl","scss"].indexOf(fileExt)==-1) {
-		testToken = thisCM.getTokenAt({line:thisCM.lineCount(),ch:thisCM.lineInfo(thisCM.lineCount()-1).text.length});
-		nestOK = testToken.type && testToken.type.indexOf("error") == -1 ? true : false;
-	}
-	ICEcoder.nestValid.style.background = nestOK ? "#0b0" : "#f00";
-	ICEcoder.nestValid.title = nestOK ? "Nesting OK" : "Nesting Broken";
-}
+};
 
 // Determine which area of the document we're in
 ICEcoder.caretLocationType = function() {
