@@ -1699,7 +1699,7 @@ var ICEcoder = {
         newFolder = this.getInput('Enter new folder name at ' + shortURL, '');
         if (newFolder) {
             newFolder = (shortURL + "/" + newFolder).replace(/\/\//, "/");
-            this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=newFolder&csrf=" + this.csrf, encodeURIComponent(newFolder.replace(/\//g, "|")));
+            this.serverQueue("add", iceLoc + "/lib/file-control.php?action=newFolder&csrf=" + this.csrf, encodeURIComponent(newFolder.replace(/\//g, "|")));
             this.serverMessage('<b>' + t['Creating Folder'] + '</b><br>' + newFolder);
         }
     },
@@ -1806,7 +1806,7 @@ var ICEcoder = {
             line = flSplit[1];
         }
 
-        this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=getRemoteFile&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(remoteFile));
+        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=getRemoteFile&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(remoteFile));
         this.serverMessage('<b>' + t['Getting'] + '</b><br>' + remoteFile);
     },
 
@@ -1868,7 +1868,7 @@ var ICEcoder = {
                 : "|[NEW]";
         }
         filePath = filePath.replace("||", "|");
-        this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=save&fileMDT=" + this.openFileMDTs[this.selectedTab - 1] + "&fileVersion=" + this.openFileVersions[this.selectedTab - 1] + "&saveType=" + saveType + "&csrf=" + this.csrf,encodeURIComponent(filePath), changes);
+        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=save&fileMDT=" + this.openFileMDTs[this.selectedTab - 1] + "&fileVersion=" + this.openFileVersions[this.selectedTab - 1] + "&saveType=" + saveType + "&csrf=" + this.csrf,encodeURIComponent(filePath), changes);
         this.serverMessage('<b>' + t['Saving'] + '</b><br>' + this.openFiles[this.selectedTab - 1].replace(iceRoot, ""));
     },
 
@@ -1895,7 +1895,7 @@ var ICEcoder = {
                 get('tab' + (i + 1)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
                 get('tab' + (i + 1)).title = newName;
             }
-            this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=rename&oldFileName=" + encodeURIComponent(oldName.replace(/\|/g, "/")) + "&csrf=" + this.csrf,encodeURIComponent(newName));
+            this.serverQueue("add", iceLoc + "/lib/file-control.php?action=rename&oldFileName=" + encodeURIComponent(oldName.replace(/\|/g, "/")) + "&csrf=" + this.csrf,encodeURIComponent(newName));
             this.serverMessage('<b>' + t['Renaming to'] + '</b><br>' + newName);
 
             this.setPreviousFiles();
@@ -1917,7 +1917,7 @@ var ICEcoder = {
                 get('tab' + (i + 1)).title = newName;
             }
             if (this.ask("Are you sure you want to move file " + oldName + " to " + newName + " ?")){
-                this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=move&oldFileName=" + encodeURIComponent(oldName.replace(/\//g, "|")) + "&csrf=" + this.csrf, encodeURIComponent(newName.replace(/\//g, "|")));
+                this.serverQueue("add", iceLoc + "/lib/file-control.php?action=move&oldFileName=" + encodeURIComponent(oldName.replace(/\//g, "|")) + "&csrf=" + this.csrf, encodeURIComponent(newName.replace(/\//g, "|")));
                 this.serverMessage('<b>' + t['Moving to'] + '</b><br>' + newName);
             }
 
@@ -1932,7 +1932,7 @@ var ICEcoder = {
         tgtFiles = fileList ? fileList : this.selectedFiles;
         tgtListDisplay = tgtFiles.toString().replace(/\|/g, "/").replace(/,/g, "\n");
         if (0 < tgtFiles.length && this.ask('Delete:\n\n' + tgtListDisplay + '?')) {
-            this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=delete&csrf=" + this.csrf,encodeURIComponent(tgtFiles.join(";")));
+            this.serverQueue("add", iceLoc + "/lib/file-control.php?action=delete&csrf=" + this.csrf,encodeURIComponent(tgtFiles.join(";")));
             this.serverMessage('<b>' + t['Deleting File'] + '</b><br>' + tgtListDisplay);
         }
     },
@@ -1956,7 +1956,7 @@ var ICEcoder = {
         if (this.copiedFiles) {
             for (let i = 0; i < this.copiedFiles.length; i++) {
                 if ("|" !== this.copiedFiles[i]) {
-                    this.serverQueue("add", iceLoc + "/lib/file-control-xhr.php?action=paste&location=" + location + "&csrf=" + this.csrf, encodeURIComponent(this.copiedFiles[i]));
+                    this.serverQueue("add", iceLoc + "/lib/file-control.php?action=paste&location=" + location + "&csrf=" + this.csrf, encodeURIComponent(this.copiedFiles[i]));
                     this.serverMessage('<b>' + t['Pasting File'] + '</b><br>' + this.copiedFiles[i].toString().replace(/\|/g, "/").replace(/,/g, "\n"));
                 } else {
                     this.message(t['Sorry cannot paste...']);
@@ -2107,7 +2107,7 @@ var ICEcoder = {
                 }
             }
         };
-        xhr.open("POST", iceLoc + "/lib/file-control-xhr.php?action=checkExists&csrf=" + this.csrf, true);
+        xhr.open("POST", iceLoc + "/lib/file-control.php?action=checkExists&csrf=" + this.csrf, true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         timeStart = new Date().getTime();
         xhr.send('timeStart=' + timeStart + '&file=' + encodeURIComponent(path));
@@ -2397,6 +2397,29 @@ var ICEcoder = {
         this.mouseDownInCM = false;
     },
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ==============
 // FIND & REPLACE
 // ==============
@@ -2583,7 +2606,7 @@ var ICEcoder = {
 
     // Replace text in a file
     replaceInFile: function(fileRef,find,replace) {
-        this.serverQueue("add",iceLoc+"/lib/file-control-xhr.php?action=replaceText&find="+find+"&replace="+replace+"&csrf="+this.csrf,encodeURIComponent(fileRef.replace(/\//g,"|")));
+        this.serverQueue("add",iceLoc+"/lib/file-control.php?action=replaceText&find="+find+"&replace="+replace+"&csrf="+this.csrf,encodeURIComponent(fileRef.replace(/\//g,"|")));
         this.serverMessage('<b>'+t['Replacing text in']+'</b><br>'+fileRef);
     },
 
@@ -3390,7 +3413,7 @@ var ICEcoder = {
     chmod: function(file,perms) {
         file = file.replace(iceRoot,"");
         this.showHide('hide',get('blackMask'));
-        this.serverQueue("add",iceLoc+"/lib/file-control-xhr.php?action=perms&perms="+perms+"&csrf="+this.csrf,encodeURIComponent(file));
+        this.serverQueue("add",iceLoc+"/lib/file-control.php?action=perms&perms="+perms+"&csrf="+this.csrf,encodeURIComponent(file));
         this.serverMessage('<b>chMod '+perms+' on </b><br>'+file.replace(/\|/g,"/"));
     },
 
@@ -4594,12 +4617,12 @@ var ICEcoder = {
                 "button": "next &gt;"
             },
             9: {
-                "width": 32,
+                "width": 120,
                 "height": 30,
                 "top": winH - 30,
                 "left": 250,
-                "title": "Editor content error indicator and version control",
-                "message": "Error indicator for syntax or structural issues in the editor content. Also, when you have a tab open, on every save, it makes a copy - click the number of backups it indicates, to view differences and options to restore old versions.",
+                "title": "Editor version control",
+                "message": "When you have a tab open, on every save, it makes a copy - click the number of backups it indicates, to view differences and options to restore old versions.",
                 "button": "next &gt;"
             },
             10: {
@@ -4642,6 +4665,18 @@ var ICEcoder = {
             // Set message text and return to go no further
             ICEcoder.viewTutorial(0);
             return;
+        }
+
+        if (9 === step) {
+            if ("" === get("versionsDisplay").innerText) {
+                get("versionsDisplay").innerText = "12345 backups";
+            }
+            steps[9].width = get("versionsDisplay").innerText.length * 9;
+        }
+        if (10 === step) {
+            if ("12345 backups" === get("versionsDisplay").innerText) {
+                get("versionsDisplay").innerText = "";
+            }
         }
 
         // If we're going beyond the last step, we're finishing
