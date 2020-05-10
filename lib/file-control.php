@@ -58,7 +58,7 @@ if (false === $error) {
 $doNext = "";
 // If we're in FTP mode, start a connection and leave open for FTP actions
 if (isset($ftpSite)) {
-    ftpStart();
+    $ftpClass->ftpStart();
     // Show user warning if no good connection
     if (!$ftpConn || !$ftpLogin) {
         $doNext .= 'ICEcoder.message("Sorry, no FTP connection to ' . $ftpHost . ' for user ' . $ftpUser . '");';
@@ -184,7 +184,7 @@ if (!$error && "newFolder" === $_GET['action']) {
         // FTP
         if (isset($ftpSite)) {
             $ftpFilepath = ltrim($fileLoc . "/" . $fileName, "/");
-            if (!ftpMkDir($ftpConn, octdec($ICEcoder['newDirPerms']), $ftpFilepath)) {
+            if (!$ftpClass->ftpMkDir($ftpConn, octdec($ICEcoder['newDirPerms']), $ftpFilepath)) {
                 $doNext .= 'ICEcoder.message("Sorry, could not create dir '.$ftpFilepath.' at ' . $ftpHost . '");';
             } else {
                 $fileClass->updateFileManager('add', $fileLoc, $fileName, '', '', '', 'folder');
@@ -221,10 +221,10 @@ if (!$error && "move" === $_GET['action']) {
         if (!$demoMode && (isset($ftpSite) || is_writable($srcDir))) {
             // FTP
             if (isset($ftpSite)) {
-                if (!ftpRename($ftpConn, $srcDir, $tgtDir)) {
+                if (!$ftpClass->ftpRename($ftpConn, $srcDir, $tgtDir)) {
                     $doNext .= 'ICEcoder.message("Sorry, could not rename ' . $srcDir . ' to ' . $tgtDir . '");';
                 } else {
-                    $ftpFileDirInfo = ftpGetFileInfo($ftpConn, ltrim($fileLoc, "/"), $fileName);
+                    $ftpFileDirInfo = $ftpClass->ftpGetFileInfo($ftpConn, ltrim($fileLoc, "/"), $fileName);
                     $fileOrFolder = "directory" === $ftpFileDirInfo['type'] ? "folder" : "file";
                     $fileClass->updateFileManager('move', $fileLoc, $fileName, '', str_replace($iceRoot, "", str_replace("|", "/", $_GET['oldFileName'])), '', $fileOrFolder);
                 }
@@ -260,7 +260,7 @@ if (!$error && "rename" === $_GET['action']) {
         // FTP
         if (isset($ftpSite)) {
             $ftpFilepath = ltrim($fileLoc . "/" . $fileName, "/");
-            if (!ftpRename($ftpConn, ltrim($_GET['oldFileName'], "/"), $ftpFilepath)) {
+            if (!$ftpClass->ftpRename($ftpConn, ltrim($_GET['oldFileName'], "/"), $ftpFilepath)) {
                 $doNext .= 'ICEcoder.message("Sorry, could not rename ' . ltrim($_GET['oldFileName'], "/") . ' to ' . $ftpFilepath . '");';
             } else {
                 $fileClass->updateFileManager('rename', $fileLoc, $fileName, '', str_replace($iceRoot, "", $_GET['oldFileName']), '', '');
@@ -340,10 +340,10 @@ if (!$error && "delete" === $_GET['action']) {
     // FTP
     if (isset($ftpSite)) {
         if (1 === count($filesArray)) {
-            $ftpFileDirInfo = ftpGetFileInfo($ftpConn, ltrim($fileLoc, "/"), $fileName);
+            $ftpFileDirInfo = $ftpClass->ftpGetFileInfo($ftpConn, ltrim($fileLoc, "/"), $fileName);
             $itemType = "directory" === $ftpFileDirInfo['type'] ? "dir" : "file";
             $itemPath = ltrim($fileLoc . "/" . $fileName, "/");
-            if (!$demoMode && ftpDelete($ftpConn, $itemType, $itemPath)) {
+            if (!$demoMode && $ftpClass->ftpDelete($ftpConn, $itemType, $itemPath)) {
                 if ($fileLoc=="" || "\\" === $fileLoc) {
                     $fileLoc = "/";
                 };
@@ -427,7 +427,7 @@ if (!$error && "perms" === $_GET['action']) {
         // FTP
         if (isset($ftpSite)) {
             $ftpFilepath = ltrim($fileLoc . "/" . $fileName, "/");
-            if (!ftpPerms($ftpConn, octdec(numClean($_GET['perms'])), $ftpFilepath)) {
+            if (!$ftpClass->ftpPerms($ftpConn, octdec(numClean($_GET['perms'])), $ftpFilepath)) {
                 $doNext .= 'ICEcoder.message("Sorry, could not set perms on ' . $ftpFilepath . ' at ' . $ftpHost . '");';
             } else {
                 $fileClass->updateFileManager('chmod', $fileLoc, $fileName, numClean($_GET['perms']), '', '', '');

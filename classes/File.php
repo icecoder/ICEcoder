@@ -4,15 +4,17 @@ namespace ICEcoder;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use ICEcoder\FTP;
 use ICEcoder\System;
 
 class File
 {
-
+    private $ftpClass;
     private $system;
 
     public function __construct()
     {
+        $this->ftpClass = new FTP();
         $this->system = new System();
     }
 
@@ -145,14 +147,14 @@ class File
 
                 // Get file over FTP?
                 if (isset($ftpSite)) {
-                    ftpStart();
+                    $this->ftpClass->ftpStart();
                     // Show user warning if no good connection
                     if (!$ftpConn || !$ftpLogin) {
                         die('parent.parent.ICEcoder.message("Sorry, no FTP connection to ' . $ftpHost . ' for user ' . $ftpUser . '");parent.parent.ICEcoder.serverMessage();parent.parent.ICEcoder.serverQueue("del",0);</script>');
                     }
                     // Get our file contents and close the FTP connection
-                    $loadedFile = toUTF8noBOM(ftpGetContents($ftpConn, $ftpRoot . $fileLoc . "/" . $fileName, $ftpMode), false);
-                    ftpEnd();
+                    $loadedFile = toUTF8noBOM($this->ftpClass->ftpGetContents($ftpConn, $ftpRoot . $fileLoc . "/" . $fileName, $ftpMode), false);
+                    $this->ftpClass->ftpEnd();
                     // Get local file
                 } else {
                     $loadedFile = toUTF8noBOM(getData($file), true);
@@ -640,9 +642,9 @@ class File
 
         if (isset($ftpSite)) {
             // Get info on dir/file now
-            $ftpFileDirInfo = ftpGetFileInfo($ftpConn, ltrim($fileLoc, "/"), $fileName);
+            $ftpFileDirInfo = $this->ftpClass->ftpGetFileInfo($ftpConn, ltrim($fileLoc, "/"), $fileName);
             // End the connection
-            ftpEnd();
+            $this->ftpClass->ftpEnd();
             // Then set info
             $itemAbsPath = $ftpRoot . $fileLoc . '/' . $fileName;
             $itemPath = dirname($ftpRoot.$fileLoc . '/' . $fileName);

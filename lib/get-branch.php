@@ -1,9 +1,9 @@
 <?php
-if (!isset($ICEcoder['root'])) {
-	include "headers.php";
-	include "settings.php";
-	include "ftp-control.php";
-}
+require "icecoder.php";
+
+use ICEcoder\FTP;
+
+$ftpClass = new FTP;
 
 if (!$_SESSION['loggedIn']) {
 	header("Location: ../");
@@ -36,17 +36,17 @@ $dirArray = $filesArray = $finalArray = [];
 
 // Get dir/file list over FTP
 if (isset($ftpSite)) {
-	ftpStart();
+	$ftpClass->ftpStart();
 	// Show user warning if no good connection
 	if (!$ftpConn || !$ftpLogin) {
 		die('<script>parent.parent.ICEcoder.message("Sorry, no FTP connection to ' . $ftpHost . ' for user ' . $ftpUser . '");</script>');
 		exit;
 	}
 	// Get our simple and detailed lists and close the FTP connection
-	$ftpList = ftpGetList($ftpConn, $ftpRoot . $location);
+	$ftpList = $ftpClass->ftpGetList($ftpConn, $ftpRoot . $location);
 	$finalArray = $ftpList['simpleList'];
 	$ftpItems = $ftpList['detailedList'];
-	ftpEnd();
+	$ftpClass->ftpEnd();
 // or get local list
 } else {
 	$finalArray = scanDir($scanDir . $location);

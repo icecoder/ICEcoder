@@ -10,6 +10,3 @@ require_once "../classes/URL.php";
 // Headers & Settings
 require_once "headers.php";
 require_once "settings.php";
-
-// FTP Control
-require_once "ftp-control.php";
