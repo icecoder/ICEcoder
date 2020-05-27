@@ -254,7 +254,42 @@ function createNewCMInstanceEvents(num, pane) {
 
 <div style="position: absolute; display: none; height: 100%; width: 100%; top: 0; padding: 3px 0 0 60px; line-height: 16px; font-family: monospace; font-size: 13px; z-index: 2147483647" id="game"></div>
 
-<?php include_once("processes/on-editor-load.php"); ?>
+<script>
+CodeMirror.commands.autocomplete = function(cM) {
+    let langType = parent.ICEcoder.caretLocType;
+    if (-1 < ["JavaScript", "CoffeeScript", "TypeScript", "SQL", "CSS", "HTML", "XML", "Content"].indexOf(langType)) {
+        if ("XML" === langType || "Content" === langType) {
+            langType="HTML";
+        }
+        CodeMirror.showHint(cM, CodeMirror.hint[langType.toLowerCase()]);
+    }
+}
+
+// Switch the CodeMirror mode on demand
+parent.ICEcoder.switchMode = function(mode) {
+    let cM, cMdiff, fileName, fileExt;
+
+    cM = parent.ICEcoder.getcMInstance();
+    cMdiff = parent.ICEcoder.getcMdiffInstance();
+    fileName = parent.ICEcoder.openFiles[parent.ICEcoder.selectedTab - 1];
+
+    if (cM && mode) {
+        if (mode != cM.getOption("mode")) {
+            cM.setOption("mode", mode);
+            cMdiff.setOption("mode", mode);
+        }
+    } else if (cM && fileName) {
+        <?php include(dirname(__FILE__) . "/assets/js/language-modes-partial.js");?>
+
+        if (mode != cM.getOption("mode")) {
+            cM.setOption("mode", mode);
+            cM.setOption("lint", ("js" === fileExt || "json" === fileExt) && parent.ICEcoder.codeAssist ? true : false);
+            cMdiff.setOption("mode", mode);
+            cMdiff.setOption("lint", ("js" === fileExt || "json" === fileExt) && parent.ICEcoder.codeAssist ? true : false);
+        }
+    }
+}
+</script>
 
 </body>
 
