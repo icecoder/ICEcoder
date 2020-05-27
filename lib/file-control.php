@@ -149,8 +149,9 @@ if (!$error && "save" === $_GET['action']) {
                 $doNext .= $fileClass->handleMarkdown($doNext);
                 $doNext .= $fileClass->handleDiffPane($doNext);
                 $doNext .= $fileClass->finaliseSave($doNext);
+                $doNext .= $fileClass->compileSass($doNext);
+                $doNext .= $fileClass->compileLess($doNext);
 
-                include_once "on-file-save.php";
                 // Run any extra processes
                 $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
                 $doNext = $extraProcesses->onFileSave($doNext);

@@ -6,6 +6,8 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ICEcoder\FTP;
 use ICEcoder\System;
+use scssc;
+use lessc;
 
 class File
 {
@@ -242,7 +244,7 @@ class File
     }
 
     public function returnLoadImageScript() {
-        global $fileLoc, $fileName;
+        global $fileLoc, $fileName, $t;
         $script = '
         if ("image" === fileType) {
             parent.parent.document.getElementById(\'blackMask\').style.visibility = "visible";
@@ -633,6 +635,63 @@ class File
 						ICEcoder.savedPoints[ICEcoder.selectedTab-1] = cM.changeGeneration();
 						ICEcoder.savedContents[ICEcoder.selectedTab-1] = cM.getValue();
 						ICEcoder.redoTabHighlight(ICEcoder.selectedTab);';
+
+        return $doNext;
+    }
+
+    public function compileSass($doNext) {
+        global $docRoot, $fileLoc, $fileName;
+
+        // Compiling Sass files (.scss to .css, with same name, in same dir)
+        $filePieces = explode(".", $fileName);
+        $fileExt = $filePieces[count($filePieces) - 1];
+
+        // SCSS Compiling if we have SCSSPHP plugin installed
+        if (strtolower($fileExt) == "scss" && file_exists(dirname(__FILE__) . "/../plugins/scssphp/scss.inc.php")) {
+            // Load the SCSSPHP lib and start a new instance
+            require dirname(__FILE__) . "/../plugins/scssphp/scss.inc.php";
+            $scss = new scssc();
+
+            // Set the import path and formatting type
+            $scss->setImportPaths($docRoot . $fileLoc . "/");
+            $scss->setFormatter('scss_formatter_compressed'); // scss_formatter, scss_formatter_nested, scss_formatter_compressed
+
+            if (true === is_writable($docRoot . $fileLoc)) {
+                $scssContent = $scss->compile('@import "' . $fileName . '"');
+                $fh = fopen($docRoot . $fileLoc . "/" . substr($fileName, 0, -4) . "css", 'w');
+                fwrite($fh, $scssContent);
+                fclose($fh);
+            } else {
+                $doNext .= ";ICEcoder.message('Could not compile your Sass, dir not writable.');";
+            }
+        }
+
+        return $doNext;
+    }
+
+    public function compileLess($doNext) {
+        global $docRoot, $fileLoc, $fileName;
+
+        // Compiling LESS files (.less to .css, with same name, in same dir)
+        $filePieces = explode(".", $fileName);
+        $fileExt = $filePieces[count($filePieces) - 1];
+
+        // Less Compiling if we have LESSPHP plugin installed
+        if (strtolower($fileExt) == "less" && file_exists(dirname(__FILE__) . "/../plugins/lessphp/lessc.inc.php")) {
+            // Load the LESSPHP lib and start a new instance
+            require dirname(__FILE__) . "/../plugins/lessphp/lessc.inc.php";
+            $less = new lessc();
+
+            // Set the formatting type and if we want to preserve comments
+            $less->setFormatter('lessjs'); // lessjs (same style used in LESS for JS), compressed (no whitespace) or classic (LESSPHP's original formatting)
+            $less->setPreserveComments(false); // true or false
+
+            if (true === is_writable($docRoot . $fileLoc)) {
+                $less->checkedCompile($docRoot . $fileLoc . "/" . $fileName, $docRoot . $fileLoc . "/" . substr($fileName, 0, -4) . "css"); // Note: Only recompiles if changed
+            } else {
+                $doNext .= ";ICEcoder.message('Could not compile your LESS, dir not writable.');";
+            }
+        }
 
         return $doNext;
     }
