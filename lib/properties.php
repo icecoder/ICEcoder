@@ -127,20 +127,20 @@ permValues = [4, 2, 1];
 permTypes  = ['read', 'write', 'exec'];
 
 function changePerms(val) {
-	var permText = document.getElementById('permText').value;
+	const permText = document.getElementById('permText').value;
 	// change checkboxes
 	if (val) {
 		// set values
 		if (3 === permText.length) {
-			for (var i = 0; i <= 2; i++) {
-				for (var j = 0; j <= 2; j++) {
+			for (let i = 0; i <= 2; i++) {
+				for (let j = 0; j <= 2; j++) {
 				document.getElementById(permGroups[i] + permValues[j]).checked = window[permTypes[j] + 'Vars'].indexOf(permText.split("")[i] * 1) > -1;
 				}
 			}
 		// clear values
 		} else {
-			for (var i = 0; i <= 2; i++) {
-				for (var j = 0; j <= 2; j++) {
+			for (let i = 0; i <= 2; i++) {
+				for (let j = 0; j <= 2; j++) {
 					document.getElementById(permGroups[i]+permValues[j]).checked  = false;
 				}
 			}
@@ -154,12 +154,12 @@ function changePerms(val) {
 	}
 }
 
-var showButton = function() {
+const showButton = function() {
 	document.getElementById('updateButton').style.opacity = "1";
 }
 
-var validatePerms = function() {
-	var permText = document.getElementById('permText').value;
+const validatePerms = function() {
+	const permText = document.getElementById('permText').value;
 	canUpdate = true;
 	if (3 !== permText.length || isNaN(permText)) {canUpdate = false}
 	if (
