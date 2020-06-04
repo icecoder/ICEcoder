@@ -4,9 +4,12 @@ $configSettings = 'config-settings.php';
 $configUsersTemplate = 'template-users.php';
 
 require_once dirname(__FILE__) . "/../classes/_ExtraProcesses.php";
+require_once dirname(__FILE__) . "/../classes/Settings.php";
 require_once dirname(__FILE__) . "/../classes/System.php";
 
 use ICEcoder\ExtraProcesses;
+
+$settingsClass = new \ICEcoder\Settings();
 
 // Create a new config file if it doesn't exist yet.
 // The reason we create it, is so it has PHP write permissions, meaning we can update it later
@@ -64,26 +67,7 @@ $ICEcoderUserSettings['previousFiles'] = $prevFilesAvail;
 
 // Replace our config created date with the filemtime?
 if ("index.php" === basename($_SERVER['SCRIPT_NAME']) && 0 === $ICEcoderUserSettings['configCreateDate']) {
-    $settingsContents = getData(dirname(__FILE__) . "/../data/" . $settingsFile);
-    clearstatcache();
-    $configfilemtime = filemtime(dirname(__FILE__) . "/../data/" . $settingsFile);
-    // Make it a number (avoids null, undefined etc)
-    $configfilemtime = intval($configfilemtime);
-    // Set it to the epoch time now if we don't have a real value
-    if (0 === $configfilemtime) {
-        $configfilemtime = time();
-    }
-    $settingsContents = str_replace('"configCreateDate"	=> 0,', '"configCreateDate"	=> ' . $configfilemtime . ',', $settingsContents);
-    // Now update the config file
-    if (!$fh = fopen(dirname(__FILE__) . "/../data/" . $settingsFile, 'w')) {
-        $reqsPassed = false;
-        $reqsFailures = ["phpUpdateSettings"];
-        include dirname(__FILE__) . "/requirements.php";
-    }
-    fwrite($fh, $settingsContents);
-    fclose($fh);
-    // Set the new value in array
-    $ICEcoderUserSettings['configCreateDate'] = $configfilemtime;
+    $settingsClass->updateConfigCreateDate();
 }
 
 // On mismatch of settings file to system, rename to .old and reload
@@ -208,48 +192,9 @@ if (false === isset($_POST['password']) && (!$_SESSION['loggedIn'] || "" === $IC
     // If the password hasn't been set and we're setting it
     if ("" === $ICEcoder["password"] && true === isset($_POST['submit']) && -1 < strpos($_POST['submit'],"set password")) {
         $password = str_replace("\$", "\\$", generateHash($_POST['password']));
-        $settingsContents = getData("../data/" . $settingsFile);
-        // Replace our empty password with the one submitted by user
-        $settingsContents = str_replace('"password"		=> "",','"password"		=> "' . $password . '",', $settingsContents);
-        // Also set the update checker preference
-        $checkUpdates = $_POST['checkUpdates']=="true" ? "true" : "false";
-        // once to cover the true setting, once to cover false
-        $settingsContents = str_replace('"checkUpdates"		=> true,','"checkUpdates"		=> ' . $checkUpdates . ',', $settingsContents);
-        $settingsContents = str_replace('"checkUpdates"		=> false,','"checkUpdates"		=> ' . $checkUpdates . ',', $settingsContents);
-        // Now update the config file
-        if (!$fh = fopen(dirname(__FILE__) . "/../data/" . $settingsFile, 'w')) {
-            $reqsPassed = false;
-            $reqsFailures = ["phpUpdateSettings"];
-            include(dirname(__FILE__) . "/requirements.php");
-        }
-        fwrite($fh, $settingsContents);
-        fclose($fh);
-        // Create a duplicate version for the IP address of the domain if it doesn't exist yet
-        $serverAddr = $_SERVER['SERVER_ADDR'] ?? "1";
-        if ($serverAddr == "1" || $serverAddr == "::1") {
-            $serverAddr = "127.0.0.1";
-        }
-        $settingsFileAddr = 'config-' . $username . str_replace(".", "_", $serverAddr) . '.php';
-        if (true === file_exists(dirname(__FILE__) . "/../data/" . $settingsFileAddr)) {
-            if (false === copy(dirname(__FILE__) . "/../data/" . $settingsFile, dirname(__FILE__) . "/../data/" . $settingsFileAddr)) {
-                $reqsPassed = false;
-                $reqsFailures = ["phpCreateSettingsFileAddr"];
-                include dirname(__FILE__) . "/requirements.php";
-            }
-        }
-        // Disable the enableRegistration config setting if the user had that option chosen
-        if (true === isset($_POST['disableFurtherRegistration'])) {
-            $updatedConfigSettingsFile = getData(dirname(__FILE__) . "/../data/" . $configSettings);
-            if ($fUConfigSettings = fopen(dirname(__FILE__) . "/../data/" . $configSettings, 'w')) {
-                $updatedConfigSettingsFile = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> false', $updatedConfigSettingsFile);
-                fwrite($fUConfigSettings, $updatedConfigSettingsFile);
-                fclose($fUConfigSettings);
-            } else {
-                $reqsPassed = false;
-                $reqsFailures = ["phpUpdateConfig"];
-                include dirname(__FILE__)."/requirements.php";
-            }
-        }
+        $settingsClass->updatePasswordCheckUpdates();
+        $settingsClass->createIPSettingsFileIfNotExist();
+        $settingsClass->disableFurtherRegistration();
         // Set the session user level
         if ($ICEcoder["multiUser"]) {
             $_SESSION['username'] = $_POST['username'];
