@@ -1425,6 +1425,139 @@ var ICEcoder = {
         }
     },
 
+    // Determine which area of the document we're in
+    caretLocationType: function() {
+        let thisCM, caretLocType, caretChunk, fileName, fileExt;
+
+        thisCM = this.getThisCM();
+        caretLocType = "Unknown";
+        caretChunk = thisCM.getValue().substr(0, this.caretPos + 1);
+
+        if (caretChunk.lastIndexOf("<script") > caretChunk.lastIndexOf("/script>") && "Unknown" === caretLocType) {caretLocType = "JavaScript";}
+        else if (caretChunk.lastIndexOf("<\?") > caretChunk.lastIndexOf("?\>") && "Unknown" === caretLocType) {caretLocType = "PHP";}
+        else if (caretChunk.lastIndexOf("<\%") > caretChunk.lastIndexOf("%\>") && "Unknown" === caretLocType) {caretLocType = "Ruby";}
+        else if (caretChunk.lastIndexOf("<style") > caretChunk.lastIndexOf("/style>") && "Unknown" === caretLocType) {caretLocType = "CSS";}
+        else if (caretChunk.lastIndexOf("<") > caretChunk.lastIndexOf(">") && "Unknown" === caretLocType) {caretLocType = "HTML";}
+        else if ("Unknown" === caretLocType) {caretLocType = "Content";}
+
+        fileName = this.openFiles[this.selectedTab - 1];
+        if ("Unknown" === caretLocType && fileName) {
+            fileExt = fileName.split(".");
+            fileExt = fileExt[fileExt.length - 1];
+            caretLocType =
+                fileExt == "js" ? "JavaScript"
+              : fileExt == "coffee" ? "CoffeeScript"
+              : fileExt == "ts" ? "TypeScript"
+              : fileExt == "py" ? "Python"
+              : fileExt == "mpy" ? "Python"
+              : fileExt == "rb" ? "Ruby"
+              : fileExt == "css" ? "CSS"
+              : fileExt == "less" ? "LESS"
+              : fileExt == "md" ? "Markdown"
+              : fileExt == "xml" ? "XML"
+              : fileExt == "sql" ? "SQL"
+              : fileExt == "yaml" ? "YAML"
+              : fileExt == "java" ? "Java"
+              : fileExt == "erl" ? "Erlang"
+              : fileExt == "jl" ? "Julia"
+              : fileExt == "c" ? "C"
+              : fileExt == "cpp" ? "C++"
+              : fileExt == "ino" ? "C++"
+              : fileExt == "cs" ? "C#"
+              : fileExt == "go" ? "Go"
+              : fileExt == "lua" ? "Lua"
+              : fileExt == "pl" ? "Perl"
+              : fileExt == "scss" ? "Sass"
+              : "Content";
+        }
+
+        this.caretLocType = caretLocType;
+    },
+
+    // Comment/uncomment line or selected range on keypress
+    lineCommentToggleSub: function(cM, cursorPos, linePos, lineContent, lCLen) {
+        let comments, startLine, endLine, commentCH, commentBS, commentBE;
+
+        // Language specific commenting
+        if (-1 < ["JavaScript", "CoffeeScript", "TypeScript", "PHP", "Python", "Ruby", "CSS", "SQL", "Erlang", "Julia", "Java", "YAML", "C", "C++", "C#", "Go", "Lua", "Perl", "Sass"].indexOf(this.caretLocType)) {
+
+            comments = {
+                "JavaScript"    : ["// ", "/* ", " */"],
+                "CoffeeScript"  : ["# ", "### ", " ###"],
+                "TypeScript"    : ["// ", "/* ", " */"],
+                "PHP"           : ["// ", "/* ", " */"],
+                "Python"        : ["# ", "/* ", " */"],
+                "Ruby"          : ["# ", "/* ", " */"],
+                "CSS"           : ["// ", "/* ", " */"],
+                "SQL"           : ["// ", "/* ", " */"],
+                "Erlang"        : ["% ", "/* ", " */"],
+                "Julia"         : ["# ", "/* ", " */"],
+                "Java"          : ["// ", "/* ", " */"],
+                "YAML"          : ["# ", "/* ", " */"],
+                "C"             : ["// ", "/* ", " */"],
+                "C++"           : ["// ", "/* ", " */"],
+                "C#"            : ["// ", "/* ", " */"],
+                "Go"            : ["// ", "/* ", " */"],
+                "Lua"           : ["-- ", "--[[ ", " ]]"],
+                "Perl"          : ["# ", "/* ", " */"],
+                "Sass"          : ["// ", "/* ", " */"]
+            }
+
+            // Identify the single line, block start and block end comment chars
+            commentCH = comments[this.caretLocType][0];
+            commentBS = comments[this.caretLocType][1];
+            commentBE = comments[this.caretLocType][2];
+
+            // Block commenting
+            if (cM.somethingSelected()) {
+                // Language has no block commenting, so repeating singles are needed
+                if (-1 < ["Ruby", "Python", "Erlang", "Julia", "YAML", "Perl"].indexOf(this.caretLocType)) {
+                    startLine = cM.getCursor(true).line;
+                    endLine = cM.getCursor().line;
+                    for (let i = startLine; i <= endLine; i++) {
+                        cM.replaceRange(cM.getLine(i).slice(0, commentCH.length) != commentCH
+                            ? commentCH + cM.getLine(i)
+                            : cM.getLine(i).slice(commentCH.length, cM.getLine(i).length), {line:i, ch:0}, {line:i, ch:1000000});
+                    }
+                    // Language has block commenting
+                } else {
+                    cM.replaceSelection(cM.getSelection().slice(0,commentBS.length) != commentBS
+                        ? commentBS + cM.getSelection() + commentBE
+                        : cM.getSelection().slice(commentBS.length, cM.getSelection().length - commentBE.length), "around");
+                }
+                // Single line commenting
+            } else {
+                if (-1 < ["CSS", "SQL"].indexOf(this.caretLocType)) {
+                    cM.replaceRange(lineContent.slice(0,commentBS.length) != commentBS
+                        ? commentBS + lineContent + commentBE
+                        : lineContent.slice(commentBS.length, lCLen - commentBE.length), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
+                    adjustCursor = commentBS.length;
+                    if (lineContent.slice(0,commentBS.length) == commentBS) {adjustCursor = -adjustCursor}
+                } else {
+                    cM.replaceRange(lineContent.slice(0,commentCH.length) != commentCH
+                        ? commentCH + lineContent
+                        : lineContent.slice(commentCH.length,lCLen), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
+                    adjustCursor = commentCH.length;
+                    if (lineContent.slice(0,commentCH.length) == commentCH) {adjustCursor = -adjustCursor}
+                }
+            }
+            // HTML style commenting
+        } else {
+            if (cM.somethingSelected()) {
+                cM.replaceSelection(cM.getSelection().slice(0,4) !== "<\!--"
+                    ? "<\!--" + cM.getSelection() + "//-->"
+                    : cM.getSelection().slice(4, cM.getSelection().length - 5),"around");
+            } else {
+                cM.replaceRange(lineContent.slice(0,4) !== "<\!--"
+                    ? "<\!--" + lineContent + "//-->"
+                    : lineContent.slice(4, lCLen-5), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
+                adjustCursor = lineContent.slice(0,4) === "<\!--" ? -4 : 4;
+            }
+        }
+
+        if (!cM.somethingSelected()) {cM.setCursor(linePos, cursorPos + adjustCursor)}
+    },
+
 // =====
 // FILES
 // =====
@@ -2431,6 +2564,15 @@ var ICEcoder = {
                 get('rTarget').style.display =
                     document.findAndReplace.connector.value==t['and']
                         ? "inline-block" : "none";
+    },
+
+    findReplaceKeyUp: function() {
+        // Realtime finding - only action for finding in current doc
+        if ("in" === document.findAndReplace.connector.value && "this document" === document.findAndReplace.target.value) {
+            ICEcoder.findReplace(get('find').value, true, false, event.keyCode == 27);
+            get('findReplaceSubmit').click();
+            get("find").focus();
+        }
     },
 
     // Find & replace text according to user selections
@@ -4454,13 +4596,14 @@ var ICEcoder = {
     },
 
     handleModalKeyUp: function(evt, page) {
-        key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+        const key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+        const target = get('blackMask') ? get('blackMask') : parent.get('blackMask');
 
         if ("settings" === page && 13 === key) {
             get(page + 'IFrame').contentWindow.submitSettings();
         }
         if (27 === key) {
-            parent.ICEcoder.showHide('hide',parent.get('blackMask'));
+            this.showHide('hide', target);
         }
     },
 
