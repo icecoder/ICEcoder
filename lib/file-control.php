@@ -107,7 +107,7 @@ if (!$error && "save" === $_GET['action']) {
             "fileName" => $fileName,
             "fileMDTURLPart" => $fileMDTURLPart,
             "fileVersionURLPart" => $fileVersionURLPart,
-            "ftpSite" => $ftpSite
+            "ftpSite" => true === isset($ftpSite)
         ];
         $doNext .= $fileClass->handleSaveLooparound($fileDetails, $finalAction, $doNext, $t);
 

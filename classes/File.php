@@ -301,7 +301,7 @@ class File
 
 						/* Saving under conditions: Confirmation of overwrite or there is no filename conflict, it is a new file, in either case we can save */
 						if (overwriteOK || noConflictSave) {
-							newFileName = "' . (isset($ftpSite) ? "" : $docRoot) . '" + newFileName;
+							newFileName = "' . (true === $ftpSite ? "" : $docRoot) . '" + newFileName;
 							saveURL = "lib/file-control.php?action=save' . $fileMDTURLPart . $fileVersionURLPart . '&csrf=' . $_GET["csrf"] . '";
 
 							var xhr = ICEcoder.xhrObj();
@@ -330,7 +330,7 @@ class File
 							ICEcoder.serverMessage("<b>' . $t['Saving'] . '</b><br>" + "'.("Save" === $finalAction ? "newFileName" : "'" . $fileName . "'") . '");
 						}
 					}
-				},10);
+				}, 10);
 			};
 
 			/* UI dialog cancelling and saving contents for save as looparound */
