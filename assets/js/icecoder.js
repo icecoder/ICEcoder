@@ -2209,34 +2209,34 @@ var ICEcoder = {
                     statusObj.action.timeTaken = statusObj.action.timeEnd - statusObj.action.timeStart;
 
                     // User wanted raw (or both) output of the response?
-                    if (0 <= ["raw", "both"].indexOf(this.fileDirResOutput)) {
+                    if (0 <= ["raw", "both"].indexOf(ICEcoder.fileDirResOutput)) {
                         console.log(xhr.responseText);
                     }
                     // User wanted object (or both) output of the response?
-                    if (0 <= ["object", "both"].indexOf(this.fileDirResOutput)) {
+                    if (0 <= ["object", "both"].indexOf(ICEcoder.fileDirResOutput)) {
                         console.log(statusObj);
                     }
 
                     // Also store the statusObj
-                    this.lastFileDirCheckStatusObj = statusObj;
+                    ICEcoder.lastFileDirCheckStatusObj = statusObj;
 
                     // If error, show that, otherwise do whatever we're required to do next
                     if (statusObj.status.error) {
-                        this.message(statusObj.status.errorMsg);
+                        ICEcoder.message(statusObj.status.errorMsg);
                         console.log("ICEcoder error info for your request...");
                         console.log(statusObj);
-                        this.serverMessage();
-                        this.serverQueue('del', 0);
+                        ICEcoder.serverMessage();
+                        ICEcoder.serverQueue('del', 0);
                     } else {
                         eval(statusObj.action.doNext);
                     }
                     // Some other response? Display a message about that
                 } else {
-                    this.message(t['Sorry there was...']);
+                    ICEcoder.message(t['Sorry there was...']);
                     console.log("ICEcoder error info for your request...");
                     console.log(statusObj);
-                    this.serverMessage();
-                    this.serverQueue('del', 0);
+                    ICEcoder.serverMessage();
+                    ICEcoder.serverQueue('del', 0);
                 }
             }
         };
@@ -3207,30 +3207,30 @@ var ICEcoder = {
                             statusObj.action.timeTaken = statusObj.action.timeEnd - statusObj.action.timeStart;
 
                             // User wanted raw (or both) output of the response?
-                            if (["raw","both"].indexOf(this.fileDirResOutput) >= 0) {
+                            if (["raw","both"].indexOf(ICEcoder.fileDirResOutput) >= 0) {
                                 console.log(xhr.responseText);
                             }
                             // User wanted object (or both) output of the response?
-                            if (["object","both"].indexOf(this.fileDirResOutput) >= 0) {
+                            if (["object","both"].indexOf(ICEcoder.fileDirResOutput) >= 0) {
                                 console.log(statusObj);
                             }
                             // If error, show that, otherwise do whatever we're required to do next
                             if (statusObj.status.error) {
-                                this.message(statusObj.status.errorMsg);
+                                ICEcoder.message(statusObj.status.errorMsg);
                                 console.log("ICEcoder error info for your request...");
                                 console.log(statusObj);
-                                this.serverMessage();
-                                this.serverQueue('del',0);
+                                ICEcoder.serverMessage();
+                                ICEcoder.serverQueue('del',0);
                             } else {
                                 eval(statusObj.action.doNext);
                             }
                             // Some other response? Display a message about that
                         } else {
-                            this.message(t['Sorry there was...']);
+                            ICEcoder.message(t['Sorry there was...']);
                             console.log("ICEcoder error info for your request...");
                             console.log(statusObj);
-                            this.serverMessage();
-                            this.serverQueue('del',0);
+                            ICEcoder.serverMessage();
+                            ICEcoder.serverQueue('del',0);
                         }
                     }
                 };
