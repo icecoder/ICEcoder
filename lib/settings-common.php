@@ -35,7 +35,7 @@ if(false === isset($_SESSION)) {
 }
 
 // Set the language file, if now possible
-if (false === isset($_SESSION['text'])) {
+if (true === isset($_SESSION['text'])) {
 	$text = $_SESSION['text'];
 	$t = $text['settings-common'];
 }
