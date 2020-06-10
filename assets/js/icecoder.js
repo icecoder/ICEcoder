@@ -4,7 +4,7 @@ const get = function(elem) {
 };
 
 // URL we're viewing ICEcoder from
-const iceLoc = window.location.pathname;
+const iceLoc = window.location.origin + window.location.pathname.replace("/", "");
 
 // Main ICEcoder object
 var ICEcoder = {
