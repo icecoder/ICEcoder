@@ -113,7 +113,7 @@ $status = array(
 
 // Include our process once our bug checking work is done
 $extraProcesses = new ExtraProcesses();
-$doNext = $extraProcesses->onFileDirPaste($result, $status);
+$doNext = $extraProcesses->onBugCheckResult($result, $status);
 
 // Finally, display our status in JSON format as the XHR response text
 echo json_encode($status);
