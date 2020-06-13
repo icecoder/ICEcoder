@@ -411,7 +411,7 @@ if (!isset($ftpSite) && !$error && "getRemoteFile" === $_GET['action']) {
     if ($remoteFile = toUTF8noBOM(getData($file, 'curl'), true)) {
         // Get URL contents
         $url = new URL($remoteFile);
-        $doNext = $url->load($doNext, $ICEcoder["lineEnding"], $lineNumber);
+        $doNext .= $url->load($ICEcoder["lineEnding"], $lineNumber);
         $finalAction = "getRemoteFile";
 
         // Run any extra processes
