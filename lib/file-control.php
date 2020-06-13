@@ -116,7 +116,7 @@ if (!$error && "save" === $_GET['action']) {
             "fileVersionURLPart" => $fileVersionURLPart,
             "ftpSite" => true === isset($ftpSite)
         ];
-        $doNext .= $fileClass->handleSaveLooparound($fileDetails, $finalAction, $doNext, $t);
+        $doNext .= $fileClass->handleSaveLooparound($fileDetails, $finalAction, $t);
 
         // ===================
         // FILE CONTENT SAVING
@@ -152,12 +152,12 @@ if (!$error && "save" === $_GET['action']) {
                     $backupClass->makeBackup($fileLoc, $fileName, $contents);
                 }
 
-                $doNext .= $fileClass->updateUI($doNext);
-                $doNext .= $fileClass->handleMarkdown($doNext);
-                $doNext .= $fileClass->handleDiffPane($doNext);
-                $doNext .= $fileClass->finaliseSave($doNext);
-                $doNext .= $fileClass->compileSass($doNext);
-                $doNext .= $fileClass->compileLess($doNext);
+                $doNext .= $fileClass->updateUI();
+                $doNext .= $fileClass->handleMarkdown();
+                $doNext .= $fileClass->handleDiffPane();
+                $doNext .= $fileClass->finaliseSave();
+                $doNext .= $fileClass->compileSass();
+                $doNext .= $fileClass->compileLess();
 
                 // Run any extra processes
                 $extraProcesses = new ExtraProcesses($fileLoc, $fileName);

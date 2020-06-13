@@ -81,9 +81,10 @@ class File
         }
     }
 
-    public function updateUI($doNext) {
+    public function updateUI() {
         global $fileLoc, $fileName;
 
+        $doNext = "";
         // Reload file manager, rename tab & remove old file highlighting if it was a new file
         if (isset($_POST['newFileName']) && "" != $_POST['newFileName']) {
             $doNext .= 'ICEcoder.selectedFiles=[]; ICEcoder.updateFileManagerList(\'add\', \'' . $fileLoc . '\', \'' . $fileName . '\', false, false, false, \'file\');';
@@ -267,7 +268,7 @@ class File
         return $script;
     }
 
-    public function handleSaveLooparound($fileDetails, $finalAction, $doNext, $t) {
+    public function handleSaveLooparound($fileDetails, $finalAction, $t) {
         global $newFileAutoSave;
 
         $docRoot = $fileDetails['docRoot'];
@@ -278,7 +279,7 @@ class File
         $fileVersionURLPart = $fileDetails['fileVersionURLPart'];
         $ftpSite = $fileDetails['ftpSite'];
 
-        $doNext .= '
+        $doNext = '
 			ICEcoder.serverMessage();
 			fileLoc = "' . $fileLoc . '";
 			overwriteOK = false;
@@ -595,11 +596,11 @@ class File
         return $uploads;
     }
 
-    public function handleMarkdown($doNext) {
+    public function handleMarkdown() {
         // Reload previewWindow window if not a Markdown file
         // In doing this, we check on an interval for the page to be complete and if we last saw it loading
         // When we are done loading, so set the loading status to false and load plugins on..
-        $doNext .= 'if (ICEcoder.previewWindow.location && ICEcoder.previewWindow.location.pathname && -1 === ICEcoder.previewWindow.location.pathname.indexOf(".md")) {
+        $doNext = 'if (ICEcoder.previewWindow.location && ICEcoder.previewWindow.location.pathname && -1 === ICEcoder.previewWindow.location.pathname.indexOf(".md")) {
 					ICEcoder.previewWindowLoading = false;
 					ICEcoder.previewWindow.location.reload(true);
 
@@ -620,9 +621,9 @@ class File
         return $doNext;
     }
 
-    public function handleDiffPane($doNext) {
+    public function handleDiffPane() {
         // Copy over content to diff pane if we have that setting on
-        $doNext .= '
+        $doNext = '
 					cM = ICEcoder.getcMInstance();
 					cMdiff = ICEcoder.getcMdiffInstance();
 					if (ICEcoder.updateDiffOnSave) {
@@ -633,9 +634,9 @@ class File
         return $doNext;
     }
 
-    public function finaliseSave($doNext) {
+    public function finaliseSave() {
         // Finally, set previous files, indicate changes, set saved points and redo tabs
-        $doNext .= '
+        $doNext = '
 						ICEcoder.setPreviousFiles();
 						setTimeout(function(){ICEcoder.indicateChanges()}, 4);
 						ICEcoder.savedPoints[ICEcoder.selectedTab-1] = cM.changeGeneration();
@@ -645,8 +646,10 @@ class File
         return $doNext;
     }
 
-    public function compileSass($doNext) {
+    public function compileSass() {
         global $docRoot, $fileLoc, $fileName;
+
+        $doNext = "";
 
         // Compiling Sass files (.scss to .css, with same name, in same dir)
         $filePieces = explode(".", $fileName);
@@ -675,8 +678,10 @@ class File
         return $doNext;
     }
 
-    public function compileLess($doNext) {
+    public function compileLess() {
         global $docRoot, $fileLoc, $fileName;
+
+        $doNext = "";
 
         // Compiling LESS files (.less to .css, with same name, in same dir)
         $filePieces = explode(".", $fileName);
