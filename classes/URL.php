@@ -27,7 +27,7 @@ class URL
         $this->remoteFile = str_replace("\r\n", $lineEnding, $this->remoteFile);
         $this->remoteFile = str_replace("\r", $lineEnding, $this->remoteFile);
         $this->remoteFile = str_replace("\n", $lineEnding, $this->remoteFile);
-        $doNext .= 'ICEcoder.newTab();';
+        $doNext .= 'ICEcoder.newTab(false);';
         $doNext .= 'ICEcoder.getcMInstance().setValue(\'' . str_replace("\r", "", str_replace("\t", "\\\\t", str_replace("\n", "\\\\n", str_replace("'", "\\\\'", str_replace("\\", "\\\\", preg_quote($this->remoteFile)))))) . '\');';
         $doNext .= 'ICEcoder.goToLine(' . $lineNumber . ');';
 

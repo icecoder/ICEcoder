@@ -1819,9 +1819,9 @@ var ICEcoder = {
         }
     },
 
-    // Create a new file (start & instant save)
+    // Create a new file (start & trigger save)
     newFile: function() {
-        this.newTab('alsoSave');
+        this.newTab(true);
     },
 
     // Create a new folder
@@ -1985,10 +1985,10 @@ var ICEcoder = {
     },
 
     // Save a file
-    saveFile: function(saveAs) {
+    saveFile: function(saveAs, newFileAutoSave) {
         let changes, saveType, filePath, pathPrefix;
         // If we're not 'saving as', establish changes between current and known saved version from array
-        if (!saveAs) {
+        if (false === saveAs) {
             changes = this.getChangesToSave();
         }
 
@@ -2001,7 +2001,7 @@ var ICEcoder = {
                 : "|[NEW]";
         }
         filePath = filePath.replace("||", "|");
-        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=save&fileMDT=" + this.openFileMDTs[this.selectedTab - 1] + "&fileVersion=" + this.openFileVersions[this.selectedTab - 1] + "&saveType=" + saveType + "&csrf=" + this.csrf,encodeURIComponent(filePath), changes);
+        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=save&fileMDT=" + this.openFileMDTs[this.selectedTab - 1] + "&fileVersion=" + this.openFileVersions[this.selectedTab - 1] + "&saveType=" + saveType + "&newFileAutoSave=" + newFileAutoSave + "&csrf=" + this.csrf,encodeURIComponent(filePath), changes);
         this.serverMessage('<b>' + t['Saving'] + '</b><br>' + this.openFiles[this.selectedTab - 1].replace(iceRoot, ""));
     },
 
@@ -3861,7 +3861,7 @@ var ICEcoder = {
     },
 
     // Starts a new file by setting a few vars & creating a new cM instance
-    newTab: function(alsoSave) {
+    newTab: function(autoSave) {
         var cM;
 
         this.cMInstances.push(this.nextcMInstance);
@@ -3881,9 +3881,9 @@ var ICEcoder = {
         this['cMActiveLinecM'+this.selectedTab] = cM.addLineClass(0, "background", "cm-s-activeLine");
         this.nextcMInstance++;
 
-        // Also save?
-        if (alsoSave) {
-            this.saveFile();
+        // Also auto trigger save
+        if (true === autoSave) {
+            this.saveFile(false, true);
         }
     },
 
@@ -3978,7 +3978,15 @@ var ICEcoder = {
         if (!closeTabNum) {closeTabNum = this.selectedTab};
 
         okToRemove = true;
-        if (!dontAsk && this.savedPoints[closeTabNum-1]!=this.getcMInstance(closeTabNum).changeGeneration()) {
+        // Only confirm if we're OK to ask and...
+        if (!dontAsk && (
+            ("/[NEW]" === this.openFiles[closeTabNum-1]
+                // ...it's a new file that's not empty
+                ? "" !== this.getcMInstance(closeTabNum).getValue()
+                // ...or it's not a new file and it's not saved
+                : this.savedPoints[closeTabNum-1] != this.getcMInstance(closeTabNum).changeGeneration()
+            )
+        )) {
             okToRemove = this.ask(t['You have made...']);
         }
 
@@ -4445,7 +4453,7 @@ var ICEcoder = {
             } else if((key==107 || key==187) && (evt.ctrlKey||this.cmdKey)) {
                 area=="content"
                     ? this.duplicateLines()
-                    : this.newTab();
+                    : this.newTab(false);
                 return false;
 
                 // CTRL/Cmd+numeric minus (Close tab)
@@ -4458,9 +4466,9 @@ var ICEcoder = {
                 // CTRL/Cmd+S (Save), CTRL/Cmd+Shift+S (Save As)
             } else if(key==83 && (evt.ctrlKey||this.cmdKey)) {
                 if(evt.shiftKey) {
-                    this.saveFile('saveAs');
+                    this.saveFile(true, false);
                 } else {
-                    this.saveFile();
+                    this.saveFile(false, false);
                 }
                 return false;
 

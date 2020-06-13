@@ -219,8 +219,8 @@ $t = $text['index'];
 				<li><a nohref onClick="ICEcoder.newFile()"><?php echo $t['New File'];?>...</a></li>
 				<li><a nohref onClick="ICEcoder.newFolder()"><?php echo $t['New Folder'];?>...</a></li>
 				<li><a nohref onClick="ICEcoder.openPrompt()"><?php echo $t['Open'];?>...</a></li>
-				<li><a nohref onClick="ICEcoder.saveFile()"><?php echo $t['Save'];?></a></li>
-				<li><a nohref onclick="ICEcoder.saveFile('saveAs')"><?php echo $t['Save As'];?>...</a></li>
+				<li><a nohref onClick="ICEcoder.saveFile(false, false)"><?php echo $t['Save'];?></a></li>
+				<li><a nohref onclick="ICEcoder.saveFile(true, false)"><?php echo $t['Save As'];?>...</a></li>
 				<li><a nohref onclick="ICEcoder.openPreviewWindow()"><?php echo $t['Live Preview'];?></a></li>
 				<li><a nohref onclick="ICEcoder.downloadFile(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length - 1])"><?php echo $t['Download'];?></a></li>
 				<li><a nohref onclick="ICEcoder.copyFiles(ICEcoder.selectedFiles)"><?php echo $t['Copy'];?></a></li>
@@ -283,7 +283,7 @@ $t = $text['index'];
 		for ($i = 1; $i <= 100; $i++) {
 			echo '<div id="tab' . $i . '" class="tab" onmousedown="ICEcoder.canSwitchTabs ? ICEcoder.switchTab(parseInt(this.id.slice(3), 10)) : ICEcoder.canSwitchTabs = true; thisColor = ICEcoder.tabFGselected; if (!ICEcoder.overCloseLink) {ICEcoder.tabDragStart(parseInt(this.id.slice(3), 10))}; if (event.button == 1) {ICEcoder.closeTab(parseInt(this.id.slice(3), 10)); return false};" onmouseover="thisColor = this.style.color; this.style.color = ICEcoder.tabFGselected" onmouseout="this.style.color = thisColor"></div>';
 		}
-		?><div class="newTab" onClick="ICEcoder.newTab()" id="newTab">+</div>
+		?><div class="newTab" onClick="ICEcoder.newTab(false)" id="newTab">+</div>
 	</div>
 	<div id="findBar" class="findBar" oncontextmenu="return false">
 		<form name="findAndReplace" onSubmit="ICEcoder.findReplace(document.getElementById('find').value, false, true); return false">

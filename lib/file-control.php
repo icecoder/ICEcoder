@@ -27,8 +27,15 @@ $errorMsg = "None";
 // GET CLEANED FILENAMES OR ERROR
 // ==============================
 
-// Get the save type if any
-$saveType = $_GET['saveType'] ?? "";
+// Is this a save as?
+$saveAs = isset($_GET['saveType'])
+    ? ("saveAs" === $_GET['saveType'])
+    : false;
+
+// Is this an autosave while creating a new file?
+$newFileAutoSave = isset($_GET['newFileAutoSave'])
+    ? ("true" === $_GET['newFileAutoSave'])
+    : false;
 
 // Establish the filename/new filename
 // New file
@@ -95,7 +102,7 @@ if (!$error && "save" === $_GET['action']) {
     // NEW FILES AND SAVE AS XHR LOOPAROUND
     // ====================================
 
-    if (0 < strpos($fileOrig, "[NEW]") || "saveAs" === $saveType) {
+    if (0 < strpos($fileOrig, "[NEW]") || true === $saveAs) {
         $finalAction = 0 < strpos($fileOrig, "[NEW]") ? "save as" : "save";
         $fileURL = isset($file) ? $file : "";
         $fileMDTURLPart = isset($_GET["fileMDT"]) && "undefined" !== $_GET["fileMDT"] ? "&fileMDT=" . numClean($_GET['fileMDT']) : "";

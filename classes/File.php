@@ -201,7 +201,7 @@ class File
                     selectedTab = parent.parent.ICEcoder.openFiles.length;	// The tab that\'s currently selected
     
                     // Finally, store all data, show tabs etc
-                    parent.parent.ICEcoder.createNewTab();
+                    parent.parent.ICEcoder.createNewTab(false);
                     parent.parent.ICEcoder.cMInstances.push(parent.parent.ICEcoder.nextcMInstance);
                     parent.parent.ICEcoder.setLayout();
                     parent.parent.ICEcoder.content.contentWindow.createNewCMInstance(parent.parent.ICEcoder.nextcMInstance);
@@ -268,6 +268,8 @@ class File
     }
 
     public function handleSaveLooparound($fileDetails, $finalAction, $doNext, $t) {
+        global $newFileAutoSave;
+
         $docRoot = $fileDetails['docRoot'];
         $fileLoc = $fileDetails['fileLoc'];
         $fileURL = $fileDetails['fileURL'];
@@ -330,8 +332,12 @@ class File
 							ICEcoder.serverMessage("<b>' . $t['Saving'] . '</b><br>" + "'.("Save" === $finalAction ? "newFileName" : "'" . $fileName . "'") . '");
 						}
 					}
-				}, 10);
-			};
+				}, 10);' .
+            ($newFileAutoSave
+                ? '} else {ICEcoder.closeTab(ICEcoder.selectedTab, "dontSetPV", "dontAsk");'
+                : ''
+            ) .
+			'};
 
 			/* UI dialog cancelling and saving contents for save as looparound */
 			if (!newFileName || newFileName && !overwriteOK) {
@@ -457,7 +463,7 @@ class File
             foreach ($objects as $object) {
                 if ("." !== $object && ".." !== $object) {
                     if ("dir" === filetype($dir . "/" . $object)) {
-                        rrmdir($dir . "/" . $object);
+                        $this->rrmdir($dir . "/" . $object);
                     } else {
                         $ICEcoder['deleteToTmp']
                             ? rename($dir . "/" . $object, str_replace("\\", "/", dirname(__FILE__)) . "/../tmp/." . str_replace(":", "_", str_replace("/", "_", $dir)) . "/" . $object)

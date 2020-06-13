@@ -118,7 +118,7 @@ let openNew = function() {
 	let cM;
 
     parent.ICEcoder.showHide('hide',parent.document.getElementById('blackMask'));
-    parent.ICEcoder.newTab();
+    parent.ICEcoder.newTab(false);
 	cM = parent.ICEcoder.getcMInstance();
 	cM.setValue(editor.getValue());
 }
@@ -141,7 +141,7 @@ let restoreVersion = function() {
 		cM = parent.ICEcoder.getcMInstance();
         parent.ICEcoder.focus();
 		cM.setValue(editor.getValue());
-        parent.ICEcoder.saveFile();
+        parent.ICEcoder.saveFile(false, false);
 	}
 }
 </script>
