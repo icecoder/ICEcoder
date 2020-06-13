@@ -2248,7 +2248,7 @@ var ICEcoder = {
 
     // Show menu on right clicking in file manager
     showMenu: function(evt) {
-        let menuType, menuHeight, winH, fmYPos;
+        let menuType, menuHeight, winH, fmXPos, fmYPos;
 
         if (0 === this.selectedFiles.length ||
             -1 === this.selectedFiles.indexOf(this.selectedFiles[this.selectedFiles.length-1].replace(/\//g, "|"))) {
@@ -2272,11 +2272,12 @@ var ICEcoder = {
             }
             get('fileMenu').style.display = "inline-block";
             setTimeout(function() {get('fileMenu').style.opacity = "1"}, 4);
-            get('fileMenu').style.left = (this.mouseX + 20) + "px";
-            fmYPos = this.mouseY - this.filesFrame.contentWindow.document.body.scrollTop - 10;
+            fmXPos = this.mouseX - this.filesFrame.contentWindow.scrollX + 20;
+            fmYPos = this.mouseY - this.filesFrame.contentWindow.scrollY - 10;
             if (fmYPos + menuHeight > winH) {
                 fmYPos -= (fmYPos + menuHeight - winH);
             }
+            get('fileMenu').style.left = fmXPos  + "px";
             get('fileMenu').style.top = fmYPos + "px";
         }
         return false;
