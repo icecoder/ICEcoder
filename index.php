@@ -289,7 +289,7 @@ $t = $text['index'];
 		<form name="findAndReplace" onSubmit="ICEcoder.findReplace(document.getElementById('find').value, false, true); return false">
 			<div class="findReplace">
 				<div class="findText"><?php echo $t['Find'];?></div>
-				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplaceKeyUp()">
+				<input type="text" name="find" value="" id="find" class="textbox find" oninput="ICEcoder.findReplaceOnInput()">
 
 				<div class="selectWrapper" style="width: 41px">
 					<select name="connector" onChange="ICEcoder.findReplaceOptions()" style="width: 40px; margin-top: 4px">
@@ -316,7 +316,8 @@ $t = $text['index'];
 							<option><?php echo $t['all filenames'];?></option>
 						</select>
 					</div>
-				<input type="submit" name="submit" id="findReplaceSubmit" value="&gt;&gt;" class="submit">
+				<input type="button" name="prev" value="&lt;&lt;" class="button" onclick="ICEcoder.findReplace(get('find').value,false,true,true);">
+				<input type="button" name="next" value="&gt;&gt;" class="button" onclick="ICEcoder.findReplace(get('find').value,false,true,false);">
 				<div class="results" id="results"></div>
 			</div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">

@@ -110,8 +110,8 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findReplace .replace {position: relative; width: 167px; height: 28px; border: 0; top: -2px; font-size: 12px; padding-left: 5px; background: #444; color: #eee}
 .findReplace .withText {display: inline-block; height: 28px; font-size: 10px; margin-top: 1px}
 .findReplace .targetText {height: 28px; font-size: 10px; margin: 7px 3px 0 2px}
-.findReplace .submit {position: relative; top: -2px; height: 28px; padding-top: 2px; border: 0; background-color: #1d1d1b; color: #eee; font-size: 10px; margin-left: 2px; cursor: pointer}
-.findReplace .submit:hover {background-color: #2187e7; color: #eee}
+.findReplace .button {position: relative; top: -2px; height: 28px; padding-top: 2px; border: 0; background-color: #1d1d1b; color: #eee; font-size: 10px; margin-left: 2px; cursor: pointer}
+.findReplace .button:hover {background-color: #2187e7; color: #eee}
 .findReplace .results {position: relative; display: inline-block; width: 200px; height: 20px; font-size: 10px; margin: 7px 0 0 20px}
 .findBar .goLine {position: fixed; display: inline-block; width: 120px; right: 65px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
 .goLine .goToLine {width: 50px; height: 28px; border: 0; font-size: 12px; margin: -7px 0 0 3px; padding-left: 4px; background: #333; color: #eee}
