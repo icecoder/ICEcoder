@@ -238,7 +238,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         for (let i = 0;i <= foundArray.length - 1; i++) {
             replaceInFileSingle(foundArray[i]);
         }
-        parent.ICEcoder.showHide('hide', parent.document.getElementById('blackMask'));;
+        parent.ICEcoder.showHide('hide', parent.document.getElementById('blackMask'));
     };
 
     const renameSingle = function(arrayRef) {
