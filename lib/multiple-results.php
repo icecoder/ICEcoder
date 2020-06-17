@@ -267,7 +267,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         parent.ICEcoder.findReplaceOptions();
         parent.document.findAndReplace.target.selectedIndex = 0;
         // Submit to select first instance
-        parent.document.findAndReplace.submit.click();
+        parent.ICEcoder.findReplace(parent.document.getElementById('find').value, false, true, false);
     };
 </script>
 
