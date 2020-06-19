@@ -27,7 +27,9 @@ var ICEcoder = {
     cMInstances:           [],            // List of CodeMirror instance no's
     nextcMInstance:        1,             // Next available CodeMirror instance no
     selectedFiles:         [],            // Array of selected files
-    findMode:              false,         // States if we're in find/replace mode
+    results:               [],            // Array of find coords (line & char)
+    resultsLines:          [],            // Array of lines containing results (simpler version of results)
+    findResult:            0,             // Array position of current find in results
     scrollbarVisible:      false,         // Indicates if the main pane has a scrollbar
     mouseDown:             false,         // If the mouse is down
     mouseDownInCM:         false,         // If the mouse is down within CodeMirror instance (can be false, 'editor' or 'gutter')
@@ -414,12 +416,15 @@ var ICEcoder = {
 
     // On key up
     cMonKeyUp: function(thisCM, cMinstance) {
-        if ("undefined" !== typeof doFind) {
-            clearInterval(doFind);
+        if (undefined !== typeof this.doFindInt) {
+            clearInterval(this.doFindInt);
         }
-        doFind = setTimeout(function(ic) {
-            ic.findReplace(get('find').value, true, false);
-        }, 500, this);
+        // If we have something to find in this document, find in 50 ms (unless cancelled by another keypress)
+        if ("" !== get('find').value && t['this document'] === document.findAndReplace.target.value) {
+            this.doFindInt = setTimeout(function (ic) {
+                ic.findReplace(get('find').value, false, false, false);
+            }, 50, this);
+        }
         this.setEditorStats();
     },
 
@@ -570,12 +575,6 @@ var ICEcoder = {
         // Reset our array for next time and redo editor stats
         this.oppTagReplaceData = [];
         this.setEditorStats();
-
-        if (this.findMode) {
-            this.results.splice(this.findResult, 1);
-            get('results').innerHTML = this.results.length + " " + t['results'];
-            this.findMode = false;
-        }
 
         // Update the list of functions and classes
         this.updateFunctionClassList();
@@ -1332,7 +1331,7 @@ var ICEcoder = {
                 "class " + tokenString
             ];
             for (let i = 0; i < defVars.length; i++) {
-                if (this.findReplace(defVars[i], false, false)) {
+                if (this.findReplace(defVars[i], false, false, false)) {
                     break;
                 }
             }
@@ -2531,29 +2530,6 @@ var ICEcoder = {
         this.mouseDownInCM = false;
     },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ==============
 // FIND & REPLACE
 // ==============
@@ -2567,178 +2543,183 @@ var ICEcoder = {
                         ? "inline-block" : "none";
     },
 
-    findReplaceKeyUp: function() {
-        // Realtime finding - only action for finding in current doc
-        if ("in" === document.findAndReplace.connector.value && "this document" === document.findAndReplace.target.value) {
-            ICEcoder.findReplace(get('find').value, true, false, event.keyCode == 27);
-            get('findReplaceSubmit').click();
+    findReplaceOnInput: function() {
+        // Realtime finding - only action for finding/replacing in current doc
+        if ("" !== get('find').value && t['this document'] === document.findAndReplace.target.value) {
+            ICEcoder.findReplace(get('find').value, true, false, false);
             get("find").focus();
+            return false;
         }
     },
 
     // Find & replace text according to user selections
-    findReplace: function(findString,resultsOnly,buttonClick,isCancel,findPrevious) {
-        var find, replace, results, thisCM, content, cursor, avgBlockH, addPadding, rBlocks, blockColor, replaceQS, targetQS, filesQS;
+    findReplace: function(find, selectNext, canActionChanges, findPrevious) {
+        let replace, results, thisCM, avgBlockH, addPadding, rBlocks, haveMatch, blockColor, replaceQS, targetQS, filesQS;
 
-        if (isCancel){
-            // Deselect by setting value to itself, then focus on editor
-            get('find').value = get('find').value;
-            this.focus();
-            return;
-        }
-        // Set findPrevious to false if not passed in
-        if ("undefined" == typeof findPrevious) {
-            findPrevious = false;
-        }
-
-        // Determine our find & replace strings and results display
-        find		= findString.toLowerCase();
+        // Determine our find rExp, replace value and results display
+        const rExp = new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), "gi");
         replace		= get('replace').value;
         results		= get('results');
 
-        // If we have something to find in currrent document
+        // Get CM pane
         thisCM = this.getThisCM();
 
-        if (thisCM && find.length>0 && document.findAndReplace.target.value==t['this document']) {
-            content = thisCM.getValue().toLowerCase();
-            // Find & replace the next instance, or all?
-            if (document.findAndReplace.connector.value==t['and'] && buttonClick) {
-                if (document.findAndReplace.replaceAction.value==t['replace'] && thisCM.getSelection().toLowerCase()==find) {
-                    thisCM.replaceSelection(replace,"around");
-                } else if (document.findAndReplace.replaceAction.value==t['replace all']) {
-                    var rExp = new RegExp(find,"gi");
-                    thisCM.setValue(thisCM.getValue().replace(rExp,replace));
+        if (thisCM && 0 < find.length && t['this document'] === document.findAndReplace.target.value) {
+            // Replacing?
+            if (t['and'] === document.findAndReplace.connector.value && true === canActionChanges) {
+                // Find & replace the next instance, or all?
+                if (t['replace'] === document.findAndReplace.replaceAction.value && thisCM.getSelection().toLowerCase() === find.toLowerCase()) {
+                    thisCM.replaceSelection(replace, "around");
+                } else if (t['replace all'] === document.findAndReplace.replaceAction.value) {
+                    thisCM.setValue(thisCM.getValue().replace(rExp, replace));
                 }
             }
 
-            // Get the content again, as it might of changed
-            content = thisCM.getValue().toLowerCase();
-            if (!this.findMode||find!=this.lastsearch) {
-                this.results = [];
-                this.resultsLines = [];
+            // Set results, resultsLines and findResult back to defaults
+            this.results = [];
+            this.resultsLines = [];
+            this.findResult = 0;
 
-                for (var i=0;i<content.length;i++) {
-                    if (content.substr(i,find.length)==find && this.results.indexOf(i) == -1) {
-                        this.results.push(i);
-                        if (this.resultsLines.indexOf(thisCM.posFromIndex(i).line+1)==-1) {
-                            this.resultsLines.push(thisCM.posFromIndex(i).line+1);
-                        }
+            // Start new iterators for line & last line
+            let i = 0;
+            let lastLine = -1;
+
+            // Get lineNum and chNum from cursor
+            const lineNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").line + 1;
+            const chNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").ch;
+
+            // Work out thhe avg block is either line height or fraction of space available
+            avgBlockH = !this.scrollBarVisible ? thisCM.defaultTextHeight() : parseInt(this.content.style.height, 10) / thisCM.lineCount();
+
+            // Need to add padding if there's no scrollbar, so current line highlighting lines up with it
+            addPadding = !this.scrollBarVisible ? thisCM.heightAtLine(0) : 0;
+
+            // Result blocks string empty to start, ready to hold DOM elems to show in results bar
+            rBlocks = "";
+
+            // Start looking for results
+            thisCM.eachLine(function(line) {
+                i++;
+                haveMatch = false;
+                // If we have matches for our regex for this line
+                while ((match = rExp.exec(line.text)) !== null) {
+                    haveMatch = true;
+                    // Not the same as last line, add to resultsLines
+                    if (lastLine !== i) {
+                        ICEcoder.resultsLines.push(match.index);
+                        lastLine = i;
                     }
+                    // If the line containing a result is less than than the cursors line or
+                    // if the character position of the match is less than the cursor position, increment findResult
+                    if (i < lineNum || (i === lineNum && match.index < chNum)) {
+                        ICEcoder.findResult++;
+                    }
+                    // Push the line & char position coords into results
+                    ICEcoder.results.push([i, match.index]);
                 }
+                // If the avg block height for results in results bar is above 0.5 pixels heigh, we can add a DOM elem
+                if (0.5 <= avgBlockH) {
+                    // Red for current line, grey for another line, transparent if no match
+                    blockColor = haveMatch ? thisCM.getCursor().line + 1 == i ? "rgba(192,0,0,0.3)" : "rgba(128,128,128,0.3)" : "transparent";
+                    // Add the DOM elem into our rBlocks string
+                    rBlocks += '<div style="position: absolute; display: block; width: 12px; height:' + avgBlockH + 'px; background: ' + blockColor + '; top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px"></div>';
+                }
+            });
 
-                // Also remember the last search term made
-                this.lastsearch = find;
+            // Increment findResult one more if our selection is what we want to find and we want to find next
+            if (find.toLowerCase() === thisCM.getSelection().toLowerCase() && false === findPrevious) {
+                ICEcoder.findResult++;
+            }
+
+            if (findPrevious) {
+                // Find & replace backwards using previous button = 1, else just find = 1
+                this.findResult -= true === canActionChanges ? 1 : 2;
             }
 
             // If we have results
             if (this.results.length>0) {
 
                 // Show results only
-                if (resultsOnly) {
+                if (false === selectNext) {
                     results.innerHTML = this.results.length + " results";
-                    // We need to take action instead
+                // We may want to take action instead
                 } else {
-                    // Find our cursor position relative to results
-                    // Go next
-                    if (!findPrevious) {
-                        this.findResult = 0;
-                        for (var i=0;i<this.results.length;i++) {
-                            if (this.results[i]<thisCM.indexFromPos({"ch": thisCM.getCursor().ch+1, "line": thisCM.getCursor().line})) {
-                                this.findResult++;
-                            }
-                        }
-                        // Go previous
-                    } else {
-                        if("undefined" == typeof this.findResult) {
-                            this.findResult = this.results.length+1;
-                        } else {
-                            this.findResult = this.results.length;
-                        }
-                        for (var i=this.results.length-1;i>=0;i--) {
-                            if (this.results[i]>thisCM.indexFromPos({"ch": thisCM.getCursor().ch-1, "line": thisCM.getCursor().line})) {
-                                this.findResult--;
-                            }
-                        }
-                    }
-
-                    // Loop round to start
-                    if (!findPrevious && this.findResult>this.results.length-1) {
+                    // Looking for next and hit end, loop round to start
+                    if (false === findPrevious && this.findResult > this.results.length - 1) {
                         this.findResult = 0
                     }
-                    // Loop round to end
-                    if (findPrevious && this.findResult==1) {
-                        this.findResult = this.results.length+1;
+                    // Looking for previous and hit start, loop round to end
+                    if (findPrevious && 0 > this.findResult) {
+                        this.findResult = this.results.length - 1;
+                    }
+
+                    // If we somehow ended up with a number under 0, set to 0
+                    if (this.findResult < 0) {
+                        this.findResult = 0;
                     }
 
                     // Update results display
-                    results.innerHTML = "Highlighted result "+(this.findResult+(!findPrevious ? 1 : -1))+" of "+this.results.length+" results";
+                    results.innerHTML = "Highlighted result " + (this.findResult + 1) + " of " + this.results.length + " results";
 
-                    // Now actually perform the movement in the editor
-                    if (!findPrevious) {
-                        // Find next instance
-                        cursor = thisCM.getSearchCursor(find,{"ch": thisCM.getCursor().ch+1, "line": thisCM.getCursor().line},true);
-                        cursor.findNext();
-                        // Find next from start of doc
-                        if (!cursor.from()) {
-                            cursor = thisCM.getSearchCursor(find,{line:0,ch:0},true);
-                            cursor.findNext();
-                        }
-                    } else {
-                        // Find previous instance
-                        cursor = thisCM.getSearchCursor(find,{"ch": thisCM.getCursor().ch-1, "line": thisCM.getCursor().line},true);
-                        cursor.findPrevious();
-                        // Find previous from end of doc
-                        if (!cursor.from()) {
-                            cursor = thisCM.getSearchCursor(find,{line:1000000,ch:1000000},true);
-                            cursor.findPrevious();
-                        }
-                    }
-                    // Finally, highlight our selection
-                    thisCM.setSelection(cursor.from(), cursor.to());
+                    // Scroll to that line in the editor
+                    this.goToLine(this.results[this.findResult][0], this.results[this.findResult][1], true);
+
+                    // Finally, highlight our selection and focus on CM pane
+                    thisCM.setSelection(
+                        {"line": this.results[this.findResult][0]-1, "ch": this.results[this.findResult][1]},
+                        {"line": this.results[this.findResult][0]-1, "ch": this.results[this.findResult][1] + find.length}
+                    );
                     this.focus();
-                    this.findMode = true;
                 }
 
                 // Display the find results bar
-                // The avg block is either line height or fraction of space available
-                avgBlockH = !this.scrollBarVisible ? thisCM.defaultTextHeight() : parseInt(this.content.style.height,10)/thisCM.lineCount();
-                // Need to add padding if there's no scrollbar, so current line highlighting lines up with it
-                addPadding = !this.scrollBarVisible ? thisCM.heightAtLine(0) : 0;
-                rBlocks = "";
-                for (var i=1; i<=thisCM.lineCount(); i++) {
-                    blockColor = this.resultsLines.indexOf(i)>-1 ? thisCM.getCursor().line+1 == i ? "rgba(192,0,0,0.3)" : "rgba(128,128,128,0.3)" : "transparent";
-                    rBlocks += '<div style="position: absolute; display: block; width: 12px; height:'+avgBlockH+'px; background: '+blockColor+'; top: '+parseInt((avgBlockH*(i-1))+addPadding,10)+'px"></div>';
-                }
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = rBlocks;
                 this.content.contentWindow.document.getElementById('resultsBar').style.display = "inline-block";
+
                 return true;
 
             } else {
                 results.innerHTML = "No results";
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
                 this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+
                 return false;
             }
         } else {
             // Show the relevant multiple results popup
-            if (find != "" && buttonClick) {
+            if (find !== "" && true === canActionChanges) {
+                // Set replace, target and files query string to empty
                 replaceQS = "";
                 targetQS = "";
                 filesQS = "";
-                if (document.findAndReplace.connector.value==t['and']) {
-                    replaceQS = "&replace="+replace;
+
+                // Replacing?
+                if (t['and'] === document.findAndReplace.connector.value) {
+                    replaceQS = "&replace=" + replace;
                 }
-                if (document.findAndReplace.target.value.indexOf(t['file'])>=0) {
-                    targetQS = "&target="+document.findAndReplace.target.value.replace(/ /g,"-");
+                // Target?
+
+                if (0 <= document.findAndReplace.target.value.indexOf(t['file'])) {
+                    targetQS = "&target=" + document.findAndReplace.target.value.replace(/ /g, "-");
                 }
-                if (document.findAndReplace.target.value==t['selected files']) {
+
+                // Files?
+                if (t['selected files'] === document.findAndReplace.target.value) {
                     filesQS = "&selectedFiles="+this.selectedFiles.join(":");
                 }
+
+                // Establish find
                 find = find.replace(/\'/g, '\&#39;');
-                find != encodeURIComponent(find) ? find = 'ICEcoder:'+encodeURIComponent(find) : find;
+                find !== encodeURIComponent(find) ? find = 'ICEcoder:' + encodeURIComponent(find) : find;
+
+                // Finally, show loading mask and open multiple results pane using QS params
                 this.showHide('show',get('loadingMask'));
-                get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/multiple-results.php?find='+find+replaceQS+targetQS+filesQS+'&csrf='+this.csrf+'" id="multipleResultsIFrame" class="whiteGlow" style="width: 700px; height: 500px"></iframe>';
-                // We have nothing to search for, blank it all out
+                get('mediaContainer').innerHTML = '<iframe src="' +
+                    iceLoc + '/lib/multiple-results.php?find=' + find
+                    + replaceQS + targetQS + filesQS +
+                    '&csrf=' + this.csrf +
+                    '" id="multipleResultsIFrame" class="whiteGlow" style="width: 700px; height: 500px"></iframe>';
+            // We have nothing to search for, blank it all out
             } else {
                 results.innerHTML = "No results";
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
@@ -2748,10 +2729,38 @@ var ICEcoder = {
     },
 
     // Replace text in a file
-    replaceInFile: function(fileRef,find,replace) {
-        this.serverQueue("add",iceLoc+"/lib/file-control.php?action=replaceText&find="+find+"&replace="+replace+"&csrf="+this.csrf,encodeURIComponent(fileRef.replace(/\//g,"|")));
-        this.serverMessage('<b>'+t['Replacing text in']+'</b><br>'+fileRef);
+    replaceInFile: function(fileRef, find, replace) {
+        this.serverQueue(
+            "add",
+            iceLoc +
+            "/lib/file-control.php?action=replaceText&find=" + find +
+            "&replace=" + replace +
+            "&csrf=" + this.csrf,
+            encodeURIComponent(fileRef.replace(/\//g, "|")));
+        this.serverMessage('<b>' + t['Replacing text in'] + '</b><br>' + fileRef);
     },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ==============
 // INFO & DISPLAY
@@ -3522,8 +3531,8 @@ var ICEcoder = {
 
     // Update and show/hide found results display?
     updateResultsDisplay: function(showHide) {
-        this.findReplace(get('find').value,true,false);
-        get('results').style.display = showHide=="show" ? 'inline-block' : 'none';
+        this.findReplace(get('find').value, false, false, false);
+        get('results').style.display = "show" === showHide ? 'inline-block' : 'none';
     },
 
     // Toggle full screen on/off
@@ -3840,16 +3849,13 @@ var ICEcoder = {
             // Highlight the selected tab
             this.redoTabHighlight(this.selectedTab);
 
-            // Redo our find display
-            this.findMode = false;
-            this.findReplace(get('find').value,true,false);
-
             // Update our versions display
             this.updateVersionsDisplay();
 
             // Detect if we have a scrollbar & set layout again
             setTimeout(function(ic) {
                 ic.scrollBarVisible = thisCM.getScrollInfo().height > thisCM.getScrollInfo().clientHeight;
+                ic.findReplace(get('find').value, false, false, false);
                 ic.setLayout();
             },0,this);
 
@@ -4396,14 +4402,8 @@ var ICEcoder = {
                 // that find has focus and refuses to give it focus second time.
                 get('goToLineNo').focus();
                 find.focus();
-                // Trigger the find/replace operation
-                if(key==70) {
-                    // Find next
-                    get('findReplaceSubmit').click();
-                } else {
-                    // Find previous
-                    this.findReplace(document.getElementById('find').value,false,true,false,'findPrevious');
-                }
+                // Trigger the find/replace operation (70 = F (next), 71 = G (prev))
+                this.findReplace(find.value, true, true, 70 !== key);
                 return false;
 
                 // CTRL/Cmd+L (Go to line)
