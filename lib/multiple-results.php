@@ -243,7 +243,8 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
 
     const renameSingle = function(arrayRef) {
         fileRef = spansArray[arrayRef].id.replace(/\|/g, "/").replace(/_perms/g, "");
-        newName = spansArray[arrayRef].id.replace(/\|/g, "/").replace(/_perms/g, "").replace(find, "<?php if (isset($_GET['replace'])) {echo $_GET['replace'];}; ?>");
+        const rExp = new RegExp(findText, "gi");
+        newName = spansArray[arrayRef].id.replace(/\|/g, "/").replace(/_perms/g, "").replace(rExp, "<?php if (isset($_GET['replace'])) {echo $_GET['replace'];}; ?>");
         parent.ICEcoder.renameFile(fileRef,newName);
     };
 
@@ -270,7 +271,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         parent.document.getElementById('results').style.display = 'inline-block';
         // Action the find and then focus on find input box
         setTimeout(function() {
-            parent.ICEcoder.findReplace(parent.document.getElementById('find').value, true, false, false);
+            parent.ICEcoder.findReplace(findText, true, false, false);
             parent.document.getElementById("find").focus();
         }, 0);
     };
