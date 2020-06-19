@@ -383,7 +383,8 @@ if (!$error && "delete" === $_GET['action']) {
 if (!isset($ftpSite) && !$error && "replaceText" === $_GET['action']) {
     if (!$demoMode && is_writable($file)) {
         $loadedFile = toUTF8noBOM(getData($file), true);
-        $newContent = str_replace($_GET['find'], $_GET['replace'], $loadedFile);
+        $find = $_GET['find'];
+        $newContent = preg_replace("/($find)/i", $_GET['replace'], $loadedFile);
         $fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
         fwrite($fh, $newContent);
         fclose($fh);

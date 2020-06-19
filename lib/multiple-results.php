@@ -173,7 +173,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                     if (false === $bFile && (0 === count($selectedFiles) || 0 < count($selectedFiles) && true === $foundInSelFile)) {
                         $ret .= "<a href=\\\"javascript:parent.ICEcoder.openFile('" . $fullPath . "');parent.ICEcoder.goFindAfterOpenInt = setInterval(function(){goFindAfterOpen('" . $fullPath . "')}, 20);parent.ICEcoder.showHide('hide',parent.document.getElementById('blackMask'))\\\">";
                         $ret .= str_replace($base, "", $fullPath) . "</a><div id=\\\"foundCount" . $r . "\\\">" .
-                            $t['Found'] . " " . substr_count(strtolower(toUTF8noBOM(getData($fullPath), false)), $q) . " " . $t['times'] . "</div>";
+                            $t['Found'] . " " . substr_count(strtolower(toUTF8noBOM(getData($fullPath), false)), strtolower($q)) . " " . $t['times'] . "</div>";
                         if (isset($_GET['replace'])) {
                             $ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('" . $fullPath . "'); this.style.display=\'none\'\\\">" . $t['replace'] . "</div>";
                         };
