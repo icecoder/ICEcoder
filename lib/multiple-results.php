@@ -266,8 +266,13 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         parent.document.findAndReplace.connector.selectedIndex = 0;
         parent.ICEcoder.findReplaceOptions();
         parent.document.findAndReplace.target.selectedIndex = 0;
-        // Submit to select first instance
-        parent.ICEcoder.findReplace(parent.document.getElementById('find').value, false, true, false);
+        // Re-show the results stats
+        parent.document.getElementById('results').style.display = 'inline-block';
+        // Action the find and then focus on find input box
+        setTimeout(function() {
+            parent.ICEcoder.findReplace(parent.document.getElementById('find').value, true, false, false);
+            parent.document.getElementById("find").focus();
+        }, 0);
     };
 </script>
 

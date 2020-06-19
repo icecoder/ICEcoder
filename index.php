@@ -286,7 +286,7 @@ $t = $text['index'];
 		?><div class="newTab" onClick="ICEcoder.newTab(false)" id="newTab">+</div>
 	</div>
 	<div id="findBar" class="findBar" oncontextmenu="return false">
-		<form name="findAndReplace" onSubmit="ICEcoder.findReplace(document.getElementById('find').value, false, true, false); return false">
+		<form name="findAndReplace" onsubmit="ICEcoder.findReplace(get('find').value, false, false, false); ICEcoder.getcMInstance().focus(); return false">
 			<div class="findReplace">
 				<div class="findText"><?php echo $t['Find'];?></div>
 				<input type="text" name="find" value="" id="find" class="textbox find" oninput="ICEcoder.findReplaceOnInput()">
@@ -316,8 +316,9 @@ $t = $text['index'];
 							<option><?php echo $t['all filenames'];?></option>
 						</select>
 					</div>
-				<input type="button" name="prev" value="&lt;&lt;" class="button" onclick="ICEcoder.findReplace(get('find').value, false, true, true);">
-				<input type="button" name="next" value="&gt;&gt;" class="button" onclick="ICEcoder.findReplace(get('find').value, false, true, false);">
+				<input type="button" name="prev" value="&lt;&lt;" class="button" onclick="ICEcoder.findReplace(get('find').value, true, true, true);">
+				<input type="button" name="next" value="&gt;&gt;" class="button" onclick="ICEcoder.findReplace(get('find').value, true, true, false);">
+				<input type="submit" name="sub" value="sub" style="display: none">
 				<div class="results" id="results"></div>
 			</div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
