@@ -131,8 +131,8 @@ $t = $text['index'];
         if (true === $ICEcoder["tutorialOnLogin"]) {
             echo "ICEcoder.viewTutorial(false, 700);";
         }
-    $extraProcesses = new ExtraProcesses();
-    $onLoad = $extraProcesses->onLoad();
+    $extraProcessesClass = new ExtraProcesses();
+    $onLoad = $extraProcessesClass->onLoad();
 ?>ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;ICEcoder.content.style.visibility = 'visible';<?php echo $onLoad;?><?php if(true === isset($_GET["display"]) && "updated" === $_GET["display"]) {echo "ICEcoder.updated();";};?>" onresize="ICEcoder.setLayout()" onkeydown="return ICEcoder.interceptKeys('coder', event);" onkeyup="if('visible' === get('blackMask').style.visibility) {ICEcoder.handleModalKeyUp(event, 'modalGeneralCatch')}; ICEcoder.resetKeys(event);" onblur="ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onclick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" oncontextmenu="return false">

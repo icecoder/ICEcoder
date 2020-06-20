@@ -12,12 +12,12 @@ use lessc;
 class File
 {
     private $ftpClass;
-    private $system;
+    private $systemClass;
 
     public function __construct()
     {
         $this->ftpClass = new FTP();
-        $this->system = new System();
+        $this->systemClass = new System();
     }
 
     public function check() {
@@ -173,8 +173,8 @@ class File
                 $loadedFile = preg_replace('/\\n/', '&#13;', $loadedFile);
                 echo '</script><textarea name="loadedFile" id="loadedFile">' . $loadedFile . '</textarea><script>';
                 // Run our custom processes
-                $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
-                $extraProcesses->onFileLoad();
+                $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
+                $extraProcessesClass->onFileLoad();
             } else if (0 === strpos($finfo, "image")) {
                 echo 'fileType="image";fileName=\'' . $fileLoc . "/" . $fileName . '\';';
             } else {
@@ -355,7 +355,7 @@ class File
         if (isset($_POST['changes'])) {
             // Get existing file contents as lines and stitch changes onto it
             $fileLines = file($file);
-            $contents = $this->system->stitchChanges($fileLines, $_POST['changes']);
+            $contents = $this->systemClass->stitchChanges($fileLines, $_POST['changes']);
 
             // get old file contents, and count stats on usage \n and \r there
             // in this case we can keep line endings, which file had before, without
@@ -444,8 +444,8 @@ class File
                 $finalAction = "delete";
 
                 // Run any extra processes
-                $extraProcesses = new ExtraProcesses($fileLoc, $fileName);
-                $doNext = $extraProcesses->onFileDirDelete($doNext);
+                $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
+                $doNext = $extraProcessesClass->onFileDirDelete($doNext);
             } else {
                 $doNext .= "ICEcoder.message('" . $t['Sorry, cannot delete'] . "\\\\n" . str_replace($docRoot, "", $fullPath) . "');";
                 $finalAction = "nothing";

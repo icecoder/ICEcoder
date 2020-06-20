@@ -5,10 +5,10 @@ require_once dirname(__FILE__) . "/../classes/System.php";
 use ICEcoder\ExtraProcesses;
 use ICEcoder\System;
 
-$system = new System;
-$system->setErrorHandling();
-$system->setTimeZone();
-$context = $system->setStreamContext();
+$systemClass = new System;
+$systemClass->setErrorHandling();
+$systemClass->setTimeZone();
+$context = $systemClass->setStreamContext();
 
 // Start a session if we haven't already
 if(false === isset($_SESSION)) {
@@ -146,8 +146,8 @@ function requireReIndexNextTime() {
 
 // Logout if that's the action we're taking
 if (true === isset($_GET['logout'])) {
-    $extraProcesses = new ExtraProcesses();
-    $extraProcesses->onUserLogout($_SESSION['username']);
+    $extraProcessesClass = new ExtraProcesses();
+    $extraProcessesClass->onUserLogout($_SESSION['username']);
 	$_SESSION['loggedIn'] = false;
 	$_SESSION['username'] = "";
 	session_destroy();

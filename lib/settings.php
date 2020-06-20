@@ -113,14 +113,14 @@ if (true === isset($_POST['submit']) && "login" === $setPWorLogin) {
             $_SESSION['username'] = $_POST['username'];
         }
         $_SESSION['loggedIn'] = true;
-        $extraProcesses = new ExtraProcesses();
-        $extraProcesses->onUserLogin($_SESSION['username'] ?? "");
+        $extraProcessesClass = new ExtraProcesses();
+        $extraProcessesClass->onUserLogin($_SESSION['username'] ?? "");
         header('Location: ../');
         echo "<script>window.location = '../';</script>";
         die('Logging you in...');
     } else {
-        $extraProcesses = new ExtraProcesses();
-        $extraProcesses->onUserLoginFail($_SESSION['username'] ?? "");
+        $extraProcessesClass = new ExtraProcesses();
+        $extraProcessesClass->onUserLoginFail($_SESSION['username'] ?? "");
     }
 };
 
@@ -200,8 +200,8 @@ if (false === isset($_POST['password']) && (!$_SESSION['loggedIn'] || "" === $IC
             $_SESSION['username'] = $_POST['username'];
         }
         $_SESSION['loggedIn'] = true;
-        $extraProcesses = new ExtraProcesses();
-        $extraProcesses->onUserNew($_SESSION['username'] ?? "");
+        $extraProcessesClass = new ExtraProcesses();
+        $extraProcessesClass->onUserNew($_SESSION['username'] ?? "");
         // Finally, load again as now this file has changed and auto login
         header('Location: ../');
         echo "<script>window.location = '../';</script>";

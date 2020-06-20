@@ -9,7 +9,7 @@ class ExtraProcesses
     private $fileLoc;
     private $fileName;
     private $username;
-    private $system;
+    private $systemClass;
 
     /**
      * ExtraProcesses constructor.
@@ -21,7 +21,7 @@ class ExtraProcesses
         $this->fileLoc = $fileLoc;
         $this->fileName = $fileName;
         $this->username = $_SESSION['username'];
-        $this->system = new System;
+        $this->systemClass= new System;
     }
 
     /**
@@ -32,7 +32,7 @@ class ExtraProcesses
     {
         $username = "" !== $this->username ? $this->username : "default-user";
 
-        $this->system->writeLog(
+        $this->systemClass->writeLog(
             "{$username}.log",
             "{$action} >>> " . date("D dS M Y h:i:sa") . " : " . ($this->fileLoc) . "/" . ($this->fileName) . ("" !== $msg ? " : " . $msg : "") . "\n"
         );

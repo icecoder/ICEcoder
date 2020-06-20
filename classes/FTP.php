@@ -6,11 +6,11 @@ use ICEcoder\System;
 
 class FTP
 {
-    private $system;
+    private $systemClass;
 
     public function __construct()
     {
-        $this->system = new System();
+        $this->systemClass = new System();
     }
 
     public function writeFile() {
@@ -30,7 +30,7 @@ class FTP
                 }
             }
             // Stitch changes onto it
-            $contents = $this->system->stitchChanges($fileLines, $_POST['changes']);
+            $contents = $this->systemClass->stitchChanges($fileLines, $_POST['changes']);
 
             // get old file contents and count stats on usage \n and \r there
             // in this case we can keep line endings, which file had before, without
