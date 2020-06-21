@@ -34,7 +34,7 @@ if ($ICEcoder["checkUpdates"]) {
 	}
 }
 
-$isMac = false === strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : false;
+$isMac = false !== strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : false;
 ?>
 <!DOCTYPE html>
 <html onmousedown="ICEcoder.mouseDown=true; ICEcoder.resetAutoLogoutTimer();" onmouseup="ICEcoder.mouseDown=false; ICEcoder.resetAutoLogoutTimer(); ICEcoder.mouseDownInCM=false; if (!ICEcoder.overCloseLink) {ICEcoder.tabDragEnd()}" onmousemove="if('undefined' !== typeof ICEcoder) {ICEcoder.getMouseXY(event,'top'); ICEcoder.resetAutoLogoutTimer(); ICEcoder.canResizeFilesW()}" onmousewheel="ICEcoder.resetAutoLogoutTimer(); if (ICEcoder.getcMInstance() && !ICEcoder.getcMInstance().hasFocus() && !ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? ICEcoder.nextTab() : ICEcoder.previousTab();}">
