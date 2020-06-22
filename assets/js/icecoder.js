@@ -1432,9 +1432,9 @@ var ICEcoder = {
         caretLocType = "Unknown";
         caretChunk = thisCM.getValue().substr(0, this.caretPos + 1);
 
-        if (caretChunk.lastIndexOf("<script") > caretChunk.lastIndexOf("/script>") && "Unknown" === caretLocType) {caretLocType = "JavaScript";}
-        else if (caretChunk.lastIndexOf("<\?") > caretChunk.lastIndexOf("?\>") && "Unknown" === caretLocType) {caretLocType = "PHP";}
+        if (caretChunk.lastIndexOf("<\?") > caretChunk.lastIndexOf("?\>") && "Unknown" === caretLocType) {caretLocType = "PHP";}
         else if (caretChunk.lastIndexOf("<\%") > caretChunk.lastIndexOf("%\>") && "Unknown" === caretLocType) {caretLocType = "Ruby";}
+        else if (caretChunk.lastIndexOf("<script\>") > caretChunk.lastIndexOf("<\/script>") && "Unknown" === caretLocType) {caretLocType = "JavaScript";}
         else if (caretChunk.lastIndexOf("<style") > caretChunk.lastIndexOf("/style>") && "Unknown" === caretLocType) {caretLocType = "CSS";}
         else if (caretChunk.lastIndexOf("<") > caretChunk.lastIndexOf(">") && "Unknown" === caretLocType) {caretLocType = "HTML";}
         else if ("Unknown" === caretLocType) {caretLocType = "Content";}
@@ -1444,29 +1444,29 @@ var ICEcoder = {
             fileExt = fileName.split(".");
             fileExt = fileExt[fileExt.length - 1];
             caretLocType =
-                fileExt == "js" ? "JavaScript"
-              : fileExt == "coffee" ? "CoffeeScript"
-              : fileExt == "ts" ? "TypeScript"
-              : fileExt == "py" ? "Python"
-              : fileExt == "mpy" ? "Python"
-              : fileExt == "rb" ? "Ruby"
-              : fileExt == "css" ? "CSS"
-              : fileExt == "less" ? "LESS"
-              : fileExt == "md" ? "Markdown"
-              : fileExt == "xml" ? "XML"
-              : fileExt == "sql" ? "SQL"
-              : fileExt == "yaml" ? "YAML"
-              : fileExt == "java" ? "Java"
-              : fileExt == "erl" ? "Erlang"
-              : fileExt == "jl" ? "Julia"
-              : fileExt == "c" ? "C"
-              : fileExt == "cpp" ? "C++"
-              : fileExt == "ino" ? "C++"
-              : fileExt == "cs" ? "C#"
-              : fileExt == "go" ? "Go"
-              : fileExt == "lua" ? "Lua"
-              : fileExt == "pl" ? "Perl"
-              : fileExt == "scss" ? "Sass"
+                fileExt === "js" ? "JavaScript"
+              : fileExt === "coffee" ? "CoffeeScript"
+              : fileExt === "ts" ? "TypeScript"
+              : fileExt === "py" ? "Python"
+              : fileExt === "mpy" ? "Python"
+              : fileExt === "rb" ? "Ruby"
+              : fileExt === "css" ? "CSS"
+              : fileExt === "less" ? "LESS"
+              : fileExt === "md" ? "Markdown"
+              : fileExt === "xml" ? "XML"
+              : fileExt === "sql" ? "SQL"
+              : fileExt === "yaml" ? "YAML"
+              : fileExt === "java" ? "Java"
+              : fileExt === "erl" ? "Erlang"
+              : fileExt === "jl" ? "Julia"
+              : fileExt === "c" ? "C"
+              : fileExt === "cpp" ? "C++"
+              : fileExt === "ino" ? "C++"
+              : fileExt === "cs" ? "C#"
+              : fileExt === "go" ? "Go"
+              : fileExt === "lua" ? "Lua"
+              : fileExt === "pl" ? "Perl"
+              : fileExt === "scss" ? "Sass"
               : "Content";
         }
 
