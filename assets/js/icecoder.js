@@ -1440,7 +1440,7 @@ var ICEcoder = {
         else if ("Unknown" === caretLocType) {caretLocType = "Content";}
 
         fileName = this.openFiles[this.selectedTab - 1];
-        if ("Unknown" === caretLocType && fileName) {
+        if ("Content" === caretLocType && fileName) {
             fileExt = fileName.split(".");
             fileExt = fileExt[fileExt.length - 1];
             caretLocType =
