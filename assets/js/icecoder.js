@@ -3368,30 +3368,30 @@ var ICEcoder = {
 
     // Show the properties screen
     propertiesScreen: function(fileName) {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'lib/properties.php?fileName='+fileName.replace(/\//g,"|")+'&csrf='+this.csrf+'" id="propertiesIFrame" class="whiteGlow" style="width: 660px; height: 330px"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/properties.php?fileName='+fileName.replace(/\//g,"|")+'&csrf='+this.csrf+'" id="propertiesIFrame" class="whiteGlow" style="width: 660px; height: 330px"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
     // Show the auto-logout warning screen
     autoLogoutWarningScreen: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'lib/auto-logout-warning.php" id="autoLogoutIFrame" class="whiteGlow" style="width: 400px; height: 160px"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/auto-logout-warning.php" id="autoLogoutIFrame" class="whiteGlow" style="width: 400px; height: 160px"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
     // Show the plugins manager
     pluginsManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'lib/plugins-manager.php" id="pluginsManagerIFrame" class="whiteGlow" style="width: 800px; height: 450px" scrolling="no"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/plugins-manager.php" id="pluginsManagerIFrame" class="whiteGlow" style="width: 800px; height: 450px" scrolling="no"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
     // Go to localhost root
     goLocalhostRoot: function() {
-        this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc+"lib/go-localhost-root.php";
+        this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc+"/lib/go-localhost-root.php";
     },
 
     // Show the FTP manager
     ftpManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'lib/ftp-manager.php" id="ftpManagerIFrame" class="whiteGlow" style="width: 620px; height: 550px"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/ftp-manager.php" id="ftpManagerIFrame" class="whiteGlow" style="width: 620px; height: 550px"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
