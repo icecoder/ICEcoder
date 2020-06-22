@@ -5,15 +5,17 @@ include_once("settings-common.php");
 $text = $_SESSION['text'];
 $t = $text['bug-files-check'];
 
-$files		= explode(",",str_replace("|","/",$_GET['files']));
-$filesSizesSeen	= explode(",",$_GET['filesSizesSeen']);
-$maxLines	= $_GET['maxLines'];
+$files		= explode(",",str_replace("|","/",xssClean($_GET['files'],"html")));
+$filesSizesSeen	= explode(",",xssClean($_GET['filesSizesSeen'],"html"));
+$maxLines	= xssClean($_GET['maxLines'],"html");
 
 $result = "ok";
 
 for ($i=0; $i<count($files); $i++) {
-	$files[$i] = $_SERVER['DOCUMENT_ROOT'].$files[$i];
-	if (!file_exists($files[$i])) {
+	// Work out the real path for a file
+	$files[$i] = realpath($_SERVER['DOCUMENT_ROOT'].$files[$i]);
+	// If we can't find that file or it doesn't start with the doc root, it's an error
+	if (!file_exists($files[$i]) || strpos(str_replace("\\","/",$files[$i]),$_SERVER['DOCUMENT_ROOT']) !== 0) {
 		$result = "error";
 	} else {
 		$filesSizesSeen[$i] = filesize($files[$i]);
@@ -26,7 +28,7 @@ if ($result != "error") {
 
 	for ($i=0; $i<count($files); $i++) {
 		// If we have set a filesize value previously and it's different to now, there's new bugs
-		$fileSizesSeenArray = explode(",",$_GET['filesSizesSeen']);
+		$fileSizesSeenArray = explode(",",xssClean($_GET['filesSizesSeen'],"html"));
 		if ($fileSizesSeenArray[$i]!="null" && $fileSizesSeenArray[$i] != $filesSizesSeen[$i]) {
 			$result = "bugs";
 			$filesWithNewBugs++;
@@ -81,9 +83,9 @@ if ($result != "error") {
 			$output = $t['Found in']." ".$filename."...\n".implode("\n",$output);
 
 			if ($filesWithNewBugs==1) {
-				file_put_contents("../tmp/bug-report.log", $output);
+				file_put_contents("../data/bug-report.log", $output);
 			} else {
-				file_put_contents("../tmp/bug-report.log", "\n\n".$output, FILE_APPEND);
+				file_put_contents("../data/bug-report.log", "\n\n".$output, FILE_APPEND);
 			}
 		}
 
@@ -91,16 +93,16 @@ if ($result != "error") {
 }
 
 // Get dir name tmp dir's parent
-$tmpLoc = dirname(__FILE__);
-$tmpLoc = explode(DIRECTORY_SEPARATOR,$tmpLoc);
-$tmpLoc = $tmpLoc[count($tmpLoc)-2];
+$dataLoc = dirname(__FILE__);
+$dataLoc = explode(DIRECTORY_SEPARATOR,$dataLoc);
+$dataLoc = $dataLoc[count($dataLoc)-2];
 
 // Output result and status array
 $status = array(
 	"files" => $files,
 	"filesSizesSeen" => $filesSizesSeen,
 	"maxLines" => $maxLines,
-	"bugReportPath" => "|".$tmpLoc."|tmp|bug-report.log",
+	"bugReportPath" => "|".$dataLoc."|data|bug-report.log",
 	"result" => $result
 );
 
@@ -110,4 +112,3 @@ include("../processes/on-bug-check.php");
 // Finally, display our status in JSON format as the XHR response text
 echo json_encode($status);
 
-?>

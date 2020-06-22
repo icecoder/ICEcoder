@@ -5,7 +5,7 @@ $t = $text['multiple-results'];
 ?>
 <?php
 if(isset($_GET['selectedFiles'])) {
-	$selectedFiles=explode(":",strClean($_GET['selectedFiles']));
+	$selectedFiles=explode(":",$_GET['selectedFiles']);
 }
 ?>
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ if(isset($_GET['selectedFiles'])) {
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> multiple results screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="multiple-results.css">
+<link rel="stylesheet" type="text/css" href="multiple-results.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="results" onLoad="top.get('loadingMask').style.visibility = 'hidden'">
@@ -44,7 +44,7 @@ var resultsDisplay = "";
 var foundArray = [];
 foundInSelected = false;
 userTarget = top.document.findAndReplace.target.value;
-findText = top.findAndReplace.find.value.toLowerCase();
+findText = top.findAndReplace.find.value;
 <?php
 $findText = str_replace("ICEcoder:","",str_replace("&#39;","\'",$_GET['find']));
 // Find in open docs?
@@ -79,7 +79,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 		for (var i=0;i<spansArray.length;i++) {
 			foundInSelected = false;
 			targetURL = spansArray[i].id.replace(/\|/g,"/").toLowerCase();
-			if (	targetURL.lastIndexOf(findText.toLowerCase()) > targetURL.lastIndexOf("/") 
+			if (	targetURL.lastIndexOf(findText.toLowerCase()) > targetURL.lastIndexOf("/")
 				&& targetURL.indexOf(findText.toLowerCase())>-1 && targetURL.indexOf('_perms')>-1) {
 				if (userTarget.indexOf("selected")>-1) {
 					for (var j=0;j<top.ICEcoder.selectedFiles.length;j++) {
@@ -94,13 +94,13 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					}
 				}
 				if (userTarget.indexOf("all")>-1 || (userTarget.indexOf("selected")>-1 && foundInSelected)) {
-					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.showHide(\'hide\',top.get(\'blackMask\'))">';
+					resultsDisplay += '<a href="javascript:top.ICEcoder.openFile(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\');top.ICEcoder.goFindAfterOpenInt = setInterval(function(){goFindAfterOpen(\'<?php echo $docRoot;?>'+targetURL.replace(/\|/g,"/").replace(/_perms/g,"")+'\')},20);top.ICEcoder.showHide(\'hide\',top.get(\'blackMask\'))">';
 					resultsDisplay += targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b>"+findText.toLowerCase()+"</b>");
 					resultsDisplay += '</a><br>';
 					<?php if (!isset($_GET['replace'])) { ?>
 						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+'</div>';
 					<?php ;} else { ?>
-						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+', <?php echo $t['rename to'];?> '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strtolower(strClean($_GET['replace']));};?></b>")+'</div>';
+						resultsDisplay += '<div id="foundCount'+i+'">'+spansArray[i].innerHTML+', <?php echo $t['rename to'];?> '+targetURL.replace(/\|/g,"/").replace(/_perms/g,"").replace(/<?php echo str_replace("/","\/",strtolower($findText)); ?>/g,"<b><?php if(isset($_GET['replace'])) {echo strtolower($_GET['replace']);};?></b>")+'</div>';
 					<?php
 					;};
 					if (isset($_GET['replace'])) { ?>
@@ -117,7 +117,7 @@ if (startTab!=top.ICEcoder.selectedTab) {
 	$r = 0;
 	function phpGrep($q, $path, $base) {
 		$fp = opendir($path);
-		global $r, $ICEcoder, $serverType, $selectedFiles, $docRoot, $ICEcoderDir, $context;
+		global $t, $r, $ICEcoder, $serverType, $selectedFiles, $docRoot, $ICEcoderDir, $context;
 		if (!isset($ret)) {$ret="";};
 		$slash = $serverType == strpos($path,"\\")>-1 ? "\\" : "/";
 		while($f = readdir($fp)) {
@@ -125,12 +125,12 @@ if (startTab!=top.ICEcoder.selectedTab) {
 			$fullPath = $path.$slash.$f;
 			if(is_dir($fullPath)) {
 				$ret .= phpGrep($q, $fullPath, $base);
-			} else if(stristr(toUTF8noBOM(file_get_contents($fullPath,false,$context),false), $q)) {
+			} else if(stristr(toUTF8noBOM(getData($fullPath),false), $q)) {
 				$bFile = false;
 				$foundInSelFile = false;
 				// Exclude banned files
 				for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
-					if (strpos($f,$ICEcoder['bannedFiles'][$i])!==false) {$bFile = true;};
+					if (strpos($f,str_replace("*","",$ICEcoder['bannedFiles'][$i]))!==false) {$bFile = true;};
 				}
 				// Exclude the folder ICEcoder is running from
 				$rootPrefix = '/'.str_replace("/","\/",preg_quote(str_replace("\\","/",$docRoot))).'/';
@@ -146,8 +146,8 @@ if (startTab!=top.ICEcoder.selectedTab) {
 					}
 				}
 				if (!$bFile && (count($selectedFiles)==0 || count($selectedFiles)>0 && $foundInSelFile)) {
-					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.showHide('hide',top.get('blackMask'))\\\">";
-					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">".$t['Found']." ".substr_count(strtolower(toUTF8noBOM(file_get_contents($fullPath,false,$context),false)),$q)." ".$t['times']."</div>";
+					$ret .= "<a href=\\\"javascript:top.ICEcoder.openFile('".$fullPath."');top.ICEcoder.goFindAfterOpenInt = setInterval(function(){goFindAfterOpen('".$fullPath."')},20);top.ICEcoder.showHide('hide',top.get('blackMask'))\\\">";
+					$ret .= str_replace($base,"",$fullPath)."</a><div id=\\\"foundCount".$r."\\\">".$t['Found']." ".substr_count(strtolower(toUTF8noBOM(getData($fullPath),false)),$q)." ".$t['times']."</div>";
 					if (isset($_GET['replace'])) {
 						$ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('".$fullPath."');this.style.display=\'none\'\\\">".$t['replace']."</div>";
 					};
@@ -200,7 +200,7 @@ var replaceAll = function() {
 }
 
 var replaceInFileSingle = function(fileRef) {
-	top.ICEcoder.replaceInFile(fileRef,findText,'<?php if(isset($_GET['replace'])) {echo strClean($_GET['replace']);}; ?>');
+	top.ICEcoder.replaceInFile(fileRef,findText,'<?php if(isset($_GET['replace'])) {echo $_GET['replace'];}; ?>');
 }
 
 var replaceInFilesAll = function() {
@@ -212,7 +212,7 @@ var replaceInFilesAll = function() {
 
 var renameSingle = function(arrayRef) {
 	fileRef = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"");
-	newName = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"").replace(find,"<?php if(isset($_GET['replace'])) {echo strClean($_GET['replace']);}; ?>");
+	newName = spansArray[arrayRef].id.replace(/\|/g,"/").replace(/_perms/g,"").replace(find,"<?php if(isset($_GET['replace'])) {echo $_GET['replace'];}; ?>");
 	top.ICEcoder.renameFile(fileRef,newName);
 }
 
@@ -221,6 +221,18 @@ var renameAll = function() {
 		renameSingle(foundArray[i]);
 	}
 	top.ICEcoder.showHide('hide',top.get('blackMask'));
+}
+
+var goFindAfterOpen = function(fileName) {
+	if (top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1] == fileName.replace(top.docRoot,"") && !top.ICEcoder.loadingFile) {
+		// Change options back to finding only in this document
+		top.document.findAndReplace.connector.selectedIndex = 0;
+		top.ICEcoder.findReplaceOptions();
+		top.document.findAndReplace.target.selectedIndex = 0;
+		// Submit to select first instance
+		top.document.findAndReplace.submit.click();
+		clearInterval(top.ICEcoder.goFindAfterOpenInt);
+	}
 }
 </script>
 

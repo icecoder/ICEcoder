@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Chinese language translation
 // by: @lzh370 (GitHub)
 //     lzh370@qq.com
@@ -24,8 +24,6 @@ $text = array(
 		"files"				=> "文件",
 		"Last 10 files..."		=> "最后10个打开的文件:",
 		"none"				=> "[none]",
-		"test suite"			=> "测试套件",
-		"Run unit tests"		=> "运行单元测试",
 		"dev mode"			=> "开发模式",
 		"Status"			=> "状态",
 		"Using"				=> "使用",
@@ -49,6 +47,7 @@ $text = array(
 		"Your version is"		=> "你的版本是",
 		"Update now"			=> "现在更新",
 		"You have some..."		=> "你有一些未保存的更改",
+		"Are you sure you want to close?" => "Are you sure you want to close?",
 		"working"			=> "载入中",
 		"Color picker"			=> "颜色选择器",
 		"New File"			=> "新建文件",
@@ -89,15 +88,15 @@ $text = array(
 		"website"			=> "网站",
 		"Close all tabs"		=> "关闭所有选项卡",
 		"Alphabetize tabs"		=> "按字母顺序排列的选项卡",
-		"Find"				=> "搜索",
-		"in"				=> "in",
-		"and"				=> "and",
-		"replace"			=> "替换",
-		"replace all"			=> "替换所有",
-		"this document"			=> "当前文件",
-		"open documents"		=> "打开的文件",
-		"all files"			=> "所有文件",
-		"all filenames"			=> "所有文件名",
+//		"Find"				=> "搜索",
+//		"in"				=> "in",
+//		"and"				=> "and",
+//		"replace"			=> "替换",
+//		"replace all"			=> "替换所有",
+//		"this document"			=> "当前文件",
+//		"open documents"		=> "打开的文件",
+//		"all files"			=> "所有文件",
+//		"all filenames"			=> "所有文件名",
 		"Turn on/off..."		=> "开启/关闭代码辅助",
 		"Code Assist"			=> "代码辅助",
 		"Go to Line"			=> "转到行",
@@ -386,6 +385,7 @@ $text = array(
 		"indent type"			=> "缩进类型",
 		"indent size"			=> "缩进大小",
 		"font size"			=> "字体大小",
+		"auto indent"			=> "auto indent",
 		"layout"			=> "布局",
 		"plugin panel aligned"		=> "插件板对齐",
 		"file manager"			=> "文件管理器",
@@ -420,6 +420,5 @@ $text = array(
 	array(
 		"Update appears to..."		=> "更新似乎是成功的"
 	)
-	
+
 );
-?>

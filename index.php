@@ -3,28 +3,21 @@ include("lib/headers.php");
 include("lib/settings.php");
 $t = $text['index'];
 
-// Check IP permissions
-if (!in_array($_SERVER["REMOTE_ADDR"], $_SESSION['allowedIPs']) && !in_array("*", $_SESSION['allowedIPs'])) {
-	header('Location: /');
-};
-
 $updateMsg = '';
 // Check for updates
 if ($ICEcoder["checkUpdates"]) {
 	$icv_url = "https://icecoder.net/latest-version?thisVersion=".$ICEcoder["versionNo"];
-	if (ini_get('allow_url_fopen')) {
-		$icvInfo = @file_get_contents($icv_url,false,$context);
-		if (!$icvInfo) {
-			$icvInfo = file_get_contents(str_replace("https:","http:",$icv_url), false, $context);
-		}
-		$icvInfo = explode("\n",$icvInfo);
-	} elseif (function_exists('curl_init')) {
-		$ch = curl_init($icv_url);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		$icvInfo = explode("\n", curl_exec($ch));
+	$icvData = getData($icv_url,'curl',false,5);
+	if ($icvData == "no data") {
+		$icvData = "1.0\nICEcoder version placeholder";
 	}
-	$icv = $icvInfo[0];
+	$icvInfo = str_replace("\n", "", $icvData);
+	$icv = preg_match("/^[0-9.]+/", $icvInfo, $matches);
+	$icv = floatval($matches[0]);
+	$icvInfo = [
+		0 => $icv,
+		1 => substr($icvInfo, strlen($matches[0]))
+	];
 	$icvI = str_replace('"','\\\'',$icvInfo[1]);
 	$thisV = $ICEcoder["versionNo"];
 	if (strpos($thisV,"beta")>-1 && !strpos($icv,"beta") && str_replace(" beta","",$thisV) == $icv) {$thisV-=0.1;};
@@ -36,21 +29,33 @@ if ($ICEcoder["checkUpdates"]) {
 $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;
 ?>
 <!DOCTYPE html>
-<html onMouseDown="top.ICEcoder.mouseDown=true" onMouseUp="top.ICEcoder.mouseDown=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top');top.ICEcoder.canResizeFilesW()}" onMouseWheel="if (!top.ICEcoder.getcMInstance().hasFocus()) {event.wheelDelta > 0 ? top.ICEcoder.nextTab() : top.ICEcoder.previousTab();}">
+<html onMouseDown="top.ICEcoder.mouseDown=true; top.ICEcoder.resetAutoLogoutTimer();" onMouseUp="top.ICEcoder.mouseDown=false; top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.mouseDownInCM=false; if (!top.ICEcoder.overCloseLink) {top.ICEcoder.tabDragEnd()}" onMouseMove="if(top.ICEcoder) {top.ICEcoder.getMouseXY(event,'top'); top.ICEcoder.resetAutoLogoutTimer(); top.ICEcoder.canResizeFilesW()}" onMouseWheel="top.ICEcoder.resetAutoLogoutTimer(); if (top.ICEcoder.getcMInstance() && !top.ICEcoder.getcMInstance().hasFocus() && !top.ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? top.ICEcoder.nextTab() : top.ICEcoder.previousTab();}">
 <head>
 <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?></title>
+<!--Updated via settings so must remain 1st stylesheet//-->
+<style>
+	#tabsBar.tabsBar .tab { font-size: <?php echo $ICEcoder["fontSize"];?>; }
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="lib/ice-coder.css">
+<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
+<link rel="stylesheet" type="text/css" href="lib/ice-coder.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php
+if ($ICEcoder["theme"]=="default") {echo 'lib/editor.css';} else {echo $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';};
+echo "?microtime=".microtime(true);
+?>">
 <link rel="icon" type="image/png" href="favicon.png">
 <script>
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
 
 window.onbeforeunload = function() {
-	for(var i=1;i<=ICEcoder.savedPoints.length;i++) {
-		if (ICEcoder.savedPoints[i-1]!=top.ICEcoder.getcMInstance(i).changeGeneration()) {
-			return "<?php echo $t['You have some...'];?>.";
+	if(top.ICEcoder.autoLogoutTimer < top.ICEcoder.autoLogoutMins*60) {
+		for(var i=1;i<=ICEcoder.savedPoints.length;i++) {
+			if (ICEcoder.savedPoints[i-1]!=top.ICEcoder.getcMInstance(i).changeGeneration()) {
+				return "<?php echo $t['You have some...'];?>.";
+			}
 		}
+		return "<?php echo $t['Are you sure...'];?>";
 	}
 }
 
@@ -69,10 +74,12 @@ $t = $text['index'];
 ?>
 }
 </script>
-<script language="JavaScript" src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js"></script>
-<script src="lib/mmd.js"></script>
-<script src="farbtastic/farbtastic.js"></script>
-<link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css">
+<script language="JavaScript" src="lib/ice-coder<?php if (!$ICEcoder['devMode']) {echo '.min';};?>.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="lib/mmd.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="lib/draggabilly.pkgd.min.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="farbtastic/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="lib/difflib.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" href="farbtastic/farbtastic.css?microtime=<?php echo microtime(true);?>" type="text/css">
 </head>
 
 <body onLoad="<?php
@@ -84,28 +91,43 @@ $t = $text['index'];
 		}
 	echo "];";
 	echo "top.ICEcoder.theme = '".($ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"])."';".
+		"top.ICEcoder.autoLogoutMins = ".$ICEcoder["autoLogoutMins"].";".
 		"top.ICEcoder.fontSize = '".$ICEcoder["fontSize"]."';".
 		"top.ICEcoder.openLastFiles = ".($ICEcoder["openLastFiles"] ? 'true' : 'false').";".
+		"top.ICEcoder.updateDiffOnSave = ".($ICEcoder["updateDiffOnSave"] ? 'true' : 'false').";".
+		"top.ICEcoder.languageUser = '".$ICEcoder["languageUser"]."';".
 		"top.ICEcoder.codeAssist = ".($ICEcoder["codeAssist"] ? 'true' : 'false').";".
+		"top.ICEcoder.lockedNav = ".($ICEcoder["lockedNav"] ? 'true' : 'false').";".
 		"top.ICEcoder.lineWrapping = ".($ICEcoder["lineWrapping"] ? 'true' : 'false').";".
+		"top.ICEcoder.lineNumbers = ".($ICEcoder["lineNumbers"] ? 'true' : 'false').";".
+		"top.ICEcoder.showTrailingSpace = ".($ICEcoder["showTrailingSpace"] ? 'true' : 'false').";".
+		"top.ICEcoder.matchBrackets = ".($ICEcoder["matchBrackets"] ? 'true' : 'false').";".
+		"top.ICEcoder.autoCloseTags = ".($ICEcoder["autoCloseTags"] ? 'true' : 'false').";".
+		"top.ICEcoder.autoCloseBrackets = ".($ICEcoder["autoCloseBrackets"] ? 'true' : 'false').";".
 		"top.ICEcoder.indentWithTabs = ".($ICEcoder["indentWithTabs"] ? 'true' : 'false').";".
+		"top.ICEcoder.indentAuto = ".($ICEcoder["indentAuto"] ? 'true' : 'false').";".
 		"top.ICEcoder.indentSize = ".$ICEcoder["indentSize"].";".
 		"top.ICEcoder.demoMode = ".($ICEcoder["demoMode"] ? 'true' : 'false').";".
 		"top.ICEcoder.tagWrapperCommand = '".$ICEcoder["tagWrapperCommand"]."';".
 		"top.ICEcoder.autoComplete = '".$ICEcoder["autoComplete"]."';".
 		"top.ICEcoder.bugFilePaths = ['".implode("','",$ICEcoder["bugFilePaths"])."'];".
 		"top.ICEcoder.bugFileCheckTimer = ".$ICEcoder["bugFileCheckTimer"].";".
-		"top.ICEcoder.bugFileMaxLines = ".$ICEcoder["bugFileMaxLines"].";";
+		"top.ICEcoder.bugFileMaxLines = ".$ICEcoder["bugFileMaxLines"].";".
+		"top.ICEcoder.fileDirResOutput = '".$ICEcoder["fileDirResOutput"]."';".
+		"top.ICEcoder.newDirPerms = ".$ICEcoder["newDirPerms"].";".
+		"top.ICEcoder.newFilePerms = ".$ICEcoder["newFilePerms"].";";
 		if($ICEcoder["githubAuthToken"] != "") {
+			$_SESSION['githubAuthToken'] = $ICEcoder["githubAuthToken"];
 			echo "top.ICEcoder.githubAuthTokenSet = true;";
 		}
 		echo "top.ICEcoder.csrf = '".$_SESSION["csrf"]."';";
-?>ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.content.style.visibility='visible';top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
+?>ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;top.ICEcoder.content.style.visibility='visible';top.ICEcoder.filesFrame.contentWindow.frames['processControl'].location.href = 'processes/on-load.php';<?php if(isset($_GET["display"]) && $_GET["display"] == "updated") {echo "top.ICEcoder.updated();";};?>" onResize="ICEcoder.setLayout()" onKeyDown="return ICEcoder.interceptKeys('coder',event);" onKeyUp="parent.ICEcoder.resetKeys(event);" onBlur="parent.ICEcoder.resetKeys(event);">
 
 <div id="blackMask" class="blackMask" onClick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" onContextMenu="return false">
 	<div class="popupVCenter">
 		<div class="popup" id="mediaContainer"></div>
 	</div>
+	<div class="floatingContainer" id="floatingContainer"></div>
 </div>
 
 <div id="loadingMask" class="blackMask" style="visibility: visible" onContextMenu="return false">
@@ -122,7 +144,7 @@ $t = $text['index'];
 		<a nohref onClick="top.ICEcoder.showColorPicker(top.document.getElementById('color') ? top.document.getElementById('color').value : '#123456')" title="Farbtastic
 <?php echo $t['Color picker'];?>"><img src="images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
 		<div id="pluginsOptional"><?php echo $pluginsDisplay; ?></div>
-		<a nohref onclick="top.ICEcoder.pluginsManager()" title="Plugins Manager" style="color: #fff; cursor: pointer">+ / -</a>
+		<a nohref onclick="top.ICEcoder.pluginsManager()" title="<?php echo $t['Plugins Manager'];?>" style="color: #fff; cursor: pointer">+ / -</a>
 	</div>
 </div>
 
@@ -133,7 +155,7 @@ $t = $text['index'];
 		<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 		<a href="javascript:top.ICEcoder.uploadFilesSelect(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()"><?php echo $t['Upload File(s)'];?></a>
 		<div style="display: none">
-			<form enctype="multipart/form-data" id="uploadFilesForm" action="lib/file-control.php?action=upload&file=/uploaded" method="POST" target="fileControl">
+			<form enctype="multipart/form-data" id="uploadFilesForm" action="lib/file-control-xhr.php?action=upload&file=/uploaded" method="POST" target="fileControl">
 				<input type="hidden" name="folder" id="uploadDir" value="/">
 				<input type="file" name="filesInput[]" id="fileInput" onchange="top.ICEcoder.uploadFilesSubmit(this)" multiple>
 				<input type="submit" value="Upload File">
@@ -150,7 +172,7 @@ $t = $text['index'];
 	<span id="singleFileMenuItems">
 		<a href="javascript:top.ICEcoder.renameFile(top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1])" onMouseOver="ICEcoder.showFileMenu()"><?php echo $t['Rename'];?></a>
 		<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
-		<a nohref onClick="window.open(iceRoot + top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,'/'))" onMouseOver="ICEcoder.showFileMenu()" style="cursor: pointer"><?php echo $t['View Webpage'];?></a>
+		<a nohref onClick="window.open('//<?php echo $_SERVER['HTTP_HOST'];?>' + iceRoot + top.ICEcoder.selectedFiles[top.ICEcoder.selectedFiles.length-1].replace(/\|/g,'/'))" onMouseOver="ICEcoder.showFileMenu()" style="cursor: pointer"><?php echo $t['View Webpage'];?></a>
 	</span>
 	<div onMouseOver="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
 	<?php
@@ -170,9 +192,14 @@ $t = $text['index'];
 		<ul>
 			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsFile')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsFile')}" id="optionsFileNav"><?php echo $t['File'];?></a></li>
 			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsEdit')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsEdit')}" id="optionsEditNav"><?php echo $t['Edit'];?></a></li>
-			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsRemote')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsRemote')}" id="optionsRemoteNav"><?php echo $t['Remote'];?></a></li>
+			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsSource')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsSource')}" id="optionsSourceNav"><?php echo $t['Source'];?></a></li>
 			<li><a nohref onclick="top.ICEcoder.canShowFMNav=true;top.ICEcoder.showHideFileNav('show','optionsHelp')" onmouseover="if(top.ICEcoder.canShowFMNav) {top.ICEcoder.showHideFileNav('show','optionsHelp')}" id="optionsHelpNav"><?php echo $t['Help'];?></a></li>
 		</ul>
+	</div>
+	<div id="githubNav" class="githubNav">
+		<div class="commit" id="githubNavCommit" onclick="top.ICEcoder.githubAction('commit')">Commit</div>
+		<div class="selected" id="githubNavSelectedCount">Selected: 0</div>
+		<div class="pull" id="githubNavPull" onclick="top.ICEcoder.githubAction('pull')">Pull</div>
 	</div>
 	<div class="options" id="fileOptions">
 		<div id="optionsFile" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
@@ -206,31 +233,41 @@ $t = $text['index'];
 				<li><a nohref onclick="ICEcoder.autocomplete()"><?php echo $t['Autocomplete'];?></a></li>
 				<li><a nohref onclick="ICEcoder.lineCommentToggle()"><?php echo $t['Comment/Uncomment'];?></a></li>
 				<li><a nohref onclick="ICEcoder.jumpToDefinition()"><?php echo $t['Jump to Definition'];?></a></li>
+				<li><a nohref onClick="ICEcoder.settingsScreen()"><?php echo $t['Settings'];?></a></li>
 			</ul>
 		</div>
-		<div id="optionsRemote" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
+		<div id="optionsSource" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
 			<ul>
+				<li><a nohref onclick="ICEcoder.goLocalhostRoot()">Localhost</a></li>
+				<li><a nohref onclick="ICEcoder.ftpManager()">FTP</a></li>
 				<li><a nohref onclick="ICEcoder.githubManager()">GitHub</a></li>
+				<!--
 				<li><a nohref onclick="ICEcoder.message('SVN integration coming soon')">SVN</a></li>
 				<li><a nohref onclick="ICEcoder.message('Bitbucket integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Bitbucket</a></li>
 				<li><a nohref onclick="ICEcoder.message('Amazon AWS integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Amazon AWS</a></li>
 				<li><a nohref onclick="ICEcoder.message('Dropbox integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">Dropbox</a></li>
-				<li><a nohref onclick="ICEcoder.message('FTP integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">FTP</a></li>
 				<li><a nohref onclick="ICEcoder.message('SSH integration coming soon\n\nCan you help with this? Get involved at icecoder.net')">SSH</a></li>
+				//-->
 			</ul>
 		</div>
 		<div id="optionsHelp" class="optionsList" onmouseover="top.ICEcoder.showHideFileNav('show',this.id)" onmouseout="top.ICEcoder.showHideFileNav('hide',this.id);top.ICEcoder.canShowFMNav=false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>')"><?php echo $t['Manual'];?></a></li>
 				<li><a nohref onClick="ICEcoder.helpScreen()"><?php echo $t['Shortcuts'];?></a></li>
-				<li><a nohref onClick="ICEcoder.settingsScreen()"><?php echo $t['Settings'];?></a></li>
 				<li><a nohref onclick="ICEcoder.searchForSelected()"><?php echo $t['Search for selected'];?></a></li>
 				<li><a href="https://icecoder.net" target="_blank">ICEcoder <?php echo $t['website'];?></a></li>
 			</ul>
 		</div>
 	</div>
-	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1';this.contentWindow.onscroll=function(){top.ICEcoder.mouseDown=false}"></iframe>
+	<iframe id="filesFrame" class="frame" name="ff" src="files.php" style="opacity: 0" onLoad="this.style.opacity='1';this.contentWindow.onscroll=function(){top.ICEcoder.mouseDown=false; top.ICEcoder.mouseDownInCM=false}"></iframe>
 	<div class="serverMessage" id="serverMessage"></div>
+
+    <div class="tools" id="tools">
+        <div onclick="top.ICEcoder.toolShowHideToggle('terminal')">Terminal</div>
+        <div onclick="top.ICEcoder.toolShowHideToggle('output')">Output</div>
+        <div onclick="top.ICEcoder.toolShowHideToggle('database')">Database</div>
+        <div onclick="top.ICEcoder.toolShowHideToggle('git')">Git</div>
+    </div>
 </div>
 
 <div id="editor" class="editor">
@@ -247,8 +284,8 @@ $t = $text['index'];
 		<form name="findAndReplace" onSubmit="ICEcoder.findReplace(top.document.getElementById('find').value,false,true);return false">
 			<div class="findReplace">
 				<div class="findText"><?php echo $t['Find'];?></div>
-				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace(top.document.getElementById('find').value,true,false)">
-				
+				<input type="text" name="find" value="" id="find" class="textbox find" onKeyUp="ICEcoder.findReplace(top.document.getElementById('find').value,true,false,event.keyCode == 27)">
+
 				<div class="selectWrapper" style="width: 41px">
 					<select name="connector" onChange="ICEcoder.findReplaceOptions()" style="width: 40px; margin-top: 4px">
 					<option><?php echo $t['in'];?></option>
@@ -274,31 +311,52 @@ $t = $text['index'];
 							<option><?php echo $t['all filenames'];?></option>
 						</select>
 					</div>
-				<input type="submit" name="submit" value="&gt;&gt;" class="submit">
+				<input type="submit" name="submit" id="findReplaceSubmit" value="&gt;&gt;" class="submit">
 				<div class="results" id="results"></div>
 			</div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
-		<form onSubmit="return ICEcoder.goToLine()">
+		<form onSubmit="return ICEcoder.goToLine(top.get('goToLineNo').value, 0, false)">
 			<div class="codeAssist" title="<?php echo $t['Turn on/off...'];?>">
 				<input type="checkbox" name="codeAssist" id="codeAssist" class="codeAssistCheckbox" <?php if ($ICEcoder['codeAssist']) {echo 'checked ';};?>>
 				<span class="codeAssistDisplay" id="codeAssistDisplay" style="background-position: <?php echo $ICEcoder['codeAssist'] ? "0" : "-16";?> 0" onClick="top.ICEcoder.codeAssistToggle()"></span> <?php echo $t['Code Assist'];?>
 			</div>
-			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" id="goToLineNo" class="textbox goToLine">
+			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" id="goToLineNo" onkeyup="ICEcoder.goToLine(this.value, 0, true)" class="textbox goToLine">
 			<div class="view" title="<?php echo $t['View'];?>" onClick="top.ICEcoder.openPreviewWindow()" id="fMView"></div>
 			<div class="bug" title="<?php echo $t['Bug reporting not active'];?>" onClick="top.ICEcoder.openBugReport()" id="bugIcon"></div>
+			<div class="minimapLink" onclick="top.ICEcoder.docExplorerShow('miniMap')"></div>
+			<div class="functionClassListLink" onclick="top.ICEcoder.docExplorerShow('functionClassList')"></div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 	</div>
-	<iframe name="contentFrame" id="content" src="editor.php" class="code"></iframe>
+	<iframe name="terminalFrame" id="terminal" src="terminal.php" class="terminal"></iframe>
+	<pre id="output" class="output"><b>Output</b><br>via top.ICEcoder.output(message);<br><br></pre>
+	<iframe name="databaseFrame" id="database" src="lib/database.php" class="database"></iframe>
+	<div id="git" class="git" style="font-family: monospace"><?php
+	if (file_exists($docRoot.$ICEcoderDir."/data/git-diff.php")) {
+		echo "Looking for git status...";
+	} else {
+		echo "To provide git diff data to ICEcoder, please run...<br><br>sudo nohup php processes/system.php > data/nohup.log 2>&1 &<br><br>...to run as a background process";
+	};?></div>
+	<iframe name="contentFrame" id="content" src="editor.php" class="code" scrolling="no"></iframe>
 </div>
 
 <div class="footer" id="footer" onContextMenu="return false">
 	<div class="nesting" id="nestValid"></div>
-	<div class="nestDisplay" id="nestDisplay"></div>
+	<div class="versionsDisplay" id="versionsDisplay" onclick="top.ICEcoder.versionsScreen(top.ICEcoder.openFiles[top.ICEcoder.selectedTab-1].replace(/\//g,'|'))"></div>
+	<div class="splitPaneControls" id="splitPaneControls"><div class="off" id="splitPaneControlsOff" title="<?php echo $t['Single pane'];?>" onclick="top.ICEcoder.setSplitPane('off')" style="opacity: 0.5"></div><div class="on" id="splitPaneControlsOn" title="<?php echo $t['Diff pane also'];?>" onclick="top.ICEcoder.setSplitPane('on')" style="opacity: 0.2"></div></div>
+	<div class="splitPaneNames" id="splitPaneNamesMain">Main Pane</div>
+	<div class="splitPaneNames" id="splitPaneNamesDiff">Diff Pane</div>
 	<div class="byteDisplay" id="byteDisplay" style="display: none" onClick="top.ICEcoder.showDisplay('char')"></div>
 	<div class="charDisplay" id="charDisplay" style="display: inline-block" onClick="top.ICEcoder.showDisplay('byte')"></div>
 </div>
+
+<div class="docExplorer" id="docExplorer">
+	<div class="miniMap" id="miniMap"><div class="miniMapContainer" id="miniMapContainer"></div><div class="miniMapContent" id="miniMapContent"></div></div>
+	<div class="functionClassList" id="functionClassList"></div>
+</div>
+
+<div id="tooltip" class="tooltip" style="display: none"></div>
 
 <script>
 ICEcoder.initAliases();

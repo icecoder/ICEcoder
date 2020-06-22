@@ -2,6 +2,13 @@
 include("headers.php");
 include("settings.php");
 $t = $text['properties'];
+
+// Establish the real absolute path to the file/folder
+$fileName=realpath($docRoot.$iceRoot.str_replace("|","/",$_GET['fileName']));
+// If it doesn't exist, or doesn't start with the $docRoot, stop here
+if (!file_exists($fileName) || strpos(str_replace("\\","/",$fileName),$docRoot) !== 0) {
+        die("<script>alert('Sorry - problem with file/folder requested');window.history.back();</script>");
+}
 ?>
 <!DOCTYPE html>
 
@@ -10,16 +17,13 @@ $t = $text['properties'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> file/folder properties</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="properties.css">
+<link rel="stylesheet" type="text/css" href="properties.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="properties">
 
 <h1 id="title"><?php echo $t['properties'];?></h1>
 
-<?php
-$fileName=$docRoot.$iceRoot.str_replace("|","/",strClean($_GET['fileName']));
-?>
 <h2><?php echo basename($fileName); ?></h2><br>
 <span class="column" style="width: 180px"><?php echo $t['Size'];?>: <?php
 $bytes = filesize($fileName);
@@ -43,7 +47,7 @@ echo number_format($outputSize, 2, '.', '').$outputUnit." (".number_format($byte
 <span class="column"><?php echo $t['Last access'];?>: <?php echo date( "D jS M Y g:i:sa", fileatime($fileName)); ?></span>
 <br><br>
 <span class="column" style="width: 180px"><?php echo $t['Type'];?>: <?php echo is_dir($fileName) ? "Folder" : "File"; ?></span>
-<span class="column" style="margin: 0 10px"><?php echo $t['Readable Writeable'];?>: 
+<span class="column" style="margin: 0 10px"><?php echo $t['Readable Writeable'];?>:
 <?php echo is_readable($fileName) ? "Yes" : "No"; ?> / <?php echo is_writeable($fileName) ? "Yes" : "No";?>
 </span>
 <span class="column"><?php echo $t['Relative path'];?>: <?php echo str_replace($docRoot,"",$fileName);?></span>
@@ -79,7 +83,7 @@ echo $chmodInfo;
 </span>
 <span class="column" style="margin: 0 10px">
 <?php
-$perms = str_split(substr($chmodInfo,1,3)); // reduces 0705 down to 705
+$perms = str_split(substr($chmodInfo,1,3)); // reduces 0755 down to 755
 $readVars  = array(4,5,6,7);
 $writeVars = array(2,3,6,7);
 $execVars  = array(1,3,5,7);
