@@ -2683,6 +2683,9 @@ var ICEcoder = {
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
                 this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
 
+                // Clear our selection and so also the match highlights
+                thisCM.setCursor(thisCM.getCursor("anchor"));
+
                 return false;
             }
         } else {
@@ -2724,6 +2727,9 @@ var ICEcoder = {
                 results.innerHTML = "No results";
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
                 this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+
+                // Clear our selection and so also the match highlights
+                thisCM.setCursor(thisCM.getCursor("anchor"));
             }
         }
     },
