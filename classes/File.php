@@ -269,7 +269,7 @@ class File
     }
 
     public function handleSaveLooparound($fileDetails, $finalAction, $t) {
-        global $newFileAutoSave;
+        global $newFileAutoSave, $tabNum;
 
         $docRoot = $fileDetails['docRoot'];
         $fileLoc = $fileDetails['fileLoc'];
@@ -351,7 +351,7 @@ class File
     }
 
     public function writeFile() {
-        global $file, $t, $ICEcoder, $serverType, $doNext, $contents, $systemClass;
+        global $file, $t, $ICEcoder, $serverType, $doNext, $contents, $systemClass, $tabNum;
         if (isset($_POST['changes'])) {
             // Get existing file contents as lines and stitch changes onto it
             $fileLines = file($file);
@@ -392,8 +392,8 @@ class File
         }
         clearstatcache();
         $filemtime = "Linux" === $serverType ? filemtime($file) : "1000000";
-        $doNext .= 'ICEcoder.openFileMDTs[ICEcoder.selectedTab - 1] = "' . $filemtime . '";';
-        $doNext .= '(function() {var x = ICEcoder.openFileVersions; var y = ICEcoder.selectedTab-1; x[y] = "undefined" != typeof x[y] ? x[y] + 1 : 1})(); ICEcoder.updateVersionsDisplay();';
+        $doNext .= 'ICEcoder.openFileMDTs[' . ($tabNum - 1) .'] = "' . $filemtime . '";';
+        $doNext .= '(function() {var x = ICEcoder.openFileVersions; var y = ' . ($tabNum - 1) .'; x[y] = "undefined" != typeof x[y] ? x[y] + 1 : 1})(); ICEcoder.updateVersionsDisplay();';
     }
 
     /**
@@ -623,10 +623,11 @@ class File
     }
 
     public function handleDiffPane() {
+        global $tabNum;
         // Copy over content to diff pane if we have that setting on
         $doNext = '
-					cM = ICEcoder.getcMInstance();
-					cMdiff = ICEcoder.getcMdiffInstance();
+					cM = ICEcoder.getcMInstance('. $tabNum .');
+					cMdiff = ICEcoder.getcMdiffInstance('. $tabNum .');
 					if (ICEcoder.updateDiffOnSave) {
 						cMdiff.setValue(cM.getValue());
 					};
@@ -636,13 +637,16 @@ class File
     }
 
     public function finaliseSave() {
+        global $tabNum;
+
         // Finally, set previous files, indicate changes, set saved points and redo tabs
         $doNext = '
 						ICEcoder.setPreviousFiles();
 						setTimeout(function(){ICEcoder.indicateChanges()}, 4);
-						ICEcoder.savedPoints[ICEcoder.selectedTab-1] = cM.changeGeneration();
-						ICEcoder.savedContents[ICEcoder.selectedTab-1] = cM.getValue();
-						ICEcoder.redoTabHighlight(ICEcoder.selectedTab);';
+						ICEcoder.savedPoints[' . ($tabNum - 1) .'] = cM.changeGeneration();
+						ICEcoder.savedContents[' . ($tabNum - 1) .'] = cM.getValue();
+						ICEcoder.redoTabHighlight(' . $tabNum .');
+						ICEcoder.switchTab(ICEcoder.selectedTab);';
 
         return $doNext;
     }

@@ -37,6 +37,11 @@ $newFileAutoSave = isset($_GET['newFileAutoSave'])
     ? ("true" === $_GET['newFileAutoSave'])
     : false;
 
+// Is this an autosave while creating a new file?
+if (true === isset($_GET['tabNum'])) {
+    $tabNum = $_GET['tabNum'];
+}
+
 // Establish the filename/new filename
 // New file
 if (isset($_POST['newFileName']) && "" != $_POST['newFileName']) {

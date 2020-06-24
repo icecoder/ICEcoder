@@ -2000,7 +2000,7 @@ var ICEcoder = {
                 : "|[NEW]";
         }
         filePath = filePath.replace("||", "|");
-        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=save&fileMDT=" + this.openFileMDTs[this.selectedTab - 1] + "&fileVersion=" + this.openFileVersions[this.selectedTab - 1] + "&saveType=" + saveType + "&newFileAutoSave=" + newFileAutoSave + "&csrf=" + this.csrf,encodeURIComponent(filePath), changes);
+        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=save&fileMDT=" + this.openFileMDTs[this.selectedTab - 1] + "&fileVersion=" + this.openFileVersions[this.selectedTab - 1] + "&saveType=" + saveType + "&newFileAutoSave=" + newFileAutoSave + "&tabNum=" + this.selectedTab + "&csrf=" + this.csrf,encodeURIComponent(filePath), changes);
         this.serverMessage('<b>' + t['Saving'] + '</b><br>' + this.openFiles[this.selectedTab - 1].replace(iceRoot, ""));
     },
 
