@@ -11,6 +11,9 @@ function requireReIndexNextTime() {
         // If we have a data/index.php file
         if (file_exists(dirname(__FILE__)."/../data/index.php")) {
                 // Get serialized array back out of PHP file inside a comment block as prevIndexData
+                if (function_exists('opcache_invalidate')) {
+                        opcache_invalidate(dirname(__FILE__)."/../data/index.php", true);
+                }
                 $prevIndexData = file_get_contents(dirname(__FILE__)."/../data/index.php");
                 if (strpos($prevIndexData, "<?php") !== false) {
                         $prevIndexData = str_replace("<?php\n/*\n\n", "", $prevIndexData);
@@ -38,7 +41,6 @@ while(true) {
                 $output = ["paths" => array_filter($diffLines)];
                 // Store the serialized array in PHP comment block for pick up
                 file_put_contents(dirname(__FILE__)."/../data/git-diff.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
-            
                 // Set Git contents
                 $output = [];
                 $paths = array_filter($diffLines);

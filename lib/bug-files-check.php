@@ -44,6 +44,7 @@ if ("error" !== $result) {
 			$lines = $maxLines + 1 + 1; // 1 (possibly) for end of file and 1 for partial lines
 
 			// Open the file
+            $systemClass->invalidateOPCache($filename);
 			$f = fopen($filename, "rb");
 
 			// Jump to last character

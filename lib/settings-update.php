@@ -15,6 +15,7 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
             $fh = fopen("../data/" . $settingsFile, 'w');
             fwrite($fh, str_replace('"tutorialOnLogin"	=> true', '"tutorialOnLogin"	=> false', $settingsContents));
             fclose($fh);
+            $ICEcoder['tutorialOnLogin'] = false;
         } else {
             echo "<script>parent.ICEcoder.message('" . $t['Cannot update config'] . " data/" . $settingsFile . " " . $t['and try again'] . "');</script>";
         }

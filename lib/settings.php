@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . "/../classes/System.php";
 use ICEcoder\ExtraProcesses;
 
 $settingsClass = new \ICEcoder\Settings();
+$systemClass = new \ICEcoder\System();
 
 // Create a new config file if it doesn't exist yet.
 // The reason we create it, is so it has PHP write permissions, meaning we can update it later
@@ -27,6 +28,7 @@ if (false === file_exists(dirname(__FILE__) . "/../data/" . $configSettings)) {
 }
 
 // Load config settings
+$systemClass->invalidateOPCache(dirname(__FILE__) . "/../data/" . $configSettings);
 include dirname(__FILE__) . "/../data/" . $configSettings;
 
 // Load common functions
@@ -52,6 +54,7 @@ if (false === file_exists(dirname(__FILE__) . "/../data/" . $settingsFile) && $I
 }
 
 // Load user settings
+$systemClass->invalidateOPCache(dirname(__FILE__) . "/../data/" . $settingsFile);
 include dirname(__FILE__) . "/../data/" . $settingsFile;
 
 // Remove any previous files that are no longer there

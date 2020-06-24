@@ -60,6 +60,16 @@ class System
     }
 
     /**
+     * @param $path
+     */
+    public function invalidateOPCache($path): void
+    {
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($path, true);
+        }
+    }
+
+    /**
      * @param $fileLines
      * @param $changes
      * @return string

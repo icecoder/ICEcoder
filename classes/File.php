@@ -351,7 +351,7 @@ class File
     }
 
     public function writeFile() {
-        global $file, $t, $ICEcoder, $serverType, $doNext, $contents;
+        global $file, $t, $ICEcoder, $serverType, $doNext, $contents, $systemClass;
         if (isset($_POST['changes'])) {
             // Get existing file contents as lines and stitch changes onto it
             $fileLines = file($file);
@@ -369,6 +369,7 @@ class File
 
         // Newly created files have the perms set too
         $setPerms = (!file_exists($file)) ? true : false;
+        $systemClass->invalidateOPCache($file);
         $fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
 
         // replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
@@ -647,7 +648,7 @@ class File
     }
 
     public function compileSass() {
-        global $docRoot, $fileLoc, $fileName;
+        global $docRoot, $fileLoc, $fileName, $systemClass;
 
         $doNext = "";
 
@@ -667,6 +668,7 @@ class File
 
             if (true === is_writable($docRoot . $fileLoc)) {
                 $scssContent = $scss->compile('@import "' . $fileName . '"');
+                $systemClass->invalidateOPCache($docRoot . $fileLoc . "/" . substr($fileName, 0, -4) . "css");
                 $fh = fopen($docRoot . $fileLoc . "/" . substr($fileName, 0, -4) . "css", 'w');
                 fwrite($fh, $scssContent);
                 fclose($fh);

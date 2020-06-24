@@ -11,6 +11,7 @@ $prevIndexData = [];
 // If we have a data/index.php file
 if (file_exists($docRoot . $ICEcoderDir . "/data/index.php")) {
     // Get serialized array back out of PHP file inside a comment block as prevIndexData
+    $systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/index.php");
     $prevIndexData = file_get_contents($docRoot . $ICEcoderDir . "/data/index.php");
     if (false !== strpos($prevIndexData, "<?php")) {
         $prevIndexData = str_replace("<?php\n/*\n\n", "", $prevIndexData);
@@ -208,6 +209,7 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 		// If we have a data/git-diff.php file
 		if (file_exists($docRoot . $ICEcoderDir . "/data/git-diff.php")) {
 			// Get serialized array back out of PHP file inside a comment block as git data for git diff display
+            $systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/git-diff.php");
 			$gitDiffData = file_get_contents($docRoot . $ICEcoderDir . "/data/git-diff.php");
 			if (strpos($gitDiffData, "<?php") !== false) {
 				$gitDiffData = str_replace("<?php\n/*\n\n", "", $gitDiffData);
@@ -220,6 +222,7 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 		// If we have a data/git-content.php file
 		if (file_exists($docRoot . $ICEcoderDir . "/data/git-content.php")) {
 			// Get serialized array back out of PHP file inside a comment block as git data for git content usage
+            $systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/git-content.php");
 			$gitContent = file_get_contents($docRoot . $ICEcoderDir . "/data/git-content.php");
 			if (strpos($gitContent, "<?php") !== false) {
 				$gitContent = str_replace("<?php\n/*\n\n", "", $gitContent);
