@@ -11,7 +11,6 @@ $text = array(
 
 	"editor" =>
 	array(
-		"Click icons for..."		=> "<b>点击图标<br>求助 &amp;<br>使用信息</b>",
 		"server"			=> "服务器",
 		"Server name, OS..."		=> "服务器名称, OS & IP:",
 		"Root"				=> "根目录:",
@@ -23,21 +22,19 @@ $text = array(
 		"Your IP"			=> "你的 IP:",
 		"files"				=> "文件",
 		"Last 10 files..."		=> "最后10个打开的文件:",
-		"none"				=> "[none]",
+		"none"				=> "无",
 		"dev mode"			=> "开发模式",
 		"Status"			=> "状态",
 		"Using"				=> "使用",
-		"You can switch..."		=> "你可以在 lib/config__settings.php 中设置开发模式开关",
-		"results"			=> "结果"
-
+		"You can switch..."		=> "你可以在 lib/config__settings.php 中设置开发模式开关"
 	),
 
 	"files" =>
 	array(
 		"Lock"				=> "锁定",
 		"Refresh"			=> "刷新",
+		"Plugins"			=> "插件",
 		"ROOT"				=> "[ROOT]"
-
 	),
 
 	"index" =>
@@ -47,9 +44,10 @@ $text = array(
 		"Your version is"		=> "你的版本是",
 		"Update now"			=> "现在更新",
 		"You have some..."		=> "你有一些未保存的更改",
-		"Are you sure you want to close?" => "Are you sure you want to close?",
+		"Are you sure..."		=> "你真的想要退出吗？",
 		"working"			=> "载入中",
 		"Color picker"			=> "颜色选择器",
+		"Plugins Manager"		=> "插件管理器",
 		"New File"			=> "新建文件",
 		"New Folder"			=> "新建文件夹",
 		"Upload File(s)"		=> "上传文件",
@@ -64,6 +62,7 @@ $text = array(
 		"Properties"			=> "属性",
 		"File"				=> "文件",
 		"Edit"				=> "编辑",
+		"Source"			=> "来源",
 		"Remote"			=> "远程",
 		"Help"				=> "帮助",
 		"Save"				=> "保存",
@@ -88,31 +87,48 @@ $text = array(
 		"website"			=> "网站",
 		"Close all tabs"		=> "关闭所有选项卡",
 		"Alphabetize tabs"		=> "按字母顺序排列的选项卡",
-//		"Find"				=> "搜索",
-//		"in"				=> "in",
-//		"and"				=> "and",
-//		"replace"			=> "替换",
-//		"replace all"			=> "替换所有",
-//		"this document"			=> "当前文件",
-//		"open documents"		=> "打开的文件",
-//		"all files"			=> "所有文件",
-//		"all filenames"			=> "所有文件名",
-		"Turn on/off..."		=> "开启/关闭代码辅助",
+		"Find"				=> "搜索",
+		"in"				=> "之中",
+		"and"				=> "和",
+		"replace"			=> "替换",
+		"replace all"			=> "替换所有",
+		"this document"			=> "当前文件",
+		"open documents"		=> "打开的文件",
+		"all files"			=> "所有文件",
+		"all filenames"			=> "所有文件名",
+		"Turn on/off..."		=> "开启 / 关闭代码辅助",
 		"Code Assist"			=> "代码辅助",
 		"Go to Line"			=> "转到行",
 		"View"				=> "预览",
-		"Bug reporting not active"	=> "错误报告没有激活"
+		"Bug reporting not active"	=> "错误报告没有激活",
+		"Single pane"			=> "单一窗格",
+		"Diff pane also"		=> "差异窗格"
 	),
 
 // /LIB
 
+	"auto-logout-warning" =>
+	array(
+		"Auto Logout Warning"		=> "自动注销警告",
+		"You will be..."		=> "您将在...之后注销",
+		"seconds due to..."		=> "出于安全目的，由于不活动而导致的秒数。使用鼠标或按键继续。<br><br>您可以从“编辑>设置”部分调整或禁用此选项。"
+	),
+
+	"backup-versions" =>
+	array(
+		"backup"			=> "备份",
+		"backups"			=> "备份记录",
+		"available for"			=> "可用于..."
+	),
+
 	"bug-files-check" =>
 	array(
-		"Found in"			=> "搜索到:"
+		"Found in"			=> "搜索到: "
 	),
 
 	"file-control" =>
 	array(
+		"Sorry, bad filename..."	=> "抱歉, 你提供了错误的文件名。查看开发工具控制台了解更多信息？",
 		"Sorry"				=> "抱歉",
 		"does not seem..."		=> "服务器上不存在",
 		"Sorry, could not..."		=> "抱歉, 不能得到的内容",
@@ -122,28 +138,61 @@ $text = array(
 		"Uploaded file(s) OK"		=> "上传文件完成",
 		"Sorry, cannot upload"		=> "抱歉, 不能上传",
 		"Sorry, cannot upload..."	=> "抱歉, 在演示模式不能上传文件",
+		"Maybe public write..."		=> "此文件夹或父文件夹可能需要公共写入权限？",
 		"Sorry, cannot rename"		=> "抱歉, 不能重命名",
 		"Maybe public write..."		=> "也许父文件夹也需要写入权限?",
 		"Sorry, cannot move"		=> "抱歉, 不能移动",
 		"Sorry, cannot save"		=> "抱歉, 不能保存",
 		"Sorry, cannot replace..."	=> "抱歉, 目标不能替换文本",
 		"Sorry, cannot change..."	=> "抱歉, 目标不能更改权限",
-		"Sorry, cannot delete..."	=> "抱歉, 不能删除根级别ROOT",
+		"Sorry, cannot delete more..."	=> "抱歉，在FTP模式下一次不能删除多个项目",
+		"Sorry, cannot delete..."	=> "抱歉, 不能删除根目录",
 		"Sorry, cannot delete"		=> "抱歉, 不能删除",
 		"Sorry, this file..."		=> "抱歉, 此文件已更改, 不能保存",
 		"Reload this file..."		=> "重新加载该文件, 你的版本复制到一个新文件?",
 		"There was a..."		=> "这些代码还没有完全准备好. 所以 ICEcoder 需要再次重新加载.",
 		"displayed at"			=> "显示在",
 		"Enter filename to..."		=> "输入文件名并保存到",
-		"That file exists..."		=> "该文件已存在, 要覆盖吗?",
+		"That file exists..."		=> "该文件已存在, 要覆盖吗？",
 		"Saving"			=> "正在保存"
 	),
 
+	"ftp-manager" =>
+	array(
+		"Saving FTP sites"		=> "保存FTP站点",
+		"Cannot update config..."	=> "无法更新配置文件，请设置公用写入权限。",
+		"and try again"			=> "重试",
+		"ftp manager"			=> "FTP管理器",
+		"Choose existing site"		=> "选择现有网站",
+		"Are you sure..."		=> "确实要删除此网站吗？",
+		"Add new site"			=> "添加新站点",
+		"Edit site"			=> "配置站点",
+		"Site base"			=> "站点信息",
+		"Host"				=> "域名",
+		"Username"			=> "用户名",
+		"Password"			=> "密码",
+		"PASV and mode"			=> "被动模式",
+		"Root"				=> "根目录",
+		"eg http://yourdomain.com"	=> "例 http://yourdomain.com",
+		"eg ftp.yourdomain.com"		=> "例 ftp.yourdomain.com",
+		"eg user123"			=> "例 user123",
+		"eg pass123"			=> "例 pass123",
+		"Use PASV mode..."		=> "如果FTP站点需要，请使用PASV模式，并选择数据传输类型-ASCII或binary",
+		"eg /htdocs"			=> "例 /htdocs",
+		"PASV connection off"		=> "关闭被动模式连接",
+		"PASV connection on"		=> "开启被动模式连接",
+		"ASCII transfer"		=> "字符传输模式",
+		"Binary transfer"		=> "二进制传输模式",
+		"Add"				=> "添加",
+		"Choose"			=> "选择",
+		"Update"			=> "更新"
+	),
+	
 	"get-branch" =>
 	array(
-		"There are no..."		=> "本地文件与 GitHub repo 没有明显差异. 切换回普通模式?",
-		"Sorry, there was..."		=> "抱歉, 这里有一个错误, 代码:",
-		"Your local folder..."		=> "你的本地文件夹是空的, 你是否想克隆"
+		"There are no..."		=> "本地文件与 GitHub repo 没有明显差异. 切换回普通模式？",
+		"Sorry, there was..."		=> "抱歉, 这里有一个错误, 代码: ",
+		"Your local folder..."		=> "你的本地文件夹是空的, 你是否想克隆？"
 	),
 
 	"github-manager" =>
@@ -155,27 +204,29 @@ $text = array(
 		"github paths"			=> "github 路径",
 		"Choose existing path"		=> "选择现有路径",
 		"Local path"			=> "本地路径",
+		"Slash prefixed"		=> "斜杠前缀",
 		"Remote GitHub path"		=> "远程 GitHub 路径",
+		"Absolute URL beginning..."	=> "绝对网址, 从 https://github.com 开始",
 		"Choose"			=> "选择",
 		"Set local and..."		=> "设置本地路径和远程路径需要去除空格",
 		"Update"			=> "更新",
 		"Add new path"			=> "增加新路径",
 		"Add"				=> "增加",
-		"Usage Info"			=> "使用方法:",
-		"Enter relative local..."	=> "输入本地相对路径 (/server/myfiles) 和 GitHub 绝对路径 (https://github.com/user/repo 或 https://github.com/user/repo/tree/branch 各分支), 按照示例. 完成后你就建立了这两个地点的源路径, 它是成对数存在.",
-		"You can then..."		=> "你可以选择一个路径作为 ICEcoder 的根路径.",
-		"The file manager..."		=> "文件管理器右侧会显示一个新的GitHub图标, 您可以点击执行, 会自动校验并显示本地与github源之间的差异. 这些差别可以被提交并推送到在GitHub上的远程路径或克隆到你的本地路径, 用来同步您的文件.",
-		"If you want..."		=> "如果你想设置的另一个根路径, 可以在 帮助 > 设置窗口 中进行设置."
+		"Usage Info"			=> "使用方法: ",
+		"Enter relative local..."	=> "输入本地相对路径 (/server/myfiles) 和 GitHub 绝对路径 (https://github.com/user/repo 或 https://github.com/user/repo/tree/branch 各分支), 按照示例. 完成后你就建立了这两个地点的源路径, 它是成对数存在。",
+		"You can then..."		=> "你可以选择一个路径作为 ICEcoder 的根路径。",
+		"The file manager..."		=> "文件管理器右侧会显示一个新的GitHub图标, 您可以点击执行, 会自动校验并显示本地与github源之间的差异. 这些差别可以被提交并推送到在GitHub上的远程路径或克隆到你的本地路径, 用来同步您的文件。",
+		"If you want..."		=> "如果你想设置的另一个根路径, 可以在 帮助 > 设置窗口 中进行设置。"
 	),
 
 	"github" =>
 	array(
-		"Sorry, you do..."		=> "抱歉, 您的服务器没有启用 OpenSSL 的 PHP 实例, 所以 https 目前不可用. GitHub 的数据传输必须要用 https 连接, 请修改 php.ini 设置, 重启你的服务器并重新尝试"
+		"Sorry, you do..."		=> "抱歉, 您的服务器没有启用 OpenSSL 的 PHP 实例, 所以 https 目前不可用. GitHub 的数据传输必须要用 https 连接, 请修改 php.ini 设置, 重启你的服务器并重新尝试。"
 	),
 
 	"headers" =>
 	array(
-		"Bad CSRF token..."		=> "错误的 CSRF token. 请在 https://github.com/mattpass/ICEcoder 报告错误信息, 以便我们修复它."
+		"Bad CSRF token..."		=> "错误的 CSRF token. 请在 https://github.com/mattpass/ICEcoder 报告错误信息, 以便我们修复它。"
 	),
 
 	"help" =>
@@ -206,6 +257,8 @@ $text = array(
 		"Jump to definition"		=> "跳转到 / 跳转回",
 		"Comment uncomment"		=> "注释 / 清除注释",
 		"Insert tab indent"		=> "插入tab / 插入选择",
+		"Insert more"			=> "缩进更多",
+		"Insert less"			=> "缩进较少",
 		"Wrap with div"			=> "封装 &lt;div&gt;",
 		"Wrap with span"		=> "封装 &lt;span&gt;",
 		"Wrap unwrap p"			=> "封装 / 撤销封装 &lt;p&gt;",
@@ -230,6 +283,7 @@ $text = array(
 		"Close current tab"		=> "关闭当前选项卡",
 		"Open file prompt"		=> "打开文件的提示",
 		"Find"				=> "搜索",
+		"Previous"			=> "上一个",
 		"Focus on Go..."		=> "光标定位到转到行的输入框",
 		"Save"				=> "保存",
 		"Save as"			=> "另存为...",
@@ -237,17 +291,26 @@ $text = array(
 		"Contract expand file..."	=> "收缩 / 扩展文件管理器",
 		"Fold unfold current..."	=> "折叠 / 展开当前行",
 		"Refocus on document"		=> "光标重新聚焦于文档",
-		"Cancel tasks"			=> "取消任务"
+		"Cancel tasks"			=> "取消任务",
+		"Zoom out"			=> "缩小所有非函数/类声明",
+		"Jump to"			=> "跳转到类/函数的声明",
+		"Jump to previous tab"		=> "跳转到上一个选项卡"
 	),
 
 	"ice-coder" =>
 	array(
+		"results"			=> "结果",
 		"No text selected..."		=> "搜索中没有选中的文本",
+		"all files"			=> "所有文件",
+		"all filenames"			=> "所有的文件名",
+		"selected files"		=> "选择文件",
+		"selected filenames"		=> "选择文件名",
 		"Creating Folder"		=> "正在创建文件夹",
-		"Sorry you can..."		=> "抱歉, 只能同时打开100个文件!",
+		"Sorry you can..."		=> "抱歉, 只能同时打开100个文件！",
 		"Opening File"			=> "正在打开文件",
 		"Enter relative file..."	=> "输入本地相对路径 (前缀 /) 或远程 URL",
 		"Getting"			=> "正在获取",
+		"Saving"			=> "正在保存:",
 		"Please enter the..."		=> "请输入新的名称为",
 		"Renaming to"			=> "正在重命名",
 		"Moving to"			=> "正在移动到",
@@ -255,27 +318,35 @@ $text = array(
 		"Pasting File"			=> "正在粘贴文件",
 		"Sorry cannot paste..."		=> "抱歉, 无法粘贴到根路径",
 		"Nothing to paste..."		=> "粘贴失败, 请先复制一个文件 / 文件夹!",
+		"and"				=> "和",
+		"this document"			=> "本文件",
+		"replace"			=> "替换",
+		"replace all"			=> "替换所有",
+		"file"				=> "文件",
+		"Replacing text in"		=> "替换中的文本",
+		"Sorry there was..."		=> "抱歉，您的请求有错误。\\n\\n请检查您的开发工具控制台以获取更多信息。",
 		"Replacing text in"		=> "正在替换文本",
 		"Cancelled tasks"		=> "取消任务",
 		"Open previous files"		=> "打开以前的文件?",
-		"Please enter your..."		=> "请输入您的 GitHub token (允许使用个人令牌或客户端令牌). 可以查看 Github Auth Token 的帮助 > 更多信息在设置窗口",
+		"Please enter your..."		=> "请输入您的 GitHub token (允许使用个人令牌或客户端令牌). 可以查看 Github Auth Token 的帮助 > 更多信息在设置窗口。",
 		"This will compare..."		=> "将比较和显示你的本地目录和 GitHub repo 之间的差异. 确定吗?",
-		"Please note for..."		=> "请注意: 需要更新才能正常工作, 你需要为所有 ICEcoder 文件和文件夹设置写入和删除权限. 如果您需要恢复 ICEcoder 到这个版本, 你可以在 /tmp 目录找到它们. 点击 OK 继续使用自动升级或点击 cancel 访问 ICEcoder 网站, 您也可以到 grab 的项目首页下载 zip 来进行手动更新.",
+		"Please note for..."		=> "请注意: 需要更新才能正常工作, 你需要为所有 ICEcoder 文件和文件夹设置写入和删除权限. 如果您需要恢复 ICEcoder 到这个版本, 你可以在 /tmp 目录找到它们. 点击 OK 继续使用自动升级或点击 cancel 访问 ICEcoder 网站, 您也可以到 grab 的项目首页下载 zip 来进行手动更新。",
 		"You can start..."		=> "你可以在 帮助 > 设置中启动错误报告",
 		"Error cannot find..."		=> "错误: 无法找到/进入错误文件路径",
 		"No new errors..."		=> "没有新的错误被找到",
-		"You have made..."		=> "您已做的更改未保存。您确定要关闭它而不保存吗?",
-		"Close all tabs"		=> "是否关闭所有选项卡?"
+		"You have made..."		=> "您已做的更改未保存。您确定要关闭它而不保存吗？",
+		"Close all tabs"		=> "是否关闭所有选项卡？"
 	),
 
 	"login" =>
 	array(
 		"set password"			=> "设置密码",
 		"login"				=> "登陆",
-		"To disable registration..."	=> "要禁用注册模式, 请打开设置或打开文件 lib/config___settings.php 并更改 enableRegistration 为 false , 并重新载入本页面",
+		"To disable registration..."	=> "要禁用注册模式, 请打开设置或打开文件 lib/config___settings.php 并更改 enableRegistration 为 false , 并重新载入本页面。",
 		"Registration mode enabled"	=> "注册模式已启用",
+		"disable further registrations"	=> "禁用远程的注册",
 		"auto-check for updates"	=> "自动检测更新",
-		"To put into..."		=> "要禁用多用户模式, 请打开设置或打开文件 lib/config___settings.php 并更改 multiUser 为 true , 并重新载入本页面",
+		"To put into..."		=> "要禁用多用户模式, 请打开设置或打开文件 lib/config___settings.php 并更改 multiUser 为 true , 并重新载入本页面。",
 		"multi-user"			=> "多用户"
 	),
 
@@ -299,9 +370,9 @@ $text = array(
 
 	"plugins-manager" =>
 	array(
-		"ICEcoder needs to..."		=> "ICEcoder 需要重新加载，这个插件才可以使用。现在刷新吗?",
+		"ICEcoder needs to..."		=> "ICEcoder 需要重新加载，这个插件才可以使用。现在刷新吗？",
 		"saving plugins"		=> "正在保存插件...",
-		"Cannot update config..."	=> "不能更新配置文件. 请为",
+		"Cannot update config..."	=> "不能更新配置文件， 请为",
 		"and try again"			=> "设置写入权限并刷新重试",
 		"couldnt delete dir"		=> "不能删除目录",
 		"couldnt delete file"		=> "不能删除文件",
@@ -346,7 +417,7 @@ $text = array(
 
 	"settings-save-current-files" =>
 	array(
-		"Cannot update config..."	=> "不能更新配置文件. 请为",
+		"Cannot update config..."	=> "不能更新配置文件，请为",
 		"and try again"			=> "增加写入权限并再次尝试"
 	),
 
@@ -359,7 +430,15 @@ $text = array(
 		"codemirror dir"		=> "codemirror 目录",
 		"codemirror version"		=> "codemirror 版本",
 		"file manager root"		=> "文件管理器的根目录ROOT",
-		"Free to use..."		=> "您可以自由使用它, 无论商业与否, 只需让我知道有任何很酷的使用或有定制的:)同样我们无任何责任和任何担保, 使用所有的责任是你的. 很多个人和公司为 ICEcoder 作出过贡献, 在此篇幅有限无法一一列举, 请访问贡献者详细列表",
+		"backups"			=> "备份记录",
+		"keep version control..."	=> "保留版本控制备份",
+		"day"				=> "日",
+		"days"				=> "天数",
+		"of backups stored..."		=> "当前存储的备份数",
+		"deleting actually moves..."	=> "删除并移动ICEcoder的tmp目录",
+		"local/server items..."		=> "仅本地 / 服务器项",
+		"Get in contact..."		=> "获取联系方式...",
+		"You may use..."		=> "你可以使用ICEcoder来达到你自己的目的，无论是商业用途还是非商业用途，只要让我们知道任何很酷的用途或定制。：）<br><br>同样我们不承担任何担保或责任，所有使用责任由您自己承担。",
 		"functionality"			=> "功能",
 		"check for updates..."		=> "启动时检查更新",
 		"auto open last..."		=> "启动时自动载入最后打开的文件",
@@ -377,6 +456,8 @@ $text = array(
 		"banned files/folders"		=> "禁止文件 / 文件夹",
 		"banned paths"			=> "禁止路径",
 		"ip addresses"			=> "ip 地址",
+		"auto-logout after"		=> "在...之后自动退出",
+		"mins of inactivity..."		=> "如果没有未保存的文件，则开始减少活动计数",
 		"Slash prefixed comma..."	=> "斜线前缀, 以半角逗号分隔",
 		"Comma delimited"		=> "以半角逗号分隔",
 		"style"				=> "样式",
@@ -385,7 +466,9 @@ $text = array(
 		"indent type"			=> "缩进类型",
 		"indent size"			=> "缩进大小",
 		"font size"			=> "字体大小",
-		"auto indent"			=> "auto indent",
+		"auto indent"			=> "自动缩进",
+		"auto close tags"		=> "自动关闭选项卡",
+		"auto close brackets"		=> "自动关闭选项卡组",
 		"layout"			=> "布局",
 		"plugin panel aligned"		=> "插件板对齐",
 		"file manager"			=> "文件管理器",
@@ -419,6 +502,19 @@ $text = array(
 	"updater" =>
 	array(
 		"Update appears to..."		=> "更新似乎是成功的"
+	),
+	
+	"find-in-files" =>
+	array(
+		"Enter path to search in" => "输入要搜索的路径",
+		"Enter semicolon-separated masks of files to look at (e.g. *.php;*.html;*.js)" => "输入要查看的文件的后缀以半角分号分隔 (例 *.php;*.html;*.js)",
+		"Type of text" => "文本类型",
+		"Fixed text" => "固定文本",
+		"Regular expression" => "正则表达式",
+		"Case sensitive" => "区分大小写",
+		"Yes" => "是",
+		"No" => "否",
+		"Search" => "搜索",
 	)
 
 );
