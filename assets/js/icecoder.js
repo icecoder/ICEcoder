@@ -416,12 +416,12 @@ var ICEcoder = {
 
     // On key up
     cMonKeyUp: function(thisCM, cMinstance) {
-        if (undefined !== typeof this.doFindInt) {
-            clearInterval(this.doFindInt);
+        if (undefined !== typeof this.doFindTimeout) {
+            clearInterval(this.doFindTimeout);
         }
         // If we have something to find in this document, find in 50 ms (unless cancelled by another keypress)
         if ("" !== get('find').value && t['this document'] === document.findAndReplace.target.value) {
-            this.doFindInt = setTimeout(function (ic) {
+            this.doFindTimeout = setTimeout(function (ic) {
                 ic.findReplace(get('find').value, false, false, false);
             }, 50, this);
         }
@@ -612,9 +612,6 @@ var ICEcoder = {
     // On scroll
     cMonScroll: function(thisCM, cMinstance) {
         let cM, cMdiff, otherCM;
-
-        // this.mouseDown = false;
-        // this.mouseDownInCM = false;
 
         if (true === this.splitPane) {
             // Get both main & diff instance and work out the instance we're not scrolling
