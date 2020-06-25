@@ -335,7 +335,7 @@ class File
 					}
 				}, 10);' .
             ($newFileAutoSave
-                ? '} else {ICEcoder.closeTab(' . $tabNum . ', "dontSetPV", "dontAsk");'
+                ? '} else {ICEcoder.closeTab(' . ($tabNum ?? 'ICEcoder.selectedTab') . ', "dontSetPV", "dontAsk");'
                 : ''
             ) .
 			'};
@@ -392,8 +392,8 @@ class File
         }
         clearstatcache();
         $filemtime = "Linux" === $serverType ? filemtime($file) : "1000000";
-        $doNext .= 'ICEcoder.openFileMDTs[' . ($tabNum - 1) .'] = "' . $filemtime . '";';
-        $doNext .= '(function() {var x = ICEcoder.openFileVersions; var y = ' . ($tabNum - 1) .'; x[y] = "undefined" != typeof x[y] ? x[y] + 1 : 1})(); ICEcoder.updateVersionsDisplay();';
+        $doNext .= 'ICEcoder.openFileMDTs[' . ($tabNum ?? 'ICEcoder.selectedTab') .' - 1] = "' . $filemtime . '";';
+        $doNext .= '(function() {var x = ICEcoder.openFileVersions; var y = ' . ($tabNum ?? 'ICEcoder.selectedTab') .' - 1; x[y] = "undefined" != typeof x[y] ? x[y] + 1 : 1})(); ICEcoder.updateVersionsDisplay();';
     }
 
     /**
@@ -626,8 +626,8 @@ class File
         global $tabNum;
         // Copy over content to diff pane if we have that setting on
         $doNext = '
-					cM = ICEcoder.getcMInstance('. $tabNum .');
-					cMdiff = ICEcoder.getcMdiffInstance('. $tabNum .');
+					cM = ICEcoder.getcMInstance('. ($tabNum ?? 'ICEcoder.selectedTab') .');
+					cMdiff = ICEcoder.getcMdiffInstance('. ($tabNum ?? 'ICEcoder.selectedTab') .');
 					if (ICEcoder.updateDiffOnSave) {
 						cMdiff.setValue(cM.getValue());
 					};
@@ -643,10 +643,10 @@ class File
         $doNext = '
 						ICEcoder.setPreviousFiles();
 						setTimeout(function(){ICEcoder.indicateChanges()}, 4);
-						ICEcoder.savedPoints[' . ($tabNum - 1) .'] = cM.changeGeneration();
-						ICEcoder.savedContents[' . ($tabNum - 1) .'] = cM.getValue();
-						ICEcoder.redoTabHighlight(' . $tabNum .');
-						ICEcoder.switchTab(' . $tabNum . ');';
+						ICEcoder.savedPoints[' . ($tabNum ?? 'ICEcoder.selectedTab') .' - 1] = cM.changeGeneration();
+						ICEcoder.savedContents[' . ($tabNum ?? 'ICEcoder.selectedTab') .' - 1] = cM.getValue();
+						ICEcoder.redoTabHighlight(' . ($tabNum ?? 'ICEcoder.selectedTab') .');
+						ICEcoder.switchTab(ICEcoder.selectedTab);';
 
         return $doNext;
     }
