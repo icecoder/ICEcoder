@@ -106,7 +106,7 @@ function getData($url, $type='fopen', $dieMessage = false, $timeout = 60) {
 				'timeout' => $timeout // secs
 			)
 		));
-        $systemClass->invalidateOPCache($url);
+		$systemClass->invalidateOPCache($url);
 		$data = @file_get_contents($url, false, $context);
 		if (!$data) {
 			$data = @file_get_contents(str_replace("https:", "http:", $url), false, $context);
@@ -132,7 +132,7 @@ function requireReIndexNextTime() {
 	global $docRoot, $ICEcoderDir, $systemClass;
 	if (true === file_exists($docRoot . $ICEcoderDir . "/data/index.php")) {
 		// Get serialized array back out of PHP file inside a comment block as prevIndexData
-        $systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/index.php");
+		$systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/index.php");
 		$prevIndexData = file_get_contents($docRoot . $ICEcoderDir . "/data/index.php");
 		if (strpos($prevIndexData, "<?php") !== false) {
 			$prevIndexData = str_replace("<?php\n/*\n\n", "", $prevIndexData);
@@ -357,7 +357,7 @@ function serializedFileData($do, $path, $output=null) {
     global $systemClass;
 
 	if ($do === "get") {
-        $systemClass->invalidateOPCache($path);
+		$systemClass->invalidateOPCache($path);
 		$data = file_get_contents($path);
 		$data = str_replace("<"."?php\n/*\n\n", "", $data);
 		$data = str_replace("\n\n*/\n?".">", "", $data);

@@ -335,7 +335,7 @@ class File
 					}
 				}, 10);' .
             ($newFileAutoSave
-                ? '} else {ICEcoder.closeTab(ICEcoder.selectedTab, "dontSetPV", "dontAsk");'
+                ? '} else {ICEcoder.closeTab(' . $tabNum . ', "dontSetPV", "dontAsk");'
                 : ''
             ) .
 			'};
@@ -646,7 +646,7 @@ class File
 						ICEcoder.savedPoints[' . ($tabNum - 1) .'] = cM.changeGeneration();
 						ICEcoder.savedContents[' . ($tabNum - 1) .'] = cM.getValue();
 						ICEcoder.redoTabHighlight(' . $tabNum .');
-						ICEcoder.switchTab(ICEcoder.selectedTab);';
+						ICEcoder.switchTab(' . $tabNum . ');';
 
         return $doNext;
     }

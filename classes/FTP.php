@@ -14,7 +14,7 @@ class FTP
     }
 
     public function writeFile() {
-        global $fileLoc, $fileName, $ftpConn, $ftpRoot, $ftpHost, $ftpMode, $ICEcoder, $doNext, $filemtime;
+        global $fileLoc, $fileName, $ftpConn, $ftpRoot, $ftpHost, $ftpMode, $ICEcoder, $doNext, $filemtime, $tabNum;
 
         $ftpFilepath = ltrim($fileLoc . "/" . $fileName, "/");
         if (isset($_POST['changes'])) {
@@ -56,8 +56,8 @@ class FTP
         if (!$this->ftpWriteFile($ftpConn, $ftpFilepath, $contents, $ftpMode)) {
             $doNext .= 'ICEcoder.message("Sorry, could not write ' . $ftpFilepath . ' at ' . $ftpHost . '");';
         } else {
-            $doNext .= 'ICEcoder.openFileMDTs[ICEcoder.selectedTab - 1]="' . $filemtime . '";';
-            $doNext .= '(function() {var x = ICEcoder.openFileVersions; var y = ICEcoder.selectedTab-1; x[y] = "undefined" != typeof x[y] ? x[y] + 1 : 1})(); ICEcoder.updateVersionsDisplay();';
+            $doNext .= 'ICEcoder.openFileMDTs[' . ($tabNum - 1) .']="' . $filemtime . '";';
+            $doNext .= '(function() {var x = ICEcoder.openFileVersions; var y = ' . ($tabNum - 1) .'; x[y] = "undefined" != typeof x[y] ? x[y] + 1 : 1})(); ICEcoder.updateVersionsDisplay();';
         }
     }
 
