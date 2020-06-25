@@ -132,7 +132,7 @@ $_SESSION['loggedIn'] = $_SESSION['loggedIn'];
 $_SESSION['username'] = $_SESSION['username'];
 
 // Define the serverType, docRoot & iceRoot
-$serverType = stristr($_SERVER['SERVER_SOFTWARE'], "win") ? "Windows" : "Linux";
+$serverType = $systemClass->getOS();
 $docRoot = rtrim(str_replace("\\", "/", $ICEcoder['docRoot']));
 $iceRoot = rtrim(str_replace("\\", "/", $ICEcoder["root"]));
 if ($_SESSION['loggedIn'] && "index.php" === basename($_SERVER['SCRIPT_NAME'])) {

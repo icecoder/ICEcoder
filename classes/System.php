@@ -14,6 +14,23 @@ class System
         }
     }
 
+    const OS_UNKNOWN = 'Linux';
+    const OS_WIN = 'Windows';
+    const OS_LINUX = 'Linux';
+    const OS_OSX = 'Mac';
+
+    /**
+     * @return int
+     */
+    public function getOS() {
+        switch (true) {
+            case stristr(PHP_OS, 'DAR'): return self::OS_OSX;
+            case stristr(PHP_OS, 'WIN'): return self::OS_WIN;
+            case stristr(PHP_OS, 'LINUX'): return self::OS_LINUX;
+            default : return self::OS_UNKNOWN;
+        }
+    }
+
     public function setErrorHandling(): void
     {
         // Don't display, but log all errors
