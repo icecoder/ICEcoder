@@ -280,7 +280,8 @@ parent.ICEcoder.switchMode = function(mode) {
         }
     } else if (cM && fileName) {
         <?php include(dirname(__FILE__) . "/assets/js/language-modes-partial.js");?>
-
+        parent.ICEcoder.selectedTabFileExt = fileExt;
+        parent.ICEcoder.selectedTabLangMode = mode;
         if (mode != cM.getOption("mode")) {
             cM.setOption("mode", mode);
             cM.setOption("lint", ("js" === fileExt || "json" === fileExt) && parent.ICEcoder.codeAssist ? true : false);

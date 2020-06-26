@@ -86,6 +86,20 @@ $t = $text['index'];
 }
 </script>
 <script language="JavaScript" src="<?php echo $iceURLPath;?>/assets/js/icecoder.js?microtime=<?php echo microtime(true);?>"></script>
+<?php
+if (true === file_exists(dirname(__FILE__) . "/plugins/prettier/standalone.js")) {
+?>
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/plugins/prettier/standalone.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/plugins/prettier/parser-babel.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/plugins/prettier/parser-postcss.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/plugins/prettier/parser-typescript.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/plugins/prettier/parser-html.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/plugins/prettier/parser-markdown.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/plugins/prettier/parser-yaml.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="<?php echo $iceURLPath;?>/plugins/prettier/parser-php.js?microtime=<?php echo microtime(true);?>"></script>
+<?php
+}
+?>
 <script src="<?php echo $iceURLPath;?>/assets/js/mmd.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/assets/js/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
 <script src="<?php echo $iceURLPath;?>/assets/js/difflib.js?microtime=<?php echo microtime(true);?>"></script>

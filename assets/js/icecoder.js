@@ -18,6 +18,8 @@ var ICEcoder = {
     minFilesW:             14,            // Min width of files pane
     maxFilesW:             250,           // Max width of files pane
     selectedTab:           0,             // The tab that's currently selected
+    selectedTabFileExt:    '',            // File extension of selected tab
+    selectedTabLangMode:   '',            // Language mode of selected tab
     savedPoints:           [],            // Ints array to indicate save points for docs
     savedContents:         [],            // Array of last known saved contents
     canSwitchTabs:         true,          // Stops switching of tabs when trying to close
@@ -1983,22 +1985,46 @@ var ICEcoder = {
     // Save a file
     saveFile: function(saveAs, newFileAutoSave) {
         let changes, saveType, filePath, pathPrefix;
-        // If we're not 'saving as', establish changes between current and known saved version from array
-        if (false === saveAs) {
-            changes = this.getChangesToSave();
+        if ("undefined" !== typeof prettier && ["js", "json", "ts", "css", "scss", "less", "html", "xml", "yaml", "md", "php"].indexOf(this.selectedTabFileExt) > -1) {
+            switch (this.selectedTabFileExt) {
+                case "js": parser = "babel"; break;
+                case "json": parser = "json"; break;
+                case "ts": parser = "typescript"; break;
+                case "css": parser = "css"; break;
+                case "scss": parser = "scss"; break;
+                case "less": parser = "less"; break;
+                case "html": parser = "html"; break;
+                case "xml": parser = "html"; break;
+                case "yaml": parser = "yaml"; break;
+                case "md": parser = "markdown"; break;
+                case "php": parser = "php"; break;
+            }
+            this.getThisCM().setValue(prettier.format(
+                this.getThisCM().getValue(),
+                {
+                    parser: parser,
+                    plugins: prettierPlugins
+                }
+            ));
         }
+        setTimeout(function() {
+            // If we're not 'saving as', establish changes between current and known saved version from array
+            if (false === saveAs) {
+                changes = ic.getChangesToSave();
+            }
 
-        saveType = saveAs ? "saveAs" : "save";
-        filePath = this.openFiles[this.selectedTab - 1].replace(iceRoot, "").replace(/\//g, "|");
-        if ("|[NEW]" === filePath && 0 < this.selectedFiles.length) {
-            pathPrefix = this.selectedFiles[0];
-            filePath = -1 == pathPrefix.lastIndexOf(".") || pathPrefix.lastIndexOf(".") < pathPrefix.lastIndexOf("|")
-                ? pathPrefix + filePath
-                : "|[NEW]";
-        }
-        filePath = filePath.replace("||", "|");
-        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=save&fileMDT=" + this.openFileMDTs[this.selectedTab - 1] + "&fileVersion=" + this.openFileVersions[this.selectedTab - 1] + "&saveType=" + saveType + "&newFileAutoSave=" + newFileAutoSave + "&tabNum=" + this.selectedTab + "&csrf=" + this.csrf,encodeURIComponent(filePath), changes);
-        this.serverMessage('<b>' + t['Saving'] + '</b><br>' + this.openFiles[this.selectedTab - 1].replace(iceRoot, ""));
+            saveType = saveAs ? "saveAs" : "save";
+            filePath = ic.openFiles[ic.selectedTab - 1].replace(iceRoot, "").replace(/\//g, "|");
+            if ("|[NEW]" === filePath && 0 < ic.selectedFiles.length) {
+                pathPrefix = ic.selectedFiles[0];
+                filePath = -1 == pathPrefix.lastIndexOf(".") || pathPrefix.lastIndexOf(".") < pathPrefix.lastIndexOf("|")
+                    ? pathPrefix + filePath
+                    : "|[NEW]";
+            }
+            filePath = filePath.replace("||", "|");
+            ic.serverQueue("add", iceLoc + "/lib/file-control.php?action=save&fileMDT=" + ic.openFileMDTs[ic.selectedTab - 1] + "&fileVersion=" + ic.openFileVersions[ic.selectedTab - 1] + "&saveType=" + saveType + "&newFileAutoSave=" + newFileAutoSave + "&tabNum=" + ic.selectedTab + "&csrf=" + ic.csrf,encodeURIComponent(filePath), changes);
+            ic.serverMessage('<b>' + t['Saving'] + '</b><br>' + ic.openFiles[ic.selectedTab - 1].replace(iceRoot, ""));
+        }, 0, ic);
     },
 
     // Prompt a rename dialog
