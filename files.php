@@ -26,7 +26,7 @@ $t = $text['files'];
 <div title="<?php echo $t['Plugins'];?>" onClick="parent.ICEcoder.showHidePlugins('55px' !== parent.document.getElementById('plugins').style.width  ? 'show' : 'hide')" class="plugins"></div>
 
 <ul class="fileManager">
-    <li class="pft-directory dirOpen"><a nohref title="/" onmouseover="parent.ICEcoder.overFileFolder('folder', '/')" onmouseout="parent.ICEcoder.overFileFolder('folder', '')" onclick="parent.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="|">/ <?php
+    <li class="pft-directory dirOpen"><a nohref title="/" ondragover="parent.ICEcoder.overFileFolder('folder', '|'); parent.ICEcoder.highlightFileFolder('|', true);" ondragleave="parent.ICEcoder.overFileFolder('folder', ''); parent.ICEcoder.highlightFileFolder('|', false);" onmouseover="parent.ICEcoder.overFileFolder('folder', '|')" onmouseout="parent.ICEcoder.overFileFolder('folder', '')" onclick="parent.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="|">/ <?php
                 echo $iceRoot == "" ? $t['ROOT'] : trim($iceRoot, "/");
                 $thisPermVal = "Linux" === $serverType ? substr(sprintf('%o', fileperms($docRoot.$iceRoot)), -3) : "";
                 $permColors = 777 == $thisPermVal ? 'background: #800; color: #eee' : 'color: #888';
