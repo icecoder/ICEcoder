@@ -101,7 +101,7 @@ class File
 
     public function updateFileManager($action, $fileLoc, $fileName, $perms, $oldFile, $uploaded, $fileOrFolder) {
         global $doNext;
-        $doNext .= "ICEcoder.selectedFiles=[]; ICEcoder.updateFileManagerList('" .
+        $doNext .= "ICEcoder.updateFileManagerList('" .
             $action . "', '" .
             $fileLoc . "', '" .
             $fileName . "', '" .

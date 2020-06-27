@@ -230,7 +230,7 @@ if (!$error && "move" === $_GET['action']) {
         $srcDir = $docRoot . $iceRoot . str_replace("|", "/", $_GET['oldFileName']);
         $tgtDir = $docRoot . $fileLoc . "/" . $fileName;
     }
-    if ($srcDir != $tgtDir && $fileLoc != "") {
+    if ($srcDir != $tgtDir) {
         if (!$demoMode && (isset($ftpSite) || is_writable($srcDir))) {
             // FTP
             if (isset($ftpSite)) {
