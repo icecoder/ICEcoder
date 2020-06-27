@@ -1713,7 +1713,8 @@ var ICEcoder = {
 
                 if (0 < this.selectedFiles.length && startFile.substr(0, startFile.lastIndexOf("|")) === endFile.substr(0, endFile.lastIndexOf("|"))) {
                     for (let i = 0; i < 1000000; i += 2) {
-                        if (dirList.childNodes[i].nodeName !== "LI") {i++;}
+                        // Something bad has happened with what we're trying to select, so break
+                        if ("undefined" === typeof dirList.childNodes[i] || dirList.childNodes[i].nodeName !== "LI") {break;}
                         thisFileObj = dirList.childNodes[i].childNodes[0].childNodes[1];
                         if (thisFileObj.id === startFile) {
                             selecting = true;
@@ -2398,10 +2399,10 @@ var ICEcoder = {
                             newLI = document.createElement("li");
                             newLI.className = cssStyle;
                             newLI.draggable = false;
-                            newLI.ondragstart = function(event) {this.addDefaultDragData(this, event)};
-                            newLI.ondrag = function(event) {this.draggingWithKeyTest(event);if(this.getcMInstance()){this.editorFocusInstance.indexOf('diff') == -1 ? this.getcMInstance().focus() : this.getcMdiffInstance().focus()}};
-                            newLI.ondragover = function(event) {this.setDragCursor(event, "folder" === actionElemType ? 'folder' : 'file')};
-                            newLI.ondragend = function() {this.dropFile(this)};
+                            newLI.ondragstart = function(event) {parent.ICEcoder.addDefaultDragData(this, event)};
+                            newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event);if(parent.ICEcoder.getcMInstance()){parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
+                            newLI.ondragover = function(event) {parent.ICEcoder.setDragCursor(event, "folder" === actionElemType ? 'folder' : 'file')};
+                            newLI.ondragend = function() {parent.ICEcoder.dropFile(this)};
                             newLI.innerHTML = innerLI;
                             // Append or insert depending on which of the above if statements is true
                             if (i == locNest.childNodes.length - 1) {
