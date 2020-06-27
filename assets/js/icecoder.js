@@ -29,6 +29,9 @@ var ICEcoder = {
     cMInstances:           [],            // List of CodeMirror instance no's
     nextcMInstance:        1,             // Next available CodeMirror instance no
     selectedFiles:         [],            // Array of selected files
+    thisFileFolderType:    '',            // The type of current item - file or folder
+    thisFileFolderLink:    '',            // The id value of the current item
+    dropTargetHighlight:   '#f80',        // Highlight color of item you're dropping onto
     results:               [],            // Array of find coords (line & char)
     resultsLines:          [],            // Array of lines containing results (simpler version of results)
     findResult:            0,             // Array position of current find in results
@@ -1648,6 +1651,13 @@ var ICEcoder = {
         this.thisFileFolderLink = link;
     },
 
+    // Note which files or folders we are over on mouseover/mouseout
+    highlightFileFolder: function(link, highlight) {
+        this.filesFrame.contentWindow.document.getElementById(link).style.background = true === highlight
+            ? this.dropTargetHighlight
+            : '';
+    },
+
     // Detect and return dir/file/false for this DOM ref (false for not found)
     isFileFolder: function(ref) {
         let domElem;
@@ -1667,7 +1677,7 @@ var ICEcoder = {
         let tgtFile, shortURL, selecting, dirList, lastFileClicked, startFile, endFile, thisFileObj;
 
         // If we've clicked somewhere other than a file/folder
-        if ("" == this.thisFileFolderLink) {
+        if ("" === this.thisFileFolderLink) {
             if (!ctrlSim && !evt.ctrlKey && !this.cmdKey) {
                 this.deselectAllFiles();
             }
@@ -1797,7 +1807,7 @@ var ICEcoder = {
             fmDragBox.style.height = Math.abs(this.mouseY - this.fmDragBoxStartY) + "px";
 
             // Select the files
-            if (this.thisFileFolderLink != "") {
+            if (this.thisFileFolderLink !== "") {
                 if (this.fmDragSelectFirst == "") {
                     this.fmDragSelectFirst = this.thisFileFolderLink;
                     this.overFileFolder(this.thisFileFolderLink.indexOf('.') > 0 ? 'file' : 'folder', this.fmDragSelectFirst);
@@ -1879,7 +1889,7 @@ var ICEcoder = {
             if (1 < line){
                 this.goToLine(line);
             }
-        } else if ("" != this.thisFileFolderLink && "file" === this.thisFileFolderType) {
+        } else if ("" !== this.thisFileFolderLink && "file" === this.thisFileFolderType) {
 
             // work out a shortened URL for the file
             shortURL = this.thisFileFolderLink.replace(/\|/g, "/");
@@ -2279,7 +2289,7 @@ var ICEcoder = {
 
         menuHeight = 124 + 5; // general options height in px plus 5px space
         winH = window.innerHeight;
-        if ("undefined" !== typeof this.thisFileFolderLink && "" != this.thisFileFolderLink) {
+        if ("undefined" !== typeof this.thisFileFolderLink && "" !== this.thisFileFolderLink) {
             menuType = this.isPathFolder(this.selectedFiles[0]) ? "folder" : "file";
             get('folderMenuItems').style.display = "folder" === menuType && 1 === this.selectedFiles.length ? "block" : "none";
             if ("folder" === menuType && 1 === this.selectedFiles.length) {
@@ -2339,13 +2349,21 @@ var ICEcoder = {
             permColors = 777 === perms ? 'background: #800; color: #eee' : 'color: #888';
             innerLI = '<a nohref title="'+location.replace(/\/$/, "")+"/"+file+'" onMouseOver="parentNode.draggable=true;parent.ICEcoder.overFileFolder(\''+actionElemType+'\',this.childNodes[1].id)" onMouseOut="parentNode.draggable=false;parent.ICEcoder.overFileFolder(\''+actionElemType+'\',\'\')" '+
 
-                (actionElemType == "folder" ? 'ondragover="if(parentNode.nextSibling && parentNode.nextSibling.tagName != \'UL\' && this.thisFileFolderLink != this.childNodes[1].id) {this.openCloseDir(this,true);}"':'')+
+                ("folder" === actionElemType
+                    ? 'ondragover="parent.ICEcoder.overFileFolder(\'folder\', this.childNodes[1].id); parent.ICEcoder.highlightFileFolder(this.childNodes[1].id, true); if(parentNode.nextSibling && parentNode.nextSibling.tagName != \'UL\' && parent.ICEcoder.thisFileFolderLink !== this.childNodes[1].id) {parent.ICEcoder.openCloseDir(this,true);}"'
+                    : 'ondragover="parent.ICEcoder.highlightFileFolder(this.parentNode.parentNode.previousSibling.childNodes[0].childNodes[1].id, true); parent.ICEcoder.overFileFolder(\'file\', this.childNodes[1].id);"'
+                ) +
 
-                ' onClick="if(!event.ctrlKey && !this.cmdKey) {' +
+                ("folder" === actionElemType
+                        ? 'ondragleave="parent.ICEcoder.overFileFolder(\'folder\', \'\'); parent.ICEcoder.highlightFileFolder(this.childNodes[1].id, false);"'
+                        : 'ondragleave="parent.ICEcoder.highlightFileFolder(this.parentNode.parentNode.previousSibling.childNodes[0].childNodes[1].id, false);"'
+                ) +
 
-                ("folder" === actionElemType ? 'ICEcoder.openCloseDir(this,' + ("folder" === actionElemType ? 'true' : 'false') + ');' : '') +
+                ' onClick="if(!event.ctrlKey && !parent.ICEcoder.cmdKey) {' +
 
-                ' if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.parent.ICEcoder.openFile()}}" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'">'+file+'</span> <span style="'+permColors+'; font-size: 8px" id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'_perms">'+perms+'</span></a>';
+                ("folder" === actionElemType ? 'parent.ICEcoder.openCloseDir(this,' + ("folder" === actionElemType ? 'true' : 'false') + ');' : '') +
+
+                ' if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.ICEcoder.openFile()}}" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'">'+file+'</span> <span style="'+permColors+'; font-size: 8px" id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'_perms">'+perms+'</span></a>';
 
             // If we don't have a locNest or at least 3 DOM items in there, it's an empty folder
             if(!locNest || 3 > locNest.childNodes.length) {
@@ -2358,10 +2376,9 @@ var ICEcoder = {
                 newLI = document.createElement("li");
                 newLI.className = cssStyle;
                 newLI.draggable = false;
-                newLI.ondragstart = function(event) {this.addDefaultDragData(this, event)};
-                newLI.ondrag = function(event) {this.draggingWithKeyTest(event);if(this.getcMInstance()){this.editorFocusInstance.indexOf('diff') == -1 ? this.getcMInstance().focus() : this.getcMdiffInstance().focus()}};
-                newLI.ondragover = function(event) {this.setDragCursor(event, "folder" === actionElemType ? 'folder' : 'file')};
-                newLI.ondragend = function() {this.dropFile(this)};
+                newLI.ondragstart = function(event) {parent.ICEcoder.addDefaultDragData(this, event)};
+                newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event);if(parent.ICEcoder.getcMInstance()){parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
+                newLI.ondragend = function() {parent.ICEcoder.dropFile(this)};
                 newLI.innerHTML = innerLI;
                 locNest.nextSibling.appendChild(newLI);
                 locNest.nextSibling.appendChild(newText);
@@ -2417,13 +2434,23 @@ var ICEcoder = {
             targetElem.parentNode.title = targetElem.id.replace(/\|/g, "/");
             targetElemPerms = get('filesFrame').contentWindow.document.getElementById(shortURL + "_perms");
             targetElemPerms.id = location.replace(/\//g, "|") + "|" + file + "_perms";
+            // Rename in selected files
+            this.renameInSelectedFiles(shortURL, location.replace(/\//g, "|") + "|" + file);
             // Finally, rename also within any children
             this.renameInChildren(targetElem, oldName, location, file);
         }
 
         // Moving files
         if ("move" === action) {
-            this.updateFileManagerList("add", location, file, false, false, false, fileOrFolder);
+            // TODO: Drag a file somewhere, then try and try it somewhere else, causes JS error
+            // Target is root, or another dir?
+            const tgtClass = location === ""
+                ? this.filesFrame.contentWindow.document.getElementById("|").parentNode.parentNode.className
+                : this.filesFrame.contentWindow.document.getElementById(location.replace(/\//g, "|")).parentNode.parentNode.className;
+            // Only add file into view if the dir is open
+            if (-1 < tgtClass.indexOf('dirOpen')) {
+                this.updateFileManagerList("add", location, file, false, false, false, fileOrFolder);
+            }
             this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")), file);
         }
 
@@ -2449,6 +2476,15 @@ var ICEcoder = {
             targetElem = get('filesFrame').contentWindow.document.getElementById(targetElem).parentNode.parentNode;
             this.openCloseDir(targetElem.childNodes[0], false);
             targetElem.parentNode.removeChild(targetElem);
+        }
+    },
+
+    // Rename in selected files
+    renameInSelectedFiles: function(oldName, newName) {
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+            if (oldName === this.selectedFiles[i]) {
+                this.selectedFiles[i] = newName;
+            }
         }
     },
 
@@ -2545,7 +2581,11 @@ var ICEcoder = {
                     ic.copyFiles(ic.selectedFiles);
                     ic.pasteFiles(tgtPath);
                 } else {
-                    ic.moveFile(filePath,tgtPath.replace(/\|/g, "/") + "/" + fileName);
+                    // Clear the background of item you just dropped onto
+                    this.filesFrame.contentWindow.document.getElementById(tgtPath.replace(/\//g, "|")).style.background = '';
+                    // If the tgtPath is not the root, postfix the path with a pipe
+                    if ("|" !== tgtPath) {tgtPath += "|"};
+                    ic.moveFile(filePath,tgtPath.replace(/\|/g, "/") + fileName);
                 }
             }, 4, this);
         }
