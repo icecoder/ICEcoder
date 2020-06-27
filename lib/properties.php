@@ -110,7 +110,7 @@ $execVars  = array(1, 3, 5, 7);
 </span>
 <span class="column">
 <?php echo $t['Change to'];?>:<br>
-<form name="chmod" action="#" method="GET">
+<form name="chmod" onsubmit="validatePerms(); return false" method="GET">
 <input type="text" name="chmod" class="permText" id="permText" style="width: 30px" maxlength="3" value="<?php echo substr($chmodInfo, 1, 3); ?>" onKeyUp="changePerms(this.value); showButton()" onChange="changePerms(this.value); showButton()">
 <input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
