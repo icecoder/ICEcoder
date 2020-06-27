@@ -222,7 +222,7 @@ class File
                     parent.parent.ICEcoder.content.contentWindow[\'cM\' + parent.parent.ICEcoder.cMInstances[parent.parent.ICEcoder.selectedTab - 1]].removeLineClass(parent.parent.ICEcoder[\'cMActiveLinecM\' + parent.parent.ICEcoder.cMInstances[parent.parent.ICEcoder.selectedTab - 1]], "background");
                     parent.parent.ICEcoder[\'cMActiveLinecM\'+parent.parent.ICEcoder.selectedTab] = parent.parent.ICEcoder.content.contentWindow[\'cM\' + parent.parent.ICEcoder.cMInstances[parent.parent.ICEcoder.selectedTab - 1]].addLineClass(0, "background", "cm-s-activeLine");
                     parent.parent.ICEcoder.nextcMInstance++;
-                    parent.parent.ICEcoder.openFileMDTs.push(\'' . ("Linux" === $serverType ? filemtime($file) : "1000000") . '\');
+                    parent.parent.ICEcoder.openFileMDTs.push(\'' . ("Windows" !== $serverType ? filemtime($file) : "1000000") . '\');
                     parent.parent.ICEcoder.openFileVersions.push(' . getVersionsCount($fileLoc, $fileName)['count'] .');
                     parent.parent.ICEcoder.updateVersionsDisplay();
     
@@ -391,7 +391,7 @@ class File
             chmod($file, octdec($ICEcoder['newFilePerms']));
         }
         clearstatcache();
-        $filemtime = "Linux" === $serverType ? filemtime($file) : "1000000";
+        $filemtime = "Windows" !== $serverType ? filemtime($file) : "1000000";
         $doNext .= 'ICEcoder.openFileMDTs[' . ($tabNum ?? 'ICEcoder.selectedTab') .' - 1] = "' . $filemtime . '";';
         $doNext .= '(function() {var x = ICEcoder.openFileVersions; var y = ' . ($tabNum ?? 'ICEcoder.selectedTab') .' - 1; x[y] = "undefined" != typeof x[y] ? x[y] + 1 : 1})(); ICEcoder.updateVersionsDisplay();';
     }

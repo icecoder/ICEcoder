@@ -140,9 +140,9 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         $r = 0;
         function phpGrep($q, $path, $base) {
             $fp = opendir($path);
-            global $t, $r, $ICEcoder, $serverType, $selectedFiles, $docRoot, $ICEcoderDir;
+            global $t, $r, $ICEcoder, $selectedFiles, $docRoot, $ICEcoderDir;
             if (false === isset($ret)) {$ret="";};
-            $slash = $serverType == -1 < strpos($path, "\\") ? "\\" : "/";
+            $slash = -1 < strpos($path, "\\") ? "\\" : "/";
             while ($f = readdir($fp)) {
                 if (preg_match("#^\.+$#", $f)) continue;
                 $fullPath = $path . $slash . $f;

@@ -32,9 +32,9 @@ function phpGrep($path, $base) {
     global $indexableFileExts, $prevIndexData, $indexData;
 
     $fp = opendir($path);
-    global $ICEcoder, $serverType, $docRoot, $ICEcoderDir;
+    global $ICEcoder, $docRoot, $ICEcoderDir;
     if (!isset($ret)) {$ret = "";};
-    $slash = $serverType == -1 < strpos($path, "\\") ? "\\" : "/";
+    $slash = -1 < strpos($path, "\\") ? "\\" : "/";
     while($f = readdir($fp)) {
         // Ignore . and .. paths
         if ("." === $f || ".." === $f) continue;

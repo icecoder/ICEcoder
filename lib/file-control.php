@@ -136,7 +136,7 @@ if (!$error && "save" === $_GET['action']) {
 
         if (!$demoMode && (isset($ftpSite) || (file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && "" != $_POST['newFileName'])) {
 
-            $filemtime = !isset($ftpSite) && "Linux" === $serverType ? filemtime($file) : "1000000";
+            $filemtime = !isset($ftpSite) && "Windows" !== $serverType ? filemtime($file) : "1000000";
 
             // =======================
             // MDT'S MATCH, WRITE FILE
@@ -479,7 +479,7 @@ if (!isset($ftpSite) && !$error && "checkExists" === $_GET['action']) {
 
 // No $filemtime yet? Get it now!
 if (false === isset($filemtime) && !is_dir($file)) {
-    $filemtime = "Linux" === $serverType ? filemtime($file) : 1000000;
+    $filemtime = "Windows" !== $serverType ? filemtime($file) : 1000000;
 }
 if (false === isset($filemtime)) {
     $filemtime = 1000000;
