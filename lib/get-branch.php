@@ -98,15 +98,23 @@ for ($i = 0; $i < count($finalArray); $i++) {
 	$loadParam = "folder" === $type ? "true" : "false";
 	echo "<li class=\"" . $class . "\" draggable=\"false\" ondragstart=\"parent.ICEcoder.addDefaultDragData(this,event)\" ondrag=\"parent.ICEcoder.draggingWithKeyTest(event);if(parent.ICEcoder.getcMInstance()){parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}\" ondragover=\"parent.ICEcoder.setDragCursor(event,".($type == "folder" ? "'folder'" : "'file'").")\" ondragend=\"parent.ICEcoder.dropFile(this)\"><a nohref title=\"$fileFolderName\" onMouseOver=\"parentNode.draggable=true;parent.ICEcoder.overFileFolder('$type',this.childNodes[1].id)\" onMouseOut=\"parentNode.draggable=false;parent.ICEcoder.overFileFolder('$type','')\" ".
 
-	(("folder" === $type) ? "ondragover=\"if(parentNode.nextSibling && parentNode.nextSibling.tagName != 'UL' && parent.parent.ICEcoder.thisFileFolderLink != this.childNodes[1].id) {parent.ICEcoder.openCloseDir(this,true);}\"" : "") .
+	(("folder" === $type)
+        ? "ondragover=\"parent.ICEcoder.overFileFolder('folder', this.childNodes[1].id); parent.ICEcoder.highlightFileFolder(this.childNodes[1].id, true); if(parentNode.nextSibling && parentNode.nextSibling.tagName != 'UL' && parent.ICEcoder.thisFileFolderLink != this.childNodes[1].id) {parent.ICEcoder.openCloseDir(this,true);}\""
+        : "ondragover=\"parent.ICEcoder.highlightFileFolder(this.parentNode.parentNode.previousSibling.childNodes[0].childNodes[1].id, true); parent.ICEcoder.overFileFolder('file', this.childNodes[1].id); \""
+    ) .
+
+    (("folder" === $type)
+        ? "ondragleave=\"parent.ICEcoder.overFileFolder('folder', ''); parent.ICEcoder.highlightFileFolder(this.childNodes[1].id, false);\""
+        : "ondragleave=\"parent.ICEcoder.highlightFileFolder(this.parentNode.parentNode.previousSibling.childNodes[0].childNodes[1].id, false); \""
+    ) .
 
 	" onClick=\"if(!event.ctrlKey && !parent.ICEcoder.cmdKey) {".
 
 	(("folder" === $type) ? " parent.ICEcoder.openCloseDir(this,$loadParam);" : "") .
 
-	" if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.parent.ICEcoder.openFile()}}\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".xssClean(basename($fileFolderName),"html")."</span> ";
+	" if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.ICEcoder.openFile()}}\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".xssClean(basename($fileFolderName),"html")."</span> ";
 	if (!isset($ftpSite)) {
-		$thisPermVal = "Linux" === $serverType ? substr(sprintf('%o', fileperms($docRoot . $iceRoot . $fileFolderName)), -3) : '';
+		$thisPermVal = "Windows" !== $serverType ? intval(substr(sprintf('%o', fileperms($docRoot . $iceRoot . $fileFolderName)), -3)) : 0;
 	} else {
 		// Work out perms value
 		$thisPermVal = 0;
@@ -126,7 +134,7 @@ for ($i = 0; $i < count($finalArray); $i++) {
 	}
 	$permColors = 777 === $thisPermVal ? 'background: #800; color: #eee' : 'color: #888';
 	echo '<span style="' . $permColors . '; font-size: 8px" id="' . str_replace($docRoot, "", str_replace("/", "|", $fileFolderName)) . '_perms">';
-	echo $thisPermVal;
+	echo 0 !== $thisPermVal ? $thisPermVal : '';
 	echo "</span></a></li>\n";
 }
 
