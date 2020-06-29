@@ -2455,7 +2455,7 @@ var ICEcoder = {
                     this.updateFileManagerList("add", location, file, false, false, false, fileOrFolder);
                 }
                 this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")),  oldName.substr(oldName.lastIndexOf("/")+1));
-
+                this.selectedFiles = [];
             }
         }
 
