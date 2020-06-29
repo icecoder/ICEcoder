@@ -234,8 +234,9 @@ class File
             $script .= '
             setTimeout(function() {
                 if (!parent.parent.ICEcoder.content.contentWindow.createNewCMInstance) {
-                console.log(\'' .$t['There was a...'] . '\');
-                window.location.reload(true);
+                    console.log(\'' .$t['There was a...'] . '\');
+                    window.location.reload(true);
+                }
             }, 4);';
         }
 
