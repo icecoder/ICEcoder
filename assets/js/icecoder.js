@@ -2425,20 +2425,38 @@ var ICEcoder = {
 
         // Renaming files
         if ("rename" === action) {
-            // Get short URL of our right clicked file and get target elem based on this
-            shortURL = oldName.replace(/\//g, "|");
-            targetElem = get('filesFrame').contentWindow.document.getElementById(shortURL);
-            // Set the name to be as per our new file/folder name
-            targetElem.innerHTML = file;
-            // Update the ID of the target & set a new title and perms ID
-            targetElem.id = location.replace(/\//g, "|") + "|" + file;
-            targetElem.parentNode.title = targetElem.id.replace(/\|/g, "/");
-            targetElemPerms = get('filesFrame').contentWindow.document.getElementById(shortURL + "_perms");
-            targetElemPerms.id = location.replace(/\//g, "|") + "|" + file + "_perms";
-            // Rename in selected files
-            this.renameInSelectedFiles(shortURL, location.replace(/\//g, "|") + "|" + file);
-            // Finally, rename also within any children
-            this.renameInChildren(targetElem, oldName, location, file);
+            // If dir is the same as before, it's a simple rename
+            if (location === oldName.substr(0, oldName.lastIndexOf('/'))) {
+                // Get short URL of our right clicked file and get target elem based on this
+                shortURL = oldName.replace(/\//g, "|");
+                targetElem = get('filesFrame').contentWindow.document.getElementById(shortURL);
+                // Set the name to be as per our new file/folder name
+                targetElem.innerHTML = file;
+                // Update the ID of the target & set a new title and perms ID
+                targetElem.id = location.replace(/\//g, "|") + "|" + file;
+                targetElem.parentNode.title = targetElem.id.replace(/\|/g, "/");
+                targetElemPerms = get('filesFrame').contentWindow.document.getElementById(shortURL + "_perms");
+                targetElemPerms.id = location.replace(/\//g, "|") + "|" + file + "_perms";
+                // Rename in selected files
+                this.renameInSelectedFiles(shortURL, location.replace(/\//g, "|") + "|" + file);
+                // Finally, rename also within any children
+                this.renameInChildren(targetElem, oldName, location, file);
+                // If dir has changed, handle dir change and possibly also filename change
+            } else {
+                // Target is root, or another dir?
+                const tgtClass = location === ""
+                    ? this.filesFrame.contentWindow.document.getElementById("|").parentNode.parentNode.className
+                    : this.filesFrame.contentWindow.document.getElementById(location.replace(/\//g, "|")).parentNode.parentNode.className;
+                // Source is a dir or file?
+                const srcClass = this.filesFrame.contentWindow.document.getElementById(oldName.replace(/\//g, "|")).parentNode.parentNode.className;
+                fileOrFolder = srcClass.indexOf("pft-directory") > -1 ? "folder" : "file";
+                // Only add file into view if the dir is open
+                if (-1 < tgtClass.indexOf('dirOpen')) {
+                    this.updateFileManagerList("add", location, file, false, false, false, fileOrFolder);
+                }
+                this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")),  oldName.substr(oldName.lastIndexOf("/")+1));
+
+            }
         }
 
         // Moving files
