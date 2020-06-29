@@ -77,7 +77,7 @@ var ICEcoder = {
 
     // Set our aliases
     initAliases: function() {
-        const aliasArray = ["header", "files", "fileOptions", "optionsFile", "optionsEdit", "optionsSource", "optionsHelp", "filesFrame", "editor", "tabsBar", "findBar", "terminal", "output", "database", "git", "content", "tools", "footer", "versionsDisplay", "splitPaneControls", "splitPaneNamesMain", "splitPaneNamesDiff", "charDisplay", "byteDisplay"];
+        const aliasArray = ["header", "files", "fileOptions", "optionsFile", "optionsEdit", "optionsSettings", "optionsHelp", "filesFrame", "editor", "tabsBar", "findBar", "terminal", "output", "database", "git", "content", "tools", "footer", "versionsDisplay", "splitPaneControls", "splitPaneNamesMain", "splitPaneNamesDiff", "charDisplay", "byteDisplay"];
 
         // Create our ID aliases
         for (let i = 0; i < aliasArray.length; i++) {
@@ -199,7 +199,7 @@ var ICEcoder = {
         headerH = 15, fileNavH = 38, tabsBarH = 27, findBarH = 28, toolsBarH = 30;
         this.header.style.width = this.tabsBar.style.width = this.findBar.style.width = winW + "px";
         this.files.style.width = this.editor.style.left = this.filesW + "px";
-        this.optionsFile.style.width = this.optionsEdit.style.width = this.optionsSource.style.width = this.optionsHelp.style.width = this.filesW + "px";
+        this.optionsFile.style.width = this.optionsEdit.style.width = this.optionsSettings.style.width = this.optionsHelp.style.width = this.filesW + "px";
         this.filesFrame.style.height = (winH - headerH - fileNavH - 7 - toolsBarH) + "px";
         this.versionsDisplay.style.left = (this.filesW + 10) + "px";
         this.splitPaneControls.style.left =
@@ -2167,7 +2167,7 @@ var ICEcoder = {
 
     // Show/hide file manager nav options
     showHideFileNav: function(vis, elem) {
-        let options = ["optionsFile", "optionsEdit", "optionsSource", "optionsHelp"];
+        let options = ["optionsFile", "optionsEdit", "optionsSettings", "optionsHelp"];
         if ("hide" === vis) {
             fileNavInt = setTimeout(function(ic) {
                 for (let i = 0; i < options.length; i++) {
@@ -2443,7 +2443,6 @@ var ICEcoder = {
 
         // Moving files
         if ("move" === action) {
-            // TODO: Drag a file somewhere, then try and try it somewhere else, causes JS error
             // Target is root, or another dir?
             const tgtClass = location === ""
                 ? this.filesFrame.contentWindow.document.getElementById("|").parentNode.parentNode.className
@@ -3408,9 +3407,10 @@ var ICEcoder = {
     },
 
     // Show the settings screen
-    settingsScreen: function(hide) {
+    settingsScreen: function(hide, tab) {
         if (!hide) {
-            get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/settings-screen.php" id="settingsIFrame" class="whiteGlow" style="width: 970px; height: 610px"></iframe>';
+            tabExtra = tab ? '?tab=' + tab +'&csrf=' + this.csrf : '';
+            get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/settings-screen.php' + tabExtra + '" id="settingsIFrame" class="whiteGlow" style="width: 970px; height: 610px"></iframe>';
         }
         this.showHide(hide?'hide':'show',get('blackMask'));
     },

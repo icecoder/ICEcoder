@@ -223,7 +223,7 @@ if (true === file_exists(dirname(__FILE__) . "/plugins/prettier/standalone.js"))
 		<ul>
 			<li><a nohref onclick="ICEcoder.canShowFMNav=true; ICEcoder.showHideFileNav('show','optionsFile')" onmouseover="if(ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsFile')}" id="optionsFileNav"><?php echo $t['File'];?></a></li>
 			<li><a nohref onclick="ICEcoder.canShowFMNav=true; ICEcoder.showHideFileNav('show','optionsEdit')" onmouseover="if(ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsEdit')}" id="optionsEditNav"><?php echo $t['Edit'];?></a></li>
-			<li><a nohref onclick="ICEcoder.canShowFMNav=true; ICEcoder.showHideFileNav('show','optionsSource')" onmouseover="if(ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsSource')}" id="optionsSourceNav"><?php echo $t['Source'];?></a></li>
+            <li><a nohref onclick="ICEcoder.canShowFMNav=true; ICEcoder.showHideFileNav('show','optionsSettings')" onmouseover="if(ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsSettings')}" id="optionsSettingsNav"><?php echo $t['Settings'];?></a></li>
 			<li><a nohref onclick="ICEcoder.canShowFMNav=true; ICEcoder.showHideFileNav('show','optionsHelp')" onmouseover="if(ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsHelp')}" id="optionsHelpNav"><?php echo $t['Help'];?></a></li>
         </ul>
 	</div>
@@ -259,15 +259,28 @@ if (true === file_exists(dirname(__FILE__) . "/plugins/prettier/standalone.js"))
 				<li><a nohref onclick="ICEcoder.autocomplete()"><?php echo $t['Autocomplete'];?></a></li>
 				<li><a nohref onclick="ICEcoder.lineCommentToggle()"><?php echo $t['Comment/Uncomment'];?></a></li>
 				<li><a nohref onclick="ICEcoder.jumpToDefinition()"><?php echo $t['Jump to Definition'];?></a></li>
-				<li><a nohref onClick="ICEcoder.settingsScreen()"><?php echo $t['Settings'];?></a></li>
 			</ul>
 		</div>
+        <div id="optionsSettings" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show',this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
+            <ul>
+                <li><a nohref onclick="ICEcoder.settingsScreen(false, 'general')">General</a></li>
+                <li><a nohref onclick="ICEcoder.settingsScreen(false, 'style')">Style</a></li>
+                <li><a nohref onclick="ICEcoder.settingsScreen(false, 'accounts')">Accounts</a></li>
+                <li><a nohref onclick="ICEcoder.settingsScreen(false, 'security')">Security</a></li>
+                <li><a nohref onclick="ICEcoder.pluginsManager()">Plugins</a></li>
+            </ul>
+        </div>
+        <!--
+        FTP is a far less used method of data transfer and so this menu hidden for now
+        Uncomment if you really want to use it but please note, in future versions of ICEcoder
+        that FTP is likely to be removed altogether
 		<div id="optionsSource" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show',this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.goLocalhostRoot()">Localhost</a></li>
 				<li><a nohref onclick="ICEcoder.ftpManager()">FTP</a></li>
 			</ul>
 		</div>
+		//-->
 		<div id="optionsHelp" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show',this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.viewTutorial(false, 500)">Tutorial</a></li>

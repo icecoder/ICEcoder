@@ -34,11 +34,17 @@ sort($themeArray);
 for ($i=0;$i<count($themeArray);$i++) {
 	echo '<link rel="stylesheet" href="../assets/css/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
 }
+
+// Do we have a tab to switch to?
+$tabSwitchExtra = "";
+if (true === isset($_GET['tab'])) {
+    $tabSwitchExtra = "switchTab('" . $_GET['tab'] . "');";
+}
 ?>
 <link rel="stylesheet" href="../assets/css/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body class="settings" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'settings')" onload="this.focus();">
+<body class="settings" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'settings')" onload="<?php echo $tabSwitchExtra;?>this.focus();">
 
 <div class="infoPane">
 	<a href="https://icecoder.net" target="_blank"><img src="../assets/images/icecoder.png" alt="ICEcoder" class="logo"></a>
