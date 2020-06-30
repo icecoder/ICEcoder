@@ -222,7 +222,7 @@ function deletePlugin($dir) {
 <h1><?php echo $t['plugins'];?></h1>
 
 <a href="javascript:parent.ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>','plugins')" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #333; color: #fff; font-size: 18px"><?php echo $t['Guide to writing...'];?></div></a>
-<div style="display: inline-block; width: 760px; height: 340px; overflow-y: auto">
+<div class="pluginsPane">
     <?php
     $plugins = $ICEcoder['plugins'];
     if (0 < count($plugins)) {

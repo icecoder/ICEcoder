@@ -295,10 +295,10 @@ if (true === file_exists(dirname(__FILE__) . "/plugins/prettier/standalone.js"))
 	<div class="serverMessage" id="serverMessage"></div>
 
     <div class="tools" id="tools">
-        <div onclick="ICEcoder.toolShowHideToggle('terminal')">Terminal</div>
-        <div onclick="ICEcoder.toolShowHideToggle('output')">Output</div>
-        <div onclick="ICEcoder.toolShowHideToggle('database')">Database</div>
-        <div onclick="ICEcoder.toolShowHideToggle('git')">Git</div>
+        <div onclick="ICEcoder.toolShowHideToggle('terminal')" id="toolLinkTerminal">Terminal</div>
+        <div onclick="ICEcoder.toolShowHideToggle('output'); this.className = ''" id="toolLinkOutput">Output</div>
+        <div onclick="ICEcoder.toolShowHideToggle('database')" id="toolLinkDatabase">Database</div>
+        <div onclick="ICEcoder.toolShowHideToggle('git')" id="toolLinkGit">Git</div>
     </div>
 </div>
 
@@ -358,7 +358,7 @@ if (true === file_exists(dirname(__FILE__) . "/plugins/prettier/standalone.js"))
 		</form>
 	</div>
 	<iframe name="terminalFrame" id="terminal" src="<?php echo $iceURLPath;?>/terminal.php" class="terminal"></iframe>
-	<pre id="output" class="output"><b>Output</b><br>via ICEcoder.output(message);<br><br></pre>
+	<pre id="output" class="output" style="font-family: monospace"><b>Output</b><br>via ICEcoder.output(message);<br><br></pre>
 	<iframe name="databaseFrame" id="database" src="<?php echo $iceURLPath;?>/lib/database.php" class="database"></iframe>
 	<div id="git" class="git" style="font-family: monospace"><?php
 	if (file_exists($docRoot . $ICEcoderDir . "/data/git-diff.php")) {
