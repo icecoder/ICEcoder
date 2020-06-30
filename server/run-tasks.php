@@ -52,7 +52,6 @@ while(true) {
                                 if ($content !== "") {
                                         $output[$wd."/".$paths[$i]] = [
                                                 "type" => "modified",
-                                                "lastHash" => "abc123",
                                                 "lastHashContent" => $content
                                         ];
                                 }
