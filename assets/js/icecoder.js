@@ -1012,16 +1012,16 @@ var ICEcoder = {
         get("toolLinkGit").className = 0 < this.indexData.gitDiff.paths.length
             ? "highlight info"
             : "";
-        for (let i = 0; i<this.indexData.gitDiff.paths.length; i++) {
+        for (let i = 0; i < this.indexData.gitDiff.paths.length; i++) {
             gitDiffList +=
-                '<div class="link" onclick="this.toolShowHideToggle(\'git\'); this.openFile(\'/' +
-                this.indexData.gitDiff.paths[i] +
+                '<div class="link" onclick="ICEcoder.toolShowHideToggle(\'git\'); ICEcoder.openFile(\'/' +
+                ICEcoder.indexData.gitDiff.paths[i] +
                 "')\">" +
-                this.indexData.gitDiff.paths[i] +
+                ICEcoder.indexData.gitDiff.paths[i] +
                 "</div>" +
                 "\n";
-            get("git").innerHTML = gitDiffList + "<br><br>";
         }
+        get("git").innerHTML = gitDiffList + "<br><br>";
     },
 
     // Update preview window content
