@@ -1009,6 +1009,9 @@ var ICEcoder = {
     // Update Git diff pane (the diffs between saved content and git commits)
     updateGitDiffPane: function() {
         let gitDiffList = "";
+        get("toolLinkGit").className = 0 < this.indexData.gitDiff.paths.length
+            ? "highlight info"
+            : "";
         for (let i = 0; i<this.indexData.gitDiff.paths.length; i++) {
             gitDiffList +=
                 '<div class="link" onclick="this.toolShowHideToggle(\'git\'); this.openFile(\'/' +
@@ -2010,13 +2013,18 @@ var ICEcoder = {
                 case "md": parser = "markdown"; break;
                 case "php": parser = "php"; break;
             }
-            this.getThisCM().setValue(prettier.format(
-                this.getThisCM().getValue(),
-                {
-                    parser: parser,
-                    plugins: prettierPlugins
-                }
-            ));
+            try {
+                this.getThisCM().setValue(prettier.format(
+                    this.getThisCM().getValue(),
+                    {
+                        parser: parser,
+                        plugins: prettierPlugins
+                    }
+                ));
+            } catch(err) {
+                get("toolLinkOutput").className = "highlight error";
+                this.outputMsg('<div style="background: #b00; padding: 1px 3px; border-radius: 3px; font-family: monospace;">Syntax error in ' + this.openFiles[this.selectedTab - 1].replace(iceRoot, "") + '</div>\n' + err.message);
+            }
         }
         setTimeout(function() {
             // If we're not 'saving as', establish changes between current and known saved version from array
@@ -3468,7 +3476,7 @@ var ICEcoder = {
 
     // Show the plugins manager
     pluginsManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/plugins-manager.php" id="pluginsManagerIFrame" class="whiteGlow" style="width: 800px; height: 450px" scrolling="no"></iframe>';
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/plugins-manager.php" id="pluginsManagerIFrame" class="whiteGlow" style="width: 800px; height: 450px"></iframe>';
         this.showHide('show',get('blackMask'));
     },
 
@@ -4615,26 +4623,8 @@ var ICEcoder = {
 
                 // CTRL + . (Fold/unfold current line)
             } else if(key==190 && (evt.ctrlKey||this.cmdKey)) {
-
-
-
-
-
-
-
-
-
-
-                // TODO: doesn't seem to be working
-
-
-
-
-
-
-
-                var line = this.getThisCM().getCursor().line;
-
+                thisCM = this.getThisCM();
+                thisCM.foldCode(thisCM.getCursor());
                 return false;
 
                 // ESC in content area (Comment/Uncomment line)
