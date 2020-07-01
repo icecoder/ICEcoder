@@ -87,7 +87,13 @@ $t = $text['index'];
 </script>
 <script language="JavaScript" src="<?php echo $iceURLPath;?>/assets/js/icecoder.js?microtime=<?php echo microtime(true);?>"></script>
 <?php
-if (true === file_exists(dirname(__FILE__) . "/plugins/prettier/standalone.js")) {
+$havePrettier = false;
+foreach ($ICEcoder['plugins'] as $plugin) {
+    if ("Prettier" === $plugin[0]) {
+        $havePrettier = true;
+    }
+}
+if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins/prettier/standalone.js")) {
 ?>
 <script language="JavaScript" src="<?php echo $iceURLPath;?>/plugins/prettier/standalone.js?microtime=<?php echo microtime(true);?>"></script>
 <script language="JavaScript" src="<?php echo $iceURLPath;?>/plugins/prettier/parser-babel.js?microtime=<?php echo microtime(true);?>"></script>

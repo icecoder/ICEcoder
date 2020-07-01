@@ -18,8 +18,6 @@ var ICEcoder = {
     minFilesW:             14,            // Min width of files pane
     maxFilesW:             250,           // Max width of files pane
     selectedTab:           0,             // The tab that's currently selected
-    selectedTabFileExt:    '',            // File extension of selected tab
-    selectedTabLangMode:   '',            // Language mode of selected tab
     savedPoints:           [],            // Ints array to indicate save points for docs
     savedContents:         [],            // Array of last known saved contents
     canSwitchTabs:         true,          // Stops switching of tabs when trying to close
@@ -1998,9 +1996,11 @@ var ICEcoder = {
 
     // Save a file
     saveFile: function(saveAs, newFileAutoSave) {
-        let changes, saveType, filePath, pathPrefix;
-        if ("undefined" !== typeof prettier && ["js", "json", "ts", "css", "scss", "less", "html", "xml", "yaml", "md", "php"].indexOf(this.selectedTabFileExt) > -1) {
-            switch (this.selectedTabFileExt) {
+        let changes, saveType, filePath, fileExt, pathPrefix;
+        filePath = this.openFiles[this.selectedTab - 1];
+        fileExt = filePath.substr(filePath.lastIndexOf(".") + 1);
+        if ("undefined" !== typeof prettier && ["js", "json", "ts", "css", "scss", "less", "html", "xml", "yaml", "md", "php"].indexOf(fileExt) > -1) {
+            switch (fileExt) {
                 case "js": parser = "babel"; break;
                 case "json": parser = "json"; break;
                 case "ts": parser = "typescript"; break;
