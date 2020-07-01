@@ -2360,11 +2360,11 @@ var ICEcoder = {
 
                 ("folder" === actionElemType
                     ? 'ondragover="parent.ICEcoder.overFileFolder(\'folder\', this.childNodes[1].id); parent.ICEcoder.highlightFileFolder(this.childNodes[1].id, true); if(parentNode.nextSibling && parentNode.nextSibling.tagName != \'UL\' && parent.ICEcoder.thisFileFolderLink !== this.childNodes[1].id) {parent.ICEcoder.openCloseDir(this,true);}"'
-                    : 'ondragover="parent.ICEcoder.highlightFileFolder(this.parentNode.parentNode.previousSibling.childNodes[0].childNodes[1].id, true); parent.ICEcoder.overFileFolder(\'file\', this.childNodes[1].id);"'
+                    : 'ondragover="parent.ICEcoder.overFileFolder(\'file\', this.childNodes[1].id); parent.ICEcoder.highlightFileFolder(this.parentNode.parentNode.previousSibling.childNodes[0].childNodes[1].id, true);"'
                 ) +
 
                 ("folder" === actionElemType
-                        ? 'ondragleave="parent.ICEcoder.overFileFolder(\'folder\', \'\'); parent.ICEcoder.highlightFileFolder(this.childNodes[1].id, false);"'
+                        ? 'ondragleave="parent.ICEcoder.highlightFileFolder(this.childNodes[1].id, false);"'
                         : 'ondragleave="parent.ICEcoder.highlightFileFolder(this.parentNode.parentNode.previousSibling.childNodes[0].childNodes[1].id, false);"'
                 ) +
 
@@ -2387,6 +2387,7 @@ var ICEcoder = {
                 newLI.draggable = false;
                 newLI.ondragstart = function(event) {parent.ICEcoder.addDefaultDragData(this, event)};
                 newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event);if(parent.ICEcoder.getcMInstance()){parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
+                newLI.ondragover = function(event) {parent.ICEcoder.setDragCursor(event, "folder" === actionElemType ? 'folder' : 'file')};
                 newLI.ondragend = function() {parent.ICEcoder.dropFile(this)};
                 newLI.innerHTML = innerLI;
                 locNest.nextSibling.appendChild(newLI);

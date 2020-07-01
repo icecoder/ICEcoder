@@ -100,11 +100,11 @@ for ($i = 0; $i < count($finalArray); $i++) {
 
 	(("folder" === $type)
         ? "ondragover=\"parent.ICEcoder.overFileFolder('folder', this.childNodes[1].id); parent.ICEcoder.highlightFileFolder(this.childNodes[1].id, true); if(parentNode.nextSibling && parentNode.nextSibling.tagName != 'UL' && parent.ICEcoder.thisFileFolderLink != this.childNodes[1].id) {parent.ICEcoder.openCloseDir(this,true);}\""
-        : "ondragover=\"parent.ICEcoder.highlightFileFolder(this.parentNode.parentNode.previousSibling.childNodes[0].childNodes[1].id, true); parent.ICEcoder.overFileFolder('file', this.childNodes[1].id); \""
+        : "ondragover=\"parent.ICEcoder.overFileFolder('file', this.childNodes[1].id); parent.ICEcoder.highlightFileFolder(this.parentNode.parentNode.previousSibling.childNodes[0].childNodes[1].id, true);\""
     ) .
 
     (("folder" === $type)
-        ? "ondragleave=\"parent.ICEcoder.overFileFolder('folder', ''); parent.ICEcoder.highlightFileFolder(this.childNodes[1].id, false);\""
+        ? "ondragleave=\"parent.ICEcoder.highlightFileFolder(this.childNodes[1].id, false);\""
         : "ondragleave=\"parent.ICEcoder.highlightFileFolder(this.parentNode.parentNode.previousSibling.childNodes[0].childNodes[1].id, false); \""
     ) .
 
