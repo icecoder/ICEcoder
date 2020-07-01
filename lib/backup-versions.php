@@ -129,9 +129,11 @@ let openDiff = function() {
     parent.ICEcoder.showHide('hide',parent.document.getElementById('blackMask'));
     parent.ICEcoder.setSplitPane('on');
 	cMDiff = parent.ICEcoder.getcMdiffInstance();
-    parent.ICEcoder.focus('diff');
 	cMDiff.setValue(editor.getValue());
-}
+	setTimeout(function() {
+        cMDiff.focus();
+    }, 100);
+};
 
 let restoreVersion = function() {
 	let cM;
@@ -139,9 +141,9 @@ let restoreVersion = function() {
 	if (parent.ICEcoder.ask("To confirm - this will paste the displayed backup content to your current tab and save, OK?")) {
         parent.ICEcoder.showHide('hide',parent.document.getElementById('blackMask'));
 		cM = parent.ICEcoder.getcMInstance();
-        parent.ICEcoder.focus();
 		cM.setValue(editor.getValue());
         parent.ICEcoder.saveFile(false, false);
+        cM.focus();
 	}
 }
 </script>
