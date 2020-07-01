@@ -23,6 +23,8 @@ $text = [
         "files"                                    => "Dateien",
         "Last 10 files..."                         => "Die letzten 10 ge&ouml;ffneten Dateien:",
         "none"                                     => "[nichts]",
+        "multi-user"                               => "Mehrbenutzermodus",
+        "Username"                                 => "Username:",
     ],
 
     "files" =>

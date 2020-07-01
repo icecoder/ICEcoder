@@ -23,6 +23,8 @@ $text = [
         "files"                                    => "文件",
         "Last 10 files..."                         => "最後10個打開的文件:",
         "none"                                     => "[none]",
+        "multi-user"                               => "多用戶",
+        "Username"                                 => "Username:",
     ],
 
     "files" =>

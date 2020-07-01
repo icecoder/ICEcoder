@@ -23,6 +23,8 @@ $text = [
         "files"                                    => "فایل ها",
         "Last 10 files..."                         => "آخرین ۱۰ فایل باز شده",
         "none"                                     => "[پوچ]",
+        "multi-user"                               => "چند کاربره",
+        "Username"                                 => "Username:",
     ],
 
     "files" =>

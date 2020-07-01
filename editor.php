@@ -101,7 +101,16 @@ h2 {color: rgba(0,198,255,0.7)}
 	<div style="float: left; width: 300px; margin-right: 50px">
 		<h2><?php echo $t['server'];?></h2>
 		<span class="heading"><?php echo $t['Server name, OS...'];?></span><br>
-		<?php echo $_SERVER['SERVER_NAME']." &nbsp;&nbsp ".$serverType." &nbsp;&nbsp ".(isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:"Unknown");?><br><br>
+		<?php
+        $serverAddr = $_SERVER['SERVER_ADDR'] ?? "1";
+        if ($serverAddr == "1" || $serverAddr == "::1") {
+            $serverAddr = "127.0.0.1";
+        }
+        echo
+            $_SERVER['SERVER_NAME'] . " &nbsp;&nbsp " .
+            $serverType . " &nbsp;&nbsp " .
+            $serverAddr . ":" . $_SERVER['SERVER_PORT'] . "<br>" .
+            "(" . $_SERVER['SERVER_SOFTWARE'] . ")";?><br><br>
 		<span class="heading"><?php echo $t['Root'];?></span><br>
 		<?php echo $docRoot;?><br><br>
 		<span class="heading"><?php echo $t['ICEcoder root'];?></span><br>
@@ -124,7 +133,7 @@ h2 {color: rgba(0,198,255,0.7)}
 			$last10FilesArray = explode(",", $ICEcoder["last10Files"]);
 			for ($i = 0; $i < count($last10FilesArray); $i++) {
 				if ($ICEcoder["last10Files"] == "") {
-					echo '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">' . $t['none'] . '</div><br><br>';
+					echo '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">' . $t['none'] . '</div><br>';
 				} else {
 					$fileFolderName = str_replace("\\", "/", $last10FilesArray[$i]);
 					// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
@@ -137,6 +146,15 @@ h2 {color: rgba(0,198,255,0.7)}
 				}
 			}
 		;?></ul>
+        <?php
+        if ("" !== $_SESSION['username']) {
+            ?>
+            <h2><?php echo $t['multi-user']; ?></h2>
+            <span class="heading"><?php echo $t['Username']; ?></span><br>
+            <?php echo $_SESSION['username'];?><br><br>
+            <?php
+        }
+        ?>
 	</div>
 
 	<div style="clear: both"></div>
