@@ -87,13 +87,9 @@ class File
         $doNext = "";
         // Reload file manager, rename tab & remove old file highlighting if it was a new file
         if (isset($_POST['newFileName']) && "" != $_POST['newFileName']) {
-            $doNext .= 'ICEcoder.selectedFiles=[]; ICEcoder.updateFileManagerList(\'add\', \'' . $fileLoc . '\', \'' . $fileName . '\', false, false, false, \'file\');';
+            $doNext .= 'ICEcoder.selectedFiles=[];';
+            $doNext .= 'ICEcoder.updateFileManagerList(\'add\', \'' . $fileLoc . '\', \'' . $fileName . '\', false, false, false, \'file\');';
             $doNext .= 'ICEcoder.renameTab(ICEcoder.selectedTab, \'' . $fileLoc . "/" . $fileName . '\');';
-            if (!strpos($_REQUEST['file'], "[NEW]")) {
-                // We're saving as a new file, so unhighlight the old name in the file manager if visible
-                $doNext .= "fileLink = ICEcoder.filesFrame.contentWindow.document.getElementById('" . str_replace("/", "|", $fileLoc) . "|". basename($_REQUEST['file']). "');";
-                $doNext .= "if (fileLink) {fileLink.style.backgroundColor = ICEcoder.tabBGnormal; fileLink.style.color = ICEcoder.tabFGnormalFile};";
-            }
         }
 
         return $doNext;
