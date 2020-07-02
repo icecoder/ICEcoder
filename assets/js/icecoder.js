@@ -4076,8 +4076,8 @@ var ICEcoder = {
             get('tab'+i).style.background = i === selectedTab ? this.colorCurrentBG : this.colorOpenBG;
         }
 
-        // Now we can set about clearing the current coloring of dirs/files in the file manager
-        // First we clear the highlighing, then highlight the open diirs/files, then highlight the current
+        // Now we can set about setting the coloring of dirs/files in the file manager
+        // First we clear the highlighing, then highlight the open dirs/files, then highlight the current
         // file that's open as a tab (overides open highlighting) and finally highlight all of the
         // user selected dirs/files (overrides previous highlighting too)
 
