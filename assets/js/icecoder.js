@@ -1761,29 +1761,28 @@ var ICEcoder = {
 
     // Select or deselect file
     selectDeselectFile: function(action, file) {
-        let isOpen;
+        let isOpen, isCurrent;
 
         if (file) {
-            isOpen = this.openFiles.indexOf(file.id.replace(/\|/g, "/")) > -1 ? true : false;
+            isOpen = -1 < this.openFiles.indexOf(file.id.replace(/\|/g, "/"));
+            isCurrent = this.openFiles[this.selectedTab-1] === file.id.replace(/\|/g, "/");
 
-            // Is the current tab
-            if (this.openFiles[this.selectedTab-1] === file.id.replace(/\|/g, "/")) {
-                // Colors for background and text should be selected or current
-                // according to whether we have selected the file or not
-                file.style.backgroundColor = "select" === action
-                    ? this.colorSelectedBG : this.colorCurrentBG;
-                file.style.color = "select" === action
-                    ? this.colorSelectedText : this.colorCurrentText;
-            // Not the current tab
+            // Selected dir/file
+            if ("select" === action) {
+                file.style.backgroundColor = this.colorSelectedBG;
+                file.style.color = this.colorSelectedText;
+            // File is current tab
+            } else if (true === isCurrent) {
+                file.style.backgroundColor = this.colorCurrentBG;
+                file.style.color = this.colorCurrentText;
+            // File is open
+            } else if (true === isOpen) {
+                file.style.backgroundColor = this.colorOpenBG;
+                file.style.color = this.colorOpenTextFile;
+            // Dir/file isn't selected
             } else {
-                // Colors for background and text should be selected, open or clear
-                // according to whether we have selected the file, it's open or not selected
-                file.style.backgroundColor = "select" === action
-                    ? this.colorSelectedBG : isOpen
-                        ? this.colorOpenBG : '';
-                file.style.color = "select" === action
-                    ? this.colorSelectedText : isOpen
-                        ? this.colorOpenTextFile : '';
+                file.style.backgroundColor = '';
+                file.style.color = '';
             }
         }
     },
