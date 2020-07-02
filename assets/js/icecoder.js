@@ -29,7 +29,6 @@ var ICEcoder = {
     selectedFiles:         [],            // Array of selected files
     thisFileFolderType:    '',            // The type of current item - file or folder
     thisFileFolderLink:    '',            // The id value of the current item
-    dropTargetHighlight:   '#f80',        // Highlight color of item you're dropping onto
     results:               [],            // Array of find coords (line & char)
     resultsLines:          [],            // Array of lines containing results (simpler version of results)
     findResult:            0,             // Array position of current find in results
@@ -40,15 +39,14 @@ var ICEcoder = {
     draggingTab:           false,         // If we're dragging a tab
     draggingWithKey:       false,         // The key that's down while dragging, false if no key
     tabLeftPos:            [],            // Array of left positions of tabs inside content area
-    tabBGcurrent:          '#1d1d1b',     // BG of current tab
-    tabBGselected:         '#49d',        // BG of selected tab
-    tabBGopen:             '#c3c3c3',     // BG of open tab
-    tabBGnormal:           'transparent', // BG of normal tab
-    tabFGcurrent:          '#fff',        // FG of selected tab
-    tabFGselected:         '#fff',        // FG of selected tab
-    tabFGopenFile:         '#000',        // FG of open file
-    tabFGnormalFile:       '#eee',        // FG of normal file
-    tabFGnormalTab:        '#888',        // FG of normal tab
+    colorCurrentBG:        '#1d1d1b',     // Current tab/file background color
+    colorCurrentText:      '#fff',        // Current tab/file text color
+    colorOpenBG:           '#c3c3c3',     // Open tab/file background color
+    colorOpenTextFile:     '#000',        // Open file text color
+    colorOpenTextTab:      '#888',        // Open tab text color
+    colorSelectedBG:       '#49d',        // Selected tab/file background color
+    colorSelectedText:     '#fff',        // Selected tab/file text color
+    colorDropTgtBGFile:    '#f80',        // Drop dir target background color
     prevTab:               0,             // Previous tab to current
     serverQueueItems:      [],            // Array of URLs to call in order
     previewWindow:         false,         // Target variable for the preview window
@@ -1655,7 +1653,7 @@ var ICEcoder = {
     // Note which files or folders we are over on mouseover/mouseout
     highlightFileFolder: function(link, highlight) {
         this.filesFrame.contentWindow.document.getElementById(link).style.background = true === highlight
-            ? this.dropTargetHighlight
+            ? this.colorDropTgtBGFile
             : '';
     },
 
@@ -1768,15 +1766,25 @@ var ICEcoder = {
         if (file) {
             isOpen = this.openFiles.indexOf(file.id.replace(/\|/g, "/")) > -1 ? true : false;
 
+            // Is the current tab
             if (this.openFiles[this.selectedTab-1] === file.id.replace(/\|/g, "/")) {
+                // Colors for background and text should be selected or current
+                // according to whether we have selected the file or not
                 file.style.backgroundColor = "select" === action
-                    ? this.tabBGselected : this.tabBGcurrent;
+                    ? this.colorSelectedBG : this.colorCurrentBG;
+                file.style.color = "select" === action
+                    ? this.colorSelectedText : this.colorCurrentText;
+            // Not the current tab
             } else {
+                // Colors for background and text should be selected, open or clear
+                // according to whether we have selected the file, it's open or not selected
                 file.style.backgroundColor = "select" === action
-                    ? this.tabBGselected : file.style.backgroundColor = isOpen
-                        ? this.tabBGopen : this.tabBGnormal;
+                    ? this.colorSelectedBG : isOpen
+                        ? this.colorOpenBG : '';
+                file.style.color = "select" === action
+                    ? this.colorSelectedText : isOpen
+                        ? this.colorOpenTextFile : '';
             }
-            file.style.color = "select" === action ? this.tabFGselected : this.tabFGnormalFile;
         }
     },
 
@@ -2428,7 +2436,7 @@ var ICEcoder = {
             }
             // If we added a new file, we've saved it under a new filename, so set that
             if ("file" === actionElemType && !uploaded) {
-                this.openFiles[this.selectedTab - 1] = location + file;
+                this.openFiles[this.selectedTab - 1] = location + "/" + file;
             }
         }
 
@@ -2504,6 +2512,9 @@ var ICEcoder = {
             this.openCloseDir(targetElem.childNodes[0], false);
             targetElem.parentNode.removeChild(targetElem);
         }
+
+        // Finally, switch to selectedTab to refresh items
+        this.switchTab(this.selectedTab);
     },
 
     // Rename in selected files
@@ -4052,24 +4063,60 @@ var ICEcoder = {
 
     // Reset all tabs to be without a highlight and then highlight the selected
     redoTabHighlight: function(selectedTab) {
-        var tColor, fileLink;
+        var folderFileElems, fileLink;
 
-        for(var i=1;i<=this.savedPoints.length;i++) {
-            if (get('tab'+i).childNodes[0]) {
-                get('tab'+i).childNodes[0].childNodes[0].style.backgroundColor = this.savedPoints[i-1]!=this.getcMInstance(i).changeGeneration()
-                    ? "#b00" : "transparent";
+        // For all open tabs...
+        for (var i = 1; i<= this.savedPoints.length; i++) {
+            // Set the close tab icon BG color according to save status
+            if (get('tab' + i).childNodes[0]) {
+                get('tab' + i).childNodes[0].childNodes[0].style.backgroundColor = this.savedPoints[i - 1] != this.getcMInstance(i).changeGeneration()
+                    ? "#b00" : "";
             }
+            // Set the BG and text color for tabs according to if it's the current tab or not
+            get('tab'+i).style.color = i === selectedTab ? this.colorCurrentText : this.colorOpenTextTab;
+            get('tab'+i).style.background = i === selectedTab ? this.colorCurrentBG : this.colorOpenBG;
+        }
 
-            tColor = i==selectedTab ? this.tabFGselected : this.tabFGnormalTab;
-            if ("undefined" != typeof this.openFiles[i-1] && this.openFiles[i-1] != "/[NEW]") {
-                fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[i-1].replace(/\//g,"|"));
-                if (fileLink) {
-                    fileLink.style.backgroundColor = i==selectedTab ? this.tabBGcurrent : this.tabBGopen;
-                    fileLink.style.color = i==selectedTab ? this.tabFGcurrent : this.tabFGopenFile;
-                };
+        // Now we can set about clearing the current coloring of dirs/files in the file manager
+        // First we clear the highlighing, then highlight the open diirs/files, then highlight the current
+        // file that's open as a tab (overides open highlighting) and finally highlight all of the
+        // user selected dirs/files (overrides previous highlighting too)
+
+        // Clear all highlighting
+        folderFileElems = this.filesFrame.contentWindow.document.getElementsByTagName("SPAN");
+        for (let i = 0; i < folderFileElems.length; i++) {
+            if (-1 === folderFileElems[i].id.indexOf("_perms") && "" !== folderFileElems[i].style.backgroundColor) {
+                folderFileElems[i].style.backgroundColor = "";
+                folderFileElems[i].style.color = "";
             }
-            get('tab'+i).style.color = tColor;
-            get('tab'+i).style.background = i==selectedTab ? this.tabBGcurrent : this.tabBGopen;
+        }
+
+        // Highlight all open files
+        for (var i = 0; i < this.openFiles.length; i++) {
+            fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[i].replace(/\//g,"|"));
+            if (fileLink) {
+                fileLink.style.backgroundColor = this.colorOpenBG;
+                fileLink.style.color = this.colorOpenTextFile;
+            }
+        }
+
+        // Highlight the file that's the current tab
+        if (1 <= this.selectedTab) {
+            fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[this.selectedTab - 1].replace(/\//g,"|"));
+            if (fileLink) {
+                fileLink.style.backgroundColor = this.colorCurrentBG;
+                fileLink.style.color = this.colorCurrentText;
+            }
+        }
+
+
+        // Highlight all user selected files
+        for (var i = 0; i < this.selectedFiles.length; i++) {
+            fileLink = this.filesFrame.contentWindow.document.getElementById(this.selectedFiles[i]);
+            if (fileLink) {
+                fileLink.style.backgroundColor = this.colorSelectedBG;
+                fileLink.style.color = this.colorSelectedText;
+            }
         }
     },
 
