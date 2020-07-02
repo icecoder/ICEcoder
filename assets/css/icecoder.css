@@ -73,7 +73,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .tools {position: absolute; display: inline-block; width: 250px; height: 30px; left: 0; bottom: 0}
 .files .tools div {display: inline-block; margin: 8px 0 8px 15px; color: #666; cursor: pointer}
 .files .tools div:hover {color: #fff; cursor: pointer}
-.files .tools .highlight {background: #800; color: #eee; padding: 1px 3px; margin: 7px -3px 7px 12px; border-radius: 3px}
+.files .tools .highlight {color: #eee; padding: 1px 3px; margin: 7px -3px 7px 12px; border-radius: 3px}
 .files .tools .error {background: #800}
 .files .tools .info {background: #080}
 
