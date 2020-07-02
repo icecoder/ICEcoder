@@ -1,0 +1,162 @@
+body {overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #1d1d1b;
+}
+
+h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
+h2 {font-size: 18px; font-weight: normal; color: #fff}
+
+.blackMask {position: fixed; display: table; width: 100%; height: 100%; top: 0; left: 0; visibility: hidden; background-color: rgba(0,0,0,0.8); text-align: center; z-index: 100}
+.blackMask .popupVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
+.popupVCenter .popup {#position: relative; #top: -50%; text-align: center; color: #fff; font-size: 10px}
+.floatingContainer {position: absolute; top: 0; left: 0; width: 55px; height: 55px; visibility: hidden; border: solid 1px #444; image-rendering: pixelated}
+.floatingContainer:before {position: absolute; display: inline-block; width: 3px; height: 3px; left: 25px; top: 25px; content: ''; border: solid 1px #b00}
+.whiteGlow {box-shadow: 0 0 8px 2px rgba(255,255,255,0.6)}
+
+.spinner {width: 50px; height: 50px; margin: 20px auto; background: #fff;
+    -webkit-animation: rotateplane 1.2s infinite ease-in-out;
+    animation: rotateplane 1.2s infinite ease-in-out;
+}
+
+@-webkit-keyframes rotateplane {
+    0% {-webkit-transform: perspective(120px)}
+    50% {-webkit-transform: perspective(120px) rotateY(180deg)}
+    100% {-webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg)}
+}
+
+@keyframes rotateplane {
+    0% {transform: perspective(120px) rotateX(0deg) rotateY(0deg)}
+    50% {transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)}
+    100% {transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg)}
+}
+
+.infoBlackMask {position: fixed; display: none; width: 0; height: 0; top: 0; left: 0; border: solid 10000px rgba(0,0,0,0); transition: all 0.5s ease; z-index: 100}
+.infoMessageContainer {position: fixed; display: none; width: 100%; height: 100%; top: 0; left: 0; text-align: center; opacity: 0; transition: all 0.5s ease; z-index: 100}
+.infoMessage {position: relative; margin: -80px auto 0 auto; height: 160px; width: 500px; font-size: 14px; line-height: 21px; color: #fff}
+.infoMessage .title {margin-bottom: 18px; font-size: 18px; font-weight: bold; color: #f80}
+.infoMessage .button {position: absolute; bottom: 0; left: 190px; width: 100px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); cursor: pointer}
+
+.plugins {position: absolute; display: inline-block; width: 3px; height: 100%; top: 0; background: transparent; overflow: hidden; z-index: 3;
+    transition: all 0.07s ease-out;
+}
+
+.header {position: absolute; display: inline-block; top: 0; left: 0; width: 100%; height: 15px; background-color: #fff; text-align: right; z-index: 1}
+
+.files {position: absolute; display: inline-block; top: 0; left: 0; height: 100%; width: 250px; background-color: #444; overflow: hidden; z-index: 2;
+    transition: background 0.2s ease-out;
+}
+.files .fileNav {display: block; height: 36px}
+.files .fileNav ul {list-style-type: none; line-height: 20px; padding-left: 15px}
+.files .fileNav li {display: inline-block; padding: 18px 15px 0 0}
+.files .fileNav a {color: #666; text-decoration: none}
+.files .fileNav a:hover {color: #fff; cursor: pointer}
+
+.files .options {
+    transition: opacity 0.15s ease-in-out;
+}
+.files .options .optionsList {position: absolute; display: inline-block; visibility: hidden; background: #383838; height: 100%; padding: 23px 15px 15px 15px}
+.files .options .optionsList ul {list-style-type: none; line-height: 24px}
+.files .options .optionsList a {color: #666; text-decoration: none}
+.files .options .optionsList a:hover {color: #fff; cursor: pointer}
+.files input:focus, .password:focus {outline: 0; box-shadow: 0 0 10px 1px rgba(0,198,255,0.7)}
+.files .button {position: absolute; border: 0; background: #444; color: #eee; height: 20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
+.files .button:hover {background-color: #1d1d1b; color: #eee}
+.files .frame {display: inline-block; width: 250px; margin-top: 24px}
+.files .serverMessage {position: absolute; display: inline-block; width: 450px; bottom: 0; background-color: rgba(255,255,255,0.8); font-size: 10px; padding: 4px 12px 1px 12px; opacity: 0;
+    transition: opacity 0.2s;
+}
+.files .serverMessage b {font-size: 10px}
+
+.files .tools {position: absolute; display: inline-block; width: 250px; height: 30px; left: 0; bottom: 0}
+.files .tools div {display: inline-block; margin: 8px 0 8px 15px; color: #666; cursor: pointer}
+.files .tools div:hover {color: #fff; cursor: pointer}
+.files .tools .highlight {color: #eee; padding: 1px 3px; margin: 7px -3px 7px 12px; border-radius: 3px}
+.files .tools .error {background: #800}
+.files .tools .info {background: #080}
+
+.editor {position: absolute; display: inline-block; top: 0; left: 15px; width: 2400px}
+.editor .tabsBar {display: inline-block; height: 27px; width: 2400px; margin-top: 15px; padding-left: 53px; background: #fff}
+.tabsBar .tab {position: absolute; display: none; height: 15px; padding: 6px 8px 6px 9px; border-right: 1px solid #ddd; color: #fff; white-space: nowrap; overflow: hidden; cursor: pointer; z-index: 1;
+    transition: width 0.15s ease-in-out;
+    transition: left 0.15s ease-in-out;
+}
+.tabsBar .tabSlide {
+    transition: left 0.15s ease-in-out;
+}
+.tabsBar .tabDrag {
+    transition: left 0s ease-in-out;
+}
+.tabsBar .tab .closeTab, .tabsBar .closeAllTabs {margin: 2px 0 0 5px; border-radius: 6px; cursor: pointer}
+.tabsBar .tab .closeTab {position: absolute; right: 7px}
+.tabsBar .alphaTabs {position: absolute; margin: 8px 0 0 -20px; border-radius: 6px; cursor: pointer}
+.tabsBar .alphaTabs:hover {background: #ccc}
+.tabsBar .closeAllTabs {position: absolute; margin: 8px 0 0 -36px}
+.tabsBar .closeAllTabs:hover {background: #ccc}
+.tabsBar .newTab {position: absolute; display: inline-block; height: 15px; padding: 7px 7px 5px 7px; cursor: pointer; z-index: 0;
+    transition: left 0.15s ease-in-out;
+}
+.editor .findBar {display: inline-block; height: 28px; width: 2400px; color: #fff; background-color: #1d1d1b}
+.findBar .findReplace {position: absolute; padding-top: 2px; z-index: 1}
+.findReplace .selectWrapper {position: relative; display: inline-block; margin-top: -6px}
+.findReplace .selectWrapper select {position: relative; padding: 1px; border: 0; background: url('../images/select-arrow.gif') no-repeat right #1d1d1b; color: #fff; font-size: 10px; height: 28px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.findReplace .selectWrapper select:focus {outline: 0}
+.findReplace .findText {display: inline-block; height: 28px; font-size: 10px; margin: 7px 3px 0 27px}
+.findReplace .find {position: relative; width: 167px; height: 28px; border: 0; top: -2px; font-size: 12px; padding-left: 5px; margin-right: 3px; background: #444; color: #eee}
+.findReplace .replaceText {height: 28px; font-size: 10px; margin: 6px 3px 0 2px}
+.findReplace .replace {position: relative; width: 167px; height: 28px; border: 0; top: -2px; font-size: 12px; padding-left: 5px; background: #444; color: #eee}
+.findReplace .withText {display: inline-block; height: 28px; font-size: 10px; margin-top: 1px}
+.findReplace .targetText {height: 28px; font-size: 10px; margin: 7px 3px 0 2px}
+.findReplace .button {position: relative; top: -2px; height: 28px; padding-top: 2px; border: 0; background-color: #1d1d1b; color: #eee; font-size: 10px; margin-left: 2px; cursor: pointer}
+.findReplace .button:hover {background-color: #2187e7; color: #eee}
+.findReplace .results {position: relative; display: inline-block; width: 200px; height: 20px; font-size: 10px; margin: 7px 0 0 20px}
+.findBar .goLine {position: fixed; display: inline-block; width: 120px; right: 65px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
+.goLine .goToLine {width: 50px; height: 28px; border: 0; font-size: 12px; margin: -7px 0 0 3px; padding-left: 4px; background: #333; color: #eee}
+.findReplace input:focus, .goLine .goToLine:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
+.findBar .view {position: fixed; display: inline-block; width: 16px; height: 16px; right: 40px; top: 49px; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -48px 0; opacity: 0.3}
+.findBar .bug {position: fixed; display: inline-block; width: 16px; height: 16px; right: 15px; top: 48px; background: url('../images/bug-reporting-icons.png') 0 0 no-repeat; cursor: pointer; background-position: 0 0}
+.editor .terminal {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
+.editor .output {position: fixed; top: 10000px; padding: 15px 18px 8px 13px; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
+.editor .database {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
+.editor .git {position: fixed; top: 10000px; padding: 15px 18px 15px 13px; overflow-y: auto; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
+.editor .git::-webkit-scrollbar {width: 12px; height: 12px}
+.editor .git::-webkit-scrollbar-thumb {background: rgba(0,198,255,0.2)}
+.editor .git::-webkit-scrollbar-thumb:hover {background: rgba(0,198,255,0.8)}
+.editor .git::-webkit-scrollbar-corner, .editor .git::-webkit-scrollbar-resizer {background: transparent}
+.editor .git .link {font-family: monospace; cursor: pointer}
+.editor .git .link:hover {color:  rgba(0,198,255,1)}
+.editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px; visibility: hidden}
+
+.footer {position: fixed; display: inline-block; width: 100%; height: 30px; bottom: 0; background-color: rgba(0,0,0,0.15); left: 0; z-index: 1}
+.footer .versionsDisplay {position: absolute; display: inline-block; padding: 5px; margin-top: 3px; left: 275px; color: #fff; cursor: pointer}
+.footer .splitPaneControls {position: absolute; display: inline-block; width: 50px; text-align: center; padding: 6px}
+.footer .splitPaneControls .off {display: inline-block; width: 18px; height: 18px; margin-right: 10px; background: url('../images/split-pane-controls.gif') no-repeat 0 0; cursor: pointer}
+.footer .splitPaneControls .on {display: inline-block; width: 19px; height: 18px; background: url('../images/split-pane-controls.gif') no-repeat -18px 0; cursor: pointer}
+.footer .splitPaneNames {position: absolute; display: inline-block; width: 100px; text-align: center; margin-top: 9px; color: #555; opacity: 0; transition: opacity 0.3s ease-in-out}
+.footer .charDisplay, .footer .byteDisplay {position: absolute; display: inline-block; padding: 5px 0 0 8px; margin-top: 3px; margin-right: 10px; right: 0; font-size: 12px; color: #fff; text-align: right; text-align: right; cursor: pointer}
+
+.fileMenu {position: absolute; display: none; left: 0; top: 0; background-color: #333; z-index: 10;
+    transition: opacity 0.15s;
+}
+.fileMenu a {display: block; padding: 2px 5px; background-color: #333; color: #eee; text-decoration: none}
+.fileMenu a:hover {background-color: #666}
+.fileMenu hr {border: 0; height: 1px; padding: 0; margin: 0; background: #444}
+
+.tooltip {position: absolute; top: 0; left: 0; padding: 5px; background: #444; color: #bbb}
+
+.screenContainer {position: absolute; display: table; width: 100%; height: 100%; top: 0; left: 0; text-align: center}
+.screenContainer .screenVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
+.screenVCenter .screenCenter {#position: relative; #top: -50%; text-align: center; display: inline}
+.screenCenter .version {position: relative; display: block; margin: 5px 0 15px 0; font-size: 10px; color: #bbb}
+.screenCenter .text {position: relative; display: block; margin-top: 15px; font-size: 10px; color: #888}
+.screenCenter .text input {margin-top: 1px}
+.screenCenter .text a {position: relative; display: block; margin-top: 15px; font-size: 10px; color: #888; text-decoration: none}
+.screenCenter .password {border: 0; background-color: #333; color: #fff; height: 20px}
+.screenCenter .button {border: 0; background: #444; color: #eee; height: 22px; cursor: pointer}
+.screenCenter .button:hover {background: #2187e7; color: #eee}

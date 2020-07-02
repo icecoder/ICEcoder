@@ -1,0 +1,24 @@
+body {overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
+a {color: #fff; text-decoration: none}
+input {margin-top: 3px; padding: 4px; border: 0; background-color: #444; color: #fff}
+input:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
+
+.pluginsManager {background-color: #1c1c19; color: #fff; padding: 20px}
+
+.pluginsPane {
+    display: inline-block;
+    width: 760px;
+    height: 340px;
+    overflow-y: auto;
+}
+.pluginsPane::-webkit-scrollbar {width: 12px; height: 12px}
+.pluginsPane::-webkit-scrollbar-thumb {background: rgba(0,198,255,0.2)}
+.pluginsPane::-webkit-scrollbar-thumb:hover {background: rgba(0,198,255,0.8)}
+.pluginsPane::-webkit-scrollbar-corner, .pluginsPane::-webkit-scrollbar-resizer {background: transparent}

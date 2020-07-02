@@ -2,6 +2,5 @@ data/*
 !data/.gitkeep
 plugins/*
 !plugins/index.php
-test/test-file1.txt
 tmp/*
 !tmp/index.php

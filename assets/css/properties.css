@@ -1,0 +1,12 @@
+body {overflow: hidden;}
+
+h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
+th {padding-left: 23px; padding-bottom: 5px}
+th, td {text-align: left; font-size: 10px}
+
+.properties {background-color: #1c1c19; color: #fff; padding: 20px}
+.properties .column {display: inline-block; width: 210px; font-size: 10px; float: left}
+
+.properties .permText {margin-top: 3px; padding: 4px; border: 0; background-color: #444; color: #fff}
+.properties .permText:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
+.properties .update {position: absolute; bottom: 0; right: 20px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); opacity: 0.1; cursor: pointer}

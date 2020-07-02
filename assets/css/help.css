@@ -1,0 +1,15 @@
+body {overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
+a {color: #fff; text-decoration: none}
+
+.help {background-color: #1c1c19; color: #fff; padding: 20px}
+.key {display: inline-block; width: 175px; text-align: right; margin-right: 5px; float: left}
+.key .plus {color: #888}
+.shortcut {display: inline-block; width: 195px; color: #888; margin-left: 5px; float: left}
+.info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}

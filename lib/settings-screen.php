@@ -10,9 +10,9 @@ $t = $text['settings-screen'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> settings screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="settings-screen.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror.css?microtime=<?php echo microtime(true);?>">
-<script src="../<?php echo $ICEcoder["codeMirrorDir"]; ?>/lib/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" type="text/css" href="../assets/css/settings-screen.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="../assets/css/codemirror.css?microtime=<?php echo microtime(true);?>">
+<script src="../assets/js/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 
 <style type="text/css">
 .CodeMirror {position: absolute; width: 409px; height: 180px; font-size: <?php echo $ICEcoder["fontSize"];?>; transition: font-size 0.25s ease}
@@ -21,10 +21,10 @@ $t = $text['settings-screen'];
 .cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
 </style>
 
-<link rel="stylesheet" href="editor.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="../assets/css/editor.css?microtime=<?php echo microtime(true);?>">
 <?php
 $themeArray = array();
-$handle = opendir('../'.$ICEcoder["codeMirrorDir"].'/theme/');
+$handle = opendir('../assets/css/theme/');
 while (false !== ($file = readdir($handle))) {
 	if ($file !== "." && $file != "..") {
 		array_push($themeArray,basename($file,".css"));
@@ -32,15 +32,22 @@ while (false !== ($file = readdir($handle))) {
 }
 sort($themeArray);
 for ($i=0;$i<count($themeArray);$i++) {
-	echo '<link rel="stylesheet" href="../'.$ICEcoder["codeMirrorDir"].'/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
+	echo '<link rel="stylesheet" href="../assets/css/theme/'.$themeArray[$i].'.css?microtime='.microtime(true).'">'.PHP_EOL;
+}
+
+// Do we have a tab to switch to?
+$tabSwitchExtra = "";
+if (true === isset($_GET['tab'])) {
+    $tabSwitchExtra = "switchTab('" . $_GET['tab'] . "');";
 }
 ?>
+<link rel="stylesheet" href="../assets/css/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body class="settings">
+<body class="settings" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'settings')" onload="<?php echo $tabSwitchExtra;?>this.focus();">
 
 <div class="infoPane">
-	<a href="https://icecoder.net" target="_blank"><img src="../images/ice-coder.png" alt="ICEcoder" class="logo"></a>
+	<a href="https://icecoder.net" target="_blank"><img src="../assets/images/icecoder.png" alt="ICEcoder" class="logo"></a>
 
 	<h1 style="margin: 10px 0"><?php echo $t['settings'];?></h1>
 
@@ -54,11 +61,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 	<br><br>
 
 	<?php echo $t['git'];?>:<br>
-	<a href="https://github.com/mattpass/ICEcoder" target="_blank">https://github.com/mattpass/ICEcoder</a>
-	<br><br>
-
-	<?php echo $t['codemirror dir'];?>:<br>
-	<?php echo $ICEcoder["codeMirrorDir"]; ?>
+	<a href="https://github.com/icecoder/ICEcoder" target="_blank">https://github.com/icecoder/ICEcoder</a>
 	<br><br>
 
 	<?php echo $t['codemirror version'];?>:<br>
@@ -76,7 +79,7 @@ for ($i=0;$i<count($themeArray);$i++) {
 		<a href="https://www.twitter.com/icecoder" style="font-size: 10px" target="_blank">Twitter</a><br>
 		<a href="https://facebook.com/ICEcoder.net" style="font-size: 10px" target="_blank">Facebook</a><br>
 		<a href="https://groups.google.com/forum/#!forum/icecoder" style="font-size: 10px" target="_blank">Google Groups</a><br>
-		<a href="https://github.com/mattpass/ICEcoder" style="font-size: 10px" target="_blank">GitHub</a><br>
+		<a href="https://github.com/icecoder/ICEcoder" style="font-size: 10px" target="_blank">GitHub</a><br>
 		<a href="mailto:info@icecoder.net" style="font-size: 10px">Email</a><br><br>
 		<?php echo $t['You may use...'];?>
 	</div>
@@ -271,6 +274,16 @@ function findSequence(goal) {
 		</div>
 			<br><br>
 
+        <div style="display: inline-block; width: 95px">
+            <?php echo $t['scrollbars'];?><br>
+            <select onchange="changescrollbarStyle(); showButton()" name="scrollbarStyle" id="scrollbarStyle">
+                <option value="overlay"<?php if($ICEcoder["scrollbarStyle"] === "overlay") {echo " selected";};?>>overlay</option>
+                <option value="simple"<?php if($ICEcoder["scrollbarStyle"] === "simple") {echo " selected";};?>>simple</option>
+                <option value="native"<?php if($ICEcoder["scrollbarStyle"] === "native") {echo " selected";};?>>native</option>
+            </select>
+        </div>
+        <br><br>
+
 		<h2><?php echo $t['functionality'];?></h2><br>
 
 		<div style="display: inline-block; width: 95px">
@@ -327,11 +340,6 @@ function findSequence(goal) {
 		}
 		echo ' onclick="showButton()" id="enableRegistration"> '.$t['Registration'].' </input>';
 	?>
-	<br><br>
-
-	<h2>github</h2><br>
-	<?php echo $t['auth token'];?> <span class="info" title="<?php echo $t['Required to get...'];?>">[?]</span> &nbsp; <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use" target="_blank" class="info">Personal Access Token</a> &nbsp; <a href="(http://developer.github.com/v3/oauth" target="_blank" class="info">Client/Secret Pair Token</a><br>
-	<input type="text" name="githubAuthToken" style="width: 320px" onkeydown="showButton()" value="<?php echo $ICEcoder["githubAuthToken"];?>" autocomplete="off">
 </div>
 
 <div id="securitySection" class="section" style="display: none">
@@ -356,12 +364,13 @@ function findSequence(goal) {
 
 <script>
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-	lineNumbers: top.ICEcoder.lineNumbers,
+	lineNumbers: parent.ICEcoder.lineNumbers,
 	readOnly: "nocursor",
-	indentUnit: top.ICEcoder.indentSize,
-	tabSize: top.ICEcoder.indentSize,
+	indentUnit: parent.ICEcoder.indentSize,
+	tabSize: parent.ICEcoder.indentSize,
 	mode: "javascript",
-	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>"
+	theme: "<?php echo $ICEcoder["theme"]=="default" ? 'icecoder' : $ICEcoder["theme"];?>",
+    scrollbarStyle: parent.ICEcoder.scrollbarStyle
 	});
 
 var input = document.getElementById("select");
@@ -384,6 +393,12 @@ function changeLineNumbersToggle() {
 	var lineNumbers = lineNumbersSelect.options[lineNumbersSelect.selectedIndex].innerHTML == "yes" ? true : false;
 	editor.setOption("lineNumbers", lineNumbers);
 	editor.refresh();
+}
+
+function changescrollbarStyle() {
+    var scrollbarStyle = document.getElementById("scrollbarStyle").value;
+    editor.setOption("scrollbarStyle", scrollbarStyle);
+    editor.refresh();
 }
 
 function changeFontSize() {
@@ -412,10 +427,10 @@ var showHideTabs = function() {
 
 var validatePasswords = function() {
 	if (document.settings.password.value != 0 && document.settings.password.value.length<8) {
-		top.ICEcoder.message('Please use at least 8 chars in the password');
+        parent.ICEcoder.message('Please use at least 8 chars in the password');
 	} else {
 		if (document.settings.password.value != document.settings.passwordConfirm.value) {
-			top.ICEcoder.message('Sorry, your passwords don\'t match')
+            parent.ICEcoder.message('Sorry, your passwords don\'t match')
 		} else {
 			document.settings.submit();
 		}
@@ -430,9 +445,13 @@ var switchTab = function(tab) {
 	}
 	editor.refresh();
 }
+
+var submitSettings = function() {
+    <?php echo $ICEcoder['demoMode'] ? "parent.ICEcoder.message('Sorry, can\'t commit settings in demo mode')" : "validatePasswords()"; ?>;
+}
 </script>
 
-<div class="update" id="updateButton" onClick="<?php echo $ICEcoder['demoMode'] ? "top.ICEcoder.message('Sorry, can\'t commit settings in demo mode')" : "validatePasswords()"; ?>">update</div>
+<div class="update" id="updateButton" onClick="submitSettings()">update</div>
 <input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
 

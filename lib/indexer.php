@@ -1,6 +1,6 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 
 // File extensions to look for functions & classes in
 $indexableFileExts = ["php", "js", "coffee", "ts", "rb", "py", "mpy", "sql", "erl", "java", "jl", "c", "cpp", "ino", "cs", "go", "lua", "pl"];
@@ -9,10 +9,11 @@ $indexableFileExts = ["php", "js", "coffee", "ts", "rb", "py", "mpy", "sql", "er
 $prevIndexData = [];
 
 // If we have a data/index.php file
-if (file_exists($docRoot.$ICEcoderDir."/data/index.php")) {
+if (file_exists($docRoot . $ICEcoderDir . "/data/index.php")) {
     // Get serialized array back out of PHP file inside a comment block as prevIndexData
-    $prevIndexData = file_get_contents($docRoot.$ICEcoderDir."/data/index.php");
-    if (strpos($prevIndexData, "<?php") !== false) {
+    $systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/index.php");
+    $prevIndexData = file_get_contents($docRoot . $ICEcoderDir . "/data/index.php");
+    if (false !== strpos($prevIndexData, "<?php")) {
         $prevIndexData = str_replace("<?php\n/*\n\n", "", $prevIndexData);
         $prevIndexData = str_replace("\n\n*/\n?>", "", $prevIndexData);
         $prevIndexData = unserialize($prevIndexData);
@@ -31,25 +32,25 @@ function phpGrep($path, $base) {
     global $indexableFileExts, $prevIndexData, $indexData;
 
     $fp = opendir($path);
-    global $ICEcoder, $serverType, $docRoot, $ICEcoderDir;
-    if (!isset($ret)) {$ret="";};
-    $slash = $serverType == strpos($path,"\\")>-1 ? "\\" : "/";
+    global $ICEcoder, $docRoot, $ICEcoderDir;
+    if (!isset($ret)) {$ret = "";};
+    $slash = -1 < strpos($path, "\\") ? "\\" : "/";
     while($f = readdir($fp)) {
         // Ignore . and .. paths
-        if ($f == "." || $f == "..") continue;
-        $filePath = $path.$slash.$f;
+        if ("." === $f || ".." === $f) continue;
+        $filePath = $path . $slash . $f;
         $filePathExt = pathinfo($filePath, PATHINFO_EXTENSION);
         // Exclude the folder ICEcoder is running from
-        $rootPrefix = '/'.str_replace("/","\/",preg_quote(str_replace("\\","/",$docRoot))).'/';
+        $rootPrefix = '/' . str_replace("/", "\/", preg_quote(str_replace("\\", "/", $docRoot))) . '/';
         $localPath = preg_replace($rootPrefix, '', $filePath, 1);
-        if (strpos($localPath, $ICEcoderDir)===0) {
+        if (0 === strpos($localPath, $ICEcoderDir)) {
             continue;
         }
-        if(is_dir($filePath)) {
+        if (is_dir($filePath)) {
             $ret .= phpGrep($filePath, $base);
         } else {
             // Check if we should scan within this file, by only considering files that may contain functions & classes
-            if (in_array($filePathExt, $indexableFileExts) === false) {
+            if (false === in_array($filePathExt, $indexableFileExts)) {
                 continue;
             }
             // Check if file appears to be the same (same size and mtime), if so, continue as we'll assume it's not changed
@@ -69,14 +70,14 @@ function phpGrep($path, $base) {
             }
             $bFile = false;
             // Exclude banned files
-            for ($i=0;$i<count($ICEcoder['bannedFiles']);$i++) {
-                if ($ICEcoder['bannedFiles'][$i] !== "") {
-                    if (strpos($f,str_replace("*","",$ICEcoder['bannedFiles'][$i]))!==false) {$bFile = true;};
+            for ($i = 0;$i < count($ICEcoder['bannedFiles']); $i++) {
+                if ("" !== $ICEcoder['bannedFiles'][$i]) {
+                    if (false !== strpos($f, str_replace("*", "", $ICEcoder['bannedFiles'][$i]))) {$bFile = true;};
                 }
             }
             // Exclude *.min.* minified files
             $minFileText = pathinfo(pathinfo($f)['filename']);
-            if (isset($minFileText['extension']) && $minFileText['extension'] === "min") {
+            if (isset($minFileText['extension']) && "min" === $minFileText['extension']) {
                 continue;
             }
             if (!$bFile) {
@@ -159,7 +160,7 @@ function phpGrep($path, $base) {
                     }
 
                     // Class data
-                    if (!empty($classText) && $classText[0] !== "") {
+                    if (!empty($classText) && "" !== $classText[0]) {
                         // Start language block if we don't have one yet
                         if (!isset($indexData['classes'][$filePathExt])) {
                             $indexData['classes'][$filePathExt] = [];
@@ -200,15 +201,16 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 		];
 
 		// Start running function to index data
-		$results = phpGrep($docRoot.$iceRoot, $docRoot.$iceRoot);
+		$results = phpGrep($docRoot . $iceRoot, $docRoot . $iceRoot);
 
 		// Overlay indexData ontop of prevIndexData
 		$output = array_replace_recursive($prevIndexData, $indexData);
 
 		// If we have a data/git-diff.php file
-		if (file_exists($docRoot.$ICEcoderDir."/data/git-diff.php")) {
+		if (file_exists($docRoot . $ICEcoderDir . "/data/git-diff.php")) {
 			// Get serialized array back out of PHP file inside a comment block as git data for git diff display
-			$gitDiffData = file_get_contents($docRoot.$ICEcoderDir."/data/git-diff.php");
+			$systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/git-diff.php");
+			$gitDiffData = file_get_contents($docRoot . $ICEcoderDir . "/data/git-diff.php");
 			if (strpos($gitDiffData, "<?php") !== false) {
 				$gitDiffData = str_replace("<?php\n/*\n\n", "", $gitDiffData);
 				$gitDiffData = str_replace("\n\n*/\n?>", "", $gitDiffData);
@@ -218,9 +220,10 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 		}
 
 		// If we have a data/git-content.php file
-		if (file_exists($docRoot.$ICEcoderDir."/data/git-content.php")) {
+		if (file_exists($docRoot . $ICEcoderDir . "/data/git-content.php")) {
 			// Get serialized array back out of PHP file inside a comment block as git data for git content usage
-			$gitContent = file_get_contents($docRoot.$ICEcoderDir."/data/git-content.php");
+			$systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/git-content.php");
+			$gitContent = file_get_contents($docRoot . $ICEcoderDir . "/data/git-content.php");
 			if (strpos($gitContent, "<?php") !== false) {
 				$gitContent = str_replace("<?php\n/*\n\n", "", $gitContent);
 				$gitContent = str_replace("\n\n*/\n?>", "", $gitContent);
@@ -230,7 +233,7 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 		}
 
 		// Store the serialized array in PHP comment block for next time
-		file_put_contents($docRoot.$ICEcoderDir."/data/index.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
+		file_put_contents($docRoot . $ICEcoderDir . "/data/index.php", "<?php\n/*\n\n" . serialize($output) . "\n\n*/\n?" . ">");
 	// Output what we have in our index...
 	} else {
 		$output = $prevIndexData;
@@ -243,7 +246,7 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 			"browser" => (int) $_GET['timestamp'],
 			"changed" => false
 		]
-	];			
+	];
 }
 
 // Output the JSON
