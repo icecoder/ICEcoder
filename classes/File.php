@@ -69,6 +69,7 @@ class File
                 // A local folder that isn't the doc root or starts with the doc root
                 ("getRemoteFile" !== $_GET['action'] && !isset($ftpSite) &&
                     rtrim($allFiles[$i], "/") !== rtrim($docRoot, "/") &&
+                    true === realpath(rtrim(dirname($allFiles[$i]), "/")) &&
                     0 !== strpos(realpath(rtrim(dirname($allFiles[$i]), "/")), realpath(rtrim($docRoot, "/")))
                 ) ||
                 // Or a remote URL that doesn't start http

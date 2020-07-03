@@ -2067,18 +2067,8 @@ var ICEcoder = {
             newName = this.getInput(t['Please enter the...'], shortURL);
         }
         if (newName) {
-            i = this.openFiles.indexOf(shortURL.replace(/\|/g, "/"));
-            if (-1 < i) {
-                // rename array item and the tab
-                this.openFiles[i] = newName;
-                closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
-                fileName = this.openFiles[i];
-                get('tab' + (i + 1)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
-                get('tab' + (i + 1)).title = newName;
-            }
             this.serverQueue("add", iceLoc + "/lib/file-control.php?action=rename&oldFileName=" + encodeURIComponent(oldName.replace(/\|/g, "/")) + "&csrf=" + this.csrf,encodeURIComponent(newName));
             this.serverMessage('<b>' + t['Renaming to'] + '</b><br>' + newName);
-
             this.setPreviousFiles();
         }
     },
@@ -2089,14 +2079,6 @@ var ICEcoder = {
 
         if (newName && newName !== oldName) {
             i = this.openFiles.indexOf(oldName.replace(/\|/g, "/"));
-            if(-1 < i) {
-                // rename array item and the tab
-                this.openFiles[i] = newName;
-                closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
-                fileName = this.openFiles[i];
-                get('tab' + (i + 1)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
-                get('tab' + (i + 1)).title = newName;
-            }
             if (this.ask("Are you sure you want to move file " + oldName + " to " + newName + " ?")){
                 this.serverQueue("add", iceLoc + "/lib/file-control.php?action=move&oldFileName=" + encodeURIComponent(oldName.replace(/\//g, "|")) + "&csrf=" + this.csrf, encodeURIComponent(newName.replace(/\//g, "|")));
                 this.serverMessage('<b>' + t['Moving to'] + '</b><br>' + newName);
@@ -2434,7 +2416,7 @@ var ICEcoder = {
                 }
             }
             // If we added a new file, we've saved it under a new filename, so set that
-            if ("file" === actionElemType && !uploaded) {
+            if ("file" === actionElemType && !oldName && !uploaded) {
                 this.openFiles[this.selectedTab - 1] = location + "/" + file;
             }
         }
@@ -2468,9 +2450,9 @@ var ICEcoder = {
                 fileOrFolder = srcClass.indexOf("pft-directory") > -1 ? "folder" : "file";
                 // Only add file into view if the dir is open
                 if (-1 < tgtClass.indexOf('dirOpen')) {
-                    this.updateFileManagerList("add", location, file, false, false, false, fileOrFolder);
+                    this.updateFileManagerList("add", location, file, false, oldName, false, fileOrFolder);
                 }
-                this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")), oldName.substr(oldName.lastIndexOf("/")+1), false, false, false, fileOrFolder);
+                this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")), oldName.substr(oldName.lastIndexOf("/")+1), false, oldName, false, fileOrFolder);
                 this.selectedFiles = [];
             }
         }
@@ -2483,9 +2465,9 @@ var ICEcoder = {
                 : this.filesFrame.contentWindow.document.getElementById(location.replace(/\//g, "|")).parentNode.parentNode.className;
             // Only add file into view if the dir is open
             if (-1 < tgtClass.indexOf('dirOpen')) {
-                this.updateFileManagerList("add", location, file, false, false, false, fileOrFolder);
+                this.updateFileManagerList("add", location, file, false, oldName, false, fileOrFolder);
             }
-            this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")), file, false, false, false, fileOrFolder);
+            this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")), file, false, oldName, false, fileOrFolder);
         }
 
         // Chmod on files
@@ -2510,13 +2492,15 @@ var ICEcoder = {
             targetElem = get('filesFrame').contentWindow.document.getElementById(targetElem).parentNode.parentNode;
             this.openCloseDir(targetElem.childNodes[0], false);
             targetElem.parentNode.removeChild(targetElem);
-            // Close any tabs we have open which would have had a file deleted
-            for (let i = this.openFiles.length - 1; i >= 0; i--) {
-                if ("folder" === fileOrFolder && location.replace(/\|/g, "/") + "/" + file === this.openFiles[i].substr(0, this.openFiles[i].lastIndexOf("/"))) {
-                    this.closeTab(i + 1, 'dontSetPV', 'dontAsk');
-                }
-                if ("file" === fileOrFolder && location.replace(/\|/g, "/") + "/" + file === this.openFiles[i]) {
-                    this.closeTab(i + 1, 'dontSetPV', 'dontAsk');
+            if (!oldName) {
+                // Close any tabs we have open which would have had a file deleted
+                for (let i = this.openFiles.length - 1; i >= 0; i--) {
+                    if ("folder" === fileOrFolder && location.replace(/\|/g, "/") + "/" + file === this.openFiles[i].substr(0, this.openFiles[i].lastIndexOf("/"))) {
+                        this.closeTab(i + 1, 'dontSetPV', 'dontAsk');
+                    }
+                    if ("file" === fileOrFolder && location.replace(/\|/g, "/") + "/" + file === this.openFiles[i]) {
+                        this.closeTab(i + 1, 'dontSetPV', 'dontAsk');
+                    }
                 }
             }
         }
