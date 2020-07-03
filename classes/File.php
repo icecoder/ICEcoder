@@ -425,26 +425,31 @@ class File
             } else if (!$demoMode && is_writable($fullPath)) {
                 $fileOrFolder = is_dir($fullPath) ? "folder" : "file";
                 if (is_dir($fullPath)) {
-                    $this->rrmdir($fullPath);
+                    $actionedOK = $this->rrmdir($fullPath);
                 } else {
                     // Delete file to tmp dir or full delete
-                    $ICEcoder['deleteToTmp']
+                    $actionedOK = $ICEcoder['deleteToTmp']
                         ? rename($fullPath, str_replace("\\", "/", dirname(__FILE__)) . "/../tmp/." . str_replace(":", "_", str_replace("/", "_", $fullPath)))
                         : unlink($fullPath);
                 }
-                $fileName = basename($fullPath);
-                $fileLoc = dirname(str_replace($docRoot, "", $fullPath));
-                if ($fileLoc=="" || "\\" === $fileLoc) {
-                    $fileLoc="/";
-                };
+                if (true === $actionedOK) {
+                    $fileName = basename($fullPath);
+                    $fileLoc = dirname(str_replace($docRoot, "", $fullPath));
+                    if ($fileLoc=="" || "\\" === $fileLoc) {
+                        $fileLoc="/";
+                    };
 
-                // Reload file manager
-                $doNext .= 'ICEcoder.selectedFiles = []; ICEcoder.updateFileManagerList(\'delete\', \'' . $fileLoc . '\', \'' . $fileName . '\', false, false, false, \''. $fileOrFolder .'\');';
-                $finalAction = "delete";
+                    // Reload file manager
+                    $doNext .= 'ICEcoder.selectedFiles = []; ICEcoder.updateFileManagerList(\'delete\', \'' . $fileLoc . '\', \'' . $fileName . '\', false, false, false, \'' . $fileOrFolder . '\');';
+                    $finalAction = "delete";
 
-                // Run any extra processes
-                $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
-                $doNext = $extraProcessesClass->onFileDirDelete($doNext);
+                    // Run any extra processes
+                    $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
+                    $doNext = $extraProcessesClass->onFileDirDelete($doNext);
+                } else {
+                    $doNext .= "ICEcoder.message('" . $t['Sorry, cannot delete'] . "\\\\n" . str_replace($docRoot, "", $fullPath) . "');";
+                    $finalAction = "nothing";
+                }
             } else {
                 $doNext .= "ICEcoder.message('" . $t['Sorry, cannot delete'] . "\\\\n" . str_replace($docRoot, "", $fullPath) . "');";
                 $finalAction = "nothing";
@@ -454,8 +459,9 @@ class File
 
     /**
      * @param $dir
+     * @return bool
      */
-    public function rrmdir($dir) {
+    public function rrmdir($dir): bool {
         global $ICEcoder;
 
         if (is_dir($dir)) {
@@ -473,7 +479,10 @@ class File
             }
             reset($objects);
             // Remove now empty dir
-            rmdir($dir);
+            if (false === rmdir($dir)) {
+                return false;
+            }
+            return true;
         }
     }
 
