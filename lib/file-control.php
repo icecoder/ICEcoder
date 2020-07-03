@@ -361,7 +361,7 @@ if (!$error && "delete" === $_GET['action']) {
                     $fileLoc = "/";
                 };
                 // Reload file manager
-                $doNext .= 'ICEcoder.selectedFiles = []; ICEcoder.updateFileManagerList(\'delete\', \'' . $fileLoc . '\', \'' . $fileName . '\');';
+                $doNext .= 'ICEcoder.selectedFiles = []; ICEcoder.updateFileManagerList(\'delete\', \'' . $fileLoc . '\', \'' . $fileName . '\', false, false, false, \'' . ("dir" === $itemType ? 'folder' : 'file') . '\');';
                 $finalAction = "delete";
                 // Run any extra processes
                 $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);

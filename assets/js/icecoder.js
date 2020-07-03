@@ -2470,7 +2470,7 @@ var ICEcoder = {
                 if (-1 < tgtClass.indexOf('dirOpen')) {
                     this.updateFileManagerList("add", location, file, false, false, false, fileOrFolder);
                 }
-                this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")),  oldName.substr(oldName.lastIndexOf("/")+1));
+                this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")), oldName.substr(oldName.lastIndexOf("/")+1), false, false, false, fileOrFolder);
                 this.selectedFiles = [];
             }
         }
@@ -2485,7 +2485,7 @@ var ICEcoder = {
             if (-1 < tgtClass.indexOf('dirOpen')) {
                 this.updateFileManagerList("add", location, file, false, false, false, fileOrFolder);
             }
-            this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")), file);
+            this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")), file, false, false, false, fileOrFolder);
         }
 
         // Chmod on files
@@ -2510,6 +2510,15 @@ var ICEcoder = {
             targetElem = get('filesFrame').contentWindow.document.getElementById(targetElem).parentNode.parentNode;
             this.openCloseDir(targetElem.childNodes[0], false);
             targetElem.parentNode.removeChild(targetElem);
+            // Close any tabs we have open which would have had a file deleted
+            for (let i = this.openFiles.length - 1; i >= 0; i--) {
+                if ("folder" === fileOrFolder && location.replace(/\|/g, "/") + "/" + file === this.openFiles[i].substr(0, this.openFiles[i].lastIndexOf("/"))) {
+                    this.closeTab(i + 1, 'dontSetPV', 'dontAsk');
+                }
+                if ("file" === fileOrFolder && location.replace(/\|/g, "/") + "/" + file === this.openFiles[i]) {
+                    this.closeTab(i + 1, 'dontSetPV', 'dontAsk');
+                }
+            }
         }
 
         // Finally, switch to selectedTab to refresh items
@@ -4108,7 +4117,6 @@ var ICEcoder = {
             }
         }
 
-
         // Highlight all user selected files
         for (var i = 0; i < this.selectedFiles.length; i++) {
             fileLink = this.filesFrame.contentWindow.document.getElementById(this.selectedFiles[i]);
@@ -4166,8 +4174,9 @@ var ICEcoder = {
             if (this.selectedTab==closeTabNum) {
                 this.openFiles.length>0 ? this.selectedTab-=1 : this.selectedTab = 0;
             }
-            if (this.openFiles.length>0 && this.selectedTab==0) {this.selectedTab=1};
-
+            // Handle removing a tab from start or end as safely fallback
+            if (this.openFiles.length>0 && this.selectedTab === 0) {this.selectedTab = 1};
+            if (this.openFiles.length>0 && this.selectedTab > this.openFiles.length) {this.selectedTab = this.openFiles.length};
             // grey out the view icon
             if (this.openFiles.length==0) {
                 this.fMIconVis('fMView',0.3);

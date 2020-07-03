@@ -423,6 +423,7 @@ class File
             if (rtrim($fullPath, "/") === rtrim($docRoot, "/")) {
                 $doNext .= "ICEcoder.message('" . $t['Sorry, cannot delete...'] . "');";
             } else if (!$demoMode && is_writable($fullPath)) {
+                $fileOrFolder = is_dir($fullPath) ? "folder" : "file";
                 if (is_dir($fullPath)) {
                     $this->rrmdir($fullPath);
                 } else {
@@ -438,7 +439,7 @@ class File
                 };
 
                 // Reload file manager
-                $doNext .= 'ICEcoder.selectedFiles = []; ICEcoder.updateFileManagerList(\'delete\', \'' . $fileLoc . '\', \'' . $fileName . '\');';
+                $doNext .= 'ICEcoder.selectedFiles = []; ICEcoder.updateFileManagerList(\'delete\', \'' . $fileLoc . '\', \'' . $fileName . '\', false, false, false, \''. $fileOrFolder .'\');';
                 $finalAction = "delete";
 
                 // Run any extra processes
@@ -471,9 +472,8 @@ class File
                 }
             }
             reset($objects);
-            $ICEcoder['deleteToTmp']
-                ? rename($dir, str_replace("\\", "/", dirname(__FILE__)) . "/../tmp/." . str_replace(":", "_", str_replace("/", "_", $dir)))
-                : rmdir($dir);
+            // Remove now empty dir
+            rmdir($dir);
         }
     }
 
