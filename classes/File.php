@@ -143,7 +143,6 @@ class File
             }
             if (0 === strpos($finfo, "text") || 0 === strpos($finfo, "application/xml") || false !== strpos($finfo, "empty")) {
                 echo 'fileType="text";';
-                echo 'parent.parent.ICEcoder.shortURL = "' . $fileLoc . "/" . $fileName . '";';
 
                 // Get file over FTP?
                 if (isset($ftpSite)) {
@@ -197,9 +196,8 @@ class File
                     parent.parent.ICEcoder.loadingFile = true;
                     // Reset the various states back to their initial setting
                     selectedTab = parent.parent.ICEcoder.openFiles.length;	// The tab that\'s currently selected
-    
                     // Finally, store all data, show tabs etc
-                    parent.parent.ICEcoder.createNewTab(false);
+                    parent.parent.ICEcoder.createNewTab(false, \'' . $fileLoc . '/' . $fileName . '\');
                     parent.parent.ICEcoder.cMInstances.push(parent.parent.ICEcoder.nextcMInstance);
                     parent.parent.ICEcoder.setLayout();
                     parent.parent.ICEcoder.content.contentWindow.createNewCMInstance(parent.parent.ICEcoder.nextcMInstance);

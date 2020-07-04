@@ -1913,14 +1913,13 @@ var ICEcoder = {
 
             // if we're still OK to open it...
             if (canOpenFile) {
-                this.shortURL = shortURL;
 
                 if ("/[NEW]" !== shortURL) {
                     fileLink = fileLink.replace(/\//g, "|");
                     this.serverQueue("add", iceLoc + "/lib/file-control.php?action=load&file=" + encodeURIComponent(fileLink) + "&csrf=" + this.csrf + "&lineNumber=" + line);
-                    this.serverMessage('<b>' + t['Opening File'] + '</b><br>' + this.shortURL);
+                    this.serverMessage('<b>' + t['Opening File'] + '</b><br>' + shortURL);
                 } else {
-                    this.createNewTab('new');
+                    this.createNewTab(true, shortURL);
                 }
                 this.fMIconVis('fMView', 1);
             }
@@ -3989,11 +3988,11 @@ var ICEcoder = {
     },
 
     // Create a new tab for a file
-    createNewTab: function(isNew) {
+    createNewTab: function(isNew, shortURL) {
         var closeTabLink, fileName, fileExt;
 
         // Push new file into array
-        this.openFiles.push(this.shortURL);
+        this.openFiles.push(shortURL);
 
         // Setup a new tab
         closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
