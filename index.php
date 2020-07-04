@@ -49,6 +49,7 @@ $isMac = false !== strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : fal
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/assets/css/resets.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/assets/css/icecoder.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/assets/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="<?php echo $iceURLPath . "/";
 echo "default" === $ICEcoder["theme"]
     ? 'assets/css/editor.css'

@@ -83,6 +83,9 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
     transition: width 0.15s ease-in-out;
     transition: left 0.15s ease-in-out;
 }
+.tabsBar .tab:before {
+    position: absolute; width: 16px; height: 16px; content: ""; margin-left: -2px; background:url('../images/file-folder-icons.png') no-repeat 0 0; background-position: -32px 0;
+}
 .tabsBar .tabSlide {
     transition: left 0.15s ease-in-out;
 }

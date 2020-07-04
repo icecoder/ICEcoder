@@ -3995,7 +3995,7 @@ var ICEcoder = {
 
     // Create a new tab for a file
     createNewTab: function(isNew) {
-        var closeTabLink, fileName;
+        var closeTabLink, fileName, fileExt;
 
         // Push new file into array
         this.openFiles.push(this.shortURL);
@@ -4004,8 +4004,10 @@ var ICEcoder = {
         closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
         get('tab'+(this.openFiles.length)).style.display = "inline-block";
         fileName = this.openFiles[this.openFiles.length-1];
-        get('tab'+(this.openFiles.length)).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
+        fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
+        get('tab'+(this.openFiles.length)).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
         get('tab'+(this.openFiles.length)).title = "/" + this.openFiles[this.openFiles.length-1].replace(/\//,"");
+        get('tab'+(this.openFiles.length)).className = "tab ext-" + fileExt;
 
         // Set the widths
         this.setTabWidths();
@@ -4041,7 +4043,7 @@ var ICEcoder = {
 
     // Create a new tab for a file
     renameTab: function(tabNum,newName) {
-        var closeTabLink, fileName;
+        var closeTabLink, fileName, fileExt;
 
         // Push new file into array
         this.openFiles[tabNum-1] = newName;
@@ -4049,8 +4051,10 @@ var ICEcoder = {
         // Setup a new tab
         closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
         fileName = this.openFiles[tabNum-1];
-        get('tab'+tabNum).innerHTML = closeTabLink + " " + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
+        fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
+        get('tab'+tabNum).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
         get('tab'+tabNum).title = "/" + this.openFiles[tabNum-1].replace(/\//,"");
+        get('tab'+tabNum).className = "tab ext-" + fileExt;
     },
 
     // Reset all tabs to be without a highlight and then highlight the selected
@@ -4235,6 +4239,7 @@ var ICEcoder = {
 
     // Tab dragging start
     tabDragStart: function(tab) {
+        var fileName, fileExt;
         this.draggingTab = tab;
         this.diffStartX = this.mouseX;
         this.tabDragMouseXStart = (this.mouseX - (parseInt(this.files.style.width,10)+53+18)) % 150;
@@ -4242,9 +4247,11 @@ var ICEcoder = {
         get('tab'+tab).style.zIndex = 2;
         // Set classes for other tabs (tabSlide) and the one we're dragging (tabDrag)
         for (var i=1; i<=this.openFiles.length; i++) {
+            fileName = this.openFiles[i - 1];
+            fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
             get('tab'+i).className = i!==tab
-                ? "tab tabSlide"
-                : "tab tabDrag";
+                ? "tab ext-" + fileExt + " tabSlide"
+                : "tab ext-" + fileExt + " tabDrag";
         }
     },
 
@@ -4283,23 +4290,25 @@ var ICEcoder = {
 
     // Tab dragging end
     tabDragEnd: function() {
-        var swapWith, tempArray;
+        var swapWith, fileName, fileExt, tempArray;
 
         // Set the tab widths
         this.setTabWidths();
-        // Determin what tabs we've swapped and reset classname, opacity & z-index for all
+        // Determine what tabs we've swapped and reset classname, opacity & z-index for all
         for (var i=1; i<=this.openFiles.length; i++) {
             if (this.thisLeft >= this.tabLeftPos[i-1]) {
                 swapWith = this.thisLeft == this.tabLeftPos[0] ? 1 : this.dragTabNo > i ? i+1 : i;
             }
-            get('tab'+i).className = "tab";
+            fileName = this.openFiles[i - 1];
+            fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
+            get('tab'+i).className = "tab ext-" + fileExt;
             get('tab'+i).style.opacity = 1;
             if (i!=this.dragTabNo) {
                 get('tab'+i).style.zIndex = 1;
             } else {
-                setTimeout(function() {
-                    get('tab'+i).style.zIndex = 1;
-                },150);
+                setTimeout(function(num) {
+                    get('tab' + num).style.zIndex = 1;
+                }, 150, swapWith);
             }
         }
         if (this.thisLeft && this.thisLeft!==false) {
@@ -4326,6 +4335,7 @@ var ICEcoder = {
         // Setup an array of our actual arrays and the blank ones
         a = [this.savedPoints, this.savedContents, this.openFiles, this.openFileMDTs, this.openFileVersions, this.cMInstances];
         b = [savedPoints, savedContents, openFiles, openFileMDTs, openFileVersions, cMInstances];
+
         // Push the new order values into array b then set into array a
         for (var i=0;i<a.length;i++) {
             for (var j=0;j<a[i].length;j++) {
@@ -4333,6 +4343,7 @@ var ICEcoder = {
             }
             a[i] = b[i];
         }
+
         // Begin swapping tab id's around to an ascending order and work out new selectedTab
         for (var i=0;i<newOrder.length;i++) {
             get('tab'+newOrder[i]).id = "tab" + (i+1) + ".temp";
@@ -4340,27 +4351,28 @@ var ICEcoder = {
                 selectedTabWillBe = (i+1);
             }
         }
+
         // Now remove the .temp part from all tabs to get new ascending order
         for (var i=0;i<newOrder.length;i++) {
             get('tab'+(i+1)+'.temp').id = "tab"+(i+1);
         }
-        // Set the classname for sliding
-        if (get('tab'+selectedTabWillBe)) {
-            get('tab'+selectedTabWillBe).className = "tab tabSlide";
-        }
-        // Finally, set the array values, tab widths and switch tab
+
+        // Set the array values, tab widths and switch tab
         this.savedPoints = a[0];
         this.savedContents = a[1];
         this.openFiles = a[2];
         this.openFileMDTs = a[3];
         this.openFileVersions = a[4];
         this.cMInstances = a[5];
+
+        // Set tab widths and switch to this tab
         this.setTabWidths();
         this.switchTab(selectedTabWillBe);
     },
 
     // Alphabetize tabs
     alphaTabs: function() {
+        var fileName, fileExt;
         if (this.openFiles.length>0) {
             var currentArray, currentArrayFull, alphaArray, nextValue, nextPos;
 
@@ -4371,7 +4383,9 @@ var ICEcoder = {
             for (var i=0;i<this.openFiles.length;i++) {
                 currentArray.push(this.openFiles[i].slice(this.openFiles[i].lastIndexOf('/')+1));
                 currentArrayFull.push(this.openFiles[i]);
-                get('tab'+(i+1)).className = "tab tabSlide";
+                fileName = this.openFiles[i];
+                fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
+                get('tab'+(i+1)).className = "tab ext-" + fileExt + " tabSlide";
             }
             // Get our next value, which is the next filename alpha lowest value and full path
             while (currentArray.length>0) {
