@@ -4828,7 +4828,7 @@ var ICEcoder = {
                 "top": -55,
                 "left": 0,
                 "title": "<img src=\"assets/images/icecoder.png\" style=\"position: absolute; margin: -105px 0 0 -55px\"><br><br>Code editor awesomeness ...in your browser",
-                "message": "View the quick start tutorial? (Well worthwhile!) or <a onclick=\"ICEcoder.viewTutorial(12, 0)\" style=\"font-size: 14px; text-decoration: underline; cursor: pointer\">skip it</a>",
+                "message": "View the quick start tutorial? (Well worthwhile!) or <a onclick=\"ICEcoder.viewTutorial(99, 0)\" style=\"font-size: 14px; text-decoration: underline; cursor: pointer\">skip it</a>.",
                 "button": "view tutorial"
             },
             1: {
@@ -4927,8 +4927,8 @@ var ICEcoder = {
                 "top": winH,
                 "left": (((winW + 250) / 2) - 50),
                 "title": "Let's get started!",
-                "message": "This really only scratches the surface of what ICEcoder can do. Have a look around, test out the features and don't forget to checkout the website for more advanced tips & tricks. You can get to this tutorial again under Help > Tutorial.",
-                "button": "start!"
+                "message": "This really only scratches the surface of what ICEcoder can do, so have a look around and try things out. The plugins also supercharge ICEcoder with amazing powers, a great place to start, or you can just <a onclick=\"ICEcoder.viewTutorial(99, 0)\" style=\"font-size: 14px; text-decoration: underline; cursor: pointer\">get started without plugins</a>.",
+                "button": "plugins &gt;"
             },
         };
 
@@ -4980,6 +4980,16 @@ var ICEcoder = {
             xhr.open("POST",iceLoc+"/lib/settings.php?action=turnOffTutorialOnLogin&csrf="+this.csrf,true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.send();
+        }
+
+        if (12 === step) {
+            setTimeout(function() {
+                ICEcoder.pluginsManager();
+            }, 500);
+            return;
+        }
+
+        if (99 === step) {
             return;
         }
 
