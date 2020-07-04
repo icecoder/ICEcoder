@@ -2472,6 +2472,7 @@ var ICEcoder = {
                 this.updateFileManagerList("add", location, file, false, oldName, false, fileOrFolder);
             }
             this.updateFileManagerList("delete", oldName.substr(0, oldName.lastIndexOf("/")), file, false, oldName, false, fileOrFolder);
+            this.selectedFiles = [];
         }
 
         // Chmod on files
