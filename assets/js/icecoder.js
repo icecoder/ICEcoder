@@ -1799,9 +1799,9 @@ var ICEcoder = {
             this.fmDragBoxStartY = this.mouseY;
             this.fmDragSelectFirst = "";
             this.fmDragSelectLast = "";
-            this.thisFileFolderType = "";
-            this.thisFileFolderLink = "";
-            this.deselectAllFiles();
+            if ("" === this.thisFileFolderLink) {
+                this.deselectAllFiles();
+            }
         }
 
         // On mouse drag, state we're dragging, set the box size and position properties and select files
@@ -1890,21 +1890,19 @@ var ICEcoder = {
             flSplit = this.returnFileAndLine(fileLink);
             fileLink = flSplit[0];
             line = flSplit[1];
+        } else {
+            fileLink = this.thisFileFolderLink;
         }
 
-        if (fileLink) {
-            this.thisFileFolderLink = fileLink;
-            this.thisFileFolderType = "file";
-        }
-        if ("/[NEW]" !== this.thisFileFolderLink && false !== this.isOpen(this.thisFileFolderLink)) {
-            this.switchTab(this.isOpen(this.thisFileFolderLink) + 1);
+        if ("/[NEW]" !== fileLink && false !== this.isOpen(fileLink)) {
+            this.switchTab(this.isOpen(fileLink) + 1);
             if (1 < line){
                 this.goToLine(line);
             }
-        } else if ("" !== this.thisFileFolderLink && "file" === this.thisFileFolderType) {
+        } else if ("" !== fileLink) {
 
             // work out a shortened URL for the file
-            shortURL = this.thisFileFolderLink.replace(/\|/g, "/");
+            shortURL = fileLink.replace(/\|/g, "/");
             // No reason why we can't open a file (so far)
             canOpenFile = true;
             // Limit to 100 files open at a time
@@ -1918,8 +1916,8 @@ var ICEcoder = {
                 this.shortURL = shortURL;
 
                 if ("/[NEW]" !== shortURL) {
-                    this.thisFileFolderLink = this.thisFileFolderLink.replace(/\//g, "|");
-                    this.serverQueue("add", iceLoc + "/lib/file-control.php?action=load&file=" + encodeURIComponent(this.thisFileFolderLink) + "&csrf=" + this.csrf + "&lineNumber=" + line);
+                    fileLink = fileLink.replace(/\//g, "|");
+                    this.serverQueue("add", iceLoc + "/lib/file-control.php?action=load&file=" + encodeURIComponent(fileLink) + "&csrf=" + this.csrf + "&lineNumber=" + line);
                     this.serverMessage('<b>' + t['Opening File'] + '</b><br>' + this.shortURL);
                 } else {
                     this.createNewTab('new');
@@ -1932,9 +1930,7 @@ var ICEcoder = {
     // Open selected files
     openFilesFromList: function(fileList) {
         for (let i = 0; i < fileList.length; i++) {
-            this.thisFileFolderLink = fileList[i].replace('|', '/');
-            this.thisFileFolderType = 'file';
-            this.openFile();
+            this.openFile(fileList[i].replace('|', '/'));
         }
     },
 
@@ -3405,7 +3401,7 @@ var ICEcoder = {
         for (var i=0; i<previousFiles.length; i++) {
             if (previousFiles[i] != "CLEAR") {
                 // Set the new file LI item to maybe insert at top of the list, including trailing new line to split on in future
-                newFile = "<li class=\"pft-file ext-"+previousFiles[i].substring(previousFiles[i].lastIndexOf(".")+1)+"\" style=\"margin-left: -21px\"><a style=\"cursor:pointer\" onclick=\"this.openFile('"+previousFiles[i].replace(/\|/g,"/")+"')\">"+previousFiles[i].replace(/\|/g,"/")+"</a></li>\n";
+                newFile = "<li class=\"pft-file ext-"+previousFiles[i].substring(previousFiles[i].lastIndexOf(".")+1)+"\" style=\"margin-left: -21px\"><a style=\"cursor:pointer\" onclick=\"parent.ICEcoder.openFile('"+previousFiles[i].replace(/\|/g,"/")+"')\">"+previousFiles[i].replace(/\|/g,"/")+"</a></li>\n";
 
                 // Get DOM elem for last 10 files
                 last10Files = this.content.contentWindow.document.getElementById('last10Files');
@@ -3432,9 +3428,7 @@ var ICEcoder = {
     autoOpenFiles: function() {
         if (this.previousFiles.length>0 && this.ask(t['Open previous files']+'\n\n'+this.previousFiles.length+' files:\n'+this.previousFiles.join('\n').replace(/\|/g,"/").replace(new RegExp(docRoot+iceRoot,'gi'),""))) {
             for (var i=0;i<this.previousFiles.length;i++) {
-                this.thisFileFolderLink=this.previousFiles[i].replace('|','/');
-                this.thisFileFolderType='file';
-                this.openFile();
+                this.openFile(this.previousFiles[i].replace('|','/'));
             }
         }
     },
@@ -3979,9 +3973,7 @@ var ICEcoder = {
         this.content.contentWindow.createNewCMInstance(this.nextcMInstance);
         this.setLayout();
 
-        this.thisFileFolderType='file';
-        this.thisFileFolderLink='/[NEW]';
-        this.openFile();
+        this.openFile('/[NEW]');
 
         cM = this.getcMInstance('new');
         this.switchTab(this.openFiles.length);

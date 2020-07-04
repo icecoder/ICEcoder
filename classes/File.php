@@ -143,7 +143,7 @@ class File
             }
             if (0 === strpos($finfo, "text") || 0 === strpos($finfo, "application/xml") || false !== strpos($finfo, "empty")) {
                 echo 'fileType="text";';
-                echo 'parent.parent.ICEcoder.shortURL = parent.parent.ICEcoder.thisFileFolderLink = "' . $fileLoc . "/" . $fileName . '";';
+                echo 'parent.parent.ICEcoder.shortURL = "' . $fileLoc . "/" . $fileName . '";';
 
                 // Get file over FTP?
                 if (isset($ftpSite)) {
