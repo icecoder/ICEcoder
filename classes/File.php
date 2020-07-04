@@ -471,7 +471,7 @@ class File
                         $this->rrmdir($dir . "/" . $object);
                     } else {
                         $ICEcoder['deleteToTmp']
-                            ? rename($dir . "/" . $object, str_replace("\\", "/", dirname(__FILE__)) . "/../tmp/." . str_replace(":", "_", str_replace("/", "_", $dir)) . "/" . $object)
+                            ? rename($dir . "/" . $object, str_replace("\\", "/", dirname(__FILE__)) . "/../tmp/." . str_replace(":", "_", str_replace("/", "_", $dir)) . "_" . $object)
                             : unlink($dir . "/" . $object);
                     }
                 }

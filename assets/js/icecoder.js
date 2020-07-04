@@ -2435,9 +2435,15 @@ var ICEcoder = {
                 targetElemPerms.id = location.replace(/\//g, "|") + "|" + file + "_perms";
                 // Rename in selected files
                 this.renameInSelectedFiles(shortURL, location.replace(/\//g, "|") + "|" + file);
-                // Finally, rename also within any children
+                // Rename also within any children
                 this.renameInChildren(targetElem, oldName, location, file);
-                // If dir has changed, handle dir change and possibly also filename change
+                // Update data for any tabs we have open where we've changed a dir it resides in
+                for (let i = 0; i < this.openFiles.length; i++) {
+                    if (0 === this.openFiles[i].indexOf(oldName + "/")) {
+                        this.renameTab(i + 1, this.openFiles[i].replace(oldName, location + "/" + file));
+                    }
+                }
+            // If dir has changed, handle dir change and possibly also filename change
             } else {
                 // Target is root, or another dir?
                 const tgtClass = location === ""
@@ -2493,7 +2499,7 @@ var ICEcoder = {
             if (!oldName) {
                 // Close any tabs we have open which would have had a file deleted
                 for (let i = this.openFiles.length - 1; i >= 0; i--) {
-                    if ("folder" === fileOrFolder && location.replace(/\|/g, "/") + "/" + file === this.openFiles[i].substr(0, this.openFiles[i].lastIndexOf("/"))) {
+                    if ("folder" === fileOrFolder && 0 === this.openFiles[i].indexOf(location.replace(/\|/g, "/") + "/" + file + "/")) {
                         this.closeTab(i + 1, 'dontSetPV', 'dontAsk');
                     }
                     if ("file" === fileOrFolder && location.replace(/\|/g, "/") + "/" + file === this.openFiles[i]) {
