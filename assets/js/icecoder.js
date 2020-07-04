@@ -1799,6 +1799,9 @@ var ICEcoder = {
             this.fmDragBoxStartY = this.mouseY;
             this.fmDragSelectFirst = "";
             this.fmDragSelectLast = "";
+            this.thisFileFolderType = "";
+            this.thisFileFolderLink = "";
+            this.deselectAllFiles();
         }
 
         // On mouse drag, state we're dragging, set the box size and position properties and select files
@@ -1806,7 +1809,7 @@ var ICEcoder = {
             this.fmDraggedBox = true;
 
             // Handle X-axis properties
-            positive = this.mouseX - 0 < this.fmDragBoxStartX;
+            positive = 0 < this.mouseX - this.fmDragBoxStartX;
             fmDragBox.style.left = (positive ? this.fmDragBoxStartX : this.mouseX) + "px";
             fmDragBox.style.width = Math.abs(this.mouseX - this.fmDragBoxStartX) + "px";
 
@@ -1816,8 +1819,8 @@ var ICEcoder = {
             fmDragBox.style.height = Math.abs(this.mouseY - this.fmDragBoxStartY) + "px";
 
             // Select the files
-            if (this.thisFileFolderLink !== "") {
-                if (this.fmDragSelectFirst == "") {
+            if ("" !== this.thisFileFolderLink) {
+                if ("" === this.fmDragSelectFirst) {
                     this.fmDragSelectFirst = this.thisFileFolderLink;
                     this.overFileFolder(this.thisFileFolderLink.indexOf('.') > 0 ? 'file' : 'folder', this.fmDragSelectFirst);
                     this.selectFileFolder(evt);
