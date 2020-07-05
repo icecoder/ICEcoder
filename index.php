@@ -50,10 +50,9 @@ $isMac = false !== strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : fal
 <link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/assets/css/resets.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/assets/css/icecoder.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/assets/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="<?php echo $iceURLPath . "/";
-echo "default" === $ICEcoder["theme"]
-    ? 'assets/css/editor.css'
-    : 'assets/css/theme/' . $ICEcoder["theme"] . '.css';
+<link rel="stylesheet" href="<?php
+echo $iceURLPath . "/assets/css/theme/";
+echo "default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css';
 echo "?microtime=".microtime(true);
 ?>">
 <link rel="icon" type="image/png" href="assets/images/favicon.png">

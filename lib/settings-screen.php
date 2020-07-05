@@ -21,12 +21,12 @@ $t = $text['settings-screen'];
 .cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
 </style>
 
-<link rel="stylesheet" href="../assets/css/editor.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="../assets/css/theme/icecoder.css?microtime=<?php echo microtime(true);?>">
 <?php
 $themeArray = array();
 $handle = opendir('../assets/css/theme/');
 while (false !== ($file = readdir($handle))) {
-	if ($file !== "." && $file != "..") {
+	if ($file !== "." && $file !== ".." && $file !== "icecoder.css") {
 		array_push($themeArray,basename($file,".css"));
 	}
 }

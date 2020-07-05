@@ -28,10 +28,9 @@ $versions = $fileCountInfo['count'];
 .cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.15)}
 </style>
 <link rel="stylesheet" href="<?php
-echo ($ICEcoder["theme"] === "default"
-    ? dirname(basename(__DIR__)).'/../assets/css/editor.css'
-    : '../assets/css/theme/'.$ICEcoder["theme"].'.css'
-) . "?microtime=".microtime(true);
+echo dirname(basename(__DIR__)) . '/../assets/css/theme/';
+echo $ICEcoder["theme"] === "default" ? 'icecoder.css': $ICEcoder["theme"] . '.css';
+echo "?microtime=".microtime(true);
 ?>">
 <link rel="stylesheet" href="../assets/css/foldgutter.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="../assets/css/simplescrollbars.css?microtime=<?php echo microtime(true);?>">

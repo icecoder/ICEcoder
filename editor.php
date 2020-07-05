@@ -41,7 +41,8 @@ if (true === file_exists(dirname(__FILE__)."/plugins/responsive-helper/responsiv
 	echo '<script src="plugins/responsive-helper/responsive-helper.js?microtime=' . microtime(true) . '"></script>';
 };?>
 <link rel="stylesheet" href="<?php
-if ("default" === $ICEcoder["theme"]) {echo dirname(basename(__DIR__)) . '/assets/css/editor.css';} else {echo 'assets/css/theme/' . $ICEcoder["theme"] . '.css';};
+echo dirname(basename(__DIR__)) . '/assets/css/theme/';
+echo "default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css';
 echo "?microtime=" . microtime(true);
 if (false !== array_search($ICEcoder["theme"], ["3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light"])) {
 	$activeLineBG = "#ccc";
