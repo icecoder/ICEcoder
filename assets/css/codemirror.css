@@ -40,6 +40,7 @@
 .CodeMirror-guttermarker-subtle { color: #999; }
 
 /* CURSOR */
+
 .CodeMirror-cursor {
     border-left: 1px solid black;
     border-right: none;
