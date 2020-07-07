@@ -1,5 +1,5 @@
 <?php
-$ICEcoderUserSettings = array(
+$ICEcoderUserSettings = [
 "versionNo"		=> "7.0",
 "licenseEmail"		=> "v7free@icecoder.net",
 "licenseCode"		=> "93be18fba1dee0e186031907422a0f8df3462568bfd0161e1504",
@@ -12,16 +12,16 @@ $ICEcoderUserSettings = array(
 "backupsKept"		=> true,
 "backupsDays"		=> 14,
 "deleteToTmp"		=> true,
-"findFilesExclude"	=> array(".doc",".gif",".jpg",".jpeg",".pdf",".png",".swf",".xml",".zip"),
+"findFilesExclude"	=> [".doc",".gif",".jpg",".jpeg",".pdf",".png",".swf",".xml",".zip"],
 "codeAssist"		=> true,
 "visibleTabs"		=> false,
 "lockedNav"		=> true,
 "tagWrapperCommand"	=> "ctrl+alt",
 "autoComplete"		=> "keypress",
 "password"		=> "",
-"bannedFiles"		=> array(),
-"bannedPaths"		=> array("/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"),
-"allowedIPs"		=> array("*"),
+"bannedFiles"		=> [],
+"bannedPaths"		=> ["/var/www/.git","/var/www/sites/all/modules","/var/www/sites/default/files"],
+"allowedIPs"		=> ["*"],
 "autoLogoutMins"	=> 0,
 "theme"			=> "default",
 "fontSize"		=> "13px",
@@ -36,14 +36,14 @@ $ICEcoderUserSettings = array(
 "indentSize"		=> 4,
 "pluginPanelAligned"	=> "left",
 "scrollbarStyle"	=> "overlay",
-"bugFilePaths"		=> array(),
+"bugFilePaths"		=> [],
 "bugFileCheckTimer"	=> 0,
 "bugFileMaxLines"	=> 0,
-"plugins"		=> array(),
-"ftpSites"		=> array(),
+"plugins"		=> [],
+"ftpSites"		=> [],
 "tutorialOnLogin"	=> true,
 "tipsOnLogin"	=> true,
 "previousFiles"		=> "",
 "last10Files"		=> "",
-"favoritePaths"		=> array()
-);
+"favoritePaths"		=> []
+];

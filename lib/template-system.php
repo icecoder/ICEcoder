@@ -1,7 +1,7 @@
 <?php
 $newConfigSettingsFile = '<?php
 // ICEcoder system settings
-$ICEcoderSettings = array(
+$ICEcoderSettings = [
 	"versionNo"		=> "7.0",
 	"docRoot"		=> $_SERVER[\'DOCUMENT_ROOT\'],	// Set absolute path of another location if needed
 	"demoMode"		=> false,
@@ -13,5 +13,5 @@ $ICEcoderSettings = array(
 	"newDirPerms"		=> 755,
 	"newFilePerms"		=> 644,
 	"enableRegistration"	=> true
-);
+];
 ?>';
