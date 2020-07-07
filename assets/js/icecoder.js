@@ -2028,7 +2028,7 @@ var ICEcoder = {
                 ));
             } catch(err) {
                 get("toolLinkOutput").className = "highlight error";
-                this.outputMsg('<div style="background: #b00; padding: 1px 3px; border-radius: 3px; font-family: monospace;">Syntax error in ' + this.openFiles[this.selectedTab - 1].replace(iceRoot, "") + '</div>\n' + err.message);
+                this.outputMsg('<div style="background: #b00; padding: 1px 3px; border-radius: 3px; font-family: monospace;">Syntax error in ' + this.openFiles[this.selectedTab - 1].replace(iceRoot, "") + '</div>\n' + err.message.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
             }
         }
         setTimeout(function() {
@@ -3718,7 +3718,11 @@ var ICEcoder = {
 
     // Show a message
     outputMsg: function(msg) {
-        this.output.innerHTML += msg + "<br>";
+        // If only placeholder, clear that
+        if ("<b>Output</b><br>via ICEcoder.output(message);<br><br>" === this.output.innerHTML) {
+            this.output.innerHTML = "";
+        }
+        this.output.innerHTML = msg + "<br><br>" + this.output.innerHTML + "<br><br>";
     },
 
     // Show a message
