@@ -2023,7 +2023,9 @@ var ICEcoder = {
                     this.getThisCM().getValue(),
                     {
                         parser: parser,
-                        plugins: prettierPlugins
+                        plugins: prettierPlugins,
+                        tabWidth: this.indentSize,
+                        useTabs: this.indentWithTabs
                     }
                 ));
             } catch(err) {
