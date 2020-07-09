@@ -1,4 +1,8 @@
 <?php
+require_once dirname(__FILE__) . "/../classes/Settings.php";
+
+$settingsClass = new \ICEcoder\Settings();
+
 if (false === isset($reqsPassed)) {
 	// Start off assuming all is fine with requirements
 	$reqsPassed = true;
@@ -17,15 +21,6 @@ if (false === isset($_SESSION) || "" === session_id()) {
 	array_push($reqsFailures, "phpSession");
 }
 
-// Check we can read config settings
-if (file_exists(dirname(__FILE__) . "/../data/config-settings.php")) {
-	include(dirname(__FILE__) . "/../data/config-settings.php");
-	if (false === isset($ICEcoderSettings['versionNo'])) {
-		$reqsPassed = false;
-		array_push($reqsFailures, "phpReadFile");
-	}
-}
-
 // Check we have allow_url_fopen enabled
 if (false === ini_get('allow_url_fopen')) {
     $reqsPassed = false;
@@ -38,7 +33,7 @@ if (false === $reqsPassed) {
 ?>
 <html>
 <head>
-<title>ICEcoder <?php echo $ICEcoderSettings['versionNo'];?> : Requirements problem!</title>
+<title>ICEcoder <?php echo $settingsClass->versionNo;?> : Requirements problem!</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -53,7 +48,7 @@ if (false === $reqsPassed) {
 	<div class="screenVCenter">
 		<div class="screenCenter">
 			<img src="assets/images/icecoder.png" alt="ICEcoder">
-			<div class="version" style="margin-bottom: 22px">v <?php echo $ICEcoderSettings['versionNo'];?></div>
+			<div class="version" style="margin-bottom: 22px">v <?php echo $settingsClass->versionNo;?></div>
 
 			<span style="display: inline-block; color: #fff">
 		        	<b style="padding: 5px; background: #b00; color: #fff">Requirements problem!</b><br><br><br><br>
@@ -65,15 +60,21 @@ if (false === $reqsPassed) {
 				if (true === in_array("phpSession", $reqsFailures)) {
 					echo "You don't appear to have a<br>working PHP session<br><br>";
 				}
+                if (true === in_array("phpCreateConfig", $reqsFailures)) {
+                    echo "Cannot create config file:<br>data/" . $settingsClass->getConfigGlobalFileDetails()['fileName'] . "<br>Please check write permissions<br>on data dir and reload page<br><br>";
+                }
+				if (true === in_array("phpFileExists", $reqsFailures)) {
+					echo "You don't seem to have<br>the config file<br><br>";
+				}
 				if (true === in_array("phpReadFile", $reqsFailures)) {
 					echo "You don't seem to be able<br>to read the config file<br><br>";
 				}
+                if (true === in_array("phpWriteFile", $reqsFailures)) {
+                    echo "You don't seem to be able<br>to write to the config file<br><br>";
+                }
                 if (true === in_array("phpAllowURLFOpen", $reqsFailures)) {
                     echo "You don't seem to have<br>allow_url_fopen enabled<br><br>";
                 }
-				if (true === in_array("phpCreateConfig", $reqsFailures)) {
-					echo "Cannot update config file:<br>data/".$configSettings."<br>Please check write permissions<br>on data dir and reload page<br><br>";
-				}
 				if (true === in_array("phpCreateSettings", $reqsFailures)) {
 					echo "Couldn't create:<br>data/$settingsFile<br>Maybe you need write<br>permissions on the data dir?<br><br>";
 				}

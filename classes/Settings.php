@@ -4,6 +4,83 @@ namespace ICEcoder;
 
 class Settings
 {
+    public function __construct()
+    {
+        // Set version number and document root as core settings
+        $this->versionNo = "7.0";
+        $this->docRoot = $_SERVER['DOCUMENT_ROOT'];
+    }
+
+    public function getConfigGlobalFileDetails()
+    {
+        // Return details about the global config file
+        $fileName = 'config-global.php';
+        $fullPath = dirname(__FILE__) . "/../data/" . $fileName;
+        $exists = file_exists($fullPath);
+        $readable = is_readable($fullPath);
+        $writable = is_writable($fullPath);
+        return [
+            "fileName" => $fileName,
+            "fullPath" => $fullPath,
+            "exists" => $exists,
+            "readable" => $readable,
+            "writable" => $writable,
+        ];
+    }
+
+    public function getConfigGlobalTemplate()
+    {
+        // Return the serialized global config template
+        $fileName = 'template-config-global.php';
+        $fullPath = dirname(__FILE__) . "/../lib/" . $fileName;
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($fullPath, true);
+        }
+        $settings = file_get_contents($fullPath);
+        return $settings;
+    }
+
+    public function getConfigGlobalSettings()
+    {
+        // Start an array with version number and document root
+        $settings = [];
+        $settings['versionNo'] = $this->versionNo;
+        $settings['docRoot'] = $this->docRoot;
+        // Get global config file details
+        $fullPath = $this->getConfigGlobalFileDetails()['fullPath'];
+        // Load serialized data from the global config and convert to an array
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($fullPath, true);
+        }
+        $settingsFromFile = file_get_contents($fullPath);
+        $settingsFromFile = str_replace("<?php\n/*\n\n", "", $settingsFromFile);
+        $settingsFromFile = str_replace("\n\n*/\n?>", "", $settingsFromFile);
+        $settingsFromFile = unserialize($settingsFromFile);
+        // Merge that with the array we started with and return
+        $settings = array_merge($settings, $settingsFromFile);
+        return $settings;
+    }
+
+    public function setConfigGlobalSettings($settings)
+    {
+        // Get the global config file details
+        $fullPath = $this->getConfigGlobalFileDetails()['fullPath'];
+        if ($fConfigSettings = fopen($fullPath, 'w')) {
+            // If the settings we've received aren't in serialized format yet, do that now
+            // As $settings could be a serialized string or array
+            if (is_array($settings)) {
+                unset($settings['versionNo']);
+                unset($settings['docRoot']);
+                $settings = "<?php\n/*\n\n" . serialize($settings) . "\n\n*/\n?" . ">";
+            }
+            // Now we have a serialized string, save it in the global config file
+            fwrite($fConfigSettings, $settings);
+            fclose($fConfigSettings);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function updateConfigCreateDate(): void
     {
@@ -74,20 +151,12 @@ class Settings
 
     public function disableFurtherRegistration(): void
     {
-        global $configSettings;
-
         // Disable the enableRegistration config setting if the user had that option chosen
         if (true === isset($_POST['disableFurtherRegistration'])) {
-            $updatedConfigSettingsFile = getData(dirname(__FILE__) . "/../data/" . $configSettings);
-            if ($fUConfigSettings = fopen(dirname(__FILE__) . "/../data/" . $configSettings, 'w')) {
-                $updatedConfigSettingsFile = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> false', $updatedConfigSettingsFile);
-                fwrite($fUConfigSettings, $updatedConfigSettingsFile);
-                fclose($fUConfigSettings);
-            } else {
-                $reqsPassed = false;
-                $reqsFailures = ["phpUpdateConfig"];
-                include dirname(__FILE__)."/../lib/requirements.php";
-            }
+            // Update global config settings file
+            $ICEcoderSettingsFromFile = $this->getConfigGlobalSettings();
+            $ICEcoderSettingsFromFile['enableRegistration'] = false;
+            $this->setConfigGlobalSettings($ICEcoderSettingsFromFile);
         }
     }
 }
