@@ -3,7 +3,7 @@ include "headers.php";
 include "settings.php";
 $t = $text['login'];
 
-$settingPW = $ICEcoderSettings["enableRegistration"] && ($ICEcoder["multiUser"] || "" === $ICEcoder["password"]);
+$settingPW = $ICEcoder["enableRegistration"] && ($ICEcoder["multiUser"] || "" === $ICEcoder["password"]);
 ?>
 <!DOCTYPE html>
 
@@ -48,16 +48,16 @@ echo $settingPW ? "Setup" : "Login";
 		<input type="submit" name="submit" value="<?php
 			// Multi-user
 			if ($ICEcoder["multiUser"]) {
-				echo $ICEcoderSettings["enableRegistration"] ? $t['set password'] . " / " . $t['login'] : $t['login'];
+				echo $ICEcoder["enableRegistration"] ? $t['set password'] . " / " . $t['login'] : $t['login'];
 			// Single-user
 			} else {
-				echo $ICEcoderSettings["enableRegistration"] && "" === $ICEcoder["password"] ? $t['set password'] : $t['login'];
+				echo $ICEcoder["enableRegistration"] && "" === $ICEcoder["password"] ? $t['set password'] : $t['login'];
 			}; ?>" class="button">
 		<?php
 			if(empty($_SERVER['HTTPS'])) {
 				echo '<div class="text">Using over non-https connection.<br>TLS is recommended!</div>';
 			}
-			if($ICEcoder["multiUser"] && $ICEcoderSettings["enableRegistration"]){
+			if($ICEcoder["multiUser"] && $ICEcoder["enableRegistration"]){
 				echo '<div class="text"><a href="javascript:alert(\'' . $t['To disable registration...'] . '\')">' . $t['Registration mode enabled'] . '</a></div>';
 			}
 		?>
