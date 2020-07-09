@@ -112,23 +112,11 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
 	// Do we need a file manager refresh?
 	$refreshFM = $_POST['changedFileSettings'] == "true" ? "true" : "false";
 
-	// Change multiUser and enableRegistration in config___settings.php
-	$generalSettingsContents = getData(dirname(__FILE__) . "/../data/" . $configSettings);
-	$isMultiUser = isset($_POST['multiUser']) && $_POST['multiUser'] ? "true" : "false";
-	$generalSettingsContents = str_replace('"multiUser"		=> true,', '"multiUser"		=> ' . $isMultiUser . ',', $generalSettingsContents);
-	$generalSettingsContents = str_replace('"multiUser"		=> false,', '"multiUser"		=> ' . $isMultiUser . ',', $generalSettingsContents);
-
-	$isEnableRegistration = isset($_POST['enableRegistration']) && $_POST['enableRegistration'] ? "true" : "false";
-	$generalSettingsContents = str_replace('"enableRegistration"	=> true', '"enableRegistration"	=> ' . $isEnableRegistration, $generalSettingsContents);
-	$generalSettingsContents = str_replace('"enableRegistration"	=> false', '"enableRegistration"	=> ' . $isEnableRegistration, $generalSettingsContents);
-
-	if (is_writeable(dirname(__FILE__) . "/../data/" . $configSettings)) {
-		$fConfigSettings = fopen(dirname(__FILE__)."/../data/" . $configSettings, 'w');
-		fwrite($fConfigSettings, $generalSettingsContents);
-		fclose($fConfigSettings);
-	} else {
-		echo "<script>parent.ICEcoder.message('" . $t['Cannot update config'] . " data/" . $configSettings . " " . $t['and try again'] . "');</script>";
-	}
+    // Update global config settings file
+    $ICEcoderSettingsFromFile = $settingsClass->getSystemConfigSettings();
+    $ICEcoderSettingsFromFile['multiUser'] = isset($_POST['multiUser']) && $_POST['multiUser'];
+    $ICEcoderSettingsFromFile['enableRegistration'] = isset($_POST['enableRegistration']) && $_POST['enableRegistration'];
+    $settingsClass->setSystemConfigSettings($ICEcoderSettingsFromFile);
 
 	// If we've changed langugage, reload ICEcoder now
 	if ($languageUserChanged) {
