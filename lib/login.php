@@ -58,7 +58,7 @@ echo $settingPW ? "Setup" : "Login";
 				echo '<div class="text">Using over non-https connection.<br>TLS is recommended!</div>';
 			}
 			if($ICEcoder["multiUser"] && $ICEcoder["enableRegistration"]){
-				echo '<div class="text"><a href="javascript:alert(\'' . $t['To disable registration...'] . '\')">' . $t['Registration mode enabled'] . '</a></div>';
+				echo '<div class="text">' . $t['Registration mode enabled'] . '</div>';
 			}
 		?>
 		<?php

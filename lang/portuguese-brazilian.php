@@ -299,11 +299,10 @@ $text = [
     [
         "set password"                             => "altera senha",
         "login"                                    => "login",
-        "To disable registration..."               => "Para desabilitar modo registro, acesse menu/configura&ccedil;&otilde;es ou em data/config-settings.php altere enableRegistration para false e recarregue esta p&atilde;gina",
         "Registration mode enabled"                => "Modo registro habilitado",
         "disable further registrations"            => "disable further registrations",
         "auto-check for updates"                   => "verificar atualiza&ccedil;&otilde;es auto.",
-        "To put into..."                           => "Para habilitar multi-usu&atilde;rios, acesse menu/configura&ccedil;&otilde;es ou em data/config-settings.php altere multiUser para true e recarregue esta p&atilde;gina",
+        "To put into..."                           => "Para entrar no modo multiusuário, primeiro faça login como administrador e vá para Configurações> Contas",
         "multi-user"                               => "multi-usu&atilde;rios",
     ],
 

@@ -299,11 +299,10 @@ $text = [
     [
         "set password"                             => "Passwort setzen",
         "login"                                    => "Login",
-        "To disable registration..."               => "Um den Registrierungsmodus zu deaktivieren, &ouml;ffne im Men&uuml; die Einstellungen oder die Datein data/config-settings.php und setze unter enableRegistration auf false, danach lade die Seite erneut.",
         "Registration mode enabled"                => "Registrierungsmodus aktiviert",
         "disable further registrations"            => "disable further registrations",
         "auto-check for updates"                   => "Automatisch nach Update suchen",
-        "To put into..."                           => "Um den Mehrbenutzermodus zu aktivieren, &ouml;ffne im Men&uuml; die Einstellungen oder die Datein data/config-settings.php und setze unter multiUser auf true, danach lade die Seite erneut",
+        "To put into..."                           => "Um in den Mehrbenutzermodus zu wechseln, melden Sie sich zuerst als Administrator an und gehen Sie zu Einstellungen> Konten",
         "multi-user"                               => "Mehrbenutzermodus",
     ],
 

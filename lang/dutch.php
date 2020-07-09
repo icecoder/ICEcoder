@@ -299,11 +299,10 @@ $text = [
     [
         "set password"                             => "sla wachtwoord op",
         "login"                                    => "login",
-        "To disable registration..."               => "Om de registratie modus uit te zetten, open het menu opties of open data/config-settings.php en wijzig enableRegistration naar false",
         "Registration mode enabled"                => "Registratie modus aan",
         "disable further registrations"            => "uitschakelen van verdere registraties",
         "auto-check for updates"                   => "automatisch controleren op updates",
-        "To put into..."                           => "Om de multi-user modus te gebruiken, open het menu opties of open data/config-settings.php en verander multiUser naar true",
+        "To put into..."                           => "Om in de multi-user modus te komen, log eerst in als een admin en ga naar Instellingen> Accounts",
         "multi-user"                               => "multi-user",
     ],
 

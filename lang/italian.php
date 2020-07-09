@@ -299,11 +299,10 @@ $text = [
     [
         "set password"                             => "imposta password",
         "login"                                    => "login",
-        "To disable registration..."               => "Per disattivare la modalità di registrazione, apri il menu delle impostazioni o aprire data/config-settings.php e cambia enableRegistration in false quindi ricarica questa pagina",
         "Registration mode enabled"                => "Modalità di registrazione abilitata",
         "disable further registrations"            => "disable further registrations",
         "auto-check for updates"                   => "auto-check per aggiornamenti",
-        "To put into..."                           => "Per mettere in modalità multi-utente, aprire il menu delle impostazioni o apri data/config-settings.php e cambiare multiutente su true quindi ricarica questa pagina",
+        "To put into..."                           => "Per attivare la modalità multiutente, accedi prima come amministratore e vai su Impostazioni> Account",
         "multi-user"                               => "multi-user",
     ],
 

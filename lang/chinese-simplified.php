@@ -299,11 +299,10 @@ $text = [
     [
         "set password"                             => "设置密码",
         "login"                                    => "登陆",
-        "To disable registration..."               => "要禁用注册模式, 请打开设置或打开文件 data/config-settings.php 并更改 enableRegistration 为 false , 并重新载入本页面",
         "Registration mode enabled"                => "注册模式已启用",
         "disable further registrations"            => "禁用远程的注册",
         "auto-check for updates"                   => "自动检测更新",
-        "To put into..."                           => "要禁用多用户模式, 请打开设置或打开文件 data/config-settings.php 并更改 multiUser 为 true , 并重新载入本页面",
+        "To put into..."                           => "要进入多用户模式，请先以管理员身份登录，然后转到“设置”>“帐户”",
         "multi-user"                               => "多用户"
     ],
 

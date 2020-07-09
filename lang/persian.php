@@ -299,11 +299,10 @@ $text = [
     [
         "set password"                             => "تنظیم واژه رمز",
         "login"                                    => "ورود",
-        "To disable registration..."               => "برای غیر فعال کردن حالت ثبت نام ، منوی تنظیمات را باز کنید و یا فایل data/config-settings.php را باز کنید و گزینه enableRegistration را به false تغییر دهید. سپس این صفحه را بارگذاری مجدد نمایید",
         "Registration mode enabled"                => "حالت ثبت نام فعال است",
         "disable further registrations"            => "disable further registrations",
         "auto-check for updates"                   => "بررسی خودکار برای به روز رسانی",
-        "To put into..."                           => "برای وارد شدن به حالت چند کاربره ، منوی تنظیمات را باز کنید و یا فایل data/config-settings.php و گزینه multiUser را به true تغییر دهید و و ذخیره کنید. سپس این صفحه را بارگذاری مجدد نمایید",
+        "To put into..."                           => "برای قرار دادن در حالت چند کاربر ، ابتدا به عنوان مدیر وارد شوید و به تنظیمات> حسابها بروید",
         "multi-user"                               => "چند کاربره",
     ],
 

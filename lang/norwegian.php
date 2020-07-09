@@ -299,11 +299,10 @@ $text = [
     [
         "set password"                             => "sett passord",
         "login"                                    => "logginn",
-        "To disable registration..."               => "Hvis du vil deaktivere registreringsmodus, åpne innstillingsmenyen eller åpne data/config-settings.php og endre/aktiver Påmelding til 'false', deretter laste siden om igjen",
         "Registration mode enabled"                => "Registreringsmodus aktivert",
         "disable further registrations"            => "disable further registrations",
         "auto-check for updates"                   => "auto-sjekk for oppdateringer",
-        "To put into..."                           => "Å sette til flerbrukermodus, åpne innstillingsmenyen eller åpne data/config-settings.php og endre flerbruker til 'true', deretter laste siden om igjen",
+        "To put into..."                           => "For å sette inn i flerbrukermodus må du først logge inn som administrator og gå til Innstillinger> Kontoer",
         "multi-user"                               => "flerbruker",
     ],
 
