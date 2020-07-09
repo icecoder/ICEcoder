@@ -178,7 +178,7 @@ function copyOverSettings($icvInfo) {
 			die("Cannot update config file data/".$configSettings.". Please check write permissions on data/ and try again");
 		}
 	}
-	transposeSettings(PATH."data/template-system.php","config-settings.php","config-settings.php");
+	transposeSettings(PATH."data/template-global-settings.php","config-global.php","config-global.php");
 
 	// Users template settings
 	echo 'Transposing users template settings...<br>';

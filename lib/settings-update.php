@@ -113,10 +113,10 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
 	$refreshFM = $_POST['changedFileSettings'] == "true" ? "true" : "false";
 
     // Update global config settings file
-    $ICEcoderSettingsFromFile = $settingsClass->getSystemConfigSettings();
+    $ICEcoderSettingsFromFile = $settingsClass->getConfigGlobalSettings();
     $ICEcoderSettingsFromFile['multiUser'] = isset($_POST['multiUser']) && $_POST['multiUser'];
     $ICEcoderSettingsFromFile['enableRegistration'] = isset($_POST['enableRegistration']) && $_POST['enableRegistration'];
-    $settingsClass->setSystemConfigSettings($ICEcoderSettingsFromFile);
+    $settingsClass->setConfigGlobalSettings($ICEcoderSettingsFromFile);
 
 	// If we've changed langugage, reload ICEcoder now
 	if ($languageUserChanged) {

@@ -1,6 +1,5 @@
 <?php
 // Establish settings and users template filenames
-$configSettings = 'config-settings.php';
 $configUsersTemplate = 'template-users.php';
 
 require_once dirname(__FILE__) . "/../classes/_ExtraProcesses.php";
@@ -14,22 +13,37 @@ $systemClass = new \ICEcoder\System();
 
 // Create a new config file if it doesn't exist yet.
 // The reason we create it, is so it has PHP write permissions, meaning we can update it later
-if (false === file_exists(dirname(__FILE__) . "/../data/" . $configSettings)) {
-    // Include our params to make use of (as $newConfigSettingsFile)
-    include dirname(__FILE__) . "/template-system.php";
-    if ($fConfigSettings = fopen(dirname(__FILE__) . "/../data/" . $configSettings, 'w')) {
-        fwrite($fConfigSettings, $newConfigSettingsFile);
-        fclose($fConfigSettings);
-    } else {
+if (false === $settingsClass->getConfigGlobalFileDetails()['exists']) {
+    if (false === $settingsClass->setConfigGlobalSettings($settingsClass->getConfigGlobalTemplate())) {
         $reqsPassed = false;
         $reqsFailures = ["phpCreateConfig"];
         include dirname(__FILE__) . "/requirements.php";
     }
 }
 
+// Check config settings file exists
+if (false === $settingsClass->getConfigGlobalFileDetails()['exists']) {
+    $reqsPassed = false;
+    $reqsFailures = ["phpFileExists"];
+    include dirname(__FILE__) . "/requirements.php";
+}
+
+// Check we can read config settings file
+if (false === $settingsClass->getConfigGlobalFileDetails()['readable']) {
+    $reqsPassed = false;
+    $reqsFailures = ["phpReadFile"];
+    include dirname(__FILE__) . "/requirements.php";
+}
+
+// Check we can write config settings file
+if (false === $settingsClass->getConfigGlobalFileDetails()['writable']) {
+    $reqsPassed = false;
+    $reqsFailures = ["phpWriteFile"];
+    include dirname(__FILE__) . "/requirements.php";
+}
+
 // Load config settings
-$systemClass->invalidateOPCache(dirname(__FILE__) . "/../data/" . $configSettings);
-include dirname(__FILE__) . "/../data/" . $configSettings;
+$ICEcoderSettings = $settingsClass->getConfigGlobalSettings();
 
 // Load common functions
 include_once dirname(__FILE__) . "/settings-common.php";
