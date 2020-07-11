@@ -14,7 +14,7 @@ if ($_SESSION['loggedIn']) {
             '<a href="' . $ICEcoder["plugins"][$i][3] .
             '" title="' . $ICEcoder["plugins"][$i][0] .
             '" target="' . $target[0] .
-            '"><img src="' . $iceURLPath . "/" . $ICEcoder["plugins"][$i][1] .
+            '"><img src="' . $ICEcoder["plugins"][$i][1] .
             '" style="' . $ICEcoder["plugins"][$i][2] .
             '" alt="' . $ICEcoder["plugins"][$i][0] .
             '"></a><br><br>';
