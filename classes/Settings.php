@@ -11,20 +11,41 @@ class Settings
         $this->docRoot = $_SERVER['DOCUMENT_ROOT'];
     }
 
+    public function getDataDirDetails()
+    {
+        clearstatcache();
+
+        // Return details about the data dir
+        $fullPath = dirname(__FILE__) . "/../data/";
+        $exists = file_exists($fullPath);
+        $readable = is_readable($fullPath);
+        $writable = is_writable($fullPath);
+        return [
+            "fullPath" => $fullPath,
+            "exists" => $exists,
+            "readable" => $readable,
+            "writable" => $writable,
+        ];
+    }
+
     public function getConfigGlobalFileDetails()
     {
+        clearstatcache();
+
         // Return details about the global config file
         $fileName = 'config-global.php';
         $fullPath = dirname(__FILE__) . "/../data/" . $fileName;
         $exists = file_exists($fullPath);
         $readable = is_readable($fullPath);
         $writable = is_writable($fullPath);
+        $filemtime = filemtime($fullPath);
         return [
             "fileName" => $fileName,
             "fullPath" => $fullPath,
             "exists" => $exists,
             "readable" => $readable,
             "writable" => $writable,
+            "filemtime" => $filemtime
         ];
     }
 
@@ -82,52 +103,96 @@ class Settings
         }
     }
 
-    public function updateConfigCreateDate(): void
+    public function getConfigUsersFileDetails($fileName)
     {
-        global $settingsFile, $ICEcoderUserSettings;
-
-        $settingsContents = getData(dirname(__FILE__) . "/../data/" . $settingsFile);
-        clearstatcache();
-        $configfilemtime = filemtime(dirname(__FILE__) . "/../data/" . $settingsFile);
-        // Make it a number (avoids null, undefined etc)
-        $configfilemtime = intval($configfilemtime);
-        // Set it to the epoch time now if we don't have a real value
-        if (0 === $configfilemtime) {
-            $configfilemtime = time();
-        }
-        $settingsContents = str_replace('"configCreateDate"	=> 0,', '"configCreateDate"	=> ' . $configfilemtime . ',', $settingsContents);
-        // Now update the config file
-        if (!$fh = fopen(dirname(__FILE__) . "/../data/" . $settingsFile, 'w')) {
-            $reqsPassed = false;
-            $reqsFailures = ["phpUpdateSettings"];
-            include dirname(__FILE__) . "/../lib/requirements.php";
-        }
-        fwrite($fh, $settingsContents);
-        fclose($fh);
-        // Set the new value in array
-        $ICEcoderUserSettings['configCreateDate'] = $configfilemtime;
+        // Return details about the users config file
+        $fullPath = dirname(__FILE__) . "/../data/" . $fileName;
+        $exists = file_exists($fullPath);
+        $readable = is_readable($fullPath);
+        $writable = is_writable($fullPath);
+        $filemtime = filemtime($fullPath);
+        return [
+            "fileName" => $fileName,
+            "fullPath" => $fullPath,
+            "exists" => $exists,
+            "readable" => $readable,
+            "writable" => $writable,
+            "filemtime" => $filemtime,
+        ];
     }
 
-    public function updatePasswordCheckUpdates(): void
+    public function getConfigUsersTemplate()
     {
-        global $settingsFile, $password;
-
-        $settingsContents = getData("../data/" . $settingsFile);
-        // Replace our empty password with the one submitted by user
-        $settingsContents = str_replace('"password"		=> "",','"password"		=> "' . $password . '",', $settingsContents);
-        // Also set the update checker preference
-        $checkUpdates = $_POST['checkUpdates'] == "true" ? "true" : "false";
-        // once to cover the true setting, once to cover false
-        $settingsContents = str_replace('"checkUpdates"		=> true,','"checkUpdates"		=> ' . $checkUpdates . ',', $settingsContents);
-        $settingsContents = str_replace('"checkUpdates"		=> false,','"checkUpdates"		=> ' . $checkUpdates . ',', $settingsContents);
-        // Now update the config file
-        if (!$fh = fopen(dirname(__FILE__) . "/../data/" . $settingsFile, 'w')) {
-            $reqsPassed = false;
-            $reqsFailures = ["phpUpdateSettings"];
-            include(dirname(__FILE__) . "/../lib/requirements.php");
+        // Return the serialized users config template
+        $fileName = 'template-config-users.php';
+        $fullPath = dirname(__FILE__) . "/../lib/" . $fileName;
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($fullPath, true);
         }
-        fwrite($fh, $settingsContents);
-        fclose($fh);
+        $settings = file_get_contents($fullPath);
+        return $settings;
+    }
+
+    public function getConfigUsersSettings($fileName)
+    {
+        // Get users config file details
+        $fullPath = $this->getConfigUsersFileDetails($fileName)['fullPath'];
+        // Load serialized data from the users config and convert to an array
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($fullPath, true);
+        }
+        $settingsFromFile = file_get_contents($fullPath);
+        $settingsFromFile = str_replace("<?php\n/*\n\n", "", $settingsFromFile);
+        $settingsFromFile = str_replace("\n\n*/\n?>", "", $settingsFromFile);
+        $settingsFromFile = unserialize($settingsFromFile);
+        // Now return
+        return $settingsFromFile;
+    }
+
+    public function setConfigUsersSettings($fileName, $settings)
+    {
+        // Get the users config file details
+        $fullPath = $this->getConfigUsersFileDetails($fileName)['fullPath'];
+        if ($fConfigSettings = fopen($fullPath, 'w')) {
+            // If the settings we've received aren't in serialized format yet, do that now
+            // As $settings could be a serialized string or array
+            if (is_array($settings)) {
+                $settings = "<?php\n/*\n\n" . serialize($settings) . "\n\n*/\n?" . ">";
+            }
+            // Now we have a serialized string, save it in the users config file
+            fwrite($fConfigSettings, $settings);
+            fclose($fConfigSettings);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function updateConfigUsersCreateDate($fileName): void
+    {
+        // Get users config file details
+        $filemtime = $this->getConfigUsersFileDetails($fileName)['filemtime'];
+        // Make it a number (avoids null, undefined etc)
+        $filemtime = intval($filemtime);
+        // Set it to the epoch time now if we don't have a real value
+        if (0 === $filemtime) {
+            $filemtime = time();
+        }
+        // Update users config settings file
+        $ICEcoderSettingsFromFile = $this->getConfigUsersSettings($fileName);
+        $ICEcoderSettingsFromFile['configCreateDate'] = $filemtime;
+        $this->setConfigUsersSettings($fileName, $ICEcoderSettingsFromFile);
+        // Set the new value in array
+        $ICEcoderUserSettings['configCreateDate'] = $filemtime;
+    }
+
+    public function updatePasswordCheckUpdates($fileName, $password, $checkUpdates): void
+    {
+        // Update users config settings file
+        $ICEcoderSettingsFromFile = $this->getConfigUsersSettings($fileName);
+        $ICEcoderSettingsFromFile['password'] = $password;
+        $ICEcoderSettingsFromFile['checkUpdates'] = $checkUpdates;
+        $this->setConfigUsersSettings($fileName, $ICEcoderSettingsFromFile);
     }
 
     public function createIPSettingsFileIfNotExist(): void
@@ -158,5 +223,29 @@ class Settings
             $ICEcoderSettingsFromFile['enableRegistration'] = false;
             $this->setConfigGlobalSettings($ICEcoderSettingsFromFile);
         }
+    }
+
+    public function turnOffTutorialOnLogin($fileName): bool
+    {
+        // Update users config settings file
+        $ICEcoderSettingsFromFile = $this->getConfigUsersSettings($fileName);
+        $ICEcoderSettingsFromFile['tutorialOnLogin'] = false;
+        return $this->setConfigUsersSettings($fileName, $ICEcoderSettingsFromFile);
+    }
+
+    public function savePreviousFiles($fileName, $files): bool
+    {
+        // Update users config settings file
+        $ICEcoderSettingsFromFile = $this->getConfigUsersSettings($fileName);
+        $ICEcoderSettingsFromFile['previousFiles'] = $files;
+        return $this->setConfigUsersSettings($fileName, $ICEcoderSettingsFromFile);
+    }
+
+    public function savelast10Files($fileName, $files): bool
+    {
+        // Update users config settings file
+        $ICEcoderSettingsFromFile = $this->getConfigUsersSettings($fileName);
+        $ICEcoderSettingsFromFile['last10Files'] = $files;
+        return $this->setConfigUsersSettings($fileName, $ICEcoderSettingsFromFile);
     }
 }
