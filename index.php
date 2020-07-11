@@ -115,9 +115,8 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 <body onload="<?php
 	echo "ICEcoder.versionNo = '" . $ICEcoder["versionNo"] . "';".
 		'ICEcoder.previousFiles = [';
-		if ($ICEcoder["previousFiles"] != "") {
-			$openFilesArray = explode(",", $ICEcoder["previousFiles"]);
-			echo "'" . implode("','", $openFilesArray) . "'";
+		if (false === empty($ICEcoder["previousFiles"])) {
+			echo "'" . implode("','", $ICEcoder["previousFiles"]) . "'";
 		}
 	echo "];";
 	echo "ICEcoder.theme = '" . ("default" === $ICEcoder["theme"] ? 'icecoder' : $ICEcoder["theme"]) . "';" .
@@ -134,7 +133,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		"ICEcoder.matchBrackets = " . ($ICEcoder["matchBrackets"] ? 'true' : 'false') . ";" .
 		"ICEcoder.autoCloseTags = " . ($ICEcoder["autoCloseTags"] ? 'true' : 'false') . ";" .
 		"ICEcoder.autoCloseBrackets = " . ($ICEcoder["autoCloseBrackets"] ? 'true' : 'false') . ";" .
-		"ICEcoder.indentWithTabs = " . ($ICEcoder["indentWithTabs"] ? 'true' : 'false') . ";" .
+		"ICEcoder.indentType = '" . $ICEcoder["indentType"] . "';" .
 		"ICEcoder.indentAuto = " . ($ICEcoder["indentAuto"] ? 'true' : 'false') . ";" .
 		"ICEcoder.indentSize = " . $ICEcoder["indentSize"] . ";" .
 		"ICEcoder.scrollbarStyle = '" . $ICEcoder["scrollbarStyle"] . "';" .
