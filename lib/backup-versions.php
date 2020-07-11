@@ -99,7 +99,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	foldGutter: {gutter: "CodeMirror-foldgutter"},
 	foldOptions: {minFoldSize: 1},
 	lineWrapping: parent.ICEcoder.lineWrapping,
-	indentWithTabs: parent.ICEcoder.indentWithTabs,
+	indentWithTabs: "tabs" === parent.ICEcoder.indentType,
 	indentUnit: parent.ICEcoder.indentSize,
 	tabSize: parent.ICEcoder.indentSize,
 	matchBrackets: parent.ICEcoder.matchBrackets,
