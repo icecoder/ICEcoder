@@ -1,7 +1,4 @@
 <?php
-// Establish settings and users template filenames
-$configUsersTemplate = 'template-users.php';
-
 require_once dirname(__FILE__) . "/../classes/_ExtraProcesses.php";
 require_once dirname(__FILE__) . "/../classes/Settings.php";
 require_once dirname(__FILE__) . "/../classes/System.php";
@@ -10,6 +7,24 @@ use ICEcoder\ExtraProcesses;
 
 $settingsClass = new \ICEcoder\Settings();
 $systemClass = new \ICEcoder\System();
+
+if (false === $settingsClass->getDataDirDetails()['exists']) {
+    $reqsPassed = false;
+    $reqsFailures = ["phpDataDirDoesntExist"];
+    include dirname(__FILE__) . "/requirements.php";
+}
+
+if (false === $settingsClass->getDataDirDetails()['readable']) {
+    $reqsPassed = false;
+    $reqsFailures = ["phpDataDirNotReadable"];
+    include dirname(__FILE__) . "/requirements.php";
+}
+
+if (false === $settingsClass->getDataDirDetails()['writable']) {
+    $reqsPassed = false;
+    $reqsFailures = ["phpDataDirNotWritable"];
+    include dirname(__FILE__) . "/requirements.php";
+}
 
 // Create a new config file if it doesn't exist yet.
 // The reason we create it, is so it has PHP write permissions, meaning we can update it later
@@ -42,7 +57,7 @@ if (false === $settingsClass->getConfigGlobalFileDetails()['writable']) {
     include dirname(__FILE__) . "/requirements.php";
 }
 
-// Load config settings
+// Load global config settings
 $ICEcoderSettings = $settingsClass->getConfigGlobalSettings();
 
 // Load common functions
@@ -58,33 +73,28 @@ $settingsFile = 'config-' . $username . str_replace(".", "_", str_replace("www."
 $setPWorLogin = "login";
 
 // Create user settings file if it doesn't exist
-if (false === file_exists(dirname(__FILE__) . "/../data/" . $settingsFile) && $ICEcoderSettings['enableRegistration']) {
-    if (false === copy(dirname(__FILE__) . "/" . $configUsersTemplate, dirname(__FILE__) . "/../data/" . $settingsFile)) {
+if (true === $ICEcoderSettings['enableRegistration'] && false === $settingsClass->getConfigUsersFileDetails($settingsFile)['exists']) {
+    if (false === $settingsClass->setConfigUsersSettings($settingsFile, $settingsClass->getConfigUsersTemplate())) {
         $reqsPassed = false;
-        $reqsFailures = ["phpCreateSettings"];
+        $reqsFailures = ["phpCreateConfig"];
         include dirname(__FILE__) . "/requirements.php";
     }
     $setPWorLogin = "set password";
 }
 
-// Load user settings
-$systemClass->invalidateOPCache(dirname(__FILE__) . "/../data/" . $settingsFile);
-include dirname(__FILE__) . "/../data/" . $settingsFile;
+// Load users config settings
+$ICEcoderUserSettings = $settingsClass->getConfigUsersSettings($settingsFile);
 
 // Remove any previous files that are no longer there
-$prevFiles = explode(",", $ICEcoderUserSettings['previousFiles']);
-$prevFilesAvail = "";
-for ($i = 0; $i < count($prevFiles); $i++) {
-    if (true === file_exists(str_replace("|", "/", $prevFiles[$i]))) {
-        $prevFilesAvail .= $prevFiles[$i] . ",";
+for ($i = 0; $i < count($ICEcoderUserSettings['previousFiles']); $i++) {
+    if (false === file_exists(str_replace("|", "/", $ICEcoderUserSettings['previousFiles'][$i]))) {
+        unset($ICEcoderUserSettings['previousFiles'][$i]);
     }
 }
-$prevFilesAvail = rtrim($prevFilesAvail, ",");
-$ICEcoderUserSettings['previousFiles'] = $prevFilesAvail;
 
 // Replace our config created date with the filemtime?
 if ("index.php" === basename($_SERVER['SCRIPT_NAME']) && 0 === $ICEcoderUserSettings['configCreateDate']) {
-    $settingsClass->updateConfigCreateDate();
+    $settingsClass->updateConfigUsersCreateDate($settingsFile);
 }
 
 // On mismatch of settings file to system, rename to .old and reload
@@ -208,8 +218,8 @@ if (false === isset($_POST['password']) && (!$_SESSION['loggedIn'] || "" === $IC
 } elseif (!$_SESSION['loggedIn']) {
     // If the password hasn't been set and we're setting it
     if ("" === $ICEcoder["password"] && true === isset($_POST['submit']) && -1 < strpos($_POST['submit'],"set password")) {
-        $password = str_replace("\$", "\\$", generateHash($_POST['password']));
-        $settingsClass->updatePasswordCheckUpdates();
+        $password = generateHash($_POST['password']);
+        $settingsClass->updatePasswordCheckUpdates($settingsFile, $password, $_POST['checkUpdates']);
         $settingsClass->createIPSettingsFileIfNotExist();
         $settingsClass->disableFurtherRegistration();
         // Set the session user level
