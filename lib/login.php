@@ -68,7 +68,7 @@ echo $settingPW ? "Setup" : "Login";
 		if ("" === $ICEcoder["password"] || true === $ICEcoder["multiUser"]) {
 			echo '<div class="text" style="position: relative"><input type="checkbox" name="checkUpdates" value="true" style="position: absolute; margin: -1px 0 0 -20px" checked> ' . $t['auto-check for updates'] . '</div>';
 		}
-		if (false === $ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\'' . $t['To put into...'] . '\')">' . $t['multi-user'] . '?</a></div>';};
+		if (false === $ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\'' . $t['To put into...'] . '\'); document.settingsUpdate.' . $inputFocus . '.focus();">' . $t['multi-user'] . '?</a></div>';};
 		?>
 		<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
