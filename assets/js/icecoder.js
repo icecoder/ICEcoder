@@ -2025,7 +2025,7 @@ var ICEcoder = {
                         parser: parser,
                         plugins: prettierPlugins,
                         tabWidth: this.indentSize,
-                        useTabs: this.indentWithTabs
+                        useTabs: "tabs" === this.indentType
                     }
                 ));
             } catch(err) {
@@ -3501,7 +3501,7 @@ var ICEcoder = {
     },
 
     // Update the settings used when we make a change to them
-    useNewSettings: function(themeURL,codeAssist,lockedNav,tagWrapperCommand,autoComplete,visibleTabs,fontSize,lineWrapping,lineNumbers,showTrailingSpace,matchBrackets,autoCloseTags,autoCloseBrackets,indentWithTabs,indentAuto,indentSize,pluginPanelAligned,scrollbarStyle,bugFilePaths,bugFileCheckTimer,bugFileMaxLines,updateDiffOnSave,autoLogoutMins,refreshFM) {
+    useNewSettings: function(themeURL,codeAssist,lockedNav,tagWrapperCommand,autoComplete,visibleTabs,fontSize,lineWrapping,lineNumbers,showTrailingSpace,matchBrackets,autoCloseTags,autoCloseBrackets,indentType,indentAuto,indentSize,pluginPanelAligned,scrollbarStyle,bugFilePaths,bugFileCheckTimer,bugFileMaxLines,updateDiffOnSave,autoLogoutMins,refreshFM) {
         var styleNode, thisCSS, strCSS, activeLineBG;
 
         // cut out ?microtime= at the end
@@ -3564,7 +3564,7 @@ var ICEcoder = {
         this.matchBrackets = matchBrackets;
         this.autoCloseTags = autoCloseTags;
         this.autoCloseBrackets = autoCloseBrackets;
-        this.indentWithTabs = indentWithTabs;
+        this.indentType = indentType;
         this.indentSize = indentSize;
         this.indentAuto = indentAuto;
         this.scrollbarStyle = scrollbarStyle;
@@ -3576,7 +3576,7 @@ var ICEcoder = {
             this.content.contentWindow['cM'+this.cMInstances[i]].setOption("matchBrackets", this.matchBrackets);
             this.content.contentWindow['cM'+this.cMInstances[i]].setOption("autoCloseTags", this.autoCloseTags);
             this.content.contentWindow['cM'+this.cMInstances[i]].setOption("autoCloseBrackets", this.autoCloseBrackets);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("indentWithTabs", this.indentWithTabs);
+            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("indentWithTabs", "tabs" === this.indentType);
             this.content.contentWindow['cM'+this.cMInstances[i]].setOption("indentUnit", this.indentSize);
             this.content.contentWindow['cM'+this.cMInstances[i]].setOption("tabSize", this.indentSize);
             this.content.contentWindow['cM'+this.cMInstances[i]].setOption("scrollbarStyle", this.scrollbarStyle);
@@ -3588,7 +3588,7 @@ var ICEcoder = {
             this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("matchBrackets", this.matchBrackets);
             this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("autoCloseTags", this.autoCloseTags);
             this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("autoCloseBrackets", this.autoCloseBrackets);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("indentWithTabs", this.indentWithTabs);
+            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("indentWithTabs", "tabs" === this.indentType);
             this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("indentUnit", this.indentSize);
             this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("tabSize", this.indentSize);
             this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("scrollbarStyle", this.scrollbarStyle);
