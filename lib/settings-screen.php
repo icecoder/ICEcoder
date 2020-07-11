@@ -15,7 +15,7 @@ $t = $text['settings-screen'];
 <script src="../assets/js/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 
 <style type="text/css">
-.CodeMirror {position: absolute; width: 409px; height: 180px; font-size: <?php echo $ICEcoder["fontSize"];?>; transition: font-size 0.25s ease}
+.CodeMirror {position: absolute; width: 309px; height: 180px; font-size: <?php echo $ICEcoder["fontSize"];?>; transition: font-size 0.25s ease}
 .CodeMirror-scroll {overflow: hidden}
 /* Make sure this next one remains the 3rd item, updated with JS */
 .cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
@@ -190,7 +190,7 @@ if (true === isset($_GET['tab'])) {
 
 <div id="styleSection" class="section" style="display: none">
 
-	<div style="display: inline-block; width: 400px; margin-right: 35px">
+	<div style="display: inline-block; width: 300px; margin-right: 35px">
 		<div style="height: 220px">
 			<h2>preview</h2><br>
 			<textarea id="code" name="code">
@@ -221,7 +221,7 @@ function findSequence(goal) {
 	</div><div style="display: inline-block">
 		<h2><?php echo $t['style'];?></h2><br>
 		<?php echo $t['theme'];?><br>
-		<select onchange="selectTheme();showButton()" id="select" name="theme" style="width: 95px">
+		<select onchange="selectTheme();showButton()" id="select" name="theme" style="width: 145px">
 		    <option<?php if ($ICEcoder["theme"]=="default") {echo ' selected';}; ?>>default</option>
 		<?php
 		for ($i=0;$i<count($themeArray);$i++) {
@@ -232,7 +232,7 @@ function findSequence(goal) {
 		</select>
 		<br><br>
 
-		<div style="display: inline-block; width: 95px">
+		<div style="display: inline-block; width: 145px">
 			<?php echo $t['font size'];?><br>
 			<input type="text" name="fontSize" id="fontSize" style="width: 44px" onkeydown="showButton()" onkeyup="changeFontSize()" value="<?php echo $ICEcoder["fontSize"];?>">
 		</div><div style="display: inline-block">
@@ -241,40 +241,24 @@ function findSequence(goal) {
 		</div>
 		<br><br>
 
-		<div style="display: inline-block; width: 95px">
-			<?php echo $t['match brackets'];?><br>
-			<select onchange="showButton()" name="matchBrackets">
-				<option value="true"<?php if($ICEcoder["matchBrackets"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["matchBrackets"]) {echo " selected";};?>>no</option>
-			</select>
+		<div style="display: inline-block; width: 145px">
+            <input type="checkbox" onclick="showButton()" name="matchBrackets" value="true"<?php if($ICEcoder["matchBrackets"]) {echo ' checked';};?>> <?php echo $t['match brackets'];?><br>
 		</div><div style="display: inline-block">
-			<?php echo $t['show trailing space'];?><br>
-			<select onchange="showButton()" name="showTrailingSpace">
-				<option value="true"<?php if($ICEcoder["showTrailingSpace"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["showTrailingSpace"]) {echo " selected";};?>>no</option>
-			</select>
+            <input type="checkbox" onclick="showButton()" name="showTrailingSpace" value="true"<?php if($ICEcoder["showTrailingSpace"]) {echo ' checked';};?>> <?php echo $t['show trailing space'];?><br>
 		</div>
-		<br><br>
+        <br>
 
-		<input type="checkbox" onclick="showButton();showHideTabs()" name="visibleTabs" value="true"<?php if($ICEcoder["visibleTabs"]) {echo ' checked';};?>> <?php echo $t['visible tabs'];?>
-		<br><br>
-
-		<div style="display: inline-block; width: 95px">
-			<?php echo $t['line wrapping'];?><br>
-			<select onchange="showButton()" name="lineWrapping">
-				<option value="true"<?php if($ICEcoder["lineWrapping"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["lineWrapping"]) {echo " selected";};?>>no</option>
-			</select>
+		<div style="display: inline-block; width: 145px">
+            <input type="checkbox" onclick="showButton()" name="lineWrapping" value="true"<?php if($ICEcoder["lineWrapping"]) {echo ' checked';};?>> <?php echo $t['line wrapping'];?><br>
 		</div><div style="display: inline-block">
-			<?php echo $t['line numbers'];?><br>
-			<select onchange="changeLineNumbersToggle();showButton()" name="lineNumbers" id="lineNumbers">
-				<option value="true"<?php if($ICEcoder["lineNumbers"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["lineNumbers"]) {echo " selected";};?>>no</option>
-			</select>
+            <input type="checkbox" onclick="showButton()" name="lineNumbers" value="true"<?php if($ICEcoder["lineNumbers"]) {echo ' checked';};?>> <?php echo $t['line numbers'];?><br>
 		</div>
-			<br><br>
+		<br>
 
-        <div style="display: inline-block; width: 95px">
+        <input type="checkbox" onclick="showButton();showHideTabs()" name="visibleTabs" value="true"<?php if($ICEcoder["visibleTabs"]) {echo ' checked';};?>> <?php echo $t['visible tabs'];?>
+        <br><br>
+
+        <div style="display: inline-block; width: 145px">
             <?php echo $t['scrollbars'];?><br>
             <select onchange="changescrollbarStyle(); showButton()" name="scrollbarStyle" id="scrollbarStyle">
                 <option value="overlay"<?php if($ICEcoder["scrollbarStyle"] === "overlay") {echo " selected";};?>>overlay</option>
@@ -286,32 +270,18 @@ function findSequence(goal) {
 
 		<h2><?php echo $t['functionality'];?></h2><br>
 
-		<div style="display: inline-block; width: 95px">
+		<div style="display: inline-block; width: 145px">
 			<?php echo $t['indent type'];?><br>
-			<select onchange="showButton()" name="indentWithTabs">
-				<option value="true"<?php if($ICEcoder["indentWithTabs"]) {echo " selected";};?>>tabs</option>
-				<option value="false"<?php if(!$ICEcoder["indentWithTabs"]) {echo " selected";};?>>spaces</option>
+			<select onchange="showButton()" name="indentType">
+				<option value="spaces"<?php if($ICEcoder["indentType"] === "spaces") {echo " selected";};?>>spaces</option>
+				<option value="tabs"<?php if($ICEcoder["indentType"] === "tabs") {echo " selected";};?>>tabs</option>
 			</select>
 			<br><br>
 
-			<?php echo $t['auto indent'];?><br>
-			<select onchange="showButton()" name="indentAuto">
-				<option value="true"<?php if($ICEcoder["indentAuto"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["indentAuto"]) {echo " selected";};?>>no</option>
-			</select>
 		</div><div style="display: inline-block">
-			<?php echo $t['auto close tags'];?><br>
-			<select onchange="showButton()" name="autoCloseTags">
-				<option value="true"<?php if($ICEcoder["autoCloseTags"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["autoCloseTags"]) {echo " selected";};?>>no</option>
-			</select>
-			<br><br>
-
-			<?php echo $t['auto close brackets'];?><br>
-			<select onchange="showButton()" name="autoCloseBrackets">
-				<option value="true"<?php if($ICEcoder["autoCloseBrackets"]) {echo " selected";};?>>yes</option>
-				<option value="false"<?php if(!$ICEcoder["autoCloseBrackets"]) {echo " selected";};?>>no</option>
-			</select>
+            <input type="checkbox" onclick="showButton()" name="indentAuto" value="true"<?php if($ICEcoder["indentAuto"]) {echo ' checked';};?>> <?php echo $t['auto indent'];?><br>
+            <input type="checkbox" onclick="showButton()" name="autoCloseTags" value="true"<?php if($ICEcoder["autoCloseTags"]) {echo ' checked';};?>> <?php echo $t['auto close tags'];?><br>
+            <input type="checkbox" onclick="showButton()" name="autoCloseBrackets" value="true"<?php if($ICEcoder["autoCloseBrackets"]) {echo ' checked';};?>> <?php echo $t['auto close brackets'];?><br>
 		</div>
 		<br><br>
 
@@ -340,6 +310,12 @@ function findSequence(goal) {
 		}
 		echo ' onclick="showButton()" id="enableRegistration"> '.$t['Registration'].' </input>';
 	?>
+
+    <br><br>
+
+    <input type="checkbox" onclick="showButton()" name="tutorialOnLogin" value="true"<?php if($ICEcoder["tutorialOnLogin"]) {echo ' checked';};?>> Tutorial on Login<br><br>
+
+    <input type="checkbox" onclick="showButton()" name="tipsOnLogin" value="true"<?php if($ICEcoder["tipsOnLogin"]) {echo ' checked';};?>> Tips on Login (Coming soon)<br><br>
 </div>
 
 <div id="securitySection" class="section" style="display: none">
