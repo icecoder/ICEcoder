@@ -26,16 +26,13 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 			$inLast10Files = in_array($saveFilesArray[$i], $ICEcoder["last10Files"]);
 			if (false === $inLast10Files && "" !== $saveFilesArray[$i]) {
                 $ICEcoder["last10Files"][] = $saveFilesArray[$i];
-                echo "<script>console.log(".count($saveFilesArray).count($ICEcoder["last10Files"]).");</script>";
 				if (10 <= count($ICEcoder["last10Files"])) {
-				    $ICEcoder["last10Files"] = array_slice($ICEcoder["last10Files"], 0, 10);
+				    $ICEcoder["last10Files"] = array_slice($ICEcoder["last10Files"], -10, 10);
 				};
 				// Now update the config file
 				if (false === $settingsClass->saveLast10Files($settingsFile, $ICEcoder["last10Files"])) {
 					echo "<script>parent.parent.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
-				} else {
-                    echo "<script>console.log(".$ICEcoder["last10Files"][$i].");</script>";
-                }
+				}
 			}
 		}
 	}

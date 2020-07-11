@@ -3417,9 +3417,9 @@ var ICEcoder = {
                 // If the innerHTML of that doesn't contain our new item, we can insert it
                 if(last10Files.innerHTML.indexOf(newFile) == -1) {
                     // Get the last 10 files list, pop the last one off and add newFile at start
-                    last10FilesList = last10Files.innerHTML.split("\n");
+                    last10FilesList = last10Files.innerHTML.split("\n");;
                     if (
-                        last10FilesList.length >= 10 ||													// No more than 10
+                        last10FilesList.length > 8 ||													// No more than 8 + 1 we're about to add
                         last10FilesList[0] == '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">[none]</div><br><br>' ||	// Clear out placeholder
                         last10FilesList[last10FilesList.length-1] == ""											// No empty array items
                     ) {

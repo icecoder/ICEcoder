@@ -134,7 +134,7 @@ h2 {color: rgba(0,198,255,0.7)}
             if (empty($ICEcoder["last10Files"])) {
                 echo '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">' . $t['none'] . '</div><br>';
             } else {
-                for ($i = 0; $i < count($ICEcoder["last10Files"]); $i++) {
+                for ($i = count($ICEcoder["last10Files"]) - 1; $i >= 0; $i--) {
                     $fileFolderName = str_replace("\\", "/", $ICEcoder["last10Files"][$i]);
                     // Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
                     $ext = "ext-" . pathinfo($docRoot . $iceRoot . $fileFolderName, PATHINFO_EXTENSION);
@@ -142,7 +142,7 @@ h2 {color: rgba(0,198,255,0.7)}
                     echo '<a style="cursor:pointer" onClick="parent.ICEcoder.openFile(\'' . str_replace($docRoot, "", str_replace("|", "/", $ICEcoder["last10Files"][$i])) . '\')">';
                     echo str_replace($docRoot, "", str_replace("|", "/", $ICEcoder["last10Files"][$i]));
                     echo '</a></li>';
-                    if ($i < count($ICEcoder["last10Files"]) - 1) {
+                    if ($i > 0) {
                         echo PHP_EOL;
                     };
                 }
