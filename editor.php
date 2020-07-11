@@ -131,20 +131,21 @@ h2 {color: rgba(0,198,255,0.7)}
 		<h2><?php echo $t['files'];?></h2>
 		<span class="heading"><?php echo $t['Last 10 files...'];?></span><br>
 		<ul class="fileManager" id="last10Files" style="margin-left: 0; line-height: 20px"><?php
-			$last10FilesArray = explode(",", $ICEcoder["last10Files"]);
-			for ($i = 0; $i < count($last10FilesArray); $i++) {
-				if ($ICEcoder["last10Files"] == "") {
-					echo '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">' . $t['none'] . '</div><br>';
-				} else {
-					$fileFolderName = str_replace("\\", "/", $last10FilesArray[$i]);
-					// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
-					$ext = "ext-" . pathinfo($docRoot . $iceRoot . $fileFolderName, PATHINFO_EXTENSION);
-					echo '<li class="pft-file ' . strtolower($ext) . '" style="margin-left: -21px">';
-					echo '<a style="cursor:pointer" onClick="parent.ICEcoder.openFile(\'' . str_replace($docRoot, "", str_replace("|", "/", $last10FilesArray[$i])) . '\')">';
-					echo str_replace($docRoot, "", str_replace("|", "/", $last10FilesArray[$i]));
-					echo '</a></li>';
-					if ($i < count($last10FilesArray) - 1) {echo PHP_EOL;};
-				}
+            if (empty($ICEcoder["last10Files"])) {
+                echo '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">' . $t['none'] . '</div><br>';
+            } else {
+                for ($i = 0; $i < count($ICEcoder["last10Files"]); $i++) {
+                    $fileFolderName = str_replace("\\", "/", $ICEcoder["last10Files"][$i]);
+                    // Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
+                    $ext = "ext-" . pathinfo($docRoot . $iceRoot . $fileFolderName, PATHINFO_EXTENSION);
+                    echo '<li class="pft-file ' . strtolower($ext) . '" style="margin-left: -21px">';
+                    echo '<a style="cursor:pointer" onClick="parent.ICEcoder.openFile(\'' . str_replace($docRoot, "", str_replace("|", "/", $ICEcoder["last10Files"][$i])) . '\')">';
+                    echo str_replace($docRoot, "", str_replace("|", "/", $ICEcoder["last10Files"][$i]));
+                    echo '</a></li>';
+                    if ($i < count($ICEcoder["last10Files"]) - 1) {
+                        echo PHP_EOL;
+                    };
+                }
 			}
 		;?></ul>
         <?php
@@ -199,9 +200,9 @@ CodeMirror.keyMap.ICEcoder = {
 (function(){
 	// let's back up original insertTab function which actually puts
 	var originalInsertTabFunction = CodeMirror.commands.insertTab;
-	// and replace it with our own, which branches on whether our ICEcoder.indentWithTabs value is true or false
+	// and replace it with our own, which branches on whether our ICEcoder.indentType value is "tabs"
 	CodeMirror.commands.insertTab = function(cm){
-		if (parent.ICEcoder.indentWithTabs){
+		if ("tabs" === parent.ICEcoder.indentType){
 			// if it is true, then we should still put there, let's use original function
 			return originalInsertTabFunction(cm);
 		} else {
@@ -215,6 +216,8 @@ function createNewCMInstance(num) {
 	// Establish the filename for the tab
 	var fileName = parent.ICEcoder.openFiles[parent.ICEcoder.selectedTab - 1];
 
+	var indentWithTabs = "tabs" === parent.ICEcoder.indentType;
+
 	// Define our CodeMirror options
 	var cMOptions = {
 		mode: "application/x-httpd-php",
@@ -223,7 +226,7 @@ function createNewCMInstance(num) {
 		foldGutter: {gutter: "CodeMirror-foldgutter"},
 		foldOptions: {minFoldSize: 1},
 		lineWrapping: parent.ICEcoder.lineWrapping,
-		indentWithTabs: parent.ICEcoder.indentWithTabs,
+		indentWithTabs: true,
 		indentUnit: parent.ICEcoder.indentSize,
 		tabSize: parent.ICEcoder.indentSize,
 		matchBrackets: parent.ICEcoder.matchBrackets,
