@@ -1,4 +1,8 @@
 <?php
+require_once dirname(__FILE__) . "/../classes/Settings.php";
+
+$settingsClass = new \ICEcoder\Settings();
+
 include "headers.php";
 include "settings.php";
 $t = $text['plugins-manager'];
@@ -12,10 +16,6 @@ $pluginsData = json_decode($pluginsDataJS, true);
 
 // If we have an action to perform
 if (false === $demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_GET['action'])) {
-
-    // Get our old plugin & user settings
-    $oldPlugins = $ICEcoder["plugins"];
-    $settingsContents = getData("../data/" . $settingsFile);
 
     // ==========
     // INSTALLING
@@ -61,32 +61,14 @@ if (false === $demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
         // Remove the tmp zip file
         unlink($zipFile);
 
-        // Start creating a new chunk for the plugins settings
-        $settingsNew = '"plugins"		=> array(';
-
-        // Set all the old plugins
-        for ($i = 0; $i < count($oldPlugins); $i++) {
-            $settingsNew .=
-                '	array("' .
-                $oldPlugins[$i][0] . '","' .
-                $oldPlugins[$i][1] . '","' .
-                $oldPlugins[$i][2] . '","' .
-                $oldPlugins[$i][3] . '","' .
-                $oldPlugins[$i][4] . '","' .
-                $oldPlugins[$i][5] .
-                '"),';
-        }
-        // Then add the new one
-        $settingsNew .=
-            '			array("' .
-            $pluginsData[$_GET['plugin']]['name'] . '","' .
-            $pluginsData[$_GET['plugin']]['icon'] . '","' .
-            $pluginsData[$_GET['plugin']]['style'] . '","' .
-            $pluginsData[$_GET['plugin']]['URL'] . '","' .
-            $pluginsData[$_GET['plugin']]['target'] . '","' .
-            $pluginsData[$_GET['plugin']]['timer'] .
-            '")';
-        $settingsNew .= '	),' . PHP_EOL;
+        $ICEcoder["plugins"][] = [
+            $pluginsData[$_GET['plugin']]['name'],
+            $pluginsData[$_GET['plugin']]['icon'],
+            $pluginsData[$_GET['plugin']]['style'],
+            $pluginsData[$_GET['plugin']]['URL'],
+            $pluginsData[$_GET['plugin']]['target'],
+            $pluginsData[$_GET['plugin']]['timer']
+        ];
     }
 
     // ============
@@ -94,28 +76,12 @@ if (false === $demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
     // ============
 
     if ("uninstall" === $_GET['action']) {
-
-        // Start creating a new chunk for the plugins settings
-        $settingsNew = '"plugins"		=> array(';
-
-        // Set all the old plugins
-        for ($i = 0; $i < count($oldPlugins); $i++) {
-            // As long as it's not the one we want to remove
-            if ($oldPlugins[$i][0] !== $pluginsData[$_GET['plugin']]['name']) {
-                $settingsNew .=
-                    '	array("' .
-                    $oldPlugins[$i][0] . '","' .
-                    $oldPlugins[$i][1] . '","' .
-                    $oldPlugins[$i][2] . '","' .
-                    $oldPlugins[$i][3] . '","' .
-                    $oldPlugins[$i][4] . '","' .
-                    $oldPlugins[$i][5] .
-                    '"),';
+        // Remove the old plugin
+        for ($i = 0; $i < count($ICEcoder["plugins"]); $i++) {
+            if ($ICEcoder["plugins"][$i][0] === $pluginsData[$_GET['plugin']]['name']) {
+                unset($ICEcoder["plugins"][$i]);
             }
         }
-        // Rtrim off the last comma
-        $settingsNew = rtrim($settingsNew, ',');
-        $settingsNew .= '	),' . PHP_EOL;
 
         // Finally, delete the plugin itself
         $target = '../plugins/';
@@ -128,48 +94,25 @@ if (false === $demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
     // ========
 
     if ("update" === $_GET['action']) {
-
-        // Start creating a new chunk for the plugins settings
-        $settingsNew = '"plugins"		=> array(';
-
         // Redo the arrays using the form data
-        for ($i = 0; $i < count($oldPlugins); $i++) {
+        for ($i = 0; $i < count($ICEcoder["plugins"]); $i++) {
             $timer = intval($_POST['timer' . $i]);
             if ($timer == 0) {
                 $timer = "";
             }
-            $settingsNew .=
-                '	array("' .
-                $_POST['name' . $i] . '","' .
-                $_POST['icon' . $i] . '","' .
-                $_POST['style' . $i] . '","' .
-                $_POST['URL' . $i] . '","' .
-                $_POST['target' . $i] . '","' .
-                $timer .
-                '"),';
+            $ICEcoder["plugins"][] = [
+                $_POST['name' . $i],
+                $_POST['icon' . $i],
+                $_POST['style' . $i],
+                $_POST['URL' . $i],
+                $_POST['target' . $i],
+                $timer
+            ];
         }
-        // Rtrim off the last comma
-        $settingsNew = rtrim($settingsNew, ',');
-        $settingsNew .= '	),' . PHP_EOL;
     }
 
-    // Now we have a new settingsNew string to use and files installed/uninstalled
-    // we can update the plugin arrays in the settings file
-
-    // Identify the bit to replace
-    $repPosStart = strpos($settingsContents, '"plugins"');
-    $repPosEnd = strpos($settingsContents, '"ftpSites"');
-
-    // Compile our new settings
-    $settingsContents = substr($settingsContents, 0, $repPosStart) .
-        $settingsNew .
-        substr($settingsContents, $repPosEnd, strlen($settingsContents));
-
     // Now update the config file
-    if (is_writeable("../data/".$settingsFile)) {
-        $fh = fopen("../data/".$settingsFile, 'w');
-        fwrite($fh, $settingsContents);
-        fclose($fh);
+    if (true === $settingsClass->updatePlugins($settingsFile, $ICEcoder['plugins'])) {
         // Finally, reload ICEcoder itself if plugin requires it or just the iFrame screen for the user if it doesn't
         if ("install" === $_GET['action'] && "true" === $pluginsData[$_GET['plugin']]['reload']) {
             echo "<script>if (confirm('" . $t['ICEcoder needs to...'] . "')) {parent.window.location.reload(true);} else {window.location='plugins-manager.php?updatedPlugins&csrf=' + parent.ICEcoder.csrf;}</script>";

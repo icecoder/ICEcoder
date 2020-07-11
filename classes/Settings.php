@@ -248,4 +248,12 @@ class Settings
         $ICEcoderSettingsFromFile['last10Files'] = $files;
         return $this->setConfigUsersSettings($fileName, $ICEcoderSettingsFromFile);
     }
+
+    public function updatePlugins($fileName, $plugins): bool
+    {
+        // Update users config settings file
+        $ICEcoderSettingsFromFile = $this->getConfigUsersSettings($fileName);
+        $ICEcoderSettingsFromFile['plugins'] = $plugins;
+        return $this->setConfigUsersSettings($fileName, $ICEcoderSettingsFromFile);
+    }
 }
