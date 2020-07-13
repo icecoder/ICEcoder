@@ -248,12 +248,15 @@ if (!$error && "move" === $_GET['action']) {
                     $fileOrFolder = is_dir($docRoot . $fileLoc . "/" . $fileName) ? "folder" : "file";
                     $fileClass->updateFileManager('move', $fileLoc, $fileName, '', str_replace($iceRoot, "", str_replace("|", "/", $_GET['oldFileName'])), '', $fileOrFolder);
                     $doNext .= 'tabNum = ICEcoder.openFiles.indexOf(\'' . str_replace("|", "/", $_GET['oldFileName']) . '\') + 1; if (0 < tabNum) {ICEcoder.renameTab(tabNum, \'' . $fileLoc . "/" . $fileName . '\');};';
+                    $finalAction = "move";
+                    // Run any extra processes
+                    $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
+                    $doNext = $extraProcessesClass->onFileDirMove($doNext);
+                } else {
+                    $doNext .= "ICEcoder.message('" . $t['Sorry, cannot move'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
+                    $finalAction = "nothing";
                 }
             }
-            $finalAction = "move";
-            // Run any extra processes
-            $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
-            $doNext = $extraProcessesClass->onFileDirMove($doNext);
         } else {
             $doNext .= "ICEcoder.message('" . $t['Sorry, cannot move'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
             $finalAction = "nothing";
@@ -290,12 +293,12 @@ if (!$error && "rename" === $_GET['action']) {
                 $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
                 $doNext = $extraProcessesClass->onFileDirRename($doNext);
             } else {
-                $doNext .= "ICEcoder.message('".$t['Sorry, cannot rename'] . "\\\\n" . $_GET['oldFileName'] . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
+                $doNext .= "ICEcoder.message('".$t['Sorry, cannot rename'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['does not seem...'] . "');";
                 $finalAction = "nothing";
             }
         }
     } else {
-        $doNext .= "ICEcoder.message('".$t['Sorry, cannot rename'] . "\\\\n" . $_GET['oldFileName'] . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
+        $doNext .= "ICEcoder.message('".$t['Sorry, cannot rename'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
         $finalAction = "nothing";
     }
     $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';

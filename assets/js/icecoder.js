@@ -2078,7 +2078,6 @@ var ICEcoder = {
         let i, closeTabLink, fileName;
 
         if (newName && newName !== oldName) {
-            i = this.openFiles.indexOf(oldName.replace(/\|/g, "/"));
             if (this.ask("Are you sure you want to move file " + oldName + " to " + newName + " ?")){
                 this.serverQueue("add", iceLoc + "/lib/file-control.php?action=move&oldFileName=" + encodeURIComponent(oldName.replace(/\//g, "|")) + "&csrf=" + this.csrf, encodeURIComponent(newName.replace(/\//g, "|")));
                 this.serverMessage('<b>' + t['Moving to'] + '</b><br>' + newName);
