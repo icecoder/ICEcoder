@@ -1446,6 +1446,7 @@ var ICEcoder = {
             fileExt = fileExt[fileExt.length - 1];
             caretLocType =
                 fileExt === "js" ? "JavaScript"
+              : fileExt === "json" ? "JavaScript"
               : fileExt === "coffee" ? "CoffeeScript"
               : fileExt === "ts" ? "TypeScript"
               : fileExt === "py" ? "Python"

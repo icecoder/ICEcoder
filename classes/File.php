@@ -141,7 +141,7 @@ class File
                     $finfo = "other";
                 };
             }
-            if (0 === strpos($finfo, "text") || 0 === strpos($finfo, "application/xml") || false !== strpos($finfo, "empty")) {
+            if (0 === strpos($finfo, "text") || 0 === strpos($finfo, "application/json") || 0 === strpos($finfo, "application/xml") || false !== strpos($finfo, "empty")) {
                 echo 'fileType="text";';
 
                 // Get file over FTP?
