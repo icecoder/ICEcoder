@@ -297,7 +297,6 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		</div>
 	</div>
 	<iframe id="filesFrame" class="frame" name="ff" src="<?php echo $iceURLPath;?>/files.php" style="opacity: 0" onLoad="this.style.opacity = '1'; this.contentWindow.onscroll = function(){ICEcoder.mouseDown = false; ICEcoder.mouseDownInCM = false}"></iframe>
-	<div class="serverMessage" id="serverMessage"></div>
 
     <div class="tools" id="tools">
         <div onclick="ICEcoder.toolShowHideToggle('terminal')" id="toolLinkTerminal">Terminal</div>
@@ -376,6 +375,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 
 <div class="footer" id="footer" oncontextmenu="return false">
 	<div class="versionsDisplay" id="versionsDisplay" onclick="ICEcoder.versionsScreen(ICEcoder.openFiles[ICEcoder.selectedTab - 1].replace(/\//g, '|'))"></div>
+    <div class="serverMessage" id="serverMessage"></div>
 	<div class="splitPaneControls" id="splitPaneControls"><div class="off" id="splitPaneControlsOff" title="<?php echo $t['Single pane'];?>" onclick="ICEcoder.setSplitPane('off')" style="opacity: 0.5"></div><div class="on" id="splitPaneControlsOn" title="<?php echo $t['Diff pane also'];?>" onclick="ICEcoder.setSplitPane('on')" style="opacity: 0.2"></div></div>
 	<div class="splitPaneNames" id="splitPaneNamesMain">Main Pane</div>
 	<div class="splitPaneNames" id="splitPaneNamesDiff">Diff Pane</div>

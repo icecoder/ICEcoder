@@ -326,7 +326,7 @@ class File
 							xhr.open("POST",saveURL,true);
 							xhr.setRequestHeader(\'Content-type\', \'application/x-www-form-urlencoded\');
 							xhr.send(\'timeStart=' . numClean($_POST["timeStart"]) . '&file=' . $fileURL . '&newFileName=\' + newFileName.replace(/\\\+/g, "%2B") + \'&contents=\' + encodeURIComponent(ICEcoder.saveAsContent));
-							ICEcoder.serverMessage("<b>' . $t['Saving'] . '</b><br>" + "'.("Save" === $finalAction ? "newFileName" : "'" . $fileName . "'") . '");
+							ICEcoder.serverMessage("<b>' . $t['Saving'] . '</b> " + "'.("Save" === $finalAction ? "newFileName" : "'" . $fileName . "'") . '");
 						}
 					}
 				}, 10);' .
