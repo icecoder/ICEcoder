@@ -226,7 +226,7 @@ function createNewCMInstance(num) {
 		foldGutter: {gutter: "CodeMirror-foldgutter"},
 		foldOptions: {minFoldSize: 1},
 		lineWrapping: parent.ICEcoder.lineWrapping,
-		indentWithTabs: true,
+		indentWithTabs: indentWithTabs,
 		indentUnit: parent.ICEcoder.indentSize,
 		tabSize: parent.ICEcoder.indentSize,
 		matchBrackets: parent.ICEcoder.matchBrackets,

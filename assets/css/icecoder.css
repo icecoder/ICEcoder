@@ -14,7 +14,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .popupVCenter .popup {#position: relative; #top: -50%; text-align: center; color: #fff; font-size: 10px}
 .floatingContainer {position: absolute; top: 0; left: 0; width: 55px; height: 55px; visibility: hidden; border: solid 1px #444; image-rendering: pixelated}
 .floatingContainer:before {position: absolute; display: inline-block; width: 3px; height: 3px; left: 25px; top: 25px; content: ''; border: solid 1px #b00}
-.whiteGlow {box-shadow: 0 0 8px 2px rgba(255,255,255,0.6)}
 
 .spinner {width: 50px; height: 50px; margin: 20px auto; background: #fff;
     -webkit-animation: rotateplane 1.2s infinite ease-in-out;
@@ -61,7 +60,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .options .optionsList ul {list-style-type: none; line-height: 24px}
 .files .options .optionsList a {color: #666; text-decoration: none}
 .files .options .optionsList a:hover {color: #fff; cursor: pointer}
-.files input:focus, .password:focus {outline: 0; box-shadow: 0 0 10px 1px rgba(0,198,255,0.7)}
+.files input:focus, .password:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
 .files .button {position: absolute; border: 0; background: #444; color: #eee; height: 20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
 .files .button:hover {background-color: #1d1d1b; color: #eee}
 .files .frame {display: inline-block; width: 250px; margin-top: 24px}
@@ -134,7 +133,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 
 .footer {position: fixed; display: inline-block; width: 100%; height: 30px; bottom: 0; background-color: rgba(0,0,0,0.15); left: 0; z-index: 1}
 .footer .versionsDisplay {position: absolute; display: inline-block; padding: 5px; margin-top: 3px; left: 275px; color: #fff; transition: opacity 0.2s; z-index: 2; cursor: pointer}
-.footer .serverMessage {position: absolute; display: inline-block; padding: 5px; margin-top: 3px; left: 250px; color: #fff; transition: opacity 0.2s; z-index: 1}
+.footer .serverMessage {position: absolute; display: inline-block; padding: 5px; margin-top: 3px; left: 275px; color: #fff; transition: opacity 0.2s; z-index: 1}
 .footer .splitPaneControls {position: absolute; display: inline-block; width: 50px; text-align: center; padding: 6px}
 .footer .splitPaneControls .off {display: inline-block; width: 18px; height: 18px; margin-right: 10px; background: url('../images/split-pane-controls.gif') no-repeat 0 0; cursor: pointer}
 .footer .splitPaneControls .on {display: inline-block; width: 19px; height: 18px; background: url('../images/split-pane-controls.gif') no-repeat -18px 0; cursor: pointer}
@@ -158,5 +157,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .screenCenter .text input {margin-top: 1px}
 .screenCenter .text a {position: relative; display: block; margin-top: 15px; font-size: 10px; color: #888; text-decoration: none}
 .screenCenter .password {border: 0; background-color: #333; color: #fff; height: 20px}
+.screenCenter .password:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
 .screenCenter .button {border: 0; background: #444; color: #eee; height: 22px; cursor: pointer}
 .screenCenter .button:hover {background: #2187e7; color: #eee}

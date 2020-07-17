@@ -29,8 +29,6 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
 	// Prepare all our vars
     $updatedSettings = [
         "versionNo"          => $currentSettings['versionNo'],
-        "licenseEmail"       => $currentSettings['licenseEmail'],
-        "licenseCode"        => $currentSettings['licenseCode'],
         "configCreateDate"   => $currentSettings['configCreateDate'],
         "root"               => xssClean($_POST['root'], "html"),
         "checkUpdates"       => isset($_POST['checkUpdates']) && $_POST['checkUpdates'],
@@ -102,10 +100,13 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
 	$refreshFM = $_POST['changedFileSettings'] == "true" ? "true" : "false";
 
     // Update global config settings file
+    $ICEcoderGlobalFileName = $settingsClass->getConfigGlobalFileDetails()['fileName'];
     $ICEcoderSettingsFromFile = $settingsClass->getConfigGlobalSettings();
     $ICEcoderSettingsFromFile['multiUser'] = isset($_POST['multiUser']) && $_POST['multiUser'];
     $ICEcoderSettingsFromFile['enableRegistration'] = isset($_POST['enableRegistration']) && $_POST['enableRegistration'];
-    $settingsClass->setConfigGlobalSettings($ICEcoderSettingsFromFile);
+    if (false === $settingsClass->setConfigGlobalSettings($ICEcoderSettingsFromFile)) {
+        echo "<script>parent.ICEcoder.message('" . $t['Cannot update config'] . " data/" . $ICEcoderGlobalFileName . " " . $t['and try again'] . "');</script>";
+    }
 
 	// If we've changed language, reload ICEcoder now
 	if ($languageUserChanged) {

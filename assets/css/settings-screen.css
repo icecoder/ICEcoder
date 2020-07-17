@@ -38,12 +38,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .settings .tabContainer .tabActive {background: #1c1c19}
 .settings .section {width: 640px; height: 450px; padding: 20px; margin-top: 10px; float: left}
 .settings input, .settings textarea {border: 1px solid #555; background-color: #444; color: #fff}
-.settings input:focus, .settings textarea:focus {
-    outline: none;
-    -webkit-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
-    -moz-box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
-    box-shadow: 0 0 10px 1px rgba(0,198,255,0.7);
-}
+.settings input:focus, .settings textarea:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
 .settings input[type="text"]:disabled {opacity: 0.5}
 .settings .info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}
 .settings .update {position: absolute; bottom: 0; right: 20px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); opacity: 0.1; cursor: pointer}

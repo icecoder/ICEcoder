@@ -28,6 +28,18 @@ class Settings
         ];
     }
 
+    public function getConfigGlobalTemplate()
+    {
+        // Return the serialized global config template
+        $fileName = 'template-config-global.php';
+        $fullPath = dirname(__FILE__) . "/../lib/" . $fileName;
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($fullPath, true);
+        }
+        $settings = file_get_contents($fullPath);
+        return $settings;
+    }
+
     public function getConfigGlobalFileDetails()
     {
         clearstatcache();
@@ -47,18 +59,6 @@ class Settings
             "writable" => $writable,
             "filemtime" => $filemtime
         ];
-    }
-
-    public function getConfigGlobalTemplate()
-    {
-        // Return the serialized global config template
-        $fileName = 'template-config-global.php';
-        $fullPath = dirname(__FILE__) . "/../lib/" . $fileName;
-        if (function_exists('opcache_invalidate')) {
-            opcache_invalidate($fullPath, true);
-        }
-        $settings = file_get_contents($fullPath);
-        return $settings;
     }
 
     public function getConfigGlobalSettings()
@@ -103,6 +103,18 @@ class Settings
         }
     }
 
+    public function getConfigUsersTemplate()
+    {
+        // Return the serialized users config template
+        $fileName = 'template-config-users.php';
+        $fullPath = dirname(__FILE__) . "/../lib/" . $fileName;
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($fullPath, true);
+        }
+        $settings = file_get_contents($fullPath);
+        return $settings;
+    }
+
     public function getConfigUsersFileDetails($fileName)
     {
         // Return details about the users config file
@@ -119,18 +131,6 @@ class Settings
             "writable" => $writable,
             "filemtime" => $filemtime,
         ];
-    }
-
-    public function getConfigUsersTemplate()
-    {
-        // Return the serialized users config template
-        $fileName = 'template-config-users.php';
-        $fullPath = dirname(__FILE__) . "/../lib/" . $fileName;
-        if (function_exists('opcache_invalidate')) {
-            opcache_invalidate($fullPath, true);
-        }
-        $settings = file_get_contents($fullPath);
-        return $settings;
     }
 
     public function getConfigUsersSettings($fileName)
@@ -170,6 +170,8 @@ class Settings
 
     public function updateConfigUsersCreateDate($fileName): void
     {
+        global $ICEcoderUserSettings;
+
         // Get users config file details
         $filemtime = $this->getConfigUsersFileDetails($fileName)['filemtime'];
         // Make it a number (avoids null, undefined etc)
