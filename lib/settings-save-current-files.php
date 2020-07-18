@@ -18,7 +18,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 			}
 		}
 		// Now update the config file
-		if (false === $settingsClass->savePreviousFiles($settingsFile, $saveFilesArray)) {
+		if (false === $settingsClass->updateConfigUsersSettings($settingsFile, ["previousFiles" => $saveFilesArray])) {
 			echo "<script>parent.parent.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 		}
 		// Update our last10Files var?
@@ -30,7 +30,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 				    $ICEcoder["last10Files"] = array_slice($ICEcoder["last10Files"], -10, 10);
 				};
 				// Now update the config file
-				if (false === $settingsClass->saveLast10Files($settingsFile, $ICEcoder["last10Files"])) {
+				if (false === $settingsClass->updateConfigUsersSettings($settingsFile, ['last10Files' => $ICEcoder["last10Files"]])) {
 					echo "<script>parent.parent.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
 				}
 			}

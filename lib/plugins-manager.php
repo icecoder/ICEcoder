@@ -112,7 +112,7 @@ if (false === $demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
     }
 
     // Now update the config file
-    if (true === $settingsClass->updatePlugins($settingsFile, $ICEcoder['plugins'])) {
+    if (true === $settingsClass->updateConfigUsersSettings($settingsFile, ["plugins" => $ICEcoder['plugins']])) {
         // Finally, reload ICEcoder itself if plugin requires it or just the iFrame screen for the user if it doesn't
         if ("install" === $_GET['action'] && "true" === $pluginsData[$_GET['plugin']]['reload']) {
             echo "<script>if (confirm('" . $t['ICEcoder needs to...'] . "')) {parent.window.location.reload(true);} else {window.location='plugins-manager.php?updatedPlugins&csrf=' + parent.ICEcoder.csrf;}</script>";

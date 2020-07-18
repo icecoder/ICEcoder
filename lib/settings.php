@@ -8,52 +8,46 @@ use ICEcoder\ExtraProcesses;
 $settingsClass = new \ICEcoder\Settings();
 $systemClass = new \ICEcoder\System();
 
+// Check data dir exists, is readable and writable
 if (false === $settingsClass->getDataDirDetails()['exists']) {
-    $reqsPassed = false;
     $reqsFailures = ["phpDataDirDoesntExist"];
     include dirname(__FILE__) . "/requirements.php";
 }
 
 if (false === $settingsClass->getDataDirDetails()['readable']) {
-    $reqsPassed = false;
     $reqsFailures = ["phpDataDirNotReadable"];
     include dirname(__FILE__) . "/requirements.php";
 }
 
 if (false === $settingsClass->getDataDirDetails()['writable']) {
-    $reqsPassed = false;
     $reqsFailures = ["phpDataDirNotWritable"];
     include dirname(__FILE__) . "/requirements.php";
 }
 
-// Create a new config file if it doesn't exist yet.
+// Create a new global config file if it doesn't exist yet.
 // The reason we create it, is so it has PHP write permissions, meaning we can update it later
 if (false === $settingsClass->getConfigGlobalFileDetails()['exists']) {
     if (false === $settingsClass->setConfigGlobalSettings($settingsClass->getConfigGlobalTemplate())) {
-        $reqsPassed = false;
-        $reqsFailures = ["phpCreateConfig"];
+        $reqsFailures = ["phpGlobalConfigFileCreate"];
         include dirname(__FILE__) . "/requirements.php";
     }
 }
 
-// Check config settings file exists
+// Check global config settings file exists
 if (false === $settingsClass->getConfigGlobalFileDetails()['exists']) {
-    $reqsPassed = false;
-    $reqsFailures = ["phpFileExists"];
+    $reqsFailures = ["phpGlobalConfigFileExists"];
     include dirname(__FILE__) . "/requirements.php";
 }
 
-// Check we can read config settings file
+// Check we can read global config settings file
 if (false === $settingsClass->getConfigGlobalFileDetails()['readable']) {
-    $reqsPassed = false;
-    $reqsFailures = ["phpReadFile"];
+    $reqsFailures = ["phpGlobalConfigReadFile"];
     include dirname(__FILE__) . "/requirements.php";
 }
 
-// Check we can write config settings file
+// Check we can write global config settings file
 if (false === $settingsClass->getConfigGlobalFileDetails()['writable']) {
-    $reqsPassed = false;
-    $reqsFailures = ["phpWriteFile"];
+    $reqsFailures = ["phpGlobalConfigWriteFile"];
     include dirname(__FILE__) . "/requirements.php";
 }
 
@@ -75,11 +69,28 @@ $setPWorLogin = "login";
 // Create user settings file if it doesn't exist
 if (true === $ICEcoderSettings['enableRegistration'] && false === $settingsClass->getConfigUsersFileDetails($settingsFile)['exists']) {
     if (false === $settingsClass->setConfigUsersSettings($settingsFile, $settingsClass->getConfigUsersTemplate())) {
-        $reqsPassed = false;
-        $reqsFailures = ["phpCreateConfig"];
+        $reqsFailures = ["phpUsersConfigCreateConfig"];
         include dirname(__FILE__) . "/requirements.php";
     }
     $setPWorLogin = "set password";
+}
+
+// Check users config settings file exists
+if (false === $settingsClass->getConfigUsersFileDetails($settingsFile)['exists']) {
+    $reqsFailures = ["phpUsersConfigFileExists"];
+    include dirname(__FILE__) . "/requirements.php";
+}
+
+// Check we can read users config settings file
+if (false === $settingsClass->getConfigUsersFileDetails($settingsFile)['readable']) {
+    $reqsFailures = ["phpUsersConfigReadFile"];
+    include dirname(__FILE__) . "/requirements.php";
+}
+
+// Check we can write users config settings file
+if (false === $settingsClass->getConfigUsersFileDetails($settingsFile)['writable']) {
+    $reqsFailures = ["phpUsersConfigWriteFile"];
+    include dirname(__FILE__) . "/requirements.php";
 }
 
 // Load users config settings
@@ -98,14 +109,12 @@ if ("index.php" === basename($_SERVER['SCRIPT_NAME']) && 0 === $ICEcoderUserSett
 }
 
 // On mismatch of settings file to system, rename to .old and reload
-If ($ICEcoderUserSettings["versionNo"] != $ICEcoderSettings["versionNo"]) {
-    rename(dirname(__FILE__) . "/../data/" . $settingsFile, dirname(__FILE__) . "/../data/" . str_replace(".php", ".old", $settingsFile));
-    header("Location: settings.php");
-    echo "<script>window.location = 'settings.php';</script>";
-    die('Found old settings file, reloading...');
+If ($ICEcoderUserSettings["versionNo"] !== $ICEcoderSettings["versionNo"]) {
+    $reqsFailures = ["phpUsersConfigVersionMismatch"];
+    include dirname(__FILE__) . "/requirements.php";
 }
 
-// Join ICEcoder settings and user settings together to make our final ICEcoder array
+// Join ICEcoder global config settings and user config settings together to make our final ICEcoder array
 $ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
 
 // Include language file
@@ -124,7 +133,7 @@ if ((false === $ICEcoder['loginRequired'] || true === $ICEcoder['demoMode']) && 
 };
 $demoMode = $ICEcoder['demoMode'];
 
-// Update this config file?
+// Update global config and users config files?
 include dirname(__FILE__) . "/settings-update.php";
 
 // Set loggedIn and username to false if not set as yet
@@ -151,10 +160,6 @@ if (true === isset($_POST['submit']) && "login" === $setPWorLogin) {
     }
 };
 
-// Re-establish our loggedIn state and username
-$_SESSION['loggedIn'] = $_SESSION['loggedIn'];
-$_SESSION['username'] = $_SESSION['username'];
-
 // Define the serverType, docRoot & iceRoot
 $serverType = $systemClass->getOS();
 $docRoot = rtrim(str_replace("\\", "/", $ICEcoder['docRoot']));
@@ -169,7 +174,7 @@ $rootPrefix = '/' . str_replace("/", "\/", preg_quote(str_replace("\\", "/", $do
 $ICEcoderDir = preg_replace($rootPrefix, '', $ICEcoderDirFullPath, 1);
 
 // Setup our file security vars
-$settingsArray = array("findFilesExclude", "bannedFiles", "allowedIPs");
+$settingsArray = ["findFilesExclude", "bannedFiles", "allowedIPs"];
 for ($i = 0; $i < count($settingsArray); $i++) {
     if (false === isset($_SESSION[$settingsArray[$i]])) {
         $_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]];
@@ -179,10 +184,8 @@ for ($i = 0; $i < count($settingsArray); $i++) {
 // Check IP permissions
 if (false === in_array(getUserIP(), $_SESSION['allowedIPs']) && false === in_array("*", $_SESSION['allowedIPs'])) {
     header('Location: /');
-    $reqsPassed = false;
     $reqsFailures = ["systemIPRestriction"];
     include(dirname(__FILE__) . "/requirements.php");
-    exit;
 };
 
 // Establish any FTP site to use
@@ -217,11 +220,13 @@ if (false === isset($_POST['password']) && (!$_SESSION['loggedIn'] || "" === $IC
 // If we are on the login screen and not logged in
 } elseif (!$_SESSION['loggedIn']) {
     // If the password hasn't been set and we're setting it
-    if ("" === $ICEcoder["password"] && true === isset($_POST['submit']) && -1 < strpos($_POST['submit'],"set password")) {
+    if ("" === $ICEcoder["password"] && true === isset($_POST['submit']) && -1 < strpos($_POST['submit'], "set password")) {
         $password = generateHash($_POST['password']);
-        $settingsClass->updatePasswordCheckUpdates($settingsFile, $password, $_POST['checkUpdates']);
+        $settingsClass->updateConfigUsersSettings($settingsFile, ["password" => $password, "checkUpdates" => $_POST["checkUpdates"]]);
         $settingsClass->createIPSettingsFileIfNotExist();
-        $settingsClass->disableFurtherRegistration();
+        if (true === isset($_POST['disableFurtherRegistration'])) {
+            $settingsClass->updateConfigGlobalSettings(['enableRegistration' => false]);
+        }
         // Set the session user level
         if ($ICEcoder["multiUser"]) {
             $_SESSION['username'] = $_POST['username'];

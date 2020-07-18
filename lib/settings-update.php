@@ -13,7 +13,7 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
 ) {
 	// Just updating tutorialOnLogin setting
 	if (true === isset($_GET['action']) && "turnOffTutorialOnLogin" === $_GET['action']) {
-        if (true === $settingsClass->turnOffTutorialOnLogin($settingsFile)) {
+        if (true === $settingsClass->updateConfigUsersSettings($settingsFile, ['tutorialOnLogin' => false])) {
             $ICEcoder['tutorialOnLogin'] = false;
         } else {
             echo "<script>parent.ICEcoder.message('" . $t['Cannot update config'] . " data/" . $settingsFile . " " . $t['and try again'] . "');</script>";
