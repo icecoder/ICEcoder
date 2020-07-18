@@ -78,14 +78,7 @@ class Settings
         $settings['docRoot'] = $this->docRoot;
         // Get global config file details
         $fullPath = $this->getConfigGlobalFileDetails()['fullPath'];
-        // Load serialized data from the global config and convert to an array
-        if (function_exists('opcache_invalidate')) {
-            opcache_invalidate($fullPath, true);
-        }
-        $settingsFromFile = file_get_contents($fullPath);
-        $settingsFromFile = str_replace("<?php\n/*\n\n", "", $settingsFromFile);
-        $settingsFromFile = str_replace("\n\n*/\n?>", "", $settingsFromFile);
-        $settingsFromFile = unserialize($settingsFromFile);
+        $settingsFromFile = $this->serializedFileData("get", $fullPath);
         // Merge that with the array we started with and return
         $settings = array_merge($settings, $settingsFromFile);
         return $settings;
@@ -101,12 +94,8 @@ class Settings
             if (is_array($settings)) {
                 unset($settings['versionNo']);
                 unset($settings['docRoot']);
-                $settings = "<?php\n/*\n\n" . serialize($settings) . "\n\n*/\n?" . ">";
             }
-            // Now we have a serialized string, save it in the global config file
-            fwrite($fConfigSettings, $settings);
-            fclose($fConfigSettings);
-            return true;
+            return $this->serializedFileData("set", $fullPath, $settings);
         } else {
             return false;
         }
@@ -158,14 +147,7 @@ class Settings
     {
         // Get users config file details
         $fullPath = $this->getConfigUsersFileDetails($fileName)['fullPath'];
-        // Load serialized data from the users config and convert to an array
-        if (function_exists('opcache_invalidate')) {
-            opcache_invalidate($fullPath, true);
-        }
-        $settingsFromFile = file_get_contents($fullPath);
-        $settingsFromFile = str_replace("<?php\n/*\n\n", "", $settingsFromFile);
-        $settingsFromFile = str_replace("\n\n*/\n?>", "", $settingsFromFile);
-        $settingsFromFile = unserialize($settingsFromFile);
+        $settingsFromFile = $this->serializedFileData("get", $fullPath);
         // Now return
         return $settingsFromFile;
     }
@@ -175,15 +157,7 @@ class Settings
         // Get the users config file details
         $fullPath = $this->getConfigUsersFileDetails($fileName)['fullPath'];
         if ($fConfigSettings = fopen($fullPath, 'w')) {
-            // If the settings we've received aren't in serialized format yet, do that now
-            // As $settings could be a serialized string or array
-            if (is_array($settings)) {
-                $settings = "<?php\n/*\n\n" . serialize($settings) . "\n\n*/\n?" . ">";
-            }
-            // Now we have a serialized string, save it in the users config file
-            fwrite($fConfigSettings, $settings);
-            fclose($fConfigSettings);
-            return true;
+            return $this->serializedFileData("set", $fullPath, $settings);
         } else {
             return false;
         }
@@ -232,6 +206,26 @@ class Settings
                 $reqsFailures = ["phpCreateSettingsFileAddr"];
                 include dirname(__FILE__) . "/../lib/requirements.php";
             }
+        }
+    }
+
+    public function serializedFileData($do, $fullPath, $output=null)
+    {
+        if ("get" === $do) {
+            if (function_exists('opcache_invalidate')) {
+                opcache_invalidate($fullPath, true);
+            }
+            $data = file_get_contents($fullPath);
+            $data = str_replace("<"."?php\n/*\n\n", "", $data);
+            $data = str_replace("\n\n*/\n?".">", "", $data);
+            $data = unserialize($data);
+            return $data;
+        }
+        if ("set" === $do) {
+            if (true === is_array($output)) {
+                $output = serialize($output);
+            }
+            return file_put_contents($fullPath, "<"."?php\n/*\n\n" . $output . "\n\n*/\n?" . ">");
         }
     }
 }

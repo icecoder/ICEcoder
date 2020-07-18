@@ -14,9 +14,7 @@ if (file_exists($docRoot . $ICEcoderDir . "/data/index.php")) {
     $systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/index.php");
     $prevIndexData = file_get_contents($docRoot . $ICEcoderDir . "/data/index.php");
     if (false !== strpos($prevIndexData, "<?php")) {
-        $prevIndexData = str_replace("<?php\n/*\n\n", "", $prevIndexData);
-        $prevIndexData = str_replace("\n\n*/\n?>", "", $prevIndexData);
-        $prevIndexData = unserialize($prevIndexData);
+        $prevIndexData = $settingsClass->serializedFileData("get", $docRoot . $ICEcoderDir . "/data/index.php");
     }
 }
 
@@ -212,10 +210,7 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 			$systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/git-diff.php");
 			$gitDiffData = file_get_contents($docRoot . $ICEcoderDir . "/data/git-diff.php");
 			if (strpos($gitDiffData, "<?php") !== false) {
-				$gitDiffData = str_replace("<?php\n/*\n\n", "", $gitDiffData);
-				$gitDiffData = str_replace("\n\n*/\n?>", "", $gitDiffData);
-				$gitDiffData = unserialize($gitDiffData);
-				$output["gitDiff"] = $gitDiffData;
+                $output["gitDiff"] = $settingsClass->serializedFileData("get", $docRoot . $ICEcoderDir . "/data/git-diff.php");
 			}
 		}
 
@@ -225,15 +220,12 @@ if (!isset($_GET['timestamp']) || !isset($prevIndexData["timestamps"]) || $_GET[
 			$systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/git-content.php");
 			$gitContent = file_get_contents($docRoot . $ICEcoderDir . "/data/git-content.php");
 			if (strpos($gitContent, "<?php") !== false) {
-				$gitContent = str_replace("<?php\n/*\n\n", "", $gitContent);
-				$gitContent = str_replace("\n\n*/\n?>", "", $gitContent);
-				$gitContent = unserialize($gitContent);
-				$output["gitContent"] = $gitContent;
+                $output["gitContent"] = $settingsClass->serializedFileData("get", $docRoot . $ICEcoderDir . "/data/git-content.php");
 			}
 		}
 
 		// Store the serialized array in PHP comment block for next time
-		file_put_contents($docRoot . $ICEcoderDir . "/data/index.php", "<?php\n/*\n\n" . serialize($output) . "\n\n*/\n?" . ">");
+        $settingsClass->serializedFileData("set", $docRoot . $ICEcoderDir . "/data/index.php", $output);
 	// Output what we have in our index...
 	} else {
 		$output = $prevIndexData;

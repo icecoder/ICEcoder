@@ -129,20 +129,16 @@ function getData($url, $type='fopen', $dieMessage = false, $timeout = 60) {
 // Require a re-index dir/file data next time we index
 function requireReIndexNextTime() {
 	// If we have a data/index.php file
-	global $docRoot, $ICEcoderDir, $systemClass;
+	global $docRoot, $ICEcoderDir, $settingsClass, $systemClass;
 	if (true === file_exists($docRoot . $ICEcoderDir . "/data/index.php")) {
 		// Get serialized array back out of PHP file inside a comment block as prevIndexData
 		$systemClass->invalidateOPCache($docRoot . $ICEcoderDir . "/data/index.php");
 		$prevIndexData = file_get_contents($docRoot . $ICEcoderDir . "/data/index.php");
 		if (strpos($prevIndexData, "<?php") !== false) {
-			$prevIndexData = str_replace("<?php\n/*\n\n", "", $prevIndexData);
-			$prevIndexData = str_replace("\n\n*/\n?>", "", $prevIndexData);
-			$prevIndexData = unserialize($prevIndexData);
-
+			$prevIndexData = $settingsClass->serializedFileData("get", $docRoot . $ICEcoderDir . "/data/index.php");
 			// Set timestamp back to epoch to force a re-index next time
 			$prevIndexData['timestamps']['indexed'] = 0;
-
-			file_put_contents($docRoot . $ICEcoderDir . "/data/index.php", "<?php\n/*\n\n".serialize($prevIndexData)."\n\n*/\n?" . ">");
+            $settingsClass->serializedFileData("set", $docRoot . $ICEcoderDir . "/data/index.php", $prevIndexData);
 		}
 	}
 }
@@ -184,34 +180,34 @@ function numClean($var) {
 }
 
 // Clean XSS attempts using different contexts
-function xssClean($data,$type) {
+function xssClean($data, $type) {
 
 	// === html ===
-	if ($type == "html") {
+	if ("html" === $type) {
 		$bad  = array("<",    ">");
 		$good = array("&lt;", "&gt;");
 	}
 
 	// === style ===
-	if ($type == "style") {
+	if ("style" === $type) {
 		$bad  = array("<",    ">",    "\"",     "'",      "``",      "(",      ")",      "&",     "\\\\");
 		$good = array("&lt;", "&gt;", "&quot;", "&apos;", "&grave;", "&lpar;", "&rpar;", "&amp;", "&bsol;");
 	}
 
 	// === attribute ===
-	if ($type == "attribute") {
+	if ("attribute" === $type) {
 		$bad  = array("\"",     "'",      "``");
 		$good = array("&quot;", "&apos;", "&grave;");
 	}
 
 	// === script ===
-	if ($type == "script") {
+	if ("script" === $type) {
 		$bad  = array("<",    ">",    "\"",     "'",      "\\\\",   "%",        "&");
 		$good = array("&lt;", "&gt;", "&quot;", "&apos;", "&bsol;", "&percnt;", "&amp;");
 	}
 
 	// === url ===
-	if ($type == "url") {
+	if ("url" === $type) {
 		if(preg_match("#^(?:(?:https?|ftp):{1})\/\/[^\"\s\\\\]*.[^\"\s\\\\]*$#iu", (string)$data, $match)) {
 			return $match[0];
 		} else {
@@ -220,13 +216,6 @@ function xssClean($data,$type) {
 	}
 
 	$output = str_replace($bad, $good, $data);
-	return $output;
-}
-
-
-// Clean PHP code injection attempts
-function injClean($data) {
-	$output = str_replace("(", "", str_replace(")", "", str_replace(";", "", $data)));
 	return $output;
 }
 
@@ -269,48 +258,18 @@ function toUTF8noBOM($string, $message = false) {
 	return $string;
 }
 
-// Polyfill for array_replace_recursive, which is in PHP 5.3+
-if (!function_exists('array_replace_recursive')) {
-	function array_replace_recursive($base, $replacements) {
-		foreach (array_slice(func_get_args(), 1) as $replacements) {
-			$bref_stack = array(&$base);
-			$head_stack = array($replacements);
-
-			do {
-				end($bref_stack);
-
-				$bref = &$bref_stack[key($bref_stack)];
-				$head = array_pop($head_stack);
-
-				unset($bref_stack[key($bref_stack)]);
-
-				foreach (array_keys($head) as $key) {
-					if (isset($key, $bref) && is_array($bref[$key]) && is_array($head[$key])) {
-						$bref_stack[] = &$bref[$key];
-						$head_stack[] = $head[$key];
-					} else {
-						$bref[$key] = $head[$key];
-					}
-				}
-			} while(count($head_stack));
-		}
-
-		return $base;
-	}
-}
-
 // Get number of versions total for a file
 function getVersionsCount($fileLoc, $fileName) {
 	global $context;
 	$count = 0;
-	$dateCounts = array();
-	$backupDateDirs = array();
+	$dateCounts = [];
+	$backupDateDirs = [];
 	// Establish the base, host and date dirs within...
 	$backupDirBase = str_replace("\\", "/", dirname(__FILE__)) . "/../data/backups/";
 	$backupDirHost = isset($ftpSite) ? parse_url($ftpSite, PHP_URL_HOST) : "localhost";
         // check if folder exists if local before enumerating contents
-        if(!isset($ftpSite)) {
-                if(is_dir($backupDirBase . $backupDirHost)) {
+        if (false === isset($ftpSite)) {
+                if (true === is_dir($backupDirBase . $backupDirHost)) {
                         $backupDateDirs = scandir($backupDirBase . $backupDirHost, 1);
                 }
         } else {
@@ -351,20 +310,4 @@ function getVersionsCount($fileLoc, $fileName) {
 		"count" => $count,
 		"dateCounts" => $dateCounts
 	);
-}
-
-function serializedFileData($do, $path, $output=null) {
-    global $systemClass;
-
-	if ($do === "get") {
-		$systemClass->invalidateOPCache($path);
-		$data = file_get_contents($path);
-		$data = str_replace("<"."?php\n/*\n\n", "", $data);
-		$data = str_replace("\n\n*/\n?".">", "", $data);
-		$data = unserialize($data);
-		return $data;
-	}
-	if ($do === "set") {
-		file_put_contents($path, "<"."?php\n/*\n\n" . serialize($output) . "\n\n*/\n?" . ">");
-	}
 }

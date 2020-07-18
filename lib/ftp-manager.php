@@ -1,4 +1,6 @@
 <?php
+die("FTP Manager now offline");
+
 include "headers.php";
 include "settings.php";
 $t = $text['ftp-manager'];
