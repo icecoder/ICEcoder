@@ -3752,17 +3752,17 @@ var ICEcoder = {
     },
 
     // Update ICEcoder
-    update: function() {
-        var autoUpdate;
-
-        autoUpdate = confirm(t['Please note for...']);
-        if (autoUpdate) {
-            this.showHide('show',get('loadingMask'));
-            window.location = iceLoc+"/lib/updater.php";
-        } else {
-            window.open("https://this.net");
-        }
-    },
+    // update: function() {
+    //     var autoUpdate;
+    //
+    //     autoUpdate = confirm(t['Please note for...']);
+    //     if (autoUpdate) {
+    //         this.showHide('show',get('loadingMask'));
+    //         window.location = iceLoc+"/lib/updater.php";
+    //     } else {
+    //         window.open("https://this.net");
+    //     }
+    // },
 
     // ICEcoder just updated
     updated: function() {

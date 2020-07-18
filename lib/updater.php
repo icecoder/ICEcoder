@@ -1,4 +1,6 @@
 <?php
+die("Updater system unused till a future point in time");
+
 include("headers.php");
 include("settings.php");
 $t = $text['updater'];
@@ -169,6 +171,7 @@ function copyOverSettings($icvInfo) {
 	// The reason we create it, is so it has PHP write permissions, meaning we can update it later
 	if (!file_exists(dirname(__FILE__)."/../data/".$configSettings)) {
 		echo 'Creating new settings file...<br>';
+		// TODO: Needs overhauling as newConfigSettingsFile no longer exists
 		// Include our params to make use of (as $newConfigSettingsFile)
 		include(dirname(__FILE__)."/settings-system-params.php");
 		if ($fConfigSettings = fopen(dirname(__FILE__)."/../data/".$configSettings, 'w')) {

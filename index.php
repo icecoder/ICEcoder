@@ -29,7 +29,7 @@ if ($ICEcoder["checkUpdates"]) {
 		$updateMsg =
             ";ICEcoder.dataMessage('<b>" . $t['UPDATE INFO'] .
             ":</b> ICEcoder v " . $icv." " . $t['now available'] . ". (" . $t['Your version is'] . " v " . $ICEcoder["versionNo"] .
-            ").<br><br><a onclick=\\'ICEcoder.update()\\' style=\\'color:#fff; background: #b00; padding: 5px; text-decoration: none; cursor: pointer\\'>" .
+            ").<br><br><a href=\\'https://icecoder.net\\' target=\\'_blank\\' style=\\'color:#fff; background: #b00; padding: 5px; text-decoration: none; cursor: pointer\\'>" .
             $t['Update now'] . "</a><br><br>" . $icvI ."');";
 	}
 }
