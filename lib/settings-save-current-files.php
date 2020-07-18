@@ -8,7 +8,7 @@ $text = $_SESSION['text'];
 $t = $text['settings-save-current-files'];
 
 // Save the currently opened files for next time
-if (true === $_SESSION['loggedIn'] && true === isset($_GET["saveFiles"]) && true === $_GET['saveFiles']) {
+if (true === $_SESSION['loggedIn'] && true === isset($_GET["saveFiles"])) {
 	if (!$demoMode) {
         $saveFilesArray = [];
 		if ("CLEAR" !== $_GET['saveFiles']) {
