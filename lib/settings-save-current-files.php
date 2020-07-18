@@ -8,7 +8,7 @@ $text = $_SESSION['text'];
 $t = $text['settings-save-current-files'];
 
 // Save the currently opened files for next time
-if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
+if (true === $_SESSION['loggedIn'] && true === isset($_GET["saveFiles"]) && true === $_GET['saveFiles']) {
 	if (!$demoMode) {
         $saveFilesArray = [];
 		if ("CLEAR" !== $_GET['saveFiles']) {
@@ -19,7 +19,7 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 		}
 		// Now update the config file
 		if (false === $settingsClass->updateConfigUsersSettings($settingsFile, ["previousFiles" => $saveFilesArray])) {
-			echo "<script>parent.parent.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
+			echo "<script>parent.parent.ICEcoder.message('" . $t['Cannot update config...'] . " data/" . $settingsFile . " " . $t['and try again'] . "');</script>";
 		}
 		// Update our last10Files var?
 		for ($i = 0; $i < count($saveFilesArray); $i++) {
@@ -31,10 +31,10 @@ if ($_SESSION['loggedIn'] && isset($_GET["saveFiles"]) && $_GET['saveFiles']) {
 				};
 				// Now update the config file
 				if (false === $settingsClass->updateConfigUsersSettings($settingsFile, ['last10Files' => $ICEcoder["last10Files"]])) {
-					echo "<script>parent.parent.ICEcoder.message('".$t['Cannot update config...']." data/".$settingsFile." ".$t['and try again']."');</script>";
+					echo "<script>parent.parent.ICEcoder.message('" . $t['Cannot update config...'] . " data/" . $settingsFile . " " . $t['and try again'] . "');</script>";
 				}
 			}
 		}
 	}
-	echo '<script>parent.parent.ICEcoder.serverMessage();parent.parent.ICEcoder.serverQueue("del",0);</script>';
+	echo '<script>parent.parent.ICEcoder.serverMessage(); parent.parent.ICEcoder.serverQueue("del", 0);</script>';
 }
