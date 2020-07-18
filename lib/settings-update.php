@@ -8,8 +8,8 @@ $text = $_SESSION['text'];
 $t = $text['settings-update'];
 
 // Update this config file?
-if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] &&
-    (true === isset($_POST["theme"]) && $_POST["theme"] || true === isset($_GET['action']) && "turnOffTutorialOnLogin" === $_GET['action'])
+if (false === $demoMode && true === isset($_SESSION['loggedIn']) && true === $_SESSION['loggedIn'] &&
+    (true === isset($_POST["theme"]) || true === isset($_GET['action']) && "turnOffTutorialOnLogin" === $_GET['action'])
 ) {
 	// Just updating tutorialOnLogin setting
 	if (true === isset($_GET['action']) && "turnOffTutorialOnLogin" === $_GET['action']) {
@@ -24,24 +24,24 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
 	$currentSettings = $settingsClass->getConfigUsersSettings($settingsFile);
 
 	// Has there been a language change?
-	$languageUserChanged = $ICEcoder['languageUser'] != $_POST['languageUser'];
+	$languageUserChanged = $ICEcoder['languageUser'] !== $_POST['languageUser'];
 
 	// Prepare all our vars
     $updatedSettings = [
         "versionNo"          => $currentSettings['versionNo'],
         "configCreateDate"   => $currentSettings['configCreateDate'],
         "root"               => xssClean($_POST['root'], "html"),
-        "checkUpdates"       => isset($_POST['checkUpdates']) && $_POST['checkUpdates'],
-        "openLastFiles"      => isset($_POST['openLastFiles']) && $_POST['openLastFiles'],
-        "updateDiffOnSave"   => isset($_POST['updateDiffOnSave']) && $_POST['updateDiffOnSave'],
+        "checkUpdates"       => isset($_POST['checkUpdates']),
+        "openLastFiles"      => isset($_POST['openLastFiles']),
+        "updateDiffOnSave"   => isset($_POST['updateDiffOnSave']),
         "languageUser"       => $_POST['languageUser'],
-        "backupsKept"        => isset($_POST['backupsKept']) && $_POST['backupsKept'],
+        "backupsKept"        => isset($_POST['backupsKept']),
         "backupsDays"        => intval($_POST['backupsDays']),
-        "deleteToTmp"        => isset($_POST['deleteToTmp']) && $_POST['deleteToTmp'],
+        "deleteToTmp"        => isset($_POST['deleteToTmp']),
         "findFilesExclude"   => explode(",", str_replace(" ", "", $_POST['findFilesExclude'])),
-        "codeAssist"         => isset($_POST['codeAssist']) && $_POST['codeAssist'],
-        "visibleTabs"        => isset($_POST['visibleTabs']) && $_POST['visibleTabs'],
-        "lockedNav"          => isset($_POST['lockedNav']) && $_POST['lockedNav'],
+        "codeAssist"         => isset($_POST['codeAssist']),
+        "visibleTabs"        => isset($_POST['visibleTabs']),
+        "lockedNav"          => isset($_POST['lockedNav']),
         "tagWrapperCommand"  => $_POST['tagWrapperCommand'],
         "autoComplete"       => $_POST['autoComplete'],
         "password"           => $currentSettings['password'],
@@ -51,14 +51,14 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
         "autoLogoutMins"     => intval($_POST['autoLogoutMins']),
         "theme"              => $_POST['theme'],
         "fontSize"           => $_POST['fontSize'],
-        "lineWrapping"       => $_POST['lineWrapping'],
-        "lineNumbers"        => $_POST['lineNumbers'],
-        "showTrailingSpace"  => $_POST['showTrailingSpace'],
-        "matchBrackets"      => $_POST['matchBrackets'],
-        "autoCloseTags"      => $_POST['autoCloseTags'],
-        "autoCloseBrackets"  => $_POST['autoCloseBrackets'],
+        "lineWrapping"       => isset($_POST['lineWrapping']),
+        "lineNumbers"        => isset($_POST['lineNumbers']),
+        "showTrailingSpace"  => isset($_POST['showTrailingSpace']),
+        "matchBrackets"      => isset($_POST['matchBrackets']),
+        "autoCloseTags"      => isset($_POST['autoCloseTags']),
+        "autoCloseBrackets"  => isset($_POST['autoCloseBrackets']),
         "indentType"         => $_POST['indentType'],
-        "indentAuto"         => $_POST['indentAuto'],
+        "indentAuto"         => isset($_POST['indentAuto']),
         "indentSize"         => intval($_POST['indentSize']),
         "pluginPanelAligned" => $_POST['pluginPanelAligned'],
         "scrollbarStyle"     => $_POST['scrollbarStyle'],
@@ -67,19 +67,21 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
         "bugFileMaxLines"    => intval($_POST['bugFileMaxLines']),
         "plugins"            => $currentSettings['plugins'],
         "ftpSites"           => $currentSettings['ftpSites'],
-        "tutorialOnLogin"    => isset($_POST['tutorialOnLogin']) && $_POST['tutorialOnLogin'],
-        "tipsOnLogin"        => isset($_POST['tipsOnLogin']) && $_POST['tipsOnLogin'],
+        "tutorialOnLogin"    => isset($_POST['tutorialOnLogin']),
+        "tipsOnLogin"        => isset($_POST['tipsOnLogin']),
         "previousFiles"      => $currentSettings['previousFiles'],
         "last10Files"        => $currentSettings['last10Files'],
         "favoritePaths"      => $currentSettings['favoritePaths'],
     ];
 
-    if ($_POST['password']!="")		{$updatedSettings["password"] = generateHash($_POST['password']);};
+    if ("" !== $_POST['password']) {
+        $updatedSettings["password"] = generateHash($_POST['password']);
+    };
 
     $ICEcoder = array_merge($ICEcoder, $updatedSettings);
 
 	// Now update the config file
-	if (is_writeable("../data/".$settingsFile)) {
+    if (true === $settingsClass->getConfigUsersFileDetails($settingsFile)['writable']) {
 	    $settingsClass->setConfigUsersSettings($settingsFile, $updatedSettings);
 	} else {
 		echo "<script>parent.ICEcoder.message('" . $t['Cannot update config'] . " data/" . $settingsFile . " " . $t['and try again'] . "');</script>";
@@ -87,14 +89,15 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
 
 	// OK, now the config file has been updated, update our current session with new arrays
 	$settingsArray = array("findFilesExclude", "bannedFiles", "allowedIPs");
-	for ($i = 0; $i <count($settingsArray); $i++) {
+	for ($i = 0; $i < count($settingsArray); $i++) {
 		$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]] = explode(",", str_replace(" ", "", $_POST[$settingsArray[$i]]));
 	}
 
 	// Work out the theme to use now
-    $themeURL = 'assets/css/theme/';
-	$themeURL .= "default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css';
-	$themeURL .= "?microtime=" . microtime(true);
+    $themeURL =
+        "assets/css/theme/" .
+        ("default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css') .
+	    "?microtime=" . microtime(true);
 
 	// Do we need a file manager refresh?
 	$refreshFM = $_POST['changedFileSettings'] == "true" ? "true" : "false";
@@ -102,14 +105,14 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
     // Update global config settings file
     $ICEcoderGlobalFileName = $settingsClass->getConfigGlobalFileDetails()['fileName'];
     $ICEcoderSettingsFromFile = $settingsClass->getConfigGlobalSettings();
-    $ICEcoderSettingsFromFile['multiUser'] = isset($_POST['multiUser']) && $_POST['multiUser'];
-    $ICEcoderSettingsFromFile['enableRegistration'] = isset($_POST['enableRegistration']) && $_POST['enableRegistration'];
+    $ICEcoderSettingsFromFile['multiUser'] = isset($_POST['multiUser']);
+    $ICEcoderSettingsFromFile['enableRegistration'] = isset($_POST['enableRegistration']);
     if (false === $settingsClass->setConfigGlobalSettings($ICEcoderSettingsFromFile)) {
         echo "<script>parent.ICEcoder.message('" . $t['Cannot update config'] . " data/" . $ICEcoderGlobalFileName . " " . $t['and try again'] . "');</script>";
     }
 
 	// If we've changed language, reload ICEcoder now
-	if ($languageUserChanged) {
+	if (true === $languageUserChanged) {
 		echo '<script>parent.window.location = "../";</script>';
 		die('Reloading ICEcoder after language change');
 	}
@@ -141,6 +144,6 @@ if (!$demoMode && true === isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
         (true === $ICEcoder["updateDiffOnSave"] ? "true" : "false") . "," .
         $ICEcoder["autoLogoutMins"] . "," .
         $refreshFM .
-        ");iceRoot = '" . $ICEcoder["root"] .
+        "); iceRoot = '" . $ICEcoder["root"] .
         "';</script>";
 }
