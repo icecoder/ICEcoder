@@ -1,67 +1,95 @@
 <?php
-include(dirname(__FILE__)."/headers.php");
-include(dirname(__FILE__)."/settings.php");
+include dirname(__FILE__) . "/headers.php";
+include dirname(__FILE__) . "/settings.php";
 
-
-function proc_open_enabled() {
-  $disabled = explode(',', ini_get('disable_functions'));
-  return !in_array('proc_open', $disabled);
-}
-
-if(!proc_open_enabled()) {
-    exit("<span style=\"color: #fff\">Sorry but you can't use this terminal if your proc_open is disabled</span>\n\n");
-}
-
+// Set some common aliases
 $aliases = array(
-	'la' 	=> 'ls -la',
-	'll' 	=> 'ls -lvhF',
+    'la' 	=> 'ls -la',
+    'll' 	=> 'ls -lvhF',
 );
 
-// Get current working dir
-$user = str_replace("\n","",shell_exec("whoami"));
-$cwd = getcwd();
+// If we have a current working dir in session, change to that dir
+if (true === isset($_SESSION['cwd'])) {
+    chdir($_SESSION['cwd']);
+}
 
-// If we have a command
-if(!empty($_REQUEST['command'])) {
-	// Strip any slashes from it
-	if(get_magic_quotes_gpc()) {
-		$_REQUEST['command'] = stripslashes($_REQUEST['command']);
-	}
+// Get current user and cwd
+$user = str_replace("\n", "", shell_exec("whoami"));
+$cwd = str_replace("\n", "", shell_exec("pwd"));
 
-	// Begin output with prompt and user command
-	$output = '<div class="commandLine"><div class="user">&nbsp;&nbsp;'.$user.'&nbsp;</div>'.
-			'<div class="path">&nbsp;'.$cwd.'&nbsp;</div> : '.date("H:m:s").
-			'<br>'.
-			'<div class="promptVLine"></div><div class="promptHLine">─<div class="promptArrow">▶</div></div> '.$_REQUEST['command'].'</div><br><br>';
+// Check if we have proc_open_enabled
+// (Used later to handle commands)
+function proc_open_enabled() {
+    $disabled = explode(',', ini_get('disable_functions'));
+    return false === in_array('proc_open', $disabled);
+}
+
+// Return HTML prompt plus the command the user provided last
+function returnHTMLPromptCommand($cmd) {
+    global $user, $cwd;
+    // Begin output with prompt and user command
+    return '<div class="commandLine"><div class="user">&nbsp;&nbsp;' . $user . '&nbsp;</div>'.
+        '<div class="cwd">&nbsp;' . $cwd . '&nbsp;</div> : ' . date("H:m:s") .
+        '<br>' .
+        '<div class="promptVLine"></div><div class="promptHLine">─<div class="promptArrow">▶</div></div> ' . $cmd . '</div></div><br>';
+}
+
+// If proc_open isn't enabled, display prompt, command and a message re needing this enabled
+if (false === proc_open_enabled()) {
+    echo json_encode([
+        "output" => returnHTMLPromptCommand($_REQUEST['command'] . "<br><br>Sorry but you can't use this terminal if your proc_open is disabled"),
+        "user" => $user,
+        "cwd" => $cwd
+    ]);
+    exit;
 }
 
 // If in demo mode, display message and go no further
-if ($demoMode) {
-	$output .= "Sorry, shell usage not enabled in demo mode\n\n";
-	echo $output;
-	exit;
+if (true === $demoMode) {
+    echo json_encode([
+        "output" => returnHTMLPromptCommand($_REQUEST['command'] . "<br><br>Sorry, shell usage not enabled in demo mode"),
+        "user" => $user,
+        "cwd" => $cwd
+    ]);
+    exit;
 }
 
+// If in demo mode, display message and go no further
+if (false === isset($_REQUEST['command'])) {
+    echo json_encode([
+        "output" => returnHTMLPromptCommand($_REQUEST['command'] . "<br><br>Sorry, no command received"),
+        "user" => $user,
+        "cwd" => $cwd
+    ]);
+    exit;
+}
+
+// Strip any slashes from command
+$_REQUEST['command'] = stripslashes($_REQUEST['command']);
+
+// Start output with the prompt and command they provided last
+$output = returnHTMLPromptCommand($_REQUEST['command']);
+
 // If command contains cd but no dir
-if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', @$_REQUEST['command'])) {
-	$_SESSION['cwd'] = getcwd(); //dirname(__FILE__);
+if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', $_REQUEST['command'])) {
+	$_SESSION['cwd'] = $cwd;
+    $output .= returnHTMLPromptCommand("cd");
 // Else cd to a dir
-} elseif (preg_match('/^[[:blank:]]*cd[[:blank:]]+([^;]+)$/', @$_REQUEST['command'], $regs)) {
+} elseif (preg_match('/^[[:blank:]]*cd[[:blank:]]+([^;]+)$/', $_REQUEST['command'], $regs)) {
 	// The current command is 'cd', which we have to handle as an internal shell command
-	// Absolute/relative path ?
-	($regs[1][0] == '/') ? $newDir = $regs[1] : $newDir = $_SESSION['cwd'].'/'.$regs[1];
+    $newDir = "/" === $regs[1][0] ? $regs[1] : $_SESSION['cwd'] . "/" . $regs[1];
 
 	// Tidy up appearance on /./
-	while (strpos($newDir, '/./') !== false) {
+	while (false !== strpos($newDir, '/./')) {
 		$newDir = str_replace('/./', '/', $newDir);
 	}
 	// Tidy up appearance on //
-	while (strpos($newDir, '//') !== false) {
+	while (false !== strpos($newDir, '//')) {
 		$newDir = str_replace('//', '/', $newDir);
 	}
 	// Tidy up appearance on other variations
-	while (preg_match('|/\.\.(?!\.)|', $newDir)) {
-		$newDir = preg_replace('|/?[^/]+/\.\.(?!\.)|', '', $newDir);
+    while (preg_match('/\/\.\.(?!\.)/', $newDir)) {
+        $newDir = preg_replace('/\/?[^\/]+\/\.\.(?!\.)/', '', $newDir);
 	}
 
 	// Empty dir
@@ -70,36 +98,35 @@ if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', @$_REQUEST['command'])) {
 	}
 
 	// Test if we could change to that dir, else display error
-	(@chdir($newDir)) ? $_SESSION['cwd'] = $newDir : $output .= "\n\nCould not change to: $newDir\n\n";
+	(@chdir($newDir)) ? $_SESSION['cwd'] = $newDir : $output .= "Could not change to: $newDir\n\n";
 } else {
-	// The command is not a 'cd' command, so we execute it after
-	// changing the directory and save the output.
-	chdir($_SESSION['cwd']);
+	// The command is not a 'cd' command
 
 	// Alias expansion
-	$length = strcspn(@$_REQUEST['command'], " \t");
-	$token = substr(@$_REQUEST['command'], 0, $length);
-	if (isset($aliases[$token])) {
-		$_REQUEST['command'] = $aliases[$token].substr($_REQUEST['command'], $length);
+	$length = strcspn($_REQUEST['command'], " \t");
+	$token = substr($_REQUEST['command'], 0, $length);
+	if (true === isset($aliases[$token])) {
+		$_REQUEST['command'] = $aliases[$token] . substr($_REQUEST['command'], $length);
 	}
 
 	// Open a proc with array and $io return
 	$p = proc_open(
-		@$_REQUEST['command'],
+		$_REQUEST['command'],
 		array(
 			1 => array('pipe', 'w'),
 			2 => array('pipe', 'w')
 		),
 		$io
 	);
-    
+
 	// Read output sent to stdout
-	while (!feof($io[1])) {   /// this will return always false ... and will loop forever until "fork: retry: no child processes" will show if proc_open is disabled;
-		$output .= htmlspecialchars(fgets($io[1]),ENT_COMPAT, 'UTF-8');
+	while (false === feof($io[1])) {
+	    // this will return always false ... and will loop forever until "fork: retry: no child processes" will show if proc_open is disabled;
+		$output .= htmlspecialchars(fgets($io[1]), ENT_COMPAT, 'UTF-8');
 	}
 	// Read output sent to stderr
-	while (!feof($io[2])) { 
-		$output .= htmlspecialchars(fgets($io[2]),ENT_COMPAT, 'UTF-8');
+	while (false === feof($io[2])) {
+		$output .= htmlspecialchars(fgets($io[2]), ENT_COMPAT, 'UTF-8');
 	}
 	$output .= "\n";
 
@@ -109,6 +136,16 @@ if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', @$_REQUEST['command'])) {
 	proc_close($p);
 }
 
-// Finally, output our string
-echo $output;
+// Change to the cwd in session
+chdir($_SESSION['cwd']);
+// and again ask for current user and working dir
+$user = str_replace("\n","",shell_exec("whoami"));
+$cwd = str_replace("\n","",shell_exec("pwd"));
+
+// Finally, output our JSON data
+echo json_encode([
+    "output" => $output,
+    "user" => $user,
+    "cwd" => $cwd
+]);
 

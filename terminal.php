@@ -60,10 +60,15 @@ sendCmd = function(command) {
 			if (xhr.status==200) {
 				// Set the output to also include our response and scroll down to bottom
 				var newOutput = document.createElement("DIV");
-				newOutput.innerHTML = xhr.responseText;
+				responseText = xhr.responseText;
+				responseJSON = JSON.parse(responseText);
+				newOutput.innerHTML = responseJSON.output;
+				document.getElementById("user").innerHTML = "&nbsp;&nbsp" + responseJSON.user + "&nbsp;";
+				document.getElementById("user").innerHTML = "&nbsp;&nbsp" + responseJSON.user + "&nbsp;";
+				document.getElementById("cwd").innerHTML = "&nbsp;" + responseJSON.cwd + "&nbsp;";
 				var cmdElem = document.getElementById("commandLine");
 				cmdElem.parentNode.insertBefore(newOutput, cmdElem);
-				document.getElementById("terminal").contentWindow.document.documentElement.scrollTop = document.getElementById('output').scrollHeight;
+				parent.document.getElementById("terminal").contentWindow.document.documentElement.scrollTop = document.getElementById('output').scrollHeight;
 
 				// Add command onto end of history array or set as last item in array
 				if (currentLine == 0 || commandHistory[commandHistory.length-1].indexOf("[[ICEcoder]]:") !== 0) {
@@ -86,10 +91,11 @@ sendCmd = function(command) {
 </script>
 </head>
 
-<body>
+<body onclick="document.getElementById('command').focus()">
 <?php
+chdir($_SESSION['cwd']);
 $user = str_replace("\n","",shell_exec("whoami"));
-$cwd = getcwd();
+$cwd = str_replace("\n","",shell_exec("pwd"));
 ?>
 
 <form name="shell" onsubmit="sendCmd(document.getElementById('command').value); return false" method="POST">
@@ -97,8 +103,7 @@ $cwd = getcwd();
 This is a full powered terminal, but will have the permissions of the '<?php echo $user;?>' user.
 The more access rights you give that user, the more this terminal has.
 
-<div class="commandLine" id="commandLine"><div class="user">&nbsp;&nbsp;<?php echo $user;?>&nbsp;</div><div class="path">&nbsp;<?php echo $cwd;?>&nbsp;</div>
-<div class="promptVLine"></div><div class="promptHLine">─<div class="promptArrow">▶</div></div> <input type="text" class="command" id="command" onkeyup="key(event)" tabindex="1" autocomplete="off"></div></pre>
+<div class="commandLine" id="commandLine"><div class="user" id="user">&nbsp;&nbsp;<?php echo $user;?>&nbsp;</div><div class="cwd" id="cwd">&nbsp;<?php echo $cwd;?>&nbsp;</div> : <?php echo date("H:m:s");?><br><div class="promptVLine"></div><div class="promptHLine">─<div class="promptArrow">▶</div></div> <input type="text" class="command" id="command" onkeyup="key(event)" tabindex="1" autocomplete="off"></div></pre>
 </form>
 
 </body>
