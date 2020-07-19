@@ -2107,7 +2107,6 @@ var ICEcoder = {
                                 ? editorText[opcodes[i][2]]
                                 : "";
                         }
-                        console.log(startShift);
                         // Replace the range with newContent. The range start line and end line adjust addording to
                         // startShift and endShift 1/0 values plus also the +/- docShift which is how much the
                         // editor document has shifted so far during replace ranges
