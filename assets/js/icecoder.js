@@ -449,7 +449,7 @@ var ICEcoder = {
             thisCM.getLine(thisCMPrevLine) &&
             thisCM.getLine(thisCMPrevLine).length > 0 &&
             thisCM.getLine(thisCMPrevLine).replace(/\s/g, '').length === 0) {
-            thisCM.replaceRange("", {line: thisCMPrevLine, ch: 0}, {line: thisCMPrevLine, ch: 1000000});
+            thisCM.replaceRange("", {line: thisCMPrevLine, ch: 0}, {line: thisCMPrevLine, ch: 1000000}, "+input");
         }
 
         // Set the cursor to text height, not line height
@@ -565,7 +565,7 @@ var ICEcoder = {
 
                 // Replace our string over the range, if this token string isn't blank and the end tag matches our original tag
                 if ("" !== theTag.trim() && "undefined" !== typeof repl1 && "undefined" !== typeof repl2 && thisCM.getRange(repl1,repl2) === rData[0]) {
-                    thisCM.replaceRange(theTag, repl1, repl2);
+                    thisCM.replaceRange(theTag, repl1, repl2, "+input");
                     // If at the close tag, don't autocomplete
                     if (tagInfo.at === "close") {
                         this.autocompleteSkip = true;
@@ -1110,16 +1110,16 @@ var ICEcoder = {
                 // Move lines in turn up
                 if ("up" === dir) {
                     for (let i = lineStart.line; i <= lineEnd.line; i++) {
-                        thisCM.replaceRange(thisCM.getLine(i), {line: i - 1, ch: 0}, {line: i - 1, ch: 1000000});
+                        thisCM.replaceRange(thisCM.getLine(i), {line: i - 1, ch: 0}, {line: i - 1, ch: 1000000}, "+input");
                     }
                     // ...or down
                 } else {
                     for (let i = lineEnd.line; i >= lineStart.line; i--) {
-                        thisCM.replaceRange(thisCM.getLine(i), {line: i + 1, ch: 0}, {line: i + 1, ch: 1000000});
+                        thisCM.replaceRange(thisCM.getLine(i), {line: i + 1, ch: 0}, {line: i + 1, ch: 1000000}, "+input");
                     }
                 }
                 // Now swap our final line with the swap line to complete the move
-                thisCM.replaceRange(swapLine, {line: "up" === dir ? lineEnd.line : lineStart.line, ch: 0}, {line: "up" === dir ? lineEnd.line : lineStart.line, ch: 1000000});
+                thisCM.replaceRange(swapLine, {line: "up" === dir ? lineEnd.line : lineStart.line, ch: 0}, {line: "up" === dir ? lineEnd.line : lineStart.line, ch: 1000000}, "+input");
                 // Finally set the moved selection
                 thisCM.setSelection(
                     {line: lineStart.line + ("up" === dir ? -1 : 1), ch: lineStart.ch},
@@ -1243,7 +1243,7 @@ var ICEcoder = {
         thisCM = this.getThisCM();
 
         if (!line) {line = thisCM.getCursor().line}
-        thisCM.replaceRange(thisCM.getLine(line) + "<br>", {line: line, ch: 0}, {line : line, ch: 1000000});
+        thisCM.replaceRange(thisCM.getLine(line) + "<br>", {line: line, ch: 0}, {line : line, ch: 1000000}, "+input");
     },
 
     // Insert a line before and auto-indent
@@ -1254,7 +1254,7 @@ var ICEcoder = {
 
         if (!line) {line = thisCM.getCursor().line}
         thisCM.operation(function() {
-            thisCM.replaceRange("\n" + thisCM.getLine(line), {line: line, ch: 0}, {line: line, ch: 1000000});
+            thisCM.replaceRange("\n" + thisCM.getLine(line), {line: line, ch: 0}, {line: line, ch: 1000000}, "+input");
             thisCM.setCursor({line: thisCM.getCursor().line - 1, ch: 0});
             thisCM.execCommand('indentAuto');
         });
@@ -1268,7 +1268,7 @@ var ICEcoder = {
 
         if (!line) {line = thisCM.getCursor().line}
         thisCM.operation(function() {
-            thisCM.replaceRange(thisCM.getLine(line) + "\n", {line: line, ch: 0}, {line: line, ch: 1000000});
+            thisCM.replaceRange(thisCM.getLine(line) + "\n", {line: line, ch: 0}, {line: line, ch: 1000000}, "+input");
             thisCM.execCommand('indentAuto');
         });
     },
@@ -1288,7 +1288,7 @@ var ICEcoder = {
         } else {
             if (!line) {line = thisCM.getCursor().line}
             ch = thisCM.getCursor().ch;
-            thisCM.replaceRange(thisCM.getLine(line) + "\n" + thisCM.getLine(line), {line: line, ch: 0}, {line: line, ch: 1000000});
+            thisCM.replaceRange(thisCM.getLine(line) + "\n" + thisCM.getLine(line), {line: line, ch: 0}, {line: line, ch: 1000000}, "+input");
             thisCM.setCursor(line + 1, ch);
         }
     },
@@ -1426,6 +1426,38 @@ var ICEcoder = {
         }
     },
 
+    // Return character num from start of doc to cursor
+    getCharNumFromCursor: function() {
+        return this.getThisCM().getRange({line: 0, ch: 0}, this.getThisCM().getCursor()).length;
+    },
+
+    // Set the cursor according to num of characters from start of doc
+    setCursorByCharNum: function(num) {
+        // Temp data store
+        this.charPos = {
+            len: 0,
+            thisLine: 0,
+            thisChar: 0
+        };
+        // For each line in editor
+        this.getThisCM().eachLine(function(line) {
+            // The number we're seeking if greater than prev linees we've considered plus this line
+            if (num > ICEcoder.charPos.len + (line.text + "\n").length) {
+                // Increment line
+                ICEcoder.charPos.thisLine++;
+            // It's equal to or greater than the number we're seeking, so on this line
+            } else if (ICEcoder.charPos.thisChar === 0) {
+                // Set char (to avoid setting more than once) and set cursor
+                ICEcoder.charPos.thisChar = num - ICEcoder.charPos.len;
+                ICEcoder.getThisCM().setCursor({line: ICEcoder.charPos.thisLine, ch: ICEcoder.charPos.thisChar})
+            }
+            // Build up length count
+            ICEcoder.charPos.len += (line.text + "\n").length;
+        });
+        // Remove temp data store
+        delete this.charPos;
+    },
+
     // Determine which area of the document we're in
     caretLocationType: function() {
         let thisCM, caretLocType, caretChunk, fileName, fileExt;
@@ -1519,7 +1551,7 @@ var ICEcoder = {
                     for (let i = startLine; i <= endLine; i++) {
                         cM.replaceRange(cM.getLine(i).slice(0, commentCH.length) != commentCH
                             ? commentCH + cM.getLine(i)
-                            : cM.getLine(i).slice(commentCH.length, cM.getLine(i).length), {line:i, ch:0}, {line:i, ch:1000000});
+                            : cM.getLine(i).slice(commentCH.length, cM.getLine(i).length), {line:i, ch:0}, {line:i, ch:1000000}, "+input");
                     }
                     // Language has block commenting
                 } else {
@@ -1532,13 +1564,13 @@ var ICEcoder = {
                 if (-1 < ["CSS", "SQL"].indexOf(this.caretLocType)) {
                     cM.replaceRange(lineContent.slice(0,commentBS.length) != commentBS
                         ? commentBS + lineContent + commentBE
-                        : lineContent.slice(commentBS.length, lCLen - commentBE.length), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
+                        : lineContent.slice(commentBS.length, lCLen - commentBE.length), {line: linePos, ch: 0}, {line: linePos, ch: 1000000}, "+input");
                     adjustCursor = commentBS.length;
                     if (lineContent.slice(0,commentBS.length) == commentBS) {adjustCursor = -adjustCursor}
                 } else {
                     cM.replaceRange(lineContent.slice(0,commentCH.length) != commentCH
                         ? commentCH + lineContent
-                        : lineContent.slice(commentCH.length,lCLen), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
+                        : lineContent.slice(commentCH.length,lCLen), {line: linePos, ch: 0}, {line: linePos, ch: 1000000}, "+input");
                     adjustCursor = commentCH.length;
                     if (lineContent.slice(0,commentCH.length) == commentCH) {adjustCursor = -adjustCursor}
                 }
@@ -1552,7 +1584,7 @@ var ICEcoder = {
             } else {
                 cM.replaceRange(lineContent.slice(0,4) !== "<\!--"
                     ? "<\!--" + lineContent + "//-->"
-                    : lineContent.slice(4, lCLen-5), {line: linePos, ch: 0}, {line: linePos, ch: 1000000});
+                    : lineContent.slice(4, lCLen-5), {line: linePos, ch: 0}, {line: linePos, ch: 1000000}, "+input");
                 adjustCursor = lineContent.slice(0,4) === "<\!--" ? -4 : 4;
             }
         }
@@ -2004,6 +2036,7 @@ var ICEcoder = {
     // Save a file
     saveFile: function(saveAs, newFileAutoSave) {
         let changes, saveType, filePath, fileExt, pathPrefix;
+        let prettierVersion, editorText, prettierText, sm, opcodes, docShift, startShift, endShift, newContent;
         filePath = this.openFiles[this.selectedTab - 1];
         fileExt = filePath.substr(filePath.lastIndexOf(".") + 1);
         if ("undefined" !== typeof prettier && ["js", "json", "ts", "css", "scss", "less", "html", "xml", "yaml", "md", "php"].indexOf(fileExt) > -1) {
@@ -2021,15 +2054,74 @@ var ICEcoder = {
                 case "php": parser = "php"; break;
             }
             try {
-                this.getThisCM().setValue(prettier.format(
+                prettierVersion = prettier.formatWithCursor(
                     this.getThisCM().getValue(),
                     {
                         parser: parser,
                         plugins: prettierPlugins,
                         tabWidth: this.indentSize,
-                        useTabs: "tabs" === this.indentType
+                        useTabs: "tabs" === this.indentType,
+                        cursorOffset: this.getCharNumFromCursor()
                     }
-                ));
+                );
+
+                // Get the text values and split it into lines
+                editorText = difflib.stringAsLines(this.getThisCM().getValue());
+                prettierText = difflib.stringAsLines(prettierVersion.formatted);
+
+                // Create a SequenceMatcher instance that diffs the two sets of lines
+                sm = new difflib.SequenceMatcher(editorText, prettierText);
+
+                // Get the opcodes from the SequenceMatcher instance
+                // Opcodes is a list of 3-tuples describing what changes should be made to the base text in order to yield the new text
+                opcodes = sm.get_opcodes();
+                docShift = 0;
+
+                for (let i = 0; i < opcodes.length; i++) {
+                    // opcode events may be:
+                    // equal   = do nothing for this range
+                    // replace = replace [1]-[2] with [3]-[4]
+                    // insert  = replace [1]-[2] with [3]-[4]
+                    // delete  = replace [1]-[2] with [3]-[4]
+                    // Params to determine if we need to set 1 or 0 shift the start line and end line
+                    startShift = "delete" === opcodes[i][0] && editorText.length === opcodes[i][2] ? 1 : 0;
+                    endShift = "replace" === opcodes[i][0] ? 1 : 0;
+                    if ("equal" !== opcodes[i][0]) {
+                        // Replace or insert
+                        if ("replace" === opcodes[i][0] || "insert" === opcodes[i][0]) {
+                            newContent = "";
+                            // For each of the replace/insert lines in Prettier's version
+                            for (let j = opcodes[i][3]; j < opcodes[i][4]; j++) {
+                                // Build up newContent lines and end with a new line char if not the last line in the range
+                                newContent += prettierText[j];
+                                if (j < opcodes[i][4] - 1) {
+                                    newContent += "\n";
+                                }
+                            }
+                        }
+                        // Delete
+                        if ("delete" === opcodes[i][0]) {
+                            // Not the last line in doc, the newContent is the line after the section we're deleting in editors version
+                            // Else if it's the last line in doc, the content after the section we're deleting is nothing
+                            newContent = editorText.length > opcodes[i][2]
+                                ? editorText[opcodes[i][2]]
+                                : "";
+                        }
+                        console.log(startShift);
+                        // Replace the range with newContent. The range start line and end line adjust addording to
+                        // startShift and endShift 1/0 values plus also the +/- docShift which is how much the
+                        // editor document has shifted so far during replace ranges
+                        this.getThisCM().replaceRange(newContent, {line: opcodes[i][1] - docShift - startShift, ch: 0}, {line: opcodes[i][2] - docShift - endShift, ch: 1000000}, "+input");
+                        // Work out the +/- document shift based on difference between the editors last line in
+                        // this diff range and Prettiers last line in this diff range
+                        docShift = opcodes[i][2] - opcodes[i][4];
+                    }
+                }
+                // If we don't have text selected, we have a cursor, so move the cursor to new place in
+                // the prettified version now we've made adjustments
+                if (false === this.getThisCM().somethingSelected()) {
+                    this.setCursorByCharNum(prettierVersion.cursorOffset);
+                }
             } catch(err) {
                 get("toolLinkOutput").className = "highlight error";
                 this.outputMsg('<div style="background: #b00; padding: 1px 3px; border-radius: 3px; font-family: monospace;">Syntax error in ' + this.openFiles[this.selectedTab - 1].replace(iceRoot, "") + '</div>\n' + err.message.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
@@ -3174,7 +3266,7 @@ var ICEcoder = {
         thisCM = this.getThisCM();
 
         cursor = thisCM.getTokenAt(thisCM.getCursor());
-        thisCM.replaceRange(color,{line:thisCM.getCursor().line,ch:cursor.start},{line:thisCM.getCursor().line,ch:cursor.end});
+        thisCM.replaceRange(color,{line:thisCM.getCursor().line,ch:cursor.start},{line:thisCM.getCursor().line,ch:cursor.end}, "+input");
     },
 
     // Change opacity of the file manager icons
@@ -4812,7 +4904,7 @@ var ICEcoder = {
                 }
             }
             // Clear the cursor string and set the cursor there
-            thisCM.replaceRange(replacedLine.replace("CURSOR",""),{line:lineNo,ch:0},{line:lineNo,ch:1000000});
+            thisCM.replaceRange(replacedLine.replace("CURSOR",""),{line:lineNo,ch:0},{line:lineNo,ch:1000000}, "+input");
             thisCM.setCursor(lineNoCount,curPos);
             // Finally, focus on the editor
             this.focus(this.editorFocusInstance.indexOf('diff') > -1 ? true : false);
@@ -5103,10 +5195,10 @@ var ICEcoder = {
             // Push a duplicate of tail onto end, to increase snake length by 1 block
             this.snakePos.push([this.snakePos[this.snakePos.length-1][0],this.snakePos[this.snakePos.length-1][1]]);
             // Replace char under head with nothing if end of line, else with our replacement string
-            cM.doc.replaceRange(this.snakePos[0][0]-1 == lineContent.length-2 ? "" : spaceReplaceChars,lineData,{line: lineData.line, ch: lineData.ch+1});
+            cM.doc.replaceRange(this.snakePos[0][0]-1 == lineContent.length-2 ? "" : spaceReplaceChars,lineData,{line: lineData.line, ch: lineData.ch+1}, "+input");
             // Remove any trailing space at end
             if (this.snakePos[0][0]-1 == lineContent.length-2) {
-                cM.doc.replaceRange(cM.getLine(lineData.line).replace(/[ \t]+$/,''),{line: lineData.line, ch: 0},{line: lineData.line, ch: 1000000});
+                cM.doc.replaceRange(cM.getLine(lineData.line).replace(/[ \t]+$/,''),{line: lineData.line, ch: 0},{line: lineData.line, ch: 1000000}, "+input");
             }
         } else {
             // Reduce snake length if over 5 chars and not on content
