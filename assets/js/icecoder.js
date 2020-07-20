@@ -1950,7 +1950,7 @@ var ICEcoder = {
 
                 if ("/[NEW]" !== shortURL) {
                     fileLink = fileLink.replace(/\//g, "|");
-                    this.serverQueue("add", iceLoc + "/lib/file-control.php?action=load&file=" + encodeURIComponent(fileLink) + "&csrf=" + this.csrf + "&lineNumber=" + line);
+                    this.serverQueue("add", iceLoc + "/lib/file-control.php?action=load&file=" + encodeURIComponent(fileLink) + "&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(fileLink));
                     this.serverMessage('<b>' + t['Opening File'] + '</b> ' + shortURL.substr(shortURL.lastIndexOf("/") + 1));
                 } else {
                     this.createNewTab(true, shortURL);
@@ -2348,7 +2348,7 @@ var ICEcoder = {
                         console.log("ICEcoder error info for your request...");
                         console.log(statusObj);
                         ICEcoder.serverMessage();
-                        ICEcoder.serverQueue('del', 0);
+                        ICEcoder.serverQueue('del');
                     } else {
                         eval(statusObj.action.doNext);
                     }
@@ -2358,7 +2358,7 @@ var ICEcoder = {
                     console.log("ICEcoder error info for your request...");
                     console.log(statusObj);
                     ICEcoder.serverMessage();
-                    ICEcoder.serverQueue('del', 0);
+                    ICEcoder.serverQueue('del');
                 }
             }
         };
@@ -3352,24 +3352,28 @@ var ICEcoder = {
         var cM, nextSaveID, txtArea, topSaveID, element, xhr, statusObj, timeStart;
         // If we have this exact item URL, it's almost certain we've got a repetitive save
         // situation and so clear the message and server queue item to avoid save jamming
-        if (this.serverQueueItems.indexOf(item) !== -1) {
+        if (action=="add" && this.serverQueueItems.length > 0 && item.indexOf('action=save')>0 && this.serverQueueItems[0].file === file) {
             this.serverMessage();
-            this.serverQueue("del",0);
+            this.serverQueue("del");
             return;
         }
-
         cM = this.getcMInstance();
         // Firstly, work out how many saves we have to carry out
         nextSaveID=0;
         for (var i=0;i<this.serverQueueItems.length;i++) {
-            if (this.serverQueueItems[i].indexOf('action=save')>0) {
+            if (this.serverQueueItems[i].item.indexOf('action=save')>0) {
                 nextSaveID++;
             }
         }
         nextSaveID++;
         // Add to end of array or remove from beginning on demand, plus add or remove if necessary
         if (action=="add") {
-            this.serverQueueItems.push(item);
+            this.serverQueueItems.push(
+                {
+                    "item" : item,
+                    "file" : file,
+                    "changes" : changes
+            });
             if (item.indexOf('action=save')>0) {
                 txtArea = document.createElement('textarea');
                 txtArea.setAttribute('id', 'saveTemp'+nextSaveID);
@@ -3379,12 +3383,11 @@ var ICEcoder = {
                     get('saveTemp'+nextSaveID).value = cM.getValue();
                     // Else we can save the JSON version of the changes to implement
                 } else {
-                    get('saveTemp'+nextSaveID).value = changes;
+                    get('saveTemp'+nextSaveID).value = this.serverQueueItems[0].changes;
                 }
             }
         } else if (action=="del") {
-            // console.log(this);
-            if (this.serverQueueItems[0] && this.serverQueueItems[0].indexOf('action=save')>0) {
+            if (this.serverQueueItems[0] && this.serverQueueItems[0].item.indexOf('action=save')>0) {
                 topSaveID = nextSaveID-1;
                 for (var i=1;i<topSaveID;i++) {
                     get('saveTemp'+i).value = get('saveTemp'+(i+1)).value;
@@ -3394,12 +3397,11 @@ var ICEcoder = {
             }
             this.serverQueueItems.splice(0,1);
         }
-
         // If we've just removed from the array and there's another action queued up, or we're triggering for the first time
         // then do the next requested process, stored at array pos 0
         if (action=="del" && this.serverQueueItems.length>=1 || this.serverQueueItems.length==1) {
             // If we have an item, we're not saving previous file refs and not loading
-            if (item && (item.indexOf('saveFiles=')==-1 && item.indexOf('action=load')==-1)) {
+            if (this.serverQueueItems[0].item && (this.serverQueueItems[0].item.indexOf('saveFiles=')==-1 && this.serverQueueItems[0].item.indexOf('action=load')==-1)) {
                 xhr = this.xhrObj();
                 xhr.onreadystatechange=function() {
                     if (xhr.readyState==4) {
@@ -3426,7 +3428,7 @@ var ICEcoder = {
                                 console.log("ICEcoder error info for your request...");
                                 console.log(statusObj);
                                 ICEcoder.serverMessage();
-                                ICEcoder.serverQueue('del',0);
+                                ICEcoder.serverQueue('del');
                             } else {
                                 eval(statusObj.action.doNext);
                             }
@@ -3436,29 +3438,28 @@ var ICEcoder = {
                             console.log("ICEcoder error info for your request...");
                             console.log(statusObj);
                             ICEcoder.serverMessage();
-                            ICEcoder.serverQueue('del',0);
+                            ICEcoder.serverQueue('del');
                         }
                     }
                 };
-                xhr.open("POST",this.serverQueueItems[0],true);
+                xhr.open("POST",this.serverQueueItems[0].item,true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 timeStart = new Date().getTime();
 
                 // Save as events need to send all contents
-                if (item.indexOf('action=saveAs')>0) {
-                    xhr.send('timeStart='+timeStart+'&file='+file+'&contents='+encodeURIComponent(document.getElementById('saveTemp1').value));
+                if (this.serverQueueItems[0].item.indexOf('action=saveAs')>0) {
+                    xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file+'&contents='+encodeURIComponent(document.getElementById('saveTemp1').value));
                     // Save evens can just sent the changes
-                } else if (item.indexOf('action=save')>0) {
-                    xhr.send('timeStart='+timeStart+'&file='+file+'&changes='+encodeURIComponent(document.getElementById('saveTemp1').value));
+                } else if (this.serverQueueItems[0].item.indexOf('action=save')>0) {
+                    xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file+'&changes='+encodeURIComponent(document.getElementById('saveTemp1').value));
                     // Another type of event
                 } else {
-                    xhr.send('timeStart='+timeStart+'&file='+file);
+                    xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file);
                 }
             } else {
-
                 setTimeout(function(ic) {
                     if ("undefined" != typeof ic.serverQueueItems[0]) {
-                        ic.filesFrame.contentWindow.frames['fileControl'].location.href=ic.serverQueueItems[0];
+                        ic.filesFrame.contentWindow.frames['fileControl'].location.href=ic.serverQueueItems[0].item;
                     }
                 },1,this);
 
@@ -3485,7 +3486,7 @@ var ICEcoder = {
         previousFiles = this.openFiles.join(',').replace(/\//g,"|").replace(/(\|\[NEW\])|(,\|\[NEW\])/g,"").replace(/(^,)|(,$)/g,"");
         if (previousFiles=="") {previousFiles="CLEAR"};
         // Then send through to the settings page to update setting
-        this.serverQueue("add",iceLoc+"/lib/settings.php?saveFiles="+encodeURIComponent(previousFiles)+"&csrf="+this.csrf);
+        this.serverQueue("add",iceLoc+"/lib/settings.php?saveFiles="+encodeURIComponent(previousFiles)+"&csrf="+this.csrf, encodeURIComponent(previousFiles));
         this.updateLast10List(previousFiles);
     },
 
@@ -4404,9 +4405,11 @@ var ICEcoder = {
             if (i!=this.dragTabNo) {
                 get('tab'+i).style.zIndex = 1;
             } else {
-                setTimeout(function(num) {
-                    get('tab' + num).style.zIndex = 1;
-                }, 150, swapWith);
+                if ("undefined" !== typeof swapWith) {
+                    setTimeout(function (num) {
+                        get('tab' + num).style.zIndex = 1;
+                    }, 150, swapWith);
+                }
             }
         }
         if (this.thisLeft && this.thisLeft!==false) {
