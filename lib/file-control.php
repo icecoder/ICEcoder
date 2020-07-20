@@ -63,7 +63,7 @@ if (isset($_POST['newFileName']) && "" != $_POST['newFileName']) {
 if (false === $error) {
     $fileClass->check();
     if ("load" === $_GET['action'] && true === $error) {
-        die("parent.parent.ICEcoder.message('" . $errorMsg . "');parent.parent.ICEcoder.serverMessage();parent.parent.ICEcoder.serverQueue(\"del\",0);</script>");
+        die("parent.parent.ICEcoder.message('" . $errorMsg . "');parent.parent.ICEcoder.serverMessage();parent.parent.ICEcoder.serverQueue(\"del\");</script>");
     }
 }
 
@@ -88,7 +88,7 @@ if (!$error && "load" === $_GET['action']) {
     echo $fileClass->returnLoadTextScript();
     echo $fileClass->returnLoadImageScript();
     ?>
-    parent.parent.ICEcoder.serverMessage(); parent.parent.ICEcoder.serverQueue("del", 0);
+    parent.parent.ICEcoder.serverMessage(); parent.parent.ICEcoder.serverQueue("del");
 
     // Finally, switch mode in case we have saved, renamed file etc
     parent.parent.ICEcoder.switchMode();
@@ -184,7 +184,7 @@ if (!$error && "save" === $_GET['action']) {
             $finalAction = "nothing";
             $doNext .= "ICEcoder.message('" . $t['Sorry, cannot save'] . "\\\\n" . $file . "');";
         }
-        $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';
+        $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
     }
 };
 
@@ -215,7 +215,7 @@ if (!$error && "newFolder" === $_GET['action']) {
         $doNext .= "ICEcoder.message('" . $t['Sorry, cannot create...'] . "\\\\n" . $fileLoc . "');";
         $finalAction = "nothing";
     }
-    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';
+    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
 
 // ================
@@ -265,7 +265,7 @@ if (!$error && "move" === $_GET['action']) {
         $doNext .= "";
         $finalAction = "nothing";
     }
-    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';
+    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
 
 // ==================
@@ -301,7 +301,7 @@ if (!$error && "rename" === $_GET['action']) {
         $doNext .= "ICEcoder.message('".$t['Sorry, cannot rename'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
         $finalAction = "nothing";
     }
-    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';
+    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
 
 // =================
@@ -325,7 +325,7 @@ if (!isset($ftpSite) && !$error && "paste" === $_GET['action']) {
         $doNext .= "ICEcoder.message('" . $t['Sorry, cannot copy'] . " \\\\n" . str_replace($docRoot, "", $source) . "\\\\n " . $t['into'] . " \\\\n" . str_replace($docRoot, "", $dest) . "');";
         $finalAction = "nothing";
     }
-    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';
+    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
 
 // ==============
@@ -387,7 +387,7 @@ if (!$error && "delete" === $_GET['action']) {
     } else {
         $fileClass->delete();
     }
-    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';
+    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
 
 // ======================
@@ -413,7 +413,7 @@ if (!isset($ftpSite) && !$error && "replaceText" === $_GET['action']) {
         $finalAction = "nothing";
     }
 
-    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';
+    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
 
 // ==========================
@@ -438,7 +438,7 @@ if (!isset($ftpSite) && !$error && "getRemoteFile" === $_GET['action']) {
         $doNext .= 'ICEcoder.message(\'' . $t['Sorry, could not...'] . ' '.$file . '\');';
     }
 
-    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';
+    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
 
 // =======================
@@ -468,7 +468,7 @@ if (!$error && "perms" === $_GET['action']) {
         $finalAction = "nothing";
         $doNext .= "ICEcoder.message('" . $t['Sorry, cannot change...'] . " \\n" . $file . "');";
     }
-    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';
+    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
 
 // ====================
@@ -479,7 +479,7 @@ if (!isset($ftpSite) && !$error && "checkExists" === $_GET['action']) {
     // This action is called under seperate AJAX call and the responseText object stored in ICEcoder.lastFileDirCheckStatusObj
     // Nothing really done here though, we do something with the responseText
     $finalAction = "checkExists";
-    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del", 0);';
+    $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
 
 // ===================

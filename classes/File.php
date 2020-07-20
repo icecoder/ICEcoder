@@ -149,7 +149,7 @@ class File
                     $this->ftpClass->ftpStart();
                     // Show user warning if no good connection
                     if (!$ftpConn || !$ftpLogin) {
-                        die('parent.parent.ICEcoder.message("Sorry, no FTP connection to ' . $ftpHost . ' for user ' . $ftpUser . '");parent.parent.ICEcoder.serverMessage();parent.parent.ICEcoder.serverQueue("del",0);</script>');
+                        die('parent.parent.ICEcoder.message("Sorry, no FTP connection to ' . $ftpHost . ' for user ' . $ftpUser . '");parent.parent.ICEcoder.serverMessage();parent.parent.ICEcoder.serverQueue("del");</script>');
                     }
                     // Get our file contents and close the FTP connection
                     $loadedFile = toUTF8noBOM($this->ftpClass->ftpGetContents($ftpConn, $ftpRoot . $fileLoc . "/" . $fileName, $ftpMode), false);
@@ -339,7 +339,7 @@ class File
 			/* UI dialog cancelling and saving contents for save as looparound */
 			if (!newFileName || newFileName && !overwriteOK) {
 				ICEcoder.saveAsContent = document.getElementById(\'saveTemp1\').value;
-				ICEcoder.serverMessage();ICEcoder.serverQueue("del", 0);
+				ICEcoder.serverMessage();ICEcoder.serverQueue("del");
 			}
 		';
 

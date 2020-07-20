@@ -36,5 +36,5 @@ if (true === $_SESSION['loggedIn'] && true === isset($_GET["saveFiles"])) {
 			}
 		}
 	}
-	echo '<script>parent.parent.ICEcoder.serverMessage(); parent.parent.ICEcoder.serverQueue("del", 0);</script>';
+	echo '<script>parent.parent.ICEcoder.serverMessage(); parent.parent.ICEcoder.serverQueue("del");</script>';
 }

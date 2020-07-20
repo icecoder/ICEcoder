@@ -122,7 +122,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                         '<div id="foundCount' + i + '">' + spansArray[i].innerHTML +
                         ', <?php echo $t['rename to'];?> ' +
                         targetURL.replace(/\|/g, "/").replace(/_perms/g, "").replace(/<?php echo str_replace("/", "\/",strtolower($findText)); ?>/g,"<b><?php
-                            if (isset($_GET['replace'])) {echo strtolower($_GET['replace']);};
+                            if (isset($_GET['replace'])) {echo $_GET['replace'];};
                         ?></b>")+'</div>';
                         <?php
                         ;};
@@ -152,8 +152,14 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                     $bFile = false;
                     $foundInSelFile = false;
                     // Exclude banned files
-                    for ($i = 0;$i < count($ICEcoder['bannedFiles']); $i++) {
+                    for ($i = 0; $i < count($ICEcoder['bannedFiles']); $i++) {
                         if (false !== strpos($f, str_replace("*", "", $ICEcoder['bannedFiles'][$i]))) {
+                            $bFile = true;
+                        };
+                    }
+                    // Exclude the dirs & files we wish to exclude from find & replace tasks
+                    for ($i = 0; $i < count($ICEcoder['findFilesExclude']); $i++) {
+                        if (false !== strpos($f, str_replace("*", "", $ICEcoder['findFilesExclude'][$i]))) {
                             $bFile = true;
                         };
                     }
