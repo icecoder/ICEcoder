@@ -3449,14 +3449,15 @@ var ICEcoder = {
                 // Save as events need to send all contents
                 if (this.serverQueueItems[0].item.indexOf('action=saveAs')>0) {
                     xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file+'&contents='+encodeURIComponent(document.getElementById('saveTemp1').value));
-                    // Save evens can just sent the changes
+                // Save events can just send the changes
                 } else if (this.serverQueueItems[0].item.indexOf('action=save')>0) {
                     xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file+'&changes='+encodeURIComponent(document.getElementById('saveTemp1').value));
-                    // Another type of event
+                // Another type of event
                 } else {
                     xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file);
                 }
             } else {
+                // File loading done via fileControl iFrame
                 setTimeout(function(ic) {
                     if ("undefined" != typeof ic.serverQueueItems[0]) {
                         ic.filesFrame.contentWindow.frames['fileControl'].location.href=ic.serverQueueItems[0].item;
