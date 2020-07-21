@@ -136,13 +136,12 @@ if (!$error && "save" === $_GET['action']) {
 
         if (!$demoMode && (isset($ftpSite) || (file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && "" != $_POST['newFileName'])) {
 
-            $filemtime = !isset($ftpSite) && "Windows" !== $serverType ? filemtime($file) : "1000000";
+            $filemtime = !isset($ftpSite) && "Windows" !== $serverType && file_exists($file) ? filemtime($file) : "1000000";
 
-            // =======================
-            // MDT'S MATCH, WRITE FILE
-            // =======================
-
-            if (!(isset($_GET['fileMDT'])) || $filemtime == $_GET['fileMDT']) {
+            // ==================================================
+            // MDT'S MATCH (OR WE'RE SAVING NEW FILE), WRITE FILE
+            // ==================================================
+            if (!(isset($_GET['fileMDT'])) || $filemtime == $_GET['fileMDT'] || isset($_POST['newFileName'])) {
 
                 // FTP Saving
                 if (isset($ftpSite)) {
@@ -488,7 +487,7 @@ if (!isset($ftpSite) && !$error && "checkExists" === $_GET['action']) {
 
 // No $filemtime yet? Get it now!
 if (false === isset($filemtime) && !is_dir($file)) {
-    $filemtime = "Windows" !== $serverType ? filemtime($file) : 1000000;
+    $filemtime = "Windows" !== $serverType && file_exists($file) ? filemtime($file) : 1000000;
 }
 if (false === isset($filemtime)) {
     $filemtime = 1000000;

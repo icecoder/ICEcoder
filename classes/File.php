@@ -353,9 +353,9 @@ class File
             $fileLines = file($file);
             $contents = $this->systemClass->stitchChanges($fileLines, $_POST['changes']);
 
-            // get old file contents, and count stats on usage \n and \r there
-            // in this case we can keep line endings, which file had before, without
-            // making code version control systems going crazy about line endings change in whole file.
+            // Get old file contents, and count stats on usage \n and \r\n
+            // We use this info shortly to standardise the file to the same line endings
+            // throughout, whichever is greater
             $oldContents = file_exists($file) ? getData($file) : '';
             $unixNewLines = preg_match_all('/[^\r][\n]/u', $oldContents);
             $windowsNewLines = preg_match_all('/[\r][\n]/u', $oldContents);
@@ -368,11 +368,13 @@ class File
         $systemClass->invalidateOPCache($file);
         $fh = fopen($file, 'w') or die($t['Sorry, cannot save']);
 
-        // replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
+        // Replace \r\n (Windows), \r (old Mac) and \n (Linux) line endings with whatever we chose to be lineEnding
         $contents = str_replace("\r\n", $ICEcoder["lineEnding"], $contents);
         $contents = str_replace("\r", $ICEcoder["lineEnding"], $contents);
         $contents = str_replace("\n", $ICEcoder["lineEnding"], $contents);
-        if (isset($_POST['changes']) && (0 < $unixNewLines) || (0 < $windowsNewLines)) {
+        // Finally, replace the line endings with whatever what greatest in the file before
+        // (We do this to help avoid a huge number of unnecessary changes simply on line endings)
+        if (isset($_POST['changes']) && (0 < $unixNewLines || 0 < $windowsNewLines)) {
             if ($unixNewLines > $windowsNewLines){
                 $contents = str_replace($ICEcoder["lineEnding"], "\n", $contents);
             } elseif ($windowsNewLines > $unixNewLines){
@@ -735,7 +737,7 @@ class File
         } else {
             $itemAbsPath = $file;
             $itemPath = dirname($file);
-            $itemBytes = is_dir($file) ? null : filesize($file);
+            $itemBytes = is_dir($file) || !file_exists($file) ? null : filesize($file);
             $itemType = (file_exists($file) ? (is_dir($file) ? "dir" : "file") : "unknown");
             $itemExists = (file_exists($file) ? "true" : "false");
         }
