@@ -74,12 +74,11 @@ if (false === $demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
     // ============
     // UNINSTALLING
     // ============
-
     if ("uninstall" === $_GET['action']) {
         // Remove the old plugin
         for ($i = 0; $i < count($ICEcoder["plugins"]); $i++) {
             if ($ICEcoder["plugins"][$i][0] === $pluginsData[$_GET['plugin']]['name']) {
-                unset($ICEcoder["plugins"][$i]);
+                array_splice($ICEcoder["plugins"], $i, 1);
             }
         }
 
@@ -95,12 +94,13 @@ if (false === $demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
 
     if ("update" === $_GET['action']) {
         // Redo the arrays using the form data
-        for ($i = 0; $i < count($ICEcoder["plugins"]); $i++) {
+        $numPlugins = count($ICEcoder["plugins"]);
+        for ($i = 0; $i < $numPlugins; $i++) {
             $timer = intval($_POST['timer' . $i]);
-            if ($timer == 0) {
+            if (0 === $timer) {
                 $timer = "";
             }
-            $ICEcoder["plugins"][] = [
+            $ICEcoder["plugins"][$i] = [
                 $_POST['name' . $i],
                 $_POST['icon' . $i],
                 $_POST['style' . $i],
@@ -120,7 +120,8 @@ if (false === $demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
             header("Location: plugins-manager.php?updatedPlugins&csrf=" . $_SESSION["csrf"]);
             echo "<script>window.location = 'plugins-manager.php?updatedPlugins&csrf=' + ICEcoder.csrf;</script>";
         }
-        die("<span style='color: #fff'>" . $t['saving plugins'] . "</span>");
+        exit;
+        // die("<span style='color: #fff'>" . $t['saving plugins'] . "</span>");
     } else {
         echo "<script>parent.ICEcoder.message('" . $t['Cannot update config...'] . " data/" . $settingsFile . " " . $t['and try again'] . "');</script>";
     }
