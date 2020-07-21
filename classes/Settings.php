@@ -84,7 +84,7 @@ class Settings
         return $settings;
     }
 
-    public function setConfigGlobalSettings($settings)
+    public function setConfigGlobalSettings($settings): bool
     {
         // Get the global config file details
         $fullPath = $this->getConfigGlobalFileDetails()['fullPath'];
@@ -101,12 +101,12 @@ class Settings
         }
     }
 
-    public function updateConfigGlobalSettings($array): void
+    public function updateConfigGlobalSettings($array): bool
     {
         // Update global config settings file
         $settingsFromFile = $this->getConfigGlobalSettings();
         $settings = array_merge($settingsFromFile, $array);
-        $this->setConfigGlobalSettings($settings);
+        return $this->setConfigGlobalSettings($settings);
     }
 
     // ============
@@ -152,7 +152,7 @@ class Settings
         return $settingsFromFile;
     }
 
-    public function setConfigUsersSettings($fileName, $settings)
+    public function setConfigUsersSettings($fileName, $settings): bool
     {
         // Get the users config file details
         $fullPath = $this->getConfigUsersFileDetails($fileName)['fullPath'];
@@ -163,12 +163,12 @@ class Settings
         }
     }
 
-    public function updateConfigUsersSettings($fileName, $array): void
+    public function updateConfigUsersSettings($fileName, $array): bool
     {
         // Update users config settings file
         $settingsFromFile = $this->getConfigUsersSettings($fileName);
         $settings = array_merge($settingsFromFile, $array);
-        $this->setConfigUsersSettings($fileName, $settings);
+        return $this->setConfigUsersSettings($fileName, $settings);
     }
 
     public function updateConfigUsersCreateDate($fileName): void
@@ -225,7 +225,7 @@ class Settings
             if (true === is_array($output)) {
                 $output = serialize($output);
             }
-            return file_put_contents($fullPath, "<"."?php\n/*\n\n" . $output . "\n\n*/\n?" . ">");
+            return false !== file_put_contents($fullPath, "<"."?php\n/*\n\n" . $output . "\n\n*/\n?" . ">");
         }
     }
 }
