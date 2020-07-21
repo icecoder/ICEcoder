@@ -99,7 +99,7 @@ $ICEcoderUserSettings = $settingsClass->getConfigUsersSettings($settingsFile);
 // Remove any previous files that are no longer there
 for ($i = 0; $i < count($ICEcoderUserSettings['previousFiles']); $i++) {
     if (false === file_exists(str_replace("|", "/", $ICEcoderUserSettings['previousFiles'][$i]))) {
-        unset($ICEcoderUserSettings['previousFiles'][$i]);
+        array_splice($ICEcoderUserSettings['previousFiles'], $i, 1);
     }
 }
 
