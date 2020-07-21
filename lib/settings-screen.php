@@ -421,7 +421,7 @@ function showButton() {
 
 function showHideTabs() {
 	let cMCSS = document.styleSheets[2];
-	cMCSS.rules ? strCSS = 'rules' : strCSS = 'cssRules';
+    let strCSS = cMCSS.rules ? 'rules' : 'cssRules';
 	cMCSS[strCSS][2].style['border-left-width'] = document.settings.visibleTabs.checked ? '1px' : '0';
 	cMCSS[strCSS][2].style['margin-left'] = document.settings.visibleTabs.checked ? '-1px' : '0';
 }

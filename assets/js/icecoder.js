@@ -1441,7 +1441,7 @@ var ICEcoder = {
         };
         // For each line in editor
         this.getThisCM().eachLine(function(line) {
-            // The number we're seeking if greater than prev linees we've considered plus this line
+            // The number we're seeking if greater than prev lines we've considered plus this line
             if (num > ICEcoder.charPos.len + (line.text + "\n").length) {
                 // Increment line
                 ICEcoder.charPos.thisLine++;
@@ -3383,7 +3383,7 @@ var ICEcoder = {
                     get('saveTemp'+nextSaveID).value = cM.getValue();
                     // Else we can save the JSON version of the changes to implement
                 } else {
-                    get('saveTemp'+nextSaveID).value = this.serverQueueItems[0].changes;
+                    get('saveTemp'+nextSaveID).value = changes;
                 }
             }
         } else if (action=="del") {

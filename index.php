@@ -55,7 +55,7 @@ echo $iceURLPath . "/assets/css/theme/";
 echo "default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css';
 echo "?microtime=".microtime(true);
 ?>">
-<link rel="icon" type="image/png" href="assets/images/favicon.png">
+<link rel="icon" type="image/png" href="<?php echo $iceURLPath;?>/assets/images/favicon.png">
 <script>
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
 

@@ -64,7 +64,6 @@ sendCmd = function(command) {
 				responseJSON = JSON.parse(responseText);
 				newOutput.innerHTML = responseJSON.output;
 				document.getElementById("user").innerHTML = "&nbsp;&nbsp" + responseJSON.user + "&nbsp;";
-				document.getElementById("user").innerHTML = "&nbsp;&nbsp" + responseJSON.user + "&nbsp;";
 				document.getElementById("cwd").innerHTML = "&nbsp;" + responseJSON.cwd + "&nbsp;";
 				var cmdElem = document.getElementById("commandLine");
 				cmdElem.parentNode.insertBefore(newOutput, cmdElem);
