@@ -741,6 +741,8 @@ var ICEcoder = {
 
     // Show function args tooltip
     functionArgsTooltip: function(e, area) {
+        let numLintErrors;
+
         if (this.indexData) {
             // If we have no files open, return early
             if (0 === this.openFiles.length) {
@@ -776,7 +778,15 @@ var ICEcoder = {
             if (1 === numResults && -1 === [null, "def"].indexOf(cM.getTokenTypeAt(coordsChar))) {
                 get('tooltip').style.display = "block";
                 get('tooltip').style.left = (this.mouseX - this.maxFilesW + 10) + "px";
-                get('tooltip').style.top = (this.mouseY - 30) + "px";
+                numLintErrors = this.content.contentWindow.document.getElementsByClassName("CodeMirror-lint-tooltip")[0];
+                numLintErrors = numLintErrors && numLintErrors.childNodes
+                    ? numLintErrors.childNodes.length
+                    : 0;
+                get('tooltip').style.top = (this.mouseY - 30 -
+                    (0 < numLintErrors
+                    ? 18 * numLintErrors
+                    : 0)
+                ) + "px";
                 get('tooltip').style.zIndex = "1";
                 get('tooltip').innerHTML = result.params;
                 // Else hide it
