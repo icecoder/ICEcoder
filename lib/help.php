@@ -1,6 +1,6 @@
 <?php
-include("headers.php");
-include("settings.php");
+include "headers.php";
+include "settings.php";
 $t = $text['help'];
 ?>
 <!DOCTYPE html>
@@ -10,14 +10,15 @@ $t = $text['help'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> help</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="help.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="../assets/css/resets.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="../assets/css/help.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body class="help">
+<body class="help" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'help')" onload="this.focus();">
 
 <h1 id="title"><?php echo $t['shortcuts'];?></h1>
 
-<?php $isMac = strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh")>-1 ? true : false;?>
+<?php $isMac = -1 < strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : false;?>
 <div style="display: inline-block; width: 385px; margin-right: 20px">
 	<h2><?php echo $t['Within document'];?></h2>
 	<!-- This can only be CTRL+space as Cmd+space is a reserved apple shortcut -->
@@ -40,10 +41,13 @@ $t = $text['help'];
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> p</span> <span class="shortcut"><?php echo $t['Wrap unwrap p'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> a</span> <span class="shortcut"><?php echo $t['Wrap unwrap a'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> 1, 2 <?php echo $t['or'];?> 3</span> <span class="shortcut"><?php echo $t['Wrap unwrap h1...'];?></span><br>
-	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> Enter</span> <span class="shortcut"><?php echo $t['End line with...'];?></span><br><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> Enter</span> <span class="shortcut"><?php echo $t['End line with...'];?></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Right click</span> <span class="shortcut"><?php echo $t['Jump to'];?></span><br>
+	<span class="key">F1 <span class="plus"><?php echo $t['or'];?></span> Fn <span class="plus">+</span> F1</span><span class="shortcut"><?php echo $t['Zoom out'];?></span><br><br>
 
 	<h2><?php echo $t['On Tabs'];?></h2>
 	<span class="key"><?php echo $t['Middle click'];?></span> <span class="shortcut"><?php echo $t['Close tab'];?></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Backspace</span> <span class="shortcut"><?php echo $t['Jump to previous tab'];?></span><br><br>
 </div>
 
 <div style="display: inline-block; width: 385px">

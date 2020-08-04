@@ -1,116 +1,149 @@
 <?php
-include_once("settings-common.php");
+require_once dirname(__FILE__) . "/../classes/Settings.php";
+
+$settingsClass = new \ICEcoder\Settings();
+
+include_once "settings-common.php";
 $text = $_SESSION['text'];
 $t = $text['settings-update'];
 
 // Update this config file?
-if (!$demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] && isset($_POST["theme"]) && $_POST["theme"]) {
-	$settingsContents = getData($settingsFile);
-	// Replace our settings vars
-	$repPosStart = strpos($settingsContents,'"root"');
-	$repPosEnd = strpos($settingsContents,'"plugins"');
+if (false === $demoMode && true === isset($_SESSION['loggedIn']) && true === $_SESSION['loggedIn'] &&
+    (true === isset($_POST["theme"]) || true === isset($_GET['action']) && "turnOffTutorialOnLogin" === $_GET['action'])
+) {
+	// Just updating tutorialOnLogin setting
+	if (true === isset($_GET['action']) && "turnOffTutorialOnLogin" === $_GET['action']) {
+        if (true === $settingsClass->updateConfigUsersSettings($settingsFile, ['tutorialOnLogin' => false])) {
+            $ICEcoder['tutorialOnLogin'] = false;
+        } else {
+            echo "<script>parent.ICEcoder.message('" . $t['Cannot update config'] . " data/" . $settingsFile . " " . $t['and try again'] . "');</script>";
+        }
+        exit;
+    }
+
+	$currentSettings = $settingsClass->getConfigUsersSettings($settingsFile);
 
 	// Has there been a language change?
-	$languageUserChanged = $ICEcoder['languageUser'] != $_POST['languageUser'];
+	$languageUserChanged = $ICEcoder['languageUser'] !== $_POST['languageUser'];
 
 	// Prepare all our vars
-	$ICEcoder["root"]			= xssClean($_POST['root'],"html");
-	$ICEcoder["checkUpdates"]		= isset($_POST['checkUpdates']) && $_POST['checkUpdates'] ? "true" : "false";
-	$ICEcoder["openLastFiles"]		= isset($_POST['openLastFiles']) && $_POST['openLastFiles'] ? "true" : "false";
-	$ICEcoder["updateDiffOnSave"]		= isset($_POST['updateDiffOnSave']) && $_POST['updateDiffOnSave'] ? "true" : "false";
-	$ICEcoder["languageUser"]		= strClean($_POST['languageUser']);
-	$ICEcoder["backupsKept"]		= isset($_POST['backupsKept']) && $_POST['backupsKept'] ? "true" : "false";
-	$ICEcoder["backupsDays"]		= intval($_POST['backupsDays']);
-	$ICEcoder["deleteToTmp"]		= isset($_POST['deleteToTmp']) && $_POST['deleteToTmp'] ? "true" : "false";
-	$ICEcoder["findFilesExclude"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['findFilesExclude']))).'")';
-	$ICEcoder["codeAssist"]			= isset($_POST['codeAssist']) && $_POST['codeAssist'] ? "true" : "false";
-	$ICEcoder["visibleTabs"]		= isset($_POST['visibleTabs']) && $_POST['visibleTabs'] ? "true" : "false";
-	$ICEcoder["lockedNav"]			= isset($_POST['lockedNav']) && $_POST['lockedNav'] ? "true" : "false";
-	$ICEcoder["tagWrapperCommand"]		= strClean($_POST['tagWrapperCommand']);
-	$ICEcoder["autoComplete"]		= strClean($_POST['autoComplete']);
-	if ($_POST['password']!="")		{$ICEcoder["password"] = generateHash(strClean($_POST['password']));};
-	$ICEcoder["bannedFiles"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedFiles']))).'")';
-	$ICEcoder["bannedPaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bannedPaths']))).'")';
-	$ICEcoder["allowedIPs"]			= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['allowedIPs']))).'")';
-	$ICEcoder["autoLogoutMins"]		= intval($_POST['autoLogoutMins']);
-	$ICEcoder["theme"]			= strClean($_POST['theme']);
-	$ICEcoder["fontSize"]			= strClean($_POST['fontSize']);
-	$ICEcoder["lineWrapping"]		= strClean($_POST['lineWrapping']);
-	$ICEcoder["lineNumbers"]		= strClean($_POST['lineNumbers']);
-	$ICEcoder["showTrailingSpace"]		= strClean($_POST['showTrailingSpace']);
-	$ICEcoder["matchBrackets"]		= strClean($_POST['matchBrackets']);
-	$ICEcoder["autoCloseTags"]		= strClean($_POST['autoCloseTags']);
-	$ICEcoder["autoCloseBrackets"]		= strClean($_POST['autoCloseBrackets']);
-	$ICEcoder["indentWithTabs"]		= strClean($_POST['indentWithTabs']);
-	$ICEcoder["indentAuto"]			= strClean($_POST['indentAuto']);
-	$ICEcoder["indentSize"]			= intval($_POST['indentSize']);
-	$ICEcoder["pluginPanelAligned"]		= strClean($_POST['pluginPanelAligned']);
-	$ICEcoder["bugFilePaths"]		= 'array("'.str_replace(',','","',str_replace(" ","",strClean($_POST['bugFilePaths']))).'")';
-	$ICEcoder["bugFileCheckTimer"]		= intval($_POST['bugFileCheckTimer']) >= 0 ? intval($_POST['bugFileCheckTimer']) : 0;
-	$ICEcoder["bugFileMaxLines"]		= intval($_POST['bugFileMaxLines']);
-	$ICEcoder["githubAuthToken"]		= strClean($_POST['githubAuthToken']);
+    $updatedSettings = [
+        "versionNo"          => $currentSettings['versionNo'],
+        "configCreateDate"   => $currentSettings['configCreateDate'],
+        "root"               => xssClean($_POST['root'], "html"),
+        "checkUpdates"       => isset($_POST['checkUpdates']),
+        "openLastFiles"      => isset($_POST['openLastFiles']),
+        "updateDiffOnSave"   => isset($_POST['updateDiffOnSave']),
+        "languageUser"       => $_POST['languageUser'],
+        "backupsKept"        => isset($_POST['backupsKept']),
+        "backupsDays"        => intval($_POST['backupsDays']),
+        "deleteToTmp"        => isset($_POST['deleteToTmp']),
+        "findFilesExclude"   => explode(",", str_replace(" ", "", $_POST['findFilesExclude'])),
+        "codeAssist"         => isset($_POST['codeAssist']),
+        "visibleTabs"        => isset($_POST['visibleTabs']),
+        "lockedNav"          => isset($_POST['lockedNav']),
+        "tagWrapperCommand"  => $_POST['tagWrapperCommand'],
+        "autoComplete"       => $_POST['autoComplete'],
+        "password"           => $currentSettings['password'],
+        "bannedFiles"        => explode(",", str_replace(" ", "", $_POST['bannedFiles'])),
+        "bannedPaths"        => explode(",", str_replace(" ", "", $_POST['bannedPaths'])),
+        "allowedIPs"         => explode(",", str_replace(" ", "", $_POST['allowedIPs'])),
+        "autoLogoutMins"     => intval($_POST['autoLogoutMins']),
+        "theme"              => $_POST['theme'],
+        "fontSize"           => $_POST['fontSize'],
+        "lineWrapping"       => isset($_POST['lineWrapping']),
+        "lineNumbers"        => isset($_POST['lineNumbers']),
+        "showTrailingSpace"  => isset($_POST['showTrailingSpace']),
+        "matchBrackets"      => isset($_POST['matchBrackets']),
+        "autoCloseTags"      => isset($_POST['autoCloseTags']),
+        "autoCloseBrackets"  => isset($_POST['autoCloseBrackets']),
+        "indentType"         => $_POST['indentType'],
+        "indentAuto"         => isset($_POST['indentAuto']),
+        "indentSize"         => intval($_POST['indentSize']),
+        "pluginPanelAligned" => $_POST['pluginPanelAligned'],
+        "scrollbarStyle"     => $_POST['scrollbarStyle'],
+        "bugFilePaths"       => explode(",", str_replace(" ", "", $_POST['bugFilePaths'])),
+        "bugFileCheckTimer"  => intval($_POST['bugFileCheckTimer']) >= 0 ? intval($_POST['bugFileCheckTimer']) : 0,
+        "bugFileMaxLines"    => intval($_POST['bugFileMaxLines']),
+        "plugins"            => $currentSettings['plugins'],
+        "ftpSites"           => $currentSettings['ftpSites'],
+        "tutorialOnLogin"    => isset($_POST['tutorialOnLogin']),
+        "tipsOnLogin"        => isset($_POST['tipsOnLogin']),
+        "previousFiles"      => $currentSettings['previousFiles'],
+        "last10Files"        => $currentSettings['last10Files'],
+        "favoritePaths"      => $currentSettings['favoritePaths'],
+    ];
 
-	$settingsArray = array("root","checkUpdates","openLastFiles","updateDiffOnSave","languageUser","backupsKept","backupsDays","deleteToTmp","findFilesExclude","codeAssist","visibleTabs","lockedNav","tagWrapperCommand","autoComplete","password","bannedFiles","bannedPaths","allowedIPs","autoLogoutMins","theme","fontSize","lineWrapping","lineNumbers","showTrailingSpace","matchBrackets","autoCloseTags","autoCloseBrackets","indentWithTabs","indentAuto","indentSize","pluginPanelAligned","bugFilePaths","bugFileCheckTimer","bugFileMaxLines","githubAuthToken");
-	$settingsNew = "";
-	for ($i=0;$i<count($settingsArray);$i++) {
-		$settingsNew .= '"'.$settingsArray[$i].'"	=> ';
-		// Wrap certain values in double quotes
-		$settingWrap = $settingsArray[$i]=="root"||$settingsArray[$i]=="password"||$settingsArray[$i]=="languageUser"||$settingsArray[$i]=="theme"||$settingsArray[$i]=="fontSize"||$settingsArray[$i]=="tagWrapperCommand"||$settingsArray[$i]=="autoComplete"||$settingsArray[$i]=="pluginPanelAligned"||$settingsArray[$i]=="githubAuthToken" ? '"' : '';
-		$settingsNew .= $settingWrap.$ICEcoder[$settingsArray[$i]].$settingWrap.','.PHP_EOL;
-	}
+    if ("" !== $_POST['password']) {
+        $updatedSettings["password"] = generateHash($_POST['password']);
+    };
 
-	// Compile our new settings
-	$settingsContents = substr($settingsContents,0,$repPosStart).$settingsNew.substr($settingsContents,($repPosEnd),strlen($settingsContents));
+    $ICEcoder = array_merge($ICEcoder, $updatedSettings);
 
 	// Now update the config file
-	if (is_writeable($settingsFile)) {
-		$fh = fopen($settingsFile, 'w');
-		fwrite($fh, $settingsContents);
-		fclose($fh);
+    if (true === $settingsClass->getConfigUsersFileDetails($settingsFile)['writable']) {
+	    $settingsClass->setConfigUsersSettings($settingsFile, $updatedSettings);
 	} else {
-		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." lib/".$settingsFile." ".$t['and try again']."');</script>";
+		echo "<script>parent.ICEcoder.message('" . $t['Cannot update config'] . " data/" . $settingsFile . " " . $t['and try again'] . "');</script>";
 	}
 
 	// OK, now the config file has been updated, update our current session with new arrays
-	$settingsArray = array("findFilesExclude","bannedFiles","allowedIPs");
-	for ($i=0;$i<count($settingsArray);$i++) {
-		$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]] = explode(",",str_replace(" ","",strClean($_POST[$settingsArray[$i]])));
+	$settingsArray = array("findFilesExclude", "bannedFiles", "allowedIPs");
+	for ($i = 0; $i < count($settingsArray); $i++) {
+		$_SESSION[$settingsArray[$i]] = $ICEcoder[$settingsArray[$i]] = explode(",", str_replace(" ", "", $_POST[$settingsArray[$i]]));
 	}
 
 	// Work out the theme to use now
-	$ICEcoder["theme"]=="default" ? $themeURL = 'lib/editor.css' : $themeURL = $ICEcoder["codeMirrorDir"].'/theme/'.$ICEcoder["theme"].'.css';
-	$themeURL .= "?microtime=".microtime(true);
+    $themeURL =
+        "assets/css/theme/" .
+        ("default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css') .
+	    "?microtime=" . microtime(true);
 
 	// Do we need a file manager refresh?
-	$refreshFM = $_POST['changedFileSettings']=="true" ? "true" : "false";
+	$refreshFM = $_POST['changedFileSettings'] == "true" ? "true" : "false";
 
-	// Change multiUser and enableRegistration in config___settings.php
-	$generalSettingsContents = getData($configSettings);
-	$isMultiUser = isset($_POST['multiUser']) && $_POST['multiUser'] ? "true" : "false";
-	$generalSettingsContents = str_replace('"multiUser"		=> true,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
-	$generalSettingsContents = str_replace('"multiUser"		=> false,','"multiUser"		=> '.$isMultiUser.',',$generalSettingsContents);
+    // Update global config settings file
+    $ICEcoderGlobalFileName = $settingsClass->getConfigGlobalFileDetails()['fileName'];
+    $ICEcoderSettingsFromFile = $settingsClass->getConfigGlobalSettings();
+    $ICEcoderSettingsFromFile['multiUser'] = isset($_POST['multiUser']);
+    $ICEcoderSettingsFromFile['enableRegistration'] = isset($_POST['enableRegistration']);
+    if (false === $settingsClass->setConfigGlobalSettings($ICEcoderSettingsFromFile)) {
+        echo "<script>parent.ICEcoder.message('" . $t['Cannot update config'] . " data/" . $ICEcoderGlobalFileName . " " . $t['and try again'] . "');</script>";
+    }
 
-	$isEnableRegistration = isset($_POST['enableRegistration']) && $_POST['enableRegistration'] ? "true" : "false";
-	$generalSettingsContents = str_replace('"enableRegistration"	=> true','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
-	$generalSettingsContents = str_replace('"enableRegistration"	=> false','"enableRegistration"	=> '.$isEnableRegistration,$generalSettingsContents);
-
-	if (is_writeable($configSettings)) {
-		$fConfigSettings = fopen($configSettings, 'w');
-		fwrite($fConfigSettings, $generalSettingsContents);
-		fclose($fConfigSettings);
-	} else {
-		echo "<script>top.ICEcoder.message('".$t['Cannot update config']." lib/".$configSettings." ".$t['and try again']."');</script>";
-	}
-
-	$githubAuthTokenSet = $ICEcoder["githubAuthToken"] != "" ? "true" : "false";
-
-	// If we've changed langugage, reload ICEcoder now
-	if ($languageUserChanged) {
-		echo '<script>top.window.location = "../";</script>';
+	// If we've changed language, reload ICEcoder now
+	if (true === $languageUserChanged) {
+		echo '<script>parent.window.location = "../";</script>';
 		die('Reloading ICEcoder after language change');
 	}
 
 	// With all that worked out, we can now hide the settings screen and apply the new settings
-	$jsBugFilePaths = "['".str_replace(",","','",str_replace(" ","",strClean($_POST['bugFilePaths'])))."']";
-	echo "<script>top.ICEcoder.settingsScreen('hide');top.ICEcoder.useNewSettings('".$themeURL."',".$ICEcoder["codeAssist"].",".$ICEcoder["lockedNav"].",'".$ICEcoder["tagWrapperCommand"]."','".$ICEcoder["autoComplete"]."',".$ICEcoder["visibleTabs"].",'".$ICEcoder["fontSize"]."',".$ICEcoder["lineWrapping"].",".$ICEcoder["lineNumbers"].",".$ICEcoder["showTrailingSpace"].",".$ICEcoder["matchBrackets"].",".$ICEcoder["autoCloseTags"].",".$ICEcoder["autoCloseBrackets"].",".$ICEcoder["indentWithTabs"].",".$ICEcoder["indentAuto"].",".$ICEcoder["indentSize"].",'".$ICEcoder["pluginPanelAligned"]."',".$jsBugFilePaths.",".$ICEcoder["bugFileCheckTimer"].",".$ICEcoder["bugFileMaxLines"].",'".$githubAuthTokenSet."',".$ICEcoder["updateDiffOnSave"].",".$ICEcoder["autoLogoutMins"].",".$refreshFM.");top.iceRoot = '".$ICEcoder["root"]."';</script>";
+	$jsBugFilePaths = "['" . str_replace(",", "','", str_replace(" ", "", $_POST['bugFilePaths'])) . "']";
+	echo "<script>parent.ICEcoder.settingsScreen('hide'); parent.ICEcoder.useNewSettings('" .
+        $themeURL . "'," .
+        (true === $ICEcoder["codeAssist"] ? "true" : "false") . "," .
+        (true === $ICEcoder["lockedNav"] ? "true" : "false") . ",'" .
+        $ICEcoder["tagWrapperCommand"] . "','" .
+        (true === $ICEcoder["autoComplete"] ? "true" : "false") . "'," .
+        (true === $ICEcoder["visibleTabs"] ? "true" : "false") . ",'" .
+        $ICEcoder["fontSize"] . "'," .
+        (true === $ICEcoder["lineWrapping"] ? "true" : "false") . "," .
+        (true === $ICEcoder["lineNumbers"] ? "true" : "false") . "," .
+        (true === $ICEcoder["showTrailingSpace"] ? "true" : "false") . "," .
+        (true === $ICEcoder["matchBrackets"] ? "true" : "false") . "," .
+        (true === $ICEcoder["autoCloseTags"] ? "true" : "false") . "," .
+        (true === $ICEcoder["autoCloseBrackets"] ? "true" : "false") . ",'" .
+        $ICEcoder["indentType"] . "'," .
+        (true === $ICEcoder["indentAuto"] ? "true" : "false") . "," .
+        $ICEcoder["indentSize"] . ",'" .
+        $ICEcoder["pluginPanelAligned"] . "','" .
+        $ICEcoder["scrollbarStyle"] . "'," .
+        $jsBugFilePaths . "," .
+        $ICEcoder["bugFileCheckTimer"] . "," .
+        $ICEcoder["bugFileMaxLines"] . "," .
+        (true === $ICEcoder["updateDiffOnSave"] ? "true" : "false") . "," .
+        $ICEcoder["autoLogoutMins"] . "," .
+        $refreshFM .
+        "); iceRoot = '" . $ICEcoder["root"] .
+        "';</script>";
 }

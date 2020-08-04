@@ -1,0 +1,10 @@
+body {overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: center;
+}
+
+h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
+.auto-logout-warning {background-color: #1c1c19; color: #fff; padding: 20px}

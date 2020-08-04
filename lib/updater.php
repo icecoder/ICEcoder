@@ -1,4 +1,6 @@
 <?php
+die("Updater system unused till a future point in time");
+
 include("headers.php");
 include("settings.php");
 $t = $text['updater'];
@@ -23,7 +25,7 @@ function startUpdate() {
 			// Don't move backups, plugins or .git away
 			$testPath = $source.DIRECTORY_SEPARATOR.$iterator->getSubPathName();
 			$testPath = str_replace("\\","/",$testPath);
-			if (strpos($testPath,"/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
+			if (strpos($testPath,"/data/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
 				if (!is_writeable($item)) {
 					array_push($cantMoveArray,substr($item,count($source)+2));
 				}
@@ -55,19 +57,14 @@ function copyOldVersion() {
 	}
 	$source = "../";
 	$dest = PATH;
-	// Set a stream context timeout for file reading
-	$context = stream_context_create(array('http'=>
-		array(
-			'timeout' => 60 // secs
-		)
-	));
+
 	echo 'Moving current ICEcoder files...<br>';
 	foreach ($iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),RecursiveIteratorIterator::SELF_FIRST) as $item) {
 		if (strpos($source.DIRECTORY_SEPARATOR.$iterator->getSubPathName(),"oldVersion")==false) {
 			// Don't move backups, plugins or .git away
 			$testPath = $source.DIRECTORY_SEPARATOR.$iterator->getSubPathName();
 			$testPath = str_replace("\\","/",$testPath);
-			if (strpos($testPath,"/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
+			if (strpos($testPath,"/data/backups/")==false && strpos($testPath,"/plugins/")==false && strpos($testPath,"/.git/")==false) {
 				if ($item->isDir()) {
 					mkdir($dest.DIRECTORY_SEPARATOR.$iterator->getSubPathName(), 0755);
 				} else {
@@ -84,8 +81,6 @@ function copyOldVersion() {
 }
 
 function openZipNew($icvInfo) {
-	global $context;
-
 	echo 'Retrieving zip from ICEcoder site...<br>';
 	$source = 'ICEcoder v'.$icvInfo;
 	$target = '../';
@@ -129,8 +124,6 @@ function openZipNew($icvInfo) {
 }
 
 function transposeSettings($oldFile,$newFile,$saveFile) {
-	global $context;
-
 	echo '- Getting old and new settings...<br>';
 	// Get old and new settings and start a new $contents
 	$oldSettingsContent = getData($oldFile);
@@ -153,11 +146,11 @@ function transposeSettings($oldFile,$newFile,$saveFile) {
 		$contentLine = $newSettingsArray[$i].PHP_EOL;
 		for ($j=0; $j<count($oldSettingsArray); $j++) {
 			// And override with old setting if not blank, not in excluded array and we have a match
-			if ($thisKey != "" && $thisKey != "versionNo" && $thisKey != "codeMirrorDir" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
+			if ($thisKey != "" && $thisKey != "versionNo" && strpos($oldSettingsArray[$j],'"'.$thisKey.'"') > -1) {
 				$contentLine = $oldSettingsArray[$j].PHP_EOL;
 				// If the old setting we're copying over isn't replacing the last line and doesn't end in a comma (after an rtrim to remove line endings), and doesn't contain a comment, add one
 				if ($i != count($newSettingsArray)-1 && substr(rtrim($contentLine),-1) != "," && strpos($contentLine,"//") == -1) {
-					$contentLine = str_replace(PHP_EOL,",".PHP_EOL,$contentLine);	
+					$contentLine = str_replace(PHP_EOL,",".PHP_EOL,$contentLine);
 				}
 			}
 		}
@@ -176,29 +169,30 @@ function copyOverSettings($icvInfo) {
 	echo 'Transposing system settings...<br>';
 	// Create a new config file if it doesn't exist yet.
 	// The reason we create it, is so it has PHP write permissions, meaning we can update it later
-	if (!file_exists(dirname(__FILE__)."/".$configSettings)) {
+	if (!file_exists(dirname(__FILE__)."/../data/".$configSettings)) {
 		echo 'Creating new settings file...<br>';
+		// TODO: Needs overhauling as newConfigSettingsFile no longer exists
 		// Include our params to make use of (as $newConfigSettingsFile)
 		include(dirname(__FILE__)."/settings-system-params.php");
-		if ($fConfigSettings = fopen(dirname(__FILE__)."/".$configSettings, 'w')) {
+		if ($fConfigSettings = fopen(dirname(__FILE__)."/../data/".$configSettings, 'w')) {
 			fwrite($fConfigSettings, $newConfigSettingsFile);
 			fclose($fConfigSettings);
 		} else {
-			die("Cannot update config file lib/".$configSettings.". Please check write permissions on lib/ and try again");
+			die("Cannot update config file data/".$configSettings.". Please check write permissions on data/ and try again");
 		}
 	}
-	transposeSettings(PATH."lib/config___settings.php","config___settings.php","config___settings.php");
+	transposeSettings(PATH."data/template-config-global.php","config-global.php","config-global.php");
 
 	// Users template settings
 	echo 'Transposing users template settings...<br>';
-	transposeSettings(PATH."lib/config___users-template.php","config___users-template.php","config___users-template.php");
+	transposeSettings(PATH."data/template-config-users.php","template-config-users.php","template-config-users.php");
 
 	// Users settings files
-	$fileList = scanDir(PATH."lib/");
+	$fileList = scanDir(PATH."data/");
 	for ($i=0; $i<count($fileList); $i++) {
 		if (strpos($fileList[$i],"config-") > -1) {
 			echo 'Transposing users settings file '.$fileList[$i].'...<br>';
-			transposeSettings(PATH."lib/".$fileList[$i],"config___users-template.php",$fileList[$i]);
+			transposeSettings(PATH."data/".$fileList[$i],"template-config-users.php",$fileList[$i]);
 		}
 	}
 
@@ -213,7 +207,7 @@ if ($updateDone) {
 	echo '<script>alert("'.$t['Update appears to...'].'");window.location = "../?display=updated&csrf='.$_SESSION["csrf"].'";</script>';
 } else {
 	echo 'Something appears to have gone wrong :-/<br><br>';
-	echo 'Please report bugs at <a href=\"https://github.com/mattpass/ICEcoder\" style=\"color: #fff\">https://github.com/mattpass/ICEcoder</a><br><br>';
+	echo 'Please report bugs at <a href=\"https://github.com/icecoder/ICEcoder\" style=\"color: #fff\">https://github.com/icecoder/ICEcoder</a><br><br>';
 	echo 'You can recover the old version from ICEcoder\'s tmp dir';
 }
 ?>

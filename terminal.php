@@ -1,6 +1,6 @@
 <?php
-include("lib/headers.php");
-include("lib/settings.php");
+include "lib/headers.php";
+include "lib/settings.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +9,7 @@ include("lib/settings.php");
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
-<link rel="stylesheet" type="text/css" href="lib/terminal.css?microtime=<?php echo microtime(true);?>" />  
+<link rel="stylesheet" type="text/css" href="assets/css/terminal.css?microtime=<?php echo microtime(true);?>" />
 <script type="text/javascript" language="JavaScript">
 commandHistory = [];
 currentLine = 0;
@@ -35,7 +35,7 @@ key = function(e) {
 				commandHistory[commandHistory.length-1] = "[[ICEcoder]]:"+currentCommand;
 			}
 		}
-		// If ee have at least some items in history, step back a level and display the previous command
+		// If we have at least some items in history, step back a level and display the previous command
 		if (currentLine > 0) {
 			currentLine--;
 			document.getElementById('command').value = commandHistory[currentLine].replace("[[ICEcoder]]:","");
@@ -53,14 +53,21 @@ key = function(e) {
 
 sendCmd = function(command) {
 	// Send command over XHR for response and display
-	xhr = top.ICEcoder.xhrObj();
+	xhr = parent.ICEcoder.xhrObj();
 	xhr.onreadystatechange=function() {
 		if (xhr.readyState==4) {
 			// OK reponse?
 			if (xhr.status==200) {
 				// Set the output to also include our response and scroll down to bottom
-				document.getElementById('output').innerHTML += xhr.responseText;
-				document.body.scrollTop = document.body.scrollHeight;
+				var newOutput = document.createElement("DIV");
+				responseText = xhr.responseText;
+				responseJSON = JSON.parse(responseText);
+				newOutput.innerHTML = responseJSON.output;
+				document.getElementById("user").innerHTML = "&nbsp;&nbsp" + responseJSON.user + "&nbsp;";
+				document.getElementById("cwd").innerHTML = "&nbsp;" + responseJSON.cwd + "&nbsp;";
+				var cmdElem = document.getElementById("commandLine");
+				cmdElem.parentNode.insertBefore(newOutput, cmdElem);
+				parent.document.getElementById("terminal").contentWindow.document.documentElement.scrollTop = document.getElementById('output').scrollHeight;
 
 				// Add command onto end of history array or set as last item in array
 				if (currentLine == 0 || commandHistory[commandHistory.length-1].indexOf("[[ICEcoder]]:") !== 0) {
@@ -76,31 +83,28 @@ sendCmd = function(command) {
 		}
 	};
 	// Send the XHR request
-	xhr.open("POST","lib/terminal-xhr.php?csrf="+top.ICEcoder.csrf,true);
+	xhr.open("POST","lib/terminal-xhr.php?csrf="+parent.ICEcoder.csrf,true);
 	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xhr.send('command='+encodeURIComponent(command));
 }
 </script>
 </head>
 
-<body>
+<body onclick="document.getElementById('command').focus()">
 <?php
+if (true === isset($_SESSION['cwd'])) {
+    chdir($_SESSION['cwd']);
+}
 $user = str_replace("\n","",shell_exec("whoami"));
-$cwd = $ICEcoder['docRoot'].$ICEcoder['root'];
+$cwd = str_replace("\n","",shell_exec("pwd"));
 ?>
-<span class="close" onclick="top.get('terminal').style.display = 'none'">Close X</span>
 
 <form name="shell" onsubmit="sendCmd(document.getElementById('command').value); return false" method="POST">
-	<pre class="output" id="output">ICEcoder v <?php echo $ICEcoder["versionNo"];?> terminal
+	<pre class="output" id="output"><span style="color: #0a0">ICEcoder v<?php echo $ICEcoder["versionNo"];?> terminal</span>
 This is a full powered terminal, but will have the permissions of the '<?php echo $user;?>' user.
 The more access rights you give that user, the more this terminal has.
 
-Current dir:
-<?php echo $cwd;?>
-
-
-</pre>
-	<div class="commandLine">$&gt; <input type="text" class="command" id="command" onkeyup="key(event)" tabindex="1" autocomplete="off"></div>
+<div class="commandLine" id="commandLine"><div class="user" id="user">&nbsp;&nbsp;<?php echo $user;?>&nbsp;</div><div class="cwd" id="cwd">&nbsp;<?php echo $cwd;?>&nbsp;</div> : <?php echo date("H:m:s");?><br><div class="promptVLine"></div><div class="promptHLine">─<div class="promptArrow">▶</div></div> <input type="text" class="command" id="command" onkeyup="key(event)" tabindex="1" autocomplete="off"></div></pre>
 </form>
 
 </body>
