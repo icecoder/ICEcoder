@@ -1,11 +1,11 @@
-/* Theme Name: 2019 Torres Digital® 🇧🇷
+/* Theme Name: 2020 Torres Digital® 🇧🇷
 
     Author: Torres Digital® | Sites → Lojas Virtuais e e-Commerce
     Author URI: https://www.facebook.com/torresdigital/
 
     Description: omos uma Agência Gaúcha que trabalha com Desenvolvimento Web voltado para todos os Nichos do Mercado tais como os de insumos, commodities, pequenos, médios e grandes Lojistas que desejam alcançar mais Clientes através do e-Commerce: Sites, Aplicativos, Lojas Virtuais, Marketplaces, WordPress e Woocommerce, integrados com os Principais Cartões e Soluções de Pagamentos do Brasil e do Mundo; tais como Cielo, CyberSource, PagSeguro, Stripe, Vindi, MasterCard, Visa, American Express, outros.
 
-        www.torresdigital.tk * Menos é mais.
+        https://www.torresdigital.tk * Menos é mais.
 
     Version: 2.0 *//* 15 de Junho de 2019 - 00h:04m:41s
 
@@ -38,7 +38,7 @@ This theme is licensed under the GPL. Use it to make something cool, have fun, a
 .cm-s-2019-torres-digital-theme span.cm-string { color: #39C; }
 .cm-s-2019-torres-digital-theme span.cm-meta { color: #C9F; }
 .cm-s-2019-torres-digital-theme span.cm-qualifier { color: #FFF700; }
-.cm-s-2019-torres-digital-theme span.cm-builtin { color: #F8A901; }
+.cm-s-2019-torres-digital-theme span.cm-builtin { color: #F8A901; font-weight: 600; }
 .cm-s-2019-torres-digital-theme span.cm-bracket { color: #cc7; }
 .cm-s-2019-torres-digital-theme span.cm-tag { color: #FFBD40; }
 .cm-s-2019-torres-digital-theme span.cm-attribute { color: #FFF700; }
