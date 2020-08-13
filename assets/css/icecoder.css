@@ -9,6 +9,9 @@ body {overflow: hidden;
 h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
 h2 {font-size: 18px; font-weight: normal; color: #fff}
 
+.icon {position: absolute; margin-left: 2px}
+.icon-tabler {width: 24px; height: 24px; stroke-width: 1.25; color: #888}
+
 .blackMask {position: fixed; display: table; width: 100%; height: 100%; top: 0; left: 0; visibility: hidden; background-color: rgba(0,0,0,0.8); text-align: center; z-index: 100}
 .blackMask .popupVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
 .popupVCenter .popup {#position: relative; #top: -50%; text-align: center; color: #fff; font-size: 10px}
