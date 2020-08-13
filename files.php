@@ -19,7 +19,7 @@ $t = $text['files'];
     </style>
 </head>
 
-<body onfocus="parent.ICEcoder.files.style.background = '#444'" onblur="parent.ICEcoder.files.style.background = '#383838'" ondblclick="parent.ICEcoder.openFile()" onkeydown="return parent.ICEcoder.interceptKeys('files', event);" onkeyup="parent.ICEcoder.resetKeys(event);" onblur="parent.ICEcoder.resetKeys(event);">
+<body onfocus="parent.ICEcoder.files.style.background = '#444'" onblur="parent.ICEcoder.files.style.background = '#383838'" ondblclick="if('file' === parent.ICEcoder.thisFileFolderType) {parent.ICEcoder.openFile()}" onkeydown="return parent.ICEcoder.interceptKeys('files', event);" onkeyup="parent.ICEcoder.resetKeys(event);" onblur="parent.ICEcoder.resetKeys(event);">
 
 <div title="<?php echo $t['Lock'];?>" onClick="parent.ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
 <div title="<?php echo $t['Refresh'];?>" onClick="parent.ICEcoder.refreshFileManager()" class="refresh"></div>
