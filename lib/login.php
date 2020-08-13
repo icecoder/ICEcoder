@@ -39,7 +39,7 @@ echo $settingPW ? "Setup" : "Login";
             } else {
                 ?> onkeyup="checkCase(event)"<?php
             }
-            ?>><div class="icon" style="display: none" id="capsLockDisplay" title="Caps lock on"><?php echo file_get_contents("../assets/images/icons/alert-triangle.svg");?></div><br>
+            ?>><div class="iconCapsLock" style="display: none" id="iconCapsLock" title="Caps lock on"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/alert-triangle.svg");?></div><br>
 		<?php
 		if ($settingPW) {
 			echo '<div id="pwReqs">'.
@@ -117,7 +117,7 @@ const checkCase = function(evt) {
 
     // Not caps lock key
     if (20 !== key) {
-        get("capsLockDisplay").style.display = true === evt.getModifierState("CapsLock")
+        get("iconCapsLock").style.display = true === evt.getModifierState("CapsLock")
             ? "inline-block"
             : "none";
     }

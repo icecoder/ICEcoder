@@ -332,6 +332,14 @@ var ICEcoder = {
 
             // Note which tool we're showing
             this.showingTool = this.showingTool !== tool ? tool : false;
+
+            // Display and make close icon clickable to close this tool
+            setTimeout(function() {
+                get('closeIcon').style.display = ICEcoder.showingTool !== false ? "inline-block" : "none";
+                get('closeIcon').onclick = function() {
+                    ICEcoder.toolShowHideToggle(ICEcoder.showingTool);
+                }
+            }, this.showingTool !== false ? 200 : 0);
         }
     },
 

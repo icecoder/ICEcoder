@@ -385,6 +385,8 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 
 <div id="tooltip" class="tooltip" style="display: none"></div>
 
+<div class="closeIcon" style="display: none" id="closeIcon"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/x.svg");?></div>
+
 <script>
 ICEcoder.initAliases();
 ICEcoder.setLayout(false);
