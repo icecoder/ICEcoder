@@ -21,9 +21,9 @@ $t = $text['files'];
 
 <body onfocus="parent.ICEcoder.files.style.background = '#444'" onblur="parent.ICEcoder.files.style.background = '#383838'" ondblclick="if('file' === parent.ICEcoder.thisFileFolderType) {parent.ICEcoder.openFile()}" onkeydown="return parent.ICEcoder.interceptKeys('files', event);" onkeyup="parent.ICEcoder.resetKeys(event);" onblur="parent.ICEcoder.resetKeys(event);">
 
-<div title="<?php echo $t['Lock'];?>" onClick="parent.ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
-<div title="<?php echo $t['Refresh'];?>" onClick="parent.ICEcoder.refreshFileManager()" class="refresh"></div>
-<div title="<?php echo $t['Plugins'];?>" onClick="parent.ICEcoder.showHidePlugins('55px' !== parent.document.getElementById('plugins').style.width  ? 'show' : 'hide')" class="plugins"></div>
+<div title="<?php echo $t['Lock'];?>" onClick="parent.ICEcoder.lockUnlockNav()" class="lock"><div id="fmLockClosed" style="display: <?php echo true === $ICEcoder["lockedNav"] ? "inline-block" : "none";?>"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/lock.svg");?></div><div id="fmLockOpen" style="display: <?php echo true === $ICEcoder["lockedNav"] ? "none" : "inline-block";?>"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/lock-open.svg");?></div></div>
+<div title="<?php echo $t['Refresh'];?>" onClick="parent.ICEcoder.refreshFileManager()" class="refresh"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/rotate-clockwise.svg");?></div>
+<div title="<?php echo $t['Plugins'];?>" onClick="parent.ICEcoder.showHidePlugins('55px' !== parent.document.getElementById('plugins').style.width  ? 'show' : 'hide')" class="plugins"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/plug.svg");?></div>
 
 <ul class="fileManager">
     <li class="pft-directory dirOpen"><a nohref title="/" ondragover="parent.ICEcoder.overFileFolder('folder', '|'); parent.ICEcoder.highlightFileFolder('|', true);" ondragleave="parent.ICEcoder.overFileFolder('folder', ''); parent.ICEcoder.highlightFileFolder('|', false);" onmouseover="parent.ICEcoder.overFileFolder('folder', '|')" onmouseout="parent.ICEcoder.overFileFolder('folder', '')" onclick="parent.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="|">/ <?php

@@ -255,8 +255,8 @@ var ICEcoder = {
         let cM, cMdiff;
 
         this.splitPane = "on" === onOff ? true : false;
-        get('splitPaneControlsOff').style.opacity = this.splitPane ? 0.2 : 0.5;
-        get('splitPaneControlsOn').style.opacity = this.splitPane ? 0.5 : 0.2;
+        get('splitPaneControlsOff').style.opacity = this.splitPane ? 0.2 : 0.8;
+        get('splitPaneControlsOn').style.opacity = this.splitPane ? 0.8 : 0.2;
         get('splitPaneNamesMain').style.opacity = get('splitPaneNamesDiff').style.opacity = this.splitPane ? 1 : 0;
         this.setLayout();
 
@@ -385,11 +385,12 @@ var ICEcoder = {
 
     // Lock & unlock the file manager navigation on demand
     lockUnlockNav: function() {
-        let lockIcon;
-
-        lockIcon = this.filesFrame.contentWindow.document.getElementById('fmLock');
+        let lockIconOpen, lockIconClosed;
+        lockIconOpen = this.filesFrame.contentWindow.document.getElementById('fmLockOpen');
+        lockIconClosed = this.filesFrame.contentWindow.document.getElementById('fmLockClosed');
         this.lockedNav = false === this.lockedNav;
-        lockIcon.style.backgroundPosition = this.lockedNav ? "0 0" : "-16px 0";
+        lockIconOpen.style.display = this.lockedNav ? "none" : "inline-block";
+        lockIconClosed.style.display = this.lockedNav ? "inline-block" : "none";
     },
 
     // Show/hide the plugins on demand
@@ -3950,11 +3951,11 @@ var ICEcoder = {
                         var statusArray = JSON.parse(xhr.responseText);
                         // console.log(statusArray);
 
-                        get('bugIcon').style.backgroundPosition =
-                            statusArray['result'] == "off" ? "0 0" :
-                                statusArray['result'] == "ok" ? "-32px 0" :
-                                    statusArray['result'] == "bugs" ? "-48px 0" :
-                                        "-16px 0"; // if the result is 'error' or another value
+                        get('bugIcon').style.color =
+                            statusArray['result'] == "off" ? "" :
+                                statusArray['result'] == "ok" ? "#080" :
+                                    statusArray['result'] == "bugs" ? "#b00" :
+                                        "#f80"; // if the result is 'error' or another value
                         ic.bugReportStatus = statusArray['result'];
                         if (ic.bugFilesSizesSeen[0]=="null") {
                             ic.bugFilesSizesSeen = statusArray['filesSizesSeen'];

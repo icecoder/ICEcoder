@@ -180,7 +180,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		<a nohref onclick="ICEcoder.showColorPicker(document.getElementById('color') ? document.getElementById('color').value : '#123456')" title="Farbtastic
 <?php echo $t['Color picker'];?>"><img src="<?php echo $iceURLPath;?>/assets/images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
 		<div id="pluginsOptional"><?php echo $pluginsDisplay; ?></div>
-		<a nohref onclick="ICEcoder.pluginsManager()" title="<?php echo $t['Plugins Manager'];?>" style="color: #fff; cursor: pointer">+ / -</a>
+		<a nohref onclick="ICEcoder.pluginsManager()" title="<?php echo $t['Plugins Manager'];?>" style="color: #ddd; margin-left: 2px; cursor: pointer"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/plus.svg");?></a>
 	</div>
 </div>
 
@@ -356,8 +356,8 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		</form>
 		<form onSubmit="return ICEcoder.goToLine(get('goToLineNo').value, 0, false)">
 			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" maxlength="5" id="goToLineNo" onkeyup="ICEcoder.goToLine(this.value, 0, true)" class="textbox goToLine">
-			<div class="view" title="<?php echo $t['View'];?>" onClick="ICEcoder.openPreviewWindow()" id="fMView"></div>
-			<div class="bug" title="<?php echo $t['Bug reporting not active'];?>" onClick="ICEcoder.openBugReport()" id="bugIcon"></div>
+			<div class="view" title="<?php echo $t['View'];?>" onClick="ICEcoder.openPreviewWindow()" id="fMView"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/browser.svg");?></div>
+			<div class="bug" title="<?php echo $t['Bug reporting not active'];?>" onClick="ICEcoder.openBugReport()" id="bugIcon"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/bug.svg");?></div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 	</div>
@@ -376,7 +376,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 <div class="footer" id="footer" oncontextmenu="return false">
 	<div class="versionsDisplay" id="versionsDisplay" onclick="ICEcoder.versionsScreen(ICEcoder.openFiles[ICEcoder.selectedTab - 1].replace(/\//g, '|'))"></div>
     <div class="serverMessage" id="serverMessage"></div>
-	<div class="splitPaneControls" id="splitPaneControls"><div class="off" id="splitPaneControlsOff" title="<?php echo $t['Single pane'];?>" onclick="ICEcoder.setSplitPane('off')" style="opacity: 0.5"></div><div class="on" id="splitPaneControlsOn" title="<?php echo $t['Diff pane also'];?>" onclick="ICEcoder.setSplitPane('on')" style="opacity: 0.2"></div></div>
+	<div class="splitPaneControls" id="splitPaneControls"><div class="off" id="splitPaneControlsOff" title="<?php echo $t['Single pane'];?>" onclick="ICEcoder.setSplitPane('off')" style="opacity: 0.8"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/square.svg");?></div><div class="on" id="splitPaneControlsOn" title="<?php echo $t['Diff pane also'];?>" onclick="ICEcoder.setSplitPane('on')" style="opacity: 0.2"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/layout-columns.svg");?></div></div>
 	<div class="splitPaneNames" id="splitPaneNamesMain">Main Pane</div>
 	<div class="splitPaneNames" id="splitPaneNamesDiff">Diff Pane</div>
 	<div class="byteDisplay" id="byteDisplay" style="display: none" onClick="ICEcoder.showDisplay('char')"></div>
