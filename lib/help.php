@@ -20,6 +20,17 @@ $t = $text['help'];
 
 <?php $isMac = -1 < strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : false;?>
 <div style="display: inline-block; width: 385px; margin-right: 20px">
+
+    <div style="position: absolute; top: 8px; right: 5px">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cut" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#444" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <circle cx="7" cy="17" r="3" />
+            <circle cx="17" cy="17" r="3" />
+            <line x1="9.15" y1="14.85" x2="18" y2="4" />
+            <line x1="6" y1="4" x2="14.85" y2="14.85" />
+        </svg>
+    </div>
+
 	<h2><?php echo $t['Within document'];?></h2>
 	<!-- This can only be CTRL+space as Cmd+space is a reserved apple shortcut -->
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> <?php echo $t['Space'];?></span> <span class="shortcut"><?php echo $t['Autocomplete add snippet'];?></span><br>

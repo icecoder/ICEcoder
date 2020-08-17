@@ -97,6 +97,14 @@ if (true === isset($_GET['tab'])) {
 
 <div id="generalSection" class="section" style="display: block">
 
+    <div style="position: absolute; top: 8px; right: 5px">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#bbb" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <circle cx="12" cy="12" r="3" />
+        </svg>
+    </div>
+
 	<div style="display: inline-block; margin-right: 40px">
 
 		<h2>language</h2><br>
@@ -132,7 +140,7 @@ if (true === isset($_GET['tab'])) {
 			echo '<option value="' . $langFiles[$i] . '"' . ($ICEcoder["languageUser"] === $langFiles[$i] ? ' selected' : '') . '>' . $langText[$i] . '</option>' . PHP_EOL;
 		}
 		?>
-		</select> <span class="info" style="display: inline-block; padding-top: 2px" title="Reload required after changing">[?]</span>
+		</select> <span class="info" style="display: inline-block; padding-top: 2px" title="Reload required after changing"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span>
 		<br><br>
 
 		<h2><?php echo $t['functionality'];?></h2><br>
@@ -168,7 +176,7 @@ if (true === isset($_GET['tab'])) {
 		<br><br>
 
 		<h2><?php echo $t['bug reporting'];?></h2><br>
-		<?php echo $t['check in files'];?> <span class="info" title="<?php echo $t['Slash prefixed comma...'];?>">[?]</span><br>
+		<?php echo $t['check in files'];?> <span class="info" title="<?php echo $t['Slash prefixed comma...'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 		<input type="text" name="bugFilePaths" style="width: 300px" onkeydown="showButton()" value="<?php echo implode(", ", $ICEcoder["bugFilePaths"]);?>"><br>
 		<span style="display: inline-block; padding: 6px 5px 0 0">...<?php echo $t['every'];?></span>
 		<input type="text" name="bugFileCheckTimer" style="width: 50px; margin-top: 3px" onkeydown="showButton()" value="<?php echo $ICEcoder["bugFileCheckTimer"];?>">
@@ -178,7 +186,7 @@ if (true === isset($_GET['tab'])) {
 		<br><br>
 
 		<h2><?php echo $t['file manager'];?></h2><br>
-		<?php echo $t['root'];?> <span class="info" title="<?php echo $t['Slash prefixed'];?>">[?]</span><br>
+		<?php echo $t['root'];?> <span class="info" title="<?php echo $t['Slash prefixed'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 		<input type="text" name="root" style="width: 300px" onkeydown="document.settings.changedFileSettings.value = 'true'; showButton()" value="<?php echo $ICEcoder["root"];?>">
 		<br><br>
 
@@ -206,13 +214,22 @@ if (true === isset($_GET['tab'])) {
 		?>
 		</div><br>
 
-		<input type="checkbox" onclick="showButton();" name="deleteToTmp" value="true"<?php if ($ICEcoder["deleteToTmp"]) {echo ' checked';};?>> <?php echo $t['deleting actually moves...'];?> <span class="info" title="<?php echo $t['local/server items...'];?>" style="position: absolute; margin-top: 6px"> &nbsp; [?]</span>
+		<input type="checkbox" onclick="showButton();" name="deleteToTmp" value="true"<?php if ($ICEcoder["deleteToTmp"]) {echo ' checked';};?>> <?php echo $t['deleting actually moves...'];?> <span class="info" title="<?php echo $t['local/server items...'];?>" style="position: absolute; margin-top: 6px"> &nbsp; <?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span>
 		<br><br>
 
 	</div>
 </div>
 
 <div id="styleSection" class="section" style="display: none">
+
+    <div style="position: absolute; top: 8px; right: 5px">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-code" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#bbb" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <polyline points="7 8 3 12 7 16" />
+            <polyline points="17 8 21 12 17 16" />
+            <line x1="14" y1="4" x2="10" y2="20" />
+        </svg>
+    </div>
 
 	<div style="display: inline-block; width: 300px; margin-right: 35px">
 		<div style="height: 220px">
@@ -315,8 +332,16 @@ function findSequence(goal) {
 
 <div id="accountsSection" class="section" style="display: none">
 
+    <div style="position: absolute; top: 8px; right: 5px">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#bbb" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <circle cx="12" cy="7" r="4" />
+            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+        </svg>
+    </div>
+
 	<h2>password</h2><br>
-	<?php echo $t['new password'];?> <span class="info" title="<?php echo $t['8 chars min'];?>">[?]</span><br>
+	<?php echo $t['new password'];?> <span class="info" title="<?php echo $t['8 chars min'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="password" name="password" style="width: 320px" onkeydown="showButton()">
 	<br><br>
 
@@ -324,7 +349,7 @@ function findSequence(goal) {
 	<input type="password" name="passwordConfirm" style="width: 320px" onkeydown="showButton()">
 	<br><br>
 
-	<h2><?php echo $t['multi-user'];?> <span class="info" title="<?php echo $t['Make sure you...'];?>">[?]</span></h2><br>
+	<h2><?php echo $t['multi-user'];?> <span class="info" title="<?php echo $t['Make sure you...'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span></h2><br>
 	<input type="checkbox" name="multiUser" value="true" onclick="showButton(); changeEnableRegistrationStatus();"<?php if (true === $ICEcoder["multiUser"]) {echo ' checked';} ?>>Multi-User
 	<?php
 		echo '<input type="checkbox" name="enableRegistration" value="true"';
@@ -343,21 +368,32 @@ function findSequence(goal) {
 </div>
 
 <div id="securitySection" class="section" style="display: none">
+
+    <div style="position: absolute; top: 8px; right: 5px">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-key" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#bbb" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <circle cx="8" cy="15" r="4" />
+            <line x1="10.85" y1="12.15" x2="19" y2="4" />
+            <line x1="18" y1="5" x2="20" y2="7" />
+            <line x1="15" y1="8" x2="17" y2="10" />
+        </svg>
+    </div>
+
 	<h2><?php echo $t['security'];?></h2><br>
-	<?php echo $t['banned files/folders'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>">[?]</span><br>
+	<?php echo $t['banned files/folders'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="text" onkeydown="document.settings.changedFileSettings.value = 'true'; showButton()" name="bannedFiles" style="width: 660px" value="<?php echo implode(", ",$ICEcoder["bannedFiles"]); ?>">
 	<br><br>
 
-	<?php echo $t['banned paths'];?> <span class="info" title="<?php echo $t['Slash prefixed comma...'];?>">[?]</span><br>
+	<?php echo $t['banned paths'];?> <span class="info" title="<?php echo $t['Slash prefixed comma...'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="text" onkeydown="document.settings.changedFileSettings.value = 'true'; showButton()" name="bannedPaths" style="width: 660px" value="<?php echo implode(", ",$ICEcoder["bannedPaths"]); ?>">
 	<br><br>
 
 	<input type="hidden" name="changedFileSettings" value="false">
-	<?php echo $t['ip addresses'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>">[?]</span><br>
+	<?php echo $t['ip addresses'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="text" onkeydown="showButton()" name="allowedIPs" style="width: 660px" value="<?php echo implode(", ",$ICEcoder["allowedIPs"]); ?>">
 	<br><br>
 
-	<?php echo $t['auto-logout after'];?> <span class="info" title="<?php echo $t['Set 0 to...'];?>">[?]</span><br>
+	<?php echo $t['auto-logout after'];?> <span class="info" title="<?php echo $t['Set 0 to...'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="text" onkeydown="showButton()" name="autoLogoutMins" style="width: 100px" value="<?php echo $ICEcoder["autoLogoutMins"]; ?>"> <span style="display: inline-block; padding: 2px 5px"><?php echo $t['mins of inactivity...'];?></span>
 	<br><br>
 </div>
