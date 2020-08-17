@@ -299,10 +299,10 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 	<iframe id="filesFrame" class="frame" name="ff" src="<?php echo $iceURLPath;?>/files.php" style="opacity: 0" onLoad="this.style.opacity = '1'; this.contentWindow.onscroll = function(){ICEcoder.mouseDown = false; ICEcoder.mouseDownInCM = false}"></iframe>
 
     <div class="tools" id="tools">
-        <div onclick="ICEcoder.toolShowHideToggle('terminal')" id="toolLinkTerminal">Terminal</div>
-        <div onclick="ICEcoder.toolShowHideToggle('output'); this.className = ''" id="toolLinkOutput">Output</div>
-        <div onclick="ICEcoder.toolShowHideToggle('database')" id="toolLinkDatabase">Database</div>
-        <div onclick="ICEcoder.toolShowHideToggle('git')" id="toolLinkGit">Git</div>
+        <div onclick="ICEcoder.toolShowHideToggle('terminal')" id="toolLinkTerminal" title="Terminal"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/terminal-2.svg");?></div>
+        <div onclick="ICEcoder.toolShowHideToggle('output'); this.className = ''" id="toolLinkOutput" title="Output"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/layout-list.svg");?></div>
+        <div onclick="ICEcoder.toolShowHideToggle('database')" id="toolLinkDatabase" title="Database"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/database.svg");?></div>
+        <div onclick="ICEcoder.toolShowHideToggle('git')" id="toolLinkGit" title="Git"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/git-compare.svg");?></div>
     </div>
 </div>
 
