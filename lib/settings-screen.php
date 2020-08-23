@@ -97,14 +97,6 @@ if (true === isset($_GET['tab'])) {
 
 <div id="generalSection" class="section" style="display: block">
 
-    <div style="position: absolute; top: 8px; right: 5px">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#bbb" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z"/>
-            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <circle cx="12" cy="12" r="3" />
-        </svg>
-    </div>
-
 	<div style="display: inline-block; margin-right: 40px">
 
 		<h2>language</h2><br>
@@ -222,15 +214,6 @@ if (true === isset($_GET['tab'])) {
 
 <div id="styleSection" class="section" style="display: none">
 
-    <div style="position: absolute; top: 8px; right: 5px">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-code" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#bbb" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z"/>
-            <polyline points="7 8 3 12 7 16" />
-            <polyline points="17 8 21 12 17 16" />
-            <line x1="14" y1="4" x2="10" y2="20" />
-        </svg>
-    </div>
-
 	<div style="display: inline-block; width: 300px; margin-right: 35px">
 		<div style="height: 220px">
 			<h2>preview</h2><br>
@@ -332,14 +315,6 @@ function findSequence(goal) {
 
 <div id="accountsSection" class="section" style="display: none">
 
-    <div style="position: absolute; top: 8px; right: 5px">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#bbb" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z"/>
-            <circle cx="12" cy="7" r="4" />
-            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-        </svg>
-    </div>
-
 	<h2>password</h2><br>
 	<?php echo $t['new password'];?> <span class="info" title="<?php echo $t['8 chars min'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="password" name="password" style="width: 320px" onkeydown="showButton()">
@@ -368,16 +343,6 @@ function findSequence(goal) {
 </div>
 
 <div id="securitySection" class="section" style="display: none">
-
-    <div style="position: absolute; top: 8px; right: 5px">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-key" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#bbb" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z"/>
-            <circle cx="8" cy="15" r="4" />
-            <line x1="10.85" y1="12.15" x2="19" y2="4" />
-            <line x1="18" y1="5" x2="20" y2="7" />
-            <line x1="15" y1="8" x2="17" y2="10" />
-        </svg>
-    </div>
 
 	<h2><?php echo $t['security'];?></h2><br>
 	<?php echo $t['banned files/folders'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
