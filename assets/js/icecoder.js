@@ -3594,6 +3594,12 @@ var ICEcoder = {
         this.showHide('show',get('blackMask'));
     },
 
+    // Show the auto-logout warning screen
+    bugReportScreen: function() {
+        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/bug-report.php" id="bugReportIFrame" style="width: 970px; height: 610px"></iframe>';
+        this.showHide('show',get('blackMask'));
+    },
+
     // Show the plugins manager
     pluginsManager: function() {
         get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/plugins-manager.php" id="pluginsManagerIFrame" style="width: 800px; height: 450px"></iframe>';
@@ -3909,11 +3915,12 @@ var ICEcoder = {
         }
         if(this.bugReportStatus=="bugs") {
             // Close bug-report without saving previousFiles and without confirming close if we made changes on the bug report
-            var bugReportOpenFilePos = this.openFiles.indexOf(this.bugReportPath.replace(/\|/g,"/"));
-            if (bugReportOpenFilePos > -1) {
-                this.closeTab(bugReportOpenFilePos+1,'dontSetPV','dontAsk');
-            }
-            this.openFile(this.bugReportPath);
+            // var bugReportOpenFilePos = this.openFiles.indexOf(this.bugReportPath.replace(/\|/g,"/"));
+            // if (bugReportOpenFilePos > -1) {
+            //     this.closeTab(bugReportOpenFilePos+1,'dontSetPV','dontAsk');
+            // }
+            // this.openFile(this.bugReportPath);
+            this.bugReportScreen();
             this.bugFilesSizesSeen = this.bugFilesSizesActual;
         }
     },
@@ -3956,6 +3963,11 @@ var ICEcoder = {
                                 statusArray['result'] == "ok" ? "#080" :
                                     statusArray['result'] == "bugs" ? "#b00" :
                                         "#f80"; // if the result is 'error' or another value
+                        get('bugIcon').title =
+                            statusArray['result'] == "off" ? "Bug reporting not active" :
+                                statusArray['result'] == "ok" ? "No new errors found" :
+                                    statusArray['result'] == "bugs" ? "New bugs found, click to view" :
+                                        "Unable to find bug log file specified"; // Setup error
                         ic.bugReportStatus = statusArray['result'];
                         if (ic.bugFilesSizesSeen[0]=="null") {
                             ic.bugFilesSizesSeen = statusArray['filesSizesSeen'];
