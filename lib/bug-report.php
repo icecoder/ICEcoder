@@ -7,7 +7,7 @@ $t = $text['bug-report'];
 
 <html>
 <head>
-    <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> bug logs</title>
+    <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> bug report</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="robots" content="noindex, nofollow">
     <link rel="stylesheet" type="text/css" href="../assets/css/resets.css?microtime=<?php echo microtime(true);?>">

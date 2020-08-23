@@ -3902,8 +3902,6 @@ var ICEcoder = {
 
     // Open bug report
     openBugReport: function() {
-        var bugReportOpenFilePos;
-
         if(this.bugReportStatus=="off") {
             this.message(t['You can start...']);
         }
