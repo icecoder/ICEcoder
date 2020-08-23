@@ -3914,12 +3914,7 @@ var ICEcoder = {
             this.message(t['No new errors...']);
         }
         if(this.bugReportStatus=="bugs") {
-            // Close bug-report without saving previousFiles and without confirming close if we made changes on the bug report
-            // var bugReportOpenFilePos = this.openFiles.indexOf(this.bugReportPath.replace(/\|/g,"/"));
-            // if (bugReportOpenFilePos > -1) {
-            //     this.closeTab(bugReportOpenFilePos+1,'dontSetPV','dontAsk');
-            // }
-            // this.openFile(this.bugReportPath);
+            // Show bug report screen and set the bugs state as seen
             this.bugReportScreen();
             this.bugFilesSizesSeen = this.bugFilesSizesActual;
         }

@@ -84,7 +84,7 @@ if ("error" !== $result) {
 			// Close file
 			fclose($f);
 
-			// OK, now we have bug lines to output, save to our file
+			// OK, now we have bug lines to output, concat onto output
 			$output = rtrim(str_replace("\r\n", "\n", $output));
 			$output = explode("\n", $output);
 			$output = array_slice($output, -$maxLines);
@@ -93,6 +93,7 @@ if ("error" !== $result) {
 
 	}
 
+	// Save all output to the bug report file
     if (0 < $filesWithNewBugs) {
         $settingsClass->serializedFileData("set", $docRoot . $ICEcoderDir . "/data/bug-report.php", serialize($output));
     }
