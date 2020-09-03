@@ -510,7 +510,7 @@ class File
                 if ($item->isDir()) {
                     mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName(), octdec($ICEcoder['newDirPerms']));
                 } else {
-                    copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                    copy($item->getPathName(), $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
                 }
             }
         } else {
