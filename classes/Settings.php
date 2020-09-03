@@ -201,7 +201,7 @@ class Settings
             $serverAddr = "127.0.0.1";
         }
         $settingsFileAddr = 'config-' . $username . str_replace(".", "_", $serverAddr) . '.php';
-        if (true === file_exists(dirname(__FILE__) . "/../data/" . $settingsFileAddr)) {
+        if (false === file_exists(dirname(__FILE__) . "/../data/" . $settingsFileAddr)) {
             if (false === copy(dirname(__FILE__) . "/../data/" . $settingsFile, dirname(__FILE__) . "/../data/" . $settingsFileAddr)) {
                 $reqsFailures = ["phpCreateSettingsFileAddr"];
                 include dirname(__FILE__) . "/../lib/requirements.php";
