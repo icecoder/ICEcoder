@@ -1,0 +1,10 @@
+{
+  "name": "icecoder/icecoder",
+  "description": "Browser based code editor allowing you to code from anywhere",
+  "keywords": ["code", "editor", "browser", "ide"],
+  "homepage": "https://icecoder.net",
+  "license": "MIT",
+  "require": {
+    "php": "^7.0"
+  }
+}
