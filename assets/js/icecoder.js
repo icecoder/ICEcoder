@@ -1990,7 +1990,7 @@ var ICEcoder = {
     openPrompt: function() {
         let fileLink;
 
-        if(fileLink = this.getInput(t['Enter relative file...'], '')) {
+        if (fileLink = this.getInput(t['Enter relative file...'], '')) {
             fileLink.indexOf("://") > -1
                 ? this.getRemoteFile(fileLink)
                 : this.openFile(fileLink);
@@ -2126,7 +2126,7 @@ var ICEcoder = {
                                 ? editorText[opcodes[i][2]]
                                 : "";
                         }
-                        // Replace the range with newContent. The range start line and end line adjust addording to
+                        // Replace the range with newContent. The range start line and end line adjust according to
                         // startShift and endShift 1/0 values plus also the +/- docShift which is how much the
                         // editor document has shifted so far during replace ranges
                         this.getThisCM().replaceRange(newContent, {line: opcodes[i][1] - docShift - startShift, ch: 0}, {line: opcodes[i][2] - docShift - endShift, ch: 1000000}, "+input");
@@ -2335,7 +2335,7 @@ var ICEcoder = {
             path = path.replace(iceRoot, "");
         }
 
-        // Start a seperate XHR call. We run seperately rather than add into the serverQueue because we may need to run
+        // Start a separate XHR call. We run separately rather than add into the serverQueue because we may need to run
         // immediately, eg need to if a file/dir exists mid flow in 'Save As' function, so can't go into queue
         xhr = this.xhrObj();
         xhr.onreadystatechange=function() {
@@ -2475,7 +2475,7 @@ var ICEcoder = {
                 ' if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.ICEcoder.openFile()}}" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'">'+file+'</span> <span style="'+permColors+'; font-size: 8px" id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'_perms">'+perms+'</span></a>';
 
             // If we don't have a locNest or at least 3 DOM items in there, it's an empty folder
-            if(!locNest || 3 > locNest.childNodes.length) {
+            if (!locNest || 3 > locNest.childNodes.length) {
                 // We now need to begin a new UL list
                 newUL = document.createElement("ul");
                 locNest = targetElem.parentNode.parentNode;
@@ -2486,14 +2486,14 @@ var ICEcoder = {
                 newLI.className = cssStyle;
                 newLI.draggable = false;
                 newLI.ondragstart = function(event) {parent.ICEcoder.addDefaultDragData(this, event)};
-                newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event);if(parent.ICEcoder.getcMInstance()){parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
+                newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event); if (parent.ICEcoder.getcMInstance()) {parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
                 newLI.ondragover = function(event) {parent.ICEcoder.setDragCursor(event, "folder" === actionElemType ? 'folder' : 'file')};
                 newLI.ondragend = function() {parent.ICEcoder.dropFile(this)};
                 newLI.innerHTML = innerLI;
                 locNest.nextSibling.appendChild(newLI);
                 locNest.nextSibling.appendChild(newText);
 
-                // There are items in that location, so add our new item in the right position
+            // There are items in that location, so add our new item in the right position
             } else {
                 for (let i = 0; i < locNest.childNodes.length; i++) {
                     if (locNest.childNodes[i].className) {
@@ -2509,7 +2509,7 @@ var ICEcoder = {
                             newLI.className = cssStyle;
                             newLI.draggable = false;
                             newLI.ondragstart = function(event) {parent.ICEcoder.addDefaultDragData(this, event)};
-                            newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event);if(parent.ICEcoder.getcMInstance()){parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
+                            newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event); if (parent.ICEcoder.getcMInstance()) {parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
                             newLI.ondragover = function(event) {parent.ICEcoder.setDragCursor(event, "folder" === actionElemType ? 'folder' : 'file')};
                             newLI.ondragend = function() {parent.ICEcoder.dropFile(this)};
                             newLI.innerHTML = innerLI;
@@ -2641,7 +2641,7 @@ var ICEcoder = {
         let innerItems, targetElem, targetElemPerms;
 
         // If our elem has a sibling and it's a UL, we renamed a dir
-        if(elem.parentNode.parentNode.nextSibling && "UL" === elem.parentNode.parentNode.nextSibling.nodeName) {
+        if (elem.parentNode.parentNode.nextSibling && "UL" === elem.parentNode.parentNode.nextSibling.nodeName) {
             innerItems = elem.parentNode.parentNode.nextSibling;
 
             // For each one of the children in the UL, if it's a LI (may be a file or dir)
@@ -2750,7 +2750,7 @@ var ICEcoder = {
         get('rText').style.display =
             get('replace').style.display =
                 get('rTarget').style.display =
-                    document.findAndReplace.connector.value==t['and']
+                    document.findAndReplace.connector.value === t['and']
                         ? "inline-block" : "none";
     },
 
@@ -2799,7 +2799,7 @@ var ICEcoder = {
             const lineNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").line + 1;
             const chNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").ch;
 
-            // Work out thhe avg block is either line height or fraction of space available
+            // Work out the avg block is either line height or fraction of space available
             avgBlockH = !this.scrollBarVisible ? thisCM.defaultTextHeight() : parseInt(this.content.style.height, 10) / thisCM.lineCount();
 
             // Need to add padding if there's no scrollbar, so current line highlighting lines up with it
@@ -2828,7 +2828,7 @@ var ICEcoder = {
                     // Push the line & char position coords into results
                     ICEcoder.results.push([i, match.index]);
                 }
-                // If the avg block height for results in results bar is above 0.5 pixels heigh, we can add a DOM elem
+                // If the avg block height for results in results bar is above 0.5 pixels high, we can add a DOM elem
                 if (0.5 <= avgBlockH) {
                     // Red for current line, grey for another line, transparent if no match
                     blockColor = haveMatch ? thisCM.getCursor().line + 1 == i ? "rgba(192,0,0,0.3)" : "rgba(128,128,128,0.3)" : "transparent";
@@ -2911,15 +2911,15 @@ var ICEcoder = {
                 if (t['and'] === document.findAndReplace.connector.value) {
                     replaceQS = "&replace=" + replace;
                 }
-                // Target?
 
+                // Target?
                 if (0 <= document.findAndReplace.target.value.indexOf(t['file'])) {
                     targetQS = "&target=" + document.findAndReplace.target.value.replace(/ /g, "-");
                 }
 
                 // Files?
                 if (t['selected files'] === document.findAndReplace.target.value) {
-                    filesQS = "&selectedFiles="+this.selectedFiles.join(":");
+                    filesQS = "&selectedFiles=" + this.selectedFiles.join(":");
                 }
 
                 // Establish find
@@ -2957,63 +2957,40 @@ var ICEcoder = {
         this.serverMessage('<b>' + t['Replacing text in'] + '</b> ' + fileRef.replace(/^\/|/g, ''));
     },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ==============
 // INFO & DISPLAY
 // ==============
 
     // Get the caret position
     getCaretPosition: function() {
-        var thisCM, line, ch, chPos;
+        let thisCM, line, ch, chPos;
 
         thisCM = this.getThisCM();
 
         line = thisCM.getCursor().line;
         ch = thisCM.getCursor().ch;
         chPos = 0;
-        for (var i=0;i<line;i++) {
-            chPos += thisCM.getLine(i).length+1;
+        for (let i = 0; i < line; i++) {
+            chPos += thisCM.getLine(i).length + 1;
         }
-        this.caretPos=(chPos+ch-1);
+        this.caretPos = (chPos + ch - 1);
     },
 
     // Update the code type, line & character display
     updateCharDisplay: function() {
-        var thisCM;
+        let thisCM;
 
         thisCM = this.getThisCM();
         this.caretLocationType();
-        this.charDisplay.innerHTML = this.caretLocType + ", Line: " + (thisCM.getCursor().line+1) + ", Char: " + thisCM.getCursor().ch;
+        this.charDisplay.innerHTML = this.caretLocType + ", Line: " + (thisCM.getCursor().line + 1) + ", Char: " + thisCM.getCursor().ch;
     },
 
     // Update version display
     updateVersionsDisplay: function() {
-        var versionsCount = this.openFileVersions[this.selectedTab-1];
+        let versionsCount = this.openFileVersions[this.selectedTab - 1];
 
-        get('versionsDisplay').innerHTML = "undefined" != typeof versionsCount
-            ? this.openFileVersions[this.selectedTab-1] + " backup" +
-            (versionsCount != 1 ? "s" : "")
+        get('versionsDisplay').innerHTML = "undefined" !== typeof versionsCount
+            ? this.openFileVersions[this.selectedTab - 1] + " backup" + (1 !== versionsCount ? "s" : "")
             : "";
     },
 
@@ -3024,31 +3001,33 @@ var ICEcoder = {
 
     // Toggle the char/byte display
     showDisplay: function(show) {
-        this.byteDisplay.style.display = show == "byte" ? "inline-block" : "none";
-        this.charDisplay.style.display = show == "char" ? "inline-block" : "none";
+        this.byteDisplay.style.display = "byte" === show ? "inline-block" : "none";
+        this.charDisplay.style.display = "char" === show ? "inline-block" : "none";
     },
 
     // Show & hide target element
-    showHide: function(doVis,elem) {
-        elem.style.visibility = doVis=="show" ? 'visible' : 'hidden';
+    showHide: function(doVis, elem) {
+        elem.style.visibility = "show" === doVis ? 'visible' : 'hidden';
     },
 
     // Determine the CodeMirror instance we're using
     getcMInstance: function(tab) {
         ic = this;
+        // No content, set to parent
         if (!ic.content) {
             ic = parent.ICEcoder;
-        }
-        if (!ic.content) {
-            ic = parent.ICEcoder;
+            // No content still, set to parent again
+            if (!ic.content) {
+                ic = parent.ICEcoder;
+            }
         }
         return ic.content.contentWindow[
             // target specific tab
-            !isNaN(tab)
-                ? 'cM'+ICEcoder.cMInstances[tab-1]
+            false === isNaN(tab)
+                ? 'cM' + ICEcoder.cMInstances[tab - 1]
                 // new tab or selected tab
-                : tab=="new"||(tab!="new" && this.openFiles.length>0)
-                ? 'cM'+ICEcoder.cMInstances[this.selectedTab-1]
+                : "new" === tab || ("new" !== tab && 0 < this.openFiles.length)
+                ? 'cM' + ICEcoder.cMInstances[this.selectedTab - 1]
                 // fallback to first tab
                 : 'cM1'
             ];
@@ -3060,72 +3039,69 @@ var ICEcoder = {
             context = ICEcoder;
         }
         return context.content.contentWindow[
-        (// target specific tab
-            !isNaN(tab)
-                ? 'cM'+ICEcoder.cMInstances[tab-1]
+            (// target specific tab
+            false === isNaN(tab)
+                ? 'cM' + ICEcoder.cMInstances[tab - 1]
                 // new tab or selected tab
-                : tab=="new"||(tab!="new" && this.openFiles.length>0)
-                ? 'cM'+ICEcoder.cMInstances[this.selectedTab-1]
+                : "new" === tab || ("new" !== tab && 0 < this.openFiles.length)
+                ? 'cM' + ICEcoder.cMInstances[this.selectedTab - 1]
                 // fallback to first tab
                 : 'cM1')
-        + 'diff'
-            ];
+            + 'diff'
+        ];
     },
 
     // Get the mouse position
-    getMouseXY: function(e,area) {
-        var tempX, tempY;
-
+    getMouseXY: function(e, area) {
         this.mouseX = e.pageX ? e.pageX : e.clientX + document.body.scrollLeft;
         this.mouseY = e.pageY ? e.pageY : e.clientY + document.body.scrollTop;
 
         this.area = area;
-        if (area!="top") {
+        if ("top" !== area) {
             this.mouseY += 25 + 45;
         }
-        if (area=="editor") {
+        if ("editor" === area) {
             this.mouseX += this.filesW;
         }
         this.dragCursorTest();
-        if (this.mouseY>62) {this.setTabWidths();};
+        if (62 < this.mouseY) {this.setTabWidths();}
     },
 
     // Test if we need to show a drag cursor or not
     dragCursorTest: function() {
-        var diffX, winH, cursorName, zone;
+        let diffX, cursorName, zone;
 
         // Dragging tabs, started after dragging for 10px from origin
         diffX = this.mouseX - this.diffStartX;
-        if (this.draggingTab!==false && this.diffStartX && (diffX <= -10 || diffX >= 10)) {
-            if (this.mouseX > parseInt(this.files.style.width,10)) {
-                this.tabDragMouseX = this.mouseX - parseInt(this.files.style.width,10) - this.tabDragMouseXStart;
+        if (false !== this.draggingTab && this.diffStartX && (-10 >= diffX || 10 <= diffX)) {
+            if (this.mouseX > parseInt(this.files.style.width, 10)) {
+                this.tabDragMouseX = this.mouseX - parseInt(this.files.style.width, 10) - this.tabDragMouseXStart;
                 this.tabDragMove();
             }
         }
 
         // Dragging file manager, possible within 7px of file manager edge
         if (this.ready) {
-            winH = window.innerHeight;
-            if (!this.mouseDown) {this.draggingFilesW = false};
+            if (false === this.mouseDown) {this.draggingFilesW = false}
 
-            cursorName = (!this.draggingTab && ((this.mouseX > this.filesW-7 && this.mouseX < this.filesW+7) || this.draggingFilesW))
+            cursorName = (false === this.draggingTab && ((this.mouseX > this.filesW - 7 && this.mouseX < this.filesW + 7) || true === this.draggingFilesW))
                 ? "w-resize"
                 : "auto";
             if (this.content.contentWindow.document && this.filesFrame.contentWindow) {
                 document.body.style.cursor = cursorName;
-                if (zone = this.content.contentWindow.document.body)	{zone.style.cursor = cursorName};
-                if (zone = this.filesFrame.contentWindow.document.body)	{zone.style.cursor = cursorName};
+                if (zone = this.content.contentWindow.document.body)	{zone.style.cursor = cursorName}
+                if (zone = this.filesFrame.contentWindow.document.body)	{zone.style.cursor = cursorName}
             }
         }
     },
 
     // Show or hide a server message
     serverMessage: function(message) {
-        var serverMessage;
+        let serverMessage;
 
         serverMessage =	get('serverMessage');
         if (message) {
-            serverMessage.innerHTML = this.xssClean(message).replace(/\&lt;b\&gt;/g,"<b>").replace(/\&lt;\/b\&gt;/g,"</b>");
+            serverMessage.innerHTML = this.xssClean(message).replace(/\&lt;b\&gt;/g, "<b>").replace(/\&lt;\/b\&gt;/g, "</b>");
         }
         serverMessage.style.opacity = message ? 1 : 0;
         get("versionsDisplay").style.opacity = message ? 0 : 1;
@@ -3133,7 +3109,7 @@ var ICEcoder = {
 
     // Show a CSS color block next to our text cursor
     cssColorPreview: function() {
-        var thisCM, string, rx, match, oldBlock, newBlock;
+        let thisCM, string, rx, match, oldBlock, newBlock;
 
         thisCM = this.getThisCM();
 
@@ -3141,11 +3117,11 @@ var ICEcoder = {
             string = thisCM.getLine(thisCM.getCursor().line);
             rx = /(#[\da-f]{3}(?:[\da-f]{3})?\b|\b(?:rgb|hsl)a?\([\s\d%,.-]+\)|\b[a-z]+\b)/gi;
 
-            while((match = rx.exec(string)) && thisCM.getCursor().ch > match.index+match[0].length);
+            while((match = rx.exec(string)) && thisCM.getCursor().ch > match.index + match[0].length);
 
             oldBlock = get('content').contentWindow.document.getElementById('cssColor');
-            if (oldBlock) {oldBlock.parentNode.removeChild(oldBlock)};
-            if (this.codeAssist && this.caretLocType=="CSS") {
+            if (oldBlock) {oldBlock.parentNode.removeChild(oldBlock)}
+            if (true === this.codeAssist && "CSS" === this.caretLocType) {
                 newBlock = document.createElement("div");
                 newBlock.id = "cssColor";
                 newBlock.style.position = "absolute";
@@ -3155,7 +3131,9 @@ var ICEcoder = {
                 newBlock.style.background = match ? match[0] : '';
                 newBlock.style.cursor = "pointer";
                 newBlock.onclick = function() {ICEcoder.showColorPicker(match[0])};
-                if (newBlock.style.backgroundColor=="") {newBlock.style.display = "none"};
+                if ("" == newBlock.style.backgroundColor) {
+                    newBlock.style.display = "none";
+                }
                 get('header').appendChild(newBlock);
                 thisCM.addWidget(thisCM.getCursor(), get('cssColor'), true);
             }
@@ -3167,18 +3145,24 @@ var ICEcoder = {
         get('blackMask').style.visibility = "visible";
         get('mediaContainer').innerHTML = 	'<div id="picker" class="picker" onmouseover="ICEcoder.overPopup=true" onmouseout="ICEcoder.overPopup=false"></div><br><br>'+
             '<input type="text" id="color" name="color" value="#000" class="colorValue">'+
-            '<input type="button" onClick="ICEcoder.insertColorValue(get(\'color\').value)" value="insert &gt;" class="insertColorValue"><br>'+
+            '<input type="button" onClick="ICEcoder.insertColorValue(get(\'color\').value)" value="insert &gt;" class="insertColorValue"><br><br>'+
             '<input type="text" id="colorRGB" name="colorRGB" value="rgb(0,0,0)" class="colorValue">'+
             '<input type="button" onClick="ICEcoder.insertColorValue(get(\'colorRGB\').value)" value="insert &gt;" class="insertColorValue">';
         farbtastic('picker','color');
+        // If we have a color value, set it in picker
         if (color) {
+            // If an RGB value, convert to hex
+            if (-1 < color.indexOf("rgb")) {
+                color = color.replace(/rgb|\(|\)|\s+/g, "").split(",");
+                color = "#" + this.rgbToHex(...color);
+            }
             get('picker').farbtastic.setColor(color);
         }
     },
 
     // Init the canvas by drawing the image and setting the floating containers background size (5x zoom)
     initCanvasImage: function (imgThis) {
-        var canvas, img;
+        let canvas, img;
 
         canvas = get('canvasPicker').getContext('2d');
 
@@ -3191,35 +3175,38 @@ var ICEcoder = {
             get('floatingContainer').style.visibility = "hidden";
             get('canvasPickerColorInfo').style.display = "none";
             get('canvasPickerCORSInfo').style.display = "block";
-        }
+        };
 
         // On image load
         img.onload = function() {
             // Get width and height and draw this image into the canvas
             get('canvasPicker').width = imgThis.width;
             get('canvasPicker').height = imgThis.height;
-            canvas.drawImage(img,0,0,imgThis.width,imgThis.height);
+            canvas.drawImage(img, 0, 0, imgThis.width, imgThis.height);
 
             // Display color picker info and hide CORS message
             get('canvasPickerColorInfo').style.display = "block";
             get('canvasPickerCORSInfo').style.display = "none";
 
             // Show image preview box on mouse over
-            get('canvasPicker').onmouseover = function(event) {
+            get('canvasPicker').onmouseover = function() {
                 get('floatingContainer').style.visibility = "visible";
+                ICEcoder.overPopup = true;
             };
             // Hide image preview box on mouse out
-            get('canvasPicker').onmouseout = function(event) {
+            get('canvasPicker').onmouseout = function() {
                 get('floatingContainer').style.visibility = "hidden";
+                ICEcoder.overPopup = false;
             };
-        }
+        };
 
-        document.getElementById('floatingContainer').style.backgroundSize = (imgThis.naturalWidth*5)+"px "+(imgThis.naturalHeight*5)+"px";
+        document.getElementById('floatingContainer').style.backgroundSize =
+            (imgThis.naturalWidth * 5) + "px " + (imgThis.naturalHeight * 5) + "px";
     },
 
     // Interact with the canvas image
     interactCanvasImage: function (imgThis) {
-        var canvas, x, y, imgData, R, G, B, rgb, hex, textColor, fcElem, fcBGX, fcBGY;
+        let canvas, x, y, imgData, r, g, b, rgbStr, hex, textColor, fcElem, fcBGX, fcBGY;
 
         canvas = get('canvasPicker').getContext('2d');
 
@@ -3230,29 +3217,29 @@ var ICEcoder = {
             y = event.pageY - this.offsetTop;
             // get image data & then RGB values
             imgData = canvas.getImageData(x, y, 1, 1).data;
-            R = imgData[0];
-            G = imgData[1];
-            B = imgData[2];
-            rgb = R+','+G+','+B;
+            r = imgData[0];
+            g = imgData[1];
+            b = imgData[2];
+            rgbStr = r + ',' + g + ',' + b;
             // Get hex from RGB value
-            hex = ICEcoder.rgbToHex(R,G,B);
+            hex = ICEcoder.rgbToHex(r, g, b);
             // set the values & BG colours of the input boxes
-            get('rgbMouseXY').value = rgb;
+            get('rgbMouseXY').value = rgbStr;
             get('hexMouseXY').value = '#' + hex;
             get('hexMouseXY').style.backgroundColor = get('rgbMouseXY').style.backgroundColor = '#' + hex;
-            textColor = R<128 || G<128 || B<128 && (R<200 && G<200 && B>50) ? '#fff' : '#000';
+            textColor = r < 128 || g < 128 || b < 128 && (r < 200 && g < 200 && b > 50) ? '#fff' : '#000';
             get('hexMouseXY').style.color = get('rgbMouseXY').style.color = textColor;
 
             // Move the floating container to follow mouse pointer
             fcElem = get('floatingContainer');
-            fcElem.style.left = this.mouseX+20 + "px";
+            fcElem.style.left = this.mouseX + 20 + "px";
             fcElem.style.top = this.mouseY + "px";
             // Move the background image for the container to match also
             // 5 x zoom, account for scaling down of large images and shift 25px of the hover div size
             // (55px is the 11x11 grid of pixels), minus 5px for centre row/col
-            fcBGX = -((x*5)*(imgThis.naturalWidth/imgThis.width))+25;
-            fcBGY = -((y*5)*(imgThis.naturalHeight/imgThis.height))+25;
-            fcElem.style.backgroundPosition = fcBGX+"px "+fcBGY+"px";
+            fcBGX = -((x * 5) * (imgThis.naturalWidth / imgThis.width)) + 25;
+            fcBGY = -((y * 5) * (imgThis.naturalHeight / imgThis.height)) + 25;
+            fcElem.style.backgroundPosition = fcBGX + "px " + fcBGY + "px";
         };
 
         // Set pointer colors on clicking canvas
@@ -3265,31 +3252,32 @@ var ICEcoder = {
     },
 
     // Convert RGB values to Hex
-    rgbToHex: function(R,G,B) {
-        return this.toHex(R)+this.toHex(G)+this.toHex(B);
+    rgbToHex: function(r, g, b) {
+        return this.toHex(r) + this.toHex(g) + this.toHex(b);
     },
 
     // Return numbers as hex equivalent
-    toHex: function(n) {
-        n = parseInt(n,10);
-        if (isNaN(n)) return "00";
-        n = Math.max(0,Math.min(n,255));
-        return "0123456789abcdef".charAt((n-n%16)/16) + "0123456789abcdef".charAt(n%16);
+    toHex: function(num) {
+        let hex;
+        num = parseInt(num, 10);
+        if (isNaN(num)) return "00";
+        hex = num.toString(16);
+        return 1 === hex.length ? "0" + hex : hex;
     },
 
     // Insert new color value
     insertColorValue: function(color) {
-        var thisCM, cursor;
+        let thisCM, cursor;
 
         thisCM = this.getThisCM();
 
         cursor = thisCM.getTokenAt(thisCM.getCursor());
-        thisCM.replaceRange(color,{line:thisCM.getCursor().line,ch:cursor.start},{line:thisCM.getCursor().line,ch:cursor.end}, "+input");
+        thisCM.replaceRange(color, {line:thisCM.getCursor().line, ch:cursor.start}, {line:thisCM.getCursor().line, ch:cursor.end}, "+input");
     },
 
     // Change opacity of the file manager icons
     fMIconVis: function(icon, vis) {
-        var i;
+        let i;
 
         if (i = get(icon)) {
             i.style.opacity = vis;
@@ -3298,17 +3286,17 @@ var ICEcoder = {
 
     // Check if a file is already open
     isOpen: function(file) {
-        var i;
+        let i;
 
-        file = file.replace(/\|/g, "/").replace(docRoot+iceRoot,"");
+        file = file.replace(/\|/g, "/").replace(docRoot + iceRoot, "");
         i = this.openFiles.indexOf(file);
         // return the array position or false
-        return i!=-1 ? i : false;
+        return -1 < i ? i : false;
     },
 
-// ==============
+// ======
 // SYSTEM
-// ==============
+// ======
 
     getThisCM: function() {
         return this.editorFocusInstance.indexOf('diff') > -1
