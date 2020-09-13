@@ -119,7 +119,7 @@ if (false === $demoMode && true === isset($_SESSION['loggedIn']) && true === $_S
 
 	// With all that worked out, we can now hide the settings screen and apply the new settings
 	$jsBugFilePaths = "['" . str_replace(",", "','", str_replace(" ", "", $_POST['bugFilePaths'])) . "']";
-	echo "<script>parent.ICEcoder.settingsScreen('hide'); parent.ICEcoder.useNewSettings('" .
+	echo "<script>parent.ICEcoder.settingsScreen(true); parent.ICEcoder.useNewSettings('" .
         $themeURL . "'," .
         (true === $ICEcoder["codeAssist"] ? "true" : "false") . "," .
         (true === $ICEcoder["lockedNav"] ? "true" : "false") . ",'" .
