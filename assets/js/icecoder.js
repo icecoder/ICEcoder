@@ -3299,28 +3299,29 @@ var ICEcoder = {
 // ======
 
     getThisCM: function() {
-        return this.editorFocusInstance.indexOf('diff') > -1
+        return -1 < this.editorFocusInstance.indexOf('diff')
             ? this.getcMdiffInstance()
             : this.getcMInstance();
     },
 
     // Start running plugin intervals according to given specifics
-    startPluginIntervals: function(plugRef,plugURL,plugTarget,plugTimer) {
+    startPluginIntervals: function(plugRef, plugURL, plugTarget, plugTimer) {
         // Add CSRF to URL if it has QS params
-        if (plugURL.indexOf("?") > -1) {
-            plugURL = plugURL+"&csrf="+this.csrf;
+        if (-1 < plugURL.indexOf("?")) {
+            plugURL = plugURL + "&csrf=" + this.csrf;
         }
-        this['plugTimer'+plugRef] =
+        this['plugTimer' + plugRef] =
             // This window instances
-            ["_parent","_top","_self",""].indexOf(plugTarget) > -1
-                ? this['plugTimer'+plugRef] = setInterval('window.location=\''+plugURL+'\'',plugTimer*1000*60)
+            -1 < ["_parent", "_top", "_self", ""].indexOf(plugTarget)
+                ? this['plugTimer' + plugRef] = setInterval('window.location=\'' + plugURL + '\'', plugTimer * 1000 * 60)
                 // fileControl iframe instances
-                : plugTarget.indexOf("fileControl") == 0
-                ? this['plugTimer'+plugRef] = setInterval(function(ic) {
-                    ic.serverQueue("add",plugURL);ic.serverMessage(plugTarget.split(":")[1]);
-                },plugTimer*1000*60,this)
+                : 0 === plugTarget.indexOf("fileControl")
+                ? this['plugTimer' + plugRef] = setInterval(function(ic) {
+                    ic.serverQueue("add", plugURL);
+                    ic.serverMessage(plugTarget.split(":")[1]);
+                }, plugTimer * 1000 * 60, this)
                 // _blank or named target window instances
-                : this['plugTimer'+plugRef] = setInterval('window.open(\''+plugURL+'\',\''+plugTarget+'\')',plugTimer*1000*60);
+                : this['plugTimer' + plugRef] = setInterval('window.open(\'' + plugURL + '\', \'' + plugTarget + '\')', plugTimer * 1000 * 60);
 
         // push the plugin ref into our array
         this.pluginIntervalRefs.push(plugRef);
@@ -3328,24 +3329,24 @@ var ICEcoder = {
 
     // Turning on/off the Code Assist
     codeAssistToggle: function() {
-        var cM, cMdiff, fileName, fileExt;
+        let cM, cMdiff, fileName, fileExt;
 
         this.codeAssist = !this.codeAssist;
         this.cssColorPreview();
-        this.focus(this.editorFocusInstance.indexOf('diff') > -1 ? 'diff' : false);
+        this.focus(-1 < this.editorFocusInstance.indexOf('diff') ? 'diff' : false);
 
-        for (i=0;i<this.cMInstances.length;i++) {
+        for (let i = 0; i < this.cMInstances.length; i++) {
             fileName = this.openFiles[i];
             fileExt = fileName.split(".");
-            fileExt = fileExt[fileExt.length-1];
-            if (fileExt == "js" || fileExt == "json") {
-                cM = this.content.contentWindow['cM'+this.cMInstances[i]];
-                cMdiff = this.content.contentWindow['cM'+this.cMInstances[i]+'diff'];
+            fileExt = fileExt[fileExt.length - 1];
+            if ("js" === fileExt || "json" === fileExt) {
+                cM = this.content.contentWindow['cM' + this.cMInstances[i]];
+                cMdiff = this.content.contentWindow['cM' + this.cMInstances[i] + 'diff'];
                 if (!this.codeAssist) {
                     cM.clearGutter("CodeMirror-lint-markers");
-                    cM.setOption("lint",false);
+                    cM.setOption("lint", false);
                     cMdiff.clearGutter("CodeMirror-lint-markers");
-                    cMdiff.setOption("lint",false);
+                    cMdiff.setOption("lint", false);
                 } else {
                     cM.setOption("lint", true);
                     cMdiff.setOption("lint", true);
@@ -3355,65 +3356,69 @@ var ICEcoder = {
     },
 
     // Queue items up for processing in turn
-    serverQueue: function(action,item,file,changes) {
+    serverQueue: function(action, item, file, changes) {
         var cM, nextSaveID, txtArea, topSaveID, element, xhr, statusObj, timeStart;
         // If we have this exact item URL, it's almost certain we've got a repetitive save
         // situation and so clear the message and server queue item to avoid save jamming
-        if (action=="add" && this.serverQueueItems.length > 0 && item.indexOf('action=save')>0 && this.serverQueueItems[0].file === file) {
+        if ("add" === action && 0 < this.serverQueueItems.length && 0 < item.indexOf('action=save') && this.serverQueueItems[0].file === file) {
             this.serverMessage();
             this.serverQueue("del");
             return;
         }
         cM = this.getcMInstance();
         // Firstly, work out how many saves we have to carry out
-        nextSaveID=0;
-        for (var i=0;i<this.serverQueueItems.length;i++) {
-            if (this.serverQueueItems[i].item.indexOf('action=save')>0) {
+        nextSaveID = 0;
+        for (let i = 0; i < this.serverQueueItems.length; i++) {
+            if (0 < this.serverQueueItems[i].item.indexOf('action=save')) {
                 nextSaveID++;
             }
         }
         nextSaveID++;
         // Add to end of array or remove from beginning on demand, plus add or remove if necessary
-        if (action=="add") {
+        if ("add" === action) {
             this.serverQueueItems.push(
                 {
                     "item" : item,
                     "file" : file,
                     "changes" : changes
-            });
-            if (item.indexOf('action=save')>0) {
+                }
+            );
+            if (0 < item.indexOf('action=save')) {
                 txtArea = document.createElement('textarea');
-                txtArea.setAttribute('id', 'saveTemp'+nextSaveID);
+                txtArea.setAttribute('id', 'saveTemp' + nextSaveID);
                 document.body.appendChild(txtArea);
                 // If we're saving as or the file version is undefined, set the temp save value as the contents
-                if (item.indexOf('saveType=saveAs')>0 || item.indexOf('fileVersion=undefined')>0) {
-                    get('saveTemp'+nextSaveID).value = cM.getValue();
+                if (0 < item.indexOf('saveType=saveAs') || 0 < item.indexOf('fileVersion=undefined')) {
+                    get('saveTemp' + nextSaveID).value = cM.getValue();
                     // Else we can save the JSON version of the changes to implement
                 } else {
-                    get('saveTemp'+nextSaveID).value = changes;
+                    get('saveTemp' + nextSaveID).value = changes;
                 }
             }
-        } else if (action=="del") {
-            if (this.serverQueueItems[0] && this.serverQueueItems[0].item.indexOf('action=save')>0) {
-                topSaveID = nextSaveID-1;
-                for (var i=1;i<topSaveID;i++) {
-                    get('saveTemp'+i).value = get('saveTemp'+(i+1)).value;
+        } else if ("del" === action) {
+            if (this.serverQueueItems[0] && 0 < this.serverQueueItems[0].item.indexOf('action=save')) {
+                topSaveID = nextSaveID - 1;
+                for (var i = 1; i < topSaveID; i++) {
+                    get('saveTemp' + i).value = get('saveTemp' + (i + 1)).value;
                 }
-                element = get('saveTemp'+topSaveID);
+                element = get('saveTemp' + topSaveID);
                 element.parentNode.removeChild(element);
             }
-            this.serverQueueItems.splice(0,1);
+            this.serverQueueItems.splice(0, 1);
         }
         // If we've just removed from the array and there's another action queued up, or we're triggering for the first time
         // then do the next requested process, stored at array pos 0
-        if (action=="del" && this.serverQueueItems.length>=1 || this.serverQueueItems.length==1) {
+        if ("del" === action && 1 <= this.serverQueueItems.length || 1 === this.serverQueueItems.length) {
             // If we have an item, we're not saving previous file refs and not loading
-            if (this.serverQueueItems[0].item && (this.serverQueueItems[0].item.indexOf('saveFiles=')==-1 && this.serverQueueItems[0].item.indexOf('action=load')==-1)) {
+            if (this.serverQueueItems[0].item && (
+                -1 === this.serverQueueItems[0].item.indexOf('saveFiles=') &&
+                -1 === this.serverQueueItems[0].item.indexOf('action=load')
+            )) {
                 xhr = this.xhrObj();
                 xhr.onreadystatechange=function() {
-                    if (xhr.readyState==4) {
-                        // OK reponse?
-                        if (xhr.status==200) {
+                    if (4 === xhr.readyState) {
+                        // OK response?
+                        if (200 === xhr.status) {
                             // Parse the response as a JSON object
                             statusObj = JSON.parse(xhr.responseText);
 
@@ -3422,11 +3427,11 @@ var ICEcoder = {
                             statusObj.action.timeTaken = statusObj.action.timeEnd - statusObj.action.timeStart;
 
                             // User wanted raw (or both) output of the response?
-                            if (["raw","both"].indexOf(ICEcoder.fileDirResOutput) >= 0) {
+                            if (0 <= ["raw", "both"].indexOf(ICEcoder.fileDirResOutput)) {
                                 console.log(xhr.responseText);
                             }
                             // User wanted object (or both) output of the response?
-                            if (["object","both"].indexOf(ICEcoder.fileDirResOutput) >= 0) {
+                            if (0 <= ["object", "both"].indexOf(ICEcoder.fileDirResOutput)) {
                                 console.log(statusObj);
                             }
                             // If error, show that, otherwise do whatever we're required to do next
@@ -3449,28 +3454,38 @@ var ICEcoder = {
                         }
                     }
                 };
-                xhr.open("POST",this.serverQueueItems[0].item,true);
+                xhr.open("POST", this.serverQueueItems[0].item, true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 timeStart = new Date().getTime();
 
                 // Save as events need to send all contents
-                if (this.serverQueueItems[0].item.indexOf('action=saveAs')>0) {
-                    xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file+'&contents='+encodeURIComponent(document.getElementById('saveTemp1').value));
+                if (0 < this.serverQueueItems[0].item.indexOf('action=saveAs')) {
+                    xhr.send(
+                        'timeStart=' + timeStart +
+                        '&file=' + this.serverQueueItems[0].file +
+                        '&contents=' + encodeURIComponent(document.getElementById('saveTemp1').value)
+                    );
                 // Save events can just send the changes
-                } else if (this.serverQueueItems[0].item.indexOf('action=save')>0) {
-                    xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file+'&changes='+encodeURIComponent(document.getElementById('saveTemp1').value));
+                } else if (0 < this.serverQueueItems[0].item.indexOf('action=save')) {
+                    xhr.send(
+                        'timeStart=' + timeStart +
+                        '&file=' + this.serverQueueItems[0].file +
+                        '&changes='+encodeURIComponent(document.getElementById('saveTemp1').value)
+                    );
                 // Another type of event
                 } else {
-                    xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file);
+                    xhr.send(
+                        'timeStart=' + timeStart +
+                        '&file=' + this.serverQueueItems[0].file
+                    );
                 }
             } else {
                 // File loading done via fileControl iFrame
                 setTimeout(function(ic) {
                     if ("undefined" != typeof ic.serverQueueItems[0]) {
-                        ic.filesFrame.contentWindow.frames['fileControl'].location.href=ic.serverQueueItems[0].item;
+                        ic.filesFrame.contentWindow.frames['fileControl'].location.href = ic.serverQueueItems[0].item;
                     }
-                },1,this);
-
+                }, 1, this);
             }
         }
     },
@@ -3479,48 +3494,66 @@ var ICEcoder = {
     cancelAllActions: function() {
         // Stop whatever the parent may be loading and clear tasks other than the current one
         window.stop();
-        if (this.serverQueueItems.length>0) {
-            this.serverQueueItems.splice(1,this.serverQueueItems.length);
+        if (0 < this.serverQueueItems.length) {
+            this.serverQueueItems.splice(1, this.serverQueueItems.length);
         }
-        this.showHide('hide',get('loadingMask'));
-        this.serverMessage('<b style="color: #d00">'+t['Cancelled tasks']+'</b>');
-        setTimeout(function(ic) {ic.serverMessage();},2000,this);
+        this.showHide('hide', get('loadingMask'));
+        this.serverMessage('<b style="color: #d00">' + t['Cancelled tasks'] + '</b>');
+        setTimeout(function(ic) {ic.serverMessage();}, 2000, this);
     },
 
     // Set the current previousFiles in the settings file
     setPreviousFiles: function() {
-        var previousFiles;
+        let previousFiles;
 
-        previousFiles = this.openFiles.join(',').replace(/\//g,"|").replace(/(\|\[NEW\])|(,\|\[NEW\])/g,"").replace(/(^,)|(,$)/g,"");
-        if (previousFiles=="") {previousFiles="CLEAR"};
+        previousFiles =
+            this.openFiles
+            .join(',')
+            .replace(/\//g, "|")
+            .replace(/(\|\[NEW\])|(,\|\[NEW\])/g, "")
+            .replace(/(^,)|(,$)/g, "");
+        if ("" == previousFiles) {
+            previousFiles = "CLEAR";
+        }
         // Then send through to the settings page to update setting
-        this.serverQueue("add",iceLoc+"/lib/settings.php?saveFiles="+encodeURIComponent(previousFiles)+"&csrf="+this.csrf, encodeURIComponent(previousFiles));
+        this.serverQueue(
+            "add",
+            iceLoc + "/lib/settings.php?saveFiles=" + encodeURIComponent(previousFiles) + "&csrf=" + this.csrf,
+            encodeURIComponent(previousFiles)
+        );
         this.updateLast10List(previousFiles);
     },
 
     // Update the list of 10 previous files in browser
     updateLast10List: function(previousFiles) {
-        var newFile, last10Files, last10FilesList;
+        let newFile, last10Files, last10FilesList;
 
         // Split our previous files string into an array
         previousFiles = previousFiles.split(',');
         // For each one of those, if it's not 'CLEAR' we can maybe rotate the list
-        for (var i=0; i<previousFiles.length; i++) {
-            if (previousFiles[i] != "CLEAR") {
+        for (let i = 0; i < previousFiles.length; i++) {
+            if ("CLEAR" !== previousFiles[i]) {
                 // Set the new file LI item to maybe insert at top of the list, including trailing new line to split on in future
-                newFile = "<li class=\"pft-file ext-"+previousFiles[i].substring(previousFiles[i].lastIndexOf(".")+1)+"\" style=\"margin-left: -21px\"><a style=\"cursor:pointer\" onclick=\"parent.ICEcoder.openFile('"+previousFiles[i].replace(/\|/g,"/")+"')\">"+previousFiles[i].replace(/\|/g,"/")+"</a></li>\n";
+                newFile = "<li class=\"pft-file ext-" +
+                    previousFiles[i].substring(previousFiles[i].lastIndexOf(".") + 1) +
+                    "\" style=\"margin-left: -21px\"><a style=\"cursor:pointer\" onclick=\"parent.ICEcoder.openFile('" +
+                    previousFiles[i].replace(/\|/g,"/") + "')\">" +
+                    previousFiles[i].replace(/\|/g,"/") + "</a></li>\n";
 
                 // Get DOM elem for last 10 files
                 last10Files = this.content.contentWindow.document.getElementById('last10Files');
 
                 // If the innerHTML of that doesn't contain our new item, we can insert it
-                if(last10Files.innerHTML.indexOf(newFile) == -1) {
+                if(-1 === last10Files.innerHTML.indexOf(newFile)) {
                     // Get the last 10 files list, pop the last one off and add newFile at start
                     last10FilesList = last10Files.innerHTML.split("\n");
                     if (
-                        last10FilesList.length > 8 ||													// No more than 8 + 1 we're about to add
-                        last10FilesList[0] == '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">[none]</div><br><br>' ||	// Clear out placeholder
-                        last10FilesList[last10FilesList.length-1] == ""											// No empty array items
+                        // No more than 8 + 1 we're about to add
+                        last10FilesList.length > 8 ||
+                        // Clear out placeholder
+                        last10FilesList[0] === '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">[none]</div><br><br>' ||
+                        // No empty array items
+                        "" == last10FilesList[last10FilesList.length-1]
                     ) {
                         last10FilesList.pop();
                     }
@@ -3533,76 +3566,120 @@ var ICEcoder = {
 
     // Opens the last files we had open
     autoOpenFiles: function() {
-        if (this.previousFiles.length>0 && this.ask(t['Open previous files']+'\n\n'+this.previousFiles.length+' files:\n'+this.previousFiles.join('\n').replace(/\|/g,"/").replace(new RegExp(docRoot+iceRoot,'gi'),""))) {
-            for (var i=0;i<this.previousFiles.length;i++) {
-                this.openFile(this.previousFiles[i].replace('|','/'));
+        if (
+            0 < this.previousFiles.length &&
+            this.ask(
+                t['Open previous files'] + '\n\n' +
+                this.previousFiles.length + ' files:\n' +
+                this.previousFiles.join('\n').replace(/\|/g,"/").replace(new RegExp(docRoot + iceRoot, 'gi'), "")
+            )
+        ) {
+            for (let i = 0; i < this.previousFiles.length; i++) {
+                this.openFile(this.previousFiles[i].replace('|', '/'));
             }
         }
     },
 
     // Show the settings screen
     settingsScreen: function(hide, tab) {
-        if (!hide) {
-            tabExtra = tab ? '?tab=' + tab +'&csrf=' + this.csrf : '';
-            get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/settings-screen.php' + tabExtra + '" id="settingsIFrame" style="width: 970px; height: 610px"></iframe>';
+        let tabExtra;
+
+        if (false === hide) {
+            tabExtra = tab ? '?tab=' + tab + '&csrf=' + this.csrf : '';
+            get('mediaContainer').innerHTML =
+                '<iframe src="' +
+                iceLoc +
+                '/lib/settings-screen.php' +
+                tabExtra +
+                '" id="settingsIFrame" style="width: 970px; height: 610px"></iframe>';
         }
-        this.showHide(hide?'hide':'show',get('blackMask'));
+        this.showHide(hide ? 'hide' : 'show', get('blackMask'));
     },
 
     // Show the help screen
     helpScreen: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/help.php" id="helpIFrame" style="width: 840px; height: 485px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML =
+            '<iframe src="' +
+            iceLoc +
+            '/lib/help.php" id="helpIFrame" style="width: 840px; height: 485px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the backup versions screen
-    versionsScreen: function(file,versions) {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/backup-versions.php?file='+file+'&csrf='+this.csrf+'" id="versionsIFrame" style="width: 970px; height: 640px"></iframe>';
-        this.showHide('show',get('blackMask'));
+    versionsScreen: function(file) {
+        get('mediaContainer').innerHTML =
+            '<iframe src="' +
+            iceLoc +
+            '/lib/backup-versions.php?file=' +
+            file +
+            '&csrf=' +
+            this.csrf +
+            '" id="versionsIFrame" style="width: 970px; height: 640px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the ICEcoder manual, loaded remotely
-    showManual: function(version,section) {
-        var sectionExtra;
+    showManual: function(version, section) {
+        let sectionExtra;
 
-        sectionExtra = section ? "#"+section : "";
-        get('mediaContainer').innerHTML = '<iframe src="https://icecoder.net/manual?version='+version+sectionExtra+'" id="manualIFrame" style="width: 800px; height: 470px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        sectionExtra = section ? "#" + section : "";
+        get('mediaContainer').innerHTML =
+            '<iframe src="https://icecoder.net/manual?version=' +
+            version +
+            sectionExtra +
+            '" id="manualIFrame" style="width: 800px; height: 470px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the properties screen
     propertiesScreen: function(fileName) {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/properties.php?fileName='+fileName.replace(/\//g,"|")+'&csrf='+this.csrf+'" id="propertiesIFrame" style="width: 660px; height: 330px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML = '<iframe src="' +
+            iceLoc +
+            '/lib/properties.php?fileName=' +
+            fileName.replace(/\//g,"|") +
+            '&csrf=' +
+            this.csrf +
+            '" id="propertiesIFrame" style="width: 660px; height: 330px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the auto-logout warning screen
     autoLogoutWarningScreen: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/auto-logout-warning.php" id="autoLogoutIFrame" style="width: 400px; height: 160px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML = '<iframe src="' +
+            iceLoc +
+            '/lib/auto-logout-warning.php" id="autoLogoutIFrame" style="width: 400px; height: 160px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the auto-logout warning screen
     bugReportScreen: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/bug-report.php" id="bugReportIFrame" style="width: 970px; height: 610px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML = '<iframe src="' +
+            iceLoc +
+            '/lib/bug-report.php" id="bugReportIFrame" style="width: 970px; height: 610px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the plugins manager
     pluginsManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/plugins-manager.php" id="pluginsManagerIFrame" style="width: 800px; height: 450px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML = '<iframe src="' +
+            iceLoc +
+            '/lib/plugins-manager.php" id="pluginsManagerIFrame" style="width: 800px; height: 450px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Go to localhost root
     goLocalhostRoot: function() {
-        this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc+"/lib/go-localhost-root.php";
+        this.filesFrame.contentWindow.frames['fileControl'].location.href =
+            iceLoc +
+            "/lib/go-localhost-root.php";
     },
 
     // Show the FTP manager
     ftpManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/ftp-manager.php" id="ftpManagerIFrame" style="width: 620px; height: 550px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML = '<iframe src="' +
+            iceLoc +
+            '/lib/ftp-manager.php" id="ftpManagerIFrame" style="width: 620px; height: 550px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Update the settings used when we make a change to them
