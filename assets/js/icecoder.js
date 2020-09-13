@@ -1447,34 +1447,12 @@ var ICEcoder = {
 
     // Return character num from start of doc to cursor
     getCharNumFromCursor: function() {
-        return this.getThisCM().getRange({line: 0, ch: 0}, this.getThisCM().getCursor()).length;
+        return this.getThisCM().indexFromPos(this.getThisCM().getCursor());
     },
 
     // Set the cursor according to num of characters from start of doc
     setCursorByCharNum: function(num) {
-        // Temp data store
-        this.charPos = {
-            len: 0,
-            thisLine: 0,
-            thisChar: 0
-        };
-        // For each line in editor
-        this.getThisCM().eachLine(function(line) {
-            // The number we're seeking if greater than prev lines we've considered plus this line
-            if (num > ICEcoder.charPos.len + (line.text + "\n").length) {
-                // Increment line
-                ICEcoder.charPos.thisLine++;
-            // It's equal to or greater than the number we're seeking, so on this line
-            } else if (ICEcoder.charPos.thisChar === 0) {
-                // Set char (to avoid setting more than once) and set cursor
-                ICEcoder.charPos.thisChar = num - ICEcoder.charPos.len;
-                ICEcoder.getThisCM().setCursor({line: ICEcoder.charPos.thisLine, ch: ICEcoder.charPos.thisChar})
-            }
-            // Build up length count
-            ICEcoder.charPos.len += (line.text + "\n").length;
-        });
-        // Remove temp data store
-        delete this.charPos;
+        ICEcoder.getThisCM().setCursor(ICEcoder.getThisCM().posFromIndex(num));
     },
 
     // Determine which area of the document we're in
