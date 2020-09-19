@@ -3712,7 +3712,7 @@ var ICEcoder = {
         // Update styles in editor
         thisCSS = this.content.contentWindow.document.styleSheets[6];
         strCSS = thisCSS.rules ? 'rules' : 'cssRules';
-        // thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
+        thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
         thisCSS[strCSS][4].style['border-left-width'] = settings.visibleTabs ? '1px' : '0';
         thisCSS[strCSS][4].style['margin-left'] = settings.visibleTabs ? '-1px' : '0';
         thisCSS[strCSS][2].style.cssText = "background-color: " + activeLineBG + " !important";
