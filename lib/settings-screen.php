@@ -251,6 +251,25 @@ function findSequence(goal) {
 		$lightThemes = ["base16-light", "chrome-devtools", "duotone-light", "eclipse", "eiffel", "elegant", "idle", "iplastic", "ir_white", "johnny", "juicy", "mdn-like", "neat", "neo", "solarized", "ttcn", "xq-light"];
 		$midThemes = ["ambiance", "clouds-midnight", "darkpastel", "friendship-bracelet", "idlefingers", "lesser-dark", "lowlight", "mbo", "monoindustrial", "monokai", "monokai-bright", "mreq", "nightlion", "panda-syntax", "pastel-on-dark", "railscasts", "rdark", "zenburn"];
 		$colorThemes = ["2019-torres-digital-theme", "amy", "bespin", "blackboard", "cobalt", "django", "dracula", "duotone-dark", "erlang-dark", "hopscotch", "made-of-code", "material", "midnight", "night", "oceanic", "paraiso-dark", "plasticcodewrap", "rubyblue", "tomorrow-night-blue", "xq-dark"];
+		
+		function getThemeDisplayName($optionName) {
+			$wordCasings = [
+				Ii => "II",
+				Ir => "IR",
+				Mdn => "MDN",
+				Ttcn => "TTCN",
+				Xq => "XQ"
+			];
+
+			$optionName = ucwords(preg_replace("/_|\-/", " ", $optionName));
+			foreach ($wordCasings as $key => $value) {
+				$optionName = str_replace($key, $value, $optionName);
+			}
+
+			return $optionName;
+		}
+		
+
 		echo '<optgroup label="Dark">';
 		for ($i = 0;$i < count($themeArray); $i++) {
 			if (
@@ -259,7 +278,8 @@ function findSequence(goal) {
 				false === in_array($themeArray[$i], $colorThemes)
 			) {
 				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
-				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . ucwords(preg_replace("/_|\-/", " ", $themeArray[$i])) . '</option>' . PHP_EOL;
+				$optionName = getThemeDisplayName($themeArray[$i]);
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . $optionName . '</option>' . PHP_EOL;
 			}
 		}
 		echo '</optgroup>';
@@ -267,7 +287,8 @@ function findSequence(goal) {
 		for ($i = 0;$i < count($themeArray); $i++) {
 			if (true === in_array($themeArray[$i], $midThemes)) {
 				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
-				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . ucwords(preg_replace("/_|\-/", " ", $themeArray[$i])) . '</option>' . PHP_EOL;
+				$optionName = getThemeDisplayName($themeArray[$i]);
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . $optionName . '</option>' . PHP_EOL;
 			}
 		}
 		echo '</optgroup>';
@@ -275,7 +296,8 @@ function findSequence(goal) {
 		for ($i = 0;$i < count($themeArray); $i++) {
 			if (true === in_array($themeArray[$i], $colorThemes)) {
 				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
-				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . ucwords(preg_replace("/_|\-/", " ", $themeArray[$i])) . '</option>' . PHP_EOL;
+				$optionName = getThemeDisplayName($themeArray[$i]);
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . $optionName . '</option>' . PHP_EOL;
 			}
 		}
 		echo '</optgroup>';
@@ -283,7 +305,8 @@ function findSequence(goal) {
 		for ($i = 0;$i < count($themeArray); $i++) {
 			if (true === in_array($themeArray[$i], $lightThemes)) {
 				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
-				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . ucwords(preg_replace("/_|\-/", " ", $themeArray[$i])) . '</option>' . PHP_EOL;
+				$optionName = getThemeDisplayName($themeArray[$i]);
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . $optionName . '</option>' . PHP_EOL;
 			}
 		}
 		echo '</optgroup>';
