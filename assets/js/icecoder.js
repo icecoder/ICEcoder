@@ -3661,73 +3661,74 @@ var ICEcoder = {
     },
 
     // Update the settings used when we make a change to them
-    useNewSettings: function(themeURL,codeAssist,lockedNav,tagWrapperCommand,autoComplete,visibleTabs,fontSize,lineWrapping,lineNumbers,showTrailingSpace,matchBrackets,autoCloseTags,autoCloseBrackets,indentType,indentAuto,indentSize,pluginPanelAligned,scrollbarStyle,bugFilePaths,bugFileCheckTimer,bugFileMaxLines,updateDiffOnSave,autoLogoutMins,refreshFM) {
-        var styleNode, thisCSS, strCSS, activeLineBG;
+    useNewSettings: function(settings) {
+        let styleNode, thisCSS, strCSS, activeLineBG;
 
-        // cut out ?microtime= at the end
-        var cleanThemeUrl = themeURL.slice(0, themeURL.lastIndexOf("?"));
-        // find out new theme name without leading path and trailing ".css"
-        var newTheme = cleanThemeUrl.slice(cleanThemeUrl.lastIndexOf("/")+1,cleanThemeUrl.lastIndexOf("."));
-        // if theme was not changed - no need to do all these tricks
+        // Cut out path prefix, .css file extension and ?microtime= querystring
+        const newTheme = settings.themeURL.replace(/.+\/|.css.+/g, "");
+        // If theme was not changed - no need to do all these tricks
         if (this.theme !== newTheme){
             // Add new stylesheet for selected theme to editor
             this.theme = newTheme;
-            if (this.theme=="editor") {this.theme="icecoder"};
             styleNode = document.createElement('link');
             styleNode.setAttribute('rel', 'stylesheet');
             styleNode.setAttribute('type', 'text/css');
-            styleNode.setAttribute('href', themeURL);
+            styleNode.setAttribute('href', settings.themeURL);
             this.content.contentWindow.document.getElementsByTagName('head')[0].appendChild(styleNode);
-            if (["3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light"].indexOf(this.theme)>-1) {
-                activeLineBG = "#ccc";
-            } else if (["3024-night","blackboard","colorforth","liquibyte","night","tomorrow-night-bright","tomorrow-night-eighties","vibrant-ink"].indexOf(this.theme)>-1) {
-                activeLineBG = "#888";
-            } else {
-                activeLineBG = "#000";
-            }
+            activeLineBG = 
+                // Light themes
+                -1 < ["base16-light", "duotone-light", "eclipse", "elegant", "mdn-like", "neat", "neo", "solarized", "ttcn", "xq-light"].indexOf(this.theme)
+                ? "#ccc"
+                // Dark themes
+                : -1 < ["3024-night", "blackboard", "colorforth", "isotope", "liquibyte", "night", "the-matrix", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"].indexOf(this.theme)
+                    ? "#222"
+                    // Other themes
+                    : "#000";
             this.switchTab(this.selectedTab);
         }
 
         // Check/uncheck Code Assist setting
-        if (codeAssist != this.codeAssist) {
+        if (settings.codeAssist !== this.codeAssist) {
             this.codeAssistToggle();
         }
 
         // Unlock/lock the file manager
-        if (lockedNav != this.lockedNav) {
+        if (settings.lockedNav !== this.lockedNav) {
             this.lockUnlockNav();
-            this.changeFilesW(!lockedNav ? 'contract' : 'expand');
+            this.changeFilesW(!settings.lockedNav ? 'contract' : 'expand');
             this.hideFileMenu();
         };
 
         // Update font size at top level
         thisCSS = document.styleSheets[0];
         strCSS = thisCSS.rules ? 'rules' : 'cssRules';
-        thisCSS[strCSS][0].style['fontSize'] = fontSize;
+        thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
 
         // Update font size in file manager
         thisCSS = this.filesFrame.contentWindow.document.styleSheets[3];
         strCSS = thisCSS.rules ? 'rules' : 'cssRules';
-        thisCSS[strCSS][0].style['fontSize'] = fontSize;
+        thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
 
         // Update styles in editor
         thisCSS = this.content.contentWindow.document.styleSheets[6];
         strCSS = thisCSS.rules ? 'rules' : 'cssRules';
-        thisCSS[strCSS][0].style['fontSize'] = fontSize;
-        thisCSS[strCSS][4].style['border-left-width'] = visibleTabs ? '1px' : '0';
-        thisCSS[strCSS][4].style['margin-left'] = visibleTabs ? '-1px' : '0';
+        thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
+        thisCSS[strCSS][4].style['border-left-width'] = settings.visibleTabs ? '1px' : '0';
+        thisCSS[strCSS][4].style['margin-left'] = settings.visibleTabs ? '-1px' : '0';
         thisCSS[strCSS][2].style.cssText = "background-color: " + activeLineBG + " !important";
 
-        this.lineWrapping = lineWrapping;
-        this.lineNumbers = lineNumbers;
-        this.showTrailingSpace = showTrailingSpace;
-        this.matchBrackets = matchBrackets;
-        this.autoCloseTags = autoCloseTags;
-        this.autoCloseBrackets = autoCloseBrackets;
-        this.indentType = indentType;
-        this.indentSize = indentSize;
-        this.indentAuto = indentAuto;
-        this.scrollbarStyle = scrollbarStyle;
+        // Set many of the ICEcoder settings
+        this.lineWrapping = settings.lineWrapping;
+        this.lineNumbers = settings.lineNumbers;
+        this.showTrailingSpace = settings.showTrailingSpace;
+        this.matchBrackets = settings.matchBrackets;
+        this.autoCloseTags = settings.autoCloseTags;
+        this.autoCloseBrackets = settings.autoCloseBrackets;
+        this.indentType = settings.indentType;
+        this.indentSize = settings.indentSize;
+        this.indentAuto = settings.indentAuto;
+        this.scrollbarStyle = settings.scrollbarStyle;
+        // Then apply the settings to each editor instance
         for (var i=0;i<this.cMInstances.length;i++) {
             // Main pane
             this.content.contentWindow['cM'+this.cMInstances[i]].setOption("lineWrapping", this.lineWrapping);
@@ -3755,21 +3756,21 @@ var ICEcoder = {
             this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].refresh();
         }
 
-        if (tagWrapperCommand != this.tagWrapperCommand) {
-            this.tagWrapperCommand = tagWrapperCommand;
+        if (settings.tagWrapperCommand != this.tagWrapperCommand) {
+            this.tagWrapperCommand = settings.tagWrapperCommand;
         }
 
-        if (autoComplete != this.autoComplete) {
-            this.autoComplete = autoComplete;
+        if (settings.autoComplete != this.autoComplete) {
+            this.autoComplete = settings.autoComplete;
         }
 
-        get('plugins').style.left = pluginPanelAligned == "left" ? "0" : "auto";
-        get('plugins').style.right = pluginPanelAligned == "right" ? "0" : "auto";
+        get('plugins').style.left = settings.pluginPanelAligned == "left" ? "0" : "auto";
+        get('plugins').style.right = settings.pluginPanelAligned == "right" ? "0" : "auto";
 
         // Restart bug checking
-        this.bugFilePaths = bugFilePaths;
-        this.bugFileCheckTimer = bugFileCheckTimer;
-        this.bugFileMaxLines = bugFileMaxLines;
+        this.bugFilePaths = settings.bugFilePaths;
+        this.bugFileCheckTimer = settings.bugFileCheckTimer;
+        this.bugFileMaxLines = settings.bugFileMaxLines;
 
         if (this.bugFilePaths[0] != "") {
             this.startBugChecking();
@@ -3785,13 +3786,13 @@ var ICEcoder = {
         }
 
         // Set the flag to indicate if we update diff pane on save
-        this.updateDiffOnSave = updateDiffOnSave;
+        this.updateDiffOnSave = settings.updateDiffOnSave;
 
         // Set the auto-logout mins value
-        this.autoLogoutMins = autoLogoutMins;
+        this.autoLogoutMins = settings.autoLogoutMins;
 
         // Finally, refresh the file manager if we need to
-        if (refreshFM) {this.refreshFileManager()};
+        if (settings.refreshFM) {this.refreshFileManager()};
     },
 
     // Update and show/hide found results display?

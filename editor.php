@@ -44,10 +44,13 @@ if (true === file_exists(dirname(__FILE__)."/plugins/responsive-helper/responsiv
 echo dirname(basename(__DIR__)) . '/assets/css/theme/';
 echo "default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css';
 echo "?microtime=" . microtime(true);
-if (false !== array_search($ICEcoder["theme"], ["3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light"])) {
+// Light themes
+if (false !== array_search($ICEcoder["theme"], ["base16-light", "duotone-light", "eclipse", "elegant", "mdn-like", "neat", "neo", "solarized", "ttcn", "xq-light"])) {
 	$activeLineBG = "#ccc";
-} elseif (false !== array_search($ICEcoder["theme"], ["3024-night","blackboard","colorforth","liquibyte","night","tomorrow-night-bright","tomorrow-night-eighties","vibrant-ink"])) {
-	$activeLineBG = "#888";
+// Dark themes
+} elseif (false !== array_search($ICEcoder["theme"], ["3024-night", "blackboard", "colorforth", "isotope", "liquibyte", "night", "the-matrix", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"])) {
+	$activeLineBG = "#222";
+// Other themes
 } else {
 	$activeLineBG = "#000";
 }
