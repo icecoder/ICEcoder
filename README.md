@@ -23,9 +23,15 @@ $ git clone git://github.com/icecoder/ICEcoder
 #### Step 2: Place in your document root (online or local)
 
 * Put in a new sub-dir URL such as yourdomain.com/ICEcoder or localhost/ICEcoder
-* Set write permissions (757 or 775 depending on your system) on the 'data', 'lib', 'plugins' and 'tmp' folders
+* The "owner" and "group" are likely root for that ICEcoder dir (and sub-dirs & files inside). That could be be a problem if the web server is running as www-data user. So update to the right owner & group so ICEcoder's able to work.
 
-*(Note: A small number of web servers give an internal server error here, if you get this, try 755 instead)*
+This can be done easily on Linux with:
+
+`chown -R www-data.www-data ICEcoder`
+
+You may want to do this on your website dirs & files too, if they're set to "root" user too, else ICEcoder won't have permission to update them when you save using ICEcoder. So if your site is at "/var/www/html" you'd run:
+
+`chown -R www-data.www-data /var/www/html`
 
 #### Step 3: Start coding
 
