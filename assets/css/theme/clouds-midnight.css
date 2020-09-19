@@ -1,0 +1,56 @@
+.cm-s-clouds-midnight {
+	font-size: 1em;
+	line-height: 1.5em;
+	font-family: inconsolata, monospace;
+	letter-spacing: 0.3px;
+	word-spacing: 1px;
+	background: #191919;
+	color: #929292;
+}
+.cm-s-clouds-midnight .CodeMirror-lines {
+	padding: 8px 0;
+}
+.cm-s-clouds-midnight .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #191919;
+	padding-right: 10px;
+	z-index: 3;
+	border: none;
+}
+.cm-s-clouds-midnight div.CodeMirror-cursor {
+	border-left: 3px solid #929292;
+}
+.cm-s-clouds-midnight .CodeMirror-activeline-background {
+	background: #D7D7D708;
+}
+.cm-s-clouds-midnight .CodeMirror-selected {
+	background: #000000;
+}
+.cm-s-clouds-midnight .cm-comment {
+	color: #3C403B;
+}
+.cm-s-clouds-midnight .cm-string {
+	color: #5D90CD;
+}
+.cm-s-clouds-midnight .cm-number {
+	color: #E92E2E;
+}
+.cm-s-clouds-midnight .cm-atom {
+	color: #E92E2E;
+}
+.cm-s-clouds-midnight .cm-variable-2 {
+	color: #606060;
+}
+.cm-s-clouds-midnight .cm-property {
+	color: #E92E2E;
+}
+.cm-s-clouds-midnight .cm-keyword {
+	color: null;
+}
+.cm-s-clouds-midnight .cm-operator {
+	color: null;
+}
+.cm-s-clouds-midnight .CodeMirror-linenumber {
+	color: #3C403B;
+}

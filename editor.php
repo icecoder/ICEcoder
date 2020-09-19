@@ -45,10 +45,10 @@ echo dirname(basename(__DIR__)) . '/assets/css/theme/';
 echo "default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css';
 echo "?microtime=" . microtime(true);
 // Light themes
-if (false !== array_search($ICEcoder["theme"], ["base16-light", "duotone-light", "eclipse", "elegant", "mdn-like", "neat", "neo", "solarized", "ttcn", "xq-light"])) {
+if (false !== array_search($ICEcoder["theme"], ["base16-light", "chrome-devtools", "duotone-light", "eclipse", "eiffel", "elegant", "mdn-like", "idle", "iplastic", "ir_white", "johnny", "juicy", "neat", "neo", "solarized", "ttcn", "xq-light"])) {
 	$activeLineBG = "#ccc";
 // Dark themes
-} elseif (false !== array_search($ICEcoder["theme"], ["3024-night", "blackboard", "colorforth", "isotope", "liquibyte", "night", "the-matrix", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"])) {
+} elseif (false !== array_search($ICEcoder["theme"], ["3024-night", "all-hallow-eve", "black-pearl-ii", "blackboard", "colorforth", "django", "emacs-strict", "fade-to-grey", "fake", "glitterbomb", "isotope", "ir_black", "liquibyte", "monokai-fannonedition", "oceanic", "night", "spectacular", "sunburst", "the-matrix", "tomorrow-night-blue", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"])) {
 	$activeLineBG = "#222";
 // Other themes
 } else {

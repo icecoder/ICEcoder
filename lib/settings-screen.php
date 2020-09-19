@@ -246,12 +246,47 @@ function findSequence(goal) {
 		<h2><?php echo $t['style'];?></h2><br>
 		<?php echo $t['theme'];?><br>
 		<select onchange="selectTheme(); showButton()" id="theme" name="theme" style="width: 145px">
-		    <option<?php if ("default" === $ICEcoder["theme"]) {echo ' selected';}; ?>>default</option>
+		    <option value="default" <?php if ("default" === $ICEcoder["theme"]) {echo ' selected';}; ?>>Default</option>
 		<?php
+		$lightThemes = ["base16-light", "chrome-devtools", "duotone-light", "eclipse", "eiffel", "elegant", "idle", "iplastic", "ir_white", "johnny", "juicy", "mdn-like", "neat", "neo", "solarized", "ttcn", "xq-light"];
+		$midThemes = ["ambiance", "clouds-midnight", "darkpastel", "friendship-bracelet", "idlefingers", "lesser-dark", "lowlight", "mbo", "monoindustrial", "monokai", "monokai-bright", "mreq", "nightlion", "panda-syntax", "pastel-on-dark", "railscasts", "rdark", "zenburn"];
+		$colorThemes = ["2019-torres-digital-theme", "amy", "bespin", "blackboard", "cobalt", "django", "dracula", "duotone-dark", "erlang-dark", "hopscotch", "made-of-code", "material", "midnight", "night", "oceanic", "paraiso-dark", "plasticcodewrap", "rubyblue", "tomorrow-night-blue", "xq-dark"];
+		echo '<optgroup label="Dark">';
 		for ($i = 0;$i < count($themeArray); $i++) {
-			$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
-			echo '<option' . $optionSelected . '>' . $themeArray[$i] . '</option>' . PHP_EOL;
+			if (
+				false === in_array($themeArray[$i], $lightThemes) &&
+				false === in_array($themeArray[$i], $midThemes) &&
+				false === in_array($themeArray[$i], $colorThemes)
+			) {
+				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . ucwords(preg_replace("/_|\-/", " ", $themeArray[$i])) . '</option>' . PHP_EOL;
+			}
 		}
+		echo '</optgroup>';
+		echo '<optgroup label="Grey">';
+		for ($i = 0;$i < count($themeArray); $i++) {
+			if (true === in_array($themeArray[$i], $midThemes)) {
+				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . ucwords(preg_replace("/_|\-/", " ", $themeArray[$i])) . '</option>' . PHP_EOL;
+			}
+		}
+		echo '</optgroup>';
+		echo '<optgroup label="Color">';
+		for ($i = 0;$i < count($themeArray); $i++) {
+			if (true === in_array($themeArray[$i], $colorThemes)) {
+				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . ucwords(preg_replace("/_|\-/", " ", $themeArray[$i])) . '</option>' . PHP_EOL;
+			}
+		}
+		echo '</optgroup>';
+		echo '<optgroup label="Light">';
+		for ($i = 0;$i < count($themeArray); $i++) {
+			if (true === in_array($themeArray[$i], $lightThemes)) {
+				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . ucwords(preg_replace("/_|\-/", " ", $themeArray[$i])) . '</option>' . PHP_EOL;
+			}
+		}
+		echo '</optgroup>';
 		?>
 		</select>
 		<br><br>
@@ -376,7 +411,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 
 function selectTheme() {
     const input = document.getElementById("theme");
-	let theme = input.options[input.selectedIndex].innerHTML;
+	let theme = input.options[input.selectedIndex].value;
 	if ("default" === theme) {theme = "icecoder"}
 	editor.setOption("theme", theme);
 }

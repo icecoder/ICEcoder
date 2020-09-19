@@ -1,0 +1,58 @@
+.cm-s-eiffel {
+	font-size: 1em;
+	line-height: 1.5em;
+	font-family: inconsolata, monospace;
+	letter-spacing: 0.3px;
+	word-spacing: 1px;
+	background: #FFFFFF;
+	color: #000000;
+}
+.cm-s-eiffel .CodeMirror-lines {
+	padding: 8px 0;
+}
+.cm-s-eiffel .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #FFFFFF;
+	padding-right: 10px;
+	z-index: 3;
+	border: none;
+}
+.cm-s-eiffel div.CodeMirror-cursor {
+	border-left: 3px solid #000000;
+}
+.cm-s-eiffel .CodeMirror-activeline-background {
+	background: #00000012;
+}
+.cm-s-eiffel .CodeMirror-selected {
+	background: #C3DCFF;
+}
+.cm-s-eiffel .cm-comment {
+	color: #00B418;
+}
+.cm-s-eiffel .cm-keyword {
+	color: #0100B6;
+}
+.cm-s-eiffel .cm-number {
+	font-style: italic;
+	color: #3C4C72;
+}
+.cm-s-eiffel .cm-atom {
+	font-style: italic;
+	color: #3C4C72;
+}
+.cm-s-eiffel .cm-string {
+	color: #D80800;
+}
+.cm-s-eiffel .cm-def {
+	font-style: italic;
+}
+.cm-s-eiffel .cm-property {
+	color: #3C4C72;
+}
+.cm-s-eiffel .cm-operator {
+	color: #0100B6;
+}
+.cm-s-eiffel .CodeMirror-linenumber {
+	color: #00B418;
+}

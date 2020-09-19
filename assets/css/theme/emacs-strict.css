@@ -1,0 +1,59 @@
+.cm-s-emacs-strict {
+	font-size: 1em;
+	line-height: 1.5em;
+	font-family: inconsolata, monospace;
+	letter-spacing: 0.3px;
+	word-spacing: 1px;
+	background: #000000EB;
+	color: #D3D3D3;
+}
+.cm-s-emacs-strict .CodeMirror-lines {
+	padding: 8px 0;
+}
+.cm-s-emacs-strict .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #000000EB;
+	padding-right: 10px;
+	z-index: 3;
+	border: none;
+}
+.cm-s-emacs-strict div.CodeMirror-cursor {
+	border-left: 3px solid #D3D3D3;
+}
+.cm-s-emacs-strict .CodeMirror-activeline-background {
+	background: #16012BEB;
+}
+.cm-s-emacs-strict .CodeMirror-selected {
+	background: #001DC3EB;
+}
+.cm-s-emacs-strict .cm-comment {
+	color: #FF7D27;
+}
+.cm-s-emacs-strict .cm-string {
+	color: #FF9E7B;
+}
+.cm-s-emacs-strict .cm-variable {
+	color: #81CEF9;
+}
+.cm-s-emacs-strict .cm-variable-2 {
+	color: #9CCFF4;
+}
+.cm-s-emacs-strict .cm-property {
+	color: null;
+}
+.cm-s-emacs-strict .cm-atom {
+	color: null;
+}
+.cm-s-emacs-strict .cm-number {
+	color: null;
+}
+.cm-s-emacs-strict .cm-keyword {
+	color: null;
+}
+.cm-s-emacs-strict .cm-operator {
+	color: null;
+}
+.cm-s-emacs-strict .CodeMirror-linenumber {
+	color: #FF7D27;
+}

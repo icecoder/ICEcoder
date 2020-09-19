@@ -1,0 +1,61 @@
+.cm-s-black-pearl-ii {
+	font-size: 1em;
+	line-height: 1.5em;
+	font-family: inconsolata, monospace;
+	letter-spacing: 0.3px;
+	word-spacing: 1px;
+	background: #000000;
+	color: #FFFFFF;
+}
+.cm-s-black-pearl-ii .CodeMirror-lines {
+	padding: 8px 0;
+}
+.cm-s-black-pearl-ii .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #000000;
+	padding-right: 10px;
+	z-index: 3;
+	border: none;
+}
+.cm-s-black-pearl-ii div.CodeMirror-cursor {
+	border-left: 3px solid #FFFFFF;
+}
+.cm-s-black-pearl-ii .CodeMirror-activeline-background {
+	background: #FFFFFF0D;
+}
+.cm-s-black-pearl-ii .CodeMirror-selected {
+	background: #FFFFFF26;
+}
+.cm-s-black-pearl-ii .cm-comment {
+	font-style: italic;
+	color: #428BDD;
+}
+.cm-s-black-pearl-ii .cm-atom {
+	color: null;
+}
+.cm-s-black-pearl-ii .cm-def {
+	font-style: italic;
+	color: #8AA6C1;
+}
+.cm-s-black-pearl-ii .cm-string {
+	color: #CC66FF;
+}
+.cm-s-black-pearl-ii .cm-number {
+	color: null;
+}
+.cm-s-black-pearl-ii .cm-variable-2 {
+	color: #FFFFFF;
+}
+.cm-s-black-pearl-ii .cm-property {
+	color: null;
+}
+.cm-s-black-pearl-ii .cm-keyword {
+	color: null;
+}
+.cm-s-black-pearl-ii .cm-operator {
+	color: null;
+}
+.cm-s-black-pearl-ii .CodeMirror-linenumber {
+	color: italic;
+}

@@ -1,0 +1,60 @@
+.cm-s-iplastic {
+	font-size: 1em;
+	line-height: 1.5em;
+	font-family: inconsolata, monospace;
+	letter-spacing: 0.3px;
+	word-spacing: 1px;
+	background: #EEEEEEEB;
+	color: #000000;
+}
+.cm-s-iplastic .CodeMirror-lines {
+	padding: 8px 0;
+}
+.cm-s-iplastic .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #EEEEEEEB;
+	padding-right: 10px;
+	z-index: 3;
+	border: none;
+}
+.cm-s-iplastic div.CodeMirror-cursor {
+	border-left: 3px solid #000000;
+}
+.cm-s-iplastic .CodeMirror-activeline-background {
+	background: #0000001A;
+}
+.cm-s-iplastic .CodeMirror-selected {
+	background: #BAD6FD;
+}
+.cm-s-iplastic .cm-string {
+	color: #009933;
+}
+.cm-s-iplastic .cm-number {
+	color: null;
+}
+.cm-s-iplastic .cm-keyword {
+	color: #0000FF;
+}
+.cm-s-iplastic .cm-atom {
+	color: null;
+}
+.cm-s-iplastic .cm-variable {
+	color: #FF8000;
+}
+.cm-s-iplastic .cm-def {
+	font-style: italic;
+}
+.cm-s-iplastic .cm-comment {
+	font-style: italic;
+	color: #0066FF;
+}
+.cm-s-iplastic .cm-property {
+	color: null;
+}
+.cm-s-iplastic .cm-operator {
+	color: #0000FF;
+}
+.cm-s-iplastic .CodeMirror-linenumber {
+	color: italic;
+}

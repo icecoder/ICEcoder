@@ -1,0 +1,54 @@
+.cm-s-glitterbomb {
+	font-size: 1em;
+	line-height: 1.5em;
+	font-family: inconsolata, monospace;
+	letter-spacing: 0.3px;
+	word-spacing: 1px;
+	background: #0B0A0A;
+	color: #CFCFCF;
+}
+.cm-s-glitterbomb .CodeMirror-lines {
+	padding: 8px 0;
+}
+.cm-s-glitterbomb .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #0B0A0A;
+	padding-right: 10px;
+	z-index: 3;
+	border: none;
+}
+.cm-s-glitterbomb div.CodeMirror-cursor {
+	border-left: 3px solid #CFCFCF;
+}
+.cm-s-glitterbomb .CodeMirror-activeline-background {
+	background: #F8F8F8;
+}
+.cm-s-glitterbomb .CodeMirror-selected {
+	background: #FFFFFF59;
+}
+.cm-s-glitterbomb .cm-comment {
+	font-style: italic;
+	color: #44444E;
+}
+.cm-s-glitterbomb .cm-keyword {
+	color: #DBB800;
+}
+.cm-s-glitterbomb .cm-number {
+	color: #935E29;
+}
+.cm-s-glitterbomb .cm-string {
+	color: #4D6537;
+}
+.cm-s-glitterbomb .cm-property {
+	color: #935E29;
+}
+.cm-s-glitterbomb .cm-atom {
+	color: #935E29;
+}
+.cm-s-glitterbomb .cm-operator {
+	color: #DBB800;
+}
+.cm-s-glitterbomb .CodeMirror-linenumber {
+	color: italic;
+}

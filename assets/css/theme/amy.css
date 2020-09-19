@@ -1,0 +1,59 @@
+.cm-s-amy {
+	font-size: 1em;
+	line-height: 1.5em;
+	font-family: inconsolata, monospace;
+	letter-spacing: 0.3px;
+	word-spacing: 1px;
+	background: #200020;
+	color: #D0D0FF;
+}
+.cm-s-amy .CodeMirror-lines {
+	padding: 8px 0;
+}
+.cm-s-amy .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #200020;
+	padding-right: 10px;
+	z-index: 3;
+	border: none;
+}
+.cm-s-amy div.CodeMirror-cursor {
+	border-left: 3px solid #D0D0FF;
+}
+.cm-s-amy .CodeMirror-activeline-background {
+	background: #80000040;
+}
+.cm-s-amy .CodeMirror-selected {
+	background: #80000080;
+}
+.cm-s-amy .cm-string {
+	color: #999999;
+}
+.cm-s-amy .cm-atom {
+	color: null;
+}
+.cm-s-amy .cm-number {
+	color: null;
+}
+.cm-s-amy .cm-keyword {
+	color: #A080FF;
+}
+.cm-s-amy .cm-variable {
+	color: #50A0A0;
+}
+.cm-s-amy .cm-def {
+	color: #80B0B0;
+}
+.cm-s-amy .cm-variable-2 {
+	color: #009090;
+}
+.cm-s-amy .cm-property {
+	color: null;
+}
+.cm-s-amy .cm-operator {
+	color: #A080FF;
+}
+.cm-s-amy .CodeMirror-linenumber {
+	color: null;
+}

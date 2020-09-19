@@ -1,0 +1,61 @@
+.cm-s-venom {
+	font-size: 1em;
+	line-height: 1.5em;
+	font-family: inconsolata, monospace;
+	letter-spacing: 0.3px;
+	word-spacing: 1px;
+	background: #0D0D0D;
+	color: #BFBFBF;
+}
+.cm-s-venom .CodeMirror-lines {
+	padding: 8px 0;
+}
+.cm-s-venom .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #0D0D0D;
+	padding-right: 10px;
+	z-index: 3;
+	border: none;
+}
+.cm-s-venom div.CodeMirror-cursor {
+	border-left: 3px solid #BFBFBF;
+}
+.cm-s-venom .CodeMirror-activeline-background {
+	background: #191919;
+}
+.cm-s-venom .CodeMirror-selected {
+	background: #000000;
+}
+.cm-s-venom .cm-string {
+	font-style: italic;
+	color: #2E8C3C;
+}
+.cm-s-venom .cm-comment {
+	font-style: italic;
+	color: #3D5473;
+}
+.cm-s-venom .cm-number {
+	color: #404251;
+}
+.cm-s-venom .cm-atom {
+	color: #404251;
+}
+.cm-s-venom .cm-keyword {
+	color: #6986BF;
+}
+.cm-s-venom .cm-variable {
+	color: #6248A8;
+}
+.cm-s-venom .cm-def {
+	color: #A7575C;
+}
+.cm-s-venom .cm-property {
+	color: #404251;
+}
+.cm-s-venom .cm-operator {
+	color: #6986BF;
+}
+.cm-s-venom .CodeMirror-linenumber {
+	color: italic;
+}

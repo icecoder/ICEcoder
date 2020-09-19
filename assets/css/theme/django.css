@@ -1,0 +1,54 @@
+.cm-s-django {
+	font-size: 1em;
+	line-height: 1.5em;
+	font-family: inconsolata, monospace;
+	letter-spacing: 0.3px;
+	word-spacing: 1px;
+	background: #0B2F20;
+	color: #F8F8F8;
+}
+.cm-s-django .CodeMirror-lines {
+	padding: 8px 0;
+}
+.cm-s-django .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #0B2F20;
+	padding-right: 10px;
+	z-index: 3;
+	border: none;
+}
+.cm-s-django div.CodeMirror-cursor {
+	border-left: 3px solid #F8F8F8;
+}
+.cm-s-django .CodeMirror-activeline-background {
+	background: #0000004A;
+}
+.cm-s-django .CodeMirror-selected {
+	background: #245032;
+}
+.cm-s-django .cm-comment {
+	font-style: italic;
+	color: #245032;
+}
+.cm-s-django .cm-keyword {
+	color: #96DD3B;
+}
+.cm-s-django .cm-string {
+	color: #91BB9E;
+}
+.cm-s-django .cm-property {
+	color: #FFB454;
+}
+.cm-s-django .cm-atom {
+	color: #FFB454;
+}
+.cm-s-django .cm-number {
+	color: #FFB454;
+}
+.cm-s-django .cm-operator {
+	color: #96DD3B;
+}
+.cm-s-django .CodeMirror-linenumber {
+	color: italic;
+}

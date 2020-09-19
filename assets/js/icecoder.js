@@ -3677,10 +3677,10 @@ var ICEcoder = {
             this.content.contentWindow.document.getElementsByTagName('head')[0].appendChild(styleNode);
             activeLineBG = 
                 // Light themes
-                -1 < ["base16-light", "duotone-light", "eclipse", "elegant", "mdn-like", "neat", "neo", "solarized", "ttcn", "xq-light"].indexOf(this.theme)
+                -1 < ["base16-light", "chrome-devtools", "duotone-light", "eclipse", "eiffel", "elegant", "mdn-like", "idle", "iplastic", "ir_white", "johnny", "juicy", "neat", "neo", "solarized", "ttcn", "xq-light"].indexOf(this.theme)
                 ? "#ccc"
                 // Dark themes
-                : -1 < ["3024-night", "blackboard", "colorforth", "isotope", "liquibyte", "night", "the-matrix", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"].indexOf(this.theme)
+                : -1 < ["3024-night", "all-hallow-eve", "black-pearl-ii", "blackboard", "colorforth", "django", "emacs-strict", "fade-to-grey", "fake", "glitterbomb", "isotope", "ir_black", "liquibyte", "monokai-fannonedition", "oceanic", "night", "spectacular", "sunburst", "the-matrix", "tomorrow-night-blue", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"].indexOf(this.theme)
                     ? "#222"
                     // Other themes
                     : "#000";
@@ -3712,7 +3712,7 @@ var ICEcoder = {
         // Update styles in editor
         thisCSS = this.content.contentWindow.document.styleSheets[6];
         strCSS = thisCSS.rules ? 'rules' : 'cssRules';
-        thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
+        // thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
         thisCSS[strCSS][4].style['border-left-width'] = settings.visibleTabs ? '1px' : '0';
         thisCSS[strCSS][4].style['margin-left'] = settings.visibleTabs ? '-1px' : '0';
         thisCSS[strCSS][2].style.cssText = "background-color: " + activeLineBG + " !important";

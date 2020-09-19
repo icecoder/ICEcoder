@@ -1,0 +1,63 @@
+.cm-s-text-ex-machina {
+	font-size: 1em;
+	line-height: 1.5em;
+	font-family: inconsolata, monospace;
+	letter-spacing: 0.3px;
+	word-spacing: 1px;
+	background: #151515;
+	color: #E6E6E6;
+}
+.cm-s-text-ex-machina .CodeMirror-lines {
+	padding: 8px 0;
+}
+.cm-s-text-ex-machina .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #151515;
+	padding-right: 10px;
+	z-index: 3;
+	border: none;
+}
+.cm-s-text-ex-machina div.CodeMirror-cursor {
+	border-left: 3px solid #E6E6E6;
+}
+.cm-s-text-ex-machina .CodeMirror-activeline-background {
+	background: #3E3D32;
+}
+.cm-s-text-ex-machina .CodeMirror-selected {
+	background: #666666;
+}
+.cm-s-text-ex-machina .cm-comment {
+	color: #333333;
+}
+.cm-s-text-ex-machina .cm-string {
+	color: #66CCFF;
+}
+.cm-s-text-ex-machina .cm-number {
+	color: #80FF0080;
+}
+.cm-s-text-ex-machina .cm-atom {
+	color: #80FF0080;
+}
+.cm-s-text-ex-machina .cm-keyword {
+	color: #777CB2;
+}
+.cm-s-text-ex-machina .cm-variable {
+	color: #CCFF66;
+}
+.cm-s-text-ex-machina .cm-def {
+	font-style: italic;
+	color: #CCFF6680;
+}
+.cm-s-text-ex-machina .cm-variable-2 {
+	color: #323464;
+}
+.cm-s-text-ex-machina .cm-property {
+	color: #80FF0080;
+}
+.cm-s-text-ex-machina .cm-operator {
+	color: #777CB2;
+}
+.cm-s-text-ex-machina .CodeMirror-linenumber {
+	color: #333333;
+}
