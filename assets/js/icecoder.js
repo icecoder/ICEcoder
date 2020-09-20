@@ -3819,40 +3819,42 @@ var ICEcoder = {
 
     // Pass target file/folder to Zip It!
     zipIt: function(tgt) {
-        tgt=tgt.replace(/\//g,"|");
-        this.filesFrame.contentWindow.frames['fileControl'].location.href="plugins/zip-it/index.php?zip="+tgt+"&csrf="+this.csrf;
+        tgt=tgt.replace(/\//g, "|");
+        this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc + "/plugins/zip-it/index.php?zip=" + tgt + "&csrf=" + this.csrf;
     },
 
     // Prompt to download our file
     downloadFile: function(file) {
-        file=file.replace(/\//g,"|");
-        this.filesFrame.contentWindow.frames['fileControl'].location.href=iceLoc+"/lib/download.php?file="+file+"&csrf="+this.csrf;
+        file=file.replace(/\//g, "|");
+        this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc + "/lib/download.php?file=" + file + "&csrf=" + this.csrf;
     },
 
     // Change permissions on a file/folder
-    chmod: function(file,perms) {
-        file = file.replace(iceRoot,"");
-        this.showHide('hide',get('blackMask'));
-        this.serverQueue("add",iceLoc+"/lib/file-control.php?action=perms&perms="+perms+"&csrf="+this.csrf,encodeURIComponent(file));
-        this.serverMessage('<b>chMod '+perms+' on </b> '+file.replace(/\|/g,"/").replace(/^\/|/g, ''));
+    chmod: function(file, perms) {
+        file = file.replace(iceRoot, "");
+        this.showHide('hide', get('blackMask'));
+        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=perms&perms=" + perms + "&csrf=" + this.csrf, encodeURIComponent(file));
+        this.serverMessage('<b>chMod ' + perms + ' on </b> ' + file.replace(/\|/g, "/").replace(/^\/|/g, ""));
     },
 
     // Open/show the preview window
     openPreviewWindow: function() {
-        if (this.openFiles.length>0) {
-            var filepath, filename, fileExt;
+        if (0 < this.openFiles.length) {
+            let filepath, filename, fileExt;
 
-            filepath = this.openFiles[this.selectedTab-1];
-            filename = filepath.substr(filepath.lastIndexOf("/")+1);
-            fileExt = filename.substr(filename.lastIndexOf(".")+1);
+            filepath = this.openFiles[this.selectedTab - 1];
+            filename = filepath.substr(filepath.lastIndexOf("/") + 1);
+            fileExt = filename.substr(filename.lastIndexOf(".") + 1);
 
             this.previewWindowLoading = true;
-            this.previewWindow = window.open(filepath,"previewWindow",500,500);
-            if (["md"].indexOf(fileExt) > -1) {
+            this.previewWindow = window.open(filepath, "previewWindow", 500, 500);
+            if (-1 < ["md"].indexOf(fileExt)) {
                 this.previewWindow.addEventListener('load', function(ic, content) {
                     ic.previewWindowLoading = false;
                     ic.previewWindow.document.documentElement.innerHTML = ""
-                    setTimeout(function() {ic.previewWindow.document.documentElement.innerHTML = content}, 100);
+                    setTimeout(function() {
+                        ic.previewWindow.document.documentElement.innerHTML = content;
+                    }, 100);
                 }(ic, mmd(ic.getThisCM().getValue())), false);
             } else {
                 this.previewWindow.onload = function() {
@@ -3870,20 +3872,20 @@ var ICEcoder = {
 
     // Reset auto-logout timer
     resetAutoLogoutTimer: function() {
-        if(this.autoLogoutMins > 1 && this.autoLogoutTimer > (this.autoLogoutMins*60)-60) {
-            this.showHide('hide',get('blackMask'));
+        if (1 < this.autoLogoutMins && this.autoLogoutTimer > (this.autoLogoutMins * 60) - 60) {
+            this.showHide('hide', get('blackMask'));
         }
         this.autoLogoutTimer = 0;
     },
 
     // Logout of ICEcoder
     logout: function(type) {
-        window.location = window.location + "?logout&"+(type ? "type="+type+"&" : "")+"csrf="+this.csrf;
+        window.location = window.location + "?logout&" + (type ? "type=" + type + "&" : "") + "csrf=" + this.csrf;
     },
 
     // Show a message
     outputMsg: function(msg) {
-        var output = this.output.innerHTML;
+        let output = this.output.innerHTML;
         // If only placeholder, clear that
         if ("<b>Output</b><br>via ICEcoder.output(message);<br><br>" === output) {
             output = "";
@@ -3902,13 +3904,13 @@ var ICEcoder = {
     },
 
     // Get the users input
-    getInput: function(question,defaultValue) {
-        return prompt(question,defaultValue);
+    getInput: function(question, defaultValue) {
+        return prompt(question, defaultValue);
     },
 
     // Show a data screen message
     dataMessage: function(message) {
-        var dM;
+        let dM;
 
         dM = this.content.contentWindow.document.getElementById('dataMessage');
         dM.style.display = "block";
@@ -3917,47 +3919,39 @@ var ICEcoder = {
 
     // Update ICEcoder
     // update: function() {
-    //     var autoUpdate;
-    //
-    //     autoUpdate = confirm(t['Please note for...']);
-    //     if (autoUpdate) {
-    //         this.showHide('show',get('loadingMask'));
-    //         window.location = iceLoc+"/lib/updater.php";
+    //     if (true == confirm(t['Please note for...'])) {
+    //         this.showHide('show', get('loadingMask'));
+    //         window.location = iceLoc + "/lib/updater.php";
     //     } else {
-    //         window.open("https://this.net");
+    //         window.open("https://icecoder.net");
     //     }
     // },
 
     // ICEcoder just updated
     updated: function() {
         get('blackMask').style.visibility = "visible";
-        get('mediaContainer').innerHTML 	= '<h1 style="color: #fff; cursor: default">Thanks for updating to v'+this.versionNo+'!</h1>'
+        get('mediaContainer').innerHTML 	= '<h1 style="color: #fff; cursor: default">Thanks for updating to v' + this.versionNo + '!</h1>'
             + '<h2 style="color: #888; cursor: default">Click anywhere to continue using this...</h2>';
     },
 
     // XHR object
     xhrObj: function(){
         try {return new XMLHttpRequest();}catch(e){}
-        try {return new ActiveXObject("Msxml3.XMLHTTP");}catch(e){}
-        try {return new ActiveXObject("Msxml2.XMLHTTP.6.0");}catch(e){}
-        try {return new ActiveXObject("Msxml2.XMLHTTP.3.0");}catch(e){}
-        try {return new ActiveXObject("Msxml2.XMLHTTP");}catch(e){}
-        try {return new ActiveXObject("Microsoft.XMLHTTP");}catch(e){}
         return null;
     },
 
     // Open bug report
     openBugReport: function() {
-        if(this.bugReportStatus=="off") {
+        if ("off" === this.bugReportStatus) {
             this.message(t['You can start...']);
         }
-        if(this.bugReportStatus=="error") {
+        if ("error" === this.bugReportStatus) {
             this.message(t['Error cannot find...']);
         }
-        if(this.bugReportStatus=="ok") {
+        if ("ok" === this.bugReportStatus) {
             this.message(t['No new errors...']);
         }
-        if(this.bugReportStatus=="bugs") {
+        if ("bugs" === this.bugReportStatus) {
             // Show bug report screen and set the bugs state as seen
             this.bugReportScreen();
             this.bugFilesSizesSeen = this.bugFilesSizesActual;
@@ -3968,7 +3962,7 @@ var ICEcoder = {
     startBugChecking: function() {
         var bugCheckURL;
 
-        if (this.bugFileCheckTimer !== 0) {
+        if (0 !== this.bugFileCheckTimer) {
             // Clear any existing interval
             if ("undefined" != typeof this.bugFileCheckInt) {
                 clearInterval(this.bugFileCheckInt);
@@ -3976,23 +3970,23 @@ var ICEcoder = {
             // Start a new timer
             this.bugFilesSizesSeen = [];
             this.bugFileCheckInt = setInterval(function(ic) {
-                bugCheckURL =  iceLoc+"/lib/bug-files-check.php?";
-                bugCheckURL += "files="+(ic.bugFilePaths[0] !== "" ? ic.bugFilePaths.join() : "null").replace(/\//g,"|");
-                bugCheckURL += "&filesSizesSeen=";
-                if (ic.bugFilesSizesSeen.length != ic.bugFilePaths.length) {
+                bugCheckURL =
+                    iceLoc +
+                    "/lib/bug-files-check.php?" +
+                    "files=" + ("" !== ic.bugFilePaths[0] ? ic.bugFilePaths.join() : "null").replace(/\//g, "|") +
+                    "&filesSizesSeen=";
+                if (ic.bugFilesSizesSeen.length !== ic.bugFilePaths.length) {
                     // Fill the array with nulls
-                    for (var i=0; i<ic.bugFilePaths.length; i++) {
+                    for (let i = 0; i < ic.bugFilePaths.length; i++) {
                         ic.bugFilesSizesSeen[i] = "null";
                     }
                 }
-                bugCheckURL += ic.bugFilesSizesSeen.join();
-                bugCheckURL += "&maxLines="+ic.bugFileMaxLines;
-                bugCheckURL += "&csrf="+ic.csrf;
+                bugCheckURL += ic.bugFilesSizesSeen.join() + "&maxLines=" + ic.bugFileMaxLines + "&csrf=" + ic.csrf;
 
                 var xhr = ic.xhrObj();
 
                 xhr.onreadystatechange=function() {
-                    if (xhr.readyState==4 && xhr.status==200) {
+                    if (4 === xhr.readyState && 200 === xhr.status) {
                         // console.log(xhr.responseText);
                         var statusArray = JSON.parse(xhr.responseText);
                         // console.log(statusArray);
@@ -4008,7 +4002,7 @@ var ICEcoder = {
                                     statusArray['result'] == "bugs" ? "New bugs found, click to view" :
                                         "Unable to find bug log file specified"; // Setup error
                         ic.bugReportStatus = statusArray['result'];
-                        if (ic.bugFilesSizesSeen[0]=="null") {
+                        if ("null" == ic.bugFilesSizesSeen[0]) {
                             ic.bugFilesSizesSeen = statusArray['filesSizesSeen'];
                         }
                         ic.bugFilesSizesActual = statusArray['filesSizesSeen'];
@@ -4017,10 +4011,10 @@ var ICEcoder = {
                     }
                 };
                 // console.log('Calling '+bugCheckURL+' via XHR');
-                xhr.open("GET",bugCheckURL,true);
+                xhr.open("GET", bugCheckURL, true);
                 xhr.send();
 
-            },parseInt(this.bugFileCheckTimer*1000,10),this);
+            }, parseInt(this.bugFileCheckTimer * 1000, 10), this);
             // State that we're checking for bugs
             this.bugReportStatus = "ok";
         } else {
