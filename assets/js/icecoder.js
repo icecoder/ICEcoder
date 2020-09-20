@@ -3729,50 +3729,50 @@ var ICEcoder = {
         this.indentAuto = settings.indentAuto;
         this.scrollbarStyle = settings.scrollbarStyle;
         // Then apply the settings to each editor instance
-        for (var i=0;i<this.cMInstances.length;i++) {
+        for (let i = 0; i < this.cMInstances.length; i++) {
             // Main pane
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("lineWrapping", this.lineWrapping);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("lineNumbers", this.lineNumbers);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("showTrailingSpace", this.showTrailingSpace);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("matchBrackets", this.matchBrackets);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("autoCloseTags", this.autoCloseTags);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("autoCloseBrackets", this.autoCloseBrackets);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("indentWithTabs", "tabs" === this.indentType);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("indentUnit", this.indentSize);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("tabSize", this.indentSize);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("scrollbarStyle", this.scrollbarStyle);
-            this.content.contentWindow['cM'+this.cMInstances[i]].refresh();
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("lineWrapping", this.lineWrapping);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("lineNumbers", this.lineNumbers);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("showTrailingSpace", this.showTrailingSpace);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("matchBrackets", this.matchBrackets);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("autoCloseTags", this.autoCloseTags);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("autoCloseBrackets", this.autoCloseBrackets);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("indentWithTabs", "tabs" === this.indentType);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("indentUnit", this.indentSize);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("tabSize", this.indentSize);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("scrollbarStyle", this.scrollbarStyle);
+            this.content.contentWindow['cM' + this.cMInstances[i]].refresh();
             // Diff pane
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("lineWrapping", this.lineWrapping);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("lineNumbers", this.lineNumbers);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("showTrailingSpace", this.showTrailingSpace);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("matchBrackets", this.matchBrackets);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("autoCloseTags", this.autoCloseTags);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("autoCloseBrackets", this.autoCloseBrackets);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("indentWithTabs", "tabs" === this.indentType);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("indentUnit", this.indentSize);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("tabSize", this.indentSize);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("scrollbarStyle", this.scrollbarStyle);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].refresh();
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("lineWrapping", this.lineWrapping);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("lineNumbers", this.lineNumbers);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("showTrailingSpace", this.showTrailingSpace);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("matchBrackets", this.matchBrackets);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("autoCloseTags", this.autoCloseTags);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("autoCloseBrackets", this.autoCloseBrackets);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("indentWithTabs", "tabs" === this.indentType);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("indentUnit", this.indentSize);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("tabSize", this.indentSize);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("scrollbarStyle", this.scrollbarStyle);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].refresh();
         }
 
-        if (settings.tagWrapperCommand != this.tagWrapperCommand) {
+        if (settings.tagWrapperCommand !== this.tagWrapperCommand) {
             this.tagWrapperCommand = settings.tagWrapperCommand;
         }
 
-        if (settings.autoComplete != this.autoComplete) {
+        if (settings.autoComplete !== this.autoComplete) {
             this.autoComplete = settings.autoComplete;
         }
 
-        get('plugins').style.left = settings.pluginPanelAligned == "left" ? "0" : "auto";
-        get('plugins').style.right = settings.pluginPanelAligned == "right" ? "0" : "auto";
+        get('plugins').style.left = "left" === settings.pluginPanelAligned ? "0" : "auto";
+        get('plugins').style.right = "right" === settings.pluginPanelAligned ? "0" : "auto";
 
         // Restart bug checking
         this.bugFilePaths = settings.bugFilePaths;
         this.bugFileCheckTimer = settings.bugFileCheckTimer;
         this.bugFileMaxLines = settings.bugFileMaxLines;
 
-        if (this.bugFilePaths[0] != "") {
+        if ("" != this.bugFilePaths[0]) {
             this.startBugChecking();
         } else {
             if ("undefined" != typeof this.bugFileCheckInt) {
@@ -3781,7 +3781,7 @@ var ICEcoder = {
         }
 
         // Update diffs if we have a split pane
-        if (this.splitPane) {
+        if (true === this.splitPane) {
             this.updateDiffs();
         }
 
@@ -3792,7 +3792,9 @@ var ICEcoder = {
         this.autoLogoutMins = settings.autoLogoutMins;
 
         // Finally, refresh the file manager if we need to
-        if (settings.refreshFM) {this.refreshFileManager()};
+        if (true === settings.refreshFM) {
+            this.refreshFileManager();
+        };
     },
 
     // Update and show/hide found results display?
@@ -4095,8 +4097,8 @@ var ICEcoder = {
 
             // Set all cM instances to be hidden, then make our selected instance visible
             for (var i=0;i<this.cMInstances.length;i++) {
-                this.content.contentWindow['cM'+this.cMInstances[i]].getWrapperElement().style.display = "none";
-                this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].getWrapperElement().style.display = "none";
+                this.content.contentWindow['cM' + this.cMInstances[i]].getWrapperElement().style.display = "none";
+                this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].getWrapperElement().style.display = "none";
             }
             cM.setOption('theme',this.theme);
             cMdiff.setOption('theme',this.theme + " diff");
@@ -4316,8 +4318,8 @@ var ICEcoder = {
                 this.openFileVersions[i-1] = this.openFileVersions[i];
             }
             // hide the instance we're closing by setting the hide class and removing from the array
-            this.content.contentWindow['cM'+this.cMInstances[closeTabNum-1]].getWrapperElement().style.display = "none";
-            this.content.contentWindow['cM'+this.cMInstances[closeTabNum-1]+'diff'].getWrapperElement().style.display = "none";
+            this.content.contentWindow['cM' + this.cMInstances[closeTabNum-1]].getWrapperElement().style.display = "none";
+            this.content.contentWindow['cM' + this.cMInstances[closeTabNum-1]+'diff'].getWrapperElement().style.display = "none";
             this.cMInstances.splice(closeTabNum-1,1);
             // clear the rightmost tab (or only one left in a 1 tab scenario) & remove from the array
             get('tab'+this.openFiles.length).style.display = "none";
