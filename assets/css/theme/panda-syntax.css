@@ -6,7 +6,6 @@
 .cm-s-panda-syntax {
 	background: #292A2B;
 	color: #E6E6E6;
-	line-height: 1.5;
 	font-family: 'Operator Mono', 'Source Sans Pro', Menlo, Monaco, Consolas, Courier New, monospace;
 }
 .cm-s-panda-syntax .CodeMirror-cursor { border-color: #ff2c6d; }
