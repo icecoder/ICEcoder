@@ -3705,7 +3705,7 @@ var ICEcoder = {
         thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
 
         // Update font size in file manager
-        thisCSS = this.filesFrame.contentWindow.document.styleSheets[3];
+        thisCSS = this.filesFrame.contentWindow.document.styleSheets[4];
         strCSS = thisCSS.rules ? 'rules' : 'cssRules';
         thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
 
