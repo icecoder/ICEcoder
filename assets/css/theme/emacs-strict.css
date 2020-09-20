@@ -1,13 +1,7 @@
 .cm-s-emacs-strict {
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
-	letter-spacing: 0.3px;
-	word-spacing: 1px;
+	font-family: monospace;
 	background: #000000EB;
 	color: #D3D3D3;
-}
-.cm-s-emacs-strict .CodeMirror-lines {
-	padding: 8px 0;
 }
 .cm-s-emacs-strict .CodeMirror-gutters {
 	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);

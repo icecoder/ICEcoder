@@ -1,13 +1,7 @@
 .cm-s-rails-envy {
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
-	letter-spacing: 0.3px;
-	word-spacing: 1px;
+	font-family: monospace;
 	background: #121210;
 	color: #F8F8F2;
-}
-.cm-s-rails-envy .CodeMirror-lines {
-	padding: 8px 0;
 }
 .cm-s-rails-envy .CodeMirror-gutters {
 	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);

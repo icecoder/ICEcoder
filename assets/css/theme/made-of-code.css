@@ -1,13 +1,7 @@
 .cm-s-made-of-code {
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
-	letter-spacing: 0.3px;
-	word-spacing: 1px;
+	font-family: monospace;
 	background: #090916F2;
 	color: #F8F8F8;
-}
-.cm-s-made-of-code .CodeMirror-lines {
-	padding: 8px 0;
 }
 .cm-s-made-of-code .CodeMirror-gutters {
 	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);

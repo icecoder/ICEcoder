@@ -1,13 +1,7 @@
 .cm-s-venom {
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
-	letter-spacing: 0.3px;
-	word-spacing: 1px;
+	font-family: monospace;
 	background: #0D0D0D;
 	color: #BFBFBF;
-}
-.cm-s-venom .CodeMirror-lines {
-	padding: 8px 0;
 }
 .cm-s-venom .CodeMirror-gutters {
 	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);

@@ -1,13 +1,7 @@
 .cm-s-oceanic {
-	line-height: 1.5em;
-	font-family: inconsolata, monospace;
-	letter-spacing: 0.3px;
-	word-spacing: 1px;
+	font-family: monospace;
 	background: #1B2630;
 	color: #F8F8F2;
-}
-.cm-s-oceanic .CodeMirror-lines {
-	padding: 8px 0;
 }
 .cm-s-oceanic .CodeMirror-gutters {
 	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
