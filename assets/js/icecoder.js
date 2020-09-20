@@ -4036,13 +4036,18 @@ var ICEcoder = {
 
     // Print code of current tab
     printCode: function() {
-        var thisCM, printIFrame;
+        let thisCM, printIFrame;
 
         thisCM = this.getThisCM();
 
         printIFrame = this.filesFrame.contentWindow.frames['fileControl'];
         // Print page content injected into iFrame, escaped with pre and xssClean
-        printIFrame.window.document.body.innerHTML = '<!DOCTYPE html><head><title>ICEcoder code output</title></head><body><pre style="white-space: pre-wrap">'+this.xssClean(thisCM.getValue())+'</pre></body></html>';
+        printIFrame.window.document.body.innerHTML =
+            '<!DOCTYPE html><head><title>' +
+            this.openFiles[this.selectedTab - 1] +
+            '</title></head><body><pre style="white-space: pre-wrap">' +
+            this.xssClean(thisCM.getValue()) +
+            '</pre></body></html>';
         printIFrame.focus();
         printIFrame.print();
         // Focus back on code
@@ -4051,10 +4056,10 @@ var ICEcoder = {
 
     // Update the title tag to indicate any changes
     indicateChanges: function() {
-        var winTitle;
+        let winTitle;
 
-        if (!this.loadingFile) {
-            winTitle = "ICEcoder v "+this.versionNo;
+        if (false === this.loadingFile) {
+            winTitle = "ICEcoder v " + this.versionNo;
             for(var i=1;i<=this.savedPoints.length;i++) {
                 if (this.savedPoints[i-1]!=this.getcMInstance(i).changeGeneration()) {
                     // We have an unsaved tab, indicate that in the title
