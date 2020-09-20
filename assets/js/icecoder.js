@@ -4060,8 +4060,8 @@ var ICEcoder = {
 
         if (false === this.loadingFile) {
             winTitle = "ICEcoder v " + this.versionNo;
-            for(var i=1;i<=this.savedPoints.length;i++) {
-                if (this.savedPoints[i-1]!=this.getcMInstance(i).changeGeneration()) {
+            for(let i = 1; i <= this.savedPoints.length; i++) {
+                if (this.savedPoints[i-1] !== this.getcMInstance(i).changeGeneration()) {
                     // We have an unsaved tab, indicate that in the title
                     winTitle += " \u2744";
                     break;
@@ -4071,12 +4071,12 @@ var ICEcoder = {
         }
     },
 
-// ==============
+// ====
 // TABS
-// ==============
+// ====
 
     // Change tabs by switching visibility of instances
-    switchTab: function(newTab,noFocus) {
+    switchTab: function(newTab, noFocus) {
         var cM, cMdiff, thisCM;
 
         // If we're not switching to same tab (for some reason), note the previous tab
@@ -4095,12 +4095,12 @@ var ICEcoder = {
             this.switchMode();
 
             // Set all cM instances to be hidden, then make our selected instance visible
-            for (var i=0;i<this.cMInstances.length;i++) {
+            for (var i = 0; i < this.cMInstances.length; i++) {
                 this.content.contentWindow['cM' + this.cMInstances[i]].getWrapperElement().style.display = "none";
                 this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].getWrapperElement().style.display = "none";
             }
-            cM.setOption('theme',this.theme);
-            cMdiff.setOption('theme',this.theme + " diff");
+            cM.setOption('theme', this.theme);
+            cMdiff.setOption('theme', this.theme + " diff");
             cM.getWrapperElement().style.display = "block";
             cMdiff.getWrapperElement().style.display = "block";
 
@@ -4110,10 +4110,15 @@ var ICEcoder = {
             }
 
             // Focus on & refresh our selected instance
-            if (!noFocus) {setTimeout(function(ic) {ic.focus();},4,this);}
+            if (!noFocus) {
+                setTimeout(function(ic) {
+                    ic.focus();
+                }, 4, this);
+            }
             cM.refresh();
             cMdiff.refresh();
 
+            // Update list of functions & classes plus Git diffs
             this.updateFunctionClassList();
             this.highlightGitDiffs();
 
@@ -4128,7 +4133,7 @@ var ICEcoder = {
                 ic.scrollBarVisible = thisCM.getScrollInfo().height > thisCM.getScrollInfo().clientHeight;
                 ic.findReplace(get('find').value, false, false, false);
                 ic.setLayout();
-            },0,this);
+            }, 0, this);
 
             // Finally, update the cursor display
             this.getCaretPosition();
@@ -4143,7 +4148,7 @@ var ICEcoder = {
 
         this.cMInstances.push(this.nextcMInstance);
         this.selectedTab = this.cMInstances.length;
-        this.showHide('show',this.content);
+        this.showHide('show', this.content);
         this.content.contentWindow.createNewCMInstance(this.nextcMInstance);
         this.setLayout();
 
@@ -4152,8 +4157,8 @@ var ICEcoder = {
         cM = this.getcMInstance('new');
         this.switchTab(this.openFiles.length);
 
-        cM.removeLineClass(this['cMActiveLinecM'+this.cMInstances[this.selectedTab-1]], "background");
-        this['cMActiveLinecM'+this.selectedTab] = cM.addLineClass(0, "background", "cm-s-activeLine");
+        cM.removeLineClass(this['cMActiveLinecM' + this.cMInstances[this.selectedTab - 1]], "background");
+        this['cMActiveLinecM' + this.selectedTab] = cM.addLineClass(0, "background", "cm-s-activeLine");
         this.nextcMInstance++;
 
         // Also auto trigger save
@@ -4164,26 +4169,26 @@ var ICEcoder = {
 
     // Create a new tab for a file
     createNewTab: function(isNew, shortURL) {
-        var closeTabLink, fileName, fileExt;
+        let closeTabLink, fileName, fileExt;
 
         // Push new file into array
         this.openFiles.push(shortURL);
 
         // Setup a new tab
-        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
-        get('tab'+(this.openFiles.length)).style.display = "inline-block";
-        fileName = this.openFiles[this.openFiles.length-1];
+        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
+        get('tab' + (this.openFiles.length)).style.display = "inline-block";
+        fileName = this.openFiles[this.openFiles.length - 1];
         fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
-        get('tab'+(this.openFiles.length)).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
-        get('tab'+(this.openFiles.length)).title = "/" + this.openFiles[this.openFiles.length-1].replace(/\//,"");
-        get('tab'+(this.openFiles.length)).className = "tab ext-" + fileExt;
+        get('tab' + (this.openFiles.length)).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
+        get('tab' + (this.openFiles.length)).title = "/" + this.openFiles[this.openFiles.length - 1].replace(/\//, "");
+        get('tab' + (this.openFiles.length)).className = "tab ext-" + fileExt;
 
         // Set the widths
         this.setTabWidths();
 
         // Highlight it and state it's selected
         this.redoTabHighlight(this.openFiles.length);
-        this.selectedTab=this.openFiles.length;
+        this.selectedTab = this.openFiles.length;
 
         // Add a new value ready to indicate if this content has been changed
         this.savedPoints.push(0);
@@ -4196,50 +4201,51 @@ var ICEcoder = {
 
     // Cycle to next tab
     nextTab: function() {
-        var goToTab;
+        let goToTab;
 
-        goToTab = this.selectedTab+1 <= this.openFiles.length ? this.selectedTab+1 : 1;
-        this.switchTab(goToTab,'noFocus');
+        goToTab = this.selectedTab + 1 <= this.openFiles.length ? this.selectedTab + 1 : 1;
+        this.switchTab(goToTab, 'noFocus');
     },
 
     // Cycle to next tab
     previousTab: function() {
-        var goToTab;
+        let goToTab;
 
-        goToTab = this.selectedTab-1 >= 1 ? this.selectedTab-1 : this.openFiles.length;
-        this.switchTab(goToTab,'noFocus');
+        goToTab = this.selectedTab - 1 >= 1 ? this.selectedTab - 1 : this.openFiles.length;
+        this.switchTab(goToTab, 'noFocus');
     },
 
     // Create a new tab for a file
-    renameTab: function(tabNum,newName) {
+    renameTab: function(tabNum, newName) {
         var closeTabLink, fileName, fileExt;
 
         // Push new file into array
-        this.openFiles[tabNum-1] = newName;
+        this.openFiles[tabNum - 1] = newName;
 
         // Setup a new tab
-        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
-        fileName = this.openFiles[tabNum-1];
+        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
+        fileName = this.openFiles[tabNum - 1];
         fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
-        get('tab'+tabNum).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
-        get('tab'+tabNum).title = "/" + this.openFiles[tabNum-1].replace(/\//,"");
-        get('tab'+tabNum).className = "tab ext-" + fileExt;
+        get('tab' + tabNum).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
+        get('tab' + tabNum).title = "/" + this.openFiles[tabNum - 1].replace(/\//, "");
+        get('tab' + tabNum).className = "tab ext-" + fileExt;
     },
 
     // Reset all tabs to be without a highlight and then highlight the selected
     redoTabHighlight: function(selectedTab) {
-        var folderFileElems, fileLink;
+        let folderFileElems, fileLink;
 
         // For all open tabs...
-        for (var i = 1; i<= this.savedPoints.length; i++) {
+        for (let i = 1; i <= this.savedPoints.length; i++) {
             // Set the close tab icon BG color according to save status
             if (get('tab' + i).childNodes[0]) {
                 get('tab' + i).childNodes[0].childNodes[0].style.backgroundColor = this.savedPoints[i - 1] != this.getcMInstance(i).changeGeneration()
-                    ? "#b00" : "";
+                    ? "#b00"
+                    : "";
             }
             // Set the BG and text color for tabs according to if it's the current tab or not
-            get('tab'+i).style.color = i === selectedTab ? this.colorCurrentText : this.colorOpenTextTab;
-            get('tab'+i).style.background = i === selectedTab ? this.colorCurrentBG : this.colorOpenBG;
+            get('tab' + i).style.color = i === selectedTab ? this.colorCurrentText : this.colorOpenTextTab;
+            get('tab' + i).style.background = i === selectedTab ? this.colorCurrentBG : this.colorOpenBG;
         }
 
         // Now we can set about setting the coloring of dirs/files in the file manager
@@ -4257,8 +4263,8 @@ var ICEcoder = {
         }
 
         // Highlight all open files
-        for (var i = 0; i < this.openFiles.length; i++) {
-            fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[i].replace(/\//g,"|"));
+        for (let i = 0; i < this.openFiles.length; i++) {
+            fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[i].replace(/\//g, "|"));
             if (fileLink) {
                 fileLink.style.backgroundColor = this.colorOpenBG;
                 fileLink.style.color = this.colorOpenTextFile;
@@ -4267,7 +4273,7 @@ var ICEcoder = {
 
         // Highlight the file that's the current tab
         if (1 <= this.selectedTab) {
-            fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[this.selectedTab - 1].replace(/\//g,"|"));
+            fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[this.selectedTab - 1].replace(/\//g, "|"));
             if (fileLink) {
                 fileLink.style.backgroundColor = this.colorCurrentBG;
                 fileLink.style.color = this.colorCurrentText;
@@ -4275,7 +4281,7 @@ var ICEcoder = {
         }
 
         // Highlight all user selected files
-        for (var i = 0; i < this.selectedFiles.length; i++) {
+        for (let i = 0; i < this.selectedFiles.length; i++) {
             fileLink = this.filesFrame.contentWindow.document.getElementById(this.selectedFiles[i]);
             if (fileLink) {
                 fileLink.style.backgroundColor = this.colorSelectedBG;
