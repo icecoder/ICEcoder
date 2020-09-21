@@ -465,7 +465,7 @@ if (!$error && "perms" === $_GET['action']) {
         $doNext = $extraProcessesClass->onFileDirPerms($doNext, $_GET['perms']);
     } else {
         $finalAction = "nothing";
-        $doNext .= "ICEcoder.message('" . $t['Sorry, cannot change...'] . " \\n" . $file . "');";
+        $doNext .= "ICEcoder.message('" . $t['Sorry, cannot change...'] . " \\\\n" . $file . "');";
     }
     $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
