@@ -3,15 +3,15 @@ const get = function(elem) {
     return document.getElementById(elem);
 };
 
-// URL we're viewing ICEcoder from
-const iceLoc = window.location.origin + window.location.pathname.replace(/\/$/, "");
-
 // Main ICEcoder object
 var ICEcoder = {
 
     // ====
     // INIT
     // ====
+
+    // URL we're viewing ICEcoder from
+    iceLoc:                window.location.origin + window.location.pathname.replace(/\/$/, ""),
 
     // Define settings
     filesW:	               250,           // Width of files pane
@@ -144,7 +144,7 @@ var ICEcoder = {
 
             // Every 5 mins, ping our file to keep the session alive
             if (0 === ic.openSeconds % 300) {
-                ic.filesFrame.contentWindow.frames['pingActive'].location.href = iceLoc + "/lib/session-active-ping.php";
+                ic.filesFrame.contentWindow.frames['pingActive'].location.href = ic.iceLoc + "/lib/session-active-ping.php";
             }
 
             // Every 3 seconds, re-index if we're not already busy
@@ -154,7 +154,7 @@ var ICEcoder = {
                 let timestampExtra = ic.indexData
                     ? "?timestamp=" + ic.indexData.timestamps.indexed + "&csrf=" + ic.csrf
                     : "";
-                fetch(iceLoc + '/lib/indexer.php' + timestampExtra)
+                fetch(ic.iceLoc + '/lib/indexer.php' + timestampExtra)
                     .then(function(response) {
                         // Convert to JSON
                         return response.json();
@@ -1668,7 +1668,7 @@ var ICEcoder = {
             dir.parentNode.className = dir.className = "pft-directory";
         }
         if (load) {
-            this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc + "/lib/get-branch.php?location=" + dir.childNodes[1].id + "&csrf=" + this.csrf;
+            this.filesFrame.contentWindow.frames['fileControl'].location.href = this.iceLoc + "/lib/get-branch.php?location=" + dir.childNodes[1].id + "&csrf=" + this.csrf;
         } else if("UL" === node.tagName) {
             node.parentNode.removeChild(node);
         }
@@ -1883,7 +1883,7 @@ var ICEcoder = {
         newFolder = this.getInput('Enter new folder name at ' + shortURL, '');
         if (newFolder) {
             newFolder = (shortURL + "/" + newFolder).replace(/\/\//, "/");
-            this.serverQueue("add", iceLoc + "/lib/file-control.php?action=newFolder&csrf=" + this.csrf, encodeURIComponent(newFolder.replace(/\//g, "|")));
+            this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=newFolder&csrf=" + this.csrf, encodeURIComponent(newFolder.replace(/\//g, "|")));
             this.serverMessage('<b>' + t['Creating Folder'] + '</b> ' + newFolder.replace(/^\/|/g, ''));
         }
     },
@@ -1947,7 +1947,7 @@ var ICEcoder = {
 
                 if ("/[NEW]" !== shortURL) {
                     fileLink = fileLink.replace(/\//g, "|");
-                    this.serverQueue("add", iceLoc + "/lib/file-control.php?action=load&file=" + encodeURIComponent(fileLink) + "&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(fileLink));
+                    this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=load&file=" + encodeURIComponent(fileLink) + "&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(fileLink));
                     this.serverMessage('<b>' + t['Opening File'] + '</b> ' + shortURL.substr(shortURL.lastIndexOf("/") + 1));
                 } else {
                     this.createNewTab(true, shortURL);
@@ -1985,7 +1985,7 @@ var ICEcoder = {
             line = flSplit[1];
         }
 
-        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=getRemoteFile&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(remoteFile));
+        this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=getRemoteFile&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(remoteFile));
         this.serverMessage('<b>' + t['Getting'] + '</b> ' + remoteFile);
     },
 
@@ -2138,7 +2138,7 @@ var ICEcoder = {
                     : "|[NEW]";
             }
             filePath = filePath.replace("||", "|");
-            ic.serverQueue("add", iceLoc + "/lib/file-control.php?action=save&fileMDT=" + ic.openFileMDTs[ic.selectedTab - 1] + "&fileVersion=" + ic.openFileVersions[ic.selectedTab - 1] + "&saveType=" + saveType + "&newFileAutoSave=" + newFileAutoSave + "&tabNum=" + ic.selectedTab + "&csrf=" + ic.csrf,encodeURIComponent(filePath), changes);
+            ic.serverQueue("add", ic.iceLoc + "/lib/file-control.php?action=save&fileMDT=" + ic.openFileMDTs[ic.selectedTab - 1] + "&fileVersion=" + ic.openFileVersions[ic.selectedTab - 1] + "&saveType=" + saveType + "&newFileAutoSave=" + newFileAutoSave + "&tabNum=" + ic.selectedTab + "&csrf=" + ic.csrf,encodeURIComponent(filePath), changes);
             ic.serverMessage('<b>' + t['Saving'] + '</b> ' + ic.openFiles[ic.selectedTab - 1].replace(iceRoot, "").replace(/^\/|/g, ''));
         }, 0, ic);
     },
@@ -2157,7 +2157,7 @@ var ICEcoder = {
             newName = this.getInput(t['Please enter the...'], shortURL);
         }
         if (newName) {
-            this.serverQueue("add", iceLoc + "/lib/file-control.php?action=rename&oldFileName=" + encodeURIComponent(oldName.replace(/\|/g, "/")) + "&csrf=" + this.csrf,encodeURIComponent(newName));
+            this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=rename&oldFileName=" + encodeURIComponent(oldName.replace(/\|/g, "/")) + "&csrf=" + this.csrf,encodeURIComponent(newName));
             this.serverMessage('<b>' + t['Renaming to'] + '</b> ' + newName.replace(/^\/|/g, ''));
             this.setPreviousFiles();
         }
@@ -2169,7 +2169,7 @@ var ICEcoder = {
 
         if (newName && newName !== oldName) {
             if (this.ask("Are you sure you want to move file " + oldName + " to " + newName + " ?")){
-                this.serverQueue("add", iceLoc + "/lib/file-control.php?action=move&oldFileName=" + encodeURIComponent(oldName.replace(/\//g, "|")) + "&csrf=" + this.csrf, encodeURIComponent(newName.replace(/\//g, "|")));
+                this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=move&oldFileName=" + encodeURIComponent(oldName.replace(/\//g, "|")) + "&csrf=" + this.csrf, encodeURIComponent(newName.replace(/\//g, "|")));
                 this.serverMessage('<b>' + t['Moving to'] + '</b> ' + newName.replace(/^\/|/g, ''));
             }
 
@@ -2184,7 +2184,7 @@ var ICEcoder = {
         tgtFiles = fileList ? fileList : this.selectedFiles;
         tgtListDisplay = tgtFiles.toString().replace(/\|/g, "/").replace(/,/g, "\n");
         if (0 < tgtFiles.length && this.ask('Delete:\n\n' + tgtListDisplay + '?')) {
-            this.serverQueue("add", iceLoc + "/lib/file-control.php?action=delete&csrf=" + this.csrf,encodeURIComponent(tgtFiles.join(";")));
+            this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=delete&csrf=" + this.csrf,encodeURIComponent(tgtFiles.join(";")));
             this.serverMessage('<b>' + t['Deleting File'] + '</b> ' + tgtListDisplay.replace(/^\/|/g, ''));
         }
     },
@@ -2208,7 +2208,7 @@ var ICEcoder = {
         if (this.copiedFiles) {
             for (let i = 0; i < this.copiedFiles.length; i++) {
                 if ("|" !== this.copiedFiles[i]) {
-                    this.serverQueue("add", iceLoc + "/lib/file-control.php?action=paste&location=" + location + "&csrf=" + this.csrf, encodeURIComponent(this.copiedFiles[i]));
+                    this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=paste&location=" + location + "&csrf=" + this.csrf, encodeURIComponent(this.copiedFiles[i]));
                     this.serverMessage('<b>' + t['Pasting File'] + '</b> ' + this.copiedFiles[i].toString().replace(/\|/g, "/").replace(/,/g, "\n").replace(/^\/|/g, ''));
                 } else {
                     this.message(t['Sorry cannot paste...']);
@@ -2359,7 +2359,7 @@ var ICEcoder = {
                 }
             }
         };
-        xhr.open("POST", iceLoc + "/lib/file-control.php?action=checkExists&csrf=" + this.csrf, true);
+        xhr.open("POST", this.iceLoc + "/lib/file-control.php?action=checkExists&csrf=" + this.csrf, true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         timeStart = new Date().getTime();
         xhr.send('timeStart=' + timeStart + '&file=' + encodeURIComponent(path));
@@ -2907,7 +2907,7 @@ var ICEcoder = {
                 // Finally, show loading mask and open multiple results pane using QS params
                 this.showHide('show',get('loadingMask'));
                 get('mediaContainer').innerHTML = '<iframe src="' +
-                    iceLoc + '/lib/multiple-results.php?find=' + find
+                    this.iceLoc + '/lib/multiple-results.php?find=' + find
                     + replaceQS + targetQS + filesQS +
                     '&csrf=' + this.csrf +
                     '" id="multipleResultsIFrame" style="width: 700px; height: 500px"></iframe>';
@@ -2927,7 +2927,7 @@ var ICEcoder = {
     replaceInFile: function(fileRef, find, replace) {
         this.serverQueue(
             "add",
-            iceLoc +
+            this.iceLoc +
             "/lib/file-control.php?action=replaceText&find=" + find +
             "&replace=" + replace +
             "&csrf=" + this.csrf,
@@ -3496,7 +3496,7 @@ var ICEcoder = {
         // Then send through to the settings page to update setting
         this.serverQueue(
             "add",
-            iceLoc + "/lib/settings.php?saveFiles=" + encodeURIComponent(previousFiles) + "&csrf=" + this.csrf,
+            this.iceLoc + "/lib/settings.php?saveFiles=" + encodeURIComponent(previousFiles) + "&csrf=" + this.csrf,
             encodeURIComponent(previousFiles)
         );
         this.updateLast10List(previousFiles);
@@ -3566,7 +3566,7 @@ var ICEcoder = {
             tabExtra = tab ? '?tab=' + tab + '&csrf=' + this.csrf : '';
             get('mediaContainer').innerHTML =
                 '<iframe src="' +
-                iceLoc +
+                this.iceLoc +
                 '/lib/settings-screen.php' +
                 tabExtra +
                 '" id="settingsIFrame" style="width: 970px; height: 610px"></iframe>';
@@ -3578,7 +3578,7 @@ var ICEcoder = {
     helpScreen: function() {
         get('mediaContainer').innerHTML =
             '<iframe src="' +
-            iceLoc +
+            this.iceLoc +
             '/lib/help.php" id="helpIFrame" style="width: 840px; height: 485px"></iframe>';
         this.showHide('show', get('blackMask'));
     },
@@ -3587,7 +3587,7 @@ var ICEcoder = {
     versionsScreen: function(file) {
         get('mediaContainer').innerHTML =
             '<iframe src="' +
-            iceLoc +
+            this.iceLoc +
             '/lib/backup-versions.php?file=' +
             file +
             '&csrf=' +
@@ -3612,7 +3612,7 @@ var ICEcoder = {
     // Show the properties screen
     propertiesScreen: function(fileName) {
         get('mediaContainer').innerHTML = '<iframe src="' +
-            iceLoc +
+            this.iceLoc +
             '/lib/properties.php?fileName=' +
             fileName.replace(/\//g,"|") +
             '&csrf=' +
@@ -3624,7 +3624,7 @@ var ICEcoder = {
     // Show the auto-logout warning screen
     autoLogoutWarningScreen: function() {
         get('mediaContainer').innerHTML = '<iframe src="' +
-            iceLoc +
+            this.iceLoc +
             '/lib/auto-logout-warning.php" id="autoLogoutIFrame" style="width: 400px; height: 160px"></iframe>';
         this.showHide('show', get('blackMask'));
     },
@@ -3632,7 +3632,7 @@ var ICEcoder = {
     // Show the auto-logout warning screen
     bugReportScreen: function() {
         get('mediaContainer').innerHTML = '<iframe src="' +
-            iceLoc +
+            this.iceLoc +
             '/lib/bug-report.php" id="bugReportIFrame" style="width: 970px; height: 610px"></iframe>';
         this.showHide('show', get('blackMask'));
     },
@@ -3640,7 +3640,7 @@ var ICEcoder = {
     // Show the plugins manager
     pluginsManager: function() {
         get('mediaContainer').innerHTML = '<iframe src="' +
-            iceLoc +
+            this.iceLoc +
             '/lib/plugins-manager.php" id="pluginsManagerIFrame" style="width: 800px; height: 450px"></iframe>';
         this.showHide('show', get('blackMask'));
     },
@@ -3648,14 +3648,14 @@ var ICEcoder = {
     // Go to localhost root
     goLocalhostRoot: function() {
         this.filesFrame.contentWindow.frames['fileControl'].location.href =
-            iceLoc +
+            this.iceLoc +
             "/lib/go-localhost-root.php";
     },
 
     // Show the FTP manager
     ftpManager: function() {
         get('mediaContainer').innerHTML = '<iframe src="' +
-            iceLoc +
+            this.iceLoc +
             '/lib/ftp-manager.php" id="ftpManagerIFrame" style="width: 620px; height: 550px"></iframe>';
         this.showHide('show', get('blackMask'));
     },
@@ -3820,20 +3820,20 @@ var ICEcoder = {
     // Pass target file/folder to Zip It!
     zipIt: function(tgt) {
         tgt=tgt.replace(/\//g, "|");
-        this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc + "/plugins/zip-it/index.php?zip=" + tgt + "&csrf=" + this.csrf;
+        this.filesFrame.contentWindow.frames['fileControl'].location.href = this.iceLoc + "/plugins/zip-it/index.php?zip=" + tgt + "&csrf=" + this.csrf;
     },
 
     // Prompt to download our file
     downloadFile: function(file) {
         file=file.replace(/\//g, "|");
-        this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc + "/lib/download.php?file=" + file + "&csrf=" + this.csrf;
+        this.filesFrame.contentWindow.frames['fileControl'].location.href = this.iceLoc + "/lib/download.php?file=" + file + "&csrf=" + this.csrf;
     },
 
     // Change permissions on a file/folder
     chmod: function(file, perms) {
         file = file.replace(iceRoot, "");
         this.showHide('hide', get('blackMask'));
-        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=perms&perms=" + perms + "&csrf=" + this.csrf, encodeURIComponent(file));
+        this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=perms&perms=" + perms + "&csrf=" + this.csrf, encodeURIComponent(file));
         this.serverMessage('<b>chMod ' + perms + ' on </b> ' + file.replace(/\|/g, "/").replace(/^\/|/g, ""));
     },
 
@@ -3921,7 +3921,7 @@ var ICEcoder = {
     // update: function() {
     //     if (true == confirm(t['Please note for...'])) {
     //         this.showHide('show', get('loadingMask'));
-    //         window.location = iceLoc + "/lib/updater.php";
+    //         window.location = this.iceLoc + "/lib/updater.php";
     //     } else {
     //         window.open("https://icecoder.net");
     //     }
@@ -3971,7 +3971,7 @@ var ICEcoder = {
             this.bugFilesSizesSeen = [];
             this.bugFileCheckInt = setInterval(function(ic) {
                 bugCheckURL =
-                    iceLoc +
+                    ic.iceLoc +
                     "/lib/bug-files-check.php?" +
                     "files=" + ("" !== ic.bugFilePaths[0] ? ic.bugFilePaths.join() : "null").replace(/\//g, "|") +
                     "&filesSizesSeen=";
@@ -4175,7 +4175,7 @@ var ICEcoder = {
         this.openFiles.push(shortURL);
 
         // Setup a new tab
-        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
+        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
         get('tab' + (this.openFiles.length)).style.display = "inline-block";
         fileName = this.openFiles[this.openFiles.length - 1];
         fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
@@ -4223,7 +4223,7 @@ var ICEcoder = {
         this.openFiles[tabNum - 1] = newName;
 
         // Setup a new tab
-        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
+        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
         fileName = this.openFiles[tabNum - 1];
         fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
         get('tab' + tabNum).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
@@ -5151,7 +5151,7 @@ var ICEcoder = {
             }, 500);
             // Mark tutorial as done in users settings and return
             xhr = this.xhrObj();
-            xhr.open("POST",iceLoc+"/lib/settings.php?action=turnOffTutorialOnLogin&csrf="+this.csrf,true);
+            xhr.open("POST",this.iceLoc+"/lib/settings.php?action=turnOffTutorialOnLogin&csrf="+this.csrf,true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.send();
         }
@@ -5185,7 +5185,7 @@ var ICEcoder = {
     startSnake: function() {
         this.snakePlaying = true;
         this.showHide('show',get('blackMask'));
-        get('mediaContainer').innerHTML = '<span style="font-size: 14px">Let\'s play<br><img src="'+iceLoc+'/assets/images/snake.png" alt="snake"><br><br><br>Use arrow keys to eat your code<br><br>(it returns afterwards of course) :-)</span>';
+        get('mediaContainer').innerHTML = '<span style="font-size: 14px">Let\'s play<br><img src="'+this.iceLoc+'/assets/images/snake.png" alt="snake"><br><br><br>Use arrow keys to eat your code<br><br>(it returns afterwards of course) :-)</span>';
         setTimeout(function(ic) {
             ic.showHide('hide',get('blackMask'));
             get('mediaContainer').innerHTML = '';
