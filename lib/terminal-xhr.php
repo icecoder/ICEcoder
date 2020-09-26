@@ -54,7 +54,7 @@ if (true === $demoMode) {
     exit;
 }
 
-// If in demo mode, display message and go no further
+// If no command, display message and go no further
 if (false === isset($_REQUEST['command'])) {
     echo json_encode([
         "output" => returnHTMLPromptCommand($_REQUEST['command'] . "<br><br>Sorry, no command received"),

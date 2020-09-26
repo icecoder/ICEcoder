@@ -516,6 +516,10 @@ function submitSettings() {
 <input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
 
+<?php
+echo $systemClass->getDemoModeIndicator(false);
+?>
+
 </body>
 
 </html>

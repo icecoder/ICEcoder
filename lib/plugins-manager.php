@@ -165,7 +165,7 @@ function deletePlugin($dir) {
 
 <h1><?php echo $t['plugins'];?></h1>
 
-<a href="javascript:parent.ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>','plugins')" style="position: absolute; top: 26px; right: 20px"><div style="padding: 10px; background: #333; color: #fff; font-size: 18px"><?php echo $t['Guide to writing...'];?></div></a>
+<a href="javascript:parent.ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>','plugins')" style="position: absolute; top: 26px; right: 20px"><div style="position: relative; display: inline-block; padding: 10px; background: #333; color: #fff; font-size: 18px; z-index: 2"><?php echo $t['Guide to writing...'];?></div></a>
 <div class="pluginsPane">
     <?php
     $plugins = $ICEcoder['plugins'];
@@ -256,6 +256,10 @@ function deletePlugin($dir) {
         ?>
     </div>
 </div>
+
+<?php
+echo $systemClass->getDemoModeIndicator(true);
+?>
 
 </body>
 

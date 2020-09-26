@@ -173,6 +173,10 @@ const validatePerms = function() {
 }
 </script>
 
+<?php
+echo $systemClass->getDemoModeIndicator(true);
+?>
+
 </body>
 
 </html>
