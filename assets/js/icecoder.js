@@ -39,6 +39,7 @@ var ICEcoder = {
     draggingTab:           false,         // If we're dragging a tab
     draggingWithKey:       false,         // The key that's down while dragging, false if no key
     tabLeftPos:            [],            // Array of left positions of tabs inside content area
+    overCloseLink:         false,         // If mouse is over close link on tab or not
     colorCurrentBG:        '#1d1d1b',     // Current tab/file background color
     colorCurrentText:      '#fff',        // Current tab/file text color
     colorOpenBG:           '#c3c3c3',     // Open tab/file background color
@@ -4175,7 +4176,7 @@ var ICEcoder = {
         this.openFiles.push(shortURL);
 
         // Setup a new tab
-        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
+        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; parent.ICEcoder.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; parent.ICEcoder.overCloseLink = false"></a>';
         get('tab' + (this.openFiles.length)).style.display = "inline-block";
         fileName = this.openFiles[this.openFiles.length - 1];
         fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
@@ -4223,7 +4224,7 @@ var ICEcoder = {
         this.openFiles[tabNum - 1] = newName;
 
         // Setup a new tab
-        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; this.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; this.overCloseLink = false"></a>';
+        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; parent.ICEcoder.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; parent.ICEcoder.overCloseLink = false"></a>';
         fileName = this.openFiles[tabNum - 1];
         fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
         get('tab' + tabNum).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
