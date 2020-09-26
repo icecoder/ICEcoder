@@ -4292,69 +4292,80 @@ var ICEcoder = {
 
     // Close the tab upon request
     closeTab: function(closeTabNum, dontSetPV, dontAsk) {
-        var okToRemove, closeFileName;
+        let okToRemove, closeFileName;
 
         // If we haven't specified, close current tab
-        if (!closeTabNum) {closeTabNum = this.selectedTab};
+        if (!closeTabNum) {
+            closeTabNum = this.selectedTab;
+        };
 
         okToRemove = true;
         // Only confirm if we're OK to ask and...
         if (!dontAsk && (
-            ("/[NEW]" === this.openFiles[closeTabNum-1]
+            ("/[NEW]" === this.openFiles[closeTabNum - 1]
                 // ...it's a new file that's not empty
                 ? "" !== this.getcMInstance(closeTabNum).getValue()
                 // ...or it's not a new file and it's not saved
-                : this.savedPoints[closeTabNum-1] != this.getcMInstance(closeTabNum).changeGeneration()
+                : this.savedPoints[closeTabNum - 1] !== this.getcMInstance(closeTabNum).changeGeneration()
             )
         )) {
             okToRemove = this.ask(t['You have made...']);
         }
 
-        if (okToRemove) {
+        if (true === okToRemove) {
             // Get the filename of tab we're closing
-            closeFileName = this.openFiles[closeTabNum-1];
+            closeFileName = this.openFiles[closeTabNum - 1];
 
             // recursively copy over all tabs & data from the tab to the right, if there is one
-            for (var i=closeTabNum;i<this.openFiles.length;i++) {
-                get('tab'+i).innerHTML = get('tab'+(i+1)).innerHTML;
-                get('tab'+i).title = get('tab'+(i+1)).title;
-                this.openFiles[i-1] = this.openFiles[i];
-                this.openFileMDTs[i-1] = this.openFileMDTs[i];
-                this.openFileVersions[i-1] = this.openFileVersions[i];
+            for (let i = closeTabNum; i < this.openFiles.length; i++) {
+                get('tab' + i).innerHTML = get('tab' + (i + 1)).innerHTML;
+                get('tab' + i).title = get('tab' + (i + 1)).title;
+                this.openFiles[i - 1] = this.openFiles[i];
+                this.openFileMDTs[i - 1] = this.openFileMDTs[i];
+                this.openFileVersions[i - 1] = this.openFileVersions[i];
             }
             // hide the instance we're closing by setting the hide class and removing from the array
-            this.content.contentWindow['cM' + this.cMInstances[closeTabNum-1]].getWrapperElement().style.display = "none";
-            this.content.contentWindow['cM' + this.cMInstances[closeTabNum-1]+'diff'].getWrapperElement().style.display = "none";
-            this.cMInstances.splice(closeTabNum-1,1);
+            this.content.contentWindow['cM' + this.cMInstances[closeTabNum - 1]].getWrapperElement().style.display = "none";
+            this.content.contentWindow['cM' + this.cMInstances[closeTabNum - 1] + 'diff'].getWrapperElement().style.display = "none";
+            this.cMInstances.splice(closeTabNum - 1, 1);
             // clear the rightmost tab (or only one left in a 1 tab scenario) & remove from the array
-            get('tab'+this.openFiles.length).style.display = "none";
-            get('tab'+this.openFiles.length).innerHTML = "";
-            get('tab'+this.openFiles.length).title = "";
+            get('tab' + this.openFiles.length).style.display = "none";
+            get('tab' + this.openFiles.length).innerHTML = "";
+            get('tab' + this.openFiles.length).title = "";
             this.openFiles.pop();
             this.openFileMDTs.pop();
             this.openFileVersions.pop();
             // If we're closing the selected tab, determin the new selectedTab number, reduced by 1 if we have some tabs, 0 for a reset state
-            if (this.selectedTab==closeTabNum) {
-                this.openFiles.length>0 ? this.selectedTab-=1 : this.selectedTab = 0;
+            if (this.selectedTab == closeTabNum) {
+                0 < this.openFiles.length ? this.selectedTab -= 1 : this.selectedTab = 0;
             }
             // Handle removing a tab from start or end as safely fallback
-            if (this.openFiles.length>0 && this.selectedTab === 0) {this.selectedTab = 1};
-            if (this.openFiles.length>0 && this.selectedTab > this.openFiles.length) {this.selectedTab = this.openFiles.length};
+            if (0 < this.openFiles.length && this.selectedTab === 0) {
+                this.selectedTab = 1;
+            };
+            if (0 < this.openFiles.length && this.selectedTab > this.openFiles.length) {
+                this.selectedTab = this.openFiles.length;
+            };
             // grey out the view icon
-            if (this.openFiles.length==0) {
-                this.fMIconVis('fMView',0.3);
+            if (0 === this.openFiles.length) {
+                this.fMIconVis('fMView', 0.3);
             } else {
                 // Switch the mode & the tab
                 this.switchMode();
                 this.switchTab(this.selectedTab);
             }
             // Highlight the selected tab after splicing the change state out of the array
-            this.savedPoints.splice(closeTabNum-1,1);
-            this.savedContents.splice(closeTabNum-1,1);
+            this.savedPoints.splice(closeTabNum - 1, 1);
+            this.savedContents.splice(closeTabNum - 1, 1);
             this.redoTabHighlight(this.selectedTab);
 
             // Remove any highlighting from the file manager
-            this.selectDeselectFile('deselect',this.filesFrame.contentWindow.document.getElementById(closeFileName.replace(/\//g,"|")));
+            this.selectDeselectFile(
+                'deselect',
+                this.filesFrame.contentWindow.document.getElementById(
+                    closeFileName.replace(/\//g,"|")
+                )
+            );
 
             if (!dontSetPV) {
                 this.setPreviousFiles();
@@ -4367,17 +4378,19 @@ var ICEcoder = {
             this.indicateChanges();
         }
         // Lastly, stop it from trying to also switch tab
-        this.canSwitchTabs=false;
+        this.canSwitchTabs = false;
         // and set the widths
         this.setTabWidths('posOnlyNewTab');
-        setTimeout(function(ic) {ic.canSwitchTabs=true;},100,this);
+        setTimeout(function(ic) {
+            ic.canSwitchTabs = true;
+        }, 100, this);
     },
 
     // Close all tabs
     closeAllTabs: function() {
-        if (this.cMInstances.length>0 && this.ask(t['Close all tabs'])) {
-            for (var i=this.cMInstances.length; i>0; i--) {
-                this.closeTab(i, i>1? true:false);
+        if (0 < this.cMInstances.length && this.ask(t['Close all tabs'])) {
+            for (let i = this.cMInstances.length; 0 < i; i--) {
+                this.closeTab(i, i > 1 ? true : false);
             }
         }
         // Update the title tag to indicate any changes
