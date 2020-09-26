@@ -126,16 +126,16 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findBar .bug:hover {color: #fff; cursor: pointer}
 .findBar .bug .icon-tabler {width: 23px; height: 23px; margin-left: -3px; margin-top: -4px; stroke-width: 1.25; pointer-events: none}
 .editor .terminal {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
-.editor .output {position: fixed; top: 10000px; padding: 15px 18px 8px 13px; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
+.editor .output {position: fixed; top: 10000px; padding: 15px 18px 8px 13px; transition: top 0.2s ease; background: rgba(0,0,0,0.92); color: #eee; z-index: 2}
 .editor .database {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
-.editor .git {position: fixed; top: 10000px; padding: 15px 18px 15px 13px; overflow-y: auto; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
+.editor .git {position: fixed; top: 10000px; padding: 15px 18px 15px 13px; overflow-y: auto; transition: top 0.2s ease; background: rgba(0,0,0,0.92); color: #eee; z-index: 2}
 .editor .git::-webkit-scrollbar {width: 12px; height: 12px}
 .editor .git::-webkit-scrollbar-thumb {background: rgba(0,198,255,0.2)}
 .editor .git::-webkit-scrollbar-thumb:hover {background: rgba(0,198,255,0.8)}
 .editor .git::-webkit-scrollbar-corner, .editor .git::-webkit-scrollbar-resizer {background: transparent}
 .editor .git .link {font-family: monospace; cursor: pointer}
 .editor .git .link:hover {color:  rgba(0,198,255,1)}
-.editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px; visibility: hidden}
+.editor .code {position: relative; display: inline-block; width: 600px; height: 600px; visibility: hidden}
 
 .footer {position: fixed; display: inline-block; width: 100%; height: 30px; bottom: 0; background-color: rgba(0,0,0,0.15); left: 0; z-index: 1}
 .footer .versionsDisplay {position: absolute; display: inline-block; padding: 5px; margin-top: 3px; left: 275px; color: #fff; transition: opacity 0.2s; z-index: 2; cursor: pointer}

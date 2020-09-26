@@ -355,7 +355,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 		</form>
 		<form onSubmit="return ICEcoder.goToLine(get('goToLineNo').value, 0, false)">
-			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" maxlength="5" id="goToLineNo" onkeyup="ICEcoder.goToLine(this.value, 0, true)" class="textbox goToLine">
+			<div class="goLine"><?php echo $t['Go to Line'];?> <input type="text" name="goToLine" value="" maxlength="5" id="goToLineNo" onkeyup="ICEcoder.goToLine(this.value, 0, true)" class="textbox goToLine"></div>
 			<div class="view" title="<?php echo $t['View'];?>" onClick="ICEcoder.openPreviewWindow()" id="fMView"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/browser.svg");?></div>
 			<div class="bug" title="<?php echo $t['Bug reporting not active'];?>" onClick="ICEcoder.openBugReport()" id="bugIcon"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/bug.svg");?></div>
 			<input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
@@ -386,6 +386,10 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 <div id="tooltip" class="tooltip" style="display: none"></div>
 
 <div class="closeIcon" style="display: none" id="closeIcon"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/x.svg");?></div>
+
+<?php
+echo $systemClass->getDemoModeIndicator(false);
+?>
 
 <script>
 ICEcoder.initAliases();
