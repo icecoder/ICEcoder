@@ -82,8 +82,9 @@ sendCmd = function(command) {
 			}
 		}
 	};
+
 	// Send the XHR request
-	xhr.open("POST","lib/terminal-xhr.php?csrf="+parent.ICEcoder.csrf,true);
+	xhr.open("POST",parent.ICEcoder.iceLoc + "/lib/terminal-xhr.php?csrf="+parent.ICEcoder.csrf,true);
 	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xhr.send('command='+encodeURIComponent(command));
 }
