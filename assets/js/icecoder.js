@@ -207,7 +207,7 @@ var ICEcoder = {
                 , 10) + "px";
         this.splitPaneNamesMain.style.left = (parseInt((winW - this.filesW) * 0.25, 10) - 50 + this.filesW) + "px";
         this.splitPaneNamesDiff.style.left = (parseInt((winW - this.filesW) * 0.75, 10) - 50 + this.filesW) + "px";
-        this.setTabWidths();
+        this.setTabWidths(false);
 
         // If we need to set the editor sizes
         if (false !== setEditor) {
@@ -3042,7 +3042,7 @@ var ICEcoder = {
             this.mouseX += this.filesW;
         }
         this.dragCursorTest();
-        if (62 < this.mouseY) {this.setTabWidths();}
+        if (62 < this.mouseY) {this.setTabWidths(false);}
     },
 
     // Test if we need to show a drag cursor or not
@@ -4184,7 +4184,7 @@ var ICEcoder = {
         get('tab' + (this.openFiles.length)).className = "tab ext-" + fileExt;
 
         // Set the widths
-        this.setTabWidths();
+        this.setTabWidths(false);
 
         // Highlight it and state it's selected
         this.redoTabHighlight(this.openFiles.length);
@@ -4380,7 +4380,7 @@ var ICEcoder = {
         // Lastly, stop it from trying to also switch tab
         this.canSwitchTabs = false;
         // and set the widths
-        this.setTabWidths('posOnlyNewTab');
+        this.setTabWidths(true);
         setTimeout(function(ic) {
             ic.canSwitchTabs = true;
         }, 100, this);
@@ -4399,29 +4399,37 @@ var ICEcoder = {
 
     // Set the tabs width
     setTabWidths: function(posOnlyNewTab) {
-        var availWidth, avgWidth, tabWidth, lastLeft, lastWidth;
+        let availWidth, avgWidth, tabWidth, lastLeft, lastWidth;
 
         if (this.ready) {
-            availWidth = parseInt(this.content.style.width,10)-53-22-10; // - left margin - new tab - right margin
-            avgWidth = (availWidth/this.openFiles.length)-18;
+            availWidth = parseInt(this.content.style.width, 10) - 53 - 22 - 10; // - left margin - new tab - right margin
+            avgWidth = (availWidth / this.openFiles.length ) - 18;
             tabWidth = -18; // Incl 18px offset
             lastLeft = 53;
             lastWidth = 0;
             this.tabLeftPos = [];
-            for (var i=0;i<this.openFiles.length;i++) {
-                if (posOnlyNewTab) {i=this.openFiles.length};
-                tabWidth = this.openFiles.length*(150+18) > availWidth ? parseInt(avgWidth*i,10) - parseInt(avgWidth*(i-1),10) : 150;
-                lastLeft = i==0 ? 53 : parseInt(get('tab'+(i)).style.left,10);
-                lastWidth = i==0 ? 0 : parseInt(get('tab'+(i)).style.width,10)+18;
-                if (!posOnlyNewTab) {
-                    get('tab'+(i+1)).style.left = (lastLeft+lastWidth) + "px";
-                    get('tab'+(i+1)).style.width = tabWidth + "px";
+            for (let i = 0; i < this.openFiles.length; i++) {
+                if (true === posOnlyNewTab) {
+                    i = this.openFiles.length;
+                };
+                tabWidth = this.openFiles.length * (150 + 18) > availWidth
+                    ? parseInt(avgWidth * i, 10) - parseInt(avgWidth * (i - 1), 10)
+                    : 150;
+                lastLeft = 0 === i
+                    ? 53
+                    : parseInt(get('tab' + i).style.left, 10);
+                lastWidth = 0 === i
+                    ? 0
+                    : parseInt(get('tab' + i).style.width, 10) + 18;
+                if (false === posOnlyNewTab) {
+                    get('tab' + (i + 1)).style.left = (lastLeft + lastWidth) + "px";
+                    get('tab' + (i + 1)).style.width = tabWidth + "px";
                 } else {
                     tabWidth = -18;
                 }
-                this.tabLeftPos.push(lastLeft+lastWidth);
+                this.tabLeftPos.push(lastLeft + lastWidth);
             }
-            get('newTab').style.left = (lastLeft+lastWidth+tabWidth+18) + "px";
+            get('newTab').style.left = (lastLeft + lastWidth + tabWidth + 18) + "px";
         }
     },
 
@@ -4481,7 +4489,7 @@ var ICEcoder = {
         var swapWith, fileName, fileExt, tempArray;
 
         // Set the tab widths
-        this.setTabWidths();
+        this.setTabWidths(false);
         // Determine what tabs we've swapped and reset classname, opacity & z-index for all
         for (var i=1; i<=this.openFiles.length; i++) {
             if (this.thisLeft >= this.tabLeftPos[i-1]) {
@@ -4513,7 +4521,7 @@ var ICEcoder = {
             // Now we have an order to sort against
             this.sortTabs(tempArray);
         }
-        this.setTabWidths();
+        this.setTabWidths(false);
         this.draggingTab = false;
         this.thisLeft = false;
     },
@@ -4556,7 +4564,7 @@ var ICEcoder = {
         this.cMInstances = a[5];
 
         // Set tab widths and switch to this tab
-        this.setTabWidths();
+        this.setTabWidths(false);
         this.switchTab(selectedTabWillBe);
     },
 
