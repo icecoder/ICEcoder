@@ -77,8 +77,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .editor {position: absolute; display: inline-block; top: 0; left: 15px; width: 2400px}
 .editor .tabsBar {display: inline-block; height: 27px; width: 2400px; margin-top: 15px; padding-left: 53px; background: #fff}
 .tabsBar .tab {position: absolute; display: none; height: 15px; padding: 6px 8px 6px 9px; border-right: 1px solid #ddd; color: #fff; white-space: nowrap; overflow: hidden; cursor: pointer; z-index: 1;
-    transition: width 0.15s ease-in-out;
-    transition: left 0.15s ease-in-out;
+    transition: width, left 0.15s ease-in-out;
 }
 .tabsBar .tab:before {
     position: absolute; width: 16px; height: 16px; content: ""; margin-left: -2px; background:url('../images/file-folder-icons.png') no-repeat 0 0; background-position: -32px 0;
