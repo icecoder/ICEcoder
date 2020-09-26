@@ -470,4 +470,9 @@ $text = [
         "Search"                                   => "Zoek",
     ],
 
+    "demo-mode" =>
+    [
+        "Demo mode"                                => "Demo mode",
+    ],
+
 ];

@@ -470,4 +470,9 @@ $text = [
         "Search"                                   => "搜索",
     ],
 
+    "demo-mode" =>
+    [
+        "Demo mode"                                => "Demo mode",
+    ],
+
 ];

@@ -475,4 +475,9 @@ $text = [
         "Search"                                   => "Search",
     ],
 
+    "demo-mode" =>
+    [
+        "Demo mode"                                => "Demo mode",
+    ],
+
 ];
