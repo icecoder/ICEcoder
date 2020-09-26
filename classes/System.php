@@ -148,4 +148,30 @@ class System
 
         return $contents;
     }
+
+    /**
+     * @param $dark
+     * @return string
+     */
+    public function getDemoModeIndicator($dark = false) {
+        global $ICEcoder, $text;
+
+        if (true === $ICEcoder["demoMode"]) {
+            $darkExtra = true === $dark
+                ? '.demoModeIndicator::after {position: absolute; top: 0; width: 0; height: 0; border-style: solid; border-width: 30px 0 0 30px; border-color: transparent transparent transparent #1c1c19; content: \'\'; z-index: 1}'
+                : '';
+            $content = '
+                <style>
+                    .demoModeIndicator {position: absolute; top: -30px; right: 0; width: 0; height: 0; border-top: 30px solid transparent; border-bottom: 30px solid transparent; border-right: 30px solid #b00; color: #fff; z-index: 1}
+                    .demoModeIndicator svg {position: fixed; display: inline-block; width: 24px; height: 32px; right: 0; margin-right: 0; top: -3px}
+                    ' . $darkExtra . '
+                </style>
+            ';
+            $content .= '
+                <div id="demoModeIndicator" class="demoModeIndicator" title="' . $text['demo-mode']['Demo mode'] . '">' . file_get_contents(dirname(__FILE__) . "/../assets/images/icons/lock.svg") .'</div>
+            ';
+            return $content;
+        }
+        return "";
+    }
 }
