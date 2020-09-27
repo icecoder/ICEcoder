@@ -4336,7 +4336,7 @@ var ICEcoder = {
             this.openFileMDTs.pop();
             this.openFileVersions.pop();
             // If we're closing the selected tab, determine the new selectedTab number, reduced by 1 if we have some tabs, 0 for a reset state
-            if (this.selectedTab == closeTabNum) {
+            if (this.selectedTab === closeTabNum) {
                 0 < this.openFiles.length ? this.selectedTab -= 1 : this.selectedTab = 0;
             }
             // If we're closing tab to left of selectedTab, will need to reduce selectedTab
@@ -4396,7 +4396,7 @@ var ICEcoder = {
         this.indicateChanges();
     },
 
-    // Set the tabs width
+    // Set the tab widths
     setTabWidths: function(posOnlyNewTab) {
         let availWidth, avgWidth, tabWidth, lastLeft, lastWidth;
 
@@ -4434,17 +4434,17 @@ var ICEcoder = {
 
     // Tab dragging start
     tabDragStart: function(tab) {
-        var fileName, fileExt;
+        let fileName, fileExt;
         this.draggingTab = tab;
         this.diffStartX = this.mouseX;
-        this.tabDragMouseXStart = (this.mouseX - (parseInt(this.files.style.width,10)+53+18)) % 150;
+        this.tabDragMouseXStart = (this.mouseX - (parseInt(this.files.style.width, 10) + 53 + 18)) % 150;
         // Put tab we're dragging over others
-        get('tab'+tab).style.zIndex = 2;
+        get('tab' + tab).style.zIndex = 2;
         // Set classes for other tabs (tabSlide) and the one we're dragging (tabDrag)
-        for (var i=1; i<=this.openFiles.length; i++) {
+        for (let i = 1; i <= this.openFiles.length; i++) {
             fileName = this.openFiles[i - 1];
             fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
-            get('tab'+i).className = i!==tab
+            get('tab' + i).className = i !== tab
                 ? "tab ext-" + fileExt + " tabSlide"
                 : "tab ext-" + fileExt + " tabDrag";
         }
@@ -4452,32 +4452,34 @@ var ICEcoder = {
 
     // Tab dragging
     tabDragMove: function() {
-        var lastTabWidth, thisLeft, dragTabNo, tabWidth;
+        let lastTabWidth, thisLeft, dragTabNo, tabWidth;
 
-        lastTabWidth = parseInt(get('tab'+this.openFiles.length).style.width,10)+18;
+        lastTabWidth = parseInt(get('tab' + this.openFiles.length).style.width, 10) + 18;
 
         // Set the left position but stay within left side (53) and new tab
         this.thisLeft = thisLeft = this.tabDragMouseX >= 53
-            ? this.tabDragMouseX <= parseInt(get('newTab').style.left,10) - lastTabWidth
-                ? this.tabDragMouseX : (parseInt(get('newTab').style.left,10) - lastTabWidth) : 53;
+            ? this.tabDragMouseX <= parseInt(get('newTab').style.left, 10) - lastTabWidth
+                ? this.tabDragMouseX
+                : (parseInt(get('newTab').style.left, 10) - lastTabWidth)
+            : 53;
 
-        get('tab'+this.draggingTab).style.left = thisLeft + "px";
+        get('tab' + this.draggingTab).style.left = thisLeft + "px";
 
         this.dragTabNo = dragTabNo = this.draggingTab;
 
         // Set the opacities of tabs then positions of tabs we're not dragging
-        for (var i=1; i<=this.openFiles.length; i++) {
-            get('tab'+i).style.opacity = i == this.draggingTab ? 1 : 0.5;
-            tabWidth = this.tabLeftPos[i] ? this.tabLeftPos[i] - this.tabLeftPos[i-1] : tabWidth;
-            if (i!=this.draggingTab) {
+        for (let i = 1; i <= this.openFiles.length; i++) {
+            get('tab' + i).style.opacity = i === this.draggingTab ? 1 : 0.5;
+            tabWidth = this.tabLeftPos[i] ? this.tabLeftPos[i] - this.tabLeftPos[i - 1] : tabWidth;
+            if (i !== this.draggingTab) {
                 if (i < this.draggingTab) {
-                    get('tab'+i).style.left = thisLeft <= this.tabLeftPos[i-1]
-                        ? this.tabLeftPos[i-1]+tabWidth
-                        : this.tabLeftPos[i-1];
+                    get('tab' + i).style.left = thisLeft <= this.tabLeftPos[i - 1]
+                        ? this.tabLeftPos[i - 1] + tabWidth
+                        : this.tabLeftPos[i - 1];
                 } else {
-                    get('tab'+i).style.left = thisLeft >= this.tabLeftPos[i-1]
-                        ? this.tabLeftPos[i-1]-tabWidth
-                        : this.tabLeftPos[i-1];
+                    get('tab' + i).style.left = thisLeft >= this.tabLeftPos[i - 1]
+                        ? this.tabLeftPos[i - 1] - tabWidth
+                        : this.tabLeftPos[i - 1];
                 }
             }
         }
@@ -4485,21 +4487,25 @@ var ICEcoder = {
 
     // Tab dragging end
     tabDragEnd: function() {
-        var swapWith, fileName, fileExt, tempArray;
+        let swapWith, fileName, fileExt, tempArray;
 
         // Set the tab widths
         this.setTabWidths(false);
         // Determine what tabs we've swapped and reset classname, opacity & z-index for all
-        for (var i=1; i<=this.openFiles.length; i++) {
-            if (this.thisLeft >= this.tabLeftPos[i-1]) {
-                swapWith = this.thisLeft == this.tabLeftPos[0] ? 1 : this.dragTabNo > i ? i+1 : i;
+        for (let i = 1; i <= this.openFiles.length; i++) {
+            if (this.thisLeft >= this.tabLeftPos[i - 1]) {
+                swapWith = this.thisLeft === this.tabLeftPos[0]
+                    ? 1
+                    : this.dragTabNo > i
+                        ? i + 1
+                        : i;
             }
             fileName = this.openFiles[i - 1];
             fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
-            get('tab'+i).className = "tab ext-" + fileExt;
-            get('tab'+i).style.opacity = 1;
-            if (i!=this.dragTabNo) {
-                get('tab'+i).style.zIndex = 1;
+            get('tab' + i).className = "tab ext-" + fileExt;
+            get('tab' + i).style.opacity = 1;
+            if (i !== this.dragTabNo) {
+                get('tab' + i).style.zIndex = 1;
             } else {
                 if ("undefined" !== typeof swapWith) {
                     setTimeout(function (num) {
@@ -4508,15 +4514,15 @@ var ICEcoder = {
                 }
             }
         }
-        if (this.thisLeft && this.thisLeft!==false) {
+        if (this.thisLeft && this.thisLeft !== false) {
             // Make a number ascending array
             tempArray = [];
-            for (var i=1;i<=this.openFiles.length;i++) {
+            for (let i = 1; i <= this.openFiles.length; i++) {
                 tempArray.push(i);
             }
             // Then swap our tab numbers
-            tempArray.splice(this.dragTabNo-1,1);
-            tempArray.splice(swapWith-1,0,this.dragTabNo);
+            tempArray.splice(this.dragTabNo - 1, 1);
+            tempArray.splice(swapWith - 1, 0, this.dragTabNo);
             // Now we have an order to sort against
             this.sortTabs(tempArray);
         }
