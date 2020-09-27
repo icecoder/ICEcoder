@@ -4762,7 +4762,7 @@ var ICEcoder = {
                 return false;
 
             // CTRL/Cmd+L (Go to line)
-            } else if(key==76 && true === ctrlOrCmd) {
+            } else if (76 === key && true === ctrlOrCmd) {
                 var goToLineInput = get('goToLineNo');
                 goToLineInput.select();
                 // this is trick for Chrome - after you have used Ctrl-F once, when
@@ -4773,70 +4773,66 @@ var ICEcoder = {
                 return false;
 
             // CTRL/Cmd+I (Get info)
-            } else if(key==73 && true === ctrlOrCmd && area == "content") {
+            } else if (73 === key && true === ctrlOrCmd && "content" === area) {
                 this.searchForSelected();
                 return false;
 
             // CTRL/Cmd+backspace arrow (Go to previous tab selected)
-            } else if(key==8 && true === ctrlOrCmd) {
-                if (this.prevTab !== 0) {
+            } else if (8 === key && true === ctrlOrCmd) {
+                if (0 !== this.prevTab) {
                     this.switchTab(this.prevTab);
                 }
                 return false;
 
             // CTRL/Cmd+right arrow (Tab to right)
-            } else if(key==39 && true === ctrlOrCmd && area!="content") {
+            } else if (39 === key && true === ctrlOrCmd && "content" !== area) {
                 this.nextTab();
                 return false;
 
                 // CTRL/Cmd+left arrow (Tab to left)
-            } else if(key==37 && true === ctrlOrCmd && area!="content") {
+            } else if (37 === key && true === ctrlOrCmd && "content" !== area) {
                 this.previousTab();
                 return false;
 
             // CTRL/Cmd+up arrow (Move line up)
-            } else if(key==38 && true === ctrlOrCmd && area=="content") {
+            } else if (38 === key && true === ctrlOrCmd && "content" === area) {
                 this.moveLines('up');
                 return false;
 
             // CTRL/Cmd+down arrow (Move line down)
-            } else if(key==40 && true === ctrlOrCmd && area=="content") {
+            } else if (40 === key && true === ctrlOrCmd && "content" === area) {
                 this.moveLines('down');
                 return false;
 
             // CTRL/Cmd+numeric plus (New tab)
-            } else if((key==107 || key==187) && true === ctrlOrCmd) {
-                area=="content"
+            } else if ((107 === key || 187 === key) && true === ctrlOrCmd) {
+                "content" === area
                     ? this.duplicateLines()
                     : this.newTab(false);
                 return false;
 
             // CTRL/Cmd+numeric minus (Close tab)
-            } else if((key==109 || key==189) && true === ctrlOrCmd) {
-                area=="content"
+            } else if ((key==109 || key==189) && true === ctrlOrCmd) {
+                "content" === area
                     ? this.removeLines()
                     : this.closeTab(this.selectedTab);
                 return false;
 
             // CTRL/Cmd+S (Save), CTRL/Cmd+Shift+S (Save As)
-            } else if(key==83 && true === ctrlOrCmd) {
-                if(evt.shiftKey) {
-                    this.saveFile(true, false);
-                } else {
-                    this.saveFile(false, false);
-                }
+            } else if (83 === key && true === ctrlOrCmd) {
+                this.saveFile(true === evt.shiftKey, false);
                 return false;
 
             // CTRL/Cmd+Enter (Open Webpage)
-            } else if(key==13 && true === ctrlOrCmd && this.openFiles[this.selectedTab-1] != "/[NEW]") {
+            } else if (13 === key && true === ctrlOrCmd && "/[NEW]" !== this.openFiles[this.selectedTab - 1]) {
                 this.resetKeys(evt);
-                window.open(this.openFiles[this.selectedTab-1]);
+                window.open(this.openFiles[this.selectedTab - 1]);
                 return false;
 
             // Enter (Expand dir/open file)
-            } else if(key==13 && area=="files") {
+            } else if(13 === key && "files" === area) {
                 if (false === ctrlOrCmd) {
-                    if (this.selectedFiles.length == 0) {
+                    if (0 === this.selectedFiles.length) {
                         this.overFileFolder('folder', '|');
                         this.selectFileFolder('init');
                     }
@@ -4845,60 +4841,54 @@ var ICEcoder = {
                 return false;
 
             // Up/down/left/right arrows (Traverse files)
-            } else if((key==38||key==40||key==37||key==39) && area=="files") {
+            } else if(-1 < [37, 38, 39, 40].indexOf(key) && "files" === area) {
                 if(false === ctrlOrCmd) {
-                    if (this.selectedFiles.length == 0) {
+                    if (0 === this.selectedFiles.length) {
                         this.overFileFolder('folder', '|');
                         this.selectFileFolder('init');
                     }
-                    this.fmAction(evt,
-                        key==38 ?	'up' :
-                            key==40 ?	'down' :
-                                key==37 ?	'left' :
-                                    'right');
+                    this.fmAction(evt, ['left', 'up', 'right', 'down'][key - 37]);
                 }
                 return false;
 
             // CTRL/Cmd+O (Open Prompt)
-            } else if(key==79 && true === ctrlOrCmd) {
+            } else if(79 === key && true === ctrlOrCmd) {
                 this.openPrompt();
                 return false;
 
             // CTRL/Cmd+Space (Add snippet)
-            } else if(key==32 && true === ctrlOrCmd && area=="content") {
+            } else if(32 === key && true === ctrlOrCmd && "content" === area) {
                 this.addSnippet();
                 return false;
 
             // CTRL/Cmd+J (Jump to definition/back again)
-            } else if(key==74 && true === ctrlOrCmd && area=="content") {
+            } else if(74 === key && true === ctrlOrCmd && "content" === area) {
                 this.jumpToDefinition();
                 return false;
 
             // CTRL + Tab (lock/unlock file manager)
-            } else if(key==223 && true === ctrlOrCmd) {
+            } else if(223 === key && true === ctrlOrCmd) {
                 this.lockUnlockNav();
-                this.changeFilesW(this.lockedNav ? 'expand' : 'contract');
+                this.changeFilesW(true === this.lockedNav ? 'expand' : 'contract');
                 return false;
 
             // CTRL + . (Fold/unfold current line)
-            } else if(key==190 && true === ctrlOrCmd) {
+            } else if (190 === key && true === ctrlOrCmd) {
                 thisCM = this.getThisCM();
                 thisCM.foldCode(thisCM.getCursor());
                 return false;
 
             // ESC in content area (Comment/Uncomment line)
-            } else if(key==27 && area == "content") {
+            } else if (27 === key && "content" === area) {
                 thisCM = this.getThisCM();
 
-                if (thisCM.getSelections().length > 1) {
-                    thisCM.execCommand("singleSelection");
-                } else {
-                    this.lineCommentToggle();
-                }
+                1 < thisCM.getSelections().length
+                    ? thisCM.execCommand("singleSelection")
+                    : this.lineCommentToggle();
                 return false;
 
             // ESC not in content area (Cancel all actions)
-            } else if(key==27 && area != "content") {
+            } else if (27 === key && "content" !== area) {
                 this.cancelAllActions();
                 return false;
 
