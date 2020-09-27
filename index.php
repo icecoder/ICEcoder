@@ -312,7 +312,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		<a nohref onClick="ICEcoder.alphaTabs()"><img src="<?php echo $iceURLPath;?>/assets/images/nav-alpha.png" class="alphaTabs" title="<?php echo $t['Alphabetize tabs'];?>"></a>
 		<?php
 		for ($i = 1; $i <= 100; $i++) {
-			echo '<div id="tab' . $i . '" class="tab" onmousedown="!ICEcoder.overCloseLink && ICEcoder.canSwitchTabs ? ICEcoder.switchTab(parseInt(this.id.slice(3), 10)) : ICEcoder.canSwitchTabs = true; thisColor = ICEcoder.colorSelectedText; if (!ICEcoder.overCloseLink) {ICEcoder.tabDragStart(parseInt(this.id.slice(3), 10))}; if (event.button == 1) {ICEcoder.closeTab(parseInt(this.id.slice(3), 10)); return false};" onmouseover="thisColor = this.style.color; this.style.color = ICEcoder.colorSelectedText" onmouseout="this.style.color = thisColor"></div>';
+			echo '<div id="tab' . $i . '" class="tab" onmousedown="if (false === ICEcoder.overCloseLink) {ICEcoder.switchTab(parseInt(this.id.slice(3), 10)); ICEcoder.tabDragStart(parseInt(this.id.slice(3), 10))}; if (1 === event.button) {ICEcoder.closeTab(parseInt(this.id.slice(3), 10)); return false}; thisColor = ICEcoder.colorSelectedText;" onmouseover="thisColor = this.style.color; this.style.color = ICEcoder.colorSelectedText" onmouseout="this.style.color = thisColor"></div>';
 		}
 		?><div class="newTab" onClick="ICEcoder.newTab(false)" id="newTab">+</div>
 	</div>
