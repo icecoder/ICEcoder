@@ -4712,7 +4712,7 @@ var ICEcoder = {
                             this.filesFrame.contentWindow.focus();
                             break;
                         default:
-                          return key
+                          return key;
                       }
                       return false;
                 }
@@ -4722,7 +4722,7 @@ var ICEcoder = {
                     return false;
                 }
                 return key;
-            // Alt+Enter (Insert Line After)
+            // Alt + Enter (Insert Line After)
             } else if (13 === key) {
                 this.insertLineAfter();
                 return false;
@@ -4732,14 +4732,14 @@ var ICEcoder = {
 
         } else {
 
-            // Shift+Enter (Insert Line Before)
+            // Shift + Enter (Insert Line Before)
             if (13 === key && true === evt.shiftKey) {
                 this.insertLineBefore();
                 return false;
 
-            // CTRL/Cmd+F (Find next)
+            // CTRL/Cmd + F (Find next)
             // and
-            // CTRL/Cmd+G (Find previous)
+            // CTRL/Cmd + G (Find previous)
             } else if (
                 -1 < [70, 71].indexOf(key) &&
                 true === ctrlOrCmd
@@ -4753,7 +4753,7 @@ var ICEcoder = {
                 }
                 find.select();
                 // This is trick for Chrome - after you have used Ctrl-F once, when
-                // you try using Ctrl-F another time, for some reason Chrome still thinks,
+                // you try using Ctrl + F another time, for some reason Chrome still thinks,
                 // that find has focus and refuses to give it focus second time.
                 get('goToLineNo').focus();
                 find.focus();
@@ -4766,64 +4766,64 @@ var ICEcoder = {
                 var goToLineInput = get('goToLineNo');
                 goToLineInput.select();
                 // this is trick for Chrome - after you have used Ctrl-F once, when
-                // you try using Ctrl-F another time, for some reason Chrome still thinks,
+                // you try using Ctrl + F another time, for some reason Chrome still thinks,
                 // that find has focus and refuses to give it focus second time.
                 get('find').focus();
                 goToLineInput.focus();
                 return false;
 
-            // CTRL/Cmd+I (Get info)
+            // CTRL/Cmd + I (Get info)
             } else if (73 === key && true === ctrlOrCmd && "content" === area) {
                 this.searchForSelected();
                 return false;
 
-            // CTRL/Cmd+backspace arrow (Go to previous tab selected)
+            // CTRL/Cmd + backspace (Go to previous tab selected)
             } else if (8 === key && true === ctrlOrCmd) {
                 if (0 !== this.prevTab) {
                     this.switchTab(this.prevTab);
                 }
                 return false;
 
-            // CTRL/Cmd+right arrow (Tab to right)
+            // CTRL/Cmd + right arrow (Tab to right)
             } else if (39 === key && true === ctrlOrCmd && "content" !== area) {
                 this.nextTab();
                 return false;
 
-                // CTRL/Cmd+left arrow (Tab to left)
+            // CTRL/Cmd + left arrow (Tab to left)
             } else if (37 === key && true === ctrlOrCmd && "content" !== area) {
                 this.previousTab();
                 return false;
 
-            // CTRL/Cmd+up arrow (Move line up)
+            // CTRL/Cmd + up arrow (Move line up)
             } else if (38 === key && true === ctrlOrCmd && "content" === area) {
                 this.moveLines('up');
                 return false;
 
-            // CTRL/Cmd+down arrow (Move line down)
+            // CTRL/Cmd + down arrow (Move line down)
             } else if (40 === key && true === ctrlOrCmd && "content" === area) {
                 this.moveLines('down');
                 return false;
 
-            // CTRL/Cmd+numeric plus (New tab)
+            // CTRL/Cmd + numeric plus (New tab)
             } else if ((107 === key || 187 === key) && true === ctrlOrCmd) {
                 "content" === area
                     ? this.duplicateLines()
                     : this.newTab(false);
                 return false;
 
-            // CTRL/Cmd+numeric minus (Close tab)
+            // CTRL/Cmd + numeric minus (Close tab)
             } else if ((key==109 || key==189) && true === ctrlOrCmd) {
                 "content" === area
                     ? this.removeLines()
                     : this.closeTab(this.selectedTab);
                 return false;
 
-            // CTRL/Cmd+S (Save), CTRL/Cmd+Shift+S (Save As)
+            // CTRL/Cmd + S (Save), CTRL/Cmd + Shift + S (Save As)
             } else if (83 === key && true === ctrlOrCmd) {
                 this.saveFile(true === evt.shiftKey, false);
                 return false;
 
-            // CTRL/Cmd+Enter (Open Webpage)
+            // CTRL/Cmd + Enter (Open Webpage)
             } else if (13 === key && true === ctrlOrCmd && "/[NEW]" !== this.openFiles[this.selectedTab - 1]) {
                 this.resetKeys(evt);
                 window.open(this.openFiles[this.selectedTab - 1]);
@@ -4851,22 +4851,22 @@ var ICEcoder = {
                 }
                 return false;
 
-            // CTRL/Cmd+O (Open Prompt)
+            // CTRL/Cmd + O (Open Prompt)
             } else if(79 === key && true === ctrlOrCmd) {
                 this.openPrompt();
                 return false;
 
-            // CTRL/Cmd+Space (Add snippet)
+            // CTRL/Cmd + space (Add snippet)
             } else if(32 === key && true === ctrlOrCmd && "content" === area) {
                 this.addSnippet();
                 return false;
 
-            // CTRL/Cmd+J (Jump to definition/back again)
+            // CTRL/Cmd + J (Jump to definition/back again)
             } else if(74 === key && true === ctrlOrCmd && "content" === area) {
                 this.jumpToDefinition();
                 return false;
 
-            // CTRL + Tab (lock/unlock file manager)
+            // CTRL + Tab (Lock/Unlock file manager)
             } else if(223 === key && true === ctrlOrCmd) {
                 this.lockUnlockNav();
                 this.changeFilesW(true === this.lockedNav ? 'expand' : 'contract');
