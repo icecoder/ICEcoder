@@ -20,7 +20,6 @@ var ICEcoder = {
     selectedTab:           0,             // The tab that's currently selected
     savedPoints:           [],            // Ints array to indicate save points for docs
     savedContents:         [],            // Array of last known saved contents
-    canSwitchTabs:         true,          // Stops switching of tabs when trying to close
     openFiles:             [],            // Array of open file URLs
     openFileMDTs:          [],            // Array of open file modification datetimes
     openFileVersions:      [],            // Array of open file version counts
@@ -4317,15 +4316,14 @@ var ICEcoder = {
             // Get the filename of tab we're closing
             closeFileName = this.openFiles[closeTabNum - 1];
 
-            // recursively copy over all tabs & data from the tab to the right, if there is one
+            // Recursively copy over all tabs & data from the tab to the right, if there is one
             for (let i = closeTabNum; i < this.openFiles.length; i++) {
-                get('tab' + i).innerHTML = get('tab' + (i + 1)).innerHTML;
-                get('tab' + i).title = get('tab' + (i + 1)).title;
+                this.renameTab(i, this.openFiles[i]);
                 this.openFiles[i - 1] = this.openFiles[i];
                 this.openFileMDTs[i - 1] = this.openFileMDTs[i];
                 this.openFileVersions[i - 1] = this.openFileVersions[i];
             }
-            // hide the instance we're closing by setting the hide class and removing from the array
+            // Hide the instance we're closing by setting the hide class and removing from the array
             this.content.contentWindow['cM' + this.cMInstances[closeTabNum - 1]].getWrapperElement().style.display = "none";
             this.content.contentWindow['cM' + this.cMInstances[closeTabNum - 1] + 'diff'].getWrapperElement().style.display = "none";
             this.cMInstances.splice(closeTabNum - 1, 1);
@@ -4333,12 +4331,17 @@ var ICEcoder = {
             get('tab' + this.openFiles.length).style.display = "none";
             get('tab' + this.openFiles.length).innerHTML = "";
             get('tab' + this.openFiles.length).title = "";
+            get('tab' + this.openFiles.length).className = "";
             this.openFiles.pop();
             this.openFileMDTs.pop();
             this.openFileVersions.pop();
-            // If we're closing the selected tab, determin the new selectedTab number, reduced by 1 if we have some tabs, 0 for a reset state
+            // If we're closing the selected tab, determine the new selectedTab number, reduced by 1 if we have some tabs, 0 for a reset state
             if (this.selectedTab == closeTabNum) {
                 0 < this.openFiles.length ? this.selectedTab -= 1 : this.selectedTab = 0;
+            }
+            // If we're closing tab to left of selectedTab, will need to reduce selectedTab
+            if (closeTabNum < ICEcoder.selectedTab) {
+                this.selectedTab--;
             }
             // Handle removing a tab from start or end as safely fallback
             if (0 < this.openFiles.length && this.selectedTab === 0) {
@@ -4347,7 +4350,7 @@ var ICEcoder = {
             if (0 < this.openFiles.length && this.selectedTab > this.openFiles.length) {
                 this.selectedTab = this.openFiles.length;
             };
-            // grey out the view icon
+            // Grey out the view icon
             if (0 === this.openFiles.length) {
                 this.fMIconVis('fMView', 0.3);
             } else {
@@ -4364,7 +4367,7 @@ var ICEcoder = {
             this.selectDeselectFile(
                 'deselect',
                 this.filesFrame.contentWindow.document.getElementById(
-                    closeFileName.replace(/\//g,"|")
+                    closeFileName.replace(/\//g, "|")
                 )
             );
 
@@ -4378,13 +4381,8 @@ var ICEcoder = {
             // Update the title tag to indicate any changes
             this.indicateChanges();
         }
-        // Lastly, stop it from trying to also switch tab
-        this.canSwitchTabs = false;
-        // and set the widths
+        // Lastly, set the widths
         this.setTabWidths(true);
-        setTimeout(function(ic) {
-            ic.canSwitchTabs = true;
-        }, 100, this);
     },
 
     // Close all tabs
