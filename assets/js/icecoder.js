@@ -4610,41 +4610,45 @@ var ICEcoder = {
         }
     },
 
-// ==============
+// ==
 // UI
-// ==============
+// ==
 
     // Detect keys/combos plus identify our area and set the vars, perform actions
     interceptKeys: function(area, evt) {
-        var key, cM, cMdiff, thisCM;
+        let key, ctrlOrCmd, cM, thisCM;
 
-        key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+        key = evt.keyCode ?? evt.which ?? evt.charCode;
 
         // Reset the auto-logout timer
         this.resetAutoLogoutTimer();
 
         // Mac command key handling (224 = Moz, 91/93 = Webkit Left/Right Apple)
-        if (key==224 || key==91 || key==93) {
+        if (-1 < [224, 91, 93].indexOf(key)) {
             this.cmdKey = true;
         }
 
+        // Set bool based on CTRL or Cmd key being pressed
+        ctrlOrCmd = -1 < [evt.ctrlKey, this.cmdKey].indexOf(true);
+
         // F1 (zoom code out non declaration lines)
-        if (key === 112) {
-            if (this.codeZoomedOut) {
+        if (112 === key) {
+            evt.preventDefault();
+            if (true === this.codeZoomedOut) {
                 return;
             }
             this.codeZoomedOut = true;
 
             cM = this.getcMInstance();
             // For every line in the current editor, add code-zoomed-out class if not a function/class declaration line
-            for (var i=0; i<cM.lineCount(); i++) {
-                var nonDeclareLine = true;
-                for (var j=0; j<this.functionClassList.length; j++) {
-                    if (this.functionClassList[j].line == i) {
+            for (let i = 0; i < cM.lineCount(); i++) {
+                let nonDeclareLine = true;
+                for (let j = 0; j < this.functionClassList.length; j++) {
+                    if (this.functionClassList[j].line === i) {
                         nonDeclareLine = false;
                     }
                 }
-                if (nonDeclareLine) {
+                if (true === nonDeclareLine) {
                     cM.addLineClass(i, "wrap", "code-zoomed-out");
                 }
             }
@@ -4654,64 +4658,102 @@ var ICEcoder = {
         };
 
         // DEL (Delete file)
-        if (key==46 && area == "files") {
+        if (46 === key && "files" === area) {
             this.deleteFiles();
             return false;
         };
 
         // Alt key down?
         if (evt.altKey) {
-            // detect alt right
-            var isAltRight	= (evt.ctrlKey||this.cmdKey) ? true:false;
+            // Detect alt right
+            let isAltRight = ctrlOrCmd ? true : false;
 
-            // tag wrapper, add line break at end or focus on file manager
+            // Tag wrapper, add line break at end or focus on file manager
             if (
-                (this.tagWrapperCommand=="ctrl+alt" && isAltRight) // CTRL/Cmd + alt left + key || alt right + key
-                || (this.tagWrapperCommand=="alt-left" && !isAltRight) // alt left + key
+                ("ctrl+alt" === this.tagWrapperCommand && true === isAltRight) // CTRL/Cmd + alt left + key || alt right + key
+                || ("alt-left" === this.tagWrapperCommand && false === isAltRight) // alt left + key
             ) {
-                if (area=="content") {
-                    if (key==68) {this.tagWrapper('div'); return false;}
-                    else if (key==83) {this.tagWrapper('span'); return false;}
-                    else if (key==80) {this.tagWrapper('p'); return false;}
-                    else if (key==65) {this.tagWrapper('a'); return false;}
-                    else if (key==49) {this.tagWrapper('h1'); return false;}
-                    else if (key==50) {this.tagWrapper('h2'); return false;}
-                    else if (key==51) {this.tagWrapper('h3'); return false;}
-                    else if (key==13) {this.addLineBreakAtEnd(); return false;}
-                    else if (key==37) {this.filesFrame.contentWindow.focus();return false;}
-                    else {return key;}
+                if ("content" === area) {
+                    switch(key) {
+                        // d - TODO - not working
+                        case 68:
+                            this.tagWrapper('div'); 
+                            break;
+                        // - s
+                        case 83:
+                            this.tagWrapper('span');
+                            break;
+                        // p
+                        case 80:
+                            this.tagWrapper('p');
+                            break;
+                        // 65 - TODO - not working
+                        case 65:
+                            this.tagWrapper('a');
+                            break;
+                        // 1
+                        case 49:
+                            this.tagWrapper('h1');
+                            break;
+                        // 2
+                        case 50:
+                            this.tagWrapper('h2');
+                            break;
+                        // 3
+                        case 51:
+                            this.tagWrapper('h3');
+                            break;
+                        // Enter
+                        case 13:
+                            this.addLineBreakAtEnd();
+                            break;
+                        // Shift
+                        case 16:
+                            this.filesFrame.contentWindow.focus();
+                            break;
+                        default:
+                          return key
+                      }
+                      return false;
                 }
-                // Focus on file manager (outside of content area) or last editor pane
-                if (key==37) {this.filesFrame.contentWindow.focus();return false;}
-                else if (key==39) {this.focus(this.editorFocusInstance.indexOf('diff') > -1 ? true : false);return false;}
-                else {return key;}
-                // Alt+Enter (Insert Line After)
-            } else if (key==13) {
+                // Shift and not focused on content area, set focus to last editor pane
+                if (16 === key) {
+                    this.focus(this.editorFocusInstance.indexOf('diff') > -1 ? true : false);
+                    return false;
+                }
+                return key;
+            // Alt+Enter (Insert Line After)
+            } else if (13 === key) {
                 this.insertLineAfter();
                 return false;
-            } else {return key;}
+            } else {
+                return key;
+            }
 
         } else {
 
             // Shift+Enter (Insert Line Before)
-            if(key==13 && evt.shiftKey) {
+            if (13 === key && true === evt.shiftKey) {
                 this.insertLineBefore();
                 return false;
 
-                // CTRL/Cmd+F (Find next)
-                // and
-                // CTRL/Cmd+G (Find previous)
-            } else if((key==70||key==71) && (evt.ctrlKey||this.cmdKey)) {
-                var find = get('find');
-                var selections = this.getThisCM().getSelections();
-                if (selections.length > 0){
-                    if (selections[0].length > 0){
+            // CTRL/Cmd+F (Find next)
+            // and
+            // CTRL/Cmd+G (Find previous)
+            } else if (
+                -1 < [70, 71].indexOf(key) &&
+                true === ctrlOrCmd
+            ) {
+                let find = get('find');
+                let selections = this.getThisCM().getSelections();
+                if (0 < selections.length){
+                    if (0 < selections[0].length){
                         find.value = selections[0];
                     }
                 }
                 find.select();
-                // this is trick for Chrome - after you have used Ctrl-F once, when
-                // you try using Ctrl-F another time, somewhy Chrome still thinks,
+                // This is trick for Chrome - after you have used Ctrl-F once, when
+                // you try using Ctrl-F another time, for some reason Chrome still thinks,
                 // that find has focus and refuses to give it focus second time.
                 get('goToLineNo').focus();
                 find.focus();
@@ -4719,65 +4761,65 @@ var ICEcoder = {
                 this.findReplace(find.value, true, true, 70 !== key);
                 return false;
 
-                // CTRL/Cmd+L (Go to line)
-            } else if(key==76 && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL/Cmd+L (Go to line)
+            } else if(key==76 && true === ctrlOrCmd) {
                 var goToLineInput = get('goToLineNo');
                 goToLineInput.select();
                 // this is trick for Chrome - after you have used Ctrl-F once, when
-                // you try using Ctrl-F another time, somewhy Chrome still thinks,
+                // you try using Ctrl-F another time, for some reason Chrome still thinks,
                 // that find has focus and refuses to give it focus second time.
                 get('find').focus();
                 goToLineInput.focus();
                 return false;
 
-                // CTRL/Cmd+I (Get info)
-            } else if(key==73 && (evt.ctrlKey||this.cmdKey) && area == "content") {
+            // CTRL/Cmd+I (Get info)
+            } else if(key==73 && true === ctrlOrCmd && area == "content") {
                 this.searchForSelected();
                 return false;
 
-                // CTRL/Cmd+backspace arrow (Go to previous tab selected)
-            } else if(key==8 && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL/Cmd+backspace arrow (Go to previous tab selected)
+            } else if(key==8 && true === ctrlOrCmd) {
                 if (this.prevTab !== 0) {
                     this.switchTab(this.prevTab);
                 }
                 return false;
 
-                // CTRL/Cmd+right arrow (Tab to right)
-            } else if(key==39 && (evt.ctrlKey||this.cmdKey) && area!="content") {
+            // CTRL/Cmd+right arrow (Tab to right)
+            } else if(key==39 && true === ctrlOrCmd && area!="content") {
                 this.nextTab();
                 return false;
 
                 // CTRL/Cmd+left arrow (Tab to left)
-            } else if(key==37 && (evt.ctrlKey||this.cmdKey) && area!="content") {
+            } else if(key==37 && true === ctrlOrCmd && area!="content") {
                 this.previousTab();
                 return false;
 
-                // CTRL/Cmd+up arrow (Move line up)
-            } else if(key==38 && (evt.ctrlKey||this.cmdKey) && area=="content") {
+            // CTRL/Cmd+up arrow (Move line up)
+            } else if(key==38 && true === ctrlOrCmd && area=="content") {
                 this.moveLines('up');
                 return false;
 
-                // CTRL/Cmd+down arrow (Move line down)
-            } else if(key==40 && (evt.ctrlKey||this.cmdKey) && area=="content") {
+            // CTRL/Cmd+down arrow (Move line down)
+            } else if(key==40 && true === ctrlOrCmd && area=="content") {
                 this.moveLines('down');
                 return false;
 
-                // CTRL/Cmd+numeric plus (New tab)
-            } else if((key==107 || key==187) && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL/Cmd+numeric plus (New tab)
+            } else if((key==107 || key==187) && true === ctrlOrCmd) {
                 area=="content"
                     ? this.duplicateLines()
                     : this.newTab(false);
                 return false;
 
-                // CTRL/Cmd+numeric minus (Close tab)
-            } else if((key==109 || key==189) && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL/Cmd+numeric minus (Close tab)
+            } else if((key==109 || key==189) && true === ctrlOrCmd) {
                 area=="content"
                     ? this.removeLines()
                     : this.closeTab(this.selectedTab);
                 return false;
 
-                // CTRL/Cmd+S (Save), CTRL/Cmd+Shift+S (Save As)
-            } else if(key==83 && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL/Cmd+S (Save), CTRL/Cmd+Shift+S (Save As)
+            } else if(key==83 && true === ctrlOrCmd) {
                 if(evt.shiftKey) {
                     this.saveFile(true, false);
                 } else {
@@ -4785,15 +4827,15 @@ var ICEcoder = {
                 }
                 return false;
 
-                // CTRL/Cmd+Enter (Open Webpage)
-            } else if(key==13 && (evt.ctrlKey||this.cmdKey) && this.openFiles[this.selectedTab-1] != "/[NEW]") {
+            // CTRL/Cmd+Enter (Open Webpage)
+            } else if(key==13 && true === ctrlOrCmd && this.openFiles[this.selectedTab-1] != "/[NEW]") {
                 this.resetKeys(evt);
                 window.open(this.openFiles[this.selectedTab-1]);
                 return false;
 
-                // Enter (Expand dir/open file)
+            // Enter (Expand dir/open file)
             } else if(key==13 && area=="files") {
-                if(!evt.ctrlKey && !this.cmdKey) {
+                if (false === ctrlOrCmd) {
                     if (this.selectedFiles.length == 0) {
                         this.overFileFolder('folder', '|');
                         this.selectFileFolder('init');
@@ -4802,9 +4844,9 @@ var ICEcoder = {
                 }
                 return false;
 
-                // Up/down/left/right arrows (Traverse files)
+            // Up/down/left/right arrows (Traverse files)
             } else if((key==38||key==40||key==37||key==39) && area=="files") {
-                if(!evt.ctrlKey && !this.cmdKey) {
+                if(false === ctrlOrCmd) {
                     if (this.selectedFiles.length == 0) {
                         this.overFileFolder('folder', '|');
                         this.selectFileFolder('init');
@@ -4817,34 +4859,34 @@ var ICEcoder = {
                 }
                 return false;
 
-                // CTRL/Cmd+O (Open Prompt)
-            } else if(key==79 && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL/Cmd+O (Open Prompt)
+            } else if(key==79 && true === ctrlOrCmd) {
                 this.openPrompt();
                 return false;
 
-                // CTRL/Cmd+Space (Add snippet)
-            } else if(key==32 && (evt.ctrlKey||this.cmdKey) && area=="content") {
+            // CTRL/Cmd+Space (Add snippet)
+            } else if(key==32 && true === ctrlOrCmd && area=="content") {
                 this.addSnippet();
                 return false;
 
-                // CTRL/Cmd+J (Jump to definition/back again)
-            } else if(key==74 && (evt.ctrlKey||this.cmdKey) && area=="content") {
+            // CTRL/Cmd+J (Jump to definition/back again)
+            } else if(key==74 && true === ctrlOrCmd && area=="content") {
                 this.jumpToDefinition();
                 return false;
 
-                // CTRL + Tab (lock/unlock file manager)
-            } else if(key==223 && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL + Tab (lock/unlock file manager)
+            } else if(key==223 && true === ctrlOrCmd) {
                 this.lockUnlockNav();
                 this.changeFilesW(this.lockedNav ? 'expand' : 'contract');
                 return false;
 
-                // CTRL + . (Fold/unfold current line)
-            } else if(key==190 && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL + . (Fold/unfold current line)
+            } else if(key==190 && true === ctrlOrCmd) {
                 thisCM = this.getThisCM();
                 thisCM.foldCode(thisCM.getCursor());
                 return false;
 
-                // ESC in content area (Comment/Uncomment line)
+            // ESC in content area (Comment/Uncomment line)
             } else if(key==27 && area == "content") {
                 thisCM = this.getThisCM();
 
@@ -4855,12 +4897,12 @@ var ICEcoder = {
                 }
                 return false;
 
-                // ESC not in content area (Cancel all actions)
+            // ESC not in content area (Cancel all actions)
             } else if(key==27 && area != "content") {
                 this.cancelAllActions();
                 return false;
 
-                // Any other key
+            // Any other key
             } else {
                 return key;
             }
@@ -4873,7 +4915,7 @@ var ICEcoder = {
 
         key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
 
-        if (key == 112 && this.codeZoomedOut) {
+        if (key == 112 && true === this.codeZoomedOut) {
             cM = this.getcMInstance();
             // For every line in the current editor, remove code-zoomed-out class if not a function/class declaration line
             for (var i=0; i<cM.lineCount(); i++) {

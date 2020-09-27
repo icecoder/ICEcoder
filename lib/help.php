@@ -76,7 +76,7 @@ $t = $text['help'];
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Enter</span> <span class="shortcut"><?php echo $t['View webpage'];?> <span class="info" title="Popups need to be enabled">[?]</span></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> `</span> <span class="shortcut"><?php echo $t['Contract expand file...'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> .</span> <span class="shortcut"><?php echo $t['Fold unfold current...'];?></span><br>
-	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> &larr; / &rarr;</span> <span class="shortcut">Focus on file manager / content<!--<?php echo $t['Refocus on document'];?>//--></span><br>
+	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Alt <span class="plus">+</span> Shift</span> <span class="shortcut">Focus on file manager / content<!--<?php echo $t['Refocus on document'];?>//--></span><br>
 	<span class="key">Esc</span> <span class="shortcut"><?php echo $t['Cancel tasks'];?></span><br>
 
 </div>
