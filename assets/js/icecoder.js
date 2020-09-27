@@ -4666,7 +4666,7 @@ var ICEcoder = {
         // Alt key down?
         if (evt.altKey) {
             // Detect alt right
-            let isAltRight = ctrlOrCmd ? true : false;
+            let isAltRight = ctrlOrCmd;
 
             // Tag wrapper, add line break at end or focus on file manager
             if (
@@ -4679,7 +4679,7 @@ var ICEcoder = {
                         case 68:
                             this.tagWrapper('div'); 
                             break;
-                        // - s
+                        // s
                         case 83:
                             this.tagWrapper('span');
                             break;
@@ -4687,7 +4687,7 @@ var ICEcoder = {
                         case 80:
                             this.tagWrapper('p');
                             break;
-                        // 65 - TODO - not working
+                        // a - TODO - not working
                         case 65:
                             this.tagWrapper('a');
                             break;
