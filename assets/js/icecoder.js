@@ -4533,31 +4533,31 @@ var ICEcoder = {
 
     // Sort tabs into new order
     sortTabs: function(newOrder) {
-        var a, b, savedPoints = [], savedContents = [], openFiles = [], openFileMDTs = [], openFileVersions = [], cMInstances = [], selectedTabWillBe;
+        let a, b, savedPoints = [], savedContents = [], openFiles = [], openFileMDTs = [], openFileVersions = [], cMInstances = [], selectedTabWillBe;
 
         // Setup an array of our actual arrays and the blank ones
         a = [this.savedPoints, this.savedContents, this.openFiles, this.openFileMDTs, this.openFileVersions, this.cMInstances];
         b = [savedPoints, savedContents, openFiles, openFileMDTs, openFileVersions, cMInstances];
 
         // Push the new order values into array b then set into array a
-        for (var i=0;i<a.length;i++) {
-            for (var j=0;j<a[i].length;j++) {
-                b[i].push(a[i][newOrder[j]-1]);
+        for (let i = 0; i < a.length; i++) {
+            for (let j = 0; j < a[i].length; j++) {
+                b[i].push(a[i][newOrder[j] - 1]);
             }
             a[i] = b[i];
         }
 
         // Begin swapping tab id's around to an ascending order and work out new selectedTab
-        for (var i=0;i<newOrder.length;i++) {
-            get('tab'+newOrder[i]).id = "tab" + (i+1) + ".temp";
-            if (this.selectedTab == newOrder[i]) {
-                selectedTabWillBe = (i+1);
+        for (let i = 0; i < newOrder.length; i++) {
+            get('tab' + newOrder[i]).id = "tab" + (i + 1) + ".temp";
+            if (this.selectedTab === newOrder[i]) {
+                selectedTabWillBe = (i + 1);
             }
         }
 
         // Now remove the .temp part from all tabs to get new ascending order
-        for (var i=0;i<newOrder.length;i++) {
-            get('tab'+(i+1)+'.temp').id = "tab"+(i+1);
+        for (var i = 0; i < newOrder.length; i++) {
+            get('tab' + (i + 1) + '.temp').id = "tab" + (i + 1);
         }
 
         // Set the array values, tab widths and switch tab
@@ -4575,27 +4575,25 @@ var ICEcoder = {
 
     // Alphabetize tabs
     alphaTabs: function() {
-        var fileName, fileExt;
-        if (this.openFiles.length>0) {
-            var currentArray, currentArrayFull, alphaArray, nextValue, nextPos;
-
+        let fileName, fileExt, currentArray, currentArrayFull, alphaArray, nextValue, nextValueFull, nextPos;
+        if (0 < this.openFiles.length) {
             currentArray = [];
             currentArrayFull = [];
             alphaArray = [];
             // Get filenames, full paths and set classname for sliding
-            for (var i=0;i<this.openFiles.length;i++) {
-                currentArray.push(this.openFiles[i].slice(this.openFiles[i].lastIndexOf('/')+1));
+            for (let i = 0; i < this.openFiles.length; i++) {
+                currentArray.push(this.openFiles[i].slice(this.openFiles[i].lastIndexOf('/') + 1));
                 currentArrayFull.push(this.openFiles[i]);
                 fileName = this.openFiles[i];
                 fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
-                get('tab'+(i+1)).className = "tab ext-" + fileExt + " tabSlide";
+                get('tab' + (i + 1)).className = "tab ext-" + fileExt + " tabSlide";
             }
             // Get our next value, which is the next filename alpha lowest value and full path
-            while (currentArray.length>0) {
+            while (0 < currentArray.length) {
                 nextValue = currentArray[0];
                 nextValueFull = currentArrayFull[0];
                 nextPos = 0;
-                for (var i=0;i<currentArray.length;i++) {
+                for (let i = 0; i < currentArray.length; i++) {
                     if (currentArray[i] < nextValue) {
                         nextValue  = currentArray[i];
                         nextValueFull  = this.openFiles[this.openFiles.indexOf(currentArrayFull[i])];
@@ -4603,9 +4601,9 @@ var ICEcoder = {
                     }
                 }
                 // When we've got it, push into alphaArray and splice out of arrays
-                alphaArray.push((this.openFiles.indexOf(nextValueFull)+1));
-                currentArray.splice(nextPos,1);
-                currentArrayFull.splice(nextPos,1);
+                alphaArray.push((this.openFiles.indexOf(nextValueFull) + 1));
+                currentArray.splice(nextPos, 1);
+                currentArrayFull.splice(nextPos, 1);
             }
             // Once done, sort our tabs into new order
             this.sortTabs(alphaArray);
