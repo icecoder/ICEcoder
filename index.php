@@ -289,6 +289,8 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		<div id="optionsHelp" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show',this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.viewTutorial(false, 500)">Tutorial</a></li>
+				<li><a href="https://icecoder.net/usage" target="_blank">Usage</a></li>
+				<li><a href="https://icecoder.net/tips-tricks" target="_blank">Tips &amp; Tricks</a></li>
 				<li><a nohref onclick="ICEcoder.showManual('<?php echo $ICEcoder["versionNo"];?>')"><?php echo $t['Manual'];?></a></li>
 				<li><a nohref onClick="ICEcoder.helpScreen()"><?php echo $t['Shortcuts'];?></a></li>
 				<li><a nohref onclick="ICEcoder.searchForSelected()"><?php echo $t['Search for selected'];?></a></li>

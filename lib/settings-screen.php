@@ -396,8 +396,6 @@ function findSequence(goal) {
     <br><br>
 
     <input type="checkbox" onclick="showButton()" name="tutorialOnLogin" value="true"<?php if (true === $ICEcoder["tutorialOnLogin"]) {echo ' checked';};?>> Tutorial on Login<br><br>
-
-    <input type="checkbox" onclick="showButton()" name="tipsOnLogin" value="true"<?php if (true === $ICEcoder["tipsOnLogin"]) {echo ' checked';};?>> Tips on Login (Coming soon)<br><br>
 </div>
 
 <div id="securitySection" class="section" style="display: none">

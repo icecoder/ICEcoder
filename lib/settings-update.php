@@ -68,7 +68,6 @@ if (false === $demoMode && true === isset($_SESSION['loggedIn']) && true === $_S
         "plugins"            => $currentSettings['plugins'],
         "ftpSites"           => $currentSettings['ftpSites'],
         "tutorialOnLogin"    => isset($_POST['tutorialOnLogin']),
-        "tipsOnLogin"        => isset($_POST['tipsOnLogin']),
         "previousFiles"      => $currentSettings['previousFiles'],
         "last10Files"        => $currentSettings['last10Files'],
         "favoritePaths"      => $currentSettings['favoritePaths'],
