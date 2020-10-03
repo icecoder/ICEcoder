@@ -286,7 +286,6 @@ $text = [
         "Replacing text in"                        => "Remplacement  de texte dans",
         "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
         "Cancelled tasks"                          => "Tâches annul&eacute;s",
-        "Open previous files"                      => "Ouvrir les fichiers pr&eacute;c&eacute;dents ?",
         "Please note for..."                       => "S&apos;il vous pla&icirc;t, noter : la mise &agrave; jour fonctionne correctement, vous devez avoir les permissions d&apos;&eacute;criture / suppression &agrave; tous les r&eacute;pertoires et fichiers d&apos;ICEcoder. Si vous avez besoin de r&eacute;cup&eacute;rer cette version d&apos;ICEcoder pour une raison quelconque, vous la trouverez dans le r&eacute;pertoire / tmp. Cliquez sur OK pour proc&eacute;der &agrave; une mise &agrave; jour automatique, ou annuler et visiter le site d&apos;ICEcoder de sorte que vous pouvez r&eacute;cup&eacute;rer le fichier zip et mettre &agrave; jour manuellement.",
         "You can start..."                         => "Vous pouvez reporter un dysfonctionnement dans Aide > Pr&eacute;f&eacute;rences",
         "Error cannot find..."                     => "Erreur : ne peut pas trouver / acc&eacute;der aux chemins des fichiers d&apos;erreur",

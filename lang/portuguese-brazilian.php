@@ -286,7 +286,6 @@ $text = [
         "Replacing text in"                        => "Substituindo texto em",
         "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
         "Cancelled tasks"                          => "Tarefas canceladas",
-        "Open previous files"                      => "Abrir arquivos anteriores?",
         "Please note for..."                       => "Aten&ccedil;&atilde;o: para atualizar corretamente, &eacute; necess&atilde;rio permiss&atilde;o de escrita em todos os diret&oacute;rios/arquivos do ICEcoder. \\n\\nSe por algum motivo necessite recuperar esta vers&atilde;o do ICEcoder, estar&atilde; dispon&iacute;vel na pasta /tmp.\\n\\nClique OK para prosseguir com a atualiza&ccedil;&atilde;o, ou cancelar para visitar a p&atilde;gina do ICEcoder na internet onde poder&atilde; baixar a atualiza&ccedil;&atilde;o manualmente.",
         "You can start..."                         => "Voce pode reportar um bug em Ajuda > Configura&ccedil;&otilde;es",
         "Error cannot find..."                     => "Erro: n&atilde;o &eacute; poss&iacute;vel acessar caminho/arquivo de erros",

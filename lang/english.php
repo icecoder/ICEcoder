@@ -291,7 +291,6 @@ $text = [
         "Replacing text in"                        => "Replacing text in",
         "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
         "Cancelled tasks"                          => "Cancelled tasks",
-        "Open previous files"                      => "Open previous files?",
         "Please note for..."                       => "Please note: for updating to work properly, you need to have write access on all ICEcoder dirs & files. It will first check if this is the case and list any unwriteable (and therefore unmoveable) files.\\n\\nIf you need to recover this version of ICEcoder for any reason, you'll find it in the /tmp dir.\\n\\nClick OK to proceed with the check and auto-update, or cancel to visit the ICEcoder site so you can grab the zip and update manually.",
         "You can start..."                         => "You can start bug reporting in Help > Settings",
         "Error cannot find..."                     => "Error: cannot find/access the error file paths",

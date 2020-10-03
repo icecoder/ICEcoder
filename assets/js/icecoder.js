@@ -3544,14 +3544,7 @@ var ICEcoder = {
 
     // Opens the last files we had open
     autoOpenFiles: function() {
-        if (
-            0 < this.previousFiles.length &&
-            this.ask(
-                t['Open previous files'] + '\n\n' +
-                this.previousFiles.length + ' files:\n' +
-                this.previousFiles.join('\n').replace(/\|/g,"/").replace(new RegExp(docRoot + iceRoot, 'gi'), "")
-            )
-        ) {
+        if (0 < this.previousFiles.length) {
             for (let i = 0; i < this.previousFiles.length; i++) {
                 this.openFile(this.previousFiles[i].replace('|', '/'));
             }
@@ -4960,7 +4953,7 @@ var ICEcoder = {
             this.doSnippet('if','if (CURSOR) {\nINDENT\t\nINDENT}');
             // for snippet
         } else if (content.slice(0,3)=="for") {
-            this.doSnippet('for','for (var i=0; i<CURSOR; i++) {\nINDENT\t\nINDENT}');
+            this.doSnippet('for','for (let i = 0; i <CURSOR; i++) {\nINDENT\t\nINDENT}');
         }
     },
 

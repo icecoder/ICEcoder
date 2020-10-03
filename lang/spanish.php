@@ -286,7 +286,6 @@ $text = [
         "Replacing text in"                        => "Reemplazando texto en",
         "Sorry there was..."                       => "Lo siento, hubo un error con su solicitud.\\n\\nPor favor verifique su consola de desarrollo para mas informacion.",
         "Cancelled tasks"                          => "Tareas canceladas",
-        "Open previous files"                      => "Abrir archivos previos?",
         "Please note for..."                       => "Importante: para que la actualizaci&oacute;n trabaje correctamente, usted necesita tener derechos de acceso a todos los directorios y archivos de ICEcoder. Esto sera chequeado previamente y se presentara una lista de archivos sin acceso (por lo tanto no movibles).\\n\\nSi usted necesita restablecer esta version de  ICEcoder por alguna raz&oacute;n, usted la encontrara en la carpeta /tmp.\\n\\nClick en OK para proceder con la verificaci&oacute;n y auto-instalaci&oacute;n, &oacute; cancelar para visitar el sitio de ICEcoder para descargar el ZIP y hacerlo manualmente.",
         "You can start..."                         => "Usted puede iniciar el reporte de errores en la pantalla de Ayuda > Configuraci&oacute;n",
         "Error cannot find..."                     => "Error: no puedo encontrar o accesar las rutas de archivos de error",

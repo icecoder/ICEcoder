@@ -286,7 +286,6 @@ $text = [
         "Replacing text in"                        => "Sostituisci il testo con",
         "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
         "Cancelled tasks"                          => "Compiti cancellati",
-        "Open previous files"                      => "Aprire i file precedenti?",
         "Please note for..."                       => "Si prega di notare: affinche l\'aggiornamento funzioni correttamente, è necessario disporre dei permessi di scrittura e cancellazione su tutti le cartelle e file di ICEcoder e. Se è necessario ripristinare questa versione di ICEcoder per qualsiasi motivo, lo troverete nella directory / tmp dir. Fare clic su OK per procedere con l\'aggiornamento automatico o annullare a visitare il sito ICEcoder in modo da poter utilizzare la zip e aggiornare manualmente.",
         "You can start..."                         => "Puoi ripoertare il bug in Help >  Settings",
         "Error cannot find..."                     => "Error: cannot find/access the error file paths",
