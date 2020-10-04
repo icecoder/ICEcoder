@@ -1462,7 +1462,7 @@ var ICEcoder = {
                 if (this.caretLocType === "Content") {
                     searchPrefix = "";
                 }
-                window.open("http://www.google.com/#output=search&q=" + searchPrefix + thisCM.getSelection());
+                window.open("https://www.google.com/search?q=" + searchPrefix + thisCM.getSelection());
             } else {
                 this.message(t['No text selected...']);
             }
@@ -4692,7 +4692,7 @@ var ICEcoder = {
             ) {
                 if ("content" === area) {
                     switch(key) {
-                        // d - TODO - not working
+                        // d
                         case 68:
                             this.tagWrapper('div'); 
                             break;
@@ -4704,7 +4704,7 @@ var ICEcoder = {
                         case 80:
                             this.tagWrapper('p');
                             break;
-                        // a - TODO - not working
+                        // a
                         case 65:
                             this.tagWrapper('a');
                             break;
@@ -4729,7 +4729,7 @@ var ICEcoder = {
                             this.filesFrame.contentWindow.focus();
                             break;
                         default:
-                          return key;
+                            return key;
                       }
                       return false;
                 }
@@ -4757,10 +4757,7 @@ var ICEcoder = {
             // CTRL/Cmd + F (Find next)
             // and
             // CTRL/Cmd + G (Find previous)
-            } else if (
-                -1 < [70, 71].indexOf(key) &&
-                true === ctrlOrCmd
-            ) {
+            } else if (-1 < [70, 71].indexOf(key) && true === ctrlOrCmd) {
                 let find = get('find');
                 let selections = this.getThisCM().getSelections();
                 if (0 < selections.length){
@@ -4780,7 +4777,7 @@ var ICEcoder = {
 
             // CTRL/Cmd+L (Go to line)
             } else if (76 === key && true === ctrlOrCmd) {
-                var goToLineInput = get('goToLineNo');
+                let goToLineInput = get('goToLineNo');
                 goToLineInput.select();
                 // this is trick for Chrome - after you have used Ctrl-F once, when
                 // you try using Ctrl + F another time, for some reason Chrome still thinks,
@@ -4847,7 +4844,7 @@ var ICEcoder = {
                 return false;
 
             // Enter (Expand dir/open file)
-            } else if(13 === key && "files" === area) {
+            } else if (13 === key && "files" === area) {
                 if (false === ctrlOrCmd) {
                     if (0 === this.selectedFiles.length) {
                         this.overFileFolder('folder', '|');
@@ -4857,9 +4854,9 @@ var ICEcoder = {
                 }
                 return false;
 
-            // Up/down/left/right arrows (Traverse files)
-            } else if(-1 < [37, 38, 39, 40].indexOf(key) && "files" === area) {
-                if(false === ctrlOrCmd) {
+            // Up/down/left/right arrows (traverse files)
+            } else if (-1 < [37, 38, 39, 40].indexOf(key) && "files" === area) {
+                if (false === ctrlOrCmd) {
                     if (0 === this.selectedFiles.length) {
                         this.overFileFolder('folder', '|');
                         this.selectFileFolder('init');
@@ -4869,22 +4866,22 @@ var ICEcoder = {
                 return false;
 
             // CTRL/Cmd + O (Open Prompt)
-            } else if(79 === key && true === ctrlOrCmd) {
+            } else if (79 === key && true === ctrlOrCmd) {
                 this.openPrompt();
                 return false;
 
             // CTRL/Cmd + space (Add snippet)
-            } else if(32 === key && true === ctrlOrCmd && "content" === area) {
+            } else if (32 === key && true === ctrlOrCmd && "content" === area) {
                 this.addSnippet();
                 return false;
 
             // CTRL/Cmd + J (Jump to definition/back again)
-            } else if(74 === key && true === ctrlOrCmd && "content" === area) {
+            } else if (74 === key && true === ctrlOrCmd && "content" === area) {
                 this.jumpToDefinition();
                 return false;
 
-            // CTRL + Tab (Lock/Unlock file manager)
-            } else if(223 === key && true === ctrlOrCmd) {
+            // CTRL + ` (Lock/Unlock file manager)
+            } else if (223 === key && true === ctrlOrCmd) {
                 this.lockUnlockNav();
                 this.changeFilesW(true === this.lockedNav ? 'expand' : 'contract');
                 return false;
