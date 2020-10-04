@@ -113,7 +113,7 @@ const pwStrength = function(pw) {
 };
 
 const checkCase = function(evt) {
-    const key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+    const key = evt.keyCode ?? evt.which ?? evt.charCode;
 
     // Not caps lock key
     if (20 !== key) {

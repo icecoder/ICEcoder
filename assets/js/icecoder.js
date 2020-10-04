@@ -2677,7 +2677,7 @@ var ICEcoder = {
     draggingWithKeyTest: function(evt) {
         let key;
 
-        key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+        key = evt.keyCode ?? evt.which ?? evt.charCode;
         key = parseInt(key, 10);
 
         // Mac command key handling (224 = Moz, 91/93 = Webkit Left/Right Apple)
@@ -4920,7 +4920,7 @@ var ICEcoder = {
     resetKeys: function(evt) {
         var key, cM;
 
-        key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+        key = evt.keyCode ?? evt.which ?? evt.charCode;
 
         if (key == 112 && true === this.codeZoomedOut) {
             cM = this.getcMInstance();
@@ -4949,7 +4949,7 @@ var ICEcoder = {
     },
 
     handleModalKeyUp: function(evt, page) {
-        const key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+        const key = evt.keyCode ?? evt.which ?? evt.charCode;
         const target = get('blackMask') ? get('blackMask') : parent.get('blackMask');
 
         if ("settings" === page && 13 === key) {
