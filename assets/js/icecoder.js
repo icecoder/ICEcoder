@@ -1166,11 +1166,10 @@ var ICEcoder = {
                     {line: lineStart.line + ("up" === dir ? -1 : 1), ch: lineStart.ch},
                     {line: lineEnd.line + ("up" === dir ? -1 : 1), ch: lineEnd.ch}
                 );
+                // Auto-indent the lines we're moving (but not the swapped line)
+                ICEcoder.autoIndentLines(lineStart.line - ("up" === dir ? 1 : -1), lineEnd.line + ("up" === dir ? -1 : 1));
             })
         }
-
-        // Auto-indent the lines we're moving (but not the swapped line)
-        this.autoIndentLines(lineStart.line - ("up" === dir ? 1 : -1), lineEnd.line + ("up" === dir ? -1 : 1));
     },
 
     // Highlight specified line
