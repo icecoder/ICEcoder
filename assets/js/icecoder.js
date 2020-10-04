@@ -583,6 +583,7 @@ var ICEcoder = {
             }
 
         }
+
         // Reset our array for next time and redo editor stats
         this.oppTagReplaceData = [];
         this.setEditorStats();
@@ -659,6 +660,20 @@ var ICEcoder = {
     // On mouse down
     cMonMouseDown: function(thisCM, cMinstance, evt) {
         this.mouseDownInCM = "editor";
+    },
+
+    // On paste
+    cMonPaste: function(thisCM, cMinstance, evt, clipboardData) {
+        // Get text from clipboard, the number of lines (excluding last)
+        // and so the startLine and endLine and auto-indent for that range
+		const text = clipboardData.getData('Text');
+		const num = text.split("\n").length - 1;
+		const startLine = thisCM.getCursor().line;
+        const endLine = startLine + num;
+        // Now auto-indent after a 0ms tickover
+		setTimeout(() => {
+			parent.ICEcoder.autoIndentLines(startLine, endLine);
+		}, 0);
     },
 
     // On context menu
@@ -1109,6 +1124,13 @@ var ICEcoder = {
         }
     },
 
+    // Indent line range with smart indenting, falls back to indenting to prev line if no smart indenting for mode
+    autoIndentLines: function(startLine, endLine) {
+        for (let i = startLine; i <= endLine; i++) {
+            this.getcMInstance().indentLine(i, "smart");
+        }
+    },
+
     // Move current line up/down
     moveLines: function(dir) {
         let thisCM, lineStart, lineEnd, swapLineNo, swapLine;
@@ -1146,6 +1168,9 @@ var ICEcoder = {
                 );
             })
         }
+
+        // Auto-indent the lines we're moving (but not the swapped line)
+        this.autoIndentLines(lineStart.line - ("up" === dir ? 1 : -1), lineEnd.line + ("up" === dir ? -1 : 1));
     },
 
     // Highlight specified line

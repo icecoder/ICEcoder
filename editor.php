@@ -269,6 +269,7 @@ function createNewCMInstanceEvents(num, pane) {
     window['cM'+num+pane].on("inputRead", function(thisCM) {parent.ICEcoder.cMonInputRead(thisCM, 'cM' + num + pane)});
     window['cM'+num+pane].on("gutterClick", function(thisCM,line,gutter,evt) {parent.ICEcoder.cMonGutterClick(thisCM, line, gutter, evt, 'cM' + num + pane)});
     window['cM'+num+pane].on("mousedown", function(thisCM,evt) {parent.ICEcoder.cMonMouseDown(thisCM, 'cM' + num + pane, evt)});
+    window['cM'+num+pane].on("paste", function(thisCM,evt) {parent.ICEcoder.cMonPaste(thisCM, 'cM' + num + pane, evt, (evt.clipboardData || window.clipboardData))});
     window['cM'+num+pane].on("contextmenu", function(thisCM,evt) {parent.ICEcoder.cMonContextMenu(thisCM, 'cM' + num + pane, evt)});
     window['cM'+num+pane].on("dragover", function(thisCM) {parent.ICEcoder.cMonDragOver(thisCM, event, 'cM' + num + pane)});
     window['cM'+num+pane].on("renderLine", function(thisCM, line, element) {parent.ICEcoder.cMonRenderLine(thisCM, 'cM' + num + pane, line, element)});
