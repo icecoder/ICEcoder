@@ -4925,29 +4925,29 @@ var ICEcoder = {
 
     // Reset the state of keys back to the normal state
     resetKeys: function(evt) {
-        var key, cM;
+        let key, thisCM;
 
         key = evt.keyCode ?? evt.which ?? evt.charCode;
 
-        if (key == 112 && true === this.codeZoomedOut) {
-            cM = this.getcMInstance();
+        if (112 === key && true === this.codeZoomedOut) {
+            thisCM = this.getcMInstance();
             // For every line in the current editor, remove code-zoomed-out class if not a function/class declaration line
-            for (var i=0; i<cM.lineCount(); i++) {
-                var nonDeclareLine = true;
-                for (var j=0; j<this.functionClassList.length; j++) {
-                    if (this.functionClassList[j].line == i) {
+            for (let i = 0; i < thisCM.lineCount(); i++) {
+                let nonDeclareLine = true;
+                for (let j = 0; j < this.functionClassList.length; j++) {
+                    if (i === this.functionClassList[j].line) {
                         nonDeclareLine = false;
                     }
                 }
-                if (nonDeclareLine) {
-                    cM.removeLineClass(i, "wrap", "code-zoomed-out");
+                if (true === nonDeclareLine) {
+                    thisCM.removeLineClass(i, "wrap", "code-zoomed-out");
                 }
             }
             // Refresh is necessary to re-draw lines
-            cM.refresh();
+            thisCM.refresh();
 
             // Go to line chosen if any
-            var cursor = cM.getCursor();
+            let cursor = thisCM.getCursor();
             this.goToLine(cursor.line + 1, cursor.ch, false);
 
             this.codeZoomedOut = false;
@@ -4955,9 +4955,10 @@ var ICEcoder = {
         this.cmdKey = false;
     },
 
+    // Handle Enter and Escape keys in modals
     handleModalKeyUp: function(evt, page) {
         const key = evt.keyCode ?? evt.which ?? evt.charCode;
-        const target = get('blackMask') ? get('blackMask') : parent.get('blackMask');
+        const target = get('blackMask') ?? parent.get('blackMask');
 
         if ("settings" === page && 13 === key) {
             get(page + 'IFrame').contentWindow.submitSettings();
@@ -4969,7 +4970,7 @@ var ICEcoder = {
 
     // Add snippet code completion
     addSnippet: function() {
-        var thisCM, lineNo, whiteSpace, content;
+        let thisCM, lineNo, whiteSpace, content;
 
         // Get line content after trimming whitespace
         thisCM = this.getThisCM();
@@ -4977,20 +4978,20 @@ var ICEcoder = {
         whiteSpace = thisCM.getLine(lineNo).length - thisCM.getLine(lineNo).replace(/^\s\s*/, '').length;
         content = thisCM.getLine(lineNo).slice(whiteSpace);
         // function snippet
-        if (content.slice(0,8)=="function") {
-            this.doSnippet('function','function VAR() {\nINDENT\tCURSOR\nINDENT}');
-            // if snippet
-        } else if (content.slice(0,2)=="if") {
-            this.doSnippet('if','if (CURSOR) {\nINDENT\t\nINDENT}');
-            // for snippet
-        } else if (content.slice(0,3)=="for") {
-            this.doSnippet('for','for (let i = 0; i <CURSOR; i++) {\nINDENT\t\nINDENT}');
+        if ("function" === content.slice(0, 8)) {
+            this.doSnippet('function', 'function VAR() {\nINDENT\tCURSOR\nINDENT}');
+        // if snippet
+        } else if ("if" === content.slice(0, 2)) {
+            this.doSnippet('if', 'if (CURSOR) {\nINDENT\t\nINDENT}');
+        // for snippet
+        } else if ("for" === content.slice(0, 3)) {
+            this.doSnippet('for', 'for (let i = 0; i <CURSOR; i++) {\nINDENT\t\nINDENT}');
         }
     },
 
     // Action a snippet
-    doSnippet: function(tgtString,replaceString) {
-        var thisCM, lineNo, lineContents, remainder, strPos, replacedLine, whiteSpace, curPos, sPos, lineNoCount;
+    doSnippet: function(tgtString, replaceString) {
+        let thisCM, lineNo, lineContents, remainder, strPos, replacedLine, whiteSpace, curPos, sPos, lineNoCount;
 
         // Get line contents
         thisCM = this.getThisCM();
@@ -4998,36 +4999,36 @@ var ICEcoder = {
         lineContents = thisCM.getLine(lineNo);
 
         // Find our target string
-        if (lineContents.indexOf(tgtString)>-1) {
+        if (-1 < lineContents.indexOf(tgtString)) {
             // Get text on the line from our target to the end
             remainder = thisCM.getLine(lineNo);
             strPos = remainder.indexOf(tgtString);
-            remainder = remainder.slice(remainder.indexOf(tgtString)+tgtString.length+1);
+            remainder = remainder.slice(remainder.indexOf(tgtString) + tgtString.length + 1);
             // Replace the function name if any
-            replaceString = replaceString.replace(/VAR/g,remainder);
+            replaceString = replaceString.replace(/VAR/g, remainder);
             // Get replaced string from start to our strPos
-            replacedLine = thisCM.getLine(lineNo).slice(0,strPos);
+            replacedLine = thisCM.getLine(lineNo).slice(0, strPos);
             // Trim whitespace from start
             whiteSpace = thisCM.getLine(lineNo).length - thisCM.getLine(lineNo).replace(/^\s\s*/, '').length;
-            whiteSpace = thisCM.getLine(lineNo).slice(0,whiteSpace);
+            whiteSpace = thisCM.getLine(lineNo).slice(0, whiteSpace);
             // Replace indent with whatever whitespace we have
-            replaceString = replaceString.replace(/INDENT/g,whiteSpace);
+            replaceString = replaceString.replace(/INDENT/g, whiteSpace);
             replacedLine += replaceString;
             // Get cursor position
             curPos = replacedLine.indexOf("CURSOR");
             sPos = 0;
             lineNoCount = lineNo;
-            for (i=0;i<replacedLine.length;i++) {
-                if (replacedLine.indexOf("\n",sPos)<replacedLine.indexOf("CURSOR")) {
-                    sPos = replacedLine.indexOf("\n",sPos)+1;
-                    lineNoCount = lineNoCount+1;
+            for (let i = 0; i < replacedLine.length; i++) {
+                if (replacedLine.indexOf("\n", sPos) < replacedLine.indexOf("CURSOR")) {
+                    sPos = replacedLine.indexOf("\n", sPos) + 1;
+                    lineNoCount = lineNoCount + 1;
                 }
             }
             // Clear the cursor string and set the cursor there
-            thisCM.replaceRange(replacedLine.replace("CURSOR",""),{line:lineNo,ch:0},{line:lineNo,ch:1000000}, "+input");
-            thisCM.setCursor(lineNoCount,curPos);
+            thisCM.replaceRange(replacedLine.replace("CURSOR", ""), {line: lineNo, ch: 0}, {line: lineNo, ch: 1000000}, "+input");
+            thisCM.setCursor(lineNoCount, curPos);
             // Finally, focus on the editor
-            this.focus(this.editorFocusInstance.indexOf('diff') > -1 ? true : false);
+            this.focus(-1 < this.editorFocusInstance.indexOf('diff') ? true : false);
         }
     },
 
