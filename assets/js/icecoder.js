@@ -49,6 +49,8 @@ var ICEcoder = {
     colorDropTgtBGFile:    '#f80',        // Drop dir target background color
     prevTab:               0,             // Previous tab to current
     serverQueueItems:      [],            // Array of URLs to call in order
+    origCursorPos:         false,         // Original cursor position before jump to definition
+    origSelectionPos:      false,         // Original selection position before jump to definition
     previewWindow:         false,         // Target variable for the preview window
     previewWindowLoading:  false,         // Loading state of preview window
     pluginIntervalRefs:    [],            // Array of plugin interval refs
@@ -685,50 +687,7 @@ var ICEcoder = {
         // If CTRL key down
         if (evt.ctrlKey) {
             setTimeout(function(ic) {
-                // Get cM and word under mouse pointer
-                let cM = thisCM;
-                let word = (cM.getRange(cM.findWordAt(cM.getCursor()).anchor, cM.findWordAt(cM.getCursor()).head));
-
-                // Get result and number of results for word in functions and classes from index JSON object list
-                let result = null;
-                let numResults = 0;
-                let filePath = ic.openFiles[ic.selectedTab - 1];
-                let filePathExt = filePath.substr(filePath.lastIndexOf(".") + 1);
-
-                if ("undefined" !== typeof ic.indexData.functions) {
-                    for(i in ic.indexData.functions[filePathExt]) {
-                        if (i === word) {
-                            result = ic.indexData.functions[filePathExt][i];
-                            numResults++;
-                        }
-                    }
-                }
-
-                if ("undefined" !== typeof ic.indexData.class) {
-                    for (i in ic.indexData.classes[filePathExt]) {
-                        if (i === word) {
-                            result = ic.indexData.classes[filePathExt][i];
-                            numResults++;
-                        }
-                    }
-                }
-
-                // If we have a single result and the cursor isn't already on the definition of it we can jump to where it's defined
-                if (1 === numResults && -1 === [null, "def"].indexOf(cM.getTokenTypeAt(cM.getCursor()))) {
-                    ic.openFile(result.filePath.replace(docRoot, ""));
-                    ic.goFindAfterOpenInt = setInterval(function(result) {
-                        if (ic.openFiles[ic.selectedTab - 1] == result.filePath.replace(docRoot, "") && !ic.loadingFile) {
-                            cM = ic.getcMInstance();
-                            setTimeout(function(result) {
-                                ic.goToLine(result.range.from.line + 1);
-                                cM.setSelection({line: result.range.from.line, ch: result.range.from.ch}, {line: result.range.to.line, ch: result.range.to.ch});
-                            }, 20, result);
-                            clearInterval(ic.goFindAfterOpenInt);
-                        }
-                    }, 20, result);
-                }
-
-                ic.mouseDownInCM = "editor";
+                ic.jumpToDefinition();
             }, 0, this);
         }
     },
@@ -1352,34 +1311,85 @@ var ICEcoder = {
         }
     },
 
-    // Jump to and highlight the function definition current token
+    // Jump to and highlight the function definition current token or back again to where we were
     jumpToDefinition: function() {
-        let thisCM, tokenString, defVars;
+        let thisCM, word, cursorBack1Char, result, numResults, filePath, filePathExt;
 
         thisCM = this.getThisCM();
 
-        tokenString = thisCM.getTokenAt(thisCM.getCursor()).string;
-
-        if (thisCM.somethingSelected() && this.origCurorPos) {
-            thisCM.setCursor(this.origCurorPos);
+        // We have an original cursor or selection position, so we'll jump back to it
+        if (false !== this.origCursorPos || false !== this.origSelectionPos) {
+            // Jump to the original position (selection/cursor) we have and set selection/cursor
+            if (false !== this.origSelectionPos) {
+                this.goToLine(this.origSelectionPos.anchor.line + 1);
+                thisCM.setSelection(this.origSelectionPos.anchor, this.origSelectionPos.head);
+            } else {
+                this.goToLine(this.origCursorPos.line + 1);
+                thisCM.setCursor(this.origCursorPos);
+            }
+            // Reset flags for next time
+            this.origSelectionPos = false;
+            this.origCursorPos = false;
         } else {
-            this.origCurorPos = thisCM.getCursor();
-            defVars = [
-                "var " + tokenString,
-                "function " + tokenString,
-                tokenString + "=function", tokenString + "= function", tokenString + " =function", tokenString + " = function",
-                tokenString + "=new function", tokenString + "= new function", tokenString + " =new function", tokenString + " = new function",
-                "window['" + tokenString + "']", "window[\"" + tokenString + "\"]",
-                "this['" + tokenString + "']", "this[\"" + tokenString + "\"]",
-                tokenString + ":", tokenString + " :",
-                "def " + tokenString,
-                "class " + tokenString
-            ];
-            for (let i = 0; i < defVars.length; i++) {
-                if (this.findReplace(defVars[i], false, false, false)) {
-                    break;
+            // Set flags for original section or cursor so we can return next time
+            if (thisCM.listSelections()[0]) {
+                this.origSelectionPos = thisCM.listSelections()[0];
+            } else {
+                this.origCursorPos = thisCM.getCursor();
+            }
+
+            // Get word
+            word = thisCM.getRange(thisCM.findWordAt(thisCM.getCursor()).anchor, thisCM.findWordAt(thisCM.getCursor()).head);
+            // If we got parens, try back 1 character to get word
+            if (-1 < word.indexOf("(")) {
+                cursorBack1Char = {line: thisCM.getCursor().line, ch: thisCM.getCursor().ch -1};
+                word = thisCM.getRange(thisCM.findWordAt(cursorBack1Char).anchor, thisCM.findWordAt(cursorBack1Char).head);
+            }
+
+            // Set start point for result and number of results for word in functions and classes from index JSON object list
+            result = null;
+            numResults = 0;
+            // Identify the file path and extension
+            filePath = this.openFiles[this.selectedTab - 1];
+            filePathExt = filePath.substr(filePath.lastIndexOf(".") + 1);
+
+            // Find the word within extention type in functions list data
+            if ("undefined" !== typeof this.indexData.functions) {
+                for(i in this.indexData.functions[filePathExt]) {
+                    if (i === word) {
+                        result = this.indexData.functions[filePathExt][i];
+                        numResults++;
+                    }
                 }
             }
+
+            // Find the word within extention type in classes list data
+            if ("undefined" !== typeof this.indexData.class) {
+                for (i in this.indexData.classes[filePathExt]) {
+                    if (i === word) {
+                        result = this.indexData.classes[filePathExt][i];
+                        numResults++;
+                    }
+                }
+            }
+
+            // If we have a single result and the cursor isn't already on the definition of it, we can jump to where it's defined
+            if (1 === numResults && -1 === [null, "def"].indexOf(thisCM.getTokenTypeAt(thisCM.getCursor()))) {
+                // Open file (or switch tab to it if already open) and find when editor showing
+                this.openFile(result.filePath.replace(docRoot, ""));
+                this.goFindAfterOpenInt = setInterval(function(result) {
+                    if (ICEcoder.openFiles[ICEcoder.selectedTab - 1] == result.filePath.replace(docRoot, "") && !ICEcoder.loadingFile) {
+                        thisCM = ICEcoder.getcMInstance();
+                        setTimeout(function(result) {
+                            ICEcoder.goToLine(result.range.from.line + 1);
+                            thisCM.setSelection({line: result.range.from.line, ch: result.range.from.ch}, {line: result.range.to.line, ch: result.range.to.ch});
+                        }, 20, result);
+                        clearInterval(ICEcoder.goFindAfterOpenInt);
+                    }
+                }, 20, result);
+            }
+
+            this.mouseDownInCM = "editor";
         }
     },
 
@@ -4826,7 +4836,7 @@ var ICEcoder = {
                 return false;
 
             // CTRL/Cmd + numeric minus (Close tab)
-            } else if ((key==109 || key==189) && true === ctrlOrCmd) {
+            } else if ((109 === key || 189 === key) && true === ctrlOrCmd) {
                 "content" === area
                     ? this.removeLines()
                     : this.closeTab(this.selectedTab);
