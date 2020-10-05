@@ -5033,12 +5033,15 @@ var ICEcoder = {
     },
 
     viewTutorial: function(step, delay) {
-        var winW, winH;
+        let winW, winH, cM, cMDiff;
 
         winW = window.innerWidth;
         winH = window.innerHeight;
 
-        var steps = {
+        cM = this.getcMInstance();
+        cMDiff = this.getcMdiffInstance();
+
+        let steps = {
             0: {
                 "width": 250,
                 "height": 55,
@@ -5059,7 +5062,7 @@ var ICEcoder = {
             },
             2: {
                 "width": 250,
-                "height": winH - 85,
+                "height": winH - 73,
                 "top": 50,
                 "left": 0,
                 "title": "File manager",
@@ -5067,10 +5070,10 @@ var ICEcoder = {
                 "button": "next &gt;"
             },
             3: {
-                "width": 45,
-                "height": 85,
+                "width": 43,
+                "height": 102,
                 "top": 50,
-                "left": 205,
+                "left": 195,
                 "title": "File manager options and plugins",
                 "message": "Here you can unlock/lock the file manager to collapse/expand it, refresh the file manager plus view and install plugins. (Also, move your mouse to left edge of file manager for quick access to the plugins).",
                 "button": "next &gt;"
@@ -5078,7 +5081,7 @@ var ICEcoder = {
             4: {
                 "width": 250,
                 "height": 35,
-                "top": winH - 35,
+                "top": winH - 30,
                 "left": 0,
                 "title": "Extra tools",
                 "message": "Get access to the terminal, output, database and Git interfaces here, displayed as an overlay to get the largest display, click option again to slide overlay out.",
@@ -5117,7 +5120,7 @@ var ICEcoder = {
                 "top": 70,
                 "left": 250,
                 "title": "System info",
-                "message": "This is general info about your server, paths, browser and more. Worth noting to ensure settings seem correct.",
+                "message": "This is general info about your server, paths, browser and more. Worth noting to ensure settings seem correct. Viewable when no tabs showing.",
                 "button": "next &gt;"
             },
             9: {
@@ -5159,7 +5162,7 @@ var ICEcoder = {
             get("infoMessageContainer").style.marginTop = -300 + "px";
             // After 100ms show border and message text (still above screen)
             setTimeout(function() {
-                get("infoBlackMask").style.border = "solid 10000px rgba(0,0,0,0.8)";
+                get("infoBlackMask").style.border = "solid 10000px rgba(0, 0, 0, 0.8)";
                 get("infoMessageContainer").style.opacity = "1";
             }, 100);
             // After requested delay, slide in message but account for logo
@@ -5171,12 +5174,24 @@ var ICEcoder = {
             return;
         }
 
+        if (8 === step) {
+            if (cM) {
+                cM.getWrapperElement().style.visibility = "hidden";
+                cMDiff.getWrapperElement().style.visibility = "hidden";
+            }
+        }
+
         if (9 === step) {
+            if (cM) {
+                cM.getWrapperElement().style.visibility = "";
+                cMDiff.getWrapperElement().style.visibility = "";
+            }
             if ("" === get("versionsDisplay").innerText) {
                 get("versionsDisplay").innerText = "12345 backups";
             }
             steps[9].width = get("versionsDisplay").innerText.length * 9;
         }
+
         if (10 === step) {
             if ("12345 backups" === get("versionsDisplay").innerText) {
                 get("versionsDisplay").innerText = "";
@@ -5186,7 +5201,7 @@ var ICEcoder = {
         // If we're going beyond the last step, we're finishing
         if (11 < step) {
             // Reset styles ready for next time
-            get("infoBlackMask").style.border = "solid 10000px rgba(0,0,0,0)";
+            get("infoBlackMask").style.border = "solid 10000px rgba(0, 0, 0, 0)";
             get("infoMessageContainer").style.opacity = "0";
             setTimeout(function() {
                 get("infoBlackMask").style.display = "none";
@@ -5194,7 +5209,7 @@ var ICEcoder = {
             }, 500);
             // Mark tutorial as done in users settings and return
             xhr = this.xhrObj();
-            xhr.open("POST",this.iceLoc+"/lib/settings.php?action=turnOffTutorialOnLogin&csrf="+this.csrf,true);
+            xhr.open("POST", this.iceLoc + "/lib/settings.php?action=turnOffTutorialOnLogin&csrf=" + this.csrf, true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.send();
         }
