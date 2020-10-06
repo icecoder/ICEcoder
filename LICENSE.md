@@ -1,6 +1,9 @@
 Copyright: © 2020 ICEcoder Ltd
-Website:   icecoder.net  
+
+Website:   icecoder.net
+
 Email:     info@icecoder.net
+
 Twitter:   @icecoder
 
 # ICEcoder License
