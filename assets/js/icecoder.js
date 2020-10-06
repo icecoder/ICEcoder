@@ -5118,7 +5118,7 @@ var ICEcoder = {
             },
             8: {
                 "width": 520,
-                "height": 380,
+                "height": 500,
                 "top": 70,
                 "left": 250,
                 "title": "System info",
