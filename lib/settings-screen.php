@@ -53,7 +53,15 @@ if (true === isset($_GET['tab'])) {
 
 	<p>
 	<?php echo $t['version'];?>:<br>
-	v<?php echo $ICEcoder["versionNo"];?>
+	<?php
+	// If we have a .git dir, get the Git short commit hash to display as a link
+	$gitCommitTextLink = "";
+	if (is_dir(dirname(__FILE__) . "/../.git")) {
+		$gitCommit = trim(exec('git log --pretty="%h" -n1 HEAD'));
+		$gitCommitTextLink = ' (Git commit: <a href="https://github.com/icecoder/ICEcoder/commit/' . $gitCommit . '" target="_blank">' . $gitCommit . '</a>)';
+	}
+	?>
+	v<?php echo $ICEcoder["versionNo"] . $gitCommitTextLink;?>
 	<br><br>
 
 	<?php echo $t['website'];?>:<br>
@@ -78,7 +86,6 @@ if (true === isset($_GET['tab'])) {
 		<?php echo $t['Get in contact...'];?><br>
 		<a href="https://www.twitter.com/icecoder" style="font-size: 10px" target="_blank">Twitter</a><br>
 		<a href="https://facebook.com/ICEcoder.net" style="font-size: 10px" target="_blank">Facebook</a><br>
-		<a href="https://groups.google.com/forum/#!forum/icecoder" style="font-size: 10px" target="_blank">Google Groups</a><br>
 		<a href="https://github.com/icecoder/ICEcoder" style="font-size: 10px" target="_blank">GitHub</a><br>
 		<a href="mailto:info@icecoder.net" style="font-size: 10px">Email</a><br><br>
 		<?php echo $t['You may use...'];?>
