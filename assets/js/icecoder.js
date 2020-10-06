@@ -3702,17 +3702,19 @@ var ICEcoder = {
             styleNode.setAttribute('type', 'text/css');
             styleNode.setAttribute('href', settings.themeURL);
             this.content.contentWindow.document.getElementsByTagName('head')[0].appendChild(styleNode);
-            activeLineBG = 
-                // Light themes
-                -1 < ["base16-light", "chrome-devtools", "duotone-light", "eclipse", "eiffel", "elegant", "mdn-like", "idle", "iplastic", "ir_white", "johnny", "juicy", "neat", "neo", "solarized", "ttcn", "xq-light"].indexOf(this.theme)
-                ? "#ccc"
-                // Dark themes
-                : -1 < ["3024-night", "all-hallow-eve", "black-pearl-ii", "blackboard", "colorforth", "django", "emacs-strict", "fade-to-grey", "fake", "glitterbomb", "isotope", "ir_black", "liquibyte", "monokai-fannonedition", "oceanic", "night", "spectacular", "sunburst", "the-matrix", "tomorrow-night-blue", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"].indexOf(this.theme)
-                    ? "#222"
-                    // Other themes
-                    : "#000";
             this.switchTab(this.selectedTab);
         }
+
+        // Set the active line color
+        activeLineBG = 
+        // Light themes
+        -1 < ["base16-light", "chrome-devtools", "duotone-light", "eclipse", "eiffel", "elegant", "mdn-like", "idle", "iplastic", "ir_white", "johnny", "juicy", "neat", "neo", "solarized", "ttcn", "xq-light"].indexOf(this.theme)
+            ? "#ccc"
+            // Dark themes
+            : -1 < ["3024-night", "all-hallow-eve", "black-pearl-ii", "blackboard", "colorforth", "django", "emacs-strict", "fade-to-grey", "fake", "glitterbomb", "isotope", "ir_black", "liquibyte", "monokai-fannonedition", "oceanic", "night", "spectacular", "sunburst", "the-matrix", "tomorrow-night-blue", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"].indexOf(this.theme)
+                ? "#222"
+                // Other themes
+                : "#000";
 
         // Check/uncheck Code Assist setting
         if (settings.codeAssist !== this.codeAssist) {
@@ -4086,7 +4088,7 @@ var ICEcoder = {
         let winTitle;
 
         if (false === this.loadingFile) {
-            winTitle = "ICEcoder v " + this.versionNo;
+            winTitle = "ICEcoder v" + this.versionNo;
             for(let i = 1; i <= this.savedPoints.length; i++) {
                 if (this.savedPoints[i-1] !== this.getcMInstance(i).changeGeneration()) {
                     // We have an unsaved tab, indicate that in the title
