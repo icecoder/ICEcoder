@@ -258,7 +258,7 @@ function createNewCMInstanceEvents(num, pane) {
     window['cM' + num + pane].on("blur", function(thisCM) {parent.ICEcoder.cMonBlur(thisCM, 'cM' + num + pane)});
     window['cM' + num + pane].on("keyup", function(thisCM) {parent.ICEcoder.cMonKeyUp(thisCM, 'cM' + num + pane)});
     window['cM' + num + pane].on("cursorActivity", function(thisCM) {parent.ICEcoder.cMonCursorActivity(thisCM, 'cM' + num + pane)});
-    window['cM' + num + pane].on("beforeSelectionChange", function(thisCM, changeObj) {parent.ICEcoder.prevLine = thisCM.getCursor().line;});
+    window['cM' + num + pane].on("beforeSelectionChange", function(thisCM, changeObj) {parent.ICEcoder . prevLine = thisCM.getCursor().line;});
     window['cM' + num + pane].on("change", function(thisCM, changeObj) {parent.ICEcoder.cMonChange(thisCM, 'cM' + num + pane, changeObj, CodeMirror)});
     window['cM' + num + pane].on("beforeChange", function(thisCM, changeObj) {parent.ICEcoder.cMonBeforeChange(thisCM, 'cM' + num + pane, changeObj, CodeMirror)});
     window['cM' + num + pane].on("scroll", function(thisCM) {parent.ICEcoder.cMonScroll(thisCM, 'cM' + num + pane)});
