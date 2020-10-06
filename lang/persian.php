@@ -25,6 +25,8 @@ $text = [
         "none"                                     => "[پوچ]",
         "multi-user"                               => "چند کاربره",
         "Username"                                 => "Username:",
+        "version"                                  => "version",
+        "codemirror version"                       => "codemirror version",
     ],
 
     "files" =>

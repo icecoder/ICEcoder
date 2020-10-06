@@ -25,6 +25,8 @@ $text = [
         "none"                                     => "[none]",
         "multi-user"                               => "多用戶",
         "Username"                                 => "Username:",
+        "version"                                  => "version",
+        "codemirror version"                       => "codemirror version",
     ],
 
     "files" =>
