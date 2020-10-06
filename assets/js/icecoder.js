@@ -5049,7 +5049,7 @@ var ICEcoder = {
                 "height": 55,
                 "top": -55,
                 "left": 0,
-                "title": "<img src=\"assets/images/icecoder.png\" style=\"position: absolute; margin: -105px 0 0 -55px\"><br><br>Code editor awesomeness ...in your browser",
+                "title": "<img src=\"" + this.iceLoc + "/assets/images/icecoder.png\" style=\"position: absolute; margin: -105px 0 0 -55px\"><br><br>Code editor awesomeness ...in your browser",
                 "message": "View the quick start tutorial? (Well worthwhile!) or <a onclick=\"ICEcoder.viewTutorial(99, 0)\" style=\"font-size: 14px; text-decoration: underline; cursor: pointer\">skip it</a>.",
                 "button": "view tutorial"
             },
