@@ -32,8 +32,6 @@ This will recursively set the `www-data` user as both the owner and group users 
 
 Now you can visit `yoursite.com/ICEcoder` to view ICEcoder, sign in and start coding!
 
-**Now you're setup, auto-logged in and ready to code!**
-
 #### Tip: If using ICEcoder locally, you can use:
 
 `php -S localhost:8080`
