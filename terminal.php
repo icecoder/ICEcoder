@@ -5,7 +5,7 @@ include "lib/settings.php";
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> Terminal</title>
+<title>ICEcoder v<?php echo $ICEcoder["versionNo"];?> Terminal</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">

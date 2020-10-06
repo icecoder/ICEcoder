@@ -53,7 +53,7 @@ if (true === isset($_GET['tab'])) {
 
 	<p>
 	<?php echo $t['version'];?>:<br>
-	v <?php echo $ICEcoder["versionNo"];?>
+	v<?php echo $ICEcoder["versionNo"];?>
 	<br><br>
 
 	<?php echo $t['website'];?>:<br>

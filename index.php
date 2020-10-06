@@ -39,7 +39,7 @@ $isMac = false !== strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : fal
 <!DOCTYPE html>
 <html onmousedown="ICEcoder.mouseDown=true; ICEcoder.resetAutoLogoutTimer();" onmouseup="ICEcoder.mouseDown=false; ICEcoder.resetAutoLogoutTimer(); ICEcoder.mouseDownInCM=false; if (!ICEcoder.overCloseLink) {ICEcoder.tabDragEnd()}" onmousemove="if('undefined' !== typeof ICEcoder) {ICEcoder.getMouseXY(event,'top'); ICEcoder.resetAutoLogoutTimer(); ICEcoder.canResizeFilesW()}" onmousewheel="ICEcoder.resetAutoLogoutTimer(); if (ICEcoder.getcMInstance() && !ICEcoder.getcMInstance().hasFocus() && !ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? ICEcoder.nextTab() : ICEcoder.previousTab();}">
 <head>
-<title>ICEcoder v <?php echo $ICEcoder["versionNo"];?></title>
+<title>ICEcoder v<?php echo $ICEcoder["versionNo"];?></title>
 <!--Updated via settings so must remain 1st stylesheet//-->
 <style>
 	#tabsBar.tabsBar .tab { font-size: <?php echo $ICEcoder["fontSize"];?>; }
