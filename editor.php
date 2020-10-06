@@ -115,7 +115,7 @@ h2 {color: rgba(0,198,255,0.7)}
 		<span class="heading"><?php echo $t['Root'];?></span><br>
 		<?php echo $docRoot;?><br><br>
 		<span class="heading"><?php echo $t['ICEcoder root'];?></span><br>
-		<?php echo $docRoot.$iceRoot;?><br><br>
+		<?php echo "" !== $iceRoot ? $iceRoot : "[Default]";?><br><br>
 		<span class="heading"><?php echo $t['PHP version'];?></span><br>
 		<?php echo phpversion();?><br><br>
 		<span class="heading"><?php echo $t['Date & time'];?></span><br>
@@ -157,6 +157,22 @@ h2 {color: rgba(0,198,255,0.7)}
             <?php
         }
         ?>
+		<h2>ICEcoder</h2>
+		<span class="heading"><?php echo $t['version'];?></span><br>
+		<?php
+		// If we have a .git dir, get the Git short commit hash to display as a link
+		$gitCommitTextLink = "";
+		if (is_dir(dirname(__FILE__) . "/.git")) {
+			$gitCommit = trim(exec('git log --pretty="%h" -n1 HEAD'));
+			$gitCommitTextLink = ' (Git commit: <a href="https://github.com/icecoder/ICEcoder/commit/' . $gitCommit . '" style="color: #eee; text-decoration: none" target="_blank">' . $gitCommit . '</a>)';
+		}
+		echo "v" . $ICEcoder["versionNo"] . $gitCommitTextLink;
+		?><br><br>
+		<span class="heading"><?php echo $t['codemirror version'];?></span><br>
+		<script>
+		document.write(CodeMirror.version);
+		</script>
+		<br><br>
 	</div>
 
 	<div style="clear: both"></div>
