@@ -5117,7 +5117,7 @@ var ICEcoder = {
                 "button": "next &gt;"
             },
             8: {
-                "width": 520,
+                "width": 580,
                 "height": 500,
                 "top": 70,
                 "left": 250,
