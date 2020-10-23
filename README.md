@@ -44,10 +44,10 @@ It's now possible to setup ICEcoder in a Docker container, via Composer, as an e
 
 #### It's free & open source for everyone!
 
-Suitable for commercial & non-commercial projects, just let us know if it's useful to you and any cool customisations you make to it. We take no responsibility for anything, all usage is all down to you.
+Suitable for commercial & non-commercial projects, just let us know if it's useful to you and any cool customizations you make to it. We take no responsibility for anything, all usage is all down to you.
 
-It's fully open source and MIT licensed. So we're happy for you to take it, make it your own and customise to your hearts content and/or contribute to this main repo! :)
+It's fully open source and MIT licensed. So we're happy for you to take it, make it your own and customize to your hearts content and/or contribute to this main repo! :)
 
-Plenty of comments included in the code to assist with understanding, customising etc.
+Plenty of comments included in the code to assist with understanding, customizing etc.
 
 Comments, improvements & feedback welcomed!
