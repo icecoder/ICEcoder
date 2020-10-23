@@ -8,10 +8,13 @@ $aliases = array(
     'll' 	=> 'ls -lvhF',
 );
 
-// If we have a current working dir in session, change to that dir
-if (true === isset($_SESSION['cwd'])) {
-    chdir($_SESSION['cwd']);
+// If we have no cwd set in session, set it now
+if (false === isset($_SESSION['cwd'])) {
+	$_SESSION['cwd'] = $docRoot . $iceRoot;
 }
+
+// Change to cwd
+chdir($_SESSION['cwd']);
 
 // Get current user and cwd
 $user = str_replace("\n", "", shell_exec("whoami"));
@@ -138,9 +141,10 @@ if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', $_REQUEST['command'])) {
 
 // Change to the cwd in session
 chdir($_SESSION['cwd']);
+
 // and again ask for current user and working dir
-$user = str_replace("\n","",shell_exec("whoami"));
-$cwd = str_replace("\n","",shell_exec("pwd"));
+$user = str_replace("\n", "", shell_exec("whoami"));
+$cwd = str_replace("\n", "", shell_exec("pwd"));
 
 // Finally, output our JSON data
 echo json_encode([

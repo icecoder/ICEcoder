@@ -93,9 +93,15 @@ sendCmd = function(command) {
 
 <body onclick="document.getElementById('command').focus()">
 <?php
-if (true === isset($_SESSION['cwd'])) {
-    chdir($_SESSION['cwd']);
+// If we have no cwd set in session, set it now
+if (false === isset($_SESSION['cwd'])) {
+	$_SESSION['cwd'] = $docRoot . $iceRoot;
 }
+
+// Change to cwd
+chdir($_SESSION['cwd']);
+
+// Get current user and cwd
 $user = str_replace("\n", "", shell_exec("whoami"));
 $cwd = str_replace("\n", "", shell_exec("pwd"));
 ?>
