@@ -76,7 +76,6 @@ $output = returnHTMLPromptCommand($_REQUEST['command']);
 // If command contains cd but no dir
 if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', $_REQUEST['command'])) {
 	$_SESSION['cwd'] = $cwd;
-    $output .= returnHTMLPromptCommand("cd");
 // Else cd to a dir
 } elseif (preg_match('/^[[:blank:]]*cd[[:blank:]]+([^;]+)$/', $_REQUEST['command'], $regs)) {
 	// The current command is 'cd', which we have to handle as an internal shell command
