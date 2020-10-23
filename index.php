@@ -7,9 +7,9 @@ $t = $text['index'];
 
 $updateMsg = '';
 // Check for updates
-if ($ICEcoder["checkUpdates"]) {
-	$icv_url = "https://icecoder.net/latest-version?thisVersion=" . $ICEcoder["versionNo"];
-	$icvData = getData($icv_url, 'curl', false, 5);
+if (true === $ICEcoder["checkUpdates"]) {
+	$icvURL = "https://icecoder.net/latest-version?thisVersion=" . $ICEcoder["versionNo"];
+	$icvData = getData($icvURL, 'curl', false, 5);
 	if ("" == $icvData) {
 		$icvData = "1.0\nICEcoder version placeholder";
 	}
@@ -28,7 +28,7 @@ if ($ICEcoder["checkUpdates"]) {
 	if ($thisV < $icv) {
 		$updateMsg =
             ";ICEcoder.dataMessage('<b>" . $t['UPDATE INFO'] .
-            ":</b> ICEcoder v" . explode("\n", $icvData)[0] ." " . $t['now available'] . ". (" . $t['Your version is'] . " v " . $ICEcoder["versionNo"] .
+            ":</b> ICEcoder v" . explode("\n", $icvData)[0] ." " . $t['now available'] . ". (" . $t['Your version is'] . " v" . $ICEcoder["versionNo"] .
             ").<br><br><a href=\\'https://icecoder.net\\' target=\\'_blank\\' style=\\'color:#fff; background: #b00; padding: 5px; text-decoration: none; cursor: pointer\\'>" .
             $t['Update now'] . "</a><br><br>" . $icvI ."');";
 	}
@@ -37,7 +37,7 @@ if ($ICEcoder["checkUpdates"]) {
 $isMac = false !== strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : false;
 ?>
 <!DOCTYPE html>
-<html onmousedown="ICEcoder.mouseDown=true; ICEcoder.resetAutoLogoutTimer();" onmouseup="ICEcoder.mouseDown=false; ICEcoder.resetAutoLogoutTimer(); ICEcoder.mouseDownInCM=false; if (!ICEcoder.overCloseLink) {ICEcoder.tabDragEnd()}" onmousemove="if('undefined' !== typeof ICEcoder) {ICEcoder.getMouseXY(event,'top'); ICEcoder.resetAutoLogoutTimer(); ICEcoder.canResizeFilesW()}" onmousewheel="ICEcoder.resetAutoLogoutTimer(); if (ICEcoder.getcMInstance() && !ICEcoder.getcMInstance().hasFocus() && !ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? ICEcoder.nextTab() : ICEcoder.previousTab();}">
+<html onmousedown="ICEcoder.mouseDown = true; ICEcoder.resetAutoLogoutTimer();" onmouseup="ICEcoder.mouseDown = false; ICEcoder.resetAutoLogoutTimer(); ICEcoder.mouseDownInCM = false; if (!ICEcoder.overCloseLink) {ICEcoder.tabDragEnd()}" onmousemove="if ('undefined' !== typeof ICEcoder) {ICEcoder.getMouseXY(event, 'top'); ICEcoder.resetAutoLogoutTimer(); ICEcoder.canResizeFilesW()}" onmousewheel="ICEcoder.resetAutoLogoutTimer(); if (ICEcoder.getcMInstance() && !ICEcoder.getcMInstance().hasFocus() && !ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? ICEcoder.nextTab() : ICEcoder.previousTab();}">
 <head>
 <title>ICEcoder v<?php echo $ICEcoder["versionNo"];?></title>
 <!--Updated via settings so must remain 1st stylesheet//-->
@@ -53,15 +53,15 @@ $isMac = false !== strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : fal
 <link rel="stylesheet" href="<?php
 echo $iceURLPath . "/assets/css/theme/";
 echo "default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css';
-echo "?microtime=".microtime(true);
+echo "?microtime=" . microtime(true);
 ?>">
 <link rel="icon" type="image/png" href="<?php echo $iceURLPath;?>/assets/images/favicon.png">
 <script>
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
 
 window.onbeforeunload = function() {
-	if(ICEcoder.autoLogoutTimer < ICEcoder.autoLogoutMins * 60) {
-		for(var i = 1; i <= ICEcoder.savedPoints.length; i++) {
+	if (ICEcoder.autoLogoutTimer < ICEcoder.autoLogoutMins * 60) {
+		for (var i = 1; i <= ICEcoder.savedPoints.length; i++) {
 			if (ICEcoder.savedPoints[i - 1] != ICEcoder.getcMInstance(i).changeGeneration()) {
 				return "<?php echo $t['You have some...'];?>.";
 			}
@@ -152,9 +152,9 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
         }
     $extraProcessesClass = new ExtraProcesses();
     $onLoad = $extraProcessesClass->onLoad();
-?>ICEcoder.init()<?php echo $updateMsg.$onLoadExtras;?>;ICEcoder.content.style.visibility = 'visible';<?php echo $onLoad;?><?php if(true === isset($_GET["display"]) && "updated" === $_GET["display"]) {echo "ICEcoder.updated();";};?>" onresize="ICEcoder.setLayout()" onkeydown="return ICEcoder.interceptKeys('coder', event);" onkeyup="if('visible' === get('blackMask').style.visibility) {ICEcoder.handleModalKeyUp(event, 'modalGeneralCatch')}; ICEcoder.resetKeys(event);" onblur="ICEcoder.resetKeys(event);">
+?>ICEcoder.init()<?php echo $updateMsg . $onLoadExtras;?>;ICEcoder.content.style.visibility = 'visible';<?php echo $onLoad;?><?php if (true === isset($_GET["display"]) && "updated" === $_GET["display"]) {echo "ICEcoder.updated();";};?>" onresize="ICEcoder.setLayout()" onkeydown="return ICEcoder.interceptKeys('coder', event);" onkeyup="if ('visible' === get('blackMask').style.visibility) {ICEcoder.handleModalKeyUp(event, 'modalGeneralCatch')}; ICEcoder.resetKeys(event);" onblur="ICEcoder.resetKeys(event);">
 
-<div id="blackMask" class="blackMask" onclick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide',this)}" oncontextmenu="return false">
+<div id="blackMask" class="blackMask" onclick="if (!ICEcoder.overPopup) {ICEcoder.showHide('hide', this)}" oncontextmenu="return false">
 	<div class="popupVCenter">
 		<div class="popup" id="mediaContainer"></div>
 	</div>
@@ -184,7 +184,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 	</div>
 </div>
 
-<div id="fileMenu" class="fileMenu" onmouseover="ICEcoder.changeFilesW('expand')" onmouseout="ICEcoder.changeFilesW('contract');ICEcoder.hideFileMenu()" style="opacity: 0" oncontextmenu="return false">
+<div id="fileMenu" class="fileMenu" onmouseover="ICEcoder.changeFilesW('expand')" onmouseout="ICEcoder.changeFilesW('contract'); ICEcoder.hideFileMenu()" style="opacity: 0" oncontextmenu="return false">
 	<span id="folderMenuItems">
 		<a href="javascript:ICEcoder.newFile()" onmouseover="ICEcoder.showFileMenu()"><?php echo $t['New File'];?></a>
 		<a href="javascript:ICEcoder.newFolder()" onmouseover="ICEcoder.showFileMenu()"><?php echo $t['New Folder'];?></a>
@@ -216,9 +216,9 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		echo '<a href="javascript:ICEcoder.zipIt(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length - 1])" onmouseover="ICEcoder.showFileMenu()">Zip It!</a>' . PHP_EOL;
 	};
 	?>
-	<a href="javascript:ICEcoder.downloadFile(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length-1])" onmouseover="ICEcoder.showFileMenu()"><?php echo $t['Download'];?></a>
+	<a href="javascript:ICEcoder.downloadFile(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length - 1])" onmouseover="ICEcoder.showFileMenu()"><?php echo $t['Download'];?></a>
 	<div onmouseover="ICEcoder.showFileMenu()" style="padding: 2px 0"><hr></div>
-	<a href="javascript:ICEcoder.propertiesScreen(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length-1])" onmouseover="ICEcoder.showFileMenu()"><?php echo $t['Properties'];?></a>
+	<a href="javascript:ICEcoder.propertiesScreen(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length - 1])" onmouseover="ICEcoder.showFileMenu()"><?php echo $t['Properties'];?></a>
 </div>
 
 <div id="header" class="header" oncontextmenu="return false"></div>
@@ -226,10 +226,10 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 <div id="files" class="files" onmouseover="ICEcoder.changeFilesW('expand')" onmouseout="ICEcoder.changeFilesW('contract'); ICEcoder.hideFileMenu();" oncontextmenu="return false">
 	<div id="fileNav" class="fileNav">
 		<ul>
-			<li><a nohref onclick="ICEcoder.canShowFMNav=true; ICEcoder.showHideFileNav('show','optionsFile')" onmouseover="if(ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsFile')}" id="optionsFileNav"><?php echo $t['File'];?></a></li>
-			<li><a nohref onclick="ICEcoder.canShowFMNav=true; ICEcoder.showHideFileNav('show','optionsEdit')" onmouseover="if(ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsEdit')}" id="optionsEditNav"><?php echo $t['Edit'];?></a></li>
-            <li><a nohref onclick="ICEcoder.canShowFMNav=true; ICEcoder.showHideFileNav('show','optionsSettings')" onmouseover="if(ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsSettings')}" id="optionsSettingsNav"><?php echo $t['Settings'];?></a></li>
-			<li><a nohref onclick="ICEcoder.canShowFMNav=true; ICEcoder.showHideFileNav('show','optionsHelp')" onmouseover="if(ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsHelp')}" id="optionsHelpNav"><?php echo $t['Help'];?></a></li>
+			<li><a nohref onclick="ICEcoder.canShowFMNav = true; ICEcoder.showHideFileNav('show', 'optionsFile')" onmouseover="if (ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsFile')}" id="optionsFileNav"><?php echo $t['File'];?></a></li>
+			<li><a nohref onclick="ICEcoder.canShowFMNav = true; ICEcoder.showHideFileNav('show', 'optionsEdit')" onmouseover="if (ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsEdit')}" id="optionsEditNav"><?php echo $t['Edit'];?></a></li>
+            <li><a nohref onclick="ICEcoder.canShowFMNav = true; ICEcoder.showHideFileNav('show', 'optionsSettings')" onmouseover="if (ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsSettings')}" id="optionsSettingsNav"><?php echo $t['Settings'];?></a></li>
+			<li><a nohref onclick="ICEcoder.canShowFMNav = true; ICEcoder.showHideFileNav('show', 'optionsHelp')" onmouseover="if (ICEcoder.canShowFMNav) {ICEcoder.showHideFileNav('show', 'optionsHelp')}" id="optionsHelpNav"><?php echo $t['Help'];?></a></li>
         </ul>
 	</div>
 	<div class="options" id="fileOptions">
@@ -247,9 +247,9 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 				<li><a nohref onclick="ICEcoder.deleteFiles(ICEcoder.selectedFiles)"><?php echo $t['Delete'];?></a></li>
 				<li><a nohref onclick="ICEcoder.duplicateFiles(ICEcoder.selectedFiles)"><?php echo $t['Duplicate'];?></a></li>
 				<li><a nohref onclick="ICEcoder.renameFile(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length - 1])"><?php echo $t['Rename'];?></a></li>
-				<li><a nohref onclick="ICEcoder.uploadFilesSelect(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length-1])"><?php echo $t['Upload'];?>...</a></li>
+				<li><a nohref onclick="ICEcoder.uploadFilesSelect(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length - 1])"><?php echo $t['Upload'];?>...</a></li>
 				<li><a nohref onclick="ICEcoder.zipIt(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length - 1])"><?php echo $t['Zip'];?></a></li>
-				<li><a nohref onclick="ICEcoder.propertiesScreen(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length-1])"><?php echo $t['Properties'];?>...</a></li>
+				<li><a nohref onclick="ICEcoder.propertiesScreen(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length - 1])"><?php echo $t['Properties'];?>...</a></li>
 				<li><a nohref onClick="ICEcoder.printCode()"><?php echo $t['Print'];?>...</a></li>
 				<li><a nohref onClick="ICEcoder.fullScreenSwitcher()"><?php echo $t['Fullscreen toggle'];?></a></li>
 				<li><a nohref onClick="ICEcoder.logout()"><?php echo $t['Logout'];?></a></li>
@@ -266,7 +266,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 				<li><a nohref onclick="ICEcoder.jumpToDefinition()"><?php echo $t['Jump to Definition'];?></a></li>
 			</ul>
 		</div>
-        <div id="optionsSettings" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show',this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
+        <div id="optionsSettings" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show', this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
             <ul>
                 <li><a nohref onclick="ICEcoder.settingsScreen(false, 'general')">General</a></li>
                 <li><a nohref onclick="ICEcoder.settingsScreen(false, 'style')">Style</a></li>
@@ -279,14 +279,14 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
         FTP is a far less used method of data transfer and so this menu hidden for now
         Uncomment if you really want to use it but please note, in future versions of ICEcoder
         that FTP is likely to be removed altogether
-		<div id="optionsSource" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show',this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
+		<div id="optionsSource" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show', this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.goLocalhostRoot()">Localhost</a></li>
 				<li><a nohref onclick="ICEcoder.ftpManager()">FTP</a></li>
 			</ul>
 		</div>
 		//-->
-		<div id="optionsHelp" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show',this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
+		<div id="optionsHelp" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show', this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.viewTutorial(false, 500)">Tutorial</a></li>
 				<li><a href="https://icecoder.net/usage" target="_blank">Usage</a></li>
