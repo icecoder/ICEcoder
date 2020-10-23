@@ -75,9 +75,9 @@ if (false !== array_search($ICEcoder["theme"], ["base16-light", "chrome-devtools
 .CodeMirror-foldgutter {display: inline-block; width: 13px}
 .CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
 .CodeMirror-foldgutter-open {background: rgba(255,255,255,0.04); color: #666}
-.CodeMirror-foldgutter-open:after {position: relative; top: -2px}
+.CodeMirror-foldgutter-open:after {position: relative; top: -4px}
 .CodeMirror-foldgutter-folded {background: #800; color: #ddd}
-.CodeMirror-foldgutter-folded:after {position: relative; top: -3px}
+.CodeMirror-foldgutter-folded:after {position: relative; top: -4px}
 h2 {color: rgba(0,198,255,0.7)}
 .heading {color: #888}
 .cm-s-diff {left: 50%}
