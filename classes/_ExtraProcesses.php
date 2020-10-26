@@ -28,7 +28,7 @@ class ExtraProcesses
      * @param $action
      * @param string $msg
      */
-    private function writeLog($action, $msg = ""): void
+    private function writeLog($action, $msg = "")
     {
         $username = "" !== $this->username ? $this->username : "default-user";
 
@@ -56,7 +56,7 @@ class ExtraProcesses
     /**
      *
      */
-    public function onFileLoad(): void
+    public function onFileLoad()
     {
         // PHP example:
         // $this->writeLog("FILE LOAD");
@@ -225,7 +225,7 @@ class ExtraProcesses
     /**
      * @param string $username
      */
-    public function onUserNew($username = ""): void
+    public function onUserNew($username = "")
     {
         // PHP example:
         // $this->writeLog("USER NEW", $username ?? "");
@@ -234,7 +234,7 @@ class ExtraProcesses
     /**
      * @param string $username
      */
-    public function onUserLogin($username = ""): void
+    public function onUserLogin($username = "")
     {
         // PHP example:
         // $this->writeLog("USER LOGIN", $username ?? "");
@@ -243,7 +243,7 @@ class ExtraProcesses
     /**
      * @param string $username
      */
-    public function onUserLogout($username = ""): void
+    public function onUserLogout($username = "")
     {
         // PHP example:
         // $this->writeLog("USER LOGOUT", $username ?? "");
@@ -252,7 +252,7 @@ class ExtraProcesses
     /**
      * @param string $username
      */
-    public function onUserLoginFail($username = ""): void
+    public function onUserLoginFail($username = "")
     {
         // PHP example:
         // $this->writeLog("USER LOGIN FAIL", $username ?? "");
@@ -262,7 +262,7 @@ class ExtraProcesses
      * @param string $result
      * @param string $status
      */
-    public function onBugCheckResult($result = "", $status = ""): void
+    public function onBugCheckResult($result = "", $status = "")
     {
         // PHP example:
         // $this->writeLog("BUG CHECK", $result . " : ". var_export($status, true));

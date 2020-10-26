@@ -7,7 +7,7 @@ class System
     /**
      * @param $path
      */
-    private function createDirIfNotExists($path): void
+    private function createDirIfNotExists($path)
     {
         if (false === file_exists($path)) {
             mkdir($path);
@@ -26,7 +26,7 @@ class System
         }
     }
 
-    public function setErrorHandling(): void
+    public function setErrorHandling()
     {
         // Don't display, but log all errors
         ini_set('display_errors', '0');
@@ -41,7 +41,7 @@ class System
      * @param $file
      * @param $msg
      */
-    public function writeLog($file, $msg): void
+    public function writeLog($file, $msg)
     {
         $this->createDirIfNotExists(dirname(__FILE__) . '/../data/logs');
         $this->createDirIfNotExists(dirname(__FILE__) . '/../data/logs/processes');
@@ -50,7 +50,7 @@ class System
         fclose($fh);
     }
 
-    public function setTimeZone(): void
+    public function setTimeZone()
     {
         // Set our default timezone and suppress warning with @
         @date_default_timezone_set(date_default_timezone_get());
@@ -74,7 +74,7 @@ class System
     /**
      * @param $path
      */
-    public function invalidateOPCache($path): void
+    public function invalidateOPCache($path)
     {
         if (function_exists('opcache_invalidate')) {
             opcache_invalidate($path, true);
