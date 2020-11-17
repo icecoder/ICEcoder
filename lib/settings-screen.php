@@ -53,7 +53,15 @@ if (true === isset($_GET['tab'])) {
 
 	<p>
 	<?php echo $t['version'];?>:<br>
-	v <?php echo $ICEcoder["versionNo"];?>
+	<?php
+	// If we have a .git dir, get the Git short commit hash to display as a link
+	$gitCommitTextLink = "";
+	if (is_dir(dirname(__FILE__) . "/../.git")) {
+		$gitCommit = trim(exec('git log --pretty="%h" -n1 HEAD'));
+		$gitCommitTextLink = ' (Git commit: <a href="https://github.com/icecoder/ICEcoder/commit/' . $gitCommit . '" target="_blank">' . $gitCommit . '</a>)';
+	}
+	?>
+	v<?php echo $ICEcoder["versionNo"] . $gitCommitTextLink;?>
 	<br><br>
 
 	<?php echo $t['website'];?>:<br>
@@ -78,7 +86,6 @@ if (true === isset($_GET['tab'])) {
 		<?php echo $t['Get in contact...'];?><br>
 		<a href="https://www.twitter.com/icecoder" style="font-size: 10px" target="_blank">Twitter</a><br>
 		<a href="https://facebook.com/ICEcoder.net" style="font-size: 10px" target="_blank">Facebook</a><br>
-		<a href="https://groups.google.com/forum/#!forum/icecoder" style="font-size: 10px" target="_blank">Google Groups</a><br>
 		<a href="https://github.com/icecoder/ICEcoder" style="font-size: 10px" target="_blank">GitHub</a><br>
 		<a href="mailto:info@icecoder.net" style="font-size: 10px">Email</a><br><br>
 		<?php echo $t['You may use...'];?>
@@ -132,7 +139,7 @@ if (true === isset($_GET['tab'])) {
 			echo '<option value="' . $langFiles[$i] . '"' . ($ICEcoder["languageUser"] === $langFiles[$i] ? ' selected' : '') . '>' . $langText[$i] . '</option>' . PHP_EOL;
 		}
 		?>
-		</select> <span class="info" style="display: inline-block; padding-top: 2px" title="Reload required after changing">[?]</span>
+		</select> <span class="info" style="display: inline-block; padding-top: 2px" title="Reload required after changing"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span>
 		<br><br>
 
 		<h2><?php echo $t['functionality'];?></h2><br>
@@ -168,7 +175,7 @@ if (true === isset($_GET['tab'])) {
 		<br><br>
 
 		<h2><?php echo $t['bug reporting'];?></h2><br>
-		<?php echo $t['check in files'];?> <span class="info" title="<?php echo $t['Slash prefixed comma...'];?>">[?]</span><br>
+		<?php echo $t['check in files'];?> <span class="info" title="<?php echo $t['Slash prefixed comma...'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 		<input type="text" name="bugFilePaths" style="width: 300px" onkeydown="showButton()" value="<?php echo implode(", ", $ICEcoder["bugFilePaths"]);?>"><br>
 		<span style="display: inline-block; padding: 6px 5px 0 0">...<?php echo $t['every'];?></span>
 		<input type="text" name="bugFileCheckTimer" style="width: 50px; margin-top: 3px" onkeydown="showButton()" value="<?php echo $ICEcoder["bugFileCheckTimer"];?>">
@@ -178,7 +185,7 @@ if (true === isset($_GET['tab'])) {
 		<br><br>
 
 		<h2><?php echo $t['file manager'];?></h2><br>
-		<?php echo $t['root'];?> <span class="info" title="<?php echo $t['Slash prefixed'];?>">[?]</span><br>
+		<?php echo $t['root'];?> <span class="info" title="<?php echo $t['Slash prefixed'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 		<input type="text" name="root" style="width: 300px" onkeydown="document.settings.changedFileSettings.value = 'true'; showButton()" value="<?php echo $ICEcoder["root"];?>">
 		<br><br>
 
@@ -206,7 +213,7 @@ if (true === isset($_GET['tab'])) {
 		?>
 		</div><br>
 
-		<input type="checkbox" onclick="showButton();" name="deleteToTmp" value="true"<?php if ($ICEcoder["deleteToTmp"]) {echo ' checked';};?>> <?php echo $t['deleting actually moves...'];?> <span class="info" title="<?php echo $t['local/server items...'];?>" style="position: absolute; margin-top: 6px"> &nbsp; [?]</span>
+		<input type="checkbox" onclick="showButton();" name="deleteToTmp" value="true"<?php if ($ICEcoder["deleteToTmp"]) {echo ' checked';};?>> <?php echo $t['deleting actually moves...'];?> <span class="info" title="<?php echo $t['local/server items...'];?>" style="position: absolute; margin-top: 6px"> &nbsp; <?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span>
 		<br><br>
 
 	</div>
@@ -246,12 +253,70 @@ function findSequence(goal) {
 		<h2><?php echo $t['style'];?></h2><br>
 		<?php echo $t['theme'];?><br>
 		<select onchange="selectTheme(); showButton()" id="theme" name="theme" style="width: 145px">
-		    <option<?php if ("default" === $ICEcoder["theme"]) {echo ' selected';}; ?>>default</option>
+		    <option value="default" <?php if ("default" === $ICEcoder["theme"]) {echo ' selected';}; ?>>Default</option>
 		<?php
-		for ($i = 0;$i < count($themeArray); $i++) {
-			$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
-			echo '<option' . $optionSelected . '>' . $themeArray[$i] . '</option>' . PHP_EOL;
+		$lightThemes = ["base16-light", "chrome-devtools", "duotone-light", "eclipse", "eiffel", "elegant", "idle", "iplastic", "ir_white", "johnny", "juicy", "mdn-like", "neat", "neo", "solarized", "ttcn", "xq-light"];
+		$midThemes = ["ambiance", "clouds-midnight", "darkpastel", "friendship-bracelet", "idlefingers", "lesser-dark", "lowlight", "mbo", "monoindustrial", "monokai", "monokai-bright", "mreq", "nightlion", "panda-syntax", "pastel-on-dark", "railscasts", "rdark", "zenburn"];
+		$colorThemes = ["2019-torres-digital-theme", "amy", "bespin", "blackboard", "cobalt", "django", "dracula", "duotone-dark", "erlang-dark", "hopscotch", "made-of-code", "material", "midnight", "night", "oceanic", "paraiso-dark", "plasticcodewrap", "rubyblue", "tomorrow-night-blue", "xq-dark"];
+		
+		function getThemeDisplayName($optionName) {
+			$wordCasings = [
+				Ii => "II",
+				Ir => "IR",
+				Mdn => "MDN",
+				Ttcn => "TTCN",
+				Xq => "XQ"
+			];
+
+			$optionName = ucwords(preg_replace("/_|\-/", " ", $optionName));
+			foreach ($wordCasings as $key => $value) {
+				$optionName = str_replace($key, $value, $optionName);
+			}
+
+			return $optionName;
 		}
+		
+
+		echo '<optgroup label="Dark">';
+		for ($i = 0;$i < count($themeArray); $i++) {
+			if (
+				false === in_array($themeArray[$i], $lightThemes) &&
+				false === in_array($themeArray[$i], $midThemes) &&
+				false === in_array($themeArray[$i], $colorThemes)
+			) {
+				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
+				$optionName = getThemeDisplayName($themeArray[$i]);
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . $optionName . '</option>' . PHP_EOL;
+			}
+		}
+		echo '</optgroup>';
+		echo '<optgroup label="Grey">';
+		for ($i = 0;$i < count($themeArray); $i++) {
+			if (true === in_array($themeArray[$i], $midThemes)) {
+				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
+				$optionName = getThemeDisplayName($themeArray[$i]);
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . $optionName . '</option>' . PHP_EOL;
+			}
+		}
+		echo '</optgroup>';
+		echo '<optgroup label="Color">';
+		for ($i = 0;$i < count($themeArray); $i++) {
+			if (true === in_array($themeArray[$i], $colorThemes)) {
+				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
+				$optionName = getThemeDisplayName($themeArray[$i]);
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . $optionName . '</option>' . PHP_EOL;
+			}
+		}
+		echo '</optgroup>';
+		echo '<optgroup label="Light">';
+		for ($i = 0;$i < count($themeArray); $i++) {
+			if (true === in_array($themeArray[$i], $lightThemes)) {
+				$optionSelected = $ICEcoder["theme"] === $themeArray[$i] ? ' selected' : '';
+				$optionName = getThemeDisplayName($themeArray[$i]);
+				echo '<option value="' . $themeArray[$i] . '" ' . $optionSelected . '>' . $optionName . '</option>' . PHP_EOL;
+			}
+		}
+		echo '</optgroup>';
 		?>
 		</select>
 		<br><br>
@@ -316,7 +381,7 @@ function findSequence(goal) {
 <div id="accountsSection" class="section" style="display: none">
 
 	<h2>password</h2><br>
-	<?php echo $t['new password'];?> <span class="info" title="<?php echo $t['8 chars min'];?>">[?]</span><br>
+	<?php echo $t['new password'];?> <span class="info" title="<?php echo $t['8 chars min'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="password" name="password" style="width: 320px" onkeydown="showButton()">
 	<br><br>
 
@@ -324,7 +389,7 @@ function findSequence(goal) {
 	<input type="password" name="passwordConfirm" style="width: 320px" onkeydown="showButton()">
 	<br><br>
 
-	<h2><?php echo $t['multi-user'];?> <span class="info" title="<?php echo $t['Make sure you...'];?>">[?]</span></h2><br>
+	<h2><?php echo $t['multi-user'];?> <span class="info" title="<?php echo $t['Make sure you...'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span></h2><br>
 	<input type="checkbox" name="multiUser" value="true" onclick="showButton(); changeEnableRegistrationStatus();"<?php if (true === $ICEcoder["multiUser"]) {echo ' checked';} ?>>Multi-User
 	<?php
 		echo '<input type="checkbox" name="enableRegistration" value="true"';
@@ -338,26 +403,25 @@ function findSequence(goal) {
     <br><br>
 
     <input type="checkbox" onclick="showButton()" name="tutorialOnLogin" value="true"<?php if (true === $ICEcoder["tutorialOnLogin"]) {echo ' checked';};?>> Tutorial on Login<br><br>
-
-    <input type="checkbox" onclick="showButton()" name="tipsOnLogin" value="true"<?php if (true === $ICEcoder["tipsOnLogin"]) {echo ' checked';};?>> Tips on Login (Coming soon)<br><br>
 </div>
 
 <div id="securitySection" class="section" style="display: none">
+
 	<h2><?php echo $t['security'];?></h2><br>
-	<?php echo $t['banned files/folders'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>">[?]</span><br>
+	<?php echo $t['banned files/folders'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="text" onkeydown="document.settings.changedFileSettings.value = 'true'; showButton()" name="bannedFiles" style="width: 660px" value="<?php echo implode(", ",$ICEcoder["bannedFiles"]); ?>">
 	<br><br>
 
-	<?php echo $t['banned paths'];?> <span class="info" title="<?php echo $t['Slash prefixed comma...'];?>">[?]</span><br>
+	<?php echo $t['banned paths'];?> <span class="info" title="<?php echo $t['Slash prefixed comma...'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="text" onkeydown="document.settings.changedFileSettings.value = 'true'; showButton()" name="bannedPaths" style="width: 660px" value="<?php echo implode(", ",$ICEcoder["bannedPaths"]); ?>">
 	<br><br>
 
 	<input type="hidden" name="changedFileSettings" value="false">
-	<?php echo $t['ip addresses'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>">[?]</span><br>
+	<?php echo $t['ip addresses'];?> <span class="info" title="<?php echo $t['Comma delimited'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="text" onkeydown="showButton()" name="allowedIPs" style="width: 660px" value="<?php echo implode(", ",$ICEcoder["allowedIPs"]); ?>">
 	<br><br>
 
-	<?php echo $t['auto-logout after'];?> <span class="info" title="<?php echo $t['Set 0 to...'];?>">[?]</span><br>
+	<?php echo $t['auto-logout after'];?> <span class="info" title="<?php echo $t['Set 0 to...'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
 	<input type="text" onkeydown="showButton()" name="autoLogoutMins" style="width: 100px" value="<?php echo $ICEcoder["autoLogoutMins"]; ?>"> <span style="display: inline-block; padding: 2px 5px"><?php echo $t['mins of inactivity...'];?></span>
 	<br><br>
 </div>
@@ -375,7 +439,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 
 function selectTheme() {
     const input = document.getElementById("theme");
-	let theme = input.options[input.selectedIndex].innerHTML;
+	let theme = input.options[input.selectedIndex].value;
 	if ("default" === theme) {theme = "icecoder"}
 	editor.setOption("theme", theme);
 }
@@ -456,6 +520,10 @@ function submitSettings() {
 <div class="update" id="updateButton" onClick="submitSettings()">update</div>
 <input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
+
+<?php
+echo $systemClass->getDemoModeIndicator(false);
+?>
 
 </body>
 

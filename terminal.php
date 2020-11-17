@@ -5,7 +5,7 @@ include "lib/settings.php";
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> Terminal</title>
+<title>ICEcoder v<?php echo $ICEcoder["versionNo"];?> Terminal</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
@@ -21,30 +21,30 @@ key = function(e) {
 	}
 
 	// Up
-	if (e.keyCode == 38) {
+	if (38 === e.keyCode) {
 		// If blank, set a blank line as current
-		if (document.getElementById('command').value == "") {
+		if ("" == document.getElementById('command').value) {
 			currentCommand = "";
 		}
 		// If we have history and the last command in history isn't this one
-		if (commandHistory[commandHistory.length-1] && commandHistory[commandHistory.length-1].replace("[[ICEcoder]]:") != currentCommand) {
+		if (commandHistory[commandHistory.length - 1] && commandHistory[commandHistory.length - 1].replace("[[ICEcoder]]:", "") !== currentCommand) {
 			// Push or append as last item in array with string to indicate temp nature
-			if (commandHistory[commandHistory.length-1].indexOf("[[ICEcoder]]:") !== 0) {
-				commandHistory.push("[[ICEcoder]]:"+currentCommand);
+			if (0 !== commandHistory[commandHistory.length - 1].indexOf("[[ICEcoder]]:")) {
+				commandHistory.push("[[ICEcoder]]:" + currentCommand);
 			} else {
-				commandHistory[commandHistory.length-1] = "[[ICEcoder]]:"+currentCommand;
+				commandHistory[commandHistory.length - 1] = "[[ICEcoder]]:" + currentCommand;
 			}
 		}
 		// If we have at least some items in history, step back a level and display the previous command
-		if (currentLine > 0) {
+		if (0 < currentLine) {
 			currentLine--;
-			document.getElementById('command').value = commandHistory[currentLine].replace("[[ICEcoder]]:","");
+			document.getElementById('command').value = commandHistory[currentLine].replace("[[ICEcoder]]:", "");
 		}
 	// Down
 	// If the current line isn't the last in the array, take a step forward and display the command
-	} else if(e.keyCode == 40 && currentLine < commandHistory.length-1) {
+	} else if(40 === e.keyCode && currentLine < commandHistory.length - 1) {
 		currentLine++;
-		document.getElementById('command').value = commandHistory[currentLine].replace("[[ICEcoder]]:","");
+		document.getElementById('command').value = commandHistory[currentLine].replace("[[ICEcoder]]:", "");
 	// Set the current command value to that of the user input
 	} else {
 		currentCommand = document.getElementById('command').value;
@@ -54,10 +54,10 @@ key = function(e) {
 sendCmd = function(command) {
 	// Send command over XHR for response and display
 	xhr = parent.ICEcoder.xhrObj();
-	xhr.onreadystatechange=function() {
-		if (xhr.readyState==4) {
+	xhr.onreadystatechange = function() {
+		if (4 === xhr.readyState) {
 			// OK reponse?
-			if (xhr.status==200) {
+			if (200 === xhr.status) {
 				// Set the output to also include our response and scroll down to bottom
 				var newOutput = document.createElement("DIV");
 				responseText = xhr.responseText;
@@ -70,10 +70,10 @@ sendCmd = function(command) {
 				parent.document.getElementById("terminal").contentWindow.document.documentElement.scrollTop = document.getElementById('output').scrollHeight;
 
 				// Add command onto end of history array or set as last item in array
-				if (currentLine == 0 || commandHistory[commandHistory.length-1].indexOf("[[ICEcoder]]:") !== 0) {
+				if (0 === currentLine || 0 !== commandHistory[commandHistory.length - 1].indexOf("[[ICEcoder]]:")) {
 					commandHistory.push(document.getElementById('command').value);
 				} else {
-					commandHistory[commandHistory.length-1] = document.getElementById('command').value;
+					commandHistory[commandHistory.length - 1] = document.getElementById('command').value;
 				}
 
 				// Set the current line to be the length of the array and clear the command
@@ -82,21 +82,28 @@ sendCmd = function(command) {
 			}
 		}
 	};
+
 	// Send the XHR request
-	xhr.open("POST","lib/terminal-xhr.php?csrf="+parent.ICEcoder.csrf,true);
+	xhr.open("POST", parent.ICEcoder.iceLoc + "/lib/terminal-xhr.php?csrf=" + parent.ICEcoder.csrf, true);
 	xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	xhr.send('command='+encodeURIComponent(command));
+	xhr.send('command=' + encodeURIComponent(command));
 }
 </script>
 </head>
 
 <body onclick="document.getElementById('command').focus()">
 <?php
-if (true === isset($_SESSION['cwd'])) {
-    chdir($_SESSION['cwd']);
+// If we have no cwd set in session, set it now
+if (false === isset($_SESSION['cwd'])) {
+	$_SESSION['cwd'] = $docRoot . $iceRoot;
 }
-$user = str_replace("\n","",shell_exec("whoami"));
-$cwd = str_replace("\n","",shell_exec("pwd"));
+
+// Change to cwd
+chdir($_SESSION['cwd']);
+
+// Get current user and cwd
+$user = str_replace("\n", "", shell_exec("whoami"));
+$cwd = str_replace("\n", "", shell_exec("pwd"));
 ?>
 
 <form name="shell" onsubmit="sendCmd(document.getElementById('command').value); return false" method="POST">

@@ -1,0 +1,10 @@
+body {overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
+.bug-report {background-color: #1c1c19; color: #fff; padding: 20px}
+pre {font-family: monospace}

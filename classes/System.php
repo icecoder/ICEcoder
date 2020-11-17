@@ -7,7 +7,7 @@ class System
     /**
      * @param $path
      */
-    private function createDirIfNotExists($path): void
+    private function createDirIfNotExists($path)
     {
         if (false === file_exists($path)) {
             mkdir($path);
@@ -26,7 +26,7 @@ class System
         }
     }
 
-    public function setErrorHandling(): void
+    public function setErrorHandling()
     {
         // Don't display, but log all errors
         ini_set('display_errors', '0');
@@ -41,7 +41,7 @@ class System
      * @param $file
      * @param $msg
      */
-    public function writeLog($file, $msg): void
+    public function writeLog($file, $msg)
     {
         $this->createDirIfNotExists(dirname(__FILE__) . '/../data/logs');
         $this->createDirIfNotExists(dirname(__FILE__) . '/../data/logs/processes');
@@ -50,7 +50,7 @@ class System
         fclose($fh);
     }
 
-    public function setTimeZone(): void
+    public function setTimeZone()
     {
         // Set our default timezone and suppress warning with @
         @date_default_timezone_set(date_default_timezone_get());
@@ -74,7 +74,7 @@ class System
     /**
      * @param $path
      */
-    public function invalidateOPCache($path): void
+    public function invalidateOPCache($path)
     {
         if (function_exists('opcache_invalidate')) {
             opcache_invalidate($path, true);
@@ -147,5 +147,31 @@ class System
         $contents = implode("", $fileLines);
 
         return $contents;
+    }
+
+    /**
+     * @param $dark
+     * @return string
+     */
+    public function getDemoModeIndicator($dark = false) {
+        global $ICEcoder, $text;
+
+        if (true === $ICEcoder["demoMode"]) {
+            $darkExtra = true === $dark
+                ? '.demoModeIndicator::after {position: absolute; top: 0; width: 0; height: 0; border-style: solid; border-width: 30px 0 0 30px; border-color: transparent transparent transparent #1c1c19; content: \'\'; z-index: 1}'
+                : '';
+            $content = '
+                <style>
+                    .demoModeIndicator {position: absolute; top: -30px; right: 0; width: 0; height: 0; border-top: 30px solid transparent; border-bottom: 30px solid transparent; border-right: 30px solid #b00; color: #fff; z-index: 1}
+                    .demoModeIndicator svg {position: fixed; display: inline-block; width: 24px; height: 32px; right: 0; margin-right: 0; top: -3px}
+                    ' . $darkExtra . '
+                </style>
+            ';
+            $content .= '
+                <div class="demoModeIndicator" title="' . $text['demo-mode']['Demo mode'] . '">' . file_get_contents(dirname(__FILE__) . "/../assets/images/icons/lock.svg") .'</div>
+            ';
+            return $content;
+        }
+        return "";
     }
 }

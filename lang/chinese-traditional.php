@@ -25,6 +25,8 @@ $text = [
         "none"                                     => "[none]",
         "multi-user"                               => "多用戶",
         "Username"                                 => "Username:",
+        "version"                                  => "version",
+        "codemirror version"                       => "codemirror version",
     ],
 
     "files" =>
@@ -119,6 +121,11 @@ $text = [
     "bug-files-check" =>
     [
         "Found in"                                 => "檢索到:",
+    ],
+
+    "bug-report" =>
+    [
+        "Bug Report"                                 => "Bug Report",
     ],
 
     "file-control" =>
@@ -286,7 +293,6 @@ $text = [
         "Replacing text in"                        => "正在替換文本",
         "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
         "Cancelled tasks"                          => "取消任務",
-        "Open previous files"                      => "打開以前的文件?",
         "Please note for..."                       => "請注意: 需要更新才能工作, 您需要爲所有 ICEcoder 文件和文件夾設置寫如何刪除權限. 如果您需要恢復 ICEcoder 到這個版本, 您可以在 /tmp 目錄找到它們. 點擊 OK 繼續使用自動升級或點擊 cancel 訪問 ICEcoder 官方網站, 您也可以到 GitHub 的項目首頁下載 zip 來手動進行更新.",
         "You can start..."                         => "您可以在 幫助 > 設置中啓動錯誤報告",
         "Error cannot find..."                     => "錯誤: 無法找到和進入錯誤日志文件路徑",
@@ -468,6 +474,11 @@ $text = [
         "Yes"                                      => "Yes",
         "No"                                       => "No",
         "Search"                                   => "Search",
+    ],
+
+    "demo-mode" =>
+    [
+        "Demo mode"                                => "Demo mode",
     ],
 
 ];

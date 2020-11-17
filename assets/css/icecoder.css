@@ -9,6 +9,7 @@ body {overflow: hidden;
 h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
 h2 {font-size: 18px; font-weight: normal; color: #fff}
 
+.icon-tabler {width: 24px; height: 24px; stroke-width: 1.25}
 .blackMask {position: fixed; display: table; width: 100%; height: 100%; top: 0; left: 0; visibility: hidden; background-color: rgba(0,0,0,0.8); text-align: center; z-index: 100}
 .blackMask .popupVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
 .popupVCenter .popup {#position: relative; #top: -50%; text-align: center; color: #fff; font-size: 10px}
@@ -68,6 +69,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .files .tools {position: absolute; display: inline-block; width: 250px; height: 30px; left: 0; bottom: 0}
 .files .tools div {display: inline-block; margin: 8px 0 8px 15px; color: #666; cursor: pointer}
 .files .tools div:hover {color: #fff; cursor: pointer}
+.files .tools .icon-tabler {width: 22px; height: 22px; margin-left: -3px; margin-top: -3px; stroke-width: 1.25; pointer-events: none}
 .files .tools .highlight {color: #eee; padding: 1px 3px; margin: 7px -3px 7px 12px; border-radius: 3px}
 .files .tools .error {background: #800}
 .files .tools .info {background: #080}
@@ -75,8 +77,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .editor {position: absolute; display: inline-block; top: 0; left: 15px; width: 2400px}
 .editor .tabsBar {display: inline-block; height: 27px; width: 2400px; margin-top: 15px; padding-left: 53px; background: #fff}
 .tabsBar .tab {position: absolute; display: none; height: 15px; padding: 6px 8px 6px 9px; border-right: 1px solid #ddd; color: #fff; white-space: nowrap; overflow: hidden; cursor: pointer; z-index: 1;
-    transition: width 0.15s ease-in-out;
-    transition: left 0.15s ease-in-out;
+    transition: width, left 0.15s ease-in-out;
 }
 .tabsBar .tab:before {
     position: absolute; width: 16px; height: 16px; content: ""; margin-left: -2px; background:url('../images/file-folder-icons.png') no-repeat 0 0; background-position: -32px 0;
@@ -117,26 +118,34 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .findBar .goLine {position: fixed; display: inline-block; width: 120px; right: 65px; top: 49px; height: 21px; font-size: 10px; color: #eee; cursor: default; z-index: 1}
 .goLine .goToLine {width: 50px; height: 28px; border: 0; font-size: 12px; margin: -7px 0 0 3px; padding-left: 4px; background: #333; color: #eee}
 .findReplace input:focus, .goLine .goToLine:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
-.findBar .view {position: fixed; display: inline-block; width: 16px; height: 16px; right: 40px; top: 49px; background: url('../images/file-manager-icons.png') 0 0 no-repeat; cursor: pointer; background-position: -48px 0; opacity: 0.3}
-.findBar .bug {position: fixed; display: inline-block; width: 16px; height: 16px; right: 15px; top: 48px; background: url('../images/bug-reporting-icons.png') 0 0 no-repeat; cursor: pointer; background-position: 0 0}
+.findBar .view {position: fixed; display: inline-block; width: 16px; height: 16px; right: 40px; top: 49px; color: #888; cursor: pointer; opacity: 0.3}
+.findBar .view:hover {color: #fff; cursor: pointer}
+.findBar .view .icon-tabler {width: 22px; height: 22px; margin-left: -3px; margin-top: -3px; stroke-width: 1.25; pointer-events: none}
+.findBar .bug {position: fixed; display: inline-block; width: 16px; height: 16px; right: 15px; top: 49px; color: #404040; cursor: pointer}
+.findBar .bug:hover {color: #fff; cursor: pointer}
+.findBar .bug .icon-tabler {width: 23px; height: 23px; margin-left: -3px; margin-top: -4px; stroke-width: 1.25; pointer-events: none}
 .editor .terminal {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
-.editor .output {position: fixed; top: 10000px; padding: 15px 18px 8px 13px; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
+.editor .output {position: fixed; top: 10000px; padding: 15px 18px 8px 13px; transition: top 0.2s ease; background: rgba(0,0,0,0.92); color: #eee; z-index: 2}
 .editor .database {position: fixed; top: 10000px; transition: top 0.2s ease; z-index: 2}
-.editor .git {position: fixed; top: 10000px; padding: 15px 18px 15px 13px; overflow-y: auto; transition: top 0.2s ease; background: rgba(0,0,0,0.92); z-index: 2}
+.editor .git {position: fixed; top: 10000px; padding: 15px 18px 15px 13px; overflow-y: auto; transition: top 0.2s ease; background: rgba(0,0,0,0.92); color: #eee; z-index: 2}
 .editor .git::-webkit-scrollbar {width: 12px; height: 12px}
 .editor .git::-webkit-scrollbar-thumb {background: rgba(0,198,255,0.2)}
 .editor .git::-webkit-scrollbar-thumb:hover {background: rgba(0,198,255,0.8)}
 .editor .git::-webkit-scrollbar-corner, .editor .git::-webkit-scrollbar-resizer {background: transparent}
 .editor .git .link {font-family: monospace; cursor: pointer}
 .editor .git .link:hover {color:  rgba(0,198,255,1)}
-.editor .code {position: relative; display: inline-block; top: 28px; width: 600px; height: 600px; visibility: hidden}
+.editor .code {position: relative; display: inline-block; width: 600px; height: 600px; visibility: hidden}
 
 .footer {position: fixed; display: inline-block; width: 100%; height: 30px; bottom: 0; background-color: rgba(0,0,0,0.15); left: 0; z-index: 1}
 .footer .versionsDisplay {position: absolute; display: inline-block; padding: 5px; margin-top: 3px; left: 275px; color: #fff; transition: opacity 0.2s; z-index: 2; cursor: pointer}
 .footer .serverMessage {position: absolute; display: inline-block; padding: 5px; margin-top: 3px; left: 275px; color: #fff; transition: opacity 0.2s; z-index: 1}
 .footer .splitPaneControls {position: absolute; display: inline-block; width: 50px; text-align: center; padding: 6px}
-.footer .splitPaneControls .off {display: inline-block; width: 18px; height: 18px; margin-right: 10px; background: url('../images/split-pane-controls.gif') no-repeat 0 0; cursor: pointer}
-.footer .splitPaneControls .on {display: inline-block; width: 19px; height: 18px; background: url('../images/split-pane-controls.gif') no-repeat -18px 0; cursor: pointer}
+.footer .splitPaneControls .off {display: inline-block; width: 18px; height: 18px; margin-right: 10px; color: #888; cursor: pointer}
+.footer .splitPaneControls .off:hover {color: #fff; cursor: pointer}
+.footer .splitPaneControls .off .icon-tabler {margin-left: -3px; margin-top: -3px; stroke-width: 1.25; pointer-events: none}
+.footer .splitPaneControls .on {display: inline-block; width: 19px; height: 18px; color: #888; cursor: pointer}
+.footer .splitPaneControls .off:hover {color: #fff; cursor: pointer}
+.footer .splitPaneControls .on .icon-tabler {margin-left: -3px; margin-top: -3px; stroke-width: 1.25; pointer-events: none}
 .footer .splitPaneNames {position: absolute; display: inline-block; width: 100px; text-align: center; margin-top: 9px; color: #555; opacity: 0; transition: opacity 0.3s ease-in-out}
 .footer .charDisplay, .footer .byteDisplay {position: absolute; display: inline-block; padding: 5px 0 0 8px; margin-top: 3px; margin-right: 10px; right: 0; font-size: 12px; color: #fff; text-align: right; text-align: right; cursor: pointer}
 
@@ -148,6 +157,8 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .fileMenu hr {border: 0; height: 1px; padding: 0; margin: 0; background: #444}
 
 .tooltip {position: absolute; top: 0; left: 0; padding: 5px; background: #444; color: #bbb}
+.closeIcon {position: fixed; display: inline-block; top: 10px; right: 10px; width: 24px; height: 24px; color: #888; cursor: pointer; z-index: 101}
+.closeIcon:hover {color: #ddd}
 
 .screenContainer {position: absolute; display: table; width: 100%; height: 100%; top: 0; left: 0; text-align: center}
 .screenContainer .screenVCenter {#position: absolute; display: table-cell; #top: 50%; vertical-align: middle; text-align: center}
@@ -160,3 +171,4 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .screenCenter .password:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
 .screenCenter .button {border: 0; background: #444; color: #eee; height: 22px; cursor: pointer}
 .screenCenter .button:hover {background: #2187e7; color: #eee}
+.screenCenter .iconCapsLock {position: absolute; margin-left: 2px; color: #888}

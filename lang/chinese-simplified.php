@@ -25,6 +25,8 @@ $text = [
         "none"                                     => "[none]",
         "multi-user"                               => "多用户",
         "Username"                                 => "用户名:",
+        "version"                                  => "version",
+        "codemirror version"                       => "codemirror version",
     ],
 
     "files" =>
@@ -120,6 +122,12 @@ $text = [
     [
         "Found in"                                 => "搜索到:",
     ],
+
+    "bug-report" =>
+    [
+        "Bug Report"                               => "Bug Report",
+    ],
+
 
     "file-control" =>
     [
@@ -286,7 +294,6 @@ $text = [
         "Replacing text in"                        => "正在替换文本",
         "Sorry there was..."                       => "抱歉，您的请求有错误。\\n\\n请检查您的开发工具控制台以获取更多信息。",
         "Cancelled tasks"                          => "取消任务",
-        "Open previous files"                      => "打开以前的文件?",
         "Please note for..."                       => "请注意: 需要更新才能正常工作, 你需要为所有 ICEcoder 文件和文件夹设置写入和删除权限. 如果您需要恢复 ICEcoder 到这个版本, 你可以在 /tmp 目录找到它们. 点击 OK 继续使用自动升级或点击 cancel 访问 ICEcoder 网站, 您也可以到 grab 的项目首页下载 zip 来进行手动更新.",
         "You can start..."                         => "你可以在 帮助 > 设置中启动错误报告",
         "Error cannot find..."                     => "错误: 无法找到/进入错误文件路径",
@@ -468,6 +475,11 @@ $text = [
         "Yes"                                      => "是",
         "No"                                       => "否",
         "Search"                                   => "搜索",
+    ],
+
+    "demo-mode" =>
+    [
+        "Demo mode"                                => "Demo mode",
     ],
 
 ];

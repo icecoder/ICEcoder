@@ -3,15 +3,15 @@ const get = function(elem) {
     return document.getElementById(elem);
 };
 
-// URL we're viewing ICEcoder from
-const iceLoc = window.location.origin + window.location.pathname.replace(/\/$/, "");
-
 // Main ICEcoder object
 var ICEcoder = {
 
     // ====
     // INIT
     // ====
+
+    // URL we're viewing ICEcoder from
+    iceLoc:                window.location.origin + window.location.pathname.replace(/\/$/, ""),
 
     // Define settings
     filesW:	               250,           // Width of files pane
@@ -20,7 +20,6 @@ var ICEcoder = {
     selectedTab:           0,             // The tab that's currently selected
     savedPoints:           [],            // Ints array to indicate save points for docs
     savedContents:         [],            // Array of last known saved contents
-    canSwitchTabs:         true,          // Stops switching of tabs when trying to close
     openFiles:             [],            // Array of open file URLs
     openFileMDTs:          [],            // Array of open file modification datetimes
     openFileVersions:      [],            // Array of open file version counts
@@ -39,6 +38,7 @@ var ICEcoder = {
     draggingTab:           false,         // If we're dragging a tab
     draggingWithKey:       false,         // The key that's down while dragging, false if no key
     tabLeftPos:            [],            // Array of left positions of tabs inside content area
+    overCloseLink:         false,         // If mouse is over close link on tab or not
     colorCurrentBG:        '#1d1d1b',     // Current tab/file background color
     colorCurrentText:      '#fff',        // Current tab/file text color
     colorOpenBG:           '#c3c3c3',     // Open tab/file background color
@@ -49,6 +49,8 @@ var ICEcoder = {
     colorDropTgtBGFile:    '#f80',        // Drop dir target background color
     prevTab:               0,             // Previous tab to current
     serverQueueItems:      [],            // Array of URLs to call in order
+    origCursorPos:         false,         // Original cursor position before jump to definition
+    origSelectionPos:      false,         // Original selection position before jump to definition
     previewWindow:         false,         // Target variable for the preview window
     previewWindowLoading:  false,         // Loading state of preview window
     pluginIntervalRefs:    [],            // Array of plugin interval refs
@@ -144,7 +146,7 @@ var ICEcoder = {
 
             // Every 5 mins, ping our file to keep the session alive
             if (0 === ic.openSeconds % 300) {
-                ic.filesFrame.contentWindow.frames['pingActive'].location.href = iceLoc + "/lib/session-active-ping.php";
+                ic.filesFrame.contentWindow.frames['pingActive'].location.href = ic.iceLoc + "/lib/session-active-ping.php";
             }
 
             // Every 3 seconds, re-index if we're not already busy
@@ -154,7 +156,7 @@ var ICEcoder = {
                 let timestampExtra = ic.indexData
                     ? "?timestamp=" + ic.indexData.timestamps.indexed + "&csrf=" + ic.csrf
                     : "";
-                fetch(iceLoc + '/lib/indexer.php' + timestampExtra)
+                fetch(ic.iceLoc + '/lib/indexer.php' + timestampExtra)
                     .then(function(response) {
                         // Convert to JSON
                         return response.json();
@@ -207,7 +209,7 @@ var ICEcoder = {
                 , 10) + "px";
         this.splitPaneNamesMain.style.left = (parseInt((winW - this.filesW) * 0.25, 10) - 50 + this.filesW) + "px";
         this.splitPaneNamesDiff.style.left = (parseInt((winW - this.filesW) * 0.75, 10) - 50 + this.filesW) + "px";
-        this.setTabWidths();
+        this.setTabWidths(false);
 
         // If we need to set the editor sizes
         if (false !== setEditor) {
@@ -255,8 +257,8 @@ var ICEcoder = {
         let cM, cMdiff;
 
         this.splitPane = "on" === onOff ? true : false;
-        get('splitPaneControlsOff').style.opacity = this.splitPane ? 0.2 : 0.5;
-        get('splitPaneControlsOn').style.opacity = this.splitPane ? 0.5 : 0.2;
+        get('splitPaneControlsOff').style.opacity = this.splitPane ? 0.2 : 0.8;
+        get('splitPaneControlsOn').style.opacity = this.splitPane ? 0.8 : 0.2;
         get('splitPaneNamesMain').style.opacity = get('splitPaneNamesDiff').style.opacity = this.splitPane ? 1 : 0;
         this.setLayout();
 
@@ -332,6 +334,14 @@ var ICEcoder = {
 
             // Note which tool we're showing
             this.showingTool = this.showingTool !== tool ? tool : false;
+
+            // Display and make close icon clickable to close this tool
+            setTimeout(function() {
+                get('closeIcon').style.display = ICEcoder.showingTool !== false ? "inline-block" : "none";
+                get('closeIcon').onclick = function() {
+                    ICEcoder.toolShowHideToggle(ICEcoder.showingTool);
+                }
+            }, this.showingTool !== false ? 200 : 0);
         }
     },
 
@@ -377,11 +387,12 @@ var ICEcoder = {
 
     // Lock & unlock the file manager navigation on demand
     lockUnlockNav: function() {
-        let lockIcon;
-
-        lockIcon = this.filesFrame.contentWindow.document.getElementById('fmLock');
+        let lockIconOpen, lockIconClosed;
+        lockIconOpen = this.filesFrame.contentWindow.document.getElementById('fmLockOpen');
+        lockIconClosed = this.filesFrame.contentWindow.document.getElementById('fmLockClosed');
         this.lockedNav = false === this.lockedNav;
-        lockIcon.style.backgroundPosition = this.lockedNav ? "0 0" : "-16px 0";
+        lockIconOpen.style.display = this.lockedNav ? "none" : "inline-block";
+        lockIconClosed.style.display = this.lockedNav ? "inline-block" : "none";
     },
 
     // Show/hide the plugins on demand
@@ -574,6 +585,7 @@ var ICEcoder = {
             }
 
         }
+
         // Reset our array for next time and redo editor stats
         this.oppTagReplaceData = [];
         this.setEditorStats();
@@ -652,6 +664,20 @@ var ICEcoder = {
         this.mouseDownInCM = "editor";
     },
 
+    // On paste
+    cMonPaste: function(thisCM, cMinstance, evt, clipboardData) {
+        // Get text from clipboard, the number of lines (excluding last)
+        // and so the startLine and endLine and auto-indent for that range
+		const text = clipboardData.getData('Text');
+		const num = text.split("\n").length - 1;
+		const startLine = thisCM.getCursor().line;
+        const endLine = startLine + num;
+        // Now auto-indent after a 0ms tickover
+		setTimeout(() => {
+			parent.ICEcoder.autoIndentLines(startLine, endLine);
+		}, 0);
+    },
+
     // On context menu
     cMonContextMenu: function(thisCM, cMinstance, evt) {
         // Set cursor
@@ -661,50 +687,7 @@ var ICEcoder = {
         // If CTRL key down
         if (evt.ctrlKey) {
             setTimeout(function(ic) {
-                // Get cM and word under mouse pointer
-                let cM = thisCM;
-                let word = (cM.getRange(cM.findWordAt(cM.getCursor()).anchor, cM.findWordAt(cM.getCursor()).head));
-
-                // Get result and number of results for word in functions and classes from index JSON object list
-                let result = null;
-                let numResults = 0;
-                let filePath = ic.openFiles[ic.selectedTab - 1];
-                let filePathExt = filePath.substr(filePath.lastIndexOf(".") + 1);
-
-                if ("undefined" !== typeof ic.indexData.functions) {
-                    for(i in ic.indexData.functions[filePathExt]) {
-                        if (i === word) {
-                            result = ic.indexData.functions[filePathExt][i];
-                            numResults++;
-                        }
-                    }
-                }
-
-                if ("undefined" !== typeof ic.indexData.class) {
-                    for (i in ic.indexData.classes[filePathExt]) {
-                        if (i === word) {
-                            result = ic.indexData.classes[filePathExt][i];
-                            numResults++;
-                        }
-                    }
-                }
-
-                // If we have a single result and the cursor isn't already on the definition of it we can jump to where it's defined
-                if (1 === numResults && -1 === [null, "def"].indexOf(cM.getTokenTypeAt(cM.getCursor()))) {
-                    ic.openFile(result.filePath.replace(docRoot, ""));
-                    ic.goFindAfterOpenInt = setInterval(function(result) {
-                        if (ic.openFiles[ic.selectedTab - 1] == result.filePath.replace(docRoot, "") && !ic.loadingFile) {
-                            cM = ic.getcMInstance();
-                            setTimeout(function(result) {
-                                ic.goToLine(result.range.from.line + 1);
-                                cM.setSelection({line: result.range.from.line, ch: result.range.from.ch}, {line: result.range.to.line, ch: result.range.to.ch});
-                            }, 20, result);
-                            clearInterval(ic.goFindAfterOpenInt);
-                        }
-                    }, 20, result);
-                }
-
-                ic.mouseDownInCM = "editor";
+                ic.jumpToDefinition();
             }, 0, this);
         }
     },
@@ -1100,6 +1083,13 @@ var ICEcoder = {
         }
     },
 
+    // Indent line range with smart indenting, falls back to indenting to prev line if no smart indenting for mode
+    autoIndentLines: function(startLine, endLine) {
+        for (let i = startLine; i <= endLine; i++) {
+            this.getcMInstance().indentLine(i, "smart");
+        }
+    },
+
     // Move current line up/down
     moveLines: function(dir) {
         let thisCM, lineStart, lineEnd, swapLineNo, swapLine;
@@ -1135,6 +1125,8 @@ var ICEcoder = {
                     {line: lineStart.line + ("up" === dir ? -1 : 1), ch: lineStart.ch},
                     {line: lineEnd.line + ("up" === dir ? -1 : 1), ch: lineEnd.ch}
                 );
+                // Auto-indent the lines we're moving (but not the swapped line)
+                ICEcoder.autoIndentLines(lineStart.line - ("up" === dir ? 1 : -1), lineEnd.line + ("up" === dir ? -1 : 1));
             })
         }
     },
@@ -1319,34 +1311,85 @@ var ICEcoder = {
         }
     },
 
-    // Jump to and highlight the function definition current token
+    // Jump to and highlight the function definition current token or back again to where we were
     jumpToDefinition: function() {
-        let thisCM, tokenString, defVars;
+        let thisCM, word, cursorBack1Char, result, numResults, filePath, filePathExt;
 
         thisCM = this.getThisCM();
 
-        tokenString = thisCM.getTokenAt(thisCM.getCursor()).string;
-
-        if (thisCM.somethingSelected() && this.origCurorPos) {
-            thisCM.setCursor(this.origCurorPos);
+        // We have an original cursor or selection position, so we'll jump back to it
+        if (false !== this.origCursorPos || false !== this.origSelectionPos) {
+            // Jump to the original position (selection/cursor) we have and set selection/cursor
+            if (false !== this.origSelectionPos) {
+                this.goToLine(this.origSelectionPos.anchor.line + 1);
+                thisCM.setSelection(this.origSelectionPos.anchor, this.origSelectionPos.head);
+            } else {
+                this.goToLine(this.origCursorPos.line + 1);
+                thisCM.setCursor(this.origCursorPos);
+            }
+            // Reset flags for next time
+            this.origSelectionPos = false;
+            this.origCursorPos = false;
         } else {
-            this.origCurorPos = thisCM.getCursor();
-            defVars = [
-                "var " + tokenString,
-                "function " + tokenString,
-                tokenString + "=function", tokenString + "= function", tokenString + " =function", tokenString + " = function",
-                tokenString + "=new function", tokenString + "= new function", tokenString + " =new function", tokenString + " = new function",
-                "window['" + tokenString + "']", "window[\"" + tokenString + "\"]",
-                "this['" + tokenString + "']", "this[\"" + tokenString + "\"]",
-                tokenString + ":", tokenString + " :",
-                "def " + tokenString,
-                "class " + tokenString
-            ];
-            for (let i = 0; i < defVars.length; i++) {
-                if (this.findReplace(defVars[i], false, false, false)) {
-                    break;
+            // Set flags for original section or cursor so we can return next time
+            if (thisCM.listSelections()[0]) {
+                this.origSelectionPos = thisCM.listSelections()[0];
+            } else {
+                this.origCursorPos = thisCM.getCursor();
+            }
+
+            // Get word
+            word = thisCM.getRange(thisCM.findWordAt(thisCM.getCursor()).anchor, thisCM.findWordAt(thisCM.getCursor()).head);
+            // If we got parens, try back 1 character to get word
+            if (-1 < word.indexOf("(")) {
+                cursorBack1Char = {line: thisCM.getCursor().line, ch: thisCM.getCursor().ch -1};
+                word = thisCM.getRange(thisCM.findWordAt(cursorBack1Char).anchor, thisCM.findWordAt(cursorBack1Char).head);
+            }
+
+            // Set start point for result and number of results for word in functions and classes from index JSON object list
+            result = null;
+            numResults = 0;
+            // Identify the file path and extension
+            filePath = this.openFiles[this.selectedTab - 1];
+            filePathExt = filePath.substr(filePath.lastIndexOf(".") + 1);
+
+            // Find the word within extention type in functions list data
+            if ("undefined" !== typeof this.indexData.functions) {
+                for(i in this.indexData.functions[filePathExt]) {
+                    if (i === word) {
+                        result = this.indexData.functions[filePathExt][i];
+                        numResults++;
+                    }
                 }
             }
+
+            // Find the word within extention type in classes list data
+            if ("undefined" !== typeof this.indexData.class) {
+                for (i in this.indexData.classes[filePathExt]) {
+                    if (i === word) {
+                        result = this.indexData.classes[filePathExt][i];
+                        numResults++;
+                    }
+                }
+            }
+
+            // If we have a single result and the cursor isn't already on the definition of it, we can jump to where it's defined
+            if (1 === numResults && -1 === [null, "def"].indexOf(thisCM.getTokenTypeAt(thisCM.getCursor()))) {
+                // Open file (or switch tab to it if already open) and find when editor showing
+                this.openFile(result.filePath.replace(docRoot, ""));
+                this.goFindAfterOpenInt = setInterval(function(result) {
+                    if (ICEcoder.openFiles[ICEcoder.selectedTab - 1] == result.filePath.replace(docRoot, "") && !ICEcoder.loadingFile) {
+                        thisCM = ICEcoder.getcMInstance();
+                        setTimeout(function(result) {
+                            ICEcoder.goToLine(result.range.from.line + 1);
+                            thisCM.setSelection({line: result.range.from.line, ch: result.range.from.ch}, {line: result.range.to.line, ch: result.range.to.ch});
+                        }, 20, result);
+                        clearInterval(ICEcoder.goFindAfterOpenInt);
+                    }
+                }, 20, result);
+            }
+
+            this.mouseDownInCM = "editor";
         }
     },
 
@@ -1429,7 +1472,7 @@ var ICEcoder = {
                 if (this.caretLocType === "Content") {
                     searchPrefix = "";
                 }
-                window.open("http://www.google.com/#output=search&q=" + searchPrefix + thisCM.getSelection());
+                window.open("https://www.google.com/search?q=" + searchPrefix + thisCM.getSelection());
             } else {
                 this.message(t['No text selected...']);
             }
@@ -1438,34 +1481,12 @@ var ICEcoder = {
 
     // Return character num from start of doc to cursor
     getCharNumFromCursor: function() {
-        return this.getThisCM().getRange({line: 0, ch: 0}, this.getThisCM().getCursor()).length;
+        return this.getThisCM().indexFromPos(this.getThisCM().getCursor());
     },
 
     // Set the cursor according to num of characters from start of doc
     setCursorByCharNum: function(num) {
-        // Temp data store
-        this.charPos = {
-            len: 0,
-            thisLine: 0,
-            thisChar: 0
-        };
-        // For each line in editor
-        this.getThisCM().eachLine(function(line) {
-            // The number we're seeking if greater than prev lines we've considered plus this line
-            if (num > ICEcoder.charPos.len + (line.text + "\n").length) {
-                // Increment line
-                ICEcoder.charPos.thisLine++;
-            // It's equal to or greater than the number we're seeking, so on this line
-            } else if (ICEcoder.charPos.thisChar === 0) {
-                // Set char (to avoid setting more than once) and set cursor
-                ICEcoder.charPos.thisChar = num - ICEcoder.charPos.len;
-                ICEcoder.getThisCM().setCursor({line: ICEcoder.charPos.thisLine, ch: ICEcoder.charPos.thisChar})
-            }
-            // Build up length count
-            ICEcoder.charPos.len += (line.text + "\n").length;
-        });
-        // Remove temp data store
-        delete this.charPos;
+        ICEcoder.getThisCM().setCursor(ICEcoder.getThisCM().posFromIndex(num));
     },
 
     // Determine which area of the document we're in
@@ -1681,7 +1702,7 @@ var ICEcoder = {
             dir.parentNode.className = dir.className = "pft-directory";
         }
         if (load) {
-            this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc + "/lib/get-branch.php?location=" + dir.childNodes[1].id + "&csrf=" + this.csrf;
+            this.filesFrame.contentWindow.frames['fileControl'].location.href = this.iceLoc + "/lib/get-branch.php?location=" + dir.childNodes[1].id + "&csrf=" + this.csrf;
         } else if("UL" === node.tagName) {
             node.parentNode.removeChild(node);
         }
@@ -1896,7 +1917,7 @@ var ICEcoder = {
         newFolder = this.getInput('Enter new folder name at ' + shortURL, '');
         if (newFolder) {
             newFolder = (shortURL + "/" + newFolder).replace(/\/\//, "/");
-            this.serverQueue("add", iceLoc + "/lib/file-control.php?action=newFolder&csrf=" + this.csrf, encodeURIComponent(newFolder.replace(/\//g, "|")));
+            this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=newFolder&csrf=" + this.csrf, encodeURIComponent(newFolder.replace(/\//g, "|")));
             this.serverMessage('<b>' + t['Creating Folder'] + '</b> ' + newFolder.replace(/^\/|/g, ''));
         }
     },
@@ -1960,7 +1981,7 @@ var ICEcoder = {
 
                 if ("/[NEW]" !== shortURL) {
                     fileLink = fileLink.replace(/\//g, "|");
-                    this.serverQueue("add", iceLoc + "/lib/file-control.php?action=load&file=" + encodeURIComponent(fileLink) + "&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(fileLink));
+                    this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=load&file=" + encodeURIComponent(fileLink) + "&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(fileLink));
                     this.serverMessage('<b>' + t['Opening File'] + '</b> ' + shortURL.substr(shortURL.lastIndexOf("/") + 1));
                 } else {
                     this.createNewTab(true, shortURL);
@@ -1981,7 +2002,7 @@ var ICEcoder = {
     openPrompt: function() {
         let fileLink;
 
-        if(fileLink = this.getInput(t['Enter relative file...'], '')) {
+        if (fileLink = this.getInput(t['Enter relative file...'], '')) {
             fileLink.indexOf("://") > -1
                 ? this.getRemoteFile(fileLink)
                 : this.openFile(fileLink);
@@ -1998,7 +2019,7 @@ var ICEcoder = {
             line = flSplit[1];
         }
 
-        this.serverQueue("add", iceLoc + "/lib/file-control.php?action=getRemoteFile&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(remoteFile));
+        this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=getRemoteFile&csrf=" + this.csrf + "&lineNumber=" + line, encodeURIComponent(remoteFile));
         this.serverMessage('<b>' + t['Getting'] + '</b> ' + remoteFile);
     },
 
@@ -2117,7 +2138,7 @@ var ICEcoder = {
                                 ? editorText[opcodes[i][2]]
                                 : "";
                         }
-                        // Replace the range with newContent. The range start line and end line adjust addording to
+                        // Replace the range with newContent. The range start line and end line adjust according to
                         // startShift and endShift 1/0 values plus also the +/- docShift which is how much the
                         // editor document has shifted so far during replace ranges
                         this.getThisCM().replaceRange(newContent, {line: opcodes[i][1] - docShift - startShift, ch: 0}, {line: opcodes[i][2] - docShift - endShift, ch: 1000000}, "+input");
@@ -2151,7 +2172,7 @@ var ICEcoder = {
                     : "|[NEW]";
             }
             filePath = filePath.replace("||", "|");
-            ic.serverQueue("add", iceLoc + "/lib/file-control.php?action=save&fileMDT=" + ic.openFileMDTs[ic.selectedTab - 1] + "&fileVersion=" + ic.openFileVersions[ic.selectedTab - 1] + "&saveType=" + saveType + "&newFileAutoSave=" + newFileAutoSave + "&tabNum=" + ic.selectedTab + "&csrf=" + ic.csrf,encodeURIComponent(filePath), changes);
+            ic.serverQueue("add", ic.iceLoc + "/lib/file-control.php?action=save&fileMDT=" + ic.openFileMDTs[ic.selectedTab - 1] + "&fileVersion=" + ic.openFileVersions[ic.selectedTab - 1] + "&saveType=" + saveType + "&newFileAutoSave=" + newFileAutoSave + "&tabNum=" + ic.selectedTab + "&csrf=" + ic.csrf,encodeURIComponent(filePath), changes);
             ic.serverMessage('<b>' + t['Saving'] + '</b> ' + ic.openFiles[ic.selectedTab - 1].replace(iceRoot, "").replace(/^\/|/g, ''));
         }, 0, ic);
     },
@@ -2170,7 +2191,7 @@ var ICEcoder = {
             newName = this.getInput(t['Please enter the...'], shortURL);
         }
         if (newName) {
-            this.serverQueue("add", iceLoc + "/lib/file-control.php?action=rename&oldFileName=" + encodeURIComponent(oldName.replace(/\|/g, "/")) + "&csrf=" + this.csrf,encodeURIComponent(newName));
+            this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=rename&oldFileName=" + encodeURIComponent(oldName.replace(/\|/g, "/")) + "&csrf=" + this.csrf,encodeURIComponent(newName));
             this.serverMessage('<b>' + t['Renaming to'] + '</b> ' + newName.replace(/^\/|/g, ''));
             this.setPreviousFiles();
         }
@@ -2182,7 +2203,7 @@ var ICEcoder = {
 
         if (newName && newName !== oldName) {
             if (this.ask("Are you sure you want to move file " + oldName + " to " + newName + " ?")){
-                this.serverQueue("add", iceLoc + "/lib/file-control.php?action=move&oldFileName=" + encodeURIComponent(oldName.replace(/\//g, "|")) + "&csrf=" + this.csrf, encodeURIComponent(newName.replace(/\//g, "|")));
+                this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=move&oldFileName=" + encodeURIComponent(oldName.replace(/\//g, "|")) + "&csrf=" + this.csrf, encodeURIComponent(newName.replace(/\//g, "|")));
                 this.serverMessage('<b>' + t['Moving to'] + '</b> ' + newName.replace(/^\/|/g, ''));
             }
 
@@ -2197,7 +2218,7 @@ var ICEcoder = {
         tgtFiles = fileList ? fileList : this.selectedFiles;
         tgtListDisplay = tgtFiles.toString().replace(/\|/g, "/").replace(/,/g, "\n");
         if (0 < tgtFiles.length && this.ask('Delete:\n\n' + tgtListDisplay + '?')) {
-            this.serverQueue("add", iceLoc + "/lib/file-control.php?action=delete&csrf=" + this.csrf,encodeURIComponent(tgtFiles.join(";")));
+            this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=delete&csrf=" + this.csrf,encodeURIComponent(tgtFiles.join(";")));
             this.serverMessage('<b>' + t['Deleting File'] + '</b> ' + tgtListDisplay.replace(/^\/|/g, ''));
         }
     },
@@ -2221,7 +2242,7 @@ var ICEcoder = {
         if (this.copiedFiles) {
             for (let i = 0; i < this.copiedFiles.length; i++) {
                 if ("|" !== this.copiedFiles[i]) {
-                    this.serverQueue("add", iceLoc + "/lib/file-control.php?action=paste&location=" + location + "&csrf=" + this.csrf, encodeURIComponent(this.copiedFiles[i]));
+                    this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=paste&location=" + location + "&csrf=" + this.csrf, encodeURIComponent(this.copiedFiles[i]));
                     this.serverMessage('<b>' + t['Pasting File'] + '</b> ' + this.copiedFiles[i].toString().replace(/\|/g, "/").replace(/,/g, "\n").replace(/^\/|/g, ''));
                 } else {
                     this.message(t['Sorry cannot paste...']);
@@ -2326,7 +2347,7 @@ var ICEcoder = {
             path = path.replace(iceRoot, "");
         }
 
-        // Start a seperate XHR call. We run seperately rather than add into the serverQueue because we may need to run
+        // Start a separate XHR call. We run separately rather than add into the serverQueue because we may need to run
         // immediately, eg need to if a file/dir exists mid flow in 'Save As' function, so can't go into queue
         xhr = this.xhrObj();
         xhr.onreadystatechange=function() {
@@ -2372,7 +2393,7 @@ var ICEcoder = {
                 }
             }
         };
-        xhr.open("POST", iceLoc + "/lib/file-control.php?action=checkExists&csrf=" + this.csrf, true);
+        xhr.open("POST", this.iceLoc + "/lib/file-control.php?action=checkExists&csrf=" + this.csrf, true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         timeStart = new Date().getTime();
         xhr.send('timeStart=' + timeStart + '&file=' + encodeURIComponent(path));
@@ -2466,7 +2487,7 @@ var ICEcoder = {
                 ' if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.ICEcoder.openFile()}}" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'">'+file+'</span> <span style="'+permColors+'; font-size: 8px" id="'+location.replace(/\/$/, "").replace(/\//g,"|")+"|"+file+'_perms">'+perms+'</span></a>';
 
             // If we don't have a locNest or at least 3 DOM items in there, it's an empty folder
-            if(!locNest || 3 > locNest.childNodes.length) {
+            if (!locNest || 3 > locNest.childNodes.length) {
                 // We now need to begin a new UL list
                 newUL = document.createElement("ul");
                 locNest = targetElem.parentNode.parentNode;
@@ -2477,14 +2498,14 @@ var ICEcoder = {
                 newLI.className = cssStyle;
                 newLI.draggable = false;
                 newLI.ondragstart = function(event) {parent.ICEcoder.addDefaultDragData(this, event)};
-                newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event);if(parent.ICEcoder.getcMInstance()){parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
+                newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event); if (parent.ICEcoder.getcMInstance()) {parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
                 newLI.ondragover = function(event) {parent.ICEcoder.setDragCursor(event, "folder" === actionElemType ? 'folder' : 'file')};
                 newLI.ondragend = function() {parent.ICEcoder.dropFile(this)};
                 newLI.innerHTML = innerLI;
                 locNest.nextSibling.appendChild(newLI);
                 locNest.nextSibling.appendChild(newText);
 
-                // There are items in that location, so add our new item in the right position
+            // There are items in that location, so add our new item in the right position
             } else {
                 for (let i = 0; i < locNest.childNodes.length; i++) {
                     if (locNest.childNodes[i].className) {
@@ -2500,7 +2521,7 @@ var ICEcoder = {
                             newLI.className = cssStyle;
                             newLI.draggable = false;
                             newLI.ondragstart = function(event) {parent.ICEcoder.addDefaultDragData(this, event)};
-                            newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event);if(parent.ICEcoder.getcMInstance()){parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
+                            newLI.ondrag = function(event) {parent.ICEcoder.draggingWithKeyTest(event); if (parent.ICEcoder.getcMInstance()) {parent.ICEcoder.editorFocusInstance.indexOf('diff') == -1 ? parent.ICEcoder.getcMInstance().focus() : parent.ICEcoder.getcMdiffInstance().focus()}};
                             newLI.ondragover = function(event) {parent.ICEcoder.setDragCursor(event, "folder" === actionElemType ? 'folder' : 'file')};
                             newLI.ondragend = function() {parent.ICEcoder.dropFile(this)};
                             newLI.innerHTML = innerLI;
@@ -2632,7 +2653,7 @@ var ICEcoder = {
         let innerItems, targetElem, targetElemPerms;
 
         // If our elem has a sibling and it's a UL, we renamed a dir
-        if(elem.parentNode.parentNode.nextSibling && "UL" === elem.parentNode.parentNode.nextSibling.nodeName) {
+        if (elem.parentNode.parentNode.nextSibling && "UL" === elem.parentNode.parentNode.nextSibling.nodeName) {
             innerItems = elem.parentNode.parentNode.nextSibling;
 
             // For each one of the children in the UL, if it's a LI (may be a file or dir)
@@ -2666,7 +2687,7 @@ var ICEcoder = {
     draggingWithKeyTest: function(evt) {
         let key;
 
-        key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+        key = evt.keyCode ?? evt.which ?? evt.charCode;
         key = parseInt(key, 10);
 
         // Mac command key handling (224 = Moz, 91/93 = Webkit Left/Right Apple)
@@ -2741,7 +2762,7 @@ var ICEcoder = {
         get('rText').style.display =
             get('replace').style.display =
                 get('rTarget').style.display =
-                    document.findAndReplace.connector.value==t['and']
+                    document.findAndReplace.connector.value === t['and']
                         ? "inline-block" : "none";
     },
 
@@ -2790,7 +2811,7 @@ var ICEcoder = {
             const lineNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").line + 1;
             const chNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").ch;
 
-            // Work out thhe avg block is either line height or fraction of space available
+            // Work out the avg block is either line height or fraction of space available
             avgBlockH = !this.scrollBarVisible ? thisCM.defaultTextHeight() : parseInt(this.content.style.height, 10) / thisCM.lineCount();
 
             // Need to add padding if there's no scrollbar, so current line highlighting lines up with it
@@ -2819,7 +2840,7 @@ var ICEcoder = {
                     // Push the line & char position coords into results
                     ICEcoder.results.push([i, match.index]);
                 }
-                // If the avg block height for results in results bar is above 0.5 pixels heigh, we can add a DOM elem
+                // If the avg block height for results in results bar is above 0.5 pixels high, we can add a DOM elem
                 if (0.5 <= avgBlockH) {
                     // Red for current line, grey for another line, transparent if no match
                     blockColor = haveMatch ? thisCM.getCursor().line + 1 == i ? "rgba(192,0,0,0.3)" : "rgba(128,128,128,0.3)" : "transparent";
@@ -2902,15 +2923,15 @@ var ICEcoder = {
                 if (t['and'] === document.findAndReplace.connector.value) {
                     replaceQS = "&replace=" + replace;
                 }
-                // Target?
 
+                // Target?
                 if (0 <= document.findAndReplace.target.value.indexOf(t['file'])) {
                     targetQS = "&target=" + document.findAndReplace.target.value.replace(/ /g, "-");
                 }
 
                 // Files?
                 if (t['selected files'] === document.findAndReplace.target.value) {
-                    filesQS = "&selectedFiles="+this.selectedFiles.join(":");
+                    filesQS = "&selectedFiles=" + this.selectedFiles.join(":");
                 }
 
                 // Establish find
@@ -2920,7 +2941,7 @@ var ICEcoder = {
                 // Finally, show loading mask and open multiple results pane using QS params
                 this.showHide('show',get('loadingMask'));
                 get('mediaContainer').innerHTML = '<iframe src="' +
-                    iceLoc + '/lib/multiple-results.php?find=' + find
+                    this.iceLoc + '/lib/multiple-results.php?find=' + find
                     + replaceQS + targetQS + filesQS +
                     '&csrf=' + this.csrf +
                     '" id="multipleResultsIFrame" style="width: 700px; height: 500px"></iframe>';
@@ -2940,7 +2961,7 @@ var ICEcoder = {
     replaceInFile: function(fileRef, find, replace) {
         this.serverQueue(
             "add",
-            iceLoc +
+            this.iceLoc +
             "/lib/file-control.php?action=replaceText&find=" + find +
             "&replace=" + replace +
             "&csrf=" + this.csrf,
@@ -2948,63 +2969,40 @@ var ICEcoder = {
         this.serverMessage('<b>' + t['Replacing text in'] + '</b> ' + fileRef.replace(/^\/|/g, ''));
     },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ==============
 // INFO & DISPLAY
 // ==============
 
     // Get the caret position
     getCaretPosition: function() {
-        var thisCM, line, ch, chPos;
+        let thisCM, line, ch, chPos;
 
         thisCM = this.getThisCM();
 
         line = thisCM.getCursor().line;
         ch = thisCM.getCursor().ch;
         chPos = 0;
-        for (var i=0;i<line;i++) {
-            chPos += thisCM.getLine(i).length+1;
+        for (let i = 0; i < line; i++) {
+            chPos += thisCM.getLine(i).length + 1;
         }
-        this.caretPos=(chPos+ch-1);
+        this.caretPos = (chPos + ch - 1);
     },
 
     // Update the code type, line & character display
     updateCharDisplay: function() {
-        var thisCM;
+        let thisCM;
 
         thisCM = this.getThisCM();
         this.caretLocationType();
-        this.charDisplay.innerHTML = this.caretLocType + ", Line: " + (thisCM.getCursor().line+1) + ", Char: " + thisCM.getCursor().ch;
+        this.charDisplay.innerHTML = this.caretLocType + ", Line: " + (thisCM.getCursor().line + 1) + ", Char: " + thisCM.getCursor().ch;
     },
 
     // Update version display
     updateVersionsDisplay: function() {
-        var versionsCount = this.openFileVersions[this.selectedTab-1];
+        let versionsCount = this.openFileVersions[this.selectedTab - 1];
 
-        get('versionsDisplay').innerHTML = "undefined" != typeof versionsCount
-            ? this.openFileVersions[this.selectedTab-1] + " backup" +
-            (versionsCount != 1 ? "s" : "")
+        get('versionsDisplay').innerHTML = "undefined" !== typeof versionsCount
+            ? this.openFileVersions[this.selectedTab - 1] + " backup" + (1 !== versionsCount ? "s" : "")
             : "";
     },
 
@@ -3015,31 +3013,33 @@ var ICEcoder = {
 
     // Toggle the char/byte display
     showDisplay: function(show) {
-        this.byteDisplay.style.display = show == "byte" ? "inline-block" : "none";
-        this.charDisplay.style.display = show == "char" ? "inline-block" : "none";
+        this.byteDisplay.style.display = "byte" === show ? "inline-block" : "none";
+        this.charDisplay.style.display = "char" === show ? "inline-block" : "none";
     },
 
     // Show & hide target element
-    showHide: function(doVis,elem) {
-        elem.style.visibility = doVis=="show" ? 'visible' : 'hidden';
+    showHide: function(doVis, elem) {
+        elem.style.visibility = "show" === doVis ? 'visible' : 'hidden';
     },
 
     // Determine the CodeMirror instance we're using
     getcMInstance: function(tab) {
         ic = this;
+        // No content, set to parent
         if (!ic.content) {
             ic = parent.ICEcoder;
-        }
-        if (!ic.content) {
-            ic = parent.ICEcoder;
+            // No content still, set to parent again
+            if (!ic.content) {
+                ic = parent.ICEcoder;
+            }
         }
         return ic.content.contentWindow[
             // target specific tab
-            !isNaN(tab)
-                ? 'cM'+ICEcoder.cMInstances[tab-1]
+            false === isNaN(tab)
+                ? 'cM' + ICEcoder.cMInstances[tab - 1]
                 // new tab or selected tab
-                : tab=="new"||(tab!="new" && this.openFiles.length>0)
-                ? 'cM'+ICEcoder.cMInstances[this.selectedTab-1]
+                : "new" === tab || ("new" !== tab && 0 < this.openFiles.length)
+                ? 'cM' + ICEcoder.cMInstances[this.selectedTab - 1]
                 // fallback to first tab
                 : 'cM1'
             ];
@@ -3051,72 +3051,69 @@ var ICEcoder = {
             context = ICEcoder;
         }
         return context.content.contentWindow[
-        (// target specific tab
-            !isNaN(tab)
-                ? 'cM'+ICEcoder.cMInstances[tab-1]
+            (// target specific tab
+            false === isNaN(tab)
+                ? 'cM' + ICEcoder.cMInstances[tab - 1]
                 // new tab or selected tab
-                : tab=="new"||(tab!="new" && this.openFiles.length>0)
-                ? 'cM'+ICEcoder.cMInstances[this.selectedTab-1]
+                : "new" === tab || ("new" !== tab && 0 < this.openFiles.length)
+                ? 'cM' + ICEcoder.cMInstances[this.selectedTab - 1]
                 // fallback to first tab
                 : 'cM1')
-        + 'diff'
-            ];
+            + 'diff'
+        ];
     },
 
     // Get the mouse position
-    getMouseXY: function(e,area) {
-        var tempX, tempY;
-
+    getMouseXY: function(e, area) {
         this.mouseX = e.pageX ? e.pageX : e.clientX + document.body.scrollLeft;
         this.mouseY = e.pageY ? e.pageY : e.clientY + document.body.scrollTop;
 
         this.area = area;
-        if (area!="top") {
+        if ("top" !== area) {
             this.mouseY += 25 + 45;
         }
-        if (area=="editor") {
+        if ("editor" === area) {
             this.mouseX += this.filesW;
         }
         this.dragCursorTest();
-        if (this.mouseY>62) {this.setTabWidths();};
+        if (62 < this.mouseY) {this.setTabWidths(false);}
     },
 
     // Test if we need to show a drag cursor or not
     dragCursorTest: function() {
-        var diffX, winH, cursorName, zone;
+        let diffX, cursorName, zone;
 
         // Dragging tabs, started after dragging for 10px from origin
         diffX = this.mouseX - this.diffStartX;
-        if (this.draggingTab!==false && this.diffStartX && (diffX <= -10 || diffX >= 10)) {
-            if (this.mouseX > parseInt(this.files.style.width,10)) {
-                this.tabDragMouseX = this.mouseX - parseInt(this.files.style.width,10) - this.tabDragMouseXStart;
+        if (false !== this.draggingTab && this.diffStartX && (-10 >= diffX || 10 <= diffX)) {
+            if (this.mouseX > parseInt(this.files.style.width, 10)) {
+                this.tabDragMouseX = this.mouseX - parseInt(this.files.style.width, 10) - this.tabDragMouseXStart;
                 this.tabDragMove();
             }
         }
 
         // Dragging file manager, possible within 7px of file manager edge
         if (this.ready) {
-            winH = window.innerHeight;
-            if (!this.mouseDown) {this.draggingFilesW = false};
+            if (false === this.mouseDown) {this.draggingFilesW = false}
 
-            cursorName = (!this.draggingTab && ((this.mouseX > this.filesW-7 && this.mouseX < this.filesW+7) || this.draggingFilesW))
+            cursorName = (false === this.draggingTab && ((this.mouseX > this.filesW - 7 && this.mouseX < this.filesW + 7) || true === this.draggingFilesW))
                 ? "w-resize"
                 : "auto";
             if (this.content.contentWindow.document && this.filesFrame.contentWindow) {
                 document.body.style.cursor = cursorName;
-                if (zone = this.content.contentWindow.document.body)	{zone.style.cursor = cursorName};
-                if (zone = this.filesFrame.contentWindow.document.body)	{zone.style.cursor = cursorName};
+                if (zone = this.content.contentWindow.document.body)	{zone.style.cursor = cursorName}
+                if (zone = this.filesFrame.contentWindow.document.body)	{zone.style.cursor = cursorName}
             }
         }
     },
 
     // Show or hide a server message
     serverMessage: function(message) {
-        var serverMessage;
+        let serverMessage;
 
         serverMessage =	get('serverMessage');
         if (message) {
-            serverMessage.innerHTML = this.xssClean(message).replace(/\&lt;b\&gt;/g,"<b>").replace(/\&lt;\/b\&gt;/g,"</b>");
+            serverMessage.innerHTML = this.xssClean(message).replace(/\&lt;b\&gt;/g, "<b>").replace(/\&lt;\/b\&gt;/g, "</b>");
         }
         serverMessage.style.opacity = message ? 1 : 0;
         get("versionsDisplay").style.opacity = message ? 0 : 1;
@@ -3124,7 +3121,7 @@ var ICEcoder = {
 
     // Show a CSS color block next to our text cursor
     cssColorPreview: function() {
-        var thisCM, string, rx, match, oldBlock, newBlock;
+        let thisCM, string, rx, match, oldBlock, newBlock;
 
         thisCM = this.getThisCM();
 
@@ -3132,11 +3129,11 @@ var ICEcoder = {
             string = thisCM.getLine(thisCM.getCursor().line);
             rx = /(#[\da-f]{3}(?:[\da-f]{3})?\b|\b(?:rgb|hsl)a?\([\s\d%,.-]+\)|\b[a-z]+\b)/gi;
 
-            while((match = rx.exec(string)) && thisCM.getCursor().ch > match.index+match[0].length);
+            while((match = rx.exec(string)) && thisCM.getCursor().ch > match.index + match[0].length);
 
             oldBlock = get('content').contentWindow.document.getElementById('cssColor');
-            if (oldBlock) {oldBlock.parentNode.removeChild(oldBlock)};
-            if (this.codeAssist && this.caretLocType=="CSS") {
+            if (oldBlock) {oldBlock.parentNode.removeChild(oldBlock)}
+            if (true === this.codeAssist && "CSS" === this.caretLocType) {
                 newBlock = document.createElement("div");
                 newBlock.id = "cssColor";
                 newBlock.style.position = "absolute";
@@ -3146,7 +3143,9 @@ var ICEcoder = {
                 newBlock.style.background = match ? match[0] : '';
                 newBlock.style.cursor = "pointer";
                 newBlock.onclick = function() {ICEcoder.showColorPicker(match[0])};
-                if (newBlock.style.backgroundColor=="") {newBlock.style.display = "none"};
+                if ("" == newBlock.style.backgroundColor) {
+                    newBlock.style.display = "none";
+                }
                 get('header').appendChild(newBlock);
                 thisCM.addWidget(thisCM.getCursor(), get('cssColor'), true);
             }
@@ -3158,18 +3157,24 @@ var ICEcoder = {
         get('blackMask').style.visibility = "visible";
         get('mediaContainer').innerHTML = 	'<div id="picker" class="picker" onmouseover="ICEcoder.overPopup=true" onmouseout="ICEcoder.overPopup=false"></div><br><br>'+
             '<input type="text" id="color" name="color" value="#000" class="colorValue">'+
-            '<input type="button" onClick="ICEcoder.insertColorValue(get(\'color\').value)" value="insert &gt;" class="insertColorValue"><br>'+
+            '<input type="button" onClick="ICEcoder.insertColorValue(get(\'color\').value)" value="insert &gt;" class="insertColorValue"><br><br>'+
             '<input type="text" id="colorRGB" name="colorRGB" value="rgb(0,0,0)" class="colorValue">'+
             '<input type="button" onClick="ICEcoder.insertColorValue(get(\'colorRGB\').value)" value="insert &gt;" class="insertColorValue">';
         farbtastic('picker','color');
+        // If we have a color value, set it in picker
         if (color) {
+            // If an RGB value, convert to hex
+            if (-1 < color.indexOf("rgb")) {
+                color = color.replace(/rgb|\(|\)|\s+/g, "").split(",");
+                color = "#" + this.rgbToHex(...color);
+            }
             get('picker').farbtastic.setColor(color);
         }
     },
 
     // Init the canvas by drawing the image and setting the floating containers background size (5x zoom)
     initCanvasImage: function (imgThis) {
-        var canvas, img;
+        let canvas, img;
 
         canvas = get('canvasPicker').getContext('2d');
 
@@ -3182,35 +3187,38 @@ var ICEcoder = {
             get('floatingContainer').style.visibility = "hidden";
             get('canvasPickerColorInfo').style.display = "none";
             get('canvasPickerCORSInfo').style.display = "block";
-        }
+        };
 
         // On image load
         img.onload = function() {
             // Get width and height and draw this image into the canvas
             get('canvasPicker').width = imgThis.width;
             get('canvasPicker').height = imgThis.height;
-            canvas.drawImage(img,0,0,imgThis.width,imgThis.height);
+            canvas.drawImage(img, 0, 0, imgThis.width, imgThis.height);
 
             // Display color picker info and hide CORS message
             get('canvasPickerColorInfo').style.display = "block";
             get('canvasPickerCORSInfo').style.display = "none";
 
             // Show image preview box on mouse over
-            get('canvasPicker').onmouseover = function(event) {
+            get('canvasPicker').onmouseover = function() {
                 get('floatingContainer').style.visibility = "visible";
+                ICEcoder.overPopup = true;
             };
             // Hide image preview box on mouse out
-            get('canvasPicker').onmouseout = function(event) {
+            get('canvasPicker').onmouseout = function() {
                 get('floatingContainer').style.visibility = "hidden";
+                ICEcoder.overPopup = false;
             };
-        }
+        };
 
-        document.getElementById('floatingContainer').style.backgroundSize = (imgThis.naturalWidth*5)+"px "+(imgThis.naturalHeight*5)+"px";
+        document.getElementById('floatingContainer').style.backgroundSize =
+            (imgThis.naturalWidth * 5) + "px " + (imgThis.naturalHeight * 5) + "px";
     },
 
     // Interact with the canvas image
     interactCanvasImage: function (imgThis) {
-        var canvas, x, y, imgData, R, G, B, rgb, hex, textColor, fcElem, fcBGX, fcBGY;
+        let canvas, x, y, imgData, r, g, b, rgbStr, hex, textColor, fcElem, fcBGX, fcBGY;
 
         canvas = get('canvasPicker').getContext('2d');
 
@@ -3221,29 +3229,29 @@ var ICEcoder = {
             y = event.pageY - this.offsetTop;
             // get image data & then RGB values
             imgData = canvas.getImageData(x, y, 1, 1).data;
-            R = imgData[0];
-            G = imgData[1];
-            B = imgData[2];
-            rgb = R+','+G+','+B;
+            r = imgData[0];
+            g = imgData[1];
+            b = imgData[2];
+            rgbStr = r + ',' + g + ',' + b;
             // Get hex from RGB value
-            hex = ICEcoder.rgbToHex(R,G,B);
+            hex = ICEcoder.rgbToHex(r, g, b);
             // set the values & BG colours of the input boxes
-            get('rgbMouseXY').value = rgb;
+            get('rgbMouseXY').value = rgbStr;
             get('hexMouseXY').value = '#' + hex;
             get('hexMouseXY').style.backgroundColor = get('rgbMouseXY').style.backgroundColor = '#' + hex;
-            textColor = R<128 || G<128 || B<128 && (R<200 && G<200 && B>50) ? '#fff' : '#000';
+            textColor = r < 128 || g < 128 || b < 128 && (r < 200 && g < 200 && b > 50) ? '#fff' : '#000';
             get('hexMouseXY').style.color = get('rgbMouseXY').style.color = textColor;
 
             // Move the floating container to follow mouse pointer
             fcElem = get('floatingContainer');
-            fcElem.style.left = this.mouseX+20 + "px";
+            fcElem.style.left = this.mouseX + 20 + "px";
             fcElem.style.top = this.mouseY + "px";
             // Move the background image for the container to match also
             // 5 x zoom, account for scaling down of large images and shift 25px of the hover div size
             // (55px is the 11x11 grid of pixels), minus 5px for centre row/col
-            fcBGX = -((x*5)*(imgThis.naturalWidth/imgThis.width))+25;
-            fcBGY = -((y*5)*(imgThis.naturalHeight/imgThis.height))+25;
-            fcElem.style.backgroundPosition = fcBGX+"px "+fcBGY+"px";
+            fcBGX = -((x * 5) * (imgThis.naturalWidth / imgThis.width)) + 25;
+            fcBGY = -((y * 5) * (imgThis.naturalHeight / imgThis.height)) + 25;
+            fcElem.style.backgroundPosition = fcBGX + "px " + fcBGY + "px";
         };
 
         // Set pointer colors on clicking canvas
@@ -3256,31 +3264,32 @@ var ICEcoder = {
     },
 
     // Convert RGB values to Hex
-    rgbToHex: function(R,G,B) {
-        return this.toHex(R)+this.toHex(G)+this.toHex(B);
+    rgbToHex: function(r, g, b) {
+        return this.toHex(r) + this.toHex(g) + this.toHex(b);
     },
 
     // Return numbers as hex equivalent
-    toHex: function(n) {
-        n = parseInt(n,10);
-        if (isNaN(n)) return "00";
-        n = Math.max(0,Math.min(n,255));
-        return "0123456789abcdef".charAt((n-n%16)/16) + "0123456789abcdef".charAt(n%16);
+    toHex: function(num) {
+        let hex;
+        num = parseInt(num, 10);
+        if (isNaN(num)) return "00";
+        hex = num.toString(16);
+        return 1 === hex.length ? "0" + hex : hex;
     },
 
     // Insert new color value
     insertColorValue: function(color) {
-        var thisCM, cursor;
+        let thisCM, cursor;
 
         thisCM = this.getThisCM();
 
         cursor = thisCM.getTokenAt(thisCM.getCursor());
-        thisCM.replaceRange(color,{line:thisCM.getCursor().line,ch:cursor.start},{line:thisCM.getCursor().line,ch:cursor.end}, "+input");
+        thisCM.replaceRange(color, {line:thisCM.getCursor().line, ch:cursor.start}, {line:thisCM.getCursor().line, ch:cursor.end}, "+input");
     },
 
     // Change opacity of the file manager icons
     fMIconVis: function(icon, vis) {
-        var i;
+        let i;
 
         if (i = get(icon)) {
             i.style.opacity = vis;
@@ -3289,41 +3298,42 @@ var ICEcoder = {
 
     // Check if a file is already open
     isOpen: function(file) {
-        var i;
+        let i;
 
-        file = file.replace(/\|/g, "/").replace(docRoot+iceRoot,"");
+        file = file.replace(/\|/g, "/").replace(docRoot + iceRoot, "");
         i = this.openFiles.indexOf(file);
         // return the array position or false
-        return i!=-1 ? i : false;
+        return -1 < i ? i : false;
     },
 
-// ==============
+// ======
 // SYSTEM
-// ==============
+// ======
 
     getThisCM: function() {
-        return this.editorFocusInstance.indexOf('diff') > -1
+        return -1 < this.editorFocusInstance.indexOf('diff')
             ? this.getcMdiffInstance()
             : this.getcMInstance();
     },
 
     // Start running plugin intervals according to given specifics
-    startPluginIntervals: function(plugRef,plugURL,plugTarget,plugTimer) {
+    startPluginIntervals: function(plugRef, plugURL, plugTarget, plugTimer) {
         // Add CSRF to URL if it has QS params
-        if (plugURL.indexOf("?") > -1) {
-            plugURL = plugURL+"&csrf="+this.csrf;
+        if (-1 < plugURL.indexOf("?")) {
+            plugURL = plugURL + "&csrf=" + this.csrf;
         }
-        this['plugTimer'+plugRef] =
+        this['plugTimer' + plugRef] =
             // This window instances
-            ["_parent","_top","_self",""].indexOf(plugTarget) > -1
-                ? this['plugTimer'+plugRef] = setInterval('window.location=\''+plugURL+'\'',plugTimer*1000*60)
+            -1 < ["_parent", "_top", "_self", ""].indexOf(plugTarget)
+                ? this['plugTimer' + plugRef] = setInterval('window.location=\'' + plugURL + '\'', plugTimer * 1000 * 60)
                 // fileControl iframe instances
-                : plugTarget.indexOf("fileControl") == 0
-                ? this['plugTimer'+plugRef] = setInterval(function(ic) {
-                    ic.serverQueue("add",plugURL);ic.serverMessage(plugTarget.split(":")[1]);
-                },plugTimer*1000*60,this)
+                : 0 === plugTarget.indexOf("fileControl")
+                ? this['plugTimer' + plugRef] = setInterval(function(ic) {
+                    ic.serverQueue("add", plugURL);
+                    ic.serverMessage(plugTarget.split(":")[1]);
+                }, plugTimer * 1000 * 60, this)
                 // _blank or named target window instances
-                : this['plugTimer'+plugRef] = setInterval('window.open(\''+plugURL+'\',\''+plugTarget+'\')',plugTimer*1000*60);
+                : this['plugTimer' + plugRef] = setInterval('window.open(\'' + plugURL + '\', \'' + plugTarget + '\')', plugTimer * 1000 * 60);
 
         // push the plugin ref into our array
         this.pluginIntervalRefs.push(plugRef);
@@ -3331,24 +3341,24 @@ var ICEcoder = {
 
     // Turning on/off the Code Assist
     codeAssistToggle: function() {
-        var cM, cMdiff, fileName, fileExt;
+        let cM, cMdiff, fileName, fileExt;
 
         this.codeAssist = !this.codeAssist;
         this.cssColorPreview();
-        this.focus(this.editorFocusInstance.indexOf('diff') > -1 ? 'diff' : false);
+        this.focus(-1 < this.editorFocusInstance.indexOf('diff') ? 'diff' : false);
 
-        for (i=0;i<this.cMInstances.length;i++) {
+        for (let i = 0; i < this.cMInstances.length; i++) {
             fileName = this.openFiles[i];
             fileExt = fileName.split(".");
-            fileExt = fileExt[fileExt.length-1];
-            if (fileExt == "js" || fileExt == "json") {
-                cM = this.content.contentWindow['cM'+this.cMInstances[i]];
-                cMdiff = this.content.contentWindow['cM'+this.cMInstances[i]+'diff'];
+            fileExt = fileExt[fileExt.length - 1];
+            if ("js" === fileExt || "json" === fileExt) {
+                cM = this.content.contentWindow['cM' + this.cMInstances[i]];
+                cMdiff = this.content.contentWindow['cM' + this.cMInstances[i] + 'diff'];
                 if (!this.codeAssist) {
                     cM.clearGutter("CodeMirror-lint-markers");
-                    cM.setOption("lint",false);
+                    cM.setOption("lint", false);
                     cMdiff.clearGutter("CodeMirror-lint-markers");
-                    cMdiff.setOption("lint",false);
+                    cMdiff.setOption("lint", false);
                 } else {
                     cM.setOption("lint", true);
                     cMdiff.setOption("lint", true);
@@ -3358,65 +3368,69 @@ var ICEcoder = {
     },
 
     // Queue items up for processing in turn
-    serverQueue: function(action,item,file,changes) {
+    serverQueue: function(action, item, file, changes) {
         var cM, nextSaveID, txtArea, topSaveID, element, xhr, statusObj, timeStart;
         // If we have this exact item URL, it's almost certain we've got a repetitive save
         // situation and so clear the message and server queue item to avoid save jamming
-        if (action=="add" && this.serverQueueItems.length > 0 && item.indexOf('action=save')>0 && this.serverQueueItems[0].file === file) {
+        if ("add" === action && 0 < this.serverQueueItems.length && 0 < item.indexOf('action=save') && this.serverQueueItems[0].file === file) {
             this.serverMessage();
             this.serverQueue("del");
             return;
         }
         cM = this.getcMInstance();
         // Firstly, work out how many saves we have to carry out
-        nextSaveID=0;
-        for (var i=0;i<this.serverQueueItems.length;i++) {
-            if (this.serverQueueItems[i].item.indexOf('action=save')>0) {
+        nextSaveID = 0;
+        for (let i = 0; i < this.serverQueueItems.length; i++) {
+            if (0 < this.serverQueueItems[i].item.indexOf('action=save')) {
                 nextSaveID++;
             }
         }
         nextSaveID++;
         // Add to end of array or remove from beginning on demand, plus add or remove if necessary
-        if (action=="add") {
+        if ("add" === action) {
             this.serverQueueItems.push(
                 {
                     "item" : item,
                     "file" : file,
                     "changes" : changes
-            });
-            if (item.indexOf('action=save')>0) {
+                }
+            );
+            if (0 < item.indexOf('action=save')) {
                 txtArea = document.createElement('textarea');
-                txtArea.setAttribute('id', 'saveTemp'+nextSaveID);
+                txtArea.setAttribute('id', 'saveTemp' + nextSaveID);
                 document.body.appendChild(txtArea);
                 // If we're saving as or the file version is undefined, set the temp save value as the contents
-                if (item.indexOf('saveType=saveAs')>0 || item.indexOf('fileVersion=undefined')>0) {
-                    get('saveTemp'+nextSaveID).value = cM.getValue();
+                if (0 < item.indexOf('saveType=saveAs') || 0 < item.indexOf('fileVersion=undefined')) {
+                    get('saveTemp' + nextSaveID).value = cM.getValue();
                     // Else we can save the JSON version of the changes to implement
                 } else {
-                    get('saveTemp'+nextSaveID).value = changes;
+                    get('saveTemp' + nextSaveID).value = changes;
                 }
             }
-        } else if (action=="del") {
-            if (this.serverQueueItems[0] && this.serverQueueItems[0].item.indexOf('action=save')>0) {
-                topSaveID = nextSaveID-1;
-                for (var i=1;i<topSaveID;i++) {
-                    get('saveTemp'+i).value = get('saveTemp'+(i+1)).value;
+        } else if ("del" === action) {
+            if (this.serverQueueItems[0] && 0 < this.serverQueueItems[0].item.indexOf('action=save')) {
+                topSaveID = nextSaveID - 1;
+                for (var i = 1; i < topSaveID; i++) {
+                    get('saveTemp' + i).value = get('saveTemp' + (i + 1)).value;
                 }
-                element = get('saveTemp'+topSaveID);
+                element = get('saveTemp' + topSaveID);
                 element.parentNode.removeChild(element);
             }
-            this.serverQueueItems.splice(0,1);
+            this.serverQueueItems.splice(0, 1);
         }
         // If we've just removed from the array and there's another action queued up, or we're triggering for the first time
         // then do the next requested process, stored at array pos 0
-        if (action=="del" && this.serverQueueItems.length>=1 || this.serverQueueItems.length==1) {
+        if ("del" === action && 1 <= this.serverQueueItems.length || 1 === this.serverQueueItems.length) {
             // If we have an item, we're not saving previous file refs and not loading
-            if (this.serverQueueItems[0].item && (this.serverQueueItems[0].item.indexOf('saveFiles=')==-1 && this.serverQueueItems[0].item.indexOf('action=load')==-1)) {
+            if (this.serverQueueItems[0].item && (
+                -1 === this.serverQueueItems[0].item.indexOf('saveFiles=') &&
+                -1 === this.serverQueueItems[0].item.indexOf('action=load')
+            )) {
                 xhr = this.xhrObj();
                 xhr.onreadystatechange=function() {
-                    if (xhr.readyState==4) {
-                        // OK reponse?
-                        if (xhr.status==200) {
+                    if (4 === xhr.readyState) {
+                        // OK response?
+                        if (200 === xhr.status) {
                             // Parse the response as a JSON object
                             statusObj = JSON.parse(xhr.responseText);
 
@@ -3425,11 +3439,11 @@ var ICEcoder = {
                             statusObj.action.timeTaken = statusObj.action.timeEnd - statusObj.action.timeStart;
 
                             // User wanted raw (or both) output of the response?
-                            if (["raw","both"].indexOf(ICEcoder.fileDirResOutput) >= 0) {
+                            if (0 <= ["raw", "both"].indexOf(ICEcoder.fileDirResOutput)) {
                                 console.log(xhr.responseText);
                             }
                             // User wanted object (or both) output of the response?
-                            if (["object","both"].indexOf(ICEcoder.fileDirResOutput) >= 0) {
+                            if (0 <= ["object", "both"].indexOf(ICEcoder.fileDirResOutput)) {
                                 console.log(statusObj);
                             }
                             // If error, show that, otherwise do whatever we're required to do next
@@ -3452,28 +3466,38 @@ var ICEcoder = {
                         }
                     }
                 };
-                xhr.open("POST",this.serverQueueItems[0].item,true);
+                xhr.open("POST", this.serverQueueItems[0].item, true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 timeStart = new Date().getTime();
 
                 // Save as events need to send all contents
-                if (this.serverQueueItems[0].item.indexOf('action=saveAs')>0) {
-                    xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file+'&contents='+encodeURIComponent(document.getElementById('saveTemp1').value));
+                if (0 < this.serverQueueItems[0].item.indexOf('action=saveAs')) {
+                    xhr.send(
+                        'timeStart=' + timeStart +
+                        '&file=' + this.serverQueueItems[0].file +
+                        '&contents=' + encodeURIComponent(document.getElementById('saveTemp1').value)
+                    );
                 // Save events can just send the changes
-                } else if (this.serverQueueItems[0].item.indexOf('action=save')>0) {
-                    xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file+'&changes='+encodeURIComponent(document.getElementById('saveTemp1').value));
+                } else if (0 < this.serverQueueItems[0].item.indexOf('action=save')) {
+                    xhr.send(
+                        'timeStart=' + timeStart +
+                        '&file=' + this.serverQueueItems[0].file +
+                        '&changes='+encodeURIComponent(document.getElementById('saveTemp1').value)
+                    );
                 // Another type of event
                 } else {
-                    xhr.send('timeStart='+timeStart+'&file='+this.serverQueueItems[0].file);
+                    xhr.send(
+                        'timeStart=' + timeStart +
+                        '&file=' + this.serverQueueItems[0].file
+                    );
                 }
             } else {
                 // File loading done via fileControl iFrame
                 setTimeout(function(ic) {
                     if ("undefined" != typeof ic.serverQueueItems[0]) {
-                        ic.filesFrame.contentWindow.frames['fileControl'].location.href=ic.serverQueueItems[0].item;
+                        ic.filesFrame.contentWindow.frames['fileControl'].location.href = ic.serverQueueItems[0].item;
                     }
-                },1,this);
-
+                }, 1, this);
             }
         }
     },
@@ -3482,48 +3506,66 @@ var ICEcoder = {
     cancelAllActions: function() {
         // Stop whatever the parent may be loading and clear tasks other than the current one
         window.stop();
-        if (this.serverQueueItems.length>0) {
-            this.serverQueueItems.splice(1,this.serverQueueItems.length);
+        if (0 < this.serverQueueItems.length) {
+            this.serverQueueItems.splice(1, this.serverQueueItems.length);
         }
-        this.showHide('hide',get('loadingMask'));
-        this.serverMessage('<b style="color: #d00">'+t['Cancelled tasks']+'</b>');
-        setTimeout(function(ic) {ic.serverMessage();},2000,this);
+        this.showHide('hide', get('loadingMask'));
+        this.serverMessage('<b style="color: #d00">' + t['Cancelled tasks'] + '</b>');
+        setTimeout(function(ic) {ic.serverMessage();}, 2000, this);
     },
 
     // Set the current previousFiles in the settings file
     setPreviousFiles: function() {
-        var previousFiles;
+        let previousFiles;
 
-        previousFiles = this.openFiles.join(',').replace(/\//g,"|").replace(/(\|\[NEW\])|(,\|\[NEW\])/g,"").replace(/(^,)|(,$)/g,"");
-        if (previousFiles=="") {previousFiles="CLEAR"};
+        previousFiles =
+            this.openFiles
+            .join(',')
+            .replace(/\//g, "|")
+            .replace(/(\|\[NEW\])|(,\|\[NEW\])/g, "")
+            .replace(/(^,)|(,$)/g, "");
+        if ("" == previousFiles) {
+            previousFiles = "CLEAR";
+        }
         // Then send through to the settings page to update setting
-        this.serverQueue("add",iceLoc+"/lib/settings.php?saveFiles="+encodeURIComponent(previousFiles)+"&csrf="+this.csrf, encodeURIComponent(previousFiles));
+        this.serverQueue(
+            "add",
+            this.iceLoc + "/lib/settings.php?saveFiles=" + encodeURIComponent(previousFiles) + "&csrf=" + this.csrf,
+            encodeURIComponent(previousFiles)
+        );
         this.updateLast10List(previousFiles);
     },
 
     // Update the list of 10 previous files in browser
     updateLast10List: function(previousFiles) {
-        var newFile, last10Files, last10FilesList;
+        let newFile, last10Files, last10FilesList;
 
         // Split our previous files string into an array
         previousFiles = previousFiles.split(',');
         // For each one of those, if it's not 'CLEAR' we can maybe rotate the list
-        for (var i=0; i<previousFiles.length; i++) {
-            if (previousFiles[i] != "CLEAR") {
+        for (let i = 0; i < previousFiles.length; i++) {
+            if ("CLEAR" !== previousFiles[i]) {
                 // Set the new file LI item to maybe insert at top of the list, including trailing new line to split on in future
-                newFile = "<li class=\"pft-file ext-"+previousFiles[i].substring(previousFiles[i].lastIndexOf(".")+1)+"\" style=\"margin-left: -21px\"><a style=\"cursor:pointer\" onclick=\"parent.ICEcoder.openFile('"+previousFiles[i].replace(/\|/g,"/")+"')\">"+previousFiles[i].replace(/\|/g,"/")+"</a></li>\n";
+                newFile = "<li class=\"pft-file ext-" +
+                    previousFiles[i].substring(previousFiles[i].lastIndexOf(".") + 1) +
+                    "\" style=\"margin-left: -21px\"><a style=\"cursor:pointer\" onclick=\"parent.ICEcoder.openFile('" +
+                    previousFiles[i].replace(/\|/g,"/") + "')\">" +
+                    previousFiles[i].replace(/\|/g,"/") + "</a></li>\n";
 
                 // Get DOM elem for last 10 files
                 last10Files = this.content.contentWindow.document.getElementById('last10Files');
 
                 // If the innerHTML of that doesn't contain our new item, we can insert it
-                if(last10Files.innerHTML.indexOf(newFile) == -1) {
+                if(-1 === last10Files.innerHTML.indexOf(newFile)) {
                     // Get the last 10 files list, pop the last one off and add newFile at start
                     last10FilesList = last10Files.innerHTML.split("\n");
                     if (
-                        last10FilesList.length > 8 ||													// No more than 8 + 1 we're about to add
-                        last10FilesList[0] == '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">[none]</div><br><br>' ||	// Clear out placeholder
-                        last10FilesList[last10FilesList.length-1] == ""											// No empty array items
+                        // No more than 8 + 1 we're about to add
+                        last10FilesList.length > 8 ||
+                        // Clear out placeholder
+                        last10FilesList[0] === '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">[none]</div><br><br>' ||
+                        // No empty array items
+                        "" == last10FilesList[last10FilesList.length-1]
                     ) {
                         last10FilesList.pop();
                     }
@@ -3536,184 +3578,230 @@ var ICEcoder = {
 
     // Opens the last files we had open
     autoOpenFiles: function() {
-        if (this.previousFiles.length>0 && this.ask(t['Open previous files']+'\n\n'+this.previousFiles.length+' files:\n'+this.previousFiles.join('\n').replace(/\|/g,"/").replace(new RegExp(docRoot+iceRoot,'gi'),""))) {
-            for (var i=0;i<this.previousFiles.length;i++) {
-                this.openFile(this.previousFiles[i].replace('|','/'));
+        if (0 < this.previousFiles.length) {
+            for (let i = 0; i < this.previousFiles.length; i++) {
+                this.openFile(this.previousFiles[i].replace('|', '/'));
             }
         }
     },
 
     // Show the settings screen
     settingsScreen: function(hide, tab) {
-        if (!hide) {
-            tabExtra = tab ? '?tab=' + tab +'&csrf=' + this.csrf : '';
-            get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/settings-screen.php' + tabExtra + '" id="settingsIFrame" style="width: 970px; height: 610px"></iframe>';
+        let tabExtra;
+
+        if (false === hide) {
+            tabExtra = tab ? '?tab=' + tab + '&csrf=' + this.csrf : '';
+            get('mediaContainer').innerHTML =
+                '<iframe src="' +
+                this.iceLoc +
+                '/lib/settings-screen.php' +
+                tabExtra +
+                '" id="settingsIFrame" style="width: 970px; height: 610px"></iframe>';
         }
-        this.showHide(hide?'hide':'show',get('blackMask'));
+        this.showHide(hide ? 'hide' : 'show', get('blackMask'));
     },
 
     // Show the help screen
     helpScreen: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/help.php" id="helpIFrame" style="width: 840px; height: 485px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML =
+            '<iframe src="' +
+            this.iceLoc +
+            '/lib/help.php" id="helpIFrame" style="width: 840px; height: 485px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the backup versions screen
-    versionsScreen: function(file,versions) {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/backup-versions.php?file='+file+'&csrf='+this.csrf+'" id="versionsIFrame" style="width: 970px; height: 640px"></iframe>';
-        this.showHide('show',get('blackMask'));
+    versionsScreen: function(file) {
+        get('mediaContainer').innerHTML =
+            '<iframe src="' +
+            this.iceLoc +
+            '/lib/backup-versions.php?file=' +
+            file +
+            '&csrf=' +
+            this.csrf +
+            '" id="versionsIFrame" style="width: 970px; height: 640px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the ICEcoder manual, loaded remotely
-    showManual: function(version,section) {
-        var sectionExtra;
+    showManual: function(version, section) {
+        let sectionExtra;
 
-        sectionExtra = section ? "#"+section : "";
-        get('mediaContainer').innerHTML = '<iframe src="https://icecoder.net/manual?version='+version+sectionExtra+'" id="manualIFrame" style="width: 800px; height: 470px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        sectionExtra = section ? "#" + section : "";
+        get('mediaContainer').innerHTML =
+            '<iframe src="https://icecoder.net/manual?version=' +
+            version +
+            sectionExtra +
+            '" id="manualIFrame" style="width: 800px; height: 470px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the properties screen
     propertiesScreen: function(fileName) {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/properties.php?fileName='+fileName.replace(/\//g,"|")+'&csrf='+this.csrf+'" id="propertiesIFrame" style="width: 660px; height: 330px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML = '<iframe src="' +
+            this.iceLoc +
+            '/lib/properties.php?fileName=' +
+            fileName.replace(/\//g,"|") +
+            '&csrf=' +
+            this.csrf +
+            '" id="propertiesIFrame" style="width: 660px; height: 330px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the auto-logout warning screen
     autoLogoutWarningScreen: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/auto-logout-warning.php" id="autoLogoutIFrame" style="width: 400px; height: 160px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML = '<iframe src="' +
+            this.iceLoc +
+            '/lib/auto-logout-warning.php" id="autoLogoutIFrame" style="width: 400px; height: 160px"></iframe>';
+        this.showHide('show', get('blackMask'));
+    },
+
+    // Show the bug report screen
+    bugReportScreen: function() {
+        get('mediaContainer').innerHTML = '<iframe src="' +
+            this.iceLoc +
+            '/lib/bug-report.php" id="bugReportIFrame" style="width: 970px; height: 610px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Show the plugins manager
     pluginsManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/plugins-manager.php" id="pluginsManagerIFrame" style="width: 800px; height: 450px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML = '<iframe src="' +
+            this.iceLoc +
+            '/lib/plugins-manager.php" id="pluginsManagerIFrame" style="width: 800px; height: 450px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Go to localhost root
     goLocalhostRoot: function() {
-        this.filesFrame.contentWindow.frames['fileControl'].location.href = iceLoc+"/lib/go-localhost-root.php";
+        this.filesFrame.contentWindow.frames['fileControl'].location.href =
+            this.iceLoc +
+            "/lib/go-localhost-root.php";
     },
 
     // Show the FTP manager
     ftpManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="'+iceLoc+'/lib/ftp-manager.php" id="ftpManagerIFrame" style="width: 620px; height: 550px"></iframe>';
-        this.showHide('show',get('blackMask'));
+        get('mediaContainer').innerHTML = '<iframe src="' +
+            this.iceLoc +
+            '/lib/ftp-manager.php" id="ftpManagerIFrame" style="width: 620px; height: 550px"></iframe>';
+        this.showHide('show', get('blackMask'));
     },
 
     // Update the settings used when we make a change to them
-    useNewSettings: function(themeURL,codeAssist,lockedNav,tagWrapperCommand,autoComplete,visibleTabs,fontSize,lineWrapping,lineNumbers,showTrailingSpace,matchBrackets,autoCloseTags,autoCloseBrackets,indentType,indentAuto,indentSize,pluginPanelAligned,scrollbarStyle,bugFilePaths,bugFileCheckTimer,bugFileMaxLines,updateDiffOnSave,autoLogoutMins,refreshFM) {
-        var styleNode, thisCSS, strCSS, activeLineBG;
+    useNewSettings: function(settings) {
+        let styleNode, thisCSS, strCSS, activeLineBG;
 
-        // cut out ?microtime= at the end
-        var cleanThemeUrl = themeURL.slice(0, themeURL.lastIndexOf("?"));
-        // find out new theme name without leading path and trailing ".css"
-        var newTheme = cleanThemeUrl.slice(cleanThemeUrl.lastIndexOf("/")+1,cleanThemeUrl.lastIndexOf("."));
-        // if theme was not changed - no need to do all these tricks
+        // Cut out path prefix, .css file extension and ?microtime= querystring
+        const newTheme = settings.themeURL.replace(/.+\/|.css.+/g, "");
+        // If theme was not changed - no need to do all these tricks
         if (this.theme !== newTheme){
             // Add new stylesheet for selected theme to editor
             this.theme = newTheme;
-            if (this.theme=="editor") {this.theme="icecoder"};
             styleNode = document.createElement('link');
             styleNode.setAttribute('rel', 'stylesheet');
             styleNode.setAttribute('type', 'text/css');
-            styleNode.setAttribute('href', themeURL);
+            styleNode.setAttribute('href', settings.themeURL);
             this.content.contentWindow.document.getElementsByTagName('head')[0].appendChild(styleNode);
-            if (["3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light"].indexOf(this.theme)>-1) {
-                activeLineBG = "#ccc";
-            } else if (["3024-night","blackboard","colorforth","liquibyte","night","tomorrow-night-bright","tomorrow-night-eighties","vibrant-ink"].indexOf(this.theme)>-1) {
-                activeLineBG = "#888";
-            } else {
-                activeLineBG = "#000";
-            }
             this.switchTab(this.selectedTab);
         }
 
+        // Set the active line color
+        activeLineBG = 
+        // Light themes
+        -1 < ["base16-light", "chrome-devtools", "duotone-light", "eclipse", "eiffel", "elegant", "mdn-like", "idle", "iplastic", "ir_white", "johnny", "juicy", "neat", "neo", "solarized", "ttcn", "xq-light"].indexOf(this.theme)
+            ? "#ccc"
+            // Dark themes
+            : -1 < ["3024-night", "all-hallow-eve", "black-pearl-ii", "blackboard", "colorforth", "django", "emacs-strict", "fade-to-grey", "fake", "glitterbomb", "isotope", "ir_black", "liquibyte", "monokai-fannonedition", "oceanic", "night", "spectacular", "sunburst", "the-matrix", "tomorrow-night-blue", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"].indexOf(this.theme)
+                ? "#222"
+                // Other themes
+                : "#000";
+
         // Check/uncheck Code Assist setting
-        if (codeAssist != this.codeAssist) {
+        if (settings.codeAssist !== this.codeAssist) {
             this.codeAssistToggle();
         }
 
         // Unlock/lock the file manager
-        if (lockedNav != this.lockedNav) {
+        if (settings.lockedNav !== this.lockedNav) {
             this.lockUnlockNav();
-            this.changeFilesW(!lockedNav ? 'contract' : 'expand');
+            this.changeFilesW(!settings.lockedNav ? 'contract' : 'expand');
             this.hideFileMenu();
         };
 
         // Update font size at top level
         thisCSS = document.styleSheets[0];
         strCSS = thisCSS.rules ? 'rules' : 'cssRules';
-        thisCSS[strCSS][0].style['fontSize'] = fontSize;
+        thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
 
         // Update font size in file manager
-        thisCSS = this.filesFrame.contentWindow.document.styleSheets[3];
+        thisCSS = this.filesFrame.contentWindow.document.styleSheets[4];
         strCSS = thisCSS.rules ? 'rules' : 'cssRules';
-        thisCSS[strCSS][0].style['fontSize'] = fontSize;
+        thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
 
         // Update styles in editor
         thisCSS = this.content.contentWindow.document.styleSheets[6];
         strCSS = thisCSS.rules ? 'rules' : 'cssRules';
-        thisCSS[strCSS][0].style['fontSize'] = fontSize;
-        thisCSS[strCSS][4].style['border-left-width'] = visibleTabs ? '1px' : '0';
-        thisCSS[strCSS][4].style['margin-left'] = visibleTabs ? '-1px' : '0';
+        thisCSS[strCSS][0].style['fontSize'] = settings.fontSize;
+        thisCSS[strCSS][4].style['border-left-width'] = settings.visibleTabs ? '1px' : '0';
+        thisCSS[strCSS][4].style['margin-left'] = settings.visibleTabs ? '-1px' : '0';
         thisCSS[strCSS][2].style.cssText = "background-color: " + activeLineBG + " !important";
 
-        this.lineWrapping = lineWrapping;
-        this.lineNumbers = lineNumbers;
-        this.showTrailingSpace = showTrailingSpace;
-        this.matchBrackets = matchBrackets;
-        this.autoCloseTags = autoCloseTags;
-        this.autoCloseBrackets = autoCloseBrackets;
-        this.indentType = indentType;
-        this.indentSize = indentSize;
-        this.indentAuto = indentAuto;
-        this.scrollbarStyle = scrollbarStyle;
-        for (var i=0;i<this.cMInstances.length;i++) {
+        // Set many of the ICEcoder settings
+        this.lineWrapping = settings.lineWrapping;
+        this.lineNumbers = settings.lineNumbers;
+        this.showTrailingSpace = settings.showTrailingSpace;
+        this.matchBrackets = settings.matchBrackets;
+        this.autoCloseTags = settings.autoCloseTags;
+        this.autoCloseBrackets = settings.autoCloseBrackets;
+        this.indentType = settings.indentType;
+        this.indentSize = settings.indentSize;
+        this.indentAuto = settings.indentAuto;
+        this.scrollbarStyle = settings.scrollbarStyle;
+        // Then apply the settings to each editor instance
+        for (let i = 0; i < this.cMInstances.length; i++) {
             // Main pane
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("lineWrapping", this.lineWrapping);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("lineNumbers", this.lineNumbers);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("showTrailingSpace", this.showTrailingSpace);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("matchBrackets", this.matchBrackets);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("autoCloseTags", this.autoCloseTags);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("autoCloseBrackets", this.autoCloseBrackets);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("indentWithTabs", "tabs" === this.indentType);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("indentUnit", this.indentSize);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("tabSize", this.indentSize);
-            this.content.contentWindow['cM'+this.cMInstances[i]].setOption("scrollbarStyle", this.scrollbarStyle);
-            this.content.contentWindow['cM'+this.cMInstances[i]].refresh();
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("lineWrapping", this.lineWrapping);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("lineNumbers", this.lineNumbers);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("showTrailingSpace", this.showTrailingSpace);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("matchBrackets", this.matchBrackets);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("autoCloseTags", this.autoCloseTags);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("autoCloseBrackets", this.autoCloseBrackets);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("indentWithTabs", "tabs" === this.indentType);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("indentUnit", this.indentSize);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("tabSize", this.indentSize);
+            this.content.contentWindow['cM' + this.cMInstances[i]].setOption("scrollbarStyle", this.scrollbarStyle);
+            this.content.contentWindow['cM' + this.cMInstances[i]].refresh();
             // Diff pane
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("lineWrapping", this.lineWrapping);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("lineNumbers", this.lineNumbers);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("showTrailingSpace", this.showTrailingSpace);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("matchBrackets", this.matchBrackets);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("autoCloseTags", this.autoCloseTags);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("autoCloseBrackets", this.autoCloseBrackets);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("indentWithTabs", "tabs" === this.indentType);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("indentUnit", this.indentSize);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("tabSize", this.indentSize);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].setOption("scrollbarStyle", this.scrollbarStyle);
-            this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].refresh();
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("lineWrapping", this.lineWrapping);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("lineNumbers", this.lineNumbers);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("showTrailingSpace", this.showTrailingSpace);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("matchBrackets", this.matchBrackets);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("autoCloseTags", this.autoCloseTags);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("autoCloseBrackets", this.autoCloseBrackets);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("indentWithTabs", "tabs" === this.indentType);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("indentUnit", this.indentSize);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("tabSize", this.indentSize);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].setOption("scrollbarStyle", this.scrollbarStyle);
+            this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].refresh();
         }
 
-        if (tagWrapperCommand != this.tagWrapperCommand) {
-            this.tagWrapperCommand = tagWrapperCommand;
+        if (settings.tagWrapperCommand !== this.tagWrapperCommand) {
+            this.tagWrapperCommand = settings.tagWrapperCommand;
         }
 
-        if (autoComplete != this.autoComplete) {
-            this.autoComplete = autoComplete;
+        if (settings.autoComplete !== this.autoComplete) {
+            this.autoComplete = settings.autoComplete;
         }
 
-        get('plugins').style.left = pluginPanelAligned == "left" ? "0" : "auto";
-        get('plugins').style.right = pluginPanelAligned == "right" ? "0" : "auto";
+        get('plugins').style.left = "left" === settings.pluginPanelAligned ? "0" : "auto";
+        get('plugins').style.right = "right" === settings.pluginPanelAligned ? "0" : "auto";
 
         // Restart bug checking
-        this.bugFilePaths = bugFilePaths;
-        this.bugFileCheckTimer = bugFileCheckTimer;
-        this.bugFileMaxLines = bugFileMaxLines;
+        this.bugFilePaths = settings.bugFilePaths;
+        this.bugFileCheckTimer = settings.bugFileCheckTimer;
+        this.bugFileMaxLines = settings.bugFileMaxLines;
 
-        if (this.bugFilePaths[0] != "") {
+        if ("" != this.bugFilePaths[0]) {
             this.startBugChecking();
         } else {
             if ("undefined" != typeof this.bugFileCheckInt) {
@@ -3722,18 +3810,20 @@ var ICEcoder = {
         }
 
         // Update diffs if we have a split pane
-        if (this.splitPane) {
+        if (true === this.splitPane) {
             this.updateDiffs();
         }
 
         // Set the flag to indicate if we update diff pane on save
-        this.updateDiffOnSave = updateDiffOnSave;
+        this.updateDiffOnSave = settings.updateDiffOnSave;
 
         // Set the auto-logout mins value
-        this.autoLogoutMins = autoLogoutMins;
+        this.autoLogoutMins = settings.autoLogoutMins;
 
         // Finally, refresh the file manager if we need to
-        if (refreshFM) {this.refreshFileManager()};
+        if (true === settings.refreshFM) {
+            this.refreshFileManager();
+        };
     },
 
     // Update and show/hide found results display?
@@ -3758,40 +3848,42 @@ var ICEcoder = {
 
     // Pass target file/folder to Zip It!
     zipIt: function(tgt) {
-        tgt=tgt.replace(/\//g,"|");
-        this.filesFrame.contentWindow.frames['fileControl'].location.href="plugins/zip-it/index.php?zip="+tgt+"&csrf="+this.csrf;
+        tgt=tgt.replace(/\//g, "|");
+        this.filesFrame.contentWindow.frames['fileControl'].location.href = this.iceLoc + "/plugins/zip-it/index.php?zip=" + tgt + "&csrf=" + this.csrf;
     },
 
     // Prompt to download our file
     downloadFile: function(file) {
-        file=file.replace(/\//g,"|");
-        this.filesFrame.contentWindow.frames['fileControl'].location.href=iceLoc+"/lib/download.php?file="+file+"&csrf="+this.csrf;
+        file=file.replace(/\//g, "|");
+        this.filesFrame.contentWindow.frames['fileControl'].location.href = this.iceLoc + "/lib/download.php?file=" + file + "&csrf=" + this.csrf;
     },
 
     // Change permissions on a file/folder
-    chmod: function(file,perms) {
-        file = file.replace(iceRoot,"");
-        this.showHide('hide',get('blackMask'));
-        this.serverQueue("add",iceLoc+"/lib/file-control.php?action=perms&perms="+perms+"&csrf="+this.csrf,encodeURIComponent(file));
-        this.serverMessage('<b>chMod '+perms+' on </b> '+file.replace(/\|/g,"/").replace(/^\/|/g, ''));
+    chmod: function(file, perms) {
+        file = file.replace(iceRoot, "");
+        this.showHide('hide', get('blackMask'));
+        this.serverQueue("add", this.iceLoc + "/lib/file-control.php?action=perms&perms=" + perms + "&csrf=" + this.csrf, encodeURIComponent(file));
+        this.serverMessage('<b>chMod ' + perms + ' on </b> ' + file.replace(/\|/g, "/").replace(/^\/|/g, ""));
     },
 
     // Open/show the preview window
     openPreviewWindow: function() {
-        if (this.openFiles.length>0) {
-            var filepath, filename, fileExt;
+        if (0 < this.openFiles.length) {
+            let filepath, filename, fileExt;
 
-            filepath = this.openFiles[this.selectedTab-1];
-            filename = filepath.substr(filepath.lastIndexOf("/")+1);
-            fileExt = filename.substr(filename.lastIndexOf(".")+1);
+            filepath = this.openFiles[this.selectedTab - 1];
+            filename = filepath.substr(filepath.lastIndexOf("/") + 1);
+            fileExt = filename.substr(filename.lastIndexOf(".") + 1);
 
             this.previewWindowLoading = true;
-            this.previewWindow = window.open(filepath,"previewWindow",500,500);
-            if (["md"].indexOf(fileExt) > -1) {
+            this.previewWindow = window.open(filepath, "previewWindow", 500, 500);
+            if (-1 < ["md"].indexOf(fileExt)) {
                 this.previewWindow.addEventListener('load', function(ic, content) {
                     ic.previewWindowLoading = false;
                     ic.previewWindow.document.documentElement.innerHTML = ""
-                    setTimeout(function() {ic.previewWindow.document.documentElement.innerHTML = content}, 100);
+                    setTimeout(function() {
+                        ic.previewWindow.document.documentElement.innerHTML = content;
+                    }, 100);
                 }(ic, mmd(ic.getThisCM().getValue())), false);
             } else {
                 this.previewWindow.onload = function() {
@@ -3809,20 +3901,20 @@ var ICEcoder = {
 
     // Reset auto-logout timer
     resetAutoLogoutTimer: function() {
-        if(this.autoLogoutMins > 1 && this.autoLogoutTimer > (this.autoLogoutMins*60)-60) {
-            this.showHide('hide',get('blackMask'));
+        if (1 < this.autoLogoutMins && this.autoLogoutTimer > (this.autoLogoutMins * 60) - 60) {
+            this.showHide('hide', get('blackMask'));
         }
         this.autoLogoutTimer = 0;
     },
 
     // Logout of ICEcoder
     logout: function(type) {
-        window.location = window.location + "?logout&"+(type ? "type="+type+"&" : "")+"csrf="+this.csrf;
+        window.location = window.location + "?logout&" + (type ? "type=" + type + "&" : "") + "csrf=" + this.csrf;
     },
 
     // Show a message
     outputMsg: function(msg) {
-        var output = this.output.innerHTML;
+        let output = this.output.innerHTML;
         // If only placeholder, clear that
         if ("<b>Output</b><br>via ICEcoder.output(message);<br><br>" === output) {
             output = "";
@@ -3841,13 +3933,13 @@ var ICEcoder = {
     },
 
     // Get the users input
-    getInput: function(question,defaultValue) {
-        return prompt(question,defaultValue);
+    getInput: function(question, defaultValue) {
+        return prompt(question, defaultValue);
     },
 
     // Show a data screen message
     dataMessage: function(message) {
-        var dM;
+        let dM;
 
         dM = this.content.contentWindow.document.getElementById('dataMessage');
         dM.style.display = "block";
@@ -3856,55 +3948,41 @@ var ICEcoder = {
 
     // Update ICEcoder
     // update: function() {
-    //     var autoUpdate;
-    //
-    //     autoUpdate = confirm(t['Please note for...']);
-    //     if (autoUpdate) {
-    //         this.showHide('show',get('loadingMask'));
-    //         window.location = iceLoc+"/lib/updater.php";
+    //     if (true == confirm(t['Please note for...'])) {
+    //         this.showHide('show', get('loadingMask'));
+    //         window.location = this.iceLoc + "/lib/updater.php";
     //     } else {
-    //         window.open("https://this.net");
+    //         window.open("https://icecoder.net");
     //     }
     // },
 
     // ICEcoder just updated
     updated: function() {
         get('blackMask').style.visibility = "visible";
-        get('mediaContainer').innerHTML 	= '<h1 style="color: #fff; cursor: default">Thanks for updating to v'+this.versionNo+'!</h1>'
+        get('mediaContainer').innerHTML 	= '<h1 style="color: #fff; cursor: default">Thanks for updating to v' + this.versionNo + '!</h1>'
             + '<h2 style="color: #888; cursor: default">Click anywhere to continue using this...</h2>';
     },
 
     // XHR object
     xhrObj: function(){
         try {return new XMLHttpRequest();}catch(e){}
-        try {return new ActiveXObject("Msxml3.XMLHTTP");}catch(e){}
-        try {return new ActiveXObject("Msxml2.XMLHTTP.6.0");}catch(e){}
-        try {return new ActiveXObject("Msxml2.XMLHTTP.3.0");}catch(e){}
-        try {return new ActiveXObject("Msxml2.XMLHTTP");}catch(e){}
-        try {return new ActiveXObject("Microsoft.XMLHTTP");}catch(e){}
         return null;
     },
 
     // Open bug report
     openBugReport: function() {
-        var bugReportOpenFilePos;
-
-        if(this.bugReportStatus=="off") {
+        if ("off" === this.bugReportStatus) {
             this.message(t['You can start...']);
         }
-        if(this.bugReportStatus=="error") {
+        if ("error" === this.bugReportStatus) {
             this.message(t['Error cannot find...']);
         }
-        if(this.bugReportStatus=="ok") {
+        if ("ok" === this.bugReportStatus) {
             this.message(t['No new errors...']);
         }
-        if(this.bugReportStatus=="bugs") {
-            // Close bug-report without saving previousFiles and without confirming close if we made changes on the bug report
-            var bugReportOpenFilePos = this.openFiles.indexOf(this.bugReportPath.replace(/\|/g,"/"));
-            if (bugReportOpenFilePos > -1) {
-                this.closeTab(bugReportOpenFilePos+1,'dontSetPV','dontAsk');
-            }
-            this.openFile(this.bugReportPath);
+        if ("bugs" === this.bugReportStatus) {
+            // Show bug report screen and set the bugs state as seen
+            this.bugReportScreen();
             this.bugFilesSizesSeen = this.bugFilesSizesActual;
         }
     },
@@ -3913,7 +3991,7 @@ var ICEcoder = {
     startBugChecking: function() {
         var bugCheckURL;
 
-        if (this.bugFileCheckTimer !== 0) {
+        if (0 !== this.bugFileCheckTimer) {
             // Clear any existing interval
             if ("undefined" != typeof this.bugFileCheckInt) {
                 clearInterval(this.bugFileCheckInt);
@@ -3921,34 +3999,39 @@ var ICEcoder = {
             // Start a new timer
             this.bugFilesSizesSeen = [];
             this.bugFileCheckInt = setInterval(function(ic) {
-                bugCheckURL =  iceLoc+"/lib/bug-files-check.php?";
-                bugCheckURL += "files="+(ic.bugFilePaths[0] !== "" ? ic.bugFilePaths.join() : "null").replace(/\//g,"|");
-                bugCheckURL += "&filesSizesSeen=";
-                if (ic.bugFilesSizesSeen.length != ic.bugFilePaths.length) {
+                bugCheckURL =
+                    ic.iceLoc +
+                    "/lib/bug-files-check.php?" +
+                    "files=" + ("" !== ic.bugFilePaths[0] ? ic.bugFilePaths.join() : "null").replace(/\//g, "|") +
+                    "&filesSizesSeen=";
+                if (ic.bugFilesSizesSeen.length !== ic.bugFilePaths.length) {
                     // Fill the array with nulls
-                    for (var i=0; i<ic.bugFilePaths.length; i++) {
+                    for (let i = 0; i < ic.bugFilePaths.length; i++) {
                         ic.bugFilesSizesSeen[i] = "null";
                     }
                 }
-                bugCheckURL += ic.bugFilesSizesSeen.join();
-                bugCheckURL += "&maxLines="+ic.bugFileMaxLines;
-                bugCheckURL += "&csrf="+ic.csrf;
+                bugCheckURL += ic.bugFilesSizesSeen.join() + "&maxLines=" + ic.bugFileMaxLines + "&csrf=" + ic.csrf;
 
                 var xhr = ic.xhrObj();
 
                 xhr.onreadystatechange=function() {
-                    if (xhr.readyState==4 && xhr.status==200) {
+                    if (4 === xhr.readyState && 200 === xhr.status) {
                         // console.log(xhr.responseText);
                         var statusArray = JSON.parse(xhr.responseText);
                         // console.log(statusArray);
 
-                        get('bugIcon').style.backgroundPosition =
-                            statusArray['result'] == "off" ? "0 0" :
-                                statusArray['result'] == "ok" ? "-32px 0" :
-                                    statusArray['result'] == "bugs" ? "-48px 0" :
-                                        "-16px 0"; // if the result is 'error' or another value
+                        get('bugIcon').style.color =
+                            statusArray['result'] == "off" ? "" :
+                                statusArray['result'] == "ok" ? "#080" :
+                                    statusArray['result'] == "bugs" ? "#b00" :
+                                        "#f80"; // if the result is 'error' or another value
+                        get('bugIcon').title =
+                            statusArray['result'] == "off" ? "Bug reporting not active" :
+                                statusArray['result'] == "ok" ? "No new errors found" :
+                                    statusArray['result'] == "bugs" ? "New bugs found, click to view" :
+                                        "Unable to find bug log file specified"; // Setup error
                         ic.bugReportStatus = statusArray['result'];
-                        if (ic.bugFilesSizesSeen[0]=="null") {
+                        if ("null" == ic.bugFilesSizesSeen[0]) {
                             ic.bugFilesSizesSeen = statusArray['filesSizesSeen'];
                         }
                         ic.bugFilesSizesActual = statusArray['filesSizesSeen'];
@@ -3957,10 +4040,10 @@ var ICEcoder = {
                     }
                 };
                 // console.log('Calling '+bugCheckURL+' via XHR');
-                xhr.open("GET",bugCheckURL,true);
+                xhr.open("GET", bugCheckURL, true);
                 xhr.send();
 
-            },parseInt(this.bugFileCheckTimer*1000,10),this);
+            }, parseInt(this.bugFileCheckTimer * 1000, 10), this);
             // State that we're checking for bugs
             this.bugReportStatus = "ok";
         } else {
@@ -3982,13 +4065,18 @@ var ICEcoder = {
 
     // Print code of current tab
     printCode: function() {
-        var thisCM, printIFrame;
+        let thisCM, printIFrame;
 
         thisCM = this.getThisCM();
 
         printIFrame = this.filesFrame.contentWindow.frames['fileControl'];
         // Print page content injected into iFrame, escaped with pre and xssClean
-        printIFrame.window.document.body.innerHTML = '<!DOCTYPE html><head><title>ICEcoder code output</title></head><body><pre style="white-space: pre-wrap">'+this.xssClean(thisCM.getValue())+'</pre></body></html>';
+        printIFrame.window.document.body.innerHTML =
+            '<!DOCTYPE html><head><title>' +
+            this.openFiles[this.selectedTab - 1] +
+            '</title></head><body><pre style="white-space: pre-wrap">' +
+            this.xssClean(thisCM.getValue()) +
+            '</pre></body></html>';
         printIFrame.focus();
         printIFrame.print();
         // Focus back on code
@@ -3997,12 +4085,12 @@ var ICEcoder = {
 
     // Update the title tag to indicate any changes
     indicateChanges: function() {
-        var winTitle;
+        let winTitle;
 
-        if (!this.loadingFile) {
-            winTitle = "ICEcoder v "+this.versionNo;
-            for(var i=1;i<=this.savedPoints.length;i++) {
-                if (this.savedPoints[i-1]!=this.getcMInstance(i).changeGeneration()) {
+        if (false === this.loadingFile) {
+            winTitle = "ICEcoder v" + this.versionNo;
+            for(let i = 1; i <= this.savedPoints.length; i++) {
+                if (this.savedPoints[i-1] !== this.getcMInstance(i).changeGeneration()) {
                     // We have an unsaved tab, indicate that in the title
                     winTitle += " \u2744";
                     break;
@@ -4012,12 +4100,12 @@ var ICEcoder = {
         }
     },
 
-// ==============
+// ====
 // TABS
-// ==============
+// ====
 
     // Change tabs by switching visibility of instances
-    switchTab: function(newTab,noFocus) {
+    switchTab: function(newTab, noFocus) {
         var cM, cMdiff, thisCM;
 
         // If we're not switching to same tab (for some reason), note the previous tab
@@ -4036,12 +4124,12 @@ var ICEcoder = {
             this.switchMode();
 
             // Set all cM instances to be hidden, then make our selected instance visible
-            for (var i=0;i<this.cMInstances.length;i++) {
-                this.content.contentWindow['cM'+this.cMInstances[i]].getWrapperElement().style.display = "none";
-                this.content.contentWindow['cM'+this.cMInstances[i]+'diff'].getWrapperElement().style.display = "none";
+            for (var i = 0; i < this.cMInstances.length; i++) {
+                this.content.contentWindow['cM' + this.cMInstances[i]].getWrapperElement().style.display = "none";
+                this.content.contentWindow['cM' + this.cMInstances[i] + "diff"].getWrapperElement().style.display = "none";
             }
-            cM.setOption('theme',this.theme);
-            cMdiff.setOption('theme',this.theme + " diff");
+            cM.setOption('theme', this.theme);
+            cMdiff.setOption('theme', this.theme + " diff");
             cM.getWrapperElement().style.display = "block";
             cMdiff.getWrapperElement().style.display = "block";
 
@@ -4051,10 +4139,15 @@ var ICEcoder = {
             }
 
             // Focus on & refresh our selected instance
-            if (!noFocus) {setTimeout(function(ic) {ic.focus();},4,this);}
+            if (!noFocus) {
+                setTimeout(function(ic) {
+                    ic.focus();
+                }, 4, this);
+            }
             cM.refresh();
             cMdiff.refresh();
 
+            // Update list of functions & classes plus Git diffs
             this.updateFunctionClassList();
             this.highlightGitDiffs();
 
@@ -4069,7 +4162,7 @@ var ICEcoder = {
                 ic.scrollBarVisible = thisCM.getScrollInfo().height > thisCM.getScrollInfo().clientHeight;
                 ic.findReplace(get('find').value, false, false, false);
                 ic.setLayout();
-            },0,this);
+            }, 0, this);
 
             // Finally, update the cursor display
             this.getCaretPosition();
@@ -4084,7 +4177,7 @@ var ICEcoder = {
 
         this.cMInstances.push(this.nextcMInstance);
         this.selectedTab = this.cMInstances.length;
-        this.showHide('show',this.content);
+        this.showHide('show', this.content);
         this.content.contentWindow.createNewCMInstance(this.nextcMInstance);
         this.setLayout();
 
@@ -4093,8 +4186,8 @@ var ICEcoder = {
         cM = this.getcMInstance('new');
         this.switchTab(this.openFiles.length);
 
-        cM.removeLineClass(this['cMActiveLinecM'+this.cMInstances[this.selectedTab-1]], "background");
-        this['cMActiveLinecM'+this.selectedTab] = cM.addLineClass(0, "background", "cm-s-activeLine");
+        cM.removeLineClass(this['cMActiveLinecM' + this.cMInstances[this.selectedTab - 1]], "background");
+        this['cMActiveLinecM' + this.selectedTab] = cM.addLineClass(0, "background", "cm-s-activeLine");
         this.nextcMInstance++;
 
         // Also auto trigger save
@@ -4105,26 +4198,26 @@ var ICEcoder = {
 
     // Create a new tab for a file
     createNewTab: function(isNew, shortURL) {
-        var closeTabLink, fileName, fileExt;
+        let closeTabLink, fileName, fileExt;
 
         // Push new file into array
         this.openFiles.push(shortURL);
 
         // Setup a new tab
-        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
-        get('tab'+(this.openFiles.length)).style.display = "inline-block";
-        fileName = this.openFiles[this.openFiles.length-1];
+        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; parent.ICEcoder.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; parent.ICEcoder.overCloseLink = false"></a>';
+        get('tab' + (this.openFiles.length)).style.display = "inline-block";
+        fileName = this.openFiles[this.openFiles.length - 1];
         fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
-        get('tab'+(this.openFiles.length)).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
-        get('tab'+(this.openFiles.length)).title = "/" + this.openFiles[this.openFiles.length-1].replace(/\//,"");
-        get('tab'+(this.openFiles.length)).className = "tab ext-" + fileExt;
+        get('tab' + (this.openFiles.length)).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
+        get('tab' + (this.openFiles.length)).title = "/" + this.openFiles[this.openFiles.length - 1].replace(/\//, "");
+        get('tab' + (this.openFiles.length)).className = "tab ext-" + fileExt;
 
         // Set the widths
-        this.setTabWidths();
+        this.setTabWidths(false);
 
         // Highlight it and state it's selected
         this.redoTabHighlight(this.openFiles.length);
-        this.selectedTab=this.openFiles.length;
+        this.selectedTab = this.openFiles.length;
 
         // Add a new value ready to indicate if this content has been changed
         this.savedPoints.push(0);
@@ -4137,50 +4230,51 @@ var ICEcoder = {
 
     // Cycle to next tab
     nextTab: function() {
-        var goToTab;
+        let goToTab;
 
-        goToTab = this.selectedTab+1 <= this.openFiles.length ? this.selectedTab+1 : 1;
-        this.switchTab(goToTab,'noFocus');
+        goToTab = this.selectedTab + 1 <= this.openFiles.length ? this.selectedTab + 1 : 1;
+        this.switchTab(goToTab, 'noFocus');
     },
 
     // Cycle to next tab
     previousTab: function() {
-        var goToTab;
+        let goToTab;
 
-        goToTab = this.selectedTab-1 >= 1 ? this.selectedTab-1 : this.openFiles.length;
-        this.switchTab(goToTab,'noFocus');
+        goToTab = this.selectedTab - 1 >= 1 ? this.selectedTab - 1 : this.openFiles.length;
+        this.switchTab(goToTab, 'noFocus');
     },
 
     // Create a new tab for a file
-    renameTab: function(tabNum,newName) {
+    renameTab: function(tabNum, newName) {
         var closeTabLink, fileName, fileExt;
 
         // Push new file into array
-        this.openFiles[tabNum-1] = newName;
+        this.openFiles[tabNum - 1] = newName;
 
         // Setup a new tab
-        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3),10))"><img src="'+iceLoc+'/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG=this.style.backgroundColor;this.style.backgroundColor=\'#333\'; this.overCloseLink=true" onMouseOut="this.style.backgroundColor=prevBG; this.overCloseLink=false"></a>';
-        fileName = this.openFiles[tabNum-1];
+        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; parent.ICEcoder.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; parent.ICEcoder.overCloseLink = false"></a>';
+        fileName = this.openFiles[tabNum - 1];
         fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
-        get('tab'+tabNum).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//,"");
-        get('tab'+tabNum).title = "/" + this.openFiles[tabNum-1].replace(/\//,"");
-        get('tab'+tabNum).className = "tab ext-" + fileExt;
+        get('tab' + tabNum).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
+        get('tab' + tabNum).title = "/" + this.openFiles[tabNum - 1].replace(/\//, "");
+        get('tab' + tabNum).className = "tab ext-" + fileExt;
     },
 
     // Reset all tabs to be without a highlight and then highlight the selected
     redoTabHighlight: function(selectedTab) {
-        var folderFileElems, fileLink;
+        let folderFileElems, fileLink;
 
         // For all open tabs...
-        for (var i = 1; i<= this.savedPoints.length; i++) {
+        for (let i = 1; i <= this.savedPoints.length; i++) {
             // Set the close tab icon BG color according to save status
             if (get('tab' + i).childNodes[0]) {
                 get('tab' + i).childNodes[0].childNodes[0].style.backgroundColor = this.savedPoints[i - 1] != this.getcMInstance(i).changeGeneration()
-                    ? "#b00" : "";
+                    ? "#b00"
+                    : "";
             }
             // Set the BG and text color for tabs according to if it's the current tab or not
-            get('tab'+i).style.color = i === selectedTab ? this.colorCurrentText : this.colorOpenTextTab;
-            get('tab'+i).style.background = i === selectedTab ? this.colorCurrentBG : this.colorOpenBG;
+            get('tab' + i).style.color = i === selectedTab ? this.colorCurrentText : this.colorOpenTextTab;
+            get('tab' + i).style.background = i === selectedTab ? this.colorCurrentBG : this.colorOpenBG;
         }
 
         // Now we can set about setting the coloring of dirs/files in the file manager
@@ -4198,8 +4292,8 @@ var ICEcoder = {
         }
 
         // Highlight all open files
-        for (var i = 0; i < this.openFiles.length; i++) {
-            fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[i].replace(/\//g,"|"));
+        for (let i = 0; i < this.openFiles.length; i++) {
+            fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[i].replace(/\//g, "|"));
             if (fileLink) {
                 fileLink.style.backgroundColor = this.colorOpenBG;
                 fileLink.style.color = this.colorOpenTextFile;
@@ -4208,7 +4302,7 @@ var ICEcoder = {
 
         // Highlight the file that's the current tab
         if (1 <= this.selectedTab) {
-            fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[this.selectedTab - 1].replace(/\//g,"|"));
+            fileLink = this.filesFrame.contentWindow.document.getElementById(this.openFiles[this.selectedTab - 1].replace(/\//g, "|"));
             if (fileLink) {
                 fileLink.style.backgroundColor = this.colorCurrentBG;
                 fileLink.style.color = this.colorCurrentText;
@@ -4216,7 +4310,7 @@ var ICEcoder = {
         }
 
         // Highlight all user selected files
-        for (var i = 0; i < this.selectedFiles.length; i++) {
+        for (let i = 0; i < this.selectedFiles.length; i++) {
             fileLink = this.filesFrame.contentWindow.document.getElementById(this.selectedFiles[i]);
             if (fileLink) {
                 fileLink.style.backgroundColor = this.colorSelectedBG;
@@ -4227,69 +4321,84 @@ var ICEcoder = {
 
     // Close the tab upon request
     closeTab: function(closeTabNum, dontSetPV, dontAsk) {
-        var okToRemove, closeFileName;
+        let okToRemove, closeFileName;
 
         // If we haven't specified, close current tab
-        if (!closeTabNum) {closeTabNum = this.selectedTab};
+        if (!closeTabNum) {
+            closeTabNum = this.selectedTab;
+        };
 
         okToRemove = true;
         // Only confirm if we're OK to ask and...
         if (!dontAsk && (
-            ("/[NEW]" === this.openFiles[closeTabNum-1]
+            ("/[NEW]" === this.openFiles[closeTabNum - 1]
                 // ...it's a new file that's not empty
                 ? "" !== this.getcMInstance(closeTabNum).getValue()
                 // ...or it's not a new file and it's not saved
-                : this.savedPoints[closeTabNum-1] != this.getcMInstance(closeTabNum).changeGeneration()
+                : this.savedPoints[closeTabNum - 1] !== this.getcMInstance(closeTabNum).changeGeneration()
             )
         )) {
             okToRemove = this.ask(t['You have made...']);
         }
 
-        if (okToRemove) {
+        if (true === okToRemove) {
             // Get the filename of tab we're closing
-            closeFileName = this.openFiles[closeTabNum-1];
+            closeFileName = this.openFiles[closeTabNum - 1];
 
-            // recursively copy over all tabs & data from the tab to the right, if there is one
-            for (var i=closeTabNum;i<this.openFiles.length;i++) {
-                get('tab'+i).innerHTML = get('tab'+(i+1)).innerHTML;
-                get('tab'+i).title = get('tab'+(i+1)).title;
-                this.openFiles[i-1] = this.openFiles[i];
-                this.openFileMDTs[i-1] = this.openFileMDTs[i];
-                this.openFileVersions[i-1] = this.openFileVersions[i];
+            // Recursively copy over all tabs & data from the tab to the right, if there is one
+            for (let i = closeTabNum; i < this.openFiles.length; i++) {
+                this.renameTab(i, this.openFiles[i]);
+                this.openFiles[i - 1] = this.openFiles[i];
+                this.openFileMDTs[i - 1] = this.openFileMDTs[i];
+                this.openFileVersions[i - 1] = this.openFileVersions[i];
             }
-            // hide the instance we're closing by setting the hide class and removing from the array
-            this.content.contentWindow['cM'+this.cMInstances[closeTabNum-1]].getWrapperElement().style.display = "none";
-            this.content.contentWindow['cM'+this.cMInstances[closeTabNum-1]+'diff'].getWrapperElement().style.display = "none";
-            this.cMInstances.splice(closeTabNum-1,1);
+            // Hide the instance we're closing by setting the hide class and removing from the array
+            this.content.contentWindow['cM' + this.cMInstances[closeTabNum - 1]].getWrapperElement().style.display = "none";
+            this.content.contentWindow['cM' + this.cMInstances[closeTabNum - 1] + 'diff'].getWrapperElement().style.display = "none";
+            this.cMInstances.splice(closeTabNum - 1, 1);
             // clear the rightmost tab (or only one left in a 1 tab scenario) & remove from the array
-            get('tab'+this.openFiles.length).style.display = "none";
-            get('tab'+this.openFiles.length).innerHTML = "";
-            get('tab'+this.openFiles.length).title = "";
+            get('tab' + this.openFiles.length).style.display = "none";
+            get('tab' + this.openFiles.length).innerHTML = "";
+            get('tab' + this.openFiles.length).title = "";
+            get('tab' + this.openFiles.length).className = "";
             this.openFiles.pop();
             this.openFileMDTs.pop();
             this.openFileVersions.pop();
-            // If we're closing the selected tab, determin the new selectedTab number, reduced by 1 if we have some tabs, 0 for a reset state
-            if (this.selectedTab==closeTabNum) {
-                this.openFiles.length>0 ? this.selectedTab-=1 : this.selectedTab = 0;
+            // If we're closing the selected tab, determine the new selectedTab number, reduced by 1 if we have some tabs, 0 for a reset state
+            if (this.selectedTab === closeTabNum) {
+                0 < this.openFiles.length ? this.selectedTab -= 1 : this.selectedTab = 0;
+            }
+            // If we're closing tab to left of selectedTab, will need to reduce selectedTab
+            if (closeTabNum < ICEcoder.selectedTab) {
+                this.selectedTab--;
             }
             // Handle removing a tab from start or end as safely fallback
-            if (this.openFiles.length>0 && this.selectedTab === 0) {this.selectedTab = 1};
-            if (this.openFiles.length>0 && this.selectedTab > this.openFiles.length) {this.selectedTab = this.openFiles.length};
-            // grey out the view icon
-            if (this.openFiles.length==0) {
-                this.fMIconVis('fMView',0.3);
+            if (0 < this.openFiles.length && this.selectedTab === 0) {
+                this.selectedTab = 1;
+            };
+            if (0 < this.openFiles.length && this.selectedTab > this.openFiles.length) {
+                this.selectedTab = this.openFiles.length;
+            };
+            // Grey out the view icon
+            if (0 === this.openFiles.length) {
+                this.fMIconVis('fMView', 0.3);
             } else {
                 // Switch the mode & the tab
                 this.switchMode();
                 this.switchTab(this.selectedTab);
             }
             // Highlight the selected tab after splicing the change state out of the array
-            this.savedPoints.splice(closeTabNum-1,1);
-            this.savedContents.splice(closeTabNum-1,1);
+            this.savedPoints.splice(closeTabNum - 1, 1);
+            this.savedContents.splice(closeTabNum - 1, 1);
             this.redoTabHighlight(this.selectedTab);
 
             // Remove any highlighting from the file manager
-            this.selectDeselectFile('deselect',this.filesFrame.contentWindow.document.getElementById(closeFileName.replace(/\//g,"|")));
+            this.selectDeselectFile(
+                'deselect',
+                this.filesFrame.contentWindow.document.getElementById(
+                    closeFileName.replace(/\//g, "|")
+                )
+            );
 
             if (!dontSetPV) {
                 this.setPreviousFiles();
@@ -4301,65 +4410,70 @@ var ICEcoder = {
             // Update the title tag to indicate any changes
             this.indicateChanges();
         }
-        // Lastly, stop it from trying to also switch tab
-        this.canSwitchTabs=false;
-        // and set the widths
-        this.setTabWidths('posOnlyNewTab');
-        setTimeout(function(ic) {ic.canSwitchTabs=true;},100,this);
+        // Lastly, set the widths
+        this.setTabWidths(true);
     },
 
     // Close all tabs
     closeAllTabs: function() {
-        if (this.cMInstances.length>0 && this.ask(t['Close all tabs'])) {
-            for (var i=this.cMInstances.length; i>0; i--) {
-                this.closeTab(i, i>1? true:false);
+        if (0 < this.cMInstances.length && this.ask(t['Close all tabs'])) {
+            for (let i = this.cMInstances.length; 0 < i; i--) {
+                this.closeTab(i, i > 1 ? true : false);
             }
         }
         // Update the title tag to indicate any changes
         this.indicateChanges();
     },
 
-    // Set the tabs width
+    // Set the tab widths
     setTabWidths: function(posOnlyNewTab) {
-        var availWidth, avgWidth, tabWidth, lastLeft, lastWidth;
+        let availWidth, avgWidth, tabWidth, lastLeft, lastWidth;
 
         if (this.ready) {
-            availWidth = parseInt(this.content.style.width,10)-53-22-10; // - left margin - new tab - right margin
-            avgWidth = (availWidth/this.openFiles.length)-18;
+            availWidth = parseInt(this.content.style.width, 10) - 53 - 22 - 10; // - left margin - new tab - right margin
+            avgWidth = (availWidth / this.openFiles.length ) - 18;
             tabWidth = -18; // Incl 18px offset
             lastLeft = 53;
             lastWidth = 0;
             this.tabLeftPos = [];
-            for (var i=0;i<this.openFiles.length;i++) {
-                if (posOnlyNewTab) {i=this.openFiles.length};
-                tabWidth = this.openFiles.length*(150+18) > availWidth ? parseInt(avgWidth*i,10) - parseInt(avgWidth*(i-1),10) : 150;
-                lastLeft = i==0 ? 53 : parseInt(get('tab'+(i)).style.left,10);
-                lastWidth = i==0 ? 0 : parseInt(get('tab'+(i)).style.width,10)+18;
-                if (!posOnlyNewTab) {
-                    get('tab'+(i+1)).style.left = (lastLeft+lastWidth) + "px";
-                    get('tab'+(i+1)).style.width = tabWidth + "px";
+            for (let i = 0; i < this.openFiles.length; i++) {
+                if (true === posOnlyNewTab) {
+                    i = this.openFiles.length;
+                };
+                tabWidth = this.openFiles.length * (150 + 18) > availWidth
+                    ? parseInt(avgWidth * i, 10) - parseInt(avgWidth * (i - 1), 10)
+                    : 150;
+                lastLeft = 0 === i
+                    ? 53
+                    : parseInt(get('tab' + i).style.left, 10);
+                lastWidth = 0 === i
+                    ? 0
+                    : parseInt(get('tab' + i).style.width, 10) + 18;
+                if (false === posOnlyNewTab) {
+                    get('tab' + (i + 1)).style.left = (lastLeft + lastWidth) + "px";
+                    get('tab' + (i + 1)).style.width = tabWidth + "px";
                 } else {
                     tabWidth = -18;
                 }
-                this.tabLeftPos.push(lastLeft+lastWidth);
+                this.tabLeftPos.push(lastLeft + lastWidth);
             }
-            get('newTab').style.left = (lastLeft+lastWidth+tabWidth+18) + "px";
+            get('newTab').style.left = (lastLeft + lastWidth + tabWidth + 18) + "px";
         }
     },
 
     // Tab dragging start
     tabDragStart: function(tab) {
-        var fileName, fileExt;
+        let fileName, fileExt;
         this.draggingTab = tab;
         this.diffStartX = this.mouseX;
-        this.tabDragMouseXStart = (this.mouseX - (parseInt(this.files.style.width,10)+53+18)) % 150;
+        this.tabDragMouseXStart = (this.mouseX - (parseInt(this.files.style.width, 10) + 53 + 18)) % 150;
         // Put tab we're dragging over others
-        get('tab'+tab).style.zIndex = 2;
+        get('tab' + tab).style.zIndex = 2;
         // Set classes for other tabs (tabSlide) and the one we're dragging (tabDrag)
-        for (var i=1; i<=this.openFiles.length; i++) {
+        for (let i = 1; i <= this.openFiles.length; i++) {
             fileName = this.openFiles[i - 1];
             fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
-            get('tab'+i).className = i!==tab
+            get('tab' + i).className = i !== tab
                 ? "tab ext-" + fileExt + " tabSlide"
                 : "tab ext-" + fileExt + " tabDrag";
         }
@@ -4367,32 +4481,34 @@ var ICEcoder = {
 
     // Tab dragging
     tabDragMove: function() {
-        var lastTabWidth, thisLeft, dragTabNo, tabWidth;
+        let lastTabWidth, thisLeft, dragTabNo, tabWidth;
 
-        lastTabWidth = parseInt(get('tab'+this.openFiles.length).style.width,10)+18;
+        lastTabWidth = parseInt(get('tab' + this.openFiles.length).style.width, 10) + 18;
 
         // Set the left position but stay within left side (53) and new tab
         this.thisLeft = thisLeft = this.tabDragMouseX >= 53
-            ? this.tabDragMouseX <= parseInt(get('newTab').style.left,10) - lastTabWidth
-                ? this.tabDragMouseX : (parseInt(get('newTab').style.left,10) - lastTabWidth) : 53;
+            ? this.tabDragMouseX <= parseInt(get('newTab').style.left, 10) - lastTabWidth
+                ? this.tabDragMouseX
+                : (parseInt(get('newTab').style.left, 10) - lastTabWidth)
+            : 53;
 
-        get('tab'+this.draggingTab).style.left = thisLeft + "px";
+        get('tab' + this.draggingTab).style.left = thisLeft + "px";
 
         this.dragTabNo = dragTabNo = this.draggingTab;
 
         // Set the opacities of tabs then positions of tabs we're not dragging
-        for (var i=1; i<=this.openFiles.length; i++) {
-            get('tab'+i).style.opacity = i == this.draggingTab ? 1 : 0.5;
-            tabWidth = this.tabLeftPos[i] ? this.tabLeftPos[i] - this.tabLeftPos[i-1] : tabWidth;
-            if (i!=this.draggingTab) {
+        for (let i = 1; i <= this.openFiles.length; i++) {
+            get('tab' + i).style.opacity = i === this.draggingTab ? 1 : 0.5;
+            tabWidth = this.tabLeftPos[i] ? this.tabLeftPos[i] - this.tabLeftPos[i - 1] : tabWidth;
+            if (i !== this.draggingTab) {
                 if (i < this.draggingTab) {
-                    get('tab'+i).style.left = thisLeft <= this.tabLeftPos[i-1]
-                        ? this.tabLeftPos[i-1]+tabWidth
-                        : this.tabLeftPos[i-1];
+                    get('tab' + i).style.left = thisLeft <= this.tabLeftPos[i - 1]
+                        ? this.tabLeftPos[i - 1] + tabWidth
+                        : this.tabLeftPos[i - 1];
                 } else {
-                    get('tab'+i).style.left = thisLeft >= this.tabLeftPos[i-1]
-                        ? this.tabLeftPos[i-1]-tabWidth
-                        : this.tabLeftPos[i-1];
+                    get('tab' + i).style.left = thisLeft >= this.tabLeftPos[i - 1]
+                        ? this.tabLeftPos[i - 1] - tabWidth
+                        : this.tabLeftPos[i - 1];
                 }
             }
         }
@@ -4400,21 +4516,25 @@ var ICEcoder = {
 
     // Tab dragging end
     tabDragEnd: function() {
-        var swapWith, fileName, fileExt, tempArray;
+        let swapWith, fileName, fileExt, tempArray;
 
         // Set the tab widths
-        this.setTabWidths();
+        this.setTabWidths(false);
         // Determine what tabs we've swapped and reset classname, opacity & z-index for all
-        for (var i=1; i<=this.openFiles.length; i++) {
-            if (this.thisLeft >= this.tabLeftPos[i-1]) {
-                swapWith = this.thisLeft == this.tabLeftPos[0] ? 1 : this.dragTabNo > i ? i+1 : i;
+        for (let i = 1; i <= this.openFiles.length; i++) {
+            if (this.thisLeft >= this.tabLeftPos[i - 1]) {
+                swapWith = this.thisLeft === this.tabLeftPos[0]
+                    ? 1
+                    : this.dragTabNo > i
+                        ? i + 1
+                        : i;
             }
             fileName = this.openFiles[i - 1];
             fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
-            get('tab'+i).className = "tab ext-" + fileExt;
-            get('tab'+i).style.opacity = 1;
-            if (i!=this.dragTabNo) {
-                get('tab'+i).style.zIndex = 1;
+            get('tab' + i).className = "tab ext-" + fileExt;
+            get('tab' + i).style.opacity = 1;
+            if (i !== this.dragTabNo) {
+                get('tab' + i).style.zIndex = 1;
             } else {
                 if ("undefined" !== typeof swapWith) {
                     setTimeout(function (num) {
@@ -4423,50 +4543,50 @@ var ICEcoder = {
                 }
             }
         }
-        if (this.thisLeft && this.thisLeft!==false) {
+        if (this.thisLeft && this.thisLeft !== false) {
             // Make a number ascending array
             tempArray = [];
-            for (var i=1;i<=this.openFiles.length;i++) {
+            for (let i = 1; i <= this.openFiles.length; i++) {
                 tempArray.push(i);
             }
             // Then swap our tab numbers
-            tempArray.splice(this.dragTabNo-1,1);
-            tempArray.splice(swapWith-1,0,this.dragTabNo);
+            tempArray.splice(this.dragTabNo - 1, 1);
+            tempArray.splice(swapWith - 1, 0, this.dragTabNo);
             // Now we have an order to sort against
             this.sortTabs(tempArray);
         }
-        this.setTabWidths();
+        this.setTabWidths(false);
         this.draggingTab = false;
         this.thisLeft = false;
     },
 
     // Sort tabs into new order
     sortTabs: function(newOrder) {
-        var a, b, savedPoints = [], savedContents = [], openFiles = [], openFileMDTs = [], openFileVersions = [], cMInstances = [], selectedTabWillBe;
+        let a, b, savedPoints = [], savedContents = [], openFiles = [], openFileMDTs = [], openFileVersions = [], cMInstances = [], selectedTabWillBe;
 
         // Setup an array of our actual arrays and the blank ones
         a = [this.savedPoints, this.savedContents, this.openFiles, this.openFileMDTs, this.openFileVersions, this.cMInstances];
         b = [savedPoints, savedContents, openFiles, openFileMDTs, openFileVersions, cMInstances];
 
         // Push the new order values into array b then set into array a
-        for (var i=0;i<a.length;i++) {
-            for (var j=0;j<a[i].length;j++) {
-                b[i].push(a[i][newOrder[j]-1]);
+        for (let i = 0; i < a.length; i++) {
+            for (let j = 0; j < a[i].length; j++) {
+                b[i].push(a[i][newOrder[j] - 1]);
             }
             a[i] = b[i];
         }
 
         // Begin swapping tab id's around to an ascending order and work out new selectedTab
-        for (var i=0;i<newOrder.length;i++) {
-            get('tab'+newOrder[i]).id = "tab" + (i+1) + ".temp";
-            if (this.selectedTab == newOrder[i]) {
-                selectedTabWillBe = (i+1);
+        for (let i = 0; i < newOrder.length; i++) {
+            get('tab' + newOrder[i]).id = "tab" + (i + 1) + ".temp";
+            if (this.selectedTab === newOrder[i]) {
+                selectedTabWillBe = (i + 1);
             }
         }
 
         // Now remove the .temp part from all tabs to get new ascending order
-        for (var i=0;i<newOrder.length;i++) {
-            get('tab'+(i+1)+'.temp').id = "tab"+(i+1);
+        for (var i = 0; i < newOrder.length; i++) {
+            get('tab' + (i + 1) + '.temp').id = "tab" + (i + 1);
         }
 
         // Set the array values, tab widths and switch tab
@@ -4478,33 +4598,31 @@ var ICEcoder = {
         this.cMInstances = a[5];
 
         // Set tab widths and switch to this tab
-        this.setTabWidths();
+        this.setTabWidths(false);
         this.switchTab(selectedTabWillBe);
     },
 
     // Alphabetize tabs
     alphaTabs: function() {
-        var fileName, fileExt;
-        if (this.openFiles.length>0) {
-            var currentArray, currentArrayFull, alphaArray, nextValue, nextPos;
-
+        let fileName, fileExt, currentArray, currentArrayFull, alphaArray, nextValue, nextValueFull, nextPos;
+        if (0 < this.openFiles.length) {
             currentArray = [];
             currentArrayFull = [];
             alphaArray = [];
             // Get filenames, full paths and set classname for sliding
-            for (var i=0;i<this.openFiles.length;i++) {
-                currentArray.push(this.openFiles[i].slice(this.openFiles[i].lastIndexOf('/')+1));
+            for (let i = 0; i < this.openFiles.length; i++) {
+                currentArray.push(this.openFiles[i].slice(this.openFiles[i].lastIndexOf('/') + 1));
                 currentArrayFull.push(this.openFiles[i]);
                 fileName = this.openFiles[i];
                 fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
-                get('tab'+(i+1)).className = "tab ext-" + fileExt + " tabSlide";
+                get('tab' + (i + 1)).className = "tab ext-" + fileExt + " tabSlide";
             }
             // Get our next value, which is the next filename alpha lowest value and full path
-            while (currentArray.length>0) {
+            while (0 < currentArray.length) {
                 nextValue = currentArray[0];
                 nextValueFull = currentArrayFull[0];
                 nextPos = 0;
-                for (var i=0;i<currentArray.length;i++) {
+                for (let i = 0; i < currentArray.length; i++) {
                     if (currentArray[i] < nextValue) {
                         nextValue  = currentArray[i];
                         nextValueFull  = this.openFiles[this.openFiles.indexOf(currentArrayFull[i])];
@@ -4512,88 +4630,54 @@ var ICEcoder = {
                     }
                 }
                 // When we've got it, push into alphaArray and splice out of arrays
-                alphaArray.push((this.openFiles.indexOf(nextValueFull)+1));
-                currentArray.splice(nextPos,1);
-                currentArrayFull.splice(nextPos,1);
+                alphaArray.push((this.openFiles.indexOf(nextValueFull) + 1));
+                currentArray.splice(nextPos, 1);
+                currentArrayFull.splice(nextPos, 1);
             }
             // Once done, sort our tabs into new order
             this.sortTabs(alphaArray);
         }
     },
 
-// ==============
+// ==
 // UI
-// ==============
+// ==
 
     // Detect keys/combos plus identify our area and set the vars, perform actions
     interceptKeys: function(area, evt) {
-        var key, cM, cMdiff, thisCM;
+        let key, ctrlOrCmd, cM, thisCM;
 
-        key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+        key = evt.keyCode ?? evt.which ?? evt.charCode;
 
         // Reset the auto-logout timer
         this.resetAutoLogoutTimer();
 
-        // Detect if we type s,n,a,k,e keys with content saved, if so start snake game
-        if (!this.last5Keys) {this.last5Keys = [];}
-        this.last5Keys.push(key);
-        if (this.last5Keys.length == 6) {
-            this.last5Keys.shift();
-        }
-        if (this.last5Keys.join() == "83,78,65,75,69") {
-            setTimeout(function(ic) {
-                // Undo back to pre 'snake' word
-                cM = ic.getcMInstance();
-                var undoCounts = 0;
-                var startCG = cM.changeGeneration();
-                while (cM.changeGeneration() > startCG-5) {
-                    cM.undo();
-                    undoCounts++;
-                }
-                // If we have content saved
-                if (ic.savedPoints[ic.selectedTab-1] == cM.changeGeneration()) {
-                    // Start snake game
-                    ic.startSnake();
-                    // If we don't, redo snake word
-                } else {
-                    for (var i=1; i<=undoCounts; i++) {
-                        cM.redo();
-                    }
-                }
-            },0,this);
-        }
-
-        // Detect arrow keys if playing snake
-        if (this.snakePlaying) {
-            if (key==37) {this.snakeDir = 'left'}
-            if (key==39) {this.snakeDir = 'right'}
-            if (key==38) {this.snakeDir = 'up'}
-            if (key==40) {this.snakeDir = 'down'}
-            return false;
-        }
-
         // Mac command key handling (224 = Moz, 91/93 = Webkit Left/Right Apple)
-        if (key==224 || key==91 || key==93) {
+        if (-1 < [224, 91, 93].indexOf(key)) {
             this.cmdKey = true;
         }
 
+        // Set bool based on CTRL or Cmd key being pressed
+        ctrlOrCmd = -1 < [evt.ctrlKey, this.cmdKey].indexOf(true);
+
         // F1 (zoom code out non declaration lines)
-        if (key === 112) {
-            if (this.codeZoomedOut) {
+        if (112 === key) {
+            evt.preventDefault();
+            if (true === this.codeZoomedOut) {
                 return;
             }
             this.codeZoomedOut = true;
 
             cM = this.getcMInstance();
             // For every line in the current editor, add code-zoomed-out class if not a function/class declaration line
-            for (var i=0; i<cM.lineCount(); i++) {
-                var nonDeclareLine = true;
-                for (var j=0; j<this.functionClassList.length; j++) {
-                    if (this.functionClassList[j].line == i) {
+            for (let i = 0; i < cM.lineCount(); i++) {
+                let nonDeclareLine = true;
+                for (let j = 0; j < this.functionClassList.length; j++) {
+                    if (this.functionClassList[j].line === i) {
                         nonDeclareLine = false;
                     }
                 }
-                if (nonDeclareLine) {
+                if (true === nonDeclareLine) {
                     cM.addLineClass(i, "wrap", "code-zoomed-out");
                 }
             }
@@ -4603,64 +4687,99 @@ var ICEcoder = {
         };
 
         // DEL (Delete file)
-        if (key==46 && area == "files") {
+        if (46 === key && "files" === area) {
             this.deleteFiles();
             return false;
         };
 
         // Alt key down?
         if (evt.altKey) {
-            // detect alt right
-            var isAltRight	= (evt.ctrlKey||this.cmdKey) ? true:false;
+            // Detect alt right
+            let isAltRight = ctrlOrCmd;
 
-            // tag wrapper, add line break at end or focus on file manager
+            // Tag wrapper, add line break at end or focus on file manager
             if (
-                (this.tagWrapperCommand=="ctrl+alt" && isAltRight) // CTRL/Cmd + alt left + key || alt right + key
-                || (this.tagWrapperCommand=="alt-left" && !isAltRight) // alt left + key
+                ("ctrl+alt" === this.tagWrapperCommand && true === isAltRight) // CTRL/Cmd + alt left + key || alt right + key
+                || ("alt-left" === this.tagWrapperCommand && false === isAltRight) // alt left + key
             ) {
-                if (area=="content") {
-                    if (key==68) {this.tagWrapper('div'); return false;}
-                    else if (key==83) {this.tagWrapper('span'); return false;}
-                    else if (key==80) {this.tagWrapper('p'); return false;}
-                    else if (key==65) {this.tagWrapper('a'); return false;}
-                    else if (key==49) {this.tagWrapper('h1'); return false;}
-                    else if (key==50) {this.tagWrapper('h2'); return false;}
-                    else if (key==51) {this.tagWrapper('h3'); return false;}
-                    else if (key==13) {this.addLineBreakAtEnd(); return false;}
-                    else if (key==37) {this.filesFrame.contentWindow.focus();return false;}
-                    else {return key;}
+                if ("content" === area) {
+                    switch(key) {
+                        // d
+                        case 68:
+                            this.tagWrapper('div'); 
+                            break;
+                        // s
+                        case 83:
+                            this.tagWrapper('span');
+                            break;
+                        // p
+                        case 80:
+                            this.tagWrapper('p');
+                            break;
+                        // a
+                        case 65:
+                            this.tagWrapper('a');
+                            break;
+                        // 1
+                        case 49:
+                            this.tagWrapper('h1');
+                            break;
+                        // 2
+                        case 50:
+                            this.tagWrapper('h2');
+                            break;
+                        // 3
+                        case 51:
+                            this.tagWrapper('h3');
+                            break;
+                        // Enter
+                        case 13:
+                            this.addLineBreakAtEnd();
+                            break;
+                        // Shift
+                        case 16:
+                            this.filesFrame.contentWindow.focus();
+                            break;
+                        default:
+                            return key;
+                      }
+                      return false;
                 }
-                // Focus on file manager (outside of content area) or last editor pane
-                if (key==37) {this.filesFrame.contentWindow.focus();return false;}
-                else if (key==39) {this.focus(this.editorFocusInstance.indexOf('diff') > -1 ? true : false);return false;}
-                else {return key;}
-                // Alt+Enter (Insert Line After)
-            } else if (key==13) {
+                // Shift and not focused on content area, set focus to last editor pane
+                if (16 === key) {
+                    this.focus(this.editorFocusInstance.indexOf('diff') > -1 ? true : false);
+                    return false;
+                }
+                return key;
+            // Alt + Enter (Insert Line After)
+            } else if (13 === key) {
                 this.insertLineAfter();
                 return false;
-            } else {return key;}
+            } else {
+                return key;
+            }
 
         } else {
 
-            // Shift+Enter (Insert Line Before)
-            if(key==13 && evt.shiftKey) {
+            // Shift + Enter (Insert Line Before)
+            if (13 === key && true === evt.shiftKey) {
                 this.insertLineBefore();
                 return false;
 
-                // CTRL/Cmd+F (Find next)
-                // and
-                // CTRL/Cmd+G (Find previous)
-            } else if((key==70||key==71) && (evt.ctrlKey||this.cmdKey)) {
-                var find = get('find');
-                var selections = this.getThisCM().getSelections();
-                if (selections.length > 0){
-                    if (selections[0].length > 0){
+            // CTRL/Cmd + F (Find next)
+            // and
+            // CTRL/Cmd + G (Find previous)
+            } else if (-1 < [70, 71].indexOf(key) && true === ctrlOrCmd) {
+                let find = get('find');
+                let selections = this.getThisCM().getSelections();
+                if (0 < selections.length){
+                    if (0 < selections[0].length){
                         find.value = selections[0];
                     }
                 }
                 find.select();
-                // this is trick for Chrome - after you have used Ctrl-F once, when
-                // you try using Ctrl-F another time, somewhy Chrome still thinks,
+                // This is trick for Chrome - after you have used Ctrl-F once, when
+                // you try using Ctrl + F another time, for some reason Chrome still thinks,
                 // that find has focus and refuses to give it focus second time.
                 get('goToLineNo').focus();
                 find.focus();
@@ -4668,82 +4787,78 @@ var ICEcoder = {
                 this.findReplace(find.value, true, true, 70 !== key);
                 return false;
 
-                // CTRL/Cmd+L (Go to line)
-            } else if(key==76 && (evt.ctrlKey||this.cmdKey)) {
-                var goToLineInput = get('goToLineNo');
+            // CTRL/Cmd+L (Go to line)
+            } else if (76 === key && true === ctrlOrCmd) {
+                let goToLineInput = get('goToLineNo');
                 goToLineInput.select();
                 // this is trick for Chrome - after you have used Ctrl-F once, when
-                // you try using Ctrl-F another time, somewhy Chrome still thinks,
+                // you try using Ctrl + F another time, for some reason Chrome still thinks,
                 // that find has focus and refuses to give it focus second time.
                 get('find').focus();
                 goToLineInput.focus();
                 return false;
 
-                // CTRL/Cmd+I (Get info)
-            } else if(key==73 && (evt.ctrlKey||this.cmdKey) && area == "content") {
+            // CTRL/Cmd + I (Get info)
+            } else if (73 === key && true === ctrlOrCmd && "content" === area) {
                 this.searchForSelected();
                 return false;
 
-                // CTRL/Cmd+backspace arrow (Go to previous tab selected)
-            } else if(key==8 && (evt.ctrlKey||this.cmdKey)) {
-                if (this.prevTab !== 0) {
+            // CTRL/Cmd + backspace (Go to previous tab selected)
+            } else if (8 === key && true === ctrlOrCmd) {
+                if (0 !== this.prevTab) {
                     this.switchTab(this.prevTab);
                 }
                 return false;
 
-                // CTRL/Cmd+right arrow (Tab to right)
-            } else if(key==39 && (evt.ctrlKey||this.cmdKey) && area!="content") {
+            // CTRL/Cmd + right arrow (Tab to right)
+            } else if (39 === key && true === ctrlOrCmd && "content" !== area) {
                 this.nextTab();
                 return false;
 
-                // CTRL/Cmd+left arrow (Tab to left)
-            } else if(key==37 && (evt.ctrlKey||this.cmdKey) && area!="content") {
+            // CTRL/Cmd + left arrow (Tab to left)
+            } else if (37 === key && true === ctrlOrCmd && "content" !== area) {
                 this.previousTab();
                 return false;
 
-                // CTRL/Cmd+up arrow (Move line up)
-            } else if(key==38 && (evt.ctrlKey||this.cmdKey) && area=="content") {
+            // CTRL/Cmd + up arrow (Move line up)
+            } else if (38 === key && true === ctrlOrCmd && "content" === area) {
                 this.moveLines('up');
                 return false;
 
-                // CTRL/Cmd+down arrow (Move line down)
-            } else if(key==40 && (evt.ctrlKey||this.cmdKey) && area=="content") {
+            // CTRL/Cmd + down arrow (Move line down)
+            } else if (40 === key && true === ctrlOrCmd && "content" === area) {
                 this.moveLines('down');
                 return false;
 
-                // CTRL/Cmd+numeric plus (New tab)
-            } else if((key==107 || key==187) && (evt.ctrlKey||this.cmdKey)) {
-                area=="content"
+            // CTRL/Cmd + numeric plus (New tab)
+            } else if ((107 === key || 187 === key) && true === ctrlOrCmd) {
+                "content" === area
                     ? this.duplicateLines()
                     : this.newTab(false);
                 return false;
 
-                // CTRL/Cmd+numeric minus (Close tab)
-            } else if((key==109 || key==189) && (evt.ctrlKey||this.cmdKey)) {
-                area=="content"
+            // CTRL/Cmd + numeric minus (Close tab)
+            } else if ((109 === key || 189 === key) && true === ctrlOrCmd) {
+                "content" === area
                     ? this.removeLines()
                     : this.closeTab(this.selectedTab);
                 return false;
 
-                // CTRL/Cmd+S (Save), CTRL/Cmd+Shift+S (Save As)
-            } else if(key==83 && (evt.ctrlKey||this.cmdKey)) {
-                if(evt.shiftKey) {
-                    this.saveFile(true, false);
-                } else {
-                    this.saveFile(false, false);
-                }
+            // CTRL/Cmd + S (Save), CTRL/Cmd + Shift + S (Save As)
+            } else if (83 === key && true === ctrlOrCmd) {
+                this.saveFile(true === evt.shiftKey, false);
                 return false;
 
-                // CTRL/Cmd+Enter (Open Webpage)
-            } else if(key==13 && (evt.ctrlKey||this.cmdKey) && this.openFiles[this.selectedTab-1] != "/[NEW]") {
+            // CTRL/Cmd + Enter (Open Webpage)
+            } else if (13 === key && true === ctrlOrCmd && "/[NEW]" !== this.openFiles[this.selectedTab - 1]) {
                 this.resetKeys(evt);
-                window.open(this.openFiles[this.selectedTab-1]);
+                window.open(this.openFiles[this.selectedTab - 1]);
                 return false;
 
-                // Enter (Expand dir/open file)
-            } else if(key==13 && area=="files") {
-                if(!evt.ctrlKey && !this.cmdKey) {
-                    if (this.selectedFiles.length == 0) {
+            // Enter (Expand dir/open file)
+            } else if (13 === key && "files" === area) {
+                if (false === ctrlOrCmd) {
+                    if (0 === this.selectedFiles.length) {
                         this.overFileFolder('folder', '|');
                         this.selectFileFolder('init');
                     }
@@ -4751,65 +4866,59 @@ var ICEcoder = {
                 }
                 return false;
 
-                // Up/down/left/right arrows (Traverse files)
-            } else if((key==38||key==40||key==37||key==39) && area=="files") {
-                if(!evt.ctrlKey && !this.cmdKey) {
-                    if (this.selectedFiles.length == 0) {
+            // Up/down/left/right arrows (traverse files)
+            } else if (-1 < [37, 38, 39, 40].indexOf(key) && "files" === area) {
+                if (false === ctrlOrCmd) {
+                    if (0 === this.selectedFiles.length) {
                         this.overFileFolder('folder', '|');
                         this.selectFileFolder('init');
                     }
-                    this.fmAction(evt,
-                        key==38 ?	'up' :
-                            key==40 ?	'down' :
-                                key==37 ?	'left' :
-                                    'right');
+                    this.fmAction(evt, ['left', 'up', 'right', 'down'][key - 37]);
                 }
                 return false;
 
-                // CTRL/Cmd+O (Open Prompt)
-            } else if(key==79 && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL/Cmd + O (Open Prompt)
+            } else if (79 === key && true === ctrlOrCmd) {
                 this.openPrompt();
                 return false;
 
-                // CTRL/Cmd+Space (Add snippet)
-            } else if(key==32 && (evt.ctrlKey||this.cmdKey) && area=="content") {
+            // CTRL/Cmd + space (Add snippet)
+            } else if (32 === key && true === ctrlOrCmd && "content" === area) {
                 this.addSnippet();
                 return false;
 
-                // CTRL/Cmd+J (Jump to definition/back again)
-            } else if(key==74 && (evt.ctrlKey||this.cmdKey) && area=="content") {
+            // CTRL/Cmd + J (Jump to definition/back again)
+            } else if (74 === key && true === ctrlOrCmd && "content" === area) {
                 this.jumpToDefinition();
                 return false;
 
-                // CTRL + Tab (lock/unlock file manager)
-            } else if(key==223 && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL + ` (Lock/Unlock file manager)
+            } else if (223 === key && true === ctrlOrCmd) {
                 this.lockUnlockNav();
-                this.changeFilesW(this.lockedNav ? 'expand' : 'contract');
+                this.changeFilesW(true === this.lockedNav ? 'expand' : 'contract');
                 return false;
 
-                // CTRL + . (Fold/unfold current line)
-            } else if(key==190 && (evt.ctrlKey||this.cmdKey)) {
+            // CTRL + . (Fold/unfold current line)
+            } else if (190 === key && true === ctrlOrCmd) {
                 thisCM = this.getThisCM();
                 thisCM.foldCode(thisCM.getCursor());
                 return false;
 
-                // ESC in content area (Comment/Uncomment line)
-            } else if(key==27 && area == "content") {
+            // ESC in content area (Comment/Uncomment line)
+            } else if (27 === key && "content" === area) {
                 thisCM = this.getThisCM();
 
-                if (thisCM.getSelections().length > 1) {
-                    thisCM.execCommand("singleSelection");
-                } else {
-                    this.lineCommentToggle();
-                }
+                1 < thisCM.getSelections().length
+                    ? thisCM.execCommand("singleSelection")
+                    : this.lineCommentToggle();
                 return false;
 
-                // ESC not in content area (Cancel all actions)
-            } else if(key==27 && area != "content") {
+            // ESC not in content area (Cancel all actions)
+            } else if (27 === key && "content" !== area) {
                 this.cancelAllActions();
                 return false;
 
-                // Any other key
+            // Any other key
             } else {
                 return key;
             }
@@ -4818,29 +4927,29 @@ var ICEcoder = {
 
     // Reset the state of keys back to the normal state
     resetKeys: function(evt) {
-        var key, cM;
+        let key, thisCM;
 
-        key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
+        key = evt.keyCode ?? evt.which ?? evt.charCode;
 
-        if (key == 112 && this.codeZoomedOut) {
-            cM = this.getcMInstance();
+        if (112 === key && true === this.codeZoomedOut) {
+            thisCM = this.getcMInstance();
             // For every line in the current editor, remove code-zoomed-out class if not a function/class declaration line
-            for (var i=0; i<cM.lineCount(); i++) {
-                var nonDeclareLine = true;
-                for (var j=0; j<this.functionClassList.length; j++) {
-                    if (this.functionClassList[j].line == i) {
+            for (let i = 0; i < thisCM.lineCount(); i++) {
+                let nonDeclareLine = true;
+                for (let j = 0; j < this.functionClassList.length; j++) {
+                    if (i === this.functionClassList[j].line) {
                         nonDeclareLine = false;
                     }
                 }
-                if (nonDeclareLine) {
-                    cM.removeLineClass(i, "wrap", "code-zoomed-out");
+                if (true === nonDeclareLine) {
+                    thisCM.removeLineClass(i, "wrap", "code-zoomed-out");
                 }
             }
             // Refresh is necessary to re-draw lines
-            cM.refresh();
+            thisCM.refresh();
 
             // Go to line chosen if any
-            var cursor = cM.getCursor();
+            let cursor = thisCM.getCursor();
             this.goToLine(cursor.line + 1, cursor.ch, false);
 
             this.codeZoomedOut = false;
@@ -4848,9 +4957,10 @@ var ICEcoder = {
         this.cmdKey = false;
     },
 
+    // Handle Enter and Escape keys in modals
     handleModalKeyUp: function(evt, page) {
-        const key = evt.keyCode ? evt.keyCode : evt.which ? evt.which : evt.charCode;
-        const target = get('blackMask') ? get('blackMask') : parent.get('blackMask');
+        const key = evt.keyCode ?? evt.which ?? evt.charCode;
+        const target = get('blackMask') ?? parent.get('blackMask');
 
         if ("settings" === page && 13 === key) {
             get(page + 'IFrame').contentWindow.submitSettings();
@@ -4862,7 +4972,7 @@ var ICEcoder = {
 
     // Add snippet code completion
     addSnippet: function() {
-        var thisCM, lineNo, whiteSpace, content;
+        let thisCM, lineNo, whiteSpace, content;
 
         // Get line content after trimming whitespace
         thisCM = this.getThisCM();
@@ -4870,20 +4980,20 @@ var ICEcoder = {
         whiteSpace = thisCM.getLine(lineNo).length - thisCM.getLine(lineNo).replace(/^\s\s*/, '').length;
         content = thisCM.getLine(lineNo).slice(whiteSpace);
         // function snippet
-        if (content.slice(0,8)=="function") {
-            this.doSnippet('function','function VAR() {\nINDENT\tCURSOR\nINDENT}');
-            // if snippet
-        } else if (content.slice(0,2)=="if") {
-            this.doSnippet('if','if (CURSOR) {\nINDENT\t\nINDENT}');
-            // for snippet
-        } else if (content.slice(0,3)=="for") {
-            this.doSnippet('for','for (var i=0; i<CURSOR; i++) {\nINDENT\t\nINDENT}');
+        if ("function" === content.slice(0, 8)) {
+            this.doSnippet('function', 'function VAR() {\nINDENT\tCURSOR\nINDENT}');
+        // if snippet
+        } else if ("if" === content.slice(0, 2)) {
+            this.doSnippet('if', 'if (CURSOR) {\nINDENT\t\nINDENT}');
+        // for snippet
+        } else if ("for" === content.slice(0, 3)) {
+            this.doSnippet('for', 'for (let i = 0; i <CURSOR; i++) {\nINDENT\t\nINDENT}');
         }
     },
 
     // Action a snippet
-    doSnippet: function(tgtString,replaceString) {
-        var thisCM, lineNo, lineContents, remainder, strPos, replacedLine, whiteSpace, curPos, sPos, lineNoCount;
+    doSnippet: function(tgtString, replaceString) {
+        let thisCM, lineNo, lineContents, remainder, strPos, replacedLine, whiteSpace, curPos, sPos, lineNoCount;
 
         // Get line contents
         thisCM = this.getThisCM();
@@ -4891,52 +5001,55 @@ var ICEcoder = {
         lineContents = thisCM.getLine(lineNo);
 
         // Find our target string
-        if (lineContents.indexOf(tgtString)>-1) {
+        if (-1 < lineContents.indexOf(tgtString)) {
             // Get text on the line from our target to the end
             remainder = thisCM.getLine(lineNo);
             strPos = remainder.indexOf(tgtString);
-            remainder = remainder.slice(remainder.indexOf(tgtString)+tgtString.length+1);
+            remainder = remainder.slice(remainder.indexOf(tgtString) + tgtString.length + 1);
             // Replace the function name if any
-            replaceString = replaceString.replace(/VAR/g,remainder);
+            replaceString = replaceString.replace(/VAR/g, remainder);
             // Get replaced string from start to our strPos
-            replacedLine = thisCM.getLine(lineNo).slice(0,strPos);
+            replacedLine = thisCM.getLine(lineNo).slice(0, strPos);
             // Trim whitespace from start
             whiteSpace = thisCM.getLine(lineNo).length - thisCM.getLine(lineNo).replace(/^\s\s*/, '').length;
-            whiteSpace = thisCM.getLine(lineNo).slice(0,whiteSpace);
+            whiteSpace = thisCM.getLine(lineNo).slice(0, whiteSpace);
             // Replace indent with whatever whitespace we have
-            replaceString = replaceString.replace(/INDENT/g,whiteSpace);
+            replaceString = replaceString.replace(/INDENT/g, whiteSpace);
             replacedLine += replaceString;
             // Get cursor position
             curPos = replacedLine.indexOf("CURSOR");
             sPos = 0;
             lineNoCount = lineNo;
-            for (i=0;i<replacedLine.length;i++) {
-                if (replacedLine.indexOf("\n",sPos)<replacedLine.indexOf("CURSOR")) {
-                    sPos = replacedLine.indexOf("\n",sPos)+1;
-                    lineNoCount = lineNoCount+1;
+            for (let i = 0; i < replacedLine.length; i++) {
+                if (replacedLine.indexOf("\n", sPos) < replacedLine.indexOf("CURSOR")) {
+                    sPos = replacedLine.indexOf("\n", sPos) + 1;
+                    lineNoCount = lineNoCount + 1;
                 }
             }
             // Clear the cursor string and set the cursor there
-            thisCM.replaceRange(replacedLine.replace("CURSOR",""),{line:lineNo,ch:0},{line:lineNo,ch:1000000}, "+input");
-            thisCM.setCursor(lineNoCount,curPos);
+            thisCM.replaceRange(replacedLine.replace("CURSOR", ""), {line: lineNo, ch: 0}, {line: lineNo, ch: 1000000}, "+input");
+            thisCM.setCursor(lineNoCount, curPos);
             // Finally, focus on the editor
-            this.focus(this.editorFocusInstance.indexOf('diff') > -1 ? true : false);
+            this.focus(-1 < this.editorFocusInstance.indexOf('diff') ? true : false);
         }
     },
 
     viewTutorial: function(step, delay) {
-        var winW, winH;
+        let winW, winH, cM, cMDiff;
 
         winW = window.innerWidth;
         winH = window.innerHeight;
 
-        var steps = {
+        cM = this.getcMInstance();
+        cMDiff = this.getcMdiffInstance();
+
+        let steps = {
             0: {
                 "width": 250,
                 "height": 55,
                 "top": -55,
                 "left": 0,
-                "title": "<img src=\"assets/images/icecoder.png\" style=\"position: absolute; margin: -105px 0 0 -55px\"><br><br>Code editor awesomeness ...in your browser",
+                "title": "<img src=\"" + this.iceLoc + "/assets/images/icecoder.png\" style=\"position: absolute; margin: -105px 0 0 -55px\"><br><br>Code editor awesomeness ...in your browser",
                 "message": "View the quick start tutorial? (Well worthwhile!) or <a onclick=\"ICEcoder.viewTutorial(99, 0)\" style=\"font-size: 14px; text-decoration: underline; cursor: pointer\">skip it</a>.",
                 "button": "view tutorial"
             },
@@ -4951,7 +5064,7 @@ var ICEcoder = {
             },
             2: {
                 "width": 250,
-                "height": winH - 85,
+                "height": winH - 73,
                 "top": 50,
                 "left": 0,
                 "title": "File manager",
@@ -4959,10 +5072,10 @@ var ICEcoder = {
                 "button": "next &gt;"
             },
             3: {
-                "width": 45,
-                "height": 85,
+                "width": 43,
+                "height": 102,
                 "top": 50,
-                "left": 205,
+                "left": 195,
                 "title": "File manager options and plugins",
                 "message": "Here you can unlock/lock the file manager to collapse/expand it, refresh the file manager plus view and install plugins. (Also, move your mouse to left edge of file manager for quick access to the plugins).",
                 "button": "next &gt;"
@@ -4970,7 +5083,7 @@ var ICEcoder = {
             4: {
                 "width": 250,
                 "height": 35,
-                "top": winH - 35,
+                "top": winH - 30,
                 "left": 0,
                 "title": "Extra tools",
                 "message": "Get access to the terminal, output, database and Git interfaces here, displayed as an overlay to get the largest display, click option again to slide overlay out.",
@@ -5004,12 +5117,12 @@ var ICEcoder = {
                 "button": "next &gt;"
             },
             8: {
-                "width": 520,
-                "height": 380,
+                "width": 580,
+                "height": 500,
                 "top": 70,
                 "left": 250,
                 "title": "System info",
-                "message": "This is general info about your server, paths, browser and more. Worth noting to ensure settings seem correct.",
+                "message": "This is general info about your server, paths, browser and more. Worth noting to ensure settings seem correct. Viewable when no tabs showing.",
                 "button": "next &gt;"
             },
             9: {
@@ -5051,7 +5164,7 @@ var ICEcoder = {
             get("infoMessageContainer").style.marginTop = -300 + "px";
             // After 100ms show border and message text (still above screen)
             setTimeout(function() {
-                get("infoBlackMask").style.border = "solid 10000px rgba(0,0,0,0.8)";
+                get("infoBlackMask").style.border = "solid 10000px rgba(0, 0, 0, 0.8)";
                 get("infoMessageContainer").style.opacity = "1";
             }, 100);
             // After requested delay, slide in message but account for logo
@@ -5063,12 +5176,24 @@ var ICEcoder = {
             return;
         }
 
+        if (8 === step) {
+            if (cM) {
+                cM.getWrapperElement().style.visibility = "hidden";
+                cMDiff.getWrapperElement().style.visibility = "hidden";
+            }
+        }
+
         if (9 === step) {
+            if (cM) {
+                cM.getWrapperElement().style.visibility = "";
+                cMDiff.getWrapperElement().style.visibility = "";
+            }
             if ("" === get("versionsDisplay").innerText) {
                 get("versionsDisplay").innerText = "12345 backups";
             }
             steps[9].width = get("versionsDisplay").innerText.length * 9;
         }
+
         if (10 === step) {
             if ("12345 backups" === get("versionsDisplay").innerText) {
                 get("versionsDisplay").innerText = "";
@@ -5078,7 +5203,7 @@ var ICEcoder = {
         // If we're going beyond the last step, we're finishing
         if (11 < step) {
             // Reset styles ready for next time
-            get("infoBlackMask").style.border = "solid 10000px rgba(0,0,0,0)";
+            get("infoBlackMask").style.border = "solid 10000px rgba(0, 0, 0, 0)";
             get("infoMessageContainer").style.opacity = "0";
             setTimeout(function() {
                 get("infoBlackMask").style.display = "none";
@@ -5086,7 +5211,7 @@ var ICEcoder = {
             }, 500);
             // Mark tutorial as done in users settings and return
             xhr = this.xhrObj();
-            xhr.open("POST",iceLoc+"/lib/settings.php?action=turnOffTutorialOnLogin&csrf="+this.csrf,true);
+            xhr.open("POST", this.iceLoc + "/lib/settings.php?action=turnOffTutorialOnLogin&csrf=" + this.csrf, true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.send();
         }
@@ -5116,143 +5241,4 @@ var ICEcoder = {
         get("infoMessage").innerHTML = '<div class="title">' + steps[step].title + '</div>' + steps[step].message + '<br><br><div class="button" onclick="ICEcoder.viewTutorial(' + (step + 1) + ')">' + steps[step].button + '</div>';
     },
 
-    // Snart snake
-    startSnake: function() {
-        this.snakePlaying = true;
-        this.showHide('show',get('blackMask'));
-        get('mediaContainer').innerHTML = '<span style="font-size: 14px">Let\'s play<br><img src="'+iceLoc+'/assets/images/snake.png" alt="snake"><br><br><br>Use arrow keys to eat your code<br><br>(it returns afterwards of course) :-)</span>';
-        setTimeout(function(ic) {
-            ic.showHide('hide',get('blackMask'));
-            get('mediaContainer').innerHTML = '';
-            ic.playSnake();
-        },2000,this);
-    },
-
-    // Play snake
-    playSnake: function() {
-        var cM;
-
-        cM = this.getcMInstance();
-        cM.setOption('readOnly', 'nocursor');
-        cM.focus();
-
-        // Get state of editor at present
-        this.snakePreHistory = cM.getHistory();
-        this.snakePreContent = cM.getValue();
-        this.snakePreCursor = cM.getCursor();
-
-        // Pick a random point for snake to come in and set head and 4 body parts off screen
-        var randPos = Math.floor(Math.random()*50);
-        this.snakePos = [
-            [randPos,0],
-            [randPos,-1],
-            [randPos,-2],
-            [randPos,-3],
-            [randPos,-4]
-        ];
-
-        // Show game layer, set direction and do 1st frame of snake
-        this.content.contentWindow.document.getElementById('game').style.display = 'block';
-        this.snakeDir = "down";
-        this.doSnake();
-
-        // Every 0.1s, move snake
-        this.snakeInt = setInterval(function(ic) {
-            // Set new head X & Y pos according to direction
-            var newHead = [];
-            newHead[0] = ic.snakePos[0][0]+(ic.snakeDir == "right" ? 1 : ic.snakeDir == "left" ? -1 : 0);
-            newHead[1] = ic.snakePos[0][1]+(ic.snakeDir == "down" ? 1 : ic.snakeDir == "up" ? -1 : 0);
-            // Add new head and remove tail
-            ic.snakePos.unshift(newHead);
-            ic.snakePos.pop();
-            // Do next frame of snake
-            ic.doSnake();
-        },100,this);
-    },
-
-    doSnake: function() {
-        var cM, cW, cH, newInnerHTML, lineData, lineContent, spaceReplaceChars, collision, scrollInfo;
-
-        // Get CodeMirror instance, plus char width and height
-        cM = this.getcMInstance();
-        cW = cM.defaultCharWidth();
-        cH = cM.defaultTextHeight();
-
-        // Clear content of game layer
-        this.content.contentWindow.document.getElementById('game').innerHTML = "";
-        // Start a new set of contents
-        newInnerHTML = "";
-        // For every part of snake, draw it's block in position
-        for (var i=0; i<this.snakePos.length; i++) {
-            newInnerHTML += '<div style="position: absolute; diplay: inline-block; width: '+cW+'px; height: '+cH+'px; top: '+((this.snakePos[i][1]*cH)+4)+'px; left: '+((this.snakePos[i][0]*cW)+60)+'px; background: #fff"></div>';
-        }
-        // Set new content in game layer
-        this.content.contentWindow.document.getElementById('game').innerHTML = newInnerHTML;
-
-        // Get line & ch value under snake head then line content
-        lineData = cM.coordsChar({top: ((this.snakePos[0][1]*cH)+4), left: ((this.snakePos[0][0]*cW)+60)});
-        lineContent = cM.getLine(lineData.line);
-
-        // If not the last char on the line
-        if (this.snakePos[0][0]-1 <= lineContent.length-2) {
-            spaceReplaceChars = "";
-            // If char under snake head is a tab, replace string contains spaces of same width
-            if (lineContent.substr(lineData.ch,1) === "\t") {
-                for (var i=0; i<cM.getOption('tabSize'); i++) {
-                    spaceReplaceChars += " ";
-                }
-                // Else replace string is a single space
-            } else {
-                spaceReplaceChars = " ";
-            }
-            // Push a duplicate of tail onto end, to increase snake length by 1 block
-            this.snakePos.push([this.snakePos[this.snakePos.length-1][0],this.snakePos[this.snakePos.length-1][1]]);
-            // Replace char under head with nothing if end of line, else with our replacement string
-            cM.doc.replaceRange(this.snakePos[0][0]-1 == lineContent.length-2 ? "" : spaceReplaceChars,lineData,{line: lineData.line, ch: lineData.ch+1}, "+input");
-            // Remove any trailing space at end
-            if (this.snakePos[0][0]-1 == lineContent.length-2) {
-                cM.doc.replaceRange(cM.getLine(lineData.line).replace(/[ \t]+$/,''),{line: lineData.line, ch: 0},{line: lineData.line, ch: 1000000}, "+input");
-            }
-        } else {
-            // Reduce snake length if over 5 chars and not on content
-            if (this.snakePos.length >= 5) {
-                this.snakePos.pop();
-            }
-        }
-        // Detect if snake head has collided into itself
-        collision = false;
-        for (var i=1; i<this.snakePos.length; i++) {
-            if (this.snakePos[i][0] == this.snakePos[0][0] && this.snakePos[i][1] == this.snakePos[0][1]) {
-                collision = true;
-            }
-        }
-        // Get scroll info to get width and height of editor area shown
-        scrollInfo = cM.getScrollInfo();
-        if (
-            // If snake out of bounds or a collision, game over!
-            this.snakePos[0][0] < 0 || this.snakePos[0][1] < 0 ||
-            ((this.snakePos[0][0]*cW)+60) > scrollInfo.clientWidth || ((this.snakePos[0][1]*cH)+4) > scrollInfo.clientHeight ||
-            collision
-        ) {
-            // Clear interval and hide game layer
-            clearInterval(this.snakeInt);
-            this.content.contentWindow.document.getElementById('game').style.display = 'none';
-            // Set content, saved point, saved contents and history back to what they were pre game
-            cM.setValue(this.snakePreContent);
-            this.savedPoints[this.selectedTab-1] = cM.changeGeneration();
-            this.savedContents[this.selectedTab-1] = this.snakePreContent;
-            cM.setHistory(this.snakePreHistory);
-            // Redo changes indicator in title tag and tab highlight save indicator also to what they are now (pre game state)
-            this.indicateChanges();
-            this.redoTabHighlight(this.selectedTab);
-            // Set editor to be editable again
-            cM.setOption('readOnly', false);
-            // Set cursor back to what it was pre game and focus on editor
-            cM.setCursor(this.snakePreCursor);
-            cM.focus();
-            // State we are no longer playing snake
-            this.snakePlaying = false;
-        }
-
-    }
 };

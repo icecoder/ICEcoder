@@ -25,6 +25,8 @@ $text = [
         "none"                                     => "[پوچ]",
         "multi-user"                               => "چند کاربره",
         "Username"                                 => "Username:",
+        "version"                                  => "version",
+        "codemirror version"                       => "codemirror version",
     ],
 
     "files" =>
@@ -119,6 +121,11 @@ $text = [
     "bug-files-check" =>
     [
         "Found in"                                 => "یافتن در :",
+    ],
+
+    "bug-report" =>
+    [
+        "Bug Report"                                 => "Bug Report",
     ],
 
     "file-control" =>
@@ -286,7 +293,6 @@ $text = [
         "Replacing text in"                        => "جایگزین کردن متن در",
         "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
         "Cancelled tasks"                          => "تسک های لغو شده ",
-        "Open previous files"                      => "بازکردن فایل های قبلی؟",
         "Please note for..."                       => "Please note: for updating to work properly, you need to have write/delete access on all ICEcoder dirs & files. If you need to recover this version of ICEcoder for any reason, you'll find it in the /tmp dir. Click OK to proceed with an auto-update or cancel to visit the ICEcoder site so you can grab the zip and update manually.",
         "You can start..."                         => "شما می توانید ارسال خطا را از منوی کمک رسانی > تنظیمات انجام دهید",
         "Error cannot find..."                     => "خطا : نمی توانید به فایل / مسیر فایل های خطا دسترسی پیدا کنید.",
@@ -468,6 +474,11 @@ $text = [
         "Yes"                                      => "Yes",
         "No"                                       => "No",
         "Search"                                   => "Search",
+    ],
+
+    "demo-mode" =>
+    [
+        "Demo mode"                                => "Demo mode",
     ],
 
 ];

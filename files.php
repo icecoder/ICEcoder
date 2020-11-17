@@ -5,33 +5,33 @@ $t = $text['files'];
 ?>
 <!DOCTYPE html>
 
-<html onmousedown="parent.ICEcoder.mouseDown = true; parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.boxSelect(event, 'down')" onMouseUp="parent.ICEcoder.mouseDown = false; parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.mouseDownInCM = false; parent.ICEcoder.boxSelect(event, 'up'); if (!parent.ICEcoder.overCloseLink) {parent.ICEcoder.tabDragEnd()}" onmousemove="if(parent.ICEcoder) {parent.ICEcoder.getMouseXY(event, 'files'); parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.canResizeFilesW(); parent.ICEcoder.boxSelect(event, 'drag')}" ondrop="if(parent.ICEcoder) {parent.ICEcoder.getMouseXY(event, 'files')}" oncontextmenu="parent.ICEcoder.selectFileFolder(event); return parent.ICEcoder.showMenu(event)" onclick="if (!parent.ICEcoder.fmDraggedBox) {parent.ICEcoder.selectFileFolder(event)} else {parent.ICEcoder.fmDraggedBox = false}" ondragstart="parent.ICEcoder.selectFileFolder(event);" ondragover="event.preventDefault(); event.stopPropagation()">
+<html onmousedown="parent.ICEcoder.mouseDown = true; parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.boxSelect(event, 'down')" onmouseup="parent.ICEcoder.mouseDown = false; parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.mouseDownInCM = false; parent.ICEcoder.boxSelect(event, 'up'); if (!parent.ICEcoder.overCloseLink) {parent.ICEcoder.tabDragEnd()}" onmousemove="if (parent.ICEcoder) {parent.ICEcoder.getMouseXY(event, 'files'); parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.canResizeFilesW(); parent.ICEcoder.boxSelect(event, 'drag')}" ondrop="if (parent.ICEcoder) {parent.ICEcoder.getMouseXY(event, 'files')}" oncontextmenu="parent.ICEcoder.selectFileFolder(event); return parent.ICEcoder.showMenu(event)" onclick="if (!parent.ICEcoder.fmDraggedBox) {parent.ICEcoder.selectFileFolder(event)} else {parent.ICEcoder.fmDraggedBox = false}" ondragstart="parent.ICEcoder.selectFileFolder(event);" ondragover="event.preventDefault(); event.stopPropagation()">
 <head>
-    <title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> file manager</title>
+    <title>ICEcoder v<?php echo $ICEcoder["versionNo"];?> file manager</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="stylesheet" type="text/css" href="assets/css/resets.css?microtime=<?php echo microtime(true);?>">
     <link rel="stylesheet" type="text/css" href="assets/css/files.css?microtime=<?php echo microtime(true);?>">
     <link rel="stylesheet" type="text/css" href="assets/css/file-types.css?microtime=<?php echo microtime(true);?>">
     <link rel="stylesheet" type="text/css" href="assets/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
-    <!--Updated via settings so must remain 4th stylesheet//-->
+    <!--Updated via settings so must remain 5th stylesheet//-->
     <style>
         ul.fileManager li a span { font-size:  <?php echo $ICEcoder["fontSize"];?>; }
     </style>
 </head>
 
-<body onfocus="parent.ICEcoder.files.style.background = '#444'" onblur="parent.ICEcoder.files.style.background = '#383838'" ondblclick="parent.ICEcoder.openFile()" onkeydown="return parent.ICEcoder.interceptKeys('files', event);" onkeyup="parent.ICEcoder.resetKeys(event);" onblur="parent.ICEcoder.resetKeys(event);">
+<body onfocus="parent.ICEcoder.files.style.background = '#444'" onblur="parent.ICEcoder.files.style.background = '#383838'" ondblclick="if ('file' === parent.ICEcoder.thisFileFolderType) {parent.ICEcoder.openFile()}" onkeydown="return parent.ICEcoder.interceptKeys('files', event);" onkeyup="parent.ICEcoder.resetKeys(event);" onblur="parent.ICEcoder.resetKeys(event);">
 
-<div title="<?php echo $t['Lock'];?>" onClick="parent.ICEcoder.lockUnlockNav()" id="fmLock" class="lock"></div>
-<div title="<?php echo $t['Refresh'];?>" onClick="parent.ICEcoder.refreshFileManager()" class="refresh"></div>
-<div title="<?php echo $t['Plugins'];?>" onClick="parent.ICEcoder.showHidePlugins('55px' !== parent.document.getElementById('plugins').style.width  ? 'show' : 'hide')" class="plugins"></div>
+<div title="<?php echo $t['Lock'];?>" onclick="parent.ICEcoder.lockUnlockNav()" class="lock"><div id="fmLockClosed" style="display: <?php echo true === $ICEcoder["lockedNav"] ? "inline-block" : "none";?>"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/lock.svg");?></div><div id="fmLockOpen" style="display: <?php echo true === $ICEcoder["lockedNav"] ? "none" : "inline-block";?>"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/lock-open.svg");?></div></div>
+<div title="<?php echo $t['Refresh'];?>" onclick="parent.ICEcoder.refreshFileManager()" class="refresh"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/rotate-clockwise.svg");?></div>
+<div title="<?php echo $t['Plugins'];?>" onclick="parent.ICEcoder.showHidePlugins('55px' !== parent.document.getElementById('plugins').style.width  ? 'show' : 'hide')" class="plugins"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/plug.svg");?></div>
 
 <ul class="fileManager">
     <li class="pft-directory dirOpen"><a nohref title="/" ondragover="parent.ICEcoder.overFileFolder('folder', '|'); parent.ICEcoder.highlightFileFolder('|', true);" ondragleave="parent.ICEcoder.overFileFolder('folder', ''); parent.ICEcoder.highlightFileFolder('|', false);" onmouseover="parent.ICEcoder.overFileFolder('folder', '|')" onmouseout="parent.ICEcoder.overFileFolder('folder', '')" onclick="parent.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="|">/ <?php
-                echo $iceRoot == "" ? $t['ROOT'] : trim($iceRoot, "/");
-                $thisPermVal = "Windows" !== $serverType ? substr(sprintf('%o', fileperms($docRoot.$iceRoot)), -3) : "";
-                $permColors = 777 == $thisPermVal ? 'background: #800; color: #eee' : 'color: #888';
-                ?></span> <span style="<?php echo $permColors;?>; font-size: 8px" id="|_perms"><?php echo $thisPermVal;;?></span></a></li><?php
-    // tree file items generated by the iFrame 'fileControl' below which loads in the items at location=| (ie, the root)
+        echo $iceRoot == "" ? $t['ROOT'] : trim($iceRoot, "/");
+        $thisPermVal = "Windows" !== $serverType ? substr(sprintf('%o', fileperms($docRoot . $iceRoot)), -3) : "";
+        $permColors = 777 == $thisPermVal ? 'background: #800; color: #eee' : 'color: #888';
+        ?></span> <span style="<?php echo $permColors;?>; font-size: 8px" id="|_perms"><?php echo $thisPermVal;?></span></a></li><?php
+        // tree file items generated by the iFrame 'fileControl' below which loads in the items at location=| (ie, the root)
     ?>
 </ul>
 

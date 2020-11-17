@@ -5,9 +5,9 @@ $t = $text['editor'];
 ?>
 <!DOCTYPE html>
 
-<html style="margin: 0" onmousedown="parent.ICEcoder.mouseDown = true; parent.ICEcoder.resetAutoLogoutTimer()" onMouseUp="parent.ICEcoder.mouseDown = false; parent.ICEcoder.mouseDownInCM = false; parent.ICEcoder.resetAutoLogoutTimer(); if (!parent.ICEcoder.overCloseLink) {parent.ICEcoder.tabDragEnd()}" onmousemove="if(parent.ICEcoder) {parent.ICEcoder.getMouseXY(event, 'editor'); parent.ICEcoder.functionArgsTooltip(event, 'editor'); parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.canResizeFilesW()}" ondrop="if(parent.ICEcoder) {parent.ICEcoder.getMouseXY(event, 'editor')}">
+<html style="margin: 0" onmousedown="parent.ICEcoder.mouseDown = true; parent.ICEcoder.resetAutoLogoutTimer()" onmouseup="parent.ICEcoder.mouseDown = false; parent.ICEcoder.mouseDownInCM = false; parent.ICEcoder.resetAutoLogoutTimer(); if (!parent.ICEcoder.overCloseLink) {parent.ICEcoder.tabDragEnd()}" onmousemove="if (parent.ICEcoder) {parent.ICEcoder.getMouseXY(event, 'editor'); parent.ICEcoder.functionArgsTooltip(event, 'editor'); parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.canResizeFilesW()}" ondrop="if (parent.ICEcoder) {parent.ICEcoder.getMouseXY(event, 'editor')}">
 <head>
-<title>ICEcoder v <?php echo $ICEcoder["versionNo"];?> editor</title>
+<title>ICEcoder v<?php echo $ICEcoder["versionNo"];?> editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="assets/css/codemirror.css?microtime=<?php echo microtime(true);?>">
@@ -15,39 +15,37 @@ $t = $text['editor'];
 <link rel="stylesheet" href="assets/css/lint.css?microtime=<?php echo microtime(true);?>">
 <!--
 codemirror-compressed.js
-incls:	codemirror
-modes:	clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, markdown, perl, php, python, ruby, sass, sql, xml, yaml
-addon:	brace-fold, closebrackets, closetag, css-hint, foldcode, foldgutter, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, matchbrackets, runmode, searchcursor, show-hint, simplescrollbars, sql-hint, trailingspace, xml-fold, xml-hint
+- incls: codemirror
+- modes: clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, markdown, perl, php, python, ruby, sass, sql, xml, yaml
+- addon: brace-fold, closebrackets, closetag, css-hint, foldcode, foldgutter, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, matchbrackets, runmode, searchcursor, show-hint, simplescrollbars, sql-hint, trailingspace, xml-fold, xml-hint
 //-->
 <script src="assets/js/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 <?php
-if (true === file_exists(dirname(__FILE__)."/plugins/jshint/jshint-2.5.6.min.js")) {
-	echo '<script src="plugins/jshint/jshint-2.5.6.min.js?microtime=' . microtime(true) . '"></script>';
-};
+$pluginFiles = [
+	"jshint/jshint-2.5.6.min.js",
+	"emmet/emmet.min.js",
+	"pesticide/pesticide.js",
+	"stats.js/stats.min.js",
+	"responsive-helper/responsive-helper.js"
+];
 
-if (true === file_exists(dirname(__FILE__)."/plugins/emmet/emmet.min.js")) {
-	echo '<script src="plugins/emmet/emmet.min.js?microtime=' . microtime(true) . '"></script>';
-};
-
-if (true === file_exists(dirname(__FILE__)."/plugins/pesticide/pesticide.js")) {
-	echo '<script src="plugins/pesticide/pesticide.js?microtime=' . microtime(true) . '"></script>';
-};
-
-if (true === file_exists(dirname(__FILE__)."/plugins/stats.js/stats.min.js")) {
-	echo '<script src="plugins/stats.js/stats.min.js?microtime=' . microtime(true) . '"></script>';
-};
-
-if (true === file_exists(dirname(__FILE__)."/plugins/responsive-helper/responsive-helper.js")) {
-	echo '<script src="plugins/responsive-helper/responsive-helper.js?microtime=' . microtime(true) . '"></script>';
-};?>
+for ($i = 0; $i < count($pluginFiles); $i++) {
+	if (true === file_exists(dirname(__FILE__) . "/plugins/" . $pluginFiles[$i])) {
+		echo '<script src="plugins/' . $pluginFiles[$i] . '?microtime=' . microtime(true) . '"></script>' . PHP_EOL;
+	}
+}
+?>
 <link rel="stylesheet" href="<?php
 echo dirname(basename(__DIR__)) . '/assets/css/theme/';
 echo "default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css';
 echo "?microtime=" . microtime(true);
-if (false !== array_search($ICEcoder["theme"], ["3024-day","base16-light","eclipse","elegant","mdn-like","neat","neo","paraiso-light","solarized","the-matrix","xq-light"])) {
+// Light themes
+if (false !== array_search($ICEcoder["theme"], ["base16-light", "chrome-devtools", "duotone-light", "eclipse", "eiffel", "elegant", "mdn-like", "idle", "iplastic", "ir_white", "johnny", "juicy", "neat", "neo", "solarized", "ttcn", "xq-light"])) {
 	$activeLineBG = "#ccc";
-} elseif (false !== array_search($ICEcoder["theme"], ["3024-night","blackboard","colorforth","liquibyte","night","tomorrow-night-bright","tomorrow-night-eighties","vibrant-ink"])) {
-	$activeLineBG = "#888";
+// Dark themes
+} elseif (false !== array_search($ICEcoder["theme"], ["3024-night", "all-hallow-eve", "black-pearl-ii", "blackboard", "colorforth", "django", "emacs-strict", "fade-to-grey", "fake", "glitterbomb", "isotope", "ir_black", "liquibyte", "monokai-fannonedition", "oceanic", "night", "spectacular", "sunburst", "the-matrix", "tomorrow-night-blue", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"])) {
+	$activeLineBG = "#222";
+// Other themes
 } else {
 	$activeLineBG = "#000";
 }
@@ -70,18 +68,18 @@ if (false !== array_search($ICEcoder["theme"], ["3024-day","base16-light","eclip
         background-position: bottom left;
         background-repeat: repeat-x;
       }
-.code-zoomed-out { font-size: 2px }
-.CodeMirror-foldmarker {font-family: arial; line-height: .3; color: #b00; cursor: pointer;
+.code-zoomed-out {font-size: 2px}
+.CodeMirror-foldmarker {font-family: arial; line-height: 0.3; color: #b00; cursor: pointer;
 	text-shadow: #fff 1px 1px 2px, #fff -1px -1px 2px, #fff 1px -1px 2px, #fff -1px 1px 2px;
 }
 .CodeMirror-foldgutter {display: inline-block; width: 13px}
 .CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
 .CodeMirror-foldgutter-open {background: rgba(255,255,255,0.04); color: #666}
-.CodeMirror-foldgutter-open:after {position: relative; top: -2px}
+.CodeMirror-foldgutter-open:after {position: relative; top: -4px}
 .CodeMirror-foldgutter-folded {background: #800; color: #ddd}
-.CodeMirror-foldgutter-folded:after {position: relative; top: -3px}
+.CodeMirror-foldgutter-folded:after {position: relative; top: -4px}
 h2 {color: rgba(0,198,255,0.7)}
-.heading {color:#888}
+.heading {color: #888}
 .cm-s-diff {left: 50%}
 .diffGreen {background: #0b0 !important; color: #000 !important}
 .diffRed {background: #800 !important; color: #fff !important}
@@ -89,6 +87,8 @@ h2 {color: rgba(0,198,255,0.7)}
 .diffGreyLighter {background: #888 !important; color: #1d1d1b !important}
 .diffNone {}
 .info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}
+.dataItems {float: left; line-height: 14px}
+.dataItems span {line-height: 21px}
 </style>
 <link rel="stylesheet" href="assets/css/file-types.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="assets/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
@@ -99,12 +99,12 @@ h2 {color: rgba(0,198,255,0.7)}
 <div style="display: none; margin: 32px 43px 0 43px; padding: 10px; width: 500px; font-family: arial; font-size: 10px; color: #ddd; background: #333" id="dataMessage"></div>
 
 <div style="margin: 20px 43px 32px 43px; font-family: arial; font-size: 10px; color: #ddd">
-	<div style="float: left; width: 300px; margin-right: 50px">
+	<div class="dataItems" style="width: 300px; margin-right: 50px">
 		<h2><?php echo $t['server'];?></h2>
 		<span class="heading"><?php echo $t['Server name, OS...'];?></span><br>
 		<?php
         $serverAddr = $_SERVER['SERVER_ADDR'] ?? "1";
-        if ($serverAddr == "1" || $serverAddr == "::1") {
+        if ("1" == $serverAddr || "::1" == $serverAddr) {
             $serverAddr = "127.0.0.1";
         }
         echo
@@ -115,22 +115,22 @@ h2 {color: rgba(0,198,255,0.7)}
 		<span class="heading"><?php echo $t['Root'];?></span><br>
 		<?php echo $docRoot;?><br><br>
 		<span class="heading"><?php echo $t['ICEcoder root'];?></span><br>
-		<?php echo $docRoot.$iceRoot;?><br><br>
+		<?php echo "" !== $iceRoot ? $iceRoot : "[Default]";?><br><br>
 		<span class="heading"><?php echo $t['PHP version'];?></span><br>
 		<?php echo phpversion();?><br><br>
 		<span class="heading"><?php echo $t['Date & time'];?></span><br>
 		<span id="serverDT"></span><br><br>
 		<h2><?php echo $t['your device'];?></h2>
 		<span class="heading"><?php echo $t['Browser'];?></span><br>
-		<?php echo xssClean($_SERVER['HTTP_USER_AGENT'],"html");?><br><br>
+		<?php echo xssClean($_SERVER['HTTP_USER_AGENT'], "html");?><br><br>
 		<span class="heading"><?php echo $t['Your IP'];?></span><br>
 		<?php echo getUserIP();?><br><br>
 	</div>
 
-	<div style="float: left">
+	<div class="dataItems">
 		<h2><?php echo $t['files'];?></h2>
 		<span class="heading"><?php echo $t['Last 10 files...'];?></span><br>
-		<ul class="fileManager" id="last10Files" style="margin-left: 0; line-height: 20px"><?php
+		<ul class="fileManager" id="last10Files" style="margin-top: 5px; margin-left: 0; line-height: 21px"><?php
             if (empty($ICEcoder["last10Files"])) {
                 echo '<div style="display: inline-block; margin-left: -39px; margin-top: -4px">' . $t['none'] . '</div><br>';
             } else {
@@ -139,8 +139,8 @@ h2 {color: rgba(0,198,255,0.7)}
                     // Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
                     $ext = "ext-" . pathinfo($docRoot . $iceRoot . $fileFolderName, PATHINFO_EXTENSION);
                     echo '<li class="pft-file ' . strtolower($ext) . '" style="margin-left: -21px">';
-                    echo '<a style="cursor:pointer" onClick="parent.ICEcoder.openFile(\'' . str_replace($docRoot, "", str_replace("|", "/", $ICEcoder["last10Files"][$i])) . '\')">';
-                    echo str_replace($docRoot, "", str_replace("|", "/", $ICEcoder["last10Files"][$i]));
+                    echo '<a style="position: relative; top: -2px; left: 5px; cursor: pointer" onclick="parent.ICEcoder.openFile(\'' . str_replace($docRoot, "", str_replace("|", "/", $ICEcoder["last10Files"][$i])) . '\')">';
+                    echo preg_replace("/^\//", "", str_replace($docRoot, "", str_replace("|", "/", $ICEcoder["last10Files"][$i])));
                     echo '</a></li>';
                     if ($i > 0) {
                         echo PHP_EOL;
@@ -157,13 +157,29 @@ h2 {color: rgba(0,198,255,0.7)}
             <?php
         }
         ?>
+		<h2>ICEcoder</h2>
+		<span class="heading"><?php echo $t['version'];?></span><br>
+		<?php
+		// If we have a .git dir, get the Git short commit hash to display as a link
+		$gitCommitTextLink = "";
+		if (is_dir(dirname(__FILE__) . "/.git")) {
+			$gitCommit = trim(exec('git log --pretty="%h" -n1 HEAD'));
+			$gitCommitTextLink = ' (Git commit: <a href="https://github.com/icecoder/ICEcoder/commit/' . $gitCommit . '" style="color: #eee; text-decoration: none" target="_blank">' . $gitCommit . '</a>)';
+		}
+		echo "v" . $ICEcoder["versionNo"] . $gitCommitTextLink;
+		?><br><br>
+		<span class="heading"><?php echo $t['codemirror version'];?></span><br>
+		<script>
+		document.write(CodeMirror.version);
+		</script>
+		<br><br>
 	</div>
 
 	<div style="clear: both"></div>
 	<script>
-	var nDT = <?php echo time() * 1000;?>;
+	let nDT = <?php echo time() * 1000;?>;
 	setInterval(function(){
-		var s = (new Date(nDT += 1e3) + '').split(' '),
+		let s = (new Date(nDT += 1e3) + '').split(' '),
 		d = s[2] * 1,
 		t = s[4].split(':'),
 		p = t[0] > 11 ? 'pm' : 'am',
@@ -181,7 +197,7 @@ CodeMirror.keyMap.ICEcoder = {
 	"Tab": function(cm) {
 		return cm.somethingSelected()
 		? (parent.ICEcoder.indentAuto
-			? cm.execCommand("indentAuto") // Honour our own setting indentAuto
+			? cm.execCommand("indentAuto") // Honor our own setting indentAuto
 			: cm.indentSelection("add") // Add indent (this is default handler in CodeMirror)
 		  )
 		: CodeMirror.Pass // Falls through to default or Emmet plugin
@@ -196,7 +212,7 @@ CodeMirror.keyMap.ICEcoder = {
 };
 
 // CodeMirror does not honor indentWithTabs = false properly when handling Tab key
-// Marijn said that it is by design, so we need to make a workaround of our own
+// It does this by design, so we need to make a workaround of our own
 (function(){
 	// let's back up original insertTab function which actually puts
 	var originalInsertTabFunction = CodeMirror.commands.insertTab;
@@ -241,8 +257,8 @@ function createNewCMInstance(num) {
 	};
 
 	// Start editor instances, main and diff
-	window['cM'+num] = CodeMirror(document.body, cMOptions);
-	window['cM'+num+'diff'] = CodeMirror(document.body, cMOptions);
+	window['cM' + num] = CodeMirror(document.body, cMOptions);
+	window['cM' + num + 'diff'] = CodeMirror(document.body, cMOptions);
 
 	// Define actions for those...
     createNewCMInstanceEvents(num, '');
@@ -254,27 +270,26 @@ function createNewCMInstance(num) {
 };
 
 function createNewCMInstanceEvents(num, pane) {
-    window['cM'+num+pane].on("focus", function(thisCM) {parent.ICEcoder.cMonFocus(thisCM, 'cM' + num + pane)});
-    window['cM'+num+pane].on("blur", function(thisCM) {parent.ICEcoder.cMonBlur(thisCM, 'cM' + num + pane)});
-    window['cM'+num+pane].on("keyup", function(thisCM) {parent.ICEcoder.cMonKeyUp(thisCM, 'cM' + num + pane)});
-    window['cM'+num+pane].on("cursorActivity", function(thisCM) {parent.ICEcoder.cMonCursorActivity(thisCM, 'cM' + num + pane)});
-    window['cM'+num+pane].on("beforeSelectionChange", function(thisCM, changeObj) {parent.ICEcoder.prevLine = thisCM.getCursor().line;});
-    window['cM'+num+pane].on("change", function(thisCM, changeObj) {parent.ICEcoder.cMonChange(thisCM, 'cM' + num + pane, changeObj, CodeMirror)});
-    window['cM'+num+pane].on("beforeChange", function(thisCM, changeObj) {parent.ICEcoder.cMonBeforeChange(thisCM, 'cM' + num + pane, changeObj, CodeMirror)});
-    window['cM'+num+pane].on("scroll", function(thisCM) {parent.ICEcoder.cMonScroll(thisCM, 'cM' + num + pane)});
-    window['cM'+num+pane].on("update", function(thisCM) {parent.ICEcoder.cMonUpdate(thisCM, 'cM' + num + pane)});
-    window['cM'+num+pane].on("inputRead", function(thisCM) {parent.ICEcoder.cMonInputRead(thisCM, 'cM' + num + pane)});
-    window['cM'+num+pane].on("gutterClick", function(thisCM,line,gutter,evt) {parent.ICEcoder.cMonGutterClick(thisCM, line, gutter, evt, 'cM' + num + pane)});
-    window['cM'+num+pane].on("mousedown", function(thisCM,evt) {parent.ICEcoder.cMonMouseDown(thisCM, 'cM' + num + pane, evt)});
-    window['cM'+num+pane].on("contextmenu", function(thisCM,evt) {parent.ICEcoder.cMonContextMenu(thisCM, 'cM' + num + pane, evt)});
-    window['cM'+num+pane].on("dragover", function(thisCM) {parent.ICEcoder.cMonDragOver(thisCM, event, 'cM' + num + pane)});
-    window['cM'+num+pane].on("renderLine", function(thisCM, line, element) {parent.ICEcoder.cMonRenderLine(thisCM, 'cM' + num + pane, line, element)});
+    window['cM' + num + pane].on("focus", function(thisCM) {parent.ICEcoder.cMonFocus(thisCM, 'cM' + num + pane)});
+    window['cM' + num + pane].on("blur", function(thisCM) {parent.ICEcoder.cMonBlur(thisCM, 'cM' + num + pane)});
+    window['cM' + num + pane].on("keyup", function(thisCM) {parent.ICEcoder.cMonKeyUp(thisCM, 'cM' + num + pane)});
+    window['cM' + num + pane].on("cursorActivity", function(thisCM) {parent.ICEcoder.cMonCursorActivity(thisCM, 'cM' + num + pane)});
+    window['cM' + num + pane].on("beforeSelectionChange", function(thisCM, changeObj) {parent.ICEcoder . prevLine = thisCM.getCursor().line;});
+    window['cM' + num + pane].on("change", function(thisCM, changeObj) {parent.ICEcoder.cMonChange(thisCM, 'cM' + num + pane, changeObj, CodeMirror)});
+    window['cM' + num + pane].on("beforeChange", function(thisCM, changeObj) {parent.ICEcoder.cMonBeforeChange(thisCM, 'cM' + num + pane, changeObj, CodeMirror)});
+    window['cM' + num + pane].on("scroll", function(thisCM) {parent.ICEcoder.cMonScroll(thisCM, 'cM' + num + pane)});
+    window['cM' + num + pane].on("update", function(thisCM) {parent.ICEcoder.cMonUpdate(thisCM, 'cM' + num + pane)});
+    window['cM' + num + pane].on("inputRead", function(thisCM) {parent.ICEcoder.cMonInputRead(thisCM, 'cM' + num + pane)});
+    window['cM' + num + pane].on("gutterClick", function(thisCM, line, gutter, evt) {parent.ICEcoder.cMonGutterClick(thisCM, line, gutter, evt, 'cM' + num + pane)});
+    window['cM' + num + pane].on("mousedown", function(thisCM, evt) {parent.ICEcoder.cMonMouseDown(thisCM, 'cM' + num + pane, evt)});
+    window['cM' + num + pane].on("paste", function(thisCM, evt) {parent.ICEcoder.cMonPaste(thisCM, 'cM' + num + pane, evt, (evt.clipboardData || window.clipboardData))});
+    window['cM' + num + pane].on("contextmenu", function(thisCM, evt) {parent.ICEcoder.cMonContextMenu(thisCM, 'cM' + num + pane, evt)});
+    window['cM' + num + pane].on("dragover", function(thisCM) {parent.ICEcoder.cMonDragOver(thisCM, event, 'cM' + num + pane)});
+    window['cM' + num + pane].on("renderLine", function(thisCM, line, element) {parent.ICEcoder.cMonRenderLine(thisCM, 'cM' + num + pane, line, element)});
 }
 </script>
 
 <div style="position: absolute; display: none; width: 12px; height: 100%; top: 0; right: 0; overflow: hidden; pointer-events: none; z-index: 2" id="resultsBar"></div>
-
-<div style="position: absolute; display: none; height: 100%; width: 100%; top: 0; padding: 3px 0 0 60px; line-height: 16px; font-family: monospace; font-size: 13px; z-index: 2147483647" id="game"></div>
 
 <script>
 CodeMirror.commands.autocomplete = function(cM) {

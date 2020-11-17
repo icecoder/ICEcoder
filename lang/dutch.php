@@ -25,6 +25,8 @@ $text = [
         "none"                                     => "[none]",
         "multi-user"                               => "multi-user",
         "Username"                                 => "Username:",
+        "version"                                  => "version",
+        "codemirror version"                       => "codemirror version",
     ],
 
     "files" =>
@@ -119,6 +121,11 @@ $text = [
     "bug-files-check" =>
     [
         "Found in"                                 => "Gevonden in:",
+    ],
+
+    "bug-report" =>
+    [
+        "Bug Report"                                 => "Bug Report",
     ],
 
     "file-control" =>
@@ -286,7 +293,6 @@ $text = [
         "Replacing text in"                        => "Wijzig de tekst in",
         "Sorry there was..."                       => "Helaas er is een fout opgetreden met uw aanvraag.\\n\\nKijk in de dev tools console voor meer informatie.",
         "Cancelled tasks"                          => "Geannuleerde taken",
-        "Open previous files"                      => "Open voorgaande bestand(en)?",
         "Please note for..."                       => "Let op: om de update goed te laten doorvoeren, moet je schrijfrechten hebben op alle bestanden en mappen van ICEcoder. Moet je deze versie van ICEcoder herstellen, dan vind je die in de map /tmp. Klik op ok om door te gaan met automatisch updaten, of druk op annuleren om af te breken. Voor een handmatige update kun je het zip bestand van de ICEcoder website downloaden.",
         "You can start..."                         => "U kunt bug rapporteren aanzetten in: Bewerken > Opties",
         "Error cannot find..."                     => "Fout: kan geen toegang krijgen of de bestands paden vinden",
@@ -468,6 +474,11 @@ $text = [
         "Yes"                                      => "Ja",
         "No"                                       => "Nee",
         "Search"                                   => "Zoek",
+    ],
+
+    "demo-mode" =>
+    [
+        "Demo mode"                                => "Demo mode",
     ],
 
 ];

@@ -2,7 +2,6 @@
 	background-color: #000;
 	color: #fff;
 	line-height: 1.2em;
-	font-size: 1em;
 }
 .cm-s-liquibyte .CodeMirror-focused .cm-matchhighlight {
 	text-decoration: underline;
@@ -19,7 +18,7 @@
 	text-decoration-color: #404040;
 	text-decoration-style: dotted;
 }
-.cm-s-liquibyte .CodeMirror-gutters { background-color: #262626; border-right: 1px solid #505050; padding-right: 0.8em; }
+.cm-s-liquibyte .CodeMirror-gutters { background-color: #262626; border-right: 1px solid #505050; }
 .cm-s-liquibyte .CodeMirror-gutter-elt div { font-size: 1.2em; }
 .cm-s-liquibyte .CodeMirror-guttermarker {  }
 .cm-s-liquibyte .CodeMirror-guttermarker-subtle {  }

@@ -1,4 +1,8 @@
 <?php
+// Exit early if no .git dir
+if (false === file_exists(dirname(__FILE__) . "/../.git")) {
+    exit;
+}
 // Only run internally on server, not from internet
 if (isset($_SERVER['HTTP_HOST'])) {
     die("Server side script only");

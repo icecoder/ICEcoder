@@ -1,0 +1,46 @@
+.cm-s-sunburst {
+	font-family: monospace;
+	background: #000000;
+	color: #F8F8F8;
+}
+.cm-s-sunburst .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #000000;
+	z-index: 3;
+	border: none;
+}
+.cm-s-sunburst div.CodeMirror-cursor {
+	border-left: 3px solid #F8F8F8;
+}
+.cm-s-sunburst .CodeMirror-activeline-background {
+	background: #FFFFFF1A;
+}
+.cm-s-sunburst .CodeMirror-selected {
+	background: #DDF0FF33;
+}
+.cm-s-sunburst .cm-comment {
+	font-style: italic;
+	color: #AEAEAE;
+}
+.cm-s-sunburst .cm-keyword {
+	color: #E28964;
+}
+.cm-s-sunburst .cm-string {
+	color: #65B042;
+}
+.cm-s-sunburst .cm-property {
+	color: #DAD085;
+}
+.cm-s-sunburst .cm-atom {
+	color: #DAD085;
+}
+.cm-s-sunburst .cm-number {
+	color: #DAD085;
+}
+.cm-s-sunburst .cm-operator {
+	color: #E28964;
+}
+.cm-s-sunburst .CodeMirror-linenumber {
+	color: italic;
+}

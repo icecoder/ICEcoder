@@ -43,7 +43,7 @@ if (false === empty($reqsFailures)) {
 	<div class="screenVCenter">
 		<div class="screenCenter">
 			<img src="../assets/images/icecoder.png" alt="ICEcoder">
-			<div class="version" style="margin-bottom: 22px">v <?php echo $settingsClass->versionNo;?></div>
+			<div class="version" style="margin-bottom: 22px"> echo $settingsClass->versionNo;?></div>
 
 			<span style="display: inline-block; color: #fff">
 		        	<b style="padding: 5px; background: #b00; color: #fff">Requirements problem!</b><br><br><br><br>

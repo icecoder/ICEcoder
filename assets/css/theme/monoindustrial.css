@@ -1,0 +1,49 @@
+.cm-s-monoindustrial {
+	font-family: monospace;
+	background: #222C28;
+	color: #FFFFFF;
+}
+.cm-s-monoindustrial .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #222C28;
+	z-index: 3;
+	border: none;
+}
+.cm-s-monoindustrial div.CodeMirror-cursor {
+	border-left: 3px solid #FFFFFF;
+}
+.cm-s-monoindustrial .CodeMirror-activeline-background {
+	background: #0C0D0C40;
+}
+.cm-s-monoindustrial .CodeMirror-selected {
+	background: #91999466;
+}
+.cm-s-monoindustrial .cm-comment {
+	color: #666C68;
+	background: #151C19;
+}
+.cm-s-monoindustrial .cm-number {
+	color: #588E60;
+}
+.cm-s-monoindustrial .cm-def {
+	color: #648BD2;
+}
+.cm-s-monoindustrial .cm-property {
+	color: #588E60;
+}
+.cm-s-monoindustrial .cm-variable-2 {
+	color: #A65EFF;
+}
+.cm-s-monoindustrial .cm-atom {
+	color: #588E60;
+}
+.cm-s-monoindustrial .cm-keyword {
+	color: null;
+}
+.cm-s-monoindustrial .cm-operator {
+	color: null;
+}
+.cm-s-monoindustrial .CodeMirror-linenumber {
+	color: #666C68;
+}

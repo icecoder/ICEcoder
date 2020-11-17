@@ -1,10 +1,10 @@
 # ICEcoder
 
-## Web IDE / browser code editor awesomeness
+## Code editor awesomeness ...in your browser
 
-ICEcoder is a web IDE / browser based code editor, which allows you to develop websites directly within the web browser. It uses the brilliant CodeMirror for code highlighting & editing, with a slick IDE wrapped around it to make the whole thing work.
+ICEcoder is a browser based code editor, which provides a modern approach to building websites. By allowing you to code directly within the web browser, online or offline, it means you only need one program (your browser) to develop sites, plus can test on actual web servers. After development, you can also maintain the website easily, all of which make for speedy and smart development.
 
-<img src="https://icecoder.net/images/icecoder-v8-0-beta-browser-code-editor.png" alt="ICEcoder web IDE">
+<img src="https://icecoder.net/images/icecoder-v8-0-beta-browser-code-editor.png" alt="ICEcoder code editor">
 
 ### Requirements
 
@@ -14,29 +14,40 @@ You can run ICEcoder either online or locally, on Linux, Windows or Mac based pl
 
 #### Step 1: Get ICEcoder
 
-Either download the zip or clone from Github using:
+Either download the zip or clone from Github into your wwwroot (document root) dir for your website (this is typically `/var/www/html/`) via:
 
 ```
-$ git clone git://github.com/icecoder/ICEcoder
+$ git clone git@github.com:icecoder/icecoder /var/www/html/icecoder
 ```
 
-#### Step 2: Place in your document root (online or local)
+#### Step 2: Set permissions on dirs & files
 
-* Put in a new sub-dir URL such as yourdomain.com/ICEcoder or localhost/ICEcoder
-* Set write permissions (757 or 775 depending on your system) on the 'data', 'lib', 'plugins' and 'tmp' folders
+You'll need to ensure both the ICEcoder dir and the wwwroot dir have permissions to read, write and execute. This can be done by changing permissions (using `chmod`), but it it safer and so better, to use `chown`:
 
-*(Note: A small number of web servers give an internal server error here, if you get this, try 755 instead)*
+`chown -R www-data.www-data /var/www/html`
+
+This will recursively set the `www-data` user as both the owner and group users for files on the `/var/www/html` dir (which ICEcoder dir is of course inside of, at say `/var/www/html/ICEcoder`).
 
 #### Step 3: Start coding
 
-* Visit the sub-dir URL in your browser and enter a password
+Now you can visit `yoursite.com/ICEcoder` to view ICEcoder, sign in and start coding!
 
-**Now you're setup, auto-logged in and ready to code!**
+#### Tip: If using ICEcoder locally, you can use:
 
-Suitable for commercial & non-commercial projects, just let me know if it's useful to you and any cool customisations you make to it. I take no responsibility for anything, all usage is all down to you.
+`php -S localhost:8080`
 
-It's fully open source and MIT licensed. I'm happy for you to take it, make it your own and customise to your hearts content and/or contribute to this main repo! :)
+...to get PHP to start a simple web server. You can then visit `localhost:8080/ICEcoder`
 
-Plenty of comments included in the code to assist with understanding, customising etc.
+#### Want to setup in other environments?
+
+It's now possible to setup ICEcoder in a Docker container, via Composer, as an executable and more. Checkout https://icecoder.net/downloads for info on these setups!
+
+#### It's free & open source for everyone!
+
+Suitable for commercial & non-commercial projects, just let us know if it's useful to you and any cool customizations you make to it. We take no responsibility for anything, all usage is all down to you.
+
+It's fully open source and MIT licensed. So we're happy for you to take it, make it your own and customize to your hearts content and/or contribute to this main repo! :)
+
+Plenty of comments included in the code to assist with understanding, customizing etc.
 
 Comments, improvements & feedback welcomed!

@@ -68,7 +68,6 @@ if (false === $demoMode && true === isset($_SESSION['loggedIn']) && true === $_S
         "plugins"            => $currentSettings['plugins'],
         "ftpSites"           => $currentSettings['ftpSites'],
         "tutorialOnLogin"    => isset($_POST['tutorialOnLogin']),
-        "tipsOnLogin"        => isset($_POST['tipsOnLogin']),
         "previousFiles"      => $currentSettings['previousFiles'],
         "last10Files"        => $currentSettings['last10Files'],
         "favoritePaths"      => $currentSettings['favoritePaths'],
@@ -119,31 +118,31 @@ if (false === $demoMode && true === isset($_SESSION['loggedIn']) && true === $_S
 
 	// With all that worked out, we can now hide the settings screen and apply the new settings
 	$jsBugFilePaths = "['" . str_replace(",", "','", str_replace(" ", "", $_POST['bugFilePaths'])) . "']";
-	echo "<script>parent.ICEcoder.settingsScreen('hide'); parent.ICEcoder.useNewSettings('" .
-        $themeURL . "'," .
-        (true === $ICEcoder["codeAssist"] ? "true" : "false") . "," .
-        (true === $ICEcoder["lockedNav"] ? "true" : "false") . ",'" .
-        $ICEcoder["tagWrapperCommand"] . "','" .
-        (true === $ICEcoder["autoComplete"] ? "true" : "false") . "'," .
-        (true === $ICEcoder["visibleTabs"] ? "true" : "false") . ",'" .
-        $ICEcoder["fontSize"] . "'," .
-        (true === $ICEcoder["lineWrapping"] ? "true" : "false") . "," .
-        (true === $ICEcoder["lineNumbers"] ? "true" : "false") . "," .
-        (true === $ICEcoder["showTrailingSpace"] ? "true" : "false") . "," .
-        (true === $ICEcoder["matchBrackets"] ? "true" : "false") . "," .
-        (true === $ICEcoder["autoCloseTags"] ? "true" : "false") . "," .
-        (true === $ICEcoder["autoCloseBrackets"] ? "true" : "false") . ",'" .
-        $ICEcoder["indentType"] . "'," .
-        (true === $ICEcoder["indentAuto"] ? "true" : "false") . "," .
-        $ICEcoder["indentSize"] . ",'" .
-        $ICEcoder["pluginPanelAligned"] . "','" .
-        $ICEcoder["scrollbarStyle"] . "'," .
-        $jsBugFilePaths . "," .
-        $ICEcoder["bugFileCheckTimer"] . "," .
-        $ICEcoder["bugFileMaxLines"] . "," .
-        (true === $ICEcoder["updateDiffOnSave"] ? "true" : "false") . "," .
-        $ICEcoder["autoLogoutMins"] . "," .
-        $refreshFM .
-        "); iceRoot = '" . $ICEcoder["root"] .
+	echo "<script>parent.ICEcoder.settingsScreen(true); parent.ICEcoder.useNewSettings({" .
+        "themeURL: '" . $themeURL . "', " .
+        "codeAssist: " . (true === $ICEcoder["codeAssist"] ? "true" : "false") . ", " .
+        "lockedNav: " . (true === $ICEcoder["lockedNav"] ? "true" : "false") . ", " .
+        "tagWrapperCommand: '" . $ICEcoder["tagWrapperCommand"] . "', " .
+        "autoComplete: " . (true === $ICEcoder["autoComplete"] ? "true" : "false") . ", " .
+        "visibleTabs: " . (true === $ICEcoder["visibleTabs"] ? "true" : "false") . ", " .
+        "fontSize: '" . $ICEcoder["fontSize"] . "', " .
+        "lineWrapping: " . (true === $ICEcoder["lineWrapping"] ? "true" : "false") . ", " .
+        "lineNumbers: " . (true === $ICEcoder["lineNumbers"] ? "true" : "false") . ", " .
+        "showTrailingSpace: " . (true === $ICEcoder["showTrailingSpace"] ? "true" : "false") . ", " .
+        "matchBrackets: " . (true === $ICEcoder["matchBrackets"] ? "true" : "false") . ", " .
+        "autoCloseTags: " . (true === $ICEcoder["autoCloseTags"] ? "true" : "false") . ", " .
+        "autoCloseBrackets: " . (true === $ICEcoder["autoCloseBrackets"] ? "true" : "false") . ", " .
+        "indentType: '" . $ICEcoder["indentType"] . "', " .
+        "indentAuto: " . (true === $ICEcoder["indentAuto"] ? "true" : "false") . ", " .
+        "indentSize: " . $ICEcoder["indentSize"] . ", " .
+        "pluginPanelAligned: '" . $ICEcoder["pluginPanelAligned"] . "', " .
+        "scrollbarStyle: '" . $ICEcoder["scrollbarStyle"] . "', " .
+        "bugFilePaths: " . $jsBugFilePaths . ", " .
+        "bugFileCheckTimer: " . $ICEcoder["bugFileCheckTimer"] . ", " .
+        "bugFileMaxLines: " . $ICEcoder["bugFileMaxLines"] . ", " .
+        "updateDiffOnSave: " . (true === $ICEcoder["updateDiffOnSave"] ? "true" : "false") . ", " .
+        "autoLogoutMins: " . $ICEcoder["autoLogoutMins"] . ", " .
+        "refreshFM: " . $refreshFM .
+        "}); iceRoot = '" . $ICEcoder["root"] .
         "';</script>";
 }

@@ -27,13 +27,19 @@ echo $settingPW ? "Setup" : "Login";
 	<div class="screenVCenter">
 		<div class="screenCenter">
 		<img src="../assets/images/icecoder.png" alt="ICEcoder">
-		<div class="version" style="margin-bottom: 22px">v <?php echo $ICEcoder["versionNo"];?></div>
+		<div class="version" style="margin-bottom: 22px">v<?php echo $ICEcoder["versionNo"];?></div>
 
 		<form name="settingsUpdate" action="login.php" method="POST"<?php if ($settingPW) {?> onsubmit="return checkCanSubmit();"<?php } ?>>
         <?php
 		if ($ICEcoder["multiUser"]) {echo '<input type="text" name="username" class="password"><br><br>';};
 		?>
-		<input type="password" name="password" class="password" id="password"<?php if ($settingPW) {?> onkeyup="pwStrength(this.value)" onchange="pwStrength(this.value)" onpaste="pwStrength(this.value)"<?php } ?>><br>
+		<input type="password" name="password" class="password" id="password"<?php
+            if ($settingPW) {
+                ?> onkeyup="checkCase(event); pwStrength(this.value)" onchange="pwStrength(this.value)" onpaste="pwStrength(this.value)"<?php
+            } else {
+                ?> onkeyup="checkCase(event)"<?php
+            }
+            ?>><div class="iconCapsLock" style="display: none" id="iconCapsLock" title="Caps lock on"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/alert-triangle.svg");?></div><br>
 		<?php
 		if ($settingPW) {
 			echo '<div id="pwReqs">'.
@@ -106,8 +112,19 @@ const pwStrength = function(pw) {
 	return (true === chars && true === upper && true === lower && true === num && true === special);
 };
 
+const checkCase = function(evt) {
+    const key = evt.keyCode ?? evt.which ?? evt.charCode;
+
+    // Not caps lock key
+    if (20 !== key) {
+        get("iconCapsLock").style.display = true === evt.getModifierState("CapsLock")
+            ? "inline-block"
+            : "none";
+    }
+};
+
 // Check if we can submit, else shake requirements
-var checkCanSubmit = function() {
+const checkCanSubmit = function() {
 	// Password isn't strong enough, shake requirements
 	if(false === pwStrength(get("password").value)) {
 		var posArray = [6, -6, 3, -3, 0];

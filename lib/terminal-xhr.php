@@ -8,10 +8,13 @@ $aliases = array(
     'll' 	=> 'ls -lvhF',
 );
 
-// If we have a current working dir in session, change to that dir
-if (true === isset($_SESSION['cwd'])) {
-    chdir($_SESSION['cwd']);
+// If we have no cwd set in session, set it now
+if (false === isset($_SESSION['cwd'])) {
+	$_SESSION['cwd'] = $docRoot . $iceRoot;
 }
+
+// Change to cwd
+chdir($_SESSION['cwd']);
 
 // Get current user and cwd
 $user = str_replace("\n", "", shell_exec("whoami"));
@@ -54,7 +57,7 @@ if (true === $demoMode) {
     exit;
 }
 
-// If in demo mode, display message and go no further
+// If no command, display message and go no further
 if (false === isset($_REQUEST['command'])) {
     echo json_encode([
         "output" => returnHTMLPromptCommand($_REQUEST['command'] . "<br><br>Sorry, no command received"),
@@ -73,7 +76,6 @@ $output = returnHTMLPromptCommand($_REQUEST['command']);
 // If command contains cd but no dir
 if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', $_REQUEST['command'])) {
 	$_SESSION['cwd'] = $cwd;
-    $output .= returnHTMLPromptCommand("cd");
 // Else cd to a dir
 } elseif (preg_match('/^[[:blank:]]*cd[[:blank:]]+([^;]+)$/', $_REQUEST['command'], $regs)) {
 	// The current command is 'cd', which we have to handle as an internal shell command
@@ -138,9 +140,10 @@ if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', $_REQUEST['command'])) {
 
 // Change to the cwd in session
 chdir($_SESSION['cwd']);
+
 // and again ask for current user and working dir
-$user = str_replace("\n","",shell_exec("whoami"));
-$cwd = str_replace("\n","",shell_exec("pwd"));
+$user = str_replace("\n", "", shell_exec("whoami"));
+$cwd = str_replace("\n", "", shell_exec("pwd"));
 
 // Finally, output our JSON data
 echo json_encode([

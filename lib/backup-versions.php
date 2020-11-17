@@ -43,6 +43,7 @@ echo "?microtime=".microtime(true);
 
 <br>
 <div style="display: inline-block; height: 500px; width: 210px; overflow-y: scroll">
+
 <?php
 $dateCounts = $fileCountInfo['dateCounts'];
 $displayVersions = $versions;
@@ -146,6 +147,10 @@ let restoreVersion = function() {
 	}
 }
 </script>
+
+<?php
+echo $systemClass->getDemoModeIndicator(true);
+?>
 
 </body>
 

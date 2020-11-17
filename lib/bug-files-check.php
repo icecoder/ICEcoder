@@ -1,14 +1,16 @@
 <?php
 // Load common functions
 include "headers.php";
-include_once "settings-common.php";
-$text = $_SESSION['text'];
+include "settings.php";
 $t = $text['bug-files-check'];
 
 // Classes
-require_once "../classes/_ExtraProcesses.php";
-
+require_once dirname(__FILE__) . "/../classes/_ExtraProcesses.php";
+require_once dirname(__FILE__) . "/../classes/System.php";
 use ICEcoder\ExtraProcesses;
+use ICEcoder\System;
+
+$systemClass = new System;
 
 $files	= explode(",", str_replace("|", "/", xssClean($_GET['files'], "html")));
 $filesSizesSeen	= explode(",", xssClean($_GET['filesSizesSeen'], "html"));
@@ -30,6 +32,7 @@ for ($i = 0; $i < count($files); $i++) {
 if ("error" !== $result) {
 
 	$filesWithNewBugs = 0;
+    $output = "";
 
 	for ($i = 0; $i < count($files); $i++) {
 		// If we have set a filesize value previously and it's different to now, there's new bugs
@@ -54,7 +57,6 @@ if ("error" !== $result) {
 			if("\n" !== fread($f, 1)) $lines -= 1;
 
 			// Start reading
-			$output = "";
 			$chunk = "";
 
 			// While we would like more
@@ -82,20 +84,19 @@ if ("error" !== $result) {
 			// Close file
 			fclose($f);
 
-			// OK, now we have bug lines to output, save to our file
+			// OK, now we have bug lines to output, concat onto output
 			$output = rtrim(str_replace("\r\n", "\n", $output));
 			$output = explode("\n", $output);
 			$output = array_slice($output, -$maxLines);
-			$output = $t['Found in'] . " " . $filename . "...\n" . implode("\n", $output);
-
-			if ($filesWithNewBugs==1) {
-				file_put_contents("../data/bug-report.log", $output);
-			} else {
-				file_put_contents("../data/bug-report.log", "\n\n" . $output, FILE_APPEND);
-			}
+			$output = "\n" . $t['Found in'] . " " . $filename . "...\n" . implode("\n", $output);
 		}
 
 	}
+
+	// Save all output to the bug report file
+    if (0 < $filesWithNewBugs) {
+        $settingsClass->serializedFileData("set", $docRoot . $ICEcoderDir . "/data/bug-report.php", serialize($output));
+    }
 }
 
 // Get dir name tmp dir's parent
@@ -108,7 +109,7 @@ $status = array(
 	"files" => $files,
 	"filesSizesSeen" => $filesSizesSeen,
 	"maxLines" => $maxLines,
-	"bugReportPath" => "|" . $dataLoc . "|data|bug-report.log",
+	"bugReportPath" => $dataLoc . "|data|bug-report.php",
 	"result" => $result
 );
 

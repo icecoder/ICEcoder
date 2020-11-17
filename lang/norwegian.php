@@ -25,6 +25,8 @@ $text = [
         "none"                                     => "[none]",
         "multi-user"                               => "flerbruker",
         "Username"                                 => "Username:",
+        "version"                                  => "version",
+        "codemirror version"                       => "codemirror version",
     ],
 
     "files" =>
@@ -109,7 +111,7 @@ $text = [
         "seconds due to..."                        => "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section.",
     ],
 
-"backup-versions" =>
+    "backup-versions" =>
     [
         "backup"                                   => "backup",
         "backups"                                  => "backups",
@@ -119,6 +121,11 @@ $text = [
     "bug-files-check" =>
     [
         "Found in"                                 => "Funnet i:",
+    ],
+
+    "bug-report" =>
+    [
+        "Bug Report"                                 => "Bug Report",
     ],
 
     "file-control" =>
@@ -286,7 +293,6 @@ $text = [
         "Replacing text in"                        => "Replacing text in","Replacing text in"                        => "Erstatte tekst i",
         "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
         "Cancelled tasks"                          => "Kansellerte oppgaver",
-        "Open previous files"                      => "Åpne siste filer?",
         "Please note for..."                       => "Vennligst merk: for at oppdatering skal fungere skikkelig, må du ha skrive/slette tilgang til alle ICEcoder kataloger og filer. Hvis du trenger å gjenopprette denne versjonen av ICEcoder av en eller annen grunn, vil du finne den i /tmp mappen. Klikk OK for å fortsette med en auto-oppdatering eller avbryt for å besøke ICEcoder området slik at du kan ta tak i zip-filen og oppdatere manuelt.",
         "You can start..."                         => "Du kan starte feilrapportering i Hjelp > Innstillinger",
         "Error cannot find..."                     => "Feil: kan ikke finne/få tilgang til feil filstier",
@@ -468,6 +474,11 @@ $text = [
         "Yes"                                      => "Yes",
         "No"                                       => "No",
         "Search"                                   => "Search",
+    ],
+
+    "demo-mode" =>
+    [
+        "Demo mode"                                => "Demo mode",
     ],
 
 ];

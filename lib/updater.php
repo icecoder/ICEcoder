@@ -73,9 +73,9 @@ function copyOldVersion() {
 			}
 		}
 	}
-	$icv_url = "https://icecoder.net/latest-version.txt";
+	$icvURL = "https://icecoder.net/latest-version.txt";
 	echo 'Detecting current version of ICEcoder...<br>';
-	$icvInfo = getData($icv_url,'curl','Sorry, couldn\'t figure out latest version.');
+	$icvInfo = getData($icvURL,'curl','Sorry, couldn\'t figure out latest version.');
 	echo 'Latest version of ICEcoder is '.$icvInfo.'<br>';
 	openZipNew($icvInfo);
 }

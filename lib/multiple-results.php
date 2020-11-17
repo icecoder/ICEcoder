@@ -283,6 +283,10 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
     };
 </script>
 
+<?php
+echo $systemClass->getDemoModeIndicator(true);
+?>
+
 </body>
 
 </html>

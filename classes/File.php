@@ -246,7 +246,7 @@ class File
         if ("image" === fileType) {
             parent.parent.document.getElementById(\'blackMask\').style.visibility = "visible";
             parent.parent.document.getElementById(\'mediaContainer\').innerHTML =
-                "<canvas id=\"canvasPicker\" width=\"1\" height=\"1\" style=\"position: absolute; margin: 10px 0 0 10px; cursor: crosshair\" onmouseover=\"parent.parent.ICEcoder.overPopup=true\" onmouseout=\"parent.parent.ICEcoder.overPopup=false\"></canvas>" +
+                "<canvas id=\"canvasPicker\" width=\"1\" height=\"1\" style=\"position: absolute; margin: 10px 0 0 10px; cursor: crosshair\"></canvas>" +
                 "<img src=\"' . ((isset($ftpSite) ? $ftpSite : "") . $fileLoc . "/" . $fileName . "?unique=" . microtime(true)) .'\" style=\"border: solid 10px #fff; max-width: 700px; max-height: 500px; background-color: #000; background-image: url(\'assets/images/checkerboard.png\')\" onLoad=\"reducedImgMsg = (this.naturalWidth > 700 || this.naturalHeight > 500) ? \', ' .$t['displayed at'] . '\' + this.width + \' x \' + this.height : \'\'; document.getElementById(\'imgInfo\').innerHTML += \' (\' + this.naturalWidth + \' x \' + this.naturalHeight + reducedImgMsg + \')\'; ICEcoder.initCanvasImage(this); ICEcoder.interactCanvasImage(this)\"><br>" +
             "<div style=\"display: inline-block; margin-top: -10px; border: solid 10px #fff; color: #000; background-color: #fff\" id=\"imgInfo\"  onmouseover=\"parent.parent.ICEcoder.overPopup=true\" onmouseout=\"parent.parent.ICEcoder.overPopup=false\">" +
             "<b>' . $fileLoc . "/" . $fileName . '</b>" +
@@ -510,7 +510,7 @@ class File
                 if ($item->isDir()) {
                     mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName(), octdec($ICEcoder['newDirPerms']));
                 } else {
-                    copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                    copy($item->getPathName(), $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
                 }
             }
         } else {
