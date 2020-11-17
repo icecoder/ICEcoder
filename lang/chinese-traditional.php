@@ -123,6 +123,11 @@ $text = [
         "Found in"                                 => "檢索到:",
     ],
 
+    "bug-report" =>
+    [
+        "Bug Report"                                 => "Bug Report",
+    ],
+
     "file-control" =>
     [
         "Sorry, bad filename..."                   => "Sorry, bad filename provided. Check the dev tools console for more info?",

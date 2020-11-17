@@ -123,6 +123,11 @@ $text = [
         "Found in"                                 => "Gevonden in:",
     ],
 
+    "bug-report" =>
+    [
+        "Bug Report"                                 => "Bug Report",
+    ],
+
     "file-control" =>
     [
         "Sorry, bad filename..."                   => "Er is een ongeldige bestandsnaam opgegeven. Bekijk de dev tools console voor meer informatie.",

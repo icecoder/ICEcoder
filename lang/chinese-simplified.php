@@ -123,6 +123,12 @@ $text = [
         "Found in"                                 => "搜索到:",
     ],
 
+    "bug-report" =>
+    [
+        "Bug Report"                               => "Bug Report",
+    ],
+
+
     "file-control" =>
     [
         "Sorry, bad filename..."                   => "抱歉, 你提供了错误的文件名。查看开发工具控制台了解更多信息。",

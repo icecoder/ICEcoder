@@ -123,6 +123,11 @@ $text = [
         "Found in"                                 => "Encontrado en:"
     ],
 
+    "bug-report" =>
+    [
+        "Bug Report"                                 => "Bug Report",
+    ],
+
     "file-control" =>
     [
         "Sorry, bad filename..."                   => "Lo siento, nombre de archivo incorrecto. Verifique la consola de desarrollo para mas informacion?",

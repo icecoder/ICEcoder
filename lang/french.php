@@ -111,7 +111,7 @@ $text = [
         "seconds due to..."                        => "seconds due to inactivity, for security purposes. Use the mouse or hit a key to continue.<br><br>You can adjust or disable this from the Edit > Settings section.",
     ],
 
-"backup-versions" =>
+    "backup-versions" =>
     [
         "backup"                                   => "backup",
         "backups"                                  => "backups",
@@ -121,6 +121,11 @@ $text = [
     "bug-files-check" =>
     [
         "Found in"                                 => "Trouv&eacute; dans :"
+    ],
+
+    "bug-report" =>
+    [
+        "Bug Report"                                 => "Bug Report",
     ],
 
     "file-control" =>
