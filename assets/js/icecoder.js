@@ -3656,7 +3656,7 @@ var ICEcoder = {
         this.showHide('show', get('blackMask'));
     },
 
-    // Show the auto-logout warning screen
+    // Show the bug report screen
     bugReportScreen: function() {
         get('mediaContainer').innerHTML = '<iframe src="' +
             this.iceLoc +
