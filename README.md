@@ -22,7 +22,7 @@ $ git clone git@github.com:icecoder/icecoder /var/www/html/icecoder
 
 #### Step 2: Set permissions on dirs & files
 
-You'll need to ensure both the ICEcoder dir and the wwwroot dir have permissions to read, write and execute. This can be done by changing permissions (using chmod), but it it safer and so better, to use `chown`:
+You'll need to ensure both the ICEcoder dir and the wwwroot dir have permissions to read, write and execute. This can be done by changing permissions (using `chmod`), but it it safer and so better, to use `chown`:
 
 `chown -R www-data.www-data /var/www/html`
 

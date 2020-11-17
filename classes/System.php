@@ -168,7 +168,7 @@ class System
                 </style>
             ';
             $content .= '
-                <div id="demoModeIndicator" class="demoModeIndicator" title="' . $text['demo-mode']['Demo mode'] . '">' . file_get_contents(dirname(__FILE__) . "/../assets/images/icons/lock.svg") .'</div>
+                <div class="demoModeIndicator" title="' . $text['demo-mode']['Demo mode'] . '">' . file_get_contents(dirname(__FILE__) . "/../assets/images/icons/lock.svg") .'</div>
             ';
             return $content;
         }
