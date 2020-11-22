@@ -4088,7 +4088,7 @@ var ICEcoder = {
         let winTitle;
 
         if (false === this.loadingFile) {
-            winTitle = "ICEcoder v" + this.versionNo;
+            winTitle = "ICEcoder " + this.versionNo;
             for(let i = 1; i <= this.savedPoints.length; i++) {
                 if (this.savedPoints[i-1] !== this.getcMInstance(i).changeGeneration()) {
                     // We have an unsaved tab, indicate that in the title

@@ -5,7 +5,7 @@ include "lib/settings.php";
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>ICEcoder v<?php echo $ICEcoder["versionNo"];?> Terminal</title>
+<title>ICEcoder <?php echo $ICEcoder["versionNo"];?> Terminal</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
@@ -107,7 +107,7 @@ $cwd = str_replace("\n", "", shell_exec("pwd"));
 ?>
 
 <form name="shell" onsubmit="sendCmd(document.getElementById('command').value); return false" method="POST">
-	<pre class="output" id="output"><span style="color: #0a0">ICEcoder v<?php echo $ICEcoder["versionNo"];?> terminal</span>
+	<pre class="output" id="output"><span style="color: #0a0">ICEcoder <?php echo $ICEcoder["versionNo"];?> terminal</span>
 This is a full powered terminal, but will have the permissions of the '<?php echo $user;?>' user.
 The more access rights you give that user, the more this terminal has.
 

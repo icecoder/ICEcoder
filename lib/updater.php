@@ -82,7 +82,7 @@ function copyOldVersion() {
 
 function openZipNew($icvInfo) {
 	echo 'Retrieving zip from ICEcoder site...<br>';
-	$source = 'ICEcoder v'.$icvInfo;
+	$source = 'ICEcoder '.$icvInfo;
 	$target = '../';
 
 	$remoteFile = 'https://icecoder.net/ICEcoder-v'.(str_replace(" beta", "-beta",$icvInfo)).'.zip';
