@@ -37,7 +37,7 @@ This theme is licensed under the GPL. Use it to make something cool, have fun, a
 .cm-s-2019-torres-digital-theme span.cm-comment { color: #616163; }
 .cm-s-2019-torres-digital-theme span.cm-string { color: #F8019E; }
 .cm-s-2019-torres-digital-theme span.cm-meta { color: #F1FD31; font-weight: bold; }
-.cm-s-2019-torres-digital-theme span.cm-qualifier { color: #FFF700; }
+.cm-s-2019-torres-digital-theme span.cm-qualifier { color: #FFF700; font-weight: 600; }
 .cm-s-2019-torres-digital-theme span.cm-builtin { color: #F8A901; }
 .cm-s-2019-torres-digital-theme span.cm-bracket { color: #cc7; }
 .cm-s-2019-torres-digital-theme span.cm-tag { color: #FFBD40; }
