@@ -15,7 +15,7 @@ if (true === $ICEcoder["checkUpdates"]) {
 	}
 	$icvInfo = str_replace("\n", "", $icvData);
 	$icv = preg_match("/^[0-9.]+/", $icvInfo, $matches);
-	$icv = floatval($matches[0]);
+	$icv = $matches[0];
 	$icvInfo = [
 		0 => $icv,
 		1 => substr($icvInfo, strlen($matches[0]))
