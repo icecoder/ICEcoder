@@ -668,14 +668,14 @@ var ICEcoder = {
     cMonPaste: function(thisCM, cMinstance, evt, clipboardData) {
         // Get text from clipboard, the number of lines (excluding last)
         // and so the startLine and endLine and auto-indent for that range
-		const text = clipboardData.getData('Text');
-		const num = text.split("\n").length - 1;
-		const startLine = thisCM.getCursor().line;
+        const text = clipboardData.getData('Text');
+        const num = text.split("\n").length - 1;
+        const startLine = thisCM.getCursor().line;
         const endLine = startLine + num;
         // Now auto-indent after a 0ms tickover
-		setTimeout(() => {
-			parent.ICEcoder.autoIndentLines(startLine, endLine);
-		}, 0);
+        setTimeout(() => {
+            parent.ICEcoder.autoIndentLines(startLine, endLine);
+        }, 0);
     },
 
     // On context menu
@@ -4088,7 +4088,7 @@ var ICEcoder = {
         let winTitle;
 
         if (false === this.loadingFile) {
-            winTitle = "ICEcoder v" + this.versionNo;
+            winTitle = "ICEcoder " + this.versionNo;
             for(let i = 1; i <= this.savedPoints.length; i++) {
                 if (this.savedPoints[i-1] !== this.getcMInstance(i).changeGeneration()) {
                     // We have an unsaved tab, indicate that in the title

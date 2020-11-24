@@ -7,7 +7,7 @@ class Settings
     public function __construct()
     {
         // Set version number and document root as core settings
-        $this->versionNo = "8.0 beta";
+        $this->versionNo = "8.0";
         $this->docRoot = $_SERVER['DOCUMENT_ROOT'];
     }
 

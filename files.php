@@ -7,7 +7,7 @@ $t = $text['files'];
 
 <html onmousedown="parent.ICEcoder.mouseDown = true; parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.boxSelect(event, 'down')" onmouseup="parent.ICEcoder.mouseDown = false; parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.mouseDownInCM = false; parent.ICEcoder.boxSelect(event, 'up'); if (!parent.ICEcoder.overCloseLink) {parent.ICEcoder.tabDragEnd()}" onmousemove="if (parent.ICEcoder) {parent.ICEcoder.getMouseXY(event, 'files'); parent.ICEcoder.resetAutoLogoutTimer(); parent.ICEcoder.canResizeFilesW(); parent.ICEcoder.boxSelect(event, 'drag')}" ondrop="if (parent.ICEcoder) {parent.ICEcoder.getMouseXY(event, 'files')}" oncontextmenu="parent.ICEcoder.selectFileFolder(event); return parent.ICEcoder.showMenu(event)" onclick="if (!parent.ICEcoder.fmDraggedBox) {parent.ICEcoder.selectFileFolder(event)} else {parent.ICEcoder.fmDraggedBox = false}" ondragstart="parent.ICEcoder.selectFileFolder(event);" ondragover="event.preventDefault(); event.stopPropagation()">
 <head>
-    <title>ICEcoder v<?php echo $ICEcoder["versionNo"];?> file manager</title>
+    <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> file manager</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="stylesheet" type="text/css" href="assets/css/resets.css?microtime=<?php echo microtime(true);?>">
     <link rel="stylesheet" type="text/css" href="assets/css/files.css?microtime=<?php echo microtime(true);?>">

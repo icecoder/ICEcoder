@@ -15,7 +15,7 @@ if (true === $ICEcoder["checkUpdates"]) {
 	}
 	$icvInfo = str_replace("\n", "", $icvData);
 	$icv = preg_match("/^[0-9.]+/", $icvInfo, $matches);
-	$icv = floatval($matches[0]);
+	$icv = $matches[0];
 	$icvInfo = [
 		0 => $icv,
 		1 => substr($icvInfo, strlen($matches[0]))
@@ -28,7 +28,7 @@ if (true === $ICEcoder["checkUpdates"]) {
 	if ($thisV < $icv) {
 		$updateMsg =
             ";ICEcoder.dataMessage('<b>" . $t['UPDATE INFO'] .
-            ":</b> ICEcoder v" . explode("\n", $icvData)[0] ." " . $t['now available'] . ". (" . $t['Your version is'] . " v" . $ICEcoder["versionNo"] .
+            ":</b> ICEcoder " . explode("\n", $icvData)[0] ." " . $t['now available'] . ". (" . $t['Your version is'] . " v" . $ICEcoder["versionNo"] .
             ").<br><br><a href=\\'https://icecoder.net\\' target=\\'_blank\\' style=\\'color:#fff; background: #b00; padding: 5px; text-decoration: none; cursor: pointer\\'>" .
             $t['Update now'] . "</a><br><br>" . $icvI ."');";
 	}
@@ -39,7 +39,7 @@ $isMac = false !== strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : fal
 <!DOCTYPE html>
 <html onmousedown="ICEcoder.mouseDown = true; ICEcoder.resetAutoLogoutTimer();" onmouseup="ICEcoder.mouseDown = false; ICEcoder.resetAutoLogoutTimer(); ICEcoder.mouseDownInCM = false; if (!ICEcoder.overCloseLink) {ICEcoder.tabDragEnd()}" onmousemove="if ('undefined' !== typeof ICEcoder) {ICEcoder.getMouseXY(event, 'top'); ICEcoder.resetAutoLogoutTimer(); ICEcoder.canResizeFilesW()}" onmousewheel="ICEcoder.resetAutoLogoutTimer(); if (ICEcoder.getcMInstance() && !ICEcoder.getcMInstance().hasFocus() && !ICEcoder.getcMdiffInstance().hasFocus()) {event.wheelDelta > 0 ? ICEcoder.nextTab() : ICEcoder.previousTab();}">
 <head>
-<title>ICEcoder v<?php echo $ICEcoder["versionNo"];?></title>
+<title>ICEcoder <?php echo $ICEcoder["versionNo"];?></title>
 <!--Updated via settings so must remain 1st stylesheet//-->
 <style>
 	#tabsBar.tabsBar .tab { font-size: <?php echo $ICEcoder["fontSize"];?>; }
