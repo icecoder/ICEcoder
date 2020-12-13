@@ -5,6 +5,13 @@ namespace ICEcoder;
 class System
 {
     /**
+     * @param $name
+     */
+    public function functionEnabled($name) {
+        return is_callable($name) && false === stripos(ini_get('disable_functions'), $name);
+    }
+
+    /**
      * @param $path
      */
     private function createDirIfNotExists($path)

@@ -32,6 +32,7 @@ function requireReIndexNextTime() {
 
 // Run continuously
 while(true) {
+    if (true === is_callable("shell_exec") && false === stripos(ini_get('disable_functions'), "shell_exec")) {
         // Get git diff output as a string and MD5 it as a checksum
         $thisMD5 = shell_exec("cd .. && git diff | md5sum");
         // If we have a previous checksum value and the current is different to it
@@ -63,9 +64,11 @@ while(true) {
                 }
                 file_put_contents(dirname(__FILE__)."/../data/git-content.php", "<?php\n/*\n\n".serialize($output)."\n\n*/\n?".">");
         }
-        // Set prev MD5 to this one, ready for next time, sleep for 2 secs before loop starts again
+        // Set prev MD5 to this one, ready for next time
         $prevMD5 = $thisMD5;
-        sleep(2);
+    }
+    // sleep for 2 secs before loop starts again
+    sleep(2);
 
 }
 ?>

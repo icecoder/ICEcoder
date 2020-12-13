@@ -162,11 +162,11 @@ h2 {color: rgba(0,198,255,0.7)}
 		<?php
 		// If we have a .git dir, get the Git short commit hash to display as a link
 		$gitCommitTextLink = "";
-		if (is_dir(dirname(__FILE__) . "/.git")) {
-			$gitCommit = trim(exec('git log --pretty="%h" -n1 HEAD'));
+		if (true === $systemClass->functionEnabled("shell_exec") && is_dir(dirname(__FILE__) . "/.git")) {
+			$gitCommit = trim(shell_exec('git log --pretty="%h" -n1 HEAD'));
 			$gitCommitTextLink = ' (Git commit: <a href="https://github.com/icecoder/ICEcoder/commit/' . $gitCommit . '" style="color: #eee; text-decoration: none" target="_blank">' . $gitCommit . '</a>)';
 		}
-		echo "v" . $ICEcoder["versionNo"] . $gitCommitTextLink;
+		echo $ICEcoder["versionNo"] . $gitCommitTextLink;
 		?><br><br>
 		<span class="heading"><?php echo $t['codemirror version'];?></span><br>
 		<script>
@@ -316,7 +316,7 @@ parent.ICEcoder.switchMode = function(mode) {
             cMdiff.setOption("mode", mode);
         }
     } else if (cM && fileName) {
-        <?php include(dirname(__FILE__) . "/assets/js/language-modes-partial.js");?>
+		<?php include(dirname(__FILE__) . "/assets/js/language-modes-partial.js");?>
         if (mode != cM.getOption("mode")) {
             cM.setOption("mode", mode);
             cM.setOption("lint", ("js" === fileExt || "json" === fileExt) && parent.ICEcoder.codeAssist ? true : false);

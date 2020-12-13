@@ -101,9 +101,10 @@ if (false === isset($_SESSION['cwd'])) {
 // Change to cwd
 chdir($_SESSION['cwd']);
 
-// Get current user and cwd
-$user = str_replace("\n", "", shell_exec("whoami"));
-$cwd = str_replace("\n", "", shell_exec("pwd"));
+if (true === $systemClass->functionEnabled("shell_exec")) {
+	// Get current user and cwd
+	$user = str_replace("\n", "", shell_exec("whoami"));
+	$cwd = str_replace("\n", "", shell_exec("pwd"));
 ?>
 
 <form name="shell" onsubmit="sendCmd(document.getElementById('command').value); return false" method="POST">
@@ -113,6 +114,11 @@ The more access rights you give that user, the more this terminal has.
 
 <div class="commandLine" id="commandLine"><div class="user" id="user">&nbsp;&nbsp;<?php echo $user;?>&nbsp;</div><div class="cwd" id="cwd">&nbsp;<?php echo $cwd;?>&nbsp;</div> : <?php echo date("H:m:s");?><br><div class="promptVLine"></div><div class="promptHLine">─<div class="promptArrow">▶</div></div> <input type="text" class="command" id="command" onkeyup="key(event)" tabindex="1" autocomplete="off"></div></pre>
 </form>
+<?php
+} else {
+?>
+<pre class="output" id="output">shell_exec not available on the server, unable to use terminal.</pre>
+<?php } ?>
 
 </body>
 </html>

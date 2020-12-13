@@ -17,8 +17,13 @@ if (false === isset($_SESSION['cwd'])) {
 chdir($_SESSION['cwd']);
 
 // Get current user and cwd
-$user = str_replace("\n", "", shell_exec("whoami"));
-$cwd = str_replace("\n", "", shell_exec("pwd"));
+if (true === $systemClass->functionEnabled("shell_exec")) {
+	$user = str_replace("\n", "", shell_exec("whoami"));
+	$cwd = str_replace("\n", "", shell_exec("pwd"));
+} else {
+	$user = "";
+	$cwd = "";
+}
 
 // Check if we have proc_open_enabled
 // (Used later to handle commands)
@@ -142,8 +147,13 @@ if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', $_REQUEST['command'])) {
 chdir($_SESSION['cwd']);
 
 // and again ask for current user and working dir
-$user = str_replace("\n", "", shell_exec("whoami"));
-$cwd = str_replace("\n", "", shell_exec("pwd"));
+if (true === $systemClass->functionEnabled("shell_exec")) {
+	$user = str_replace("\n", "", shell_exec("whoami"));
+	$cwd = str_replace("\n", "", shell_exec("pwd"));
+} else {
+	$user = "";
+	$cwd = "";
+}
 
 // Finally, output our JSON data
 echo json_encode([
