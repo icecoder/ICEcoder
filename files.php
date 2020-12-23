@@ -25,9 +25,17 @@ $t = $text['files'];
 <div title="<?php echo $t['Refresh'];?>" onclick="parent.ICEcoder.refreshFileManager()" class="refresh"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/rotate-clockwise.svg");?></div>
 <div title="<?php echo $t['Plugins'];?>" onclick="parent.ICEcoder.showHidePlugins('55px' !== parent.document.getElementById('plugins').style.width  ? 'show' : 'hide')" class="plugins"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/plug.svg");?></div>
 
+
 <ul class="fileManager">
-    <li class="pft-directory dirOpen"><a nohref title="/" ondragover="parent.ICEcoder.overFileFolder('folder', '|'); parent.ICEcoder.highlightFileFolder('|', true);" ondragleave="parent.ICEcoder.overFileFolder('folder', ''); parent.ICEcoder.highlightFileFolder('|', false);" onmouseover="parent.ICEcoder.overFileFolder('folder', '|')" onmouseout="parent.ICEcoder.overFileFolder('folder', '')" onclick="parent.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="|">/ <?php
-        echo $iceRoot == "" ? $t['ROOT'] : trim($iceRoot, "/");
+    <?php
+    $displayRoot = $iceRoot == "" ? $t['ROOT'] : trim($iceRoot, "/");
+    if (false === is_dir($docRoot . $iceRoot)) {
+        echo '<li class="pft-directory dir"><a nohref title="' . $displayRoot . ' : can\'t access dir" onclick="parent.ICEcoder.settingsScreen(false, \'general\')" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="background: #b00">/ ';
+        echo $displayRoot;
+        echo '</span></a></li>';
+    } else {
+    ?><li class="pft-directory dirOpen"><a nohref title="/" ondragover="parent.ICEcoder.overFileFolder('folder', '|'); parent.ICEcoder.highlightFileFolder('|', true);" ondragleave="parent.ICEcoder.overFileFolder('folder', ''); parent.ICEcoder.highlightFileFolder('|', false);" onmouseover="parent.ICEcoder.overFileFolder('folder', '|')" onmouseout="parent.ICEcoder.overFileFolder('folder', '')" onclick="parent.ICEcoder.openCloseDir(this)" style="position: relative; left:-22px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="|">/ <?php
+        echo $displayRoot;
         $thisPermVal = "Windows" !== $serverType ? substr(sprintf('%o', fileperms($docRoot . $iceRoot)), -3) : "";
         $permColors = 777 == $thisPermVal ? 'background: #800; color: #eee' : 'color: #888';
         ?></span> <span style="<?php echo $permColors;?>; font-size: 8px" id="|_perms"><?php echo $thisPermVal;?></span></a></li><?php
@@ -36,7 +44,9 @@ $t = $text['files'];
 </ul>
 
 <iframe name="fileControl" src="lib/get-branch.php?location=|&csrf=<?php echo $_SESSION['csrf'];?>" style="display: none"></iframe>
-
+<?php
+}
+?>
 <iframe name="pingActive" style="display: none"></iframe>
 
 <div class="fmDragBox" id="fmDragBox"></div>

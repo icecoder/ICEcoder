@@ -25,7 +25,7 @@ $t = $text['get-branch'];
 <?php
 // If we're just getting a branch, get that and set as the finalArray
 $scanDir = $docRoot . $iceRoot;
-$location = "";
+
 echo '<div id="branch" style="display: none">';
 $location = str_replace("|", "/", xssClean($_GET['location'], "html"));
 if ("/" === $location) {
