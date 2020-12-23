@@ -726,7 +726,7 @@ var ICEcoder = {
     functionArgsTooltip: function(e, area) {
         let numLintErrors;
 
-        if (this.indexData) {
+        if (this.indexData && this.indexData.functions) {
             // If we have no files open, return early
             if (0 === this.openFiles.length) {
                 get('tooltip').style.display = "none";
