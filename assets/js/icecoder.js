@@ -3691,6 +3691,10 @@ var ICEcoder = {
     useNewSettings: function(settings) {
         let styleNode, thisCSS, strCSS, activeLineBG;
 
+        // Set iceRoot and update in settings display
+        iceRoot = settings.iceRoot;
+        this.content.contentWindow.document.getElementById('iceRootDisplay').innerText = "" !== iceRoot ? iceRoot : "[Default]";
+
         // Cut out path prefix, .css file extension and ?microtime= querystring
         const newTheme = settings.themeURL.replace(/.+\/|.css.+/g, "");
         // If theme was not changed - no need to do all these tricks

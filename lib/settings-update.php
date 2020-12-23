@@ -119,6 +119,7 @@ if (false === $demoMode && true === isset($_SESSION['loggedIn']) && true === $_S
 	// With all that worked out, we can now hide the settings screen and apply the new settings
 	$jsBugFilePaths = "['" . str_replace(",", "','", str_replace(" ", "", $_POST['bugFilePaths'])) . "']";
 	echo "<script>parent.ICEcoder.settingsScreen(true); parent.ICEcoder.useNewSettings({" .
+        "iceRoot: '" . $ICEcoder["root"] . "', " .
         "themeURL: '" . $themeURL . "', " .
         "codeAssist: " . (true === $ICEcoder["codeAssist"] ? "true" : "false") . ", " .
         "lockedNav: " . (true === $ICEcoder["lockedNav"] ? "true" : "false") . ", " .
@@ -143,6 +144,5 @@ if (false === $demoMode && true === isset($_SESSION['loggedIn']) && true === $_S
         "updateDiffOnSave: " . (true === $ICEcoder["updateDiffOnSave"] ? "true" : "false") . ", " .
         "autoLogoutMins: " . $ICEcoder["autoLogoutMins"] . ", " .
         "refreshFM: " . $refreshFM .
-        "}); iceRoot = '" . $ICEcoder["root"] .
-        "';</script>";
+        "});</script>";
 }

@@ -115,7 +115,7 @@ h2 {color: rgba(0,198,255,0.7)}
 		<span class="heading"><?php echo $t['Root'];?></span><br>
 		<?php echo $docRoot;?><br><br>
 		<span class="heading"><?php echo $t['ICEcoder root'];?></span><br>
-		<?php echo "" !== $iceRoot ? $iceRoot : "[Default]";?><br><br>
+		<div id="iceRootDisplay"><?php echo "" !== $iceRoot ? $iceRoot : "[Default]";?></div><br><br>
 		<span class="heading"><?php echo $t['PHP version'];?></span><br>
 		<?php echo phpversion();?><br><br>
 		<span class="heading"><?php echo $t['Date & time'];?></span><br>
