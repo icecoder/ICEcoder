@@ -3163,9 +3163,9 @@ var ICEcoder = {
         farbtastic('picker','color');
         // If we have a color value, set it in picker
         if (color) {
-            // If an RGB value, convert to hex
-            if (-1 < color.indexOf("rgb")) {
-                color = color.replace(/rgb|\(|\)|\s+/g, "").split(",");
+            // If a RGB(A) value, convert to Hex
+            if (-1 < color.toLowerCase().indexOf("rgb")) {
+                color = color.replace(/rgba?|\(|\)|\s+/gi, "").split(",");
                 color = "#" + this.rgbToHex(...color);
             }
             get('picker').farbtastic.setColor(color);
@@ -3263,8 +3263,9 @@ var ICEcoder = {
         }
     },
 
-    // Convert RGB values to Hex
-    rgbToHex: function(r, g, b) {
+    // Convert RGB(A) values to Hex
+    rgbToHex: function(r, g, b, a) {
+        // Ignore alpha, use r, g, b
         return this.toHex(r) + this.toHex(g) + this.toHex(b);
     },
 
