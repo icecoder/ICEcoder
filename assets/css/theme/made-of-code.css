@@ -1,12 +1,12 @@
 .cm-s-made-of-code {
 	font-family: monospace;
-	background: #090916F2;
+	background: #090916;
 	color: #F8F8F8;
 }
 .cm-s-made-of-code .CodeMirror-gutters {
 	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
 	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
-	background-color: #090916F2;
+	background-color: #090916;
 	z-index: 3;
 	border: none;
 }
