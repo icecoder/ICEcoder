@@ -49,7 +49,7 @@ $dateCounts = $fileCountInfo['dateCounts'];
 $displayVersions = $versions;
 
 // Establish the base, host and date dir parts...
-$backupDirHost = isset($ftpSite) ? parse_url($ftpSite, PHP_URL_HOST) : "localhost";
+$backupDirHost = "localhost";
 
 foreach ($dateCounts as $key => $value) {
 	echo "<b>".date("jS M Y", strtotime($key)) . " (" . $value . " " . ($value !== 1 ? $t["backups"] : $t["backup"]) . ")</b>";

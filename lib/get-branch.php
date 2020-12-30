@@ -1,10 +1,6 @@
 <?php
 require "icecoder.php";
 
-use ICEcoder\FTP;
-
-$ftpClass = new FTP;
-
 if (!$_SESSION['loggedIn']) {
 	header("Location: ../");
 	die();
@@ -32,25 +28,8 @@ if ("/" === $location) {
     $location = "";
 };
 
-$dirArray = $filesArray = $finalArray = [];
-
-// Get dir/file list over FTP
-if (isset($ftpSite)) {
-	$ftpClass->ftpStart();
-	// Show user warning if no good connection
-	if (!$ftpConn || !$ftpLogin) {
-		die('<script>parent.parent.ICEcoder.message("Sorry, no FTP connection to ' . $ftpHost . ' for user ' . $ftpUser . '");</script>');
-		exit;
-	}
-	// Get our simple and detailed lists and close the FTP connection
-	$ftpList = $ftpClass->ftpGetList($ftpConn, $ftpRoot . $location);
-	$finalArray = $ftpList['simpleList'];
-	$ftpItems = $ftpList['detailedList'];
-	$ftpClass->ftpEnd();
-// or get local list
-} else {
-	$finalArray = scanDir($scanDir . $location);
-}
+$dirArray = $filesArray = [];
+$finalArray = scanDir($scanDir . $location);
 
 foreach($finalArray as $entry) {
 	$canAdd = true;
@@ -59,20 +38,14 @@ foreach($finalArray as $entry) {
 		    $canAdd = false;
 		}
 	}
-	// Only applicable for local dir, ignoring ICEcoder's dir
-	if (!isset($ftpSite) && $docRoot . $iceRoot . $location . "/" . $entry === $docRoot . $ICEcoderDir) {
+	// Ignore ICEcoder's dir
+	if ($docRoot . $iceRoot . $location . "/" . $entry === $docRoot . $ICEcoderDir) {
 		$canAdd = false;
 	}
 	if ("." !== $entry && ".." !== $entry && $canAdd) {
-		if (!isset($ftpSite)) {
-			is_dir($docRoot . $iceRoot . $location . "/".$entry)
+		is_dir($docRoot . $iceRoot . $location . "/".$entry)
 			? array_push($dirArray, $location . "/" . $entry)
 			: array_push($filesArray, $location . "/" . $entry);
-		} else {
-            "directory" === $ftpItems[$entry]['type']
-			? array_push($dirArray, $location . "/" . $entry)
-			: array_push($filesArray, $location. "/" . $entry);
-		}
 	}
 }
 natcasesort($dirArray);
@@ -81,11 +54,7 @@ natcasesort($filesArray);
 $finalArray = array_merge($dirArray, $filesArray);
 for ($i = 0; $i < count($finalArray); $i++) {
 	$fileFolderName = str_replace("\\", "/", $finalArray[$i]);
-	if (!isset($ftpSite)) {
-		$type = is_dir($docRoot . $iceRoot . $fileFolderName) ? "folder" : "file";
-	} else {
-		$type = "directory" === $ftpItems[basename($fileFolderName)]['type'] ? "folder" : "file";
-	}
+	$type = is_dir($docRoot . $iceRoot . $fileFolderName) ? "folder" : "file";
 	if ("file" === $type) {
 		// Get extension (prefix 'ext-' to prevent invalid classes from extensions that begin with numbers)
 		$ext = "ext-" . pathinfo($docRoot . $iceRoot . $fileFolderName, PATHINFO_EXTENSION);
@@ -113,25 +82,9 @@ for ($i = 0; $i < count($finalArray); $i++) {
 	(("folder" === $type) ? " parent.ICEcoder.openCloseDir(this,$loadParam);" : "") .
 
 	" if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {parent.ICEcoder.openFile()}}\" style=\"position: relative; left:-22px\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id=\"".str_replace($docRoot,"",str_replace("/","|",$fileFolderName))."\">".xssClean(basename($fileFolderName),"html")."</span> ";
-	if (!isset($ftpSite)) {
-		$thisPermVal = "Windows" !== $serverType ? intval(substr(sprintf('%o', fileperms($docRoot . $iceRoot . $fileFolderName)), -3)) : 0;
-	} else {
-		// Work out perms value
-		$thisPermVal = 0;
-		$r = $ftpItems[basename($fileFolderName)]['rights'];
-		// Owner
-		$thisPermVal += "r" === substr($r,1,1) ? 400 : 0;
-		$thisPermVal += "w" === substr($r,2,1) ? 200 : 0;
-		$thisPermVal += "x" === substr($r,3,1) ? 100 : 0;
-		// Group
-		$thisPermVal += "r" === substr($r,4,1) ? 40 : 0;
-		$thisPermVal += "w" === substr($r,5,1) ? 20 : 0;
-		$thisPermVal += "x" === substr($r,6,1) ? 10 : 0;
-		// Public
-		$thisPermVal += "r" === substr($r,7,1) ? 4 : 0;
-		$thisPermVal += "w" === substr($r,8,1) ? 2 : 0;
-		$thisPermVal += "x" === substr($r,9,1) ? 1 : 0;
-	}
+	$thisPermVal = "Windows" !== $serverType
+		? intval(substr(sprintf('%o', fileperms($docRoot . $iceRoot . $fileFolderName)), -3))
+		: 0;
 	$permColors = 777 === $thisPermVal ? 'background: #800; color: #eee' : 'color: #888';
 	echo '<span style="' . $permColors . '; font-size: 8px" id="' . str_replace($docRoot, "", str_replace("/", "|", $fileFolderName)) . '_perms">';
 	echo 0 !== $thisPermVal ? $thisPermVal : '';

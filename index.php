@@ -275,17 +275,6 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
                 <li><a nohref onclick="ICEcoder.pluginsManager()">Plugins</a></li>
             </ul>
         </div>
-        <!--
-        FTP is a far less used method of data transfer and so this menu hidden for now
-        Uncomment if you really want to use it but please note, in future versions of ICEcoder
-        that FTP is likely to be removed altogether
-		<div id="optionsSource" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show', this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
-			<ul>
-				<li><a nohref onclick="ICEcoder.goLocalhostRoot()">Localhost</a></li>
-				<li><a nohref onclick="ICEcoder.ftpManager()">FTP</a></li>
-			</ul>
-		</div>
-		//-->
 		<div id="optionsHelp" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show', this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id);ICEcoder.canShowFMNav = false">
 			<ul>
 				<li><a nohref onclick="ICEcoder.viewTutorial(false, 500)">Tutorial</a></li>

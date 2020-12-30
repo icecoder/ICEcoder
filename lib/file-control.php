@@ -4,13 +4,11 @@ require "icecoder.php";
 use ICEcoder\ExtraProcesses;
 use ICEcoder\Backup;
 use ICEcoder\File;
-use ICEcoder\FTP;
 use ICEcoder\System;
 use ICEcoder\URL;
 
 $backupClass = new Backup;
 $fileClass = new File;
-$ftpClass = new FTP;
 $systemClass = new System;
 
 $t = $text['file-control'];
@@ -68,14 +66,6 @@ if (false === $error) {
 }
 
 $doNext = "";
-// If we're in FTP mode, start a connection and leave open for FTP actions
-if (isset($ftpSite)) {
-    $ftpClass->ftpStart();
-    // Show user warning if no good connection
-    if (!$ftpConn || !$ftpLogin) {
-        $doNext .= 'ICEcoder.message("Sorry, no FTP connection to ' . $ftpHost . ' for user ' . $ftpUser . '");';
-    }
-}
 
 // =============
 // LOADING FILES
@@ -118,8 +108,7 @@ if (!$error && "save" === $_GET['action']) {
             "fileURL" => $fileURL,
             "fileName" => $fileName,
             "fileMDTURLPart" => $fileMDTURLPart,
-            "fileVersionURLPart" => $fileVersionURLPart,
-            "ftpSite" => true === isset($ftpSite)
+            "fileVersionURLPart" => $fileVersionURLPart
         ];
         $doNext .= $fileClass->handleSaveLooparound($fileDetails, $finalAction, $t);
 
@@ -134,22 +123,17 @@ if (!$error && "save" === $_GET['action']) {
         // FILE IS WRITEABLE
         // =================
 
-        if (!$demoMode && (isset($ftpSite) || (file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && "" != $_POST['newFileName'])) {
+        if (!$demoMode && ((file_exists($file) && is_writable($file)) || isset($_POST['newFileName']) && "" != $_POST['newFileName'])) {
 
-            $filemtime = !isset($ftpSite) && "Windows" !== $serverType && file_exists($file) ? filemtime($file) : "1000000";
+            $filemtime = "Windows" !== $serverType && file_exists($file) ? filemtime($file) : "1000000";
 
             // ==================================================
             // MDT'S MATCH (OR WE'RE SAVING NEW FILE), WRITE FILE
             // ==================================================
             if (!(isset($_GET['fileMDT'])) || $filemtime == $_GET['fileMDT'] || isset($_POST['newFileName'])) {
 
-                // FTP Saving
-                if (isset($ftpSite)) {
-                    $ftpClass->writeFile();
-                    // Local saving
-                } else {
-                    $fileClass->writeFile();
-                }
+                // Write file
+                $fileClass->writeFile();
 
                 // Save a version controlled backup source of the file
                 if ($ICEcoder["backupsKept"]) {
@@ -192,20 +176,9 @@ if (!$error && "save" === $_GET['action']) {
 // ==========
 
 if (!$error && "newFolder" === $_GET['action']) {
-    if (!$demoMode && (isset($ftpSite) || is_writable($docRoot.$fileLoc))) {
-        // FTP
-        if (isset($ftpSite)) {
-            $ftpFilepath = ltrim($fileLoc . "/" . $fileName, "/");
-            if (!$ftpClass->ftpMkDir($ftpConn, octdec($ICEcoder['newDirPerms']), $ftpFilepath)) {
-                $doNext .= 'ICEcoder.message("Sorry, could not create dir '.$ftpFilepath.' at ' . $ftpHost . '");';
-            } else {
-                $fileClass->updateFileManager('add', $fileLoc, $fileName, '', '', '', 'folder');
-            }
-            // Local
-        } else {
-            mkdir($file, octdec($ICEcoder['newDirPerms']));
-            $fileClass->updateFileManager('add', $fileLoc, $fileName, '', '', '', 'folder');
-        }
+    if (!$demoMode && is_writable($docRoot . $fileLoc)) {
+        mkdir($file, octdec($ICEcoder['newDirPerms']));
+        $fileClass->updateFileManager('add', $fileLoc, $fileName, '', '', '', 'folder');
         $finalAction = "newFolder";
         // Run any extra processes
         $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
@@ -222,39 +195,22 @@ if (!$error && "newFolder" === $_GET['action']) {
 // ================
 
 if (!$error && "move" === $_GET['action']) {
-    if (isset($ftpSite)) {
-        $srcDir = ltrim(str_replace("|", "/", $_GET['oldFileName']), "/");
-        $tgtDir = ltrim($fileLoc . "/" . $fileName, "/");
-    } else {
-        $srcDir = $docRoot . $iceRoot . str_replace("|", "/", $_GET['oldFileName']);
-        $tgtDir = $docRoot . $fileLoc . "/" . $fileName;
-    }
+    $srcDir = $docRoot . $iceRoot . str_replace("|", "/", $_GET['oldFileName']);
+    $tgtDir = $docRoot . $fileLoc . "/" . $fileName;
     if ($srcDir != $tgtDir) {
-        if (!$demoMode && (isset($ftpSite) || is_writable($srcDir))) {
-            // FTP
-            if (isset($ftpSite)) {
-                if (!$ftpClass->ftpRename($ftpConn, $srcDir, $tgtDir)) {
-                    $doNext .= 'ICEcoder.message("Sorry, could not rename ' . $srcDir . ' to ' . $tgtDir . '");';
-                } else {
-                    $ftpFileDirInfo = $ftpClass->ftpGetFileInfo($ftpConn, ltrim($fileLoc, "/"), $fileName);
-                    $fileOrFolder = "directory" === $ftpFileDirInfo['type'] ? "folder" : "file";
-                    $fileClass->updateFileManager('move', $fileLoc, $fileName, '', str_replace($iceRoot, "", str_replace("|", "/", $_GET['oldFileName'])), '', $fileOrFolder);
-                }
-                // Local
+        if (!$demoMode && is_writable($srcDir)) {
+            if(rename($srcDir, $tgtDir)) {
+                // Is a dir or file (needed to create new item in file manager)
+                $fileOrFolder = is_dir($docRoot . $fileLoc . "/" . $fileName) ? "folder" : "file";
+                $fileClass->updateFileManager('move', $fileLoc, $fileName, '', str_replace($iceRoot, "", str_replace("|", "/", $_GET['oldFileName'])), '', $fileOrFolder);
+                $doNext .= 'tabNum = ICEcoder.openFiles.indexOf(\'' . str_replace("|", "/", $_GET['oldFileName']) . '\') + 1; if (0 < tabNum) {ICEcoder.renameTab(tabNum, \'' . $fileLoc . "/" . $fileName . '\');};';
+                $finalAction = "move";
+                // Run any extra processes
+                $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
+                $doNext = $extraProcessesClass->onFileDirMove($doNext);
             } else {
-                if(rename($srcDir, $tgtDir)) {
-                    // Is a dir or file (needed to create new item in file manager)
-                    $fileOrFolder = is_dir($docRoot . $fileLoc . "/" . $fileName) ? "folder" : "file";
-                    $fileClass->updateFileManager('move', $fileLoc, $fileName, '', str_replace($iceRoot, "", str_replace("|", "/", $_GET['oldFileName'])), '', $fileOrFolder);
-                    $doNext .= 'tabNum = ICEcoder.openFiles.indexOf(\'' . str_replace("|", "/", $_GET['oldFileName']) . '\') + 1; if (0 < tabNum) {ICEcoder.renameTab(tabNum, \'' . $fileLoc . "/" . $fileName . '\');};';
-                    $finalAction = "move";
-                    // Run any extra processes
-                    $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
-                    $doNext = $extraProcessesClass->onFileDirMove($doNext);
-                } else {
-                    $doNext .= "ICEcoder.message('" . $t['Sorry, cannot move'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
-                    $finalAction = "nothing";
-                }
+                $doNext .= "ICEcoder.message('" . $t['Sorry, cannot move'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
+                $finalAction = "nothing";
             }
         } else {
             $doNext .= "ICEcoder.message('" . $t['Sorry, cannot move'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
@@ -272,29 +228,18 @@ if (!$error && "move" === $_GET['action']) {
 // ==================
 
 if (!$error && "rename" === $_GET['action']) {
-    if (!$demoMode && (isset($ftpSite) || is_writable($docRoot.$iceRoot.str_replace("|", "/", $_GET['oldFileName'])))) {
-        // FTP
-        if (isset($ftpSite)) {
-            $ftpFilepath = ltrim($fileLoc . "/" . $fileName, "/");
-            if (!$ftpClass->ftpRename($ftpConn, ltrim($_GET['oldFileName'], "/"), $ftpFilepath)) {
-                $doNext .= 'ICEcoder.message("Sorry, could not rename ' . ltrim($_GET['oldFileName'], "/") . ' to ' . $ftpFilepath . '");';
-            } else {
-                $fileClass->updateFileManager('rename', $fileLoc, $fileName, '', str_replace($iceRoot, "", $_GET['oldFileName']), '', '');
-            }
-            // Local
+    if (!$demoMode && is_writable($docRoot . $iceRoot . str_replace("|", "/", $_GET['oldFileName']))) {
+        if (true === file_exists($docRoot . $fileLoc)) {
+            rename($docRoot.$iceRoot.str_replace("|", "/", $_GET['oldFileName']), $docRoot . $fileLoc . "/" . $fileName);
+            $fileClass->updateFileManager('rename', $fileLoc, $fileName, '', str_replace($iceRoot, "", $_GET['oldFileName']), '', '');
+            $doNext .= 'tabNum = ICEcoder.openFiles.indexOf(\'' . str_replace("|", "/", $_GET['oldFileName']) . '\') + 1; if (0 < tabNum) {ICEcoder.renameTab(tabNum, \'' . $fileLoc . "/" . $fileName . '\');};';
+            $finalAction = "rename";
+            // Run any extra processes
+            $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
+            $doNext = $extraProcessesClass->onFileDirRename($doNext);
         } else {
-            if (true === file_exists($docRoot . $fileLoc)) {
-                rename($docRoot.$iceRoot.str_replace("|", "/", $_GET['oldFileName']), $docRoot . $fileLoc . "/" . $fileName);
-                $fileClass->updateFileManager('rename', $fileLoc, $fileName, '', str_replace($iceRoot, "", $_GET['oldFileName']), '', '');
-                $doNext .= 'tabNum = ICEcoder.openFiles.indexOf(\'' . str_replace("|", "/", $_GET['oldFileName']) . '\') + 1; if (0 < tabNum) {ICEcoder.renameTab(tabNum, \'' . $fileLoc . "/" . $fileName . '\');};';
-                $finalAction = "rename";
-                // Run any extra processes
-                $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
-                $doNext = $extraProcessesClass->onFileDirRename($doNext);
-            } else {
-                $doNext .= "ICEcoder.message('".$t['Sorry, cannot rename'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['does not seem...'] . "');";
-                $finalAction = "nothing";
-            }
+            $doNext .= "ICEcoder.message('".$t['Sorry, cannot rename'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['does not seem...'] . "');";
+            $finalAction = "nothing";
         }
     } else {
         $doNext .= "ICEcoder.message('".$t['Sorry, cannot rename'] . "\\\\n" . str_replace("|", "/", $_GET['oldFileName']) . "\\\\n\\\\n" . $t['Maybe public write...'] . "');";
@@ -307,7 +252,7 @@ if (!$error && "rename" === $_GET['action']) {
 // PASTE FILE/FOLDER
 // =================
 
-if (!isset($ftpSite) && !$error && "paste" === $_GET['action']) {
+if (!$error && "paste" === $_GET['action']) {
     $source = $file;
     $dest = str_replace("//", "/", $docRoot . $iceRoot . str_replace("|", "/", $_GET['location']) . "/" . basename($source));
     if (!$demoMode && is_writable(dirname($dest))) {
@@ -331,7 +276,7 @@ if (!isset($ftpSite) && !$error && "paste" === $_GET['action']) {
 // UPLOAD FILE(S)
 // ==============
 
-if (!isset($ftpSite) && !$error && "upload" === $_GET['action']) {
+if (!$error && "upload" === $_GET['action']) {
     if (!$demoMode) {
 
         if ($_FILES['filesInput']){
@@ -358,34 +303,7 @@ if (!isset($ftpSite) && !$error && "upload" === $_GET['action']) {
 
 if (!$error && "delete" === $_GET['action']) {
     $filesArray = explode(";", $file); // May contain more than one file here
-    // FTP
-    if (isset($ftpSite)) {
-        if (1 === count($filesArray)) {
-            $ftpFileDirInfo = $ftpClass->ftpGetFileInfo($ftpConn, ltrim($fileLoc, "/"), $fileName);
-            $itemType = "directory" === $ftpFileDirInfo['type'] ? "dir" : "file";
-            $itemPath = ltrim($fileLoc . "/" . $fileName, "/");
-            if (!$demoMode && $ftpClass->ftpDelete($ftpConn, $itemType, $itemPath)) {
-                if ($fileLoc=="" || "\\" === $fileLoc) {
-                    $fileLoc = "/";
-                };
-                // Reload file manager
-                $doNext .= 'ICEcoder.selectedFiles = []; ICEcoder.updateFileManagerList(\'delete\', \'' . $fileLoc . '\', \'' . $fileName . '\', false, false, false, \'' . ("dir" === $itemType ? 'folder' : 'file') . '\');';
-                $finalAction = "delete";
-                // Run any extra processes
-                $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
-                $doNext = $extraProcessesClass->onFileDirDelete($doNext);
-            } else {
-                $doNext .= "ICEcoder.message('" . $t['Sorry, cannot delete'] . "\\\\n" . $fileLoc . "/" . $fileName . "');";
-                $finalAction = "nothing";
-            }
-        } else {
-            $doNext .= "ICEcoder.message('" . $t['Sorry, cannot delete more...'] . "');";
-            $finalAction = "nothing";
-        }
-        // Local
-    } else {
-        $fileClass->delete();
-    }
+    $fileClass->delete();
     $doNext .= 'ICEcoder.serverMessage(); ICEcoder.serverQueue("del");';
 };
 
@@ -393,7 +311,7 @@ if (!$error && "delete" === $_GET['action']) {
 // REPLACE TEXT IN A FILE
 // ======================
 
-if (!isset($ftpSite) && !$error && "replaceText" === $_GET['action']) {
+if (!$error && "replaceText" === $_GET['action']) {
     if (!$demoMode && is_writable($file)) {
         $loadedFile = toUTF8noBOM(getData($file), true);
         $find = $_GET['find'];
@@ -419,7 +337,7 @@ if (!isset($ftpSite) && !$error && "replaceText" === $_GET['action']) {
 // GET CONTENTS OF REMOTE URL
 // ==========================
 
-if (!isset($ftpSite) && !$error && "getRemoteFile" === $_GET['action']) {
+if (!$error && "getRemoteFile" === $_GET['action']) {
     $lineNumber = max(isset($_REQUEST['lineNumber']) ? intval($_REQUEST['lineNumber']) : 1, 1);
 
     if ($remoteFile = toUTF8noBOM(getData($file, 'curl'), true)) {
@@ -445,20 +363,9 @@ if (!isset($ftpSite) && !$error && "getRemoteFile" === $_GET['action']) {
 // =======================
 
 if (!$error && "perms" === $_GET['action']) {
-    if (!$demoMode && (isset($ftpSite) || is_writable($file))) {
-        // FTP
-        if (isset($ftpSite)) {
-            $ftpFilepath = ltrim($fileLoc . "/" . $fileName, "/");
-            if (!$ftpClass->ftpPerms($ftpConn, octdec(numClean($_GET['perms'])), $ftpFilepath)) {
-                $doNext .= 'ICEcoder.message("Sorry, could not set perms on ' . $ftpFilepath . ' at ' . $ftpHost . '");';
-            } else {
-                $fileClass->updateFileManager('chmod', $fileLoc, $fileName, numClean($_GET['perms']), '', '', '');
-            }
-            // Local
-        } else {
-            chmod($file, octdec(numClean($_GET['perms'])));
-            $fileClass->updateFileManager('chmod', $fileLoc, $fileName, numClean($_GET['perms']), '', '', '');
-        }
+    if (!$demoMode && is_writable($file)) {
+        chmod($file, octdec(numClean($_GET['perms'])));
+        $fileClass->updateFileManager('chmod', $fileLoc, $fileName, numClean($_GET['perms']), '', '', '');
         $finalAction = "perms";
         // Run any custom processes
         $extraProcessesClass = new ExtraProcesses($fileLoc, $fileName);
@@ -474,7 +381,7 @@ if (!$error && "perms" === $_GET['action']) {
 // CHECK FOR A FILE/DIR
 // ====================
 
-if (!isset($ftpSite) && !$error && "checkExists" === $_GET['action']) {
+if (!$error && "checkExists" === $_GET['action']) {
     // This action is called under seperate AJAX call and the responseText object stored in ICEcoder.lastFileDirCheckStatusObj
     // Nothing really done here though, we do something with the responseText
     $finalAction = "checkExists";

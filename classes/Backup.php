@@ -14,13 +14,13 @@ class Backup
     }
 
     public function makeBackup($fileLoc, $fileName, $contents) {
-        global $ftpSite, $t, $ICEcoder;
+        global $t, $ICEcoder;
 
         $backupDirFormat = "Y-m-d";
 
         // Establish the base, host and date dir parts...
         $backupDirBase = str_replace("\\", "/", dirname(__FILE__)) . "/../data/backups/";
-        $backupDirHost = isset($ftpSite) ? parse_url($ftpSite, PHP_URL_HOST) : "localhost";
+        $backupDirHost = "localhost";
         $backupDirDate = date($backupDirFormat);
 
         // Establish an array of dirs from base to our file location

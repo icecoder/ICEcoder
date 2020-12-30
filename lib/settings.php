@@ -188,18 +188,6 @@ if (false === in_array(getUserIP(), $_SESSION['allowedIPs']) && false === in_arr
     include(dirname(__FILE__) . "/requirements.php");
 };
 
-// Establish any FTP site to use
-if (true === isset($_SESSION['ftpSiteRef']) && false !== $_SESSION['ftpSiteRef']) {
-    $ftpSiteArray = $ICEcoder['ftpSites'][$_SESSION['ftpSiteRef']];
-    $ftpSite = $ftpSiteArray['site'];                                         // FTP site domain, eg http://yourdomain.com
-    $ftpHost = $ftpSiteArray['host'];                                         // FTP host, eg ftp.yourdomain.com
-    $ftpUser = $ftpSiteArray['user'];                                         // FTP username
-    $ftpPass = $ftpSiteArray['pass'];                                         // FTP password
-    $ftpPasv = $ftpSiteArray['pasv'];                                         // FTP account requires PASV mode?
-    $ftpMode = $ftpSiteArray['mode'] == "FTP_ASCII" ? FTP_ASCII : FTP_BINARY; // FTP transfer mode, FTP_ASCII or FTP_BINARY
-    $ftpRoot = $ftpSiteArray['root'];                                         // FTP root dir to use as base, eg /htdocs
-}
-
 // Save currently opened files in previousFiles and last10Files arrays
 include(dirname(__FILE__) . "/settings-save-current-files.php");
 

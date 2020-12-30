@@ -3672,21 +3672,6 @@ var ICEcoder = {
         this.showHide('show', get('blackMask'));
     },
 
-    // Go to localhost root
-    goLocalhostRoot: function() {
-        this.filesFrame.contentWindow.frames['fileControl'].location.href =
-            this.iceLoc +
-            "/lib/go-localhost-root.php";
-    },
-
-    // Show the FTP manager
-    ftpManager: function() {
-        get('mediaContainer').innerHTML = '<iframe src="' +
-            this.iceLoc +
-            '/lib/ftp-manager.php" id="ftpManagerIFrame" style="width: 620px; height: 550px"></iframe>';
-        this.showHide('show', get('blackMask'));
-    },
-
     // Update the settings used when we make a change to them
     useNewSettings: function(settings) {
         let styleNode, thisCSS, strCSS, activeLineBG;

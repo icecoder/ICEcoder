@@ -198,7 +198,7 @@ if (true === isset($_GET['tab'])) {
 		<?php
 		// Display number of days backups available
 		$backupDirBase = str_replace("\\", "/", dirname(__FILE__)) . "/../data/backups/";
-		$backupDirHost = true === isset($ftpSite) ? parse_url($ftpSite, PHP_URL_HOST) : "localhost";
+		$backupDirHost = "localhost";
 		$backupDirsList = scandir($backupDirBase . $backupDirHost);
 		// Remove . and .. from array
 		for ($i = 0; $i < count($backupDirsList); $i++) {

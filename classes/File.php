@@ -4,19 +4,16 @@ namespace ICEcoder;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use ICEcoder\FTP;
 use ICEcoder\System;
 use scssc;
 use lessc;
 
 class File
 {
-    private $ftpClass;
     private $systemClass;
 
     public function __construct()
     {
-        $this->ftpClass = new FTP();
         $this->systemClass = new System();
     }
 
@@ -67,7 +64,7 @@ class File
                 // On the banned file/dir list
                 ($bannedFileFound) ||
                 // A local folder that isn't the doc root or starts with the doc root
-                ("getRemoteFile" !== $_GET['action'] && !isset($ftpSite) &&
+                ("getRemoteFile" !== $_GET['action'] &&
                     rtrim($allFiles[$i], "/") !== rtrim($docRoot, "/") &&
                     true === realpath(rtrim(dirname($allFiles[$i]), "/")) &&
                     0 !== strpos(realpath(rtrim(dirname($allFiles[$i]), "/")), realpath(rtrim($docRoot, "/")))
@@ -111,7 +108,7 @@ class File
     }
 
     public function load() {
-        global $file, $fileLoc, $fileName, $t, $ftpConn, $ftpHost, $ftpLogin, $ftpRoot, $ftpUser, $ftpMode;
+        global $file, $fileLoc, $fileName, $t;
         echo 'action="load";';
         $lineNumber = max(isset($_REQUEST['lineNumber']) ? intval($_REQUEST['lineNumber']) : 1, 1);
         // Check this file isn't on the banned list at all
@@ -124,10 +121,10 @@ class File
 
         if (false === $canOpen) {
             echo 'fileType="nothing"; parent.parent.ICEcoder.message(\'' . $t['Sorry, could not...'] . ' ' . $fileLoc . "/" . $fileName . '\');';
-        } elseif (isset($ftpSite) || file_exists($file)) {
+        } elseif (file_exists($file)) {
             $finfo = "text";
             // Determine what to do based on mime type
-            if (!isset($ftpSite) && function_exists('finfo_open')) {
+            if (function_exists('finfo_open')) {
                 $finfoMIME = finfo_open(FILEINFO_MIME);
                 $finfo = finfo_file($finfoMIME, $file);
                 finfo_close($finfoMIME);
@@ -144,20 +141,9 @@ class File
             if (0 === strpos($finfo, "text") || 0 === strpos($finfo, "application/json") || 0 === strpos($finfo, "application/xml") || false !== strpos($finfo, "empty")) {
                 echo 'fileType="text";';
 
-                // Get file over FTP?
-                if (isset($ftpSite)) {
-                    $this->ftpClass->ftpStart();
-                    // Show user warning if no good connection
-                    if (!$ftpConn || !$ftpLogin) {
-                        die('parent.parent.ICEcoder.message("Sorry, no FTP connection to ' . $ftpHost . ' for user ' . $ftpUser . '");parent.parent.ICEcoder.serverMessage();parent.parent.ICEcoder.serverQueue("del");</script>');
-                    }
-                    // Get our file contents and close the FTP connection
-                    $loadedFile = toUTF8noBOM($this->ftpClass->ftpGetContents($ftpConn, $ftpRoot . $fileLoc . "/" . $fileName, $ftpMode), false);
-                    $this->ftpClass->ftpEnd();
-                    // Get local file
-                } else {
-                    $loadedFile = toUTF8noBOM(getData($file), true);
-                }
+                // Get data from file
+                $loadedFile = toUTF8noBOM(getData($file), true);
+
                 $encoding = ini_get("default_charset");
                 if ("" == $encoding) {
                     $encoding = "UTF-8";
@@ -186,7 +172,7 @@ class File
 
         $script = 'if ("text" === fileType) {';
 
-        if (isset($ftpSite) || file_exists($file)) {
+        if (file_exists($file)) {
             $script .= '
             setTimeout(function() {
                 if (!parent.parent.ICEcoder.content.contentWindow.createNewCMInstance) {
@@ -247,7 +233,7 @@ class File
             parent.parent.document.getElementById(\'blackMask\').style.visibility = "visible";
             parent.parent.document.getElementById(\'mediaContainer\').innerHTML =
                 "<canvas id=\"canvasPicker\" width=\"1\" height=\"1\" style=\"position: absolute; margin: 10px 0 0 10px; cursor: crosshair\"></canvas>" +
-                "<img src=\"' . ((isset($ftpSite) ? $ftpSite : "") . $fileLoc . "/" . $fileName . "?unique=" . microtime(true)) .'\" style=\"border: solid 10px #fff; max-width: 700px; max-height: 500px; background-color: #000; background-image: url(\'assets/images/checkerboard.png\')\" onLoad=\"reducedImgMsg = (this.naturalWidth > 700 || this.naturalHeight > 500) ? \', ' .$t['displayed at'] . '\' + this.width + \' x \' + this.height : \'\'; document.getElementById(\'imgInfo\').innerHTML += \' (\' + this.naturalWidth + \' x \' + this.naturalHeight + reducedImgMsg + \')\'; ICEcoder.initCanvasImage(this); ICEcoder.interactCanvasImage(this)\"><br>" +
+                "<img src=\"' . $fileLoc . "/" . $fileName . "?unique=" . microtime(true) .'\" style=\"border: solid 10px #fff; max-width: 700px; max-height: 500px; background-color: #000; background-image: url(\'assets/images/checkerboard.png\')\" onLoad=\"reducedImgMsg = (this.naturalWidth > 700 || this.naturalHeight > 500) ? \', ' .$t['displayed at'] . '\' + this.width + \' x \' + this.height : \'\'; document.getElementById(\'imgInfo\').innerHTML += \' (\' + this.naturalWidth + \' x \' + this.naturalHeight + reducedImgMsg + \')\'; ICEcoder.initCanvasImage(this); ICEcoder.interactCanvasImage(this)\"><br>" +
             "<div style=\"display: inline-block; margin-top: -10px; border: solid 10px #fff; color: #000; background-color: #fff\" id=\"imgInfo\"  onmouseover=\"parent.parent.ICEcoder.overPopup=true\" onmouseout=\"parent.parent.ICEcoder.overPopup=false\">" +
             "<b>' . $fileLoc . "/" . $fileName . '</b>" +
             "</div><br>" +
@@ -273,7 +259,6 @@ class File
         $fileName = $fileDetails['fileName'];
         $fileMDTURLPart = $fileDetails['fileMDTURLPart'];
         $fileVersionURLPart = $fileDetails['fileVersionURLPart'];
-        $ftpSite = $fileDetails['ftpSite'];
 
         $doNext = '
 			ICEcoder.serverMessage();
@@ -300,7 +285,7 @@ class File
 
 						/* Saving under conditions: Confirmation of overwrite or there is no filename conflict, it is a new file, in either case we can save */
 						if (overwriteOK || noConflictSave) {
-							newFileName = "' . (true === $ftpSite ? "" : $docRoot) . '" + newFileName;
+							newFileName = "' . $docRoot . '" + newFileName;
 							saveURL = "lib/file-control.php?action=save' . $fileMDTURLPart . $fileVersionURLPart . '&csrf=' . $_GET["csrf"] . '";
 
 							var xhr = ICEcoder.xhrObj();
@@ -721,26 +706,13 @@ class File
     }
 
     public function returnJSON() {
-        global $ftpSite, $ftpConn, $fileLoc, $fileName, $ftpRoot, $file, $filemtime, $finalAction, $timeStart, $error, $errorStr, $errorMsg, $doNext;
+        global $fileLoc, $fileName, $file, $filemtime, $finalAction, $timeStart, $error, $errorStr, $errorMsg, $doNext;
 
-        if (isset($ftpSite)) {
-            // Get info on dir/file now
-            $ftpFileDirInfo = $this->ftpClass->ftpGetFileInfo($ftpConn, ltrim($fileLoc, "/"), $fileName);
-            // End the connection
-            $this->ftpClass->ftpEnd();
-            // Then set info
-            $itemAbsPath = $ftpRoot . $fileLoc . '/' . $fileName;
-            $itemPath = dirname($ftpRoot.$fileLoc . '/' . $fileName);
-            $itemBytes = $ftpFileDirInfo['size'];
-            $itemType = (isset($ftpFileDirInfo['type']) ? ("directory" === $ftpFileDirInfo['type'] ? "dir" : "file") : "unknown");
-            $itemExists = (isset($ftpFileDirInfo['type']) ? "true" : "false");
-        } else {
-            $itemAbsPath = $file;
-            $itemPath = dirname($file);
-            $itemBytes = is_dir($file) || !file_exists($file) ? null : filesize($file);
-            $itemType = (file_exists($file) ? (is_dir($file) ? "dir" : "file") : "unknown");
-            $itemExists = (file_exists($file) ? "true" : "false");
-        }
+        $itemAbsPath = $file;
+        $itemPath = dirname($file);
+        $itemBytes = is_dir($file) || !file_exists($file) ? null : filesize($file);
+        $itemType = (file_exists($file) ? (is_dir($file) ? "dir" : "file") : "unknown");
+        $itemExists = (file_exists($file) ? "true" : "false");
 
         return '{
             "file": {

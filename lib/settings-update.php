@@ -66,7 +66,6 @@ if (false === $demoMode && true === isset($_SESSION['loggedIn']) && true === $_S
         "bugFileCheckTimer"  => intval($_POST['bugFileCheckTimer']) >= 0 ? intval($_POST['bugFileCheckTimer']) : 0,
         "bugFileMaxLines"    => intval($_POST['bugFileMaxLines']),
         "plugins"            => $currentSettings['plugins'],
-        "ftpSites"           => $currentSettings['ftpSites'],
         "tutorialOnLogin"    => isset($_POST['tutorialOnLogin']),
         "previousFiles"      => $currentSettings['previousFiles'],
         "last10Files"        => $currentSettings['last10Files'],
