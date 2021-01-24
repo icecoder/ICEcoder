@@ -1526,6 +1526,7 @@ var ICEcoder = {
               : fileExt === "erl" ? "Erlang"
               : fileExt === "jl" ? "Julia"
               : fileExt === "c" ? "C"
+              : fileExt === "h" ? "C"
               : fileExt === "cpp" ? "C++"
               : fileExt === "ino" ? "C++"
               : fileExt === "cs" ? "C#"

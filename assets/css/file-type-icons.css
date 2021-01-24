@@ -1,5 +1,5 @@
 /* Additional file types */
-.ext-c:before {background-position: -48px 0 !important;}
+.ext-c:before, .ext-h:before {background-position: -48px 0 !important;}
 .ext-cpp:before, .ext-ino:before {background-position: -64px 0 !important;}
 .ext-cs:before {background-position: -80px 0 !important;}
 .ext-coffee:before {background-position: -96px 0 !important;}

@@ -3,7 +3,7 @@ include "headers.php";
 include "settings.php";
 
 // File extensions to look for functions & classes in
-$indexableFileExts = ["php", "js", "coffee", "ts", "rb", "py", "mpy", "sql", "erl", "java", "jl", "c", "cpp", "ino", "cs", "go", "lua", "pl"];
+$indexableFileExts = ["php", "js", "coffee", "ts", "rb", "py", "mpy", "sql", "erl", "java", "jl", "c", "h", "cpp", "ino", "cs", "go", "lua", "pl"];
 
 // Fallback for prevIndexData to start off initially
 $prevIndexData = [];
@@ -91,7 +91,7 @@ function phpGrep($path, $base) {
                         (($filePathExt === "py" || $filePathExt === "mpy" || $filePathExt === "rb") && strpos($line, "def") !== false && strpos($line, "def") < strpos($line, "(")) ||
                         (($filePathExt === "js" || $filePathExt === "ts") && strpos($line, "=>") !== false) ||
                         (($filePathExt === "erl" || $filePathExt === "coffee") && strpos($line, "->") !== false) ||
-                        (($filePathExt === "c" || $filePathExt === "cpp") && strpos($line, "{") !== false && strpos($line, "{") > strpos($line, "(")) ||
+                        (($filePathExt === "c" || $filePathExt === "h" || $filePathExt === "cpp" || $filePathExt === "ino") && strpos($line, "{") !== false && strpos($line, "{") > strpos($line, "(")) ||
                         ($filePathExt === "go" && strpos($line, "func") !== false && strpos($line, "func") < strpos($line, "(")) ||
                         // ...or if the line contains "function" before opening parens...
                         (strpos($line, "function") !== false && strpos($line, "function") < strpos($line, "("))

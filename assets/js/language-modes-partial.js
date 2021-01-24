@@ -21,6 +21,7 @@ var mode =
   : fileExt == "java"   ? "text/x-java"
   : fileExt == "jl"     ? "text/x-julia"
   : fileExt == "c"      ? "text/x-csrc"
+  : fileExt == "h"      ? "text/x-csrc"
   : fileExt == "cpp"    ? "text/x-c++src"
   : fileExt == "ino"    ? "text/x-c++src"
   : fileExt == "cs"     ? "text/x-csharp"
