@@ -127,12 +127,12 @@ const checkCase = function(evt) {
 const checkCanSubmit = function() {
 	// Password isn't strong enough, shake requirements
 	if(false === pwStrength(get("password").value)) {
-		var posArray = [6, -6, 3, -3, 0];
+		var posArray = [24, -24, 12, -12, 6, -6, 3, -3, 0];
 		var pos = -1;
 		var anim = setInterval(function() {
 			if (pos < posArray.length) {
 				pos++;
-				get("pwReqs").style.marginLeft = posArray[pos] + "px";
+				get("pwReqs").style.marginLeft = get("password").style.marginLeft = posArray[pos] + "px";
 			} else {
 				clearInterval(anim);
 			}
