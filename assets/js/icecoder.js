@@ -1155,7 +1155,7 @@ var ICEcoder = {
 
     // Go to a specific line number
     goToLine: function(lineNo, charNo, noFocus) {
-        let thisCM;
+        let thisCM, hiddenLines, tgtLineNo;
 
         lineNo = lineNo ? lineNo - 1 : get('goToLineNo').value - 1;
         charNo = charNo ? charNo : 0;
@@ -1164,15 +1164,50 @@ var ICEcoder = {
 
         this.scrollingOnLine = thisCM.getCursor().line;
 
-        // Scroll cursor into middle of view
+        // Clear any existing interval handling the scrolling
         if ("undefined" !== typeof this.scrollInt) {
             clearInterval(this.scrollInt);
         }
 
+        // Start array of hidden (folded away) lines we should ignore
+        hiddenLines = [];
+
+        // Get all marks
+        const allMarks = thisCM.getAllMarks();
+        if ("undefined" !== typeof allMarks[0]) {
+            // For each of the marks, if it's a fold type marker
+            for (let i = 0; i < allMarks.length; i++) {
+                if (true === allMarks[i].__isFold) {
+                    // Get the line number of first child in marker range
+                    const firstLine = thisCM.getLineNumber(allMarks[i].lines[0]);
+                    // For each of the children in marker range, after first (as that's still visible, subsequent lines not)
+                    for (let j = 1; j < allMarks[i].lines.length; j++) {
+                        // If not already in hidden lines array we need to also ignore (this check covers nested folds)
+                        if (-1 === hiddenLines.indexOf(firstLine + j + 1)) {
+                            hiddenLines.push(firstLine + j + 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        // The target line is same as requested line, for now
+        tgtLineNo = lineNo;
+        // Go through each of the lines that are folded away (hidden), if the number is less
+        // than the requested line number, deduct 1 as it's hidden
+        for (let i = 0; i < hiddenLines.length; i++) {
+            if (hiddenLines[i] < lineNo) {
+                tgtLineNo--;
+            }
+        }
+
         this.scrollInt = setInterval(function(ic) {
-            ic.scrollingOnLine = ic.scrollingOnLine + ((lineNo - ic.scrollingOnLine) / 5);
-            thisCM.scrollTo(0, (thisCM.defaultTextHeight() * ic.scrollingOnLine) - (thisCM.getScrollInfo().clientHeight / 10));
-            if (lineNo === Math.round(ic.scrollingOnLine)) {
+            // Aim for this step to go 1/5th towards the target line we want as next scroll "step"
+            ic.scrollingOnLine = ic.scrollingOnLine + ((tgtLineNo - ic.scrollingOnLine) / 5);
+            // Scroll on the Y axis to the pixels in this step + 8 to handle margin - 1/10th of editor visible height
+            thisCM.scrollTo(0, (thisCM.defaultTextHeight() * ic.scrollingOnLine) + 8 - (thisCM.getScrollInfo().clientHeight / 10));
+            // Clear interval if we're at the target line now
+            if (tgtLineNo === Math.round(ic.scrollingOnLine)) {
                 clearInterval(ic.scrollInt);
             }
         }, 10, this);
