@@ -3643,7 +3643,7 @@ var ICEcoder = {
         get('mediaContainer').innerHTML =
             '<iframe src="' +
             this.iceLoc +
-            '/lib/help.php" id="helpIFrame" style="width: 840px; height: 485px"></iframe>';
+            '/lib/help.php" id="helpIFrame" style="width: 840px; height: 495px"></iframe>';
         this.showHide('show', get('blackMask'));
     },
 
@@ -4663,6 +4663,13 @@ var ICEcoder = {
             // Once done, sort our tabs into new order
             this.sortTabs(alphaArray);
         }
+    },
+
+    // Focus/unfocus tab by contracting/expanding file manager
+    focusUnfocusTab: function() {
+        // Switch current lock state and change display of file manager
+        ICEcoder.lockUnlockNav();
+        this.changeFilesW(true === this.lockedNav ? 'expand' : 'contract');
     },
 
 // ==

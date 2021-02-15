@@ -177,6 +177,7 @@ $text = [
         "or"                                       => "或",
         "Left click"                               => "左键单击",
         "Middle click"                             => "中键单击",
+        "Double click"                             => "双击",
         "Double click tap..."                      => "双击 / 点击 (移动端)",
         "Right click"                              => "右键单击",
         "Middle scrollwheel"                       => "中间滚轮滚动",

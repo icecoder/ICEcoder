@@ -48,6 +48,7 @@ $t = $text['help'];
 
 	<h2><?php echo $t['On Tabs'];?></h2>
 	<span class="key"><?php echo $t['Middle click'];?></span> <span class="shortcut"><?php echo $t['Close tab'];?></span><br>
+	<span class="key"><?php echo $t['Double click'];?></span> <span class="shortcut"><?php echo $t['Contract expand file...'];?></span><br>
 	<span class="key"><?php echo $isMac ? "Cmd" : "Ctrl";?> <span class="plus">+</span> Backspace</span> <span class="shortcut"><?php echo $t['Jump to previous tab'];?></span><br><br>
 </div>
 

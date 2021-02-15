@@ -176,6 +176,7 @@ $text = [
         "or"                                       => "یا",
         "Left click"                               => "کلیک چپ",
         "Middle click"                             => "کلیک وسط",
+        "Double click"                             => "تب ( موبایل )",
         "Double click tap..."                      => "دبل کلیک / تب ( موبایل )",
         "Right click"                              => "کلیک راست",
         "Middle scrollwheel"                       => "اسکرولر وسط",

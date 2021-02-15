@@ -176,6 +176,7 @@ $text = [
         "or"                                       => "or",
         "Left click"                               => "Left click",
         "Middle click"                             => "Middle click",
+        "Double click"                             => "Double click",
         "Double click tap..."                      => "Double click / tap (mobile)",
         "Right click"                              => "Right click",
         "Middle scrollwheel"                       => "Middle scrollwheel",
