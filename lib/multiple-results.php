@@ -4,9 +4,9 @@ include "settings.php";
 $t = $text['multiple-results'];
 ?>
 <?php
-if (true === isset($_GET['selectedFiles'])) {
-	$selectedFiles = explode(":", $_GET['selectedFiles']);
-}
+$selectedFiles = true === isset($_GET['selectedFiles'])
+    ? explode(":", $_GET['selectedFiles'])
+    : [];
 ?>
 <!DOCTYPE html>
 
