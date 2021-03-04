@@ -261,11 +261,11 @@ function findSequence(goal) {
 		
 		function getThemeDisplayName($optionName) {
 			$wordCasings = [
-				Ii => "II",
-				Ir => "IR",
-				Mdn => "MDN",
-				Ttcn => "TTCN",
-				Xq => "XQ"
+				"Ii" => "II",
+				"Ir" => "IR",
+				"Mdn" => "MDN",
+				"Ttcn" => "TTCN",
+				"Xq" => "XQ"
 			];
 
 			$optionName = ucwords(preg_replace("/_|\-/", " ", $optionName));
