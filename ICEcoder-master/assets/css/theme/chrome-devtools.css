@@ -1,0 +1,54 @@
+.cm-s-chrome-devtools {
+	font-family: monospace;
+	background: #FFFFFF;
+	color: #000000;
+}
+.cm-s-chrome-devtools .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #FFFFFF;
+	z-index: 3;
+	border: none;
+}
+.cm-s-chrome-devtools div.CodeMirror-cursor {
+	border-left: 3px solid #000000;
+}
+.cm-s-chrome-devtools .CodeMirror-activeline-background {
+	background: #0000001A;
+}
+.cm-s-chrome-devtools .CodeMirror-selected {
+	background: #BAD6FD;
+}
+.cm-s-chrome-devtools .cm-string {
+	color: #C41A16;
+}
+.cm-s-chrome-devtools .cm-number {
+	color: null;
+}
+.cm-s-chrome-devtools .cm-keyword {
+	color: #AA0D91;
+}
+.cm-s-chrome-devtools .cm-atom {
+	color: null;
+}
+.cm-s-chrome-devtools .cm-variable {
+	color: #000000;
+}
+.cm-s-chrome-devtools .cm-def {
+	font-style: italic;
+}
+.cm-s-chrome-devtools .cm-comment {
+	color: #007400;
+}
+.cm-s-chrome-devtools .cm-variable-2 {
+	color: #881280;
+}
+.cm-s-chrome-devtools .cm-property {
+	color: null;
+}
+.cm-s-chrome-devtools .cm-operator {
+	color: #AA0D91;
+}
+.cm-s-chrome-devtools .CodeMirror-linenumber {
+	color: #007400;
+}

@@ -1,0 +1,54 @@
+.cm-s-friendship-bracelet {
+	font-family: monospace;
+	background: #1F1F1F;
+	color: #F1F1F1;
+}
+.cm-s-friendship-bracelet .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #1F1F1F;
+	z-index: 3;
+	border: none;
+}
+.cm-s-friendship-bracelet div.CodeMirror-cursor {
+	border-left: 3px solid #F1F1F1;
+}
+.cm-s-friendship-bracelet .CodeMirror-activeline-background {
+	background: #404040;
+}
+.cm-s-friendship-bracelet .CodeMirror-selected {
+	background: #73597EE0;
+}
+.cm-s-friendship-bracelet .cm-comment {
+	color: #8A8988;
+}
+.cm-s-friendship-bracelet .cm-keyword {
+	color: #FF8C56;
+}
+.cm-s-friendship-bracelet .cm-variable {
+	color: #389AD9;
+}
+.cm-s-friendship-bracelet .cm-def {
+	font-style: italic;
+}
+.cm-s-friendship-bracelet .cm-string {
+	color: #F3F99A;
+}
+.cm-s-friendship-bracelet .cm-variable-2 {
+	color: #FC8C56;
+}
+.cm-s-friendship-bracelet .cm-property {
+	color: #FF6666;
+}
+.cm-s-friendship-bracelet .cm-atom {
+	color: #FF6666;
+}
+.cm-s-friendship-bracelet .cm-number {
+	color: #FF6666;
+}
+.cm-s-friendship-bracelet .cm-operator {
+	color: #FF8C56;
+}
+.cm-s-friendship-bracelet .CodeMirror-linenumber {
+	color: #8A8988;
+}

@@ -1,0 +1,54 @@
+.cm-s-rdark {
+	font-family: monospace;
+	background: #1B2426;
+	color: #B9BDB6;
+}
+.cm-s-rdark .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #1B2426;
+	z-index: 3;
+	border: none;
+}
+.cm-s-rdark div.CodeMirror-cursor {
+	border-left: 3px solid #B9BDB6;
+}
+.cm-s-rdark .CodeMirror-activeline-background {
+	background: #00000070;
+}
+.cm-s-rdark .CodeMirror-selected {
+	background: #E0E8FF66;
+}
+.cm-s-rdark .cm-comment {
+	color: #646763;
+}
+.cm-s-rdark .cm-string {
+	color: #5CE638;
+}
+.cm-s-rdark .cm-number {
+	color: null;
+}
+.cm-s-rdark .cm-atom {
+	color: null;
+}
+.cm-s-rdark .cm-keyword {
+	color: #5BA1CF;
+}
+.cm-s-rdark .cm-variable {
+	color: #FFAA3E;
+}
+.cm-s-rdark .cm-def {
+	color: #FFFFFF;
+}
+.cm-s-rdark .cm-variable-2 {
+	color: #FFFFFF;
+}
+.cm-s-rdark .cm-property {
+	color: null;
+}
+.cm-s-rdark .cm-operator {
+	color: #5BA1CF;
+}
+.cm-s-rdark .CodeMirror-linenumber {
+	color: #646763;
+}

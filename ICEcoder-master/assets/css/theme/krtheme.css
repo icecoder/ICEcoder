@@ -1,0 +1,43 @@
+.cm-s-krtheme {
+	font-family: monospace;
+	background: #0B0A09;
+	color: #FCFFE0;
+}
+.cm-s-krtheme .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #0B0A09;
+	z-index: 3;
+	border: none;
+}
+.cm-s-krtheme div.CodeMirror-cursor {
+	border-left: 3px solid #FCFFE0;
+}
+.cm-s-krtheme .CodeMirror-activeline-background {
+	background: #38403D;
+}
+.cm-s-krtheme .CodeMirror-selected {
+	background: #AA00FF73;
+}
+.cm-s-krtheme .cm-keyword {
+	color: #949C8B;
+}
+.cm-s-krtheme .cm-comment {
+	font-style: italic;
+	color: #706D5B;
+}
+.cm-s-krtheme .cm-property {
+	color: #85873A;
+}
+.cm-s-krtheme .cm-atom {
+	color: #85873A;
+}
+.cm-s-krtheme .cm-number {
+	color: #85873A;
+}
+.cm-s-krtheme .cm-operator {
+	color: #949C8B;
+}
+.cm-s-krtheme .CodeMirror-linenumber {
+	color: italic;
+}

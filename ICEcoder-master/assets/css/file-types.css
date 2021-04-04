@@ -1,0 +1,19 @@
+.fileManager {
+    margin: 0 0 15px 20px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.fileManager span {font-family: helvetica, arial, swiss, verdana; padding: 1px 3px; border-radius: 3px}
+.fileManager a {color: #eee; text-decoration: none; cursor: pointer}
+.fileManager .pft-directory, .fileManager .pft-file {list-style-image: url(../images/blank.gif)}
+.fileManager ul, .fileManager li  {margin-left: 15px; white-space: nowrap}
+
+/* Default file */
+.fileManager LI.pft-directory:before, .fileManager LI.pft-file:before {
+    position: absolute; width: 16px; height: 16px; content: ""; margin-top: -2px; margin-left: -20px; background:url('../images/file-folder-icons.png') no-repeat 0 0;
+}
+.fileManager LI.dirOpen:before {background-position: -16px 0}
+.fileManager LI.pft-file:before {background-position: -32px 0}

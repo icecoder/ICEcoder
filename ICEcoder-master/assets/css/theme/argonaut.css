@@ -1,0 +1,55 @@
+.cm-s-argonaut {
+	font-family: monospace;
+	background: #151515;
+	color: #B2B2B2;
+}
+.cm-s-argonaut .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #151515;
+	z-index: 3;
+	border: none;
+}
+.cm-s-argonaut div.CodeMirror-cursor {
+	border-left: 3px solid #B2B2B2;
+}
+.cm-s-argonaut .CodeMirror-activeline-background {
+	background: #000C16;
+}
+.cm-s-argonaut .CodeMirror-selected {
+	background: #002F53;
+}
+.cm-s-argonaut .cm-comment {
+	font-style: italic;
+	color: #00A6FF;
+}
+.cm-s-argonaut .cm-string {
+	color: #6497C5;
+}
+.cm-s-argonaut .cm-number {
+	color: #815DB3;
+}
+.cm-s-argonaut .cm-variable {
+	color: #FFCA00;
+}
+.cm-s-argonaut .cm-def {
+	font-style: italic;
+}
+.cm-s-argonaut .cm-property {
+	color: #815DB3;
+}
+.cm-s-argonaut .cm-variable-2 {
+	color: #0065D3;
+}
+.cm-s-argonaut .cm-atom {
+	color: #815DB3;
+}
+.cm-s-argonaut .cm-keyword {
+	color: null;
+}
+.cm-s-argonaut .cm-operator {
+	color: null;
+}
+.cm-s-argonaut .CodeMirror-linenumber {
+	color: italic;
+}

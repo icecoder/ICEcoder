@@ -1,0 +1,69 @@
+/* General styles */
+
+.CodeMirror-simplescroll-horizontal,
+.CodeMirror-overlayscroll-horizontal {
+    bottom: 0;
+    left: 0;
+    height: 12px;
+}
+.CodeMirror-simplescroll-horizontal div,
+.CodeMirror-overlayscroll-horizontal div {
+    bottom: 0;
+    height: 100%;
+}
+
+.CodeMirror-simplescroll-vertical,
+.CodeMirror-overlayscroll-vertical{
+    right: 0;
+    top: 0;
+    width: 12px;
+}
+.CodeMirror-simplescroll-vertical div,
+.CodeMirror-overlayscroll-vertical div {
+    right: 0;
+    width: 100%;
+}
+
+/* Simple specific styles*/
+
+.CodeMirror-simplescroll-horizontal, .CodeMirror-simplescroll-vertical {
+    position: absolute;
+    background: #222;
+    z-index: 6;
+}
+
+.CodeMirror-simplescroll-horizontal div, .CodeMirror-simplescroll-vertical div {
+    position: absolute;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: rgba(0,198,255,0.2);
+}
+
+.CodeMirror-simplescroll-horizontal div:hover, .CodeMirror-simplescroll-vertical div:hover {
+    background: rgba(0,198,255,0.8);
+}
+
+.CodeMirror-simplescroll .CodeMirror-scrollbar-filler, .CodeMirror-simplescroll .CodeMirror-gutter-filler {
+    background: #222;
+}
+
+/* Overlay specific styles */
+
+.CodeMirror-overlayscroll-horizontal, .CodeMirror-overlayscroll-vertical {
+    position: absolute;
+    z-index: 6;
+}
+
+.CodeMirror-overlayscroll-horizontal div, .CodeMirror-overlayscroll-vertical div {
+    position: absolute;
+    background: rgba(0,198,255,0.2);
+}
+
+.CodeMirror-overlayscroll-horizontal div:hover, .CodeMirror-overlayscroll-vertical div:hover {
+    background: rgba(0,198,255,0.8);
+}
+
+.CodeMirror-overlayscroll .CodeMirror-scrollbar-filler, .CodeMirror-overlayscroll .CodeMirror-gutter-filler {
+    display: none;
+    background: transparent;
+}

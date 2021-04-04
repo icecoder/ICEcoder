@@ -1,0 +1,49 @@
+.cm-s-nightlion {
+	font-family: monospace;
+	color: #9e9e9e;
+	background: #1a1a1a;
+}
+.cm-s-nightlion .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #1a1a1a;
+	z-index: 3;
+	border: none;
+}
+.cm-s-nightlion div.CodeMirror-cursor {
+	border-left: 3px solid #9e9e9e;
+}
+.cm-s-nightlion .CodeMirror-activeline-background {
+	background: #ffffff08;
+}
+.cm-s-nightlion .CodeMirror-selected {
+	background: #ddf0ff33;
+}
+.cm-s-nightlion .cm-keyword {
+	color: #74b6e9ff;
+}
+.cm-s-nightlion .cm-string {
+	color: #e0db5dff;
+}
+.cm-s-nightlion .cm-property {
+	color: #76b6edff;
+}
+.cm-s-nightlion .cm-comment {
+	font-style: italic;
+	color: #0080ffff;
+}
+.cm-s-nightlion .cm-def {
+	color: #ffcc66ff;
+}
+.cm-s-nightlion .cm-atom {
+	color: #76b6edff;
+}
+.cm-s-nightlion .cm-number {
+	color: #76b6edff;
+}
+.cm-s-nightlion .cm-operator {
+	color: #74b6e9ff;
+}
+.cm-s-nightlion .CodeMirror-linenumber {
+	color: italic;
+}

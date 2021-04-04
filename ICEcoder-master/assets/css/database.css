@@ -1,0 +1,22 @@
+body {font-family: arial, verdana, helvetica, sans-serif; font-size: 13px; background: rgba(0,0,0,0.92); color: #ccc}
+a, a:visited, .jush a {color: #49d; text-decoration: none; background: transparent}
+a:link:hover, a:visited:hover {color: #eee}
+#logins a, #tables a, #tables span {background: transparent}
+h1 {display: none}
+h2 {color: #ccc; background: transparent}
+#breadcrumb {background: transparent}
+.js .checkable .checked .td {background: #888}
+thead td, thead th, th {background: transparent}
+
+th:first-child,td:first-child{white-space: nowrap}
+tbody tr:hover td,tbody tr:hover th{background: #222}
+thead tr:hover td,thead tr:hover th{background: #333}
+.odd td {background: #111}
+
+.jush {color: #eee}
+.jush-op, .jush-custom {color: #f80 !important}
+
+.footer {position: relative; border-image: none; border-top: 0; margin-top: 20px}
+.footer div {background: transparent}
+
+.logout {display: none}

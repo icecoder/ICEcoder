@@ -1,0 +1,55 @@
+.cm-s-monokai-fannonedition {
+	font-family: monospace;
+	background: #0A0A0A;
+	color: #F8F8F2;
+}
+.cm-s-monokai-fannonedition .CodeMirror-gutters {
+	box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
+	background-color: #0A0A0A;
+	z-index: 3;
+	border: none;
+}
+.cm-s-monokai-fannonedition div.CodeMirror-cursor {
+	border-left: 3px solid #F8F8F2;
+}
+.cm-s-monokai-fannonedition .CodeMirror-activeline-background {
+	background: #2D2D2D;
+}
+.cm-s-monokai-fannonedition .CodeMirror-selected {
+	background: #2B2B2B;
+}
+.cm-s-monokai-fannonedition .cm-comment {
+	color: #999999;
+}
+.cm-s-monokai-fannonedition .cm-string {
+	color: #F3E87E;
+}
+.cm-s-monokai-fannonedition .cm-number {
+	color: #66D9EF;
+}
+.cm-s-monokai-fannonedition .cm-atom {
+	color: #66D9EF;
+}
+.cm-s-monokai-fannonedition .cm-keyword {
+	color: #EC7600;
+}
+.cm-s-monokai-fannonedition .cm-variable {
+	color: #A6E22E;
+}
+.cm-s-monokai-fannonedition .cm-def {
+	font-style: italic;
+	color: #FD971F;
+}
+.cm-s-monokai-fannonedition .cm-variable-2 {
+	color: #FE890C;
+}
+.cm-s-monokai-fannonedition .cm-property {
+	color: #66D9EF;
+}
+.cm-s-monokai-fannonedition .cm-operator {
+	color: #EC7600;
+}
+.cm-s-monokai-fannonedition .CodeMirror-linenumber {
+	color: #999999;
+}

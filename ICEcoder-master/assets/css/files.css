@@ -1,0 +1,28 @@
+::-webkit-scrollbar {width: 12px; height: 12px}
+::-webkit-scrollbar-thumb {background: rgba(0,198,255,0.2)}
+::-webkit-scrollbar-thumb:hover {background: rgba(0,198,255,0.8)}
+::-webkit-scrollbar-corner, ::-webkit-scrollbar-resizer {background: transparent}
+
+body {margin: 0; overflow: auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.lock {position: fixed; display: inline-block; width: 12px; height: 16px; right: 0; margin-right: 16px; top: 0; color: #666; cursor: pointer}
+.lock:hover {color: #fff; cursor: pointer}
+.lock .icon-tabler {width: 22px; height: 22px; margin-left: -5px; margin-top: 0; stroke-width: 1.25; pointer-events: none}
+.refresh {position: fixed; display: inline-block; width: 14px; height: 14px; right: 0; margin-right: 15px; top: 34px; color: #666; cursor: pointer}
+.refresh:hover {color: #fff; cursor: pointer}
+.refresh .icon-tabler {width: 20px; height: 20px; margin-left: -3px; margin-top: -3px; stroke-width: 1.25; transform: rotate(180deg); pointer-events: none}
+.plugins {position: fixed; display: inline-block; width: 16px; height: 16px; right: 0; margin-right: 15px; top: 61px; color: #666; cursor: pointer}
+.plugins:hover {color: #fff; cursor: pointer}
+.plugins .icon-tabler {width: 24px; height: 24px; margin-left: -3px; margin-top: -3px; stroke-width: 1.25; pointer-events: none}
+.fmDragBox {position: absolute; display: inline-block; width: 0; height: 0; top: 0; left: 0; background: rgba(0,198,255,0.3);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+li a span:first-of-type {white-space: pre}

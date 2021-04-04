@@ -1,0 +1,29 @@
+body {overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
+a {color: #fff; text-decoration: none}
+
+.backup-versions {background-color: #1c1c19; color: #fff; padding: 20px}
+.button {padding: 5px 10px; font-size: 14px; background-color: rgba(0,198,255,0.7); margin-bottom: 20px; text-align: center; cursor: pointer}
+
+.cm-trailingspace {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUXCToH00Y1UgAAACFJREFUCNdjPMDBUc/AwNDAAAFMTAwMDA0OP34wQgX/AQBYgwYEx4f9lQAAAABJRU5ErkJggg==);
+    background-position: bottom left;
+    background-repeat: repeat-x;
+}
+.CodeMirror-foldmarker {font-family: arial; line-height: .3; color: #b00; cursor: pointer;
+    text-shadow: #fff 1px 1px 2px, #fff -1px -1px 2px, #fff 1px -1px 2px, #fff -1px 1px 2px;
+}
+.CodeMirror-foldgutter {display: inline-block; width: 13px}
+.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {position: absolute; display: inline-block; width: 13px; height: 13px; font-size: 14px; text-align: center; cursor: pointer}
+.CodeMirror-foldgutter-open {background: rgba(255,255,255,0.04); color: #666}
+.CodeMirror-foldgutter-open:after {position: relative; top: -2px}
+.CodeMirror-foldgutter-folded {background: #800; color: #ddd}
+.CodeMirror-foldgutter-folded:after {position: relative; top: -3px}
+
+.previewArea {display: inline-block; width: 480px; height: 550px; margin-left: 20px}
