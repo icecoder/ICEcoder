@@ -239,7 +239,7 @@ $text = [
         "results"                                  => "结果",
         "No text selected..."                      => "搜索中没有选中的文本",
         "all files"                                => "所有文件",
-        "all filenames"                            => "所有的文件名",
+        "all filenames"                            => "所有文件名",
         "selected files"                           => "已选择的文件",
         "selected filenames"                       => "已选择的文件名",
         "Creating Folder"                          => "正在创建文件夹",
@@ -256,7 +256,7 @@ $text = [
         "Sorry cannot paste..."                    => "抱歉, 无法粘贴到根路径",
         "Nothing to paste..."                      => "粘贴失败, 请先复制一个文件 / 文件夹!",
         "and"                                      => "和",
-        "this document"                            => "本文件",
+        "this document"                            => "当前文件",
         "replace"                                  => "替换",
         "replace all"                              => "替换所有",
         "file"                                     => "文件",
@@ -268,7 +268,7 @@ $text = [
         "Error cannot find..."                     => "错误: 无法找到/进入错误文件路径",
         "No new errors..."                         => "没有新的错误被找到",
         "You have made..."                         => "您已做的更改未保存。您确定要关闭它而不保存吗?",
-        "Close all tabs"                           => "是否关闭所有选项卡?",
+        "Close all tabs"                           => "关闭所有选项卡?",
     ],
 
     "login" =>

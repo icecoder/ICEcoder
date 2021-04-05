@@ -238,7 +238,7 @@ $text = [
         "results"                                  => "risultati",
         "No text selected..."                      => "Nessun testo selezionato per la ricerc",
         "all files"                                => "tutti i file",
-        "all filenames"                            => "tutti i nomi dei file",
+        "all filenames"                            => "tutti i nomi",
         "selected files"                           => "seleziona file",
         "selected filenames"                       => "seleziona nomi dei file",
         "Creating Folder"                          => "Sto creando una cartla",
@@ -246,7 +246,7 @@ $text = [
         "Opening File"                             => "Apertura file",
         "Enter relative file..."                   => "Digita il percorso relativo (con / di prefisso) o l\'url remoto",
         "Getting"                                  => "Getting",
-        "Saving"                                   => "Saving:",
+        "Saving"                                   => "Stiamo salvando:",
         "Please enter the..."                      => "Per favore digita un nuovo nome per",
         "Renaming to"                              => "Rinominando a ",
         "Moving to"                                => "Muovendo a",
@@ -267,7 +267,7 @@ $text = [
         "Error cannot find..."                     => "Error: cannot find/access the error file paths",
         "No new errors..."                         => "Nessun nuovo errore trovato",
         "You have made..."                         => "Hai fatto alcuni cambiamenti. Sei sicuro che vuoi chiudere senza prima salvare?",
-        "Close all tabs"                           => "Chiudere tutte le tabs?",
+        "Close all tabs"                           => "Chiudere tutte le schede?",
     ],
 
     "login" =>

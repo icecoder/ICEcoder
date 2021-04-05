@@ -267,7 +267,7 @@ $text = [
         "Error cannot find..."                     => "Error: no puedo encontrar o accesar las rutas de archivos de error",
         "No new errors..."                         => "No fueron encontrados nuevos errores",
         "You have made..."                         => "Usted ha realizado cambios. Esta seguro que quiere cerrar sin guardar?",
-        "Close all tabs"                           => "Cerrar todas las fichas?",
+        "Close all tabs"                           => "Cerrar todas las pesta&ntilde;as?",
     ],
 
     "login" =>

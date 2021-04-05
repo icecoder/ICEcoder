@@ -246,7 +246,7 @@ $text = [
         "Opening File"                             => "Ouverture de fichier",
         "Enter relative file..."                   => "Entrez le chemin relatif du fichier (pr&eacute;fix&eacute; avec un /) ou l&apos;URL distante",
         "Getting"                                  => "Obtention",
-        "Saving"                                   => "Saving:",
+        "Saving"                                   => "Sauvegard&eacute;:",
         "Please enter the..."                      => "S&apos;il vous plait, saisissez le nouveau nom pour",
         "Renaming to"                              => "Renomm&eacute; en",
         "Moving to"                                => "D&eacute;plac&eacute; vers",
@@ -257,7 +257,7 @@ $text = [
         "and"                                      => "et",
         "this document"                            => "ce document",
         "replace"                                  => "remplacer",
-        "replace all"                              => "tout remplacer",
+        "replace all"                              => "remplacer tout",
         "file"                                     => "fichier",
         "Replacing text in"                        => "Remplacement  de texte dans",
         "Sorry there was..."                       => "Sorry, there was an error with your request.\\n\\nPlease check your dev tools console for more info.",
@@ -267,7 +267,7 @@ $text = [
         "Error cannot find..."                     => "Erreur : ne peut pas trouver / acc&eacute;der aux chemins des fichiers d&apos;erreur",
         "No new errors..."                         => "Aucune nouvelle erreur trouv&eacute;e",
         "You have made..."                         => "Vous avez r&eacute;alis&eacute; des modifications. Etes vous sûr(e) de d&eacute;sirer quitter sans sauvegarder ?",
-        "Close all tabs"                           => "Fermer tous les onglets?",
+        "Close all tabs"                           => "Fermer les onglets?",
     ],
 
     "login" =>
