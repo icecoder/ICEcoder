@@ -540,7 +540,7 @@ const checkCase = function(evt) {
 // Check if we can submit, else shake requirements
 const checkCanSubmit = function() {
 	// Password isn't strong enough, shake requirements
-	if(false === pwStrength(get("password").value)) {
+	if("" !== get("password").value && false === pwStrength(get("password").value)) {
 		shake("newPasswordText");
 		shake("password");
 		shake("pwReqs");
