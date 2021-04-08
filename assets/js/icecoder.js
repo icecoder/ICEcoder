@@ -3831,6 +3831,8 @@ var ICEcoder = {
             this.startBugChecking();
         } else {
             if ("undefined" != typeof this.bugFileCheckInt) {
+                get('bugIcon').style.color = "";
+                get('bugIcon').title = "Bug reporting not active";
                 clearInterval(this.bugFileCheckInt);
             }
         }
@@ -4074,6 +4076,8 @@ var ICEcoder = {
             this.bugReportStatus = "ok";
         } else {
             if ("undefined" != typeof this.bugFileCheckInt) {
+                get('bugIcon').style.color = "";
+                get('bugIcon').title = "Bug reporting not active";
                 clearInterval(this.bugFileCheckInt);
             }
         }
