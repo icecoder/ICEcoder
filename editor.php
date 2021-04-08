@@ -42,12 +42,15 @@ echo "?microtime=" . microtime(true);
 // Light themes
 if (false !== array_search($ICEcoder["theme"], ["base16-light", "chrome-devtools", "duotone-light", "eclipse", "eiffel", "elegant", "mdn-like", "idle", "iplastic", "ir_white", "johnny", "juicy", "neat", "neo", "solarized", "ttcn", "xq-light"])) {
 	$activeLineBG = "#ccc";
+	$activeLineNum = "#222";
 // Dark themes
 } elseif (false !== array_search($ICEcoder["theme"], ["3024-night", "all-hallow-eve", "black-pearl-ii", "blackboard", "colorforth", "django", "emacs-strict", "fade-to-grey", "fake", "glitterbomb", "isotope", "ir_black", "liquibyte", "monokai-fannonedition", "oceanic", "night", "spectacular", "sunburst", "the-matrix", "tomorrow-night-blue", "tomorrow-night-bright", "tomorrow-night-eighties", "vibrant-ink", "xq-dark", "zenburn"])) {
 	$activeLineBG = "#222";
+	$activeLineNum = "#ccc";
 // Other themes
 } else {
 	$activeLineBG = "#000";
+	$activeLineNum = "#ccc";
 }
 ?>">
 <script src="assets/js/mmd.js?microtime=<?php echo microtime(true);?>"></script>
@@ -63,6 +66,8 @@ if (false !== array_search($ICEcoder["theme"], ["base16-light", "chrome-devtools
 .cm-matchhighlight, .CodeMirror-focused .cm-matchhighlight {color: #fff !important; background: #06c !important}
 /* Make sure this next one remains the 5th item, updated with JS */
 .cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.15)}
+/* Make sure this next one remains the 6th item, updated with JS */
+.cm-s-activeLine + .CodeMirror-gutter-wrapper > .CodeMirror-linenumber {color: <?php echo $activeLineNum;?> !important}
 .cm-trailingspace {
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUXCToH00Y1UgAAACFJREFUCNdjPMDBUc/AwNDAAAFMTAwMDA0OP34wQgX/AQBYgwYEx4f9lQAAAABJRU5ErkJggg==);
         background-position: bottom left;
