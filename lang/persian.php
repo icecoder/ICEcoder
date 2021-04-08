@@ -381,7 +381,6 @@ $text = [
         "auto-complete on"                         => "تکمیل خودکار روشن",
         "security"                                 => "امنیت",
         "new password"                             => "پسورد جدید",
-        "8 chars min"                              => "حداقل ۸ کارکتر",
         "confirm password"                         => "تایید پسورد",
         "banned files/folders"                     => "فایل ها / پوشه های مسدود شده",
         "banned paths"                             => "مسیر های مسدود شده",

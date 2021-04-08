@@ -381,7 +381,6 @@ $text = [
         "auto-complete on"                         => "打開自動完成",
         "security"                                 => "安全",
         "new password"                             => "新密碼",
-        "8 chars min"                              => "至少8個字符",
         "confirm password"                         => "確認密碼",
         "banned files/folders"                     => "禁止文件 / 文件夾",
         "banned paths"                             => "禁止路徑",

@@ -381,7 +381,6 @@ $text = [
         "auto-complete on"                         => "autokompletering på",
         "security"                                 => "sikkerhet",
         "new password"                             => "nytt passord",
-        "8 chars min"                              => "min. 8 tegn",
         "confirm password"                         => "bekreft passord",
         "banned files/folders"                     => "forbudte filer/mapper",
         "banned paths"                             => "forbudte stier",

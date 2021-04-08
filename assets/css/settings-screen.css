@@ -27,6 +27,7 @@ body {overflow: hidden;
 h1 {font-size: 36px; font-weight: normal; color: #888; margin-bottom: 20px}
 h2 {font-size: 18px; font-weight: normal; color: #fff}
 
+.icon-tabler {width: 24px; height: 24px; stroke-width: 1.25}
 .settings {font-family: arial, verdana, helvetica, sans-serif; background-color: #1c1c19; color: #fff}
 .settings .infoPane {position: relative; width: 230px; height: 570px; font-size: 10px; color: #888; background-color: #fff; padding: 20px; float: left}
 .settings .infoPane a {color: #06c; text-decoration: none}
@@ -40,6 +41,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .settings input, .settings textarea {border: 1px solid #555; background-color: #444; color: #fff}
 .settings input:focus, .settings textarea:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
 .settings input[type="text"]:disabled {opacity: 0.5}
+.settings .iconCapsLock {position: absolute; margin-left: 2px; color: #888}
 .settings .info {font-size: 10px; color: rgba(0,198,255,1); cursor: help}
-.settings .info .icon-tabler {width: 18px; height: 18px; margin-top: -2px; stroke-width: 1.25; pointer-events: none}
+.settings .info .icon-tabler {width: 18px; height: 18px; margin-top: -2px; pointer-events: none}
 .settings .update {position: absolute; bottom: 0; right: 20px; padding: 5px 10px; font-size: 18px; background-color: rgba(0,198,255,0.7); opacity: 0.1; cursor: pointer}

@@ -381,7 +381,6 @@ $text = [
         "auto-complete on"                         => "automatisch aanvullen",
         "security"                                 => "beveiliging",
         "new password"                             => "nieuw wachtwoord",
-        "8 chars min"                              => "minimaal 8 tekens",
         "confirm password"                         => "herhaal wachtwoord",
         "banned files/folders"                     => "uitgesloten bestanden/mappen",
         "banned paths"                             => "uitgesloten paden",

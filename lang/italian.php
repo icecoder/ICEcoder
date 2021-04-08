@@ -381,7 +381,6 @@ $text = [
         "auto-complete on"                         => "auto-completamento attivo",
         "security"                                 => "sicurezza",
         "new password"                             => "nuova password",
-        "8 chars min"                              => "8 caratteri minimo",
         "confirm password"                         => "conferma password",
         "banned files/folders"                     => "file e cartelle vietati",
         "banned paths"                             => "percorsi vietati",
