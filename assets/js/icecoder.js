@@ -2831,6 +2831,15 @@ var ICEcoder = {
     findReplace: function(find, selectNext, canActionChanges, findPrevious) {
         let replace, results, thisCM, thisSelection, rBlocks, rExpMatch0String, replaceQS, targetQS, filesQS;
 
+        // Return early if we're finding with regex and only have ^ or $ or .*, avoids CPU crash
+        if (true === parent.ICEcoder.findRegex && "" === find.replace(/\^|\$|\.\*/g, "")) {
+            results.innerHTML = "No results";
+            this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
+            this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+
+            return false;
+        }
+
         // Determine our find rExp, replace value and results display
         const rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegex(find), "gi");
         replace		= get('replace').value;
