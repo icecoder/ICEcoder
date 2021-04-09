@@ -310,7 +310,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 	<div id="findBar" class="findBar" oncontextmenu="return false">
 		<form name="findAndReplace" onsubmit="ICEcoder.findReplace(get('find').value, false, false, false); ICEcoder.getcMInstance().focus(); return false">
 			<div class="findReplace">
-				<div class="findText"><?php echo $t['Find'];?></div>
+				<div class="findRegexToggle" id="findRegexToggle" onclick="ICEcoder.findRegexToggle()" title="RegEx">^$</div><div class="findText"><?php echo $t['Find'];?></div>
 				<input type="text" name="find" value="" id="find" class="textbox find" oninput="ICEcoder.findReplaceOnInput()">
 
 				<div class="selectWrapper" style="width: 41px">
