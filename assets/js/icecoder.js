@@ -2896,7 +2896,7 @@ var ICEcoder = {
             }
 
             // If we have results
-            if (this.results.length>0) {
+            if (this.results.length > 0) {
 
                 // Show results only
                 if (false === selectNext) {
@@ -2942,9 +2942,6 @@ var ICEcoder = {
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
                 this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
 
-                // Clear our selection and so also the match highlights
-                thisCM.setCursor(thisCM.getCursor("anchor"));
-
                 return false;
             }
         } else {
@@ -2986,9 +2983,6 @@ var ICEcoder = {
                 results.innerHTML = "No results";
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
                 this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
-
-                // Clear our selection and so also the match highlights
-                thisCM.setCursor(thisCM.getCursor("anchor"));
             }
         }
     },
