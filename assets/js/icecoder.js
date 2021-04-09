@@ -2829,7 +2829,7 @@ var ICEcoder = {
 
     // Find & replace text according to user selections
     findReplace: function(find, selectNext, canActionChanges, findPrevious) {
-        let replace, results, thisCM, thisSelection, rBlocks, replaceQS, targetQS, filesQS;
+        let replace, results, thisCM, thisSelection, rBlocks, rExpMatch0String, replaceQS, targetQS, filesQS;
 
         // Determine our find rExp, replace value and results display
         const rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegex(find), "gi");
@@ -2857,11 +2857,13 @@ var ICEcoder = {
             // Start looking for results
             rData = ICEcoder.findInCMContent(thisCM, rExp, selectNext);
 
-            // Set results, resultsLines and findResult plus rBlocks which shows DOM elems in results bar  
+            // Set results, resultsLines and findResult plus rBlocks which shows DOM elems in results bar
+            // and rExpMatch0String which is the matching string used to set correct selection length
             this.results = rData.results;
             this.resultsLines = rData.resultsLines;
             this.findResult = rData.findResult;
             rBlocks = rData.rBlocks;
+            rExpMatch0String = rData.rExpMatch0String;
 
             // Increment findResult one more if our selection is what we want to find and we want to find next
             if (find.toLowerCase() === thisSelection.toLowerCase() && false === findPrevious) {
@@ -2902,11 +2904,9 @@ var ICEcoder = {
                     this.goToLine(this.results[this.findResult][0], this.results[this.findResult][1], true);
 
                     // Finally, highlight our selection and focus on CM pane
-                    // Note when setting the end of the selection we need to deduct extra chars added (the regex escaping backslashes)
-                    // TODO: This idea doesn't really work if you say have "^\$x" and $x's in docs
                     thisCM.setSelection(
                         {"line": this.results[this.findResult][0]-1, "ch": this.results[this.findResult][1]},
-                        {"line": this.results[this.findResult][0]-1, "ch": this.results[this.findResult][1] + find.length - parseInt((ICEcoder.escapeRegex(find).length - find.length) / 2, 10)}
+                        {"line": this.results[this.findResult][0]-1, "ch": this.results[this.findResult][1] + rExpMatch0String.length}
                     );
                     this.focus();
                 }
@@ -2968,7 +2968,7 @@ var ICEcoder = {
     },
 
     findInCMContent: function(thisCM, rExp, selectNext) {
-        let avgBlockH, addPadding, rBlocks, blockColor, haveMatch;
+        let avgBlockH, addPadding, rBlocks, haveMatch, blockColor, rExpMatch0String;
 
         // Start new iterators for line & last line
         let i = 0;
@@ -2992,11 +2992,14 @@ var ICEcoder = {
         // Result blocks string empty to start, ready to hold DOM elems to show in results bar
         rBlocks = "";
 
+        rExpMatch0String = "";
+
         thisCM.eachLine(function(line) {
             i++;
             haveMatch = false;
             // If we have matches for our regex for this line
             while ((match = rExp.exec(line.text)) !== null) {
+                rExpMatch0String = match[0];
                 haveMatch = true;
                 // Not the same as last line, add to resultsLines
                 if (lastLine !== i) {
@@ -3024,7 +3027,8 @@ var ICEcoder = {
             "results": results,
             "resultsLines": resultsLines,
             "findResult": findResult,
-            "rBlocks": rBlocks
+            "rBlocks": rBlocks,
+            "rExpMatch0String": rExpMatch0String
         }
     },
 
