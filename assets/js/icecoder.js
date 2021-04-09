@@ -2794,8 +2794,8 @@ var ICEcoder = {
 // FIND & REPLACE
 // ==============
 
-    // Backslash escape regex chars in string
-    escapeRegExp: function(string) {
+    // Backslash escape regex special chars in string
+    escapeRegex: function(string) {
         // $& means the whole matched string
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     },
@@ -2829,81 +2829,43 @@ var ICEcoder = {
 
     // Find & replace text according to user selections
     findReplace: function(find, selectNext, canActionChanges, findPrevious) {
-        let replace, results, thisCM, avgBlockH, addPadding, rBlocks, haveMatch, blockColor, replaceQS, targetQS, filesQS;
+        let replace, results, thisCM, thisSelection, rBlocks, replaceQS, targetQS, filesQS;
 
         // Determine our find rExp, replace value and results display
-        const rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegExp(find), "gi");
+        const rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegex(find), "gi");
         replace		= get('replace').value;
         results		= get('results');
 
         // Get CM pane
         thisCM = this.getThisCM();
 
+        // Get this selection, either as regex escaped version or regular, for comparisons
+        thisSelection = true === parent.ICEcoder.findRegex ? ICEcoder.escapeRegex(thisCM.getSelection()) : thisCM.getSelection();
+
+        // Finding in this document only
         if (thisCM && 0 < find.length && t['this document'] === document.findAndReplace.target.value) {
             // Replacing?
             if (t['and'] === document.findAndReplace.connector.value && true === canActionChanges) {
                 // Find & replace the next instance, or all?
-                if (t['replace'] === document.findAndReplace.replaceAction.value && thisCM.getSelection().toLowerCase() === find.toLowerCase()) {
+                if (t['replace'] === document.findAndReplace.replaceAction.value && thisSelection.toLowerCase() === find.toLowerCase()) {
                     thisCM.replaceSelection(replace, "around");
                 } else if (t['replace all'] === document.findAndReplace.replaceAction.value) {
                     thisCM.setValue(thisCM.getValue().replace(rExp, replace));
                 }
             }
 
-            // Set results, resultsLines and findResult back to defaults
-            this.results = [];
-            this.resultsLines = [];
-            this.findResult = 0;
-
-            // Start new iterators for line & last line
-            let i = 0;
-            let lastLine = -1;
-
-            // Get lineNum and chNum from cursor
-            const lineNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").line + 1;
-            const chNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").ch;
-
-            // Work out the avg block is either line height or fraction of space available
-            avgBlockH = !this.scrollBarVisible ? thisCM.defaultTextHeight() : parseInt(this.content.style.height, 10) / thisCM.lineCount();
-
-            // Need to add padding if there's no scrollbar, so current line highlighting lines up with it
-            addPadding = !this.scrollBarVisible ? thisCM.heightAtLine(0) : 0;
-
-            // Result blocks string empty to start, ready to hold DOM elems to show in results bar
-            rBlocks = "";
-
             // Start looking for results
-            thisCM.eachLine(function(line) {
-                i++;
-                haveMatch = false;
-                // If we have matches for our regex for this line
-                while ((match = rExp.exec(line.text)) !== null) {
-                    haveMatch = true;
-                    // Not the same as last line, add to resultsLines
-                    if (lastLine !== i) {
-                        ICEcoder.resultsLines.push(match.index);
-                        lastLine = i;
-                    }
-                    // If the line containing a result is less than than the cursors line or
-                    // if the character position of the match is less than the cursor position, increment findResult
-                    if (i < lineNum || (i === lineNum && match.index < chNum)) {
-                        ICEcoder.findResult++;
-                    }
-                    // Push the line & char position coords into results
-                    ICEcoder.results.push([i, match.index]);
-                }
-                // If the avg block height for results in results bar is above 0.5 pixels high, we can add a DOM elem
-                if (0.5 <= avgBlockH) {
-                    // Red for current line, grey for another line, transparent if no match
-                    blockColor = haveMatch ? thisCM.getCursor().line + 1 == i ? "rgba(192,0,0,0.3)" : "rgba(128,128,128,0.3)" : "transparent";
-                    // Add the DOM elem into our rBlocks string
-                    rBlocks += '<div style="position: absolute; display: block; width: 12px; height:' + avgBlockH + 'px; background: ' + blockColor + '; top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px"></div>';
-                }
-            });
+            rData = ICEcoder.findInCMContent(thisCM, rExp, selectNext);
+
+            // Set results, resultsLines and findResult plus rBlocks which shows DOM elems in results bar  
+            this.results = rData.results;
+            this.resultsLines = rData.resultsLines;
+            this.findResult = rData.findResult;
+            rBlocks = rData.rBlocks;
 
             // Increment findResult one more if our selection is what we want to find and we want to find next
-            if (find.toLowerCase() === thisCM.getSelection().toLowerCase() && false === findPrevious) {
-                ICEcoder.findResult++;
+            if (find.toLowerCase() === thisSelection.toLowerCase() && false === findPrevious) {
+                this.findResult++;
             }
 
             if (findPrevious) {
@@ -2940,9 +2902,11 @@ var ICEcoder = {
                     this.goToLine(this.results[this.findResult][0], this.results[this.findResult][1], true);
 
                     // Finally, highlight our selection and focus on CM pane
+                    // Note when setting the end of the selection we need to deduct extra chars added (the regex escaping backslashes)
+                    // TODO: This idea doesn't really work if you say have "^\$x" and $x's in docs
                     thisCM.setSelection(
                         {"line": this.results[this.findResult][0]-1, "ch": this.results[this.findResult][1]},
-                        {"line": this.results[this.findResult][0]-1, "ch": this.results[this.findResult][1] + find.length}
+                        {"line": this.results[this.findResult][0]-1, "ch": this.results[this.findResult][1] + find.length - parseInt((ICEcoder.escapeRegex(find).length - find.length) / 2, 10)}
                     );
                     this.focus();
                 }
@@ -3000,6 +2964,67 @@ var ICEcoder = {
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
                 this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
             }
+        }
+    },
+
+    findInCMContent: function(thisCM, rExp, selectNext) {
+        let avgBlockH, addPadding, rBlocks, blockColor, haveMatch;
+
+        // Start new iterators for line & last line
+        let i = 0;
+        let lastLine = -1;
+
+        // Set results, resultsLines and findResult to defaults
+        let results = [];
+        let resultsLines = [];
+        let findResult = 0;
+
+        // Get lineNum and chNum from cursor
+        const lineNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").line + 1;
+        const chNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").ch;
+
+        // Work out the avg block is either line height or fraction of space available
+        avgBlockH = !this.scrollBarVisible ? thisCM.defaultTextHeight() : parseInt(this.content.style.height, 10) / thisCM.lineCount();
+
+        // Need to add padding if there's no scrollbar, so current line highlighting lines up with it
+        addPadding = !this.scrollBarVisible ? thisCM.heightAtLine(0) : 0;
+
+        // Result blocks string empty to start, ready to hold DOM elems to show in results bar
+        rBlocks = "";
+
+        thisCM.eachLine(function(line) {
+            i++;
+            haveMatch = false;
+            // If we have matches for our regex for this line
+            while ((match = rExp.exec(line.text)) !== null) {
+                haveMatch = true;
+                // Not the same as last line, add to resultsLines
+                if (lastLine !== i) {
+                    resultsLines.push(match.index);
+                    lastLine = i;
+                }
+                // If the line containing a result is less than than the cursors line or
+                // if the character position of the match is less than the cursor position, increment findResult
+                if (i < lineNum || (i === lineNum && match.index < chNum)) {
+                    findResult++;
+                }
+                // Push the line & char position coords into results
+                results.push([i, match.index]);
+            }
+            // If the avg block height for results in results bar is above 0.5 pixels high, we can add a DOM elem
+            if (0.5 <= avgBlockH) {
+                // Red for current line, grey for another line, transparent if no match
+                blockColor = haveMatch ? thisCM.getCursor().line + 1 == i ? "rgba(192,0,0,0.3)" : "rgba(128,128,128,0.3)" : "transparent";
+                // Add the DOM elem into our rBlocks string
+                rBlocks += '<div style="position: absolute; display: block; width: 12px; height:' + avgBlockH + 'px; background: ' + blockColor + '; top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px"></div>';
+            }
+        });
+
+        return {
+            "results": results,
+            "resultsLines": resultsLines,
+            "findResult": findResult,
+            "rBlocks": rBlocks
         }
     },
 
