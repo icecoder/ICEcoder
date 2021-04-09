@@ -31,6 +31,7 @@ var ICEcoder = {
     results:               [],            // Array of find coords (line & char)
     resultsLines:          [],            // Array of lines containing results (simpler version of results)
     findResult:            0,             // Array position of current find in results
+    findRegex:             false,         // If find attempts are done using regex
     scrollbarVisible:      false,         // Indicates if the main pane has a scrollbar
     mouseDown:             false,         // If the mouse is down
     mouseDownInCM:         false,         // If the mouse is down within CodeMirror instance (can be false, 'editor' or 'gutter')
@@ -2793,6 +2794,21 @@ var ICEcoder = {
 // FIND & REPLACE
 // ==============
 
+    // Backslash escape regex chars in string
+    escapeRegExp: function(string) {
+        // $& means the whole matched string
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
+
+    // Toggle on/off regex matching during find
+    findRegexToggle: function() {
+        // Toggle to opposite bool value and set background according to value
+        this.findRegex = !this.findRegex;
+        get('findRegexToggle').style.background = true === this.findRegex ? "#49d" : "";
+        // Find again now we've changed regex option state
+        ICEcoder.findReplace(get('find').value, true, false, false);
+    },
+
     // Update find & replace options based on user selection
     findReplaceOptions: function() {
         get('rText').style.display =
@@ -2816,7 +2832,7 @@ var ICEcoder = {
         let replace, results, thisCM, avgBlockH, addPadding, rBlocks, haveMatch, blockColor, replaceQS, targetQS, filesQS;
 
         // Determine our find rExp, replace value and results display
-        const rExp = new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), "gi");
+        const rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegExp(find), "gi");
         replace		= get('replace').value;
         results		= get('results');
 
