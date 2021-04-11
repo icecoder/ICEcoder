@@ -27,7 +27,7 @@ if (false === $settingsClass->getDataDirDetails()['writable']) {
 // Create a new global config file if it doesn't exist yet.
 // The reason we create it, is so it has PHP write permissions, meaning we can update it later
 if (false === $settingsClass->getConfigGlobalFileDetails()['exists']) {
-    if (false === $settingsClass->setConfigGlobalSettings($settingsClass->getConfigGlobalTemplate())) {
+    if (false === $settingsClass->setConfigGlobalSettings($settingsClass->getConfigGlobalTemplate(false))) {
         $reqsFailures = ["phpGlobalConfigFileCreate"];
         include dirname(__FILE__) . "/requirements.php";
     }
@@ -68,7 +68,7 @@ $setPWorLogin = "login";
 
 // Create user settings file if it doesn't exist
 if (true === $ICEcoderSettings['enableRegistration'] && false === $settingsClass->getConfigUsersFileDetails($settingsFile)['exists']) {
-    if (false === $settingsClass->setConfigUsersSettings($settingsFile, $settingsClass->getConfigUsersTemplate())) {
+    if (false === $settingsClass->setConfigUsersSettings($settingsFile, $settingsClass->getConfigUsersTemplate(false))) {
         $reqsFailures = ["phpUsersConfigCreateConfig"];
         include dirname(__FILE__) . "/requirements.php";
     }
@@ -114,8 +114,13 @@ If ($ICEcoderUserSettings["versionNo"] !== $ICEcoderSettings["versionNo"]) {
     include dirname(__FILE__) . "/requirements.php";
 }
 
-// Join ICEcoder global config settings and user config settings together to make our final ICEcoder array
-$ICEcoder = $ICEcoderSettings + $ICEcoderUserSettings;
+// Set ICEcoder settings array to (global + user) template and layer ontop (global + user) from current settings
+$ICEcoder = array_merge(
+    $settingsClass->getConfigGlobalTemplate(true),
+    $settingsClass->getConfigUsersTemplate(true),
+    $ICEcoderSettings,
+    $ICEcoderUserSettings
+);
 
 // Include language file
 // Load base first as foundation

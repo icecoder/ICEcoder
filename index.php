@@ -140,8 +140,8 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		"ICEcoder.demoMode = " . ($ICEcoder["demoMode"] ? 'true' : 'false') . ";" .
 		"ICEcoder.tagWrapperCommand = '" . $ICEcoder["tagWrapperCommand"] . "';" .
 		"ICEcoder.autoComplete = '" . $ICEcoder["autoComplete"] . "';" .
-		"ICEcoder.selectNextOnFindInput = " . ($ICEcoder["selectNextOnFindInput"] ?? true ? 'true' : 'false') . ";" .
-		"ICEcoder.goToLineScrollSpeed = '" . ($ICEcoder["goToLineScrollSpeed"] ?? 5) . "';" .
+		"ICEcoder.selectNextOnFindInput = " . ($ICEcoder["selectNextOnFindInput"] ? 'true' : 'false') . ";" .
+		"ICEcoder.goToLineScrollSpeed = '" . $ICEcoder["goToLineScrollSpeed"] . "';" .
 		"ICEcoder.bugFilePaths = ['" . implode("','",$ICEcoder["bugFilePaths"]) . "'];" .
 		"ICEcoder.bugFileCheckTimer = ".$ICEcoder["bugFileCheckTimer"] . ";" .
 		"ICEcoder.bugFileMaxLines = " . $ICEcoder["bugFileMaxLines"] . ";" .
@@ -254,7 +254,9 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 				<li><a nohref onclick="ICEcoder.propertiesScreen(ICEcoder.selectedFiles[ICEcoder.selectedFiles.length - 1])"><?php echo $t['Properties'];?>...</a></li>
 				<li><a nohref onClick="ICEcoder.printCode()"><?php echo $t['Print'];?>...</a></li>
 				<li><a nohref onClick="ICEcoder.fullScreenSwitcher()"><?php echo $t['Fullscreen toggle'];?></a></li>
+				<?php if (true === $ICEcoder['loginRequired']) {?>
 				<li><a nohref onClick="ICEcoder.logout()"><?php echo $t['Logout'];?></a></li>
+				<?php ;}; ?>
 			</ul>
 		</div>
 		<div id="optionsEdit" class="optionsList" onmouseover="ICEcoder.showHideFileNav('show', this.id)" onmouseout="ICEcoder.showHideFileNav('hide', this.id); ICEcoder.canShowFMNav = false">
