@@ -140,8 +140,8 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		"ICEcoder.demoMode = " . ($ICEcoder["demoMode"] ? 'true' : 'false') . ";" .
 		"ICEcoder.tagWrapperCommand = '" . $ICEcoder["tagWrapperCommand"] . "';" .
 		"ICEcoder.autoComplete = '" . $ICEcoder["autoComplete"] . "';" .
-		"ICEcoder.selectNextOnFindInput = " . ($ICEcoder["selectNextOnFindInput"] ? 'true' : 'false') . ";" .
-		"ICEcoder.goToLineScrollSpeed = '" . $ICEcoder["goToLineScrollSpeed"] . "';" .
+		"ICEcoder.selectNextOnFindInput = " . ($ICEcoder["selectNextOnFindInput"] ?? true ? 'true' : 'false') . ";" .
+		"ICEcoder.goToLineScrollSpeed = '" . ($ICEcoder["goToLineScrollSpeed"] ?? 5) . "';" .
 		"ICEcoder.bugFilePaths = ['" . implode("','",$ICEcoder["bugFilePaths"]) . "'];" .
 		"ICEcoder.bugFileCheckTimer = ".$ICEcoder["bugFileCheckTimer"] . ";" .
 		"ICEcoder.bugFileMaxLines = " . $ICEcoder["bugFileMaxLines"] . ";" .
