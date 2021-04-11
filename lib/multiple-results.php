@@ -206,7 +206,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
             return $ret;
         }
 
-        // TODO: consider $findText here
+        // TODO: consider $findText here, is OK?
         $results = phpGrep($findText, $docRoot . $iceRoot, $docRoot . $iceRoot);
         echo 'resultsDisplay += "' . $results . '";';
         ?>

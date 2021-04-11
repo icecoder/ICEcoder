@@ -165,13 +165,18 @@ if (true === isset($_GET['tab'])) {
 		</select>
 		<br><br>
 
+		<h2>go to line</h2><br>
+		scroll speed<br>
+		<input type="range" name="goToLineScrollSpeed" id="volume" min="1" max="20" value="<?php echo $ICEcoder["goToLineScrollSpeed"];?>" onchange="showButton()" style="width: 150px"><br>
+		<div style="position: relative; width: 150px; padding: 0 0 5px 5px; color: #888">instant<div style="position: absolute; top: 0; right: 0">slow</div></div>
 	</div>
 
 	<div style="display: inline-block">
 
 		<h2>find &amp; replace</h2><br>
 		<?php echo $t['when finding in...'];?>:<br>
-		<input type="text" onkeydown="showButton()" name="findFilesExclude" style="width: 300px" value="<?php echo implode(", ",$ICEcoder["findFilesExclude"]); ?>">
+		<input type="text" onkeydown="showButton()" name="findFilesExclude" style="width: 300px" value="<?php echo implode(", ",$ICEcoder["findFilesExclude"]); ?>"><br><br>
+		<input type="checkbox" onclick="showButton()" name="selectNextOnFindInput" value="true"<?php if (true === $ICEcoder["selectNextOnFindInput"]) {echo ' checked';};?>> select next result on find input
 		<br><br>
 
 		<h2><?php echo $t['bug reporting'];?></h2><br>

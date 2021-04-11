@@ -140,6 +140,8 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		"ICEcoder.demoMode = " . ($ICEcoder["demoMode"] ? 'true' : 'false') . ";" .
 		"ICEcoder.tagWrapperCommand = '" . $ICEcoder["tagWrapperCommand"] . "';" .
 		"ICEcoder.autoComplete = '" . $ICEcoder["autoComplete"] . "';" .
+		"ICEcoder.selectNextOnFindInput = " . ($ICEcoder["selectNextOnFindInput"] ? 'true' : 'false') . ";" .
+		"ICEcoder.goToLineScrollSpeed = '" . $ICEcoder["goToLineScrollSpeed"] . "';" .
 		"ICEcoder.bugFilePaths = ['" . implode("','",$ICEcoder["bugFilePaths"]) . "'];" .
 		"ICEcoder.bugFileCheckTimer = ".$ICEcoder["bugFileCheckTimer"] . ";" .
 		"ICEcoder.bugFileMaxLines = " . $ICEcoder["bugFileMaxLines"] . ";" .
@@ -311,7 +313,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 		<form name="findAndReplace" onsubmit="ICEcoder.findReplace(get('find').value, false, false, false); ICEcoder.getcMInstance().focus(); return false">
 			<div class="findReplace">
 				<div class="findRegexToggle" id="findRegexToggle" onclick="ICEcoder.findRegexToggle()" title="RegEx">^$</div><div class="findText"><?php echo $t['Find'];?></div>
-				<input type="text" name="find" value="" id="find" class="textbox find" oninput="ICEcoder.findReplaceOnInput()">
+				<input type="text" name="find" value="" id="find" class="textbox find" oninput="ICEcoder.findOnInput()">
 
 				<div class="selectWrapper" style="width: 41px">
 					<select name="connector" onChange="ICEcoder.findReplaceOptions()" style="width: 40px; margin-top: 4px">

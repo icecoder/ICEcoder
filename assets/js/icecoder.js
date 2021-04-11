@@ -1204,7 +1204,8 @@ var ICEcoder = {
 
         this.scrollInt = setInterval(function(ic) {
             // Aim for this step to go 1/5th towards the target line we want as next scroll "step"
-            ic.scrollingOnLine = ic.scrollingOnLine + ((tgtLineNo - ic.scrollingOnLine) / 5);
+            // 1 = instant, 20 = very slow
+            ic.scrollingOnLine = ic.scrollingOnLine + ((tgtLineNo - ic.scrollingOnLine) / ICEcoder.goToLineScrollSpeed);
             // Scroll on the Y axis to the pixels in this step + 8 to handle margin - 1/10th of editor visible height
             thisCM.scrollTo(0, (thisCM.defaultTextHeight() * ic.scrollingOnLine) + 8 - (thisCM.getScrollInfo().clientHeight / 10));
             // Clear interval if we're at the target line now
@@ -2818,12 +2819,12 @@ var ICEcoder = {
                         ? "inline-block" : "none";
     },
 
-    findReplaceOnInput: function() {
-        // Realtime finding - only action for finding/replacing in current doc
+    findOnInput: function() {
+        // Realtime finding - only action for finding in current doc
         if ("" !== get('find').value && t['this document'] === document.findAndReplace.target.value) {
-            ICEcoder.findReplace(get('find').value, true, false, false);
+            // Considers selecting next on value input, according to user setting
+            ICEcoder.findReplace(get('find').value, true === ICEcoder.selectNextOnFindInput, false, false);
             get("find").focus();
-            return false;
         }
     },
 
@@ -2835,6 +2836,10 @@ var ICEcoder = {
         const rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegex(find), "gi");
         replace		= get('replace').value;
         results		= get('results');
+
+        // TODO: This is still a problem if you have unterminated character classes
+        // Simply enable regex finding and press [ or ( ... { doesn't seem to be a problem
+        // Solution: We could check also that the number of [] () pairs match
 
         // Return early if we're finding with regex and only have ^ or $ or .*, avoids CPU crash
         if (true === parent.ICEcoder.findRegex && "" === find.replace(/\^|\$|\.\*/g, "")) {
@@ -3885,6 +3890,10 @@ var ICEcoder = {
         get('plugins').style.left = "left" === settings.pluginPanelAligned ? "0" : "auto";
         get('plugins').style.right = "right" === settings.pluginPanelAligned ? "0" : "auto";
 
+        // Enable/disable select next on find input and set goToLine scroll speed
+        this.selectNextOnFindInput = settings.selectNextOnFindInput;
+        this.goToLineScrollSpeed = settings.goToLineScrollSpeed;
+
         // Restart bug checking
         this.bugFilePaths = settings.bugFilePaths;
         this.bugFileCheckTimer = settings.bugFileCheckTimer;
@@ -4502,6 +4511,9 @@ var ICEcoder = {
 
             // Update the title tag to indicate any changes
             this.indicateChanges();
+
+            // Set bool value to false to avoid being stuck on true
+            this.overCloseLink = false;
         }
         // Lastly, set the widths
         this.setTabWidths(true);
