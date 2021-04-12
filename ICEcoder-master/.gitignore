@@ -1,6 +1,0 @@
-data/*
-!data/.gitkeep
-plugins/*
-!plugins/index.php
-tmp/*
-!tmp/index.php
