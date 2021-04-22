@@ -1,16 +1,20 @@
 # ICEcoder
 
+Contents:
+[Introduction](#code-editor-awesomeness-in-your-browser) - [Requirements](#requirements) - [Installation](#installation)
+
 ## Code editor awesomeness ...in your browser
 
 ICEcoder is a browser based code editor, which provides a modern approach to building websites. By allowing you to code directly within the web browser, online or offline, it means you only need one program (your browser) to develop sites, plus can test on actual web servers. After development, you can also maintain the website easily, all of which make for speedy and smart development.
-
-<img src="https://icecoder.net/images/icecoder-v8-0-browser-code-editor.png?cachebust" alt="ICEcoder code editor">
 
 ### Requirements
 
 You can run ICEcoder either online or locally, on Linux, Windows or Mac based platforms. The only requirement is to have PHP 7 available (7.4 recommended). You can have this either as a vanilla installation or via a program such as WAMP or XAMPP (for Windows) or MAMP (for Mac).
 
 ### Installation
+
+Contents:
+[Step 1: Get ICEcoder](#step-1-get-icecoder) - [Step 2: Set permissions on directories and files](#step-2-set-permissions-on-dirs--files) - [Step 3: Start Coding!](#step-3-start-coding)
 
 #### Step 1: Get ICEcoder
 
