@@ -761,7 +761,7 @@ var ICEcoder = {
             // If we have a single result and the mouse pointer is not over the definition of it (that would be pointless), show tooltip
             if (1 === numResults && -1 === [null, "def"].indexOf(cM.getTokenTypeAt(coordsChar))) {
                 get('tooltip').style.display = "block";
-                get('tooltip').style.left = (this.mouseX - this.maxFilesW + 10) + "px";
+                get('tooltip').style.left = (this.mouseX + 10) + "px";
                 numLintErrors = this.content.contentWindow.document.getElementsByClassName("CodeMirror-lint-tooltip")[0];
                 numLintErrors = numLintErrors && numLintErrors.childNodes
                     ? numLintErrors.childNodes.length
@@ -771,7 +771,11 @@ var ICEcoder = {
                     ? 18 * numLintErrors
                     : 0)
                 ) + "px";
-                get('tooltip').style.zIndex = "1";
+                get('tooltip').style.zIndex = 1000;
+                // Limit function args list to 200 char max
+                if (result.params.length > 200) {
+                    result.params = result.params.substr(0, 200) + "...)";
+                }
                 get('tooltip').innerHTML = result.params;
                 // Else hide it
             } else {

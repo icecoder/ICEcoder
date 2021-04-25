@@ -19,7 +19,7 @@ if (file_exists($docRoot . $ICEcoderDir . "/data/index.php")) {
 }
 
 // Roughly 1 in 100 index runs, we'll do a full index
-if (mt_rand(1,100) === 50) {
+if (mt_rand(1, 100) === 50) {
     $prevIndexData = [];
 }
 
@@ -118,6 +118,11 @@ function phpGrep($path, $base) {
                         $functionArgs = str_replace(',', ', ', $functionArgs);
                         $functionArgs = str_replace('=', ' = ', $functionArgs);
                         $functionArgs = preg_replace('/\s+/', ' ', $functionArgs);
+
+                        // Limit function args list to 200 char max
+                        if (strlen($functionArgs) > 200) {
+                            $functionArgs = substr($functionArgs, 0, 200) . "...)";
+                        }
 
                         // Finally, we have our function name and args
                         $functionText = [
