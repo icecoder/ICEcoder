@@ -167,7 +167,7 @@ if (true === isset($_GET['tab'])) {
 
 		<h2>go to line</h2><br>
 		scroll speed<br>
-		<input type="range" name="goToLineScrollSpeed" id="volume" min="1" max="20" value="<?php echo $ICEcoder["goToLineScrollSpeed"];?>" onchange="showButton()" style="width: 150px"><br>
+		<input type="range" name="goToLineScrollSpeed" min="1" max="20" value="<?php echo $ICEcoder["goToLineScrollSpeed"];?>" onchange="showButton()" style="width: 150px"><br>
 		<div style="position: relative; width: 150px; padding: 0 0 5px 5px; color: #888">instant<div style="position: absolute; top: 0; right: 0">slow</div></div>
 	</div>
 
