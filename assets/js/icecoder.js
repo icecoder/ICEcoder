@@ -434,9 +434,9 @@ var ICEcoder = {
 
         key = evt.keyCode ?? evt.which ?? evt.charCode;
 
-        // Return true to continue if we have CTRL or Cmd key down
-        // or if it's the CTRL or Cmd key now up
-        if (this.ctrlCmdKeyDown(evt) || 17 === key || this.isCmdKey(key)) {
+        // Return true (to continue) if we're not CTRL+dragging and
+        // we have CTRL/Cmd key down, or if it's the CTRL key, or Cmd key now up
+        if ("CTRL" !== this.draggingWithKey && (this.ctrlCmdKeyDown(evt) || 17 === key || this.isCmdKey(key))) {
             return true;
         }
         if (undefined !== typeof this.doFindTimeout) {
@@ -2778,6 +2778,7 @@ var ICEcoder = {
         if ('files' === this.area) {
             setTimeout(function(ic) {
                 tgtPath = "folder" === ic.thisFileFolderType ? ic.thisFileFolderLink : ic.thisFileFolderLink.substr(0, ic.thisFileFolderLink.lastIndexOf("|"));
+                if ("" === tgtPath) {tgtPath = "|";}
                 if("CTRL" === ic.draggingWithKey) {
                     ic.copyFiles(ic.selectedFiles);
                     ic.pasteFiles(tgtPath);
@@ -2786,7 +2787,7 @@ var ICEcoder = {
                     this.filesFrame.contentWindow.document.getElementById(tgtPath.replace(/\//g, "|")).style.background = '';
                     // If the tgtPath is not the root, postfix the path with a pipe
                     if ("|" !== tgtPath) {tgtPath += "|"};
-                    ic.moveFile(filePath,tgtPath.replace(/\|/g, "/") + fileName);
+                    ic.moveFile(filePath, tgtPath.replace(/\|/g, "/") + fileName);
                 }
             }, 4, this);
         }
@@ -5083,6 +5084,7 @@ var ICEcoder = {
             this.codeZoomedOut = false;
         }
         this.cmdKey = false;
+        this.draggingWithKey = false;
     },
 
     // Handle Enter and Escape keys in modals
