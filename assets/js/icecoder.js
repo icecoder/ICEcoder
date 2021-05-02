@@ -56,7 +56,7 @@ var ICEcoder = {
     previewWindowLoading:  false,         // Loading state of preview window
     pluginIntervalRefs:    [],            // Array of plugin interval refs
     overPopup:             false,         // Indicates if we're over a popup or not
-    cmdKey:                false,         // Tracking apple Command key up/down state
+    cmdKey:                false,         // Tracking Apple Command key up/down state
     codeZoomedOut:         false,         // If true, code on non declaration lines is zoomed out
     showingTool:           false,         // Which tool is showing right now (terminal, output, database, git etc)
     oppTagReplaceData:     [],            // Will contain data for automatic opposite tag replacement to sync them
@@ -429,7 +429,16 @@ var ICEcoder = {
     },
 
     // On key up
-    cMonKeyUp: function(thisCM, cMinstance) {
+    cMonKeyUp: function(thisCM, cMinstance, evt) {
+        let key;
+
+        key = evt.keyCode ?? evt.which ?? evt.charCode;
+
+        // Return true to continue if we have CTRL or Cmd key down
+        // or if it's the CTRL or Cmd key now up
+        if (this.ctrlCmdKeyDown(evt) || 17 === key || this.isCmdKey(key)) {
+            return true;
+        }
         if (undefined !== typeof this.doFindTimeout) {
             clearInterval(this.doFindTimeout);
         }
@@ -2725,19 +2734,9 @@ var ICEcoder = {
         }
     },
 
-    // Detect CTRL/Cmd key whilst dragging files
+    // Detect CTRL/Cmd key down whilst dragging files
     draggingWithKeyTest: function(evt) {
-        let key;
-
-        key = evt.keyCode ?? evt.which ?? evt.charCode;
-        key = parseInt(key, 10);
-
-        // Mac command key handling (224 = Moz, 91/93 = Webkit Left/Right Apple)
-        if (-1 < [224, 91, 93].indexOf(key)) {
-            this.cmdKey = true;
-        }
-
-        this.draggingWithKey = evt.ctrlKey || this.cmdKey ? "CTRL" : false;
+        this.draggingWithKey = this.ctrlCmdKeyDown(evt) ? "CTRL" : false;
     },
 
     // Add default drag data (dragging in Firefox on DOM elems not possible otherwise)
@@ -2895,7 +2894,6 @@ var ICEcoder = {
 
             // If we have results
             if (this.results.length > 0) {
-
                 // Show results only
                 if (false === selectNext) {
                     results.innerHTML = this.results.length + " results";
@@ -4759,22 +4757,36 @@ var ICEcoder = {
 // UI
 // ==
 
+    // Return bool of true if an Apple Mac Cmd key
+    isCmdKey: function(key) {
+        // Mac command key handling (224 = Moz, 91/93 = Webkit Left/Right Apple)
+        return -1 < [224, 91, 93].indexOf(key);
+    },
+
+    // Return bool of true if either CTRL or Cmd key is down
+    ctrlCmdKeyDown: function(evt) {
+        let key;
+
+        key = evt.keyCode ?? evt.which ?? evt.charCode;
+
+        // Return bool of true if either is true, false otherwise
+        return evt.ctrlKey || this.isCmdKey(key);
+    },
+
     // Detect keys/combos plus identify our area and set the vars, perform actions
     interceptKeys: function(area, evt) {
         let key, ctrlOrCmd, cM, thisCM;
 
         key = evt.keyCode ?? evt.which ?? evt.charCode;
 
+        // Mac command key handling
+        this.cmdKey = this.isCmdKey(key);
+
         // Reset the auto-logout timer
         this.resetAutoLogoutTimer();
 
-        // Mac command key handling (224 = Moz, 91/93 = Webkit Left/Right Apple)
-        if (-1 < [224, 91, 93].indexOf(key)) {
-            this.cmdKey = true;
-        }
-
         // Set bool based on CTRL or Cmd key being pressed
-        ctrlOrCmd = -1 < [evt.ctrlKey, this.cmdKey].indexOf(true);
+        ctrlOrCmd = this.ctrlCmdKeyDown(evt);
 
         // F1 (zoom code out non declaration lines)
         if (112 === key) {
