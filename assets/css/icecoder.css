@@ -59,7 +59,11 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 }
 .files .options .optionsList {position: absolute; display: inline-block; visibility: hidden; background: #383838; height: 100%; padding: 23px 15px 15px 15px}
 .files .options .optionsList ul {list-style-type: none; line-height: 24px}
-.files .options .optionsList a {color: #666; text-decoration: none}
+
+/* Old Style // .files .options .optionsList a {color: #666; text-decoration: none} */
+/* New style // to improve the user experience when clicking on the left menu options */
+.files .options .optionsList a {color: #cacaca; text-decoration: none;font-size: 11px;font-weight: bold;border: 1px solid #666;border-radius: 30px;padding: 0px 10px;width: 50%;position: relative;display: inline-block;margin: 5px auto;animation: shadow-pulse 1s infinite;cursor: pointer;box-shadow: 0 0 0 rgba(204,169,44, 0.4);}
+
 .files .options .optionsList a:hover {color: #fff; cursor: pointer}
 .files input:focus, .password:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
 .files .button {position: absolute; border: 0; background: #444; color: #eee; height: 20px; margin-top: 16px; margin-left: 5px; font-size: 11px; cursor: pointer}
@@ -172,3 +176,6 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .screenCenter .button {border: 0; background: #444; color: #eee; height: 22px; cursor: pointer}
 .screenCenter .button:hover {background: #2187e7; color: #eee}
 .screenCenter .iconCapsLock {position: absolute; margin-left: 2px; color: #888}
+
+@keyframes shadow-pulse{0% {box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);}100% {box-shadow: 0 0 0 15px rgba(0, 0, 0, 0);}}
+
