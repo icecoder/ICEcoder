@@ -110,7 +110,8 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
     appearance: none;
 }
 .findReplace .selectWrapper select:focus {outline: 0}
-.findReplace .findText {display: inline-block; height: 28px; font-size: 10px; margin: 7px 3px 0 27px}
+.findReplace .findRegexToggle {display: inline-block; height: 10px; width: 16px; font-size: 10px; margin: 3px 0 0 5px; padding: 4px 1px; border-radius: 2px; text-align: center; cursor: pointer}
+.findReplace .findText {display: inline-block; height: 28px; font-size: 10px; margin: 7px 3px 0 4px}
 .findReplace .find {position: relative; width: 167px; height: 28px; border: 0; top: -2px; font-size: 12px; padding-left: 5px; margin-right: 3px; background: #444; color: #eee}
 .findReplace .replaceText {height: 28px; font-size: 10px; margin: 6px 3px 0 2px}
 .findReplace .replace {position: relative; width: 167px; height: 28px; border: 0; top: -2px; font-size: 12px; padding-left: 5px; background: #444; color: #eee}

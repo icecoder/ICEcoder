@@ -165,13 +165,18 @@ if (true === isset($_GET['tab'])) {
 		</select>
 		<br><br>
 
+		<h2>go to line</h2><br>
+		scroll speed<br>
+		<input type="range" name="goToLineScrollSpeed" min="1" max="20" value="<?php echo $ICEcoder["goToLineScrollSpeed"];?>" onchange="showButton()" style="width: 150px"><br>
+		<div style="position: relative; width: 150px; padding: 0 0 5px 5px; color: #888">instant<div style="position: absolute; top: 0; right: 0">slow</div></div>
 	</div>
 
 	<div style="display: inline-block">
 
 		<h2>find &amp; replace</h2><br>
 		<?php echo $t['when finding in...'];?>:<br>
-		<input type="text" onkeydown="showButton()" name="findFilesExclude" style="width: 300px" value="<?php echo implode(", ",$ICEcoder["findFilesExclude"]); ?>">
+		<input type="text" onkeydown="showButton()" name="findFilesExclude" style="width: 300px" value="<?php echo implode(", ",$ICEcoder["findFilesExclude"]); ?>"><br><br>
+		<input type="checkbox" onclick="showButton()" name="selectNextOnFindInput" value="true"<?php if (true === $ICEcoder["selectNextOnFindInput"]) {echo ' checked';};?>> select next result on find input
 		<br><br>
 
 		<h2><?php echo $t['bug reporting'];?></h2><br>
@@ -381,12 +386,19 @@ function findSequence(goal) {
 <div id="accountsSection" class="section" style="display: none">
 
 	<h2>password</h2><br>
-	<?php echo $t['new password'];?> <span class="info" title="<?php echo $t['8 chars min'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span><br>
-	<input type="password" name="password" style="width: 320px" onkeydown="showButton()">
-	<br><br>
+	<span id="newPasswordText"><?php echo $t['new password'];?></span><br>
+	<input type="password" name="password" style="width: 320px" id="password" onkeydown="showButton()" onkeyup="checkCase(event); pwStrength(this.value)" onchange="pwStrength(this.value)" onpaste="pwStrength(this.value)"><div class="iconCapsLock" style="display: none" id="iconCapsLock" title="Caps lock on"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/alert-triangle.svg");?></div>
+	<div id="pwReqs">
+		<div style="display: inline-block" id="pwChars">10+</div> &nbsp;
+		<div style="display: inline-block" id="pwUpper">upper</div> &nbsp;
+		<div style="display: inline-block" id="pwLower">lower</div> &nbsp;
+		<div style="display: inline-block" id="pwNum">number</div> &nbsp;
+		<div style="display: inline-block" id="pwSpecial">special</div>
+	</div>
+	<br>
 
-	<?php echo $t['confirm password'];?><br>
-	<input type="password" name="passwordConfirm" style="width: 320px" onkeydown="showButton()">
+	<span id="passwordConfirmText"><?php echo $t['confirm password'];?></span><br>
+	<input type="password" name="passwordConfirm" style="width: 320px" id="passwordConfirm" onkeydown="showButton()">
 	<br><br>
 
 	<h2><?php echo $t['multi-user'];?> <span class="info" title="<?php echo $t['Make sure you...'];?>"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/info-circle.svg");?></span></h2><br>
@@ -427,7 +439,12 @@ function findSequence(goal) {
 </div>
 
 <script>
-var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+// Get any elem by ID
+const get = function(elem) {
+	return document.getElementById(elem);
+};
+
+var editor = CodeMirror.fromTextArea(get("code"), {
 	lineNumbers: parent.ICEcoder.lineNumbers,
 	readOnly: "nocursor",
 	indentUnit: parent.ICEcoder.indentSize,
@@ -438,14 +455,14 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 });
 
 function selectTheme() {
-    const input = document.getElementById("theme");
+    const input = get("theme");
 	let theme = input.options[input.selectedIndex].value;
 	if ("default" === theme) {theme = "icecoder"}
 	editor.setOption("theme", theme);
 }
 
 function changeIndentSize() {
-	const indentSize = document.getElementById("indentSize").value;
+	const indentSize = get("indentSize").value;
 	editor.setOption("indentUnit", indentSize);
 	editor.setOption("tabSize", indentSize);
 	editor.refresh();
@@ -453,13 +470,13 @@ function changeIndentSize() {
 
 
 function changeLineNumbersToggle() {
-	const lineNumbers = document.getElementById("lineNumbers").checked;
+	const lineNumbers = get("lineNumbers").checked;
 	editor.setOption("lineNumbers", lineNumbers);
 	editor.refresh();
 }
 
 function changeScrollbarStyle() {
-    const scrollbarStyle = document.getElementById("scrollbarStyle").value;
+    const scrollbarStyle = get("scrollbarStyle").value;
     editor.setOption("scrollbarStyle", scrollbarStyle);
     editor.refresh();
 }
@@ -467,20 +484,20 @@ function changeScrollbarStyle() {
 function changeFontSize() {
 	let cMCSS = document.styleSheets[2];
 	let strCSS = cMCSS.rules ? 'rules' : 'cssRules';
-	cMCSS[strCSS][0].style['fontSize'] = document.getElementById("fontSize").value;
+	cMCSS[strCSS][0].style['fontSize'] = get("fontSize").value;
 	editor.refresh();
 }
 
 function changeEnableRegistrationStatus(){
-	document.getElementById('enableRegistration').disabled=!document.getElementById('enableRegistration').disabled;
+	get('enableRegistration').disabled = !get('enableRegistration').disabled;
 }
 
 function changeBackupsDaysStatus(){
-	document.getElementById('backupsDays').disabled=!document.getElementById('backupsDays').disabled;
+	get('backupsDays').disabled = !get('backupsDays').disabled;
 }
 
 function showButton() {
-	document.getElementById('updateButton').style.opacity = 1;
+	get('updateButton').style.opacity = 1;
 }
 
 function showHideTabs() {
@@ -490,24 +507,83 @@ function showHideTabs() {
 	cMCSS[strCSS][2].style['margin-left'] = document.settings.visibleTabs.checked ? '-1px' : '0';
 }
 
+// Check password strength and color requirements not met
+const pwStrength = function(pw) {
+	// Set variables
+    const hlCol = "rgba(0, 198, 255, 0.7)";
+	let chars, upper, lower, num, special;
+
+	// Test password for requirements
+	chars = pw.length >= 10;
+	upper = pw.replace(/[A-Z]/g, "").length < pw.length;
+	lower = pw.replace(/[a-z]/g, "").length < pw.length;
+	num = pw.replace(/[0-9]/g, "").length < pw.length;
+	special = pw.replace(/[A-Za-z0-9]/g, "").length > 0;
+
+	// Set colors based on each requirements
+	get("pwChars").style.color = true === chars ? hlCol : "";
+	get("pwUpper").style.color = true === upper ? hlCol : "";
+	get("pwLower").style.color = true === lower ? hlCol : "";
+	get("pwNum").style.color = true === num ? hlCol : "";
+	get("pwSpecial").style.color = true === special ? hlCol : "";
+
+	// Return a bool based on meeting the requirements
+	return (true === chars && true === upper && true === lower && true === num && true === special);
+};
+
+const checkCase = function(evt) {
+    const key = evt.keyCode ?? evt.which ?? evt.charCode;
+
+    // Not caps lock key
+    if (20 !== key) {
+        get("iconCapsLock").style.display = true === evt.getModifierState("CapsLock")
+            ? "inline-block"
+            : "none";
+    }
+};
+
+// Check if we can submit, else shake requirements
+const checkCanSubmit = function() {
+	// Password isn't strong enough, shake requirements
+	if("" !== get("password").value && false === pwStrength(get("password").value)) {
+		shake("newPasswordText");
+		shake("password");
+		shake("pwReqs");
+		return false;
+	}
+	return true;
+}
+
 function validatePasswords() {
-	if ("" !== document.settings.password.value && 8 > document.settings.password.value.length) {
-        parent.ICEcoder.message('Please use at least 8 chars in the password');
-	} else {
+	if (true === checkCanSubmit()) {
 		if (document.settings.password.value !== document.settings.passwordConfirm.value) {
-            parent.ICEcoder.message('Sorry, your passwords don\'t match')
+            shake("passwordConfirmText");
+            shake("passwordConfirm");
 		} else {
 			document.settings.submit();
 		}
 	}
 }
 
+function shake(elem) {
+	var posArray = [24, -24, 12, -12, 6, -6, 3, -3, 0];
+	var pos = -1;
+	var anim = setInterval(function() {
+		if (pos < posArray.length) {
+			pos++;
+			get(elem).style.marginLeft = posArray[pos] + "px";
+		} else {
+			clearInterval(anim);
+		}
+	}, 50);
+}
+
 tabNames = ['general','style','accounts','security'];
 
 function switchTab(tab) {
 	for (var i = 0; i < tabNames.length; i++) {
-		document.getElementById(tabNames[i] + 'Tab').className = tabNames[i] === tab ? "tab tabActive" : "tab";
-		document.getElementById(tabNames[i] + 'Section').style.display = tabNames[i] === tab ? "block" : "none";
+		get(tabNames[i] + 'Tab').className = tabNames[i] === tab ? "tab tabActive" : "tab";
+		get(tabNames[i] + 'Section').style.display = tabNames[i] === tab ? "block" : "none";
 	}
 	editor.refresh();
 }
@@ -517,7 +593,7 @@ function submitSettings() {
 }
 </script>
 
-<div class="update" id="updateButton" onClick="submitSettings()">update</div>
+<div class="update" id="updateButton" onclick="submitSettings()">update</div>
 <input type="hidden" name="csrf" value="<?php echo $_SESSION["csrf"]; ?>">
 </form>
 

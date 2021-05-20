@@ -11,6 +11,13 @@ class Settings
         $this->docRoot = $_SERVER['DOCUMENT_ROOT'];
     }
 
+    public function getCoreDetails()
+    {
+        return [
+            "versionNo" => $this->versionNo,
+            "docRoot" => $this->docRoot,
+        ];
+    }
 
     // ========
     // DATA DIR
@@ -37,7 +44,7 @@ class Settings
     // GLOBAL CONFIG
     // =============
 
-    public function getConfigGlobalTemplate()
+    public function getConfigGlobalTemplate($asArray)
     {
         // Return the serialized global config template
         $fileName = 'template-config-global.php';
@@ -46,6 +53,9 @@ class Settings
             opcache_invalidate($fullPath, true);
         }
         $settings = file_get_contents($fullPath);
+        if ($asArray) {
+            $settings = $this->serializedFileData("get", $fullPath);
+        }
         return $settings;
     }
 
@@ -73,9 +83,7 @@ class Settings
     public function getConfigGlobalSettings()
     {
         // Start an array with version number and document root
-        $settings = [];
-        $settings['versionNo'] = $this->versionNo;
-        $settings['docRoot'] = $this->docRoot;
+        $settings = $this->getCoreDetails();
         // Get global config file details
         $fullPath = $this->getConfigGlobalFileDetails()['fullPath'];
         $settingsFromFile = $this->serializedFileData("get", $fullPath);
@@ -113,7 +121,7 @@ class Settings
     // USERS CONFIG
     // ============
 
-    public function getConfigUsersTemplate()
+    public function getConfigUsersTemplate($asArray)
     {
         // Return the serialized users config template
         $fileName = 'template-config-users.php';
@@ -122,6 +130,9 @@ class Settings
             opcache_invalidate($fullPath, true);
         }
         $settings = file_get_contents($fullPath);
+        if ($asArray) {
+            $settings = $this->serializedFileData("get", $fullPath);
+        }
         return $settings;
     }
 
