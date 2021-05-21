@@ -28,7 +28,7 @@ if (true === $ICEcoder["checkUpdates"]) {
 	if ($thisV < $icv) {
 		$updateMsg =
             ";ICEcoder.dataMessage('<b>" . $t['UPDATE INFO'] .
-            ":</b> ICEcoder " . explode("\n", $icvData)[0] ." " . $t['now available'] . ". (" . $t['Your version is'] . " v" . $ICEcoder["versionNo"] .
+            ":</b> ICEcoder " . explode("\n", $icvData)[0] ." " . $t['now available'] . ". (" . $t['Your version is'] . " " . $ICEcoder["versionNo"] .
             ").<br><br><a href=\\'https://icecoder.net\\' target=\\'_blank\\' style=\\'color:#fff; background: #b00; padding: 5px; text-decoration: none; cursor: pointer\\'>" .
             $t['Update now'] . "</a><br><br>" . $icvI ."');";
 	}

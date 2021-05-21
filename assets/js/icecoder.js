@@ -3841,7 +3841,6 @@ var ICEcoder = {
         thisCSS[strCSS][4].style['margin-left'] = settings.visibleTabs ? '-1px' : '0';
         thisCSS[strCSS][2].style.cssText = "background-color: " + activeLineBG + " !important";
         thisCSS[strCSS][5].style.cssText = "color: " + activeLineNum + " !important";
-        console.log(thisCSS[strCSS][2])
 
         // Set many of the ICEcoder settings
         this.lineWrapping = settings.lineWrapping;
@@ -4119,9 +4118,7 @@ var ICEcoder = {
 
                 xhr.onreadystatechange=function() {
                     if (4 === xhr.readyState && 200 === xhr.status) {
-                        // console.log(xhr.responseText);
                         var statusArray = JSON.parse(xhr.responseText);
-                        // console.log(statusArray);
 
                         get('bugIcon').style.color =
                             statusArray['result'] == "off" ? "" :
@@ -4142,7 +4139,6 @@ var ICEcoder = {
 
                     }
                 };
-                // console.log('Calling '+bugCheckURL+' via XHR');
                 xhr.open("GET", bugCheckURL, true);
                 xhr.send();
 
