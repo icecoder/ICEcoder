@@ -1,4 +1,5 @@
 <?php
+// TODO: The whole file needs a refactor and comments!
 include "headers.php";
 include "settings.php";
 $t = $text['multiple-results'];
@@ -101,16 +102,18 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
             if (
                 // TODO: Find in filenames not working with regex, see all instances of findText and $findText below
                 true === haveMatch && -1 < targetURL.indexOf('_perms')) {
-                if (-1 < userTarget.indexOf("selected")) {
-                    for (let j = 0; j < parent.ICEcoder.selectedFiles.length; j++) {
-                        // TODO: This whole file needs comments - what does the below do?!
+                    if (-1 < userTarget.indexOf("selected")) {
+                        for (let j = 0; j < parent.ICEcoder.selectedFiles.length; j++) {
                         if (
-                            0 === targetURL.replace(/\//g, "|").indexOf(parent.ICEcoder.selectedFiles[j].replace(/\//g, "|").replace(/_perms/g, ""))
+                            // If the pipe delimited targetURL starts with this pipe delimited, non _perms elem selectedFile
+                            0 === targetURL.replace(/\//g, "|").indexOf(parent.ICEcoder.selectedFiles[j].replace(/\//g, "|").replace(/_perms/g, "").toLowerCase())
                             && (
-                            targetURL.replace(/\|/g, "/").replace(/_perms/g, "") === parent.ICEcoder.selectedFiles[j].replace(/\|/g, "/").replace(/_perms/g, "")
+                            // If the slash delimited, non _perms elem matches the slasj delimited, non _perms elem
+                            targetURL.replace(/\|/g, "/").replace(/_perms/g, "") === parent.ICEcoder.selectedFiles[j].replace(/\|/g, "/").replace(/_perms/g, "").toLowerCase()
                             ||
+                            // Path length for targetURL is greater than path length for this selectedFile and targetURL char at selectedFiles length ends with a slash
                             (targetURL.replace(/\|/g, "/").split("/").length > parent.ICEcoder.selectedFiles[j].replace(/\|/g, "/").split("/").length && "/" === targetURL.charAt(parent.ICEcoder.selectedFiles[j].length)))) {
-                            foundInSelected = true;
+                                foundInSelected = true;
                         }
                     }
                 }
@@ -124,8 +127,8 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                     // TODO: get this line working
                     resultsDisplay +=
                         targetURL.replace(/\|/g, "/").replace(/_perms/g, "").replace(/<?php
-                            echo str_replace("/", "\/",strtolower($findText)); ?>/g, "<b>" +
-                            findText.toLowerCase() + "</b>");
+                            echo str_replace("/", "\/",strtolower(preg_quote($findText))); ?>/g, "<b>" +
+                            parent.ICEcoder.xssClean(findText).toLowerCase() + "</b>");
                         resultsDisplay += '</a><br>';
                     <?php if (false === isset($_GET['replace'])) { ?>
                     resultsDisplay += '<div id="foundCount' + i +'">' + spansArray[i].innerHTML + '</div>';
@@ -134,8 +137,8 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                     resultsDisplay +=
                         '<div id="foundCount' + i + '">' + spansArray[i].innerHTML +
                         ', <?php echo $t['rename to'];?> ' +
-                        targetURL.replace(/\|/g, "/").replace(/_perms/g, "").replace(/<?php echo str_replace("/", "\/",strtolower($findText)); ?>/g,"<b><?php
-                            if (isset($_GET['replace'])) {echo $_GET['replace'];};
+                        targetURL.replace(/\|/g, "/").replace(/_perms/g, "").replace(/<?php echo str_replace("/", "\/",strtolower(preg_quote($findText))); ?>/g,"<b><?php
+                            if (isset($_GET['replace'])) {echo str_replace("&amp;", "&", xssClean($_GET['replace'], 'script'));};
                         ?></b>")+'</div>';
                         <?php
                         ;};
@@ -253,7 +256,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
 
     const replaceInFileSingle = function(fileRef) {
         // TODO: findText in this line
-        parent.ICEcoder.replaceInFile(fileRef, true === parent.ICEcoder.findRegex ? findText : parent.ICEcoder.escapeRegex(findText), '<?php if (isset($_GET['replace'])) {echo $_GET['replace'];}; ?>');
+        parent.ICEcoder.replaceInFile(fileRef, true === parent.ICEcoder.findRegex ? findText : parent.ICEcoder.escapeRegex(findText), '<?php if (isset($_GET['replace'])) {echo xssClean($_GET['replace'], 'script');}; ?>');
     };
 
     const replaceInFilesAll = function() {
@@ -267,7 +270,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         fileRef = spansArray[arrayRef].id.replace(/\|/g, "/").replace(/_perms/g, "");
         const rExp = new RegExp(true === parent.ICEcoder.findRegex ? findText : parent.ICEcoder.escapeRegex(findText), "gi");
         // TODO: get this working
-        newName = spansArray[arrayRef].id.replace(/\|/g, "/").replace(/_perms/g, "").replace(rExp, "<?php if (isset($_GET['replace'])) {echo $_GET['replace'];}; ?>");
+        newName = spansArray[arrayRef].id.replace(/\|/g, "/").replace(/_perms/g, "").replace(rExp, "<?php if (isset($_GET['replace'])) {echo xssClean($_GET['replace'], 'script');}; ?>");
         parent.ICEcoder.renameFile(fileRef,newName);
     };
 
