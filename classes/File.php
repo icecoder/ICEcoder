@@ -20,7 +20,8 @@ class File
     public function check() {
         global $file, $fileOrig, $docRoot, $iceRoot, $fileLoc, $fileName, $error, $errorStr, $errorMsg;
         // Replace pipes with slashes, then establish the actual name as we may have HTML entities in filename
-        $file = html_entity_decode(str_replace("|", "/", $file));
+        // Infact we may have &amplt; which when decoded is &lt; and decoded again is original < so decoding twice is needed
+        $file = html_entity_decode(html_entity_decode(str_replace("|", "/", $file)));
 
         // Put the original $file var aside for use
         $fileOrig = $file;
