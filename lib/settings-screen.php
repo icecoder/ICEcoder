@@ -546,6 +546,7 @@ const checkCase = function(evt) {
 const checkCanSubmit = function() {
 	// Password isn't strong enough, shake requirements
 	if("" !== get("password").value && false === pwStrength(get("password").value)) {
+		switchTab('accounts');
 		shake("newPasswordText");
 		shake("password");
 		shake("pwReqs");
@@ -557,6 +558,7 @@ const checkCanSubmit = function() {
 function validatePasswords() {
 	if (true === checkCanSubmit()) {
 		if (document.settings.password.value !== document.settings.passwordConfirm.value) {
+			switchTab('accounts');
             shake("passwordConfirmText");
             shake("passwordConfirm");
 		} else {
