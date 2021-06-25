@@ -2805,6 +2805,40 @@ var ICEcoder = {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     },
 
+    // Test an input for balanced regex brackets
+    regexIsBalanced: function(input) {
+        let brackets = "[]{}()";
+        let stack = [];
+        let remainder = "";
+      
+        // Go thru each char in input
+        for (let char of input) {
+            // Find index of this char in brackets string
+            let bracketsIndex = brackets.indexOf(char)
+      
+            // Not one of the bracket chars, continue to next char
+            if (bracketsIndex === -1) {
+                remainder += char;
+                continue;
+            }
+
+            // If a bracket start: [ { ( push closing bracket onto stack
+            if (bracketsIndex % 2 === 0) {
+              stack.push(bracketsIndex + 1)
+            } else {
+                // When popping brackets off the stack, compare and return false if not matching
+                if (stack.pop() !== bracketsIndex) {
+                  return false;
+                }
+            }
+        }
+        // If we have items left on our stack, we have an unbalanced input
+        return {
+            "balanced" : stack.length === 0,
+            "remainder" : remainder
+        };
+    },
+
     // Toggle on/off regex matching during find
     findRegexToggle: function() {
         // Toggle to opposite bool value and set background according to value
@@ -2836,23 +2870,27 @@ var ICEcoder = {
     findReplace: function(find, selectNext, canActionChanges, findPrevious) {
         let replace, results, thisCM, thisSelection, rBlocks, rExpMatch0String, replaceQS, targetQS, filesQS;
 
-        // Determine our find rExp, replace value and results display
-        const rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegex(find), "gi");
+        // Get our replace value and results display
         replace		= get('replace').value;
         results		= get('results');
 
-        // TODO: This is still a problem if you have unterminated character classes
-        // Simply enable regex finding and press [ or ( ... { doesn't seem to be a problem
-        // Solution: We could check also that the number of [] () pairs match
-
-        // Return early if we're finding with regex and only have ^ or $ or .*, avoids CPU crash
-        if (true === parent.ICEcoder.findRegex && "" === find.replace(/\^|\$|\.\*/g, "")) {
-            results.innerHTML = "No results";
-            this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
-            this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
-
-            return false;
+        // If we're finding with regex and have unbalanced bracket pairs, or nothing but brackets, or only have ^ or $ or .*
+        // highlight find box red and return, avoids CPU crash
+        if (true === parent.ICEcoder.findRegex) {
+            const balancedInfo = this.regexIsBalanced(find); 
+            if (false === balancedInfo['balanced'] || "" === balancedInfo['remainder'].replace(/\[\]\{\}\(\)/g, "") || "" === find.replace(/\^|\$|\.\*/g, "")) {
+                results.innerHTML = "No results";
+                this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
+                this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+                get('find').style.background = "#800";
+                return false;
+            } else {
+                get('find').style.background = "";
+            }
         }
+
+        // Determine our find rExp
+        const rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegex(find), "gi");
 
         // Get CM pane
         thisCM = this.getThisCM();
