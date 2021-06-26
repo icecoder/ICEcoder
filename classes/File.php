@@ -109,7 +109,7 @@ class File
     }
 
     public function load() {
-        global $file, $fileLoc, $fileName, $t;
+        global $file, $fileLoc, $fileName, $t, $lineNumber;
         echo 'action="load";';
         $lineNumber = max(isset($_REQUEST['lineNumber']) ? intval($_REQUEST['lineNumber']) : 1, 1);
         // Check this file isn't on the banned list at all
