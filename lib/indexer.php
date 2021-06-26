@@ -47,8 +47,18 @@ function phpGrep($path, $base) {
         if (is_dir($filePath)) {
             $ret .= phpGrep($filePath, $base);
         } else {
-            // Check if we should scan within this file, by only considering files that may contain functions & classes
+            // Check if we should scan within this file, by only considering files that may contain functions & classes...
+            // Must be in the indexableFileExts list
             if (false === in_array($filePathExt, $indexableFileExts)) {
+                continue;
+            }
+            $finfo = "text";
+            // Must have a MIME type string starting with "text"
+            if (function_exists('finfo_open')) {
+                $finfoMIME = finfo_open(FILEINFO_MIME);
+                $finfo = finfo_file($finfoMIME, $filePath);
+            }
+            if (strpos($finfo, "text")) {
                 continue;
             }
             // Check if file appears to be the same (same size and mtime), if so, continue as we'll assume it's not changed
