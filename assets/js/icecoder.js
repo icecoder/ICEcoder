@@ -1979,19 +1979,31 @@ var ICEcoder = {
         const re = /^([^ ]*)\s+(on\s+)?(line\s+)?(\d+)/;
         const reMatch = re.exec(fileLink);
 
+        // "on" or "line" word used followed by line number
         if (null !== reMatch) {
             line = reMatch[4];
             fileLink = reMatch[1];
-        } else if (fileLink.indexOf('://') > 0){
+        // :// protocol host separator used
+        } else if (fileLink.indexOf('://') > 0) {
+            // We have a : then number (and : not same index as ://)
             if (fileLink.lastIndexOf(':') !== fileLink.indexOf('://')) {
                 line = fileLink.split(':')[2];
-                fileLink = fileLink.substr(0,fileLink.lastIndexOf(":"));
+                fileLink = fileLink.substr(0, fileLink.lastIndexOf(":"));
             }
-        } else if (fileLink.indexOf(':') > 0){
+        // :/ drive path separator used, likely Windows
+        } else if (fileLink.indexOf(':/') > 0) {
+            // We have a : then number (and : not same index as :/)
+            if (fileLink.lastIndexOf(':') !== fileLink.indexOf(':/')) {
+                line = fileLink.split(':')[2];
+                fileLink = fileLink.substr(0, fileLink.lastIndexOf(":"));
+            }
+        // We have a :
+        } else if (fileLink.indexOf(':') > 0) {
             line = fileLink.split(':')[1];
             fileLink = fileLink.split(':')[0];
         }
-        if ((fileLink.indexOf('(') > 0) && (fileLink.indexOf(')') > 0)){
+        // () Brackets used
+        if ((fileLink.indexOf('(') > 0) && (fileLink.indexOf(')') > 0)) {
             line = fileLink.split('(')[1].split(')')[0];
             fileLink = fileLink.split('(')[0];
         }
