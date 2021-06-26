@@ -22,6 +22,16 @@ class System
     }
 
     /**
+     * @param $path
+     */
+    private function createFileIfNotExists($path)
+    {
+        if (false === file_exists($path)) {
+            touch($path);
+        }
+    }
+
+    /**
      * @return string
      */
     public function getOS() {
@@ -40,6 +50,7 @@ class System
         ini_set('log_errors', '1');
         $this->createDirIfNotExists(dirname(__FILE__) . '/../data/logs');
         $this->createDirIfNotExists(dirname(__FILE__) . '/../data/logs/error');
+        $this->createFileIfNotExists(dirname(__FILE__) . '/../data/logs/error/error.log');
         ini_set('error_log', dirname(__FILE__) . '/../data/logs/error/error.log');
         error_reporting(-1);
     }
