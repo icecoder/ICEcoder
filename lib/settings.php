@@ -72,6 +72,13 @@ if (true === $ICEcoderSettings['enableRegistration'] && false === $settingsClass
         $reqsFailures = ["phpUsersConfigCreateConfig"];
         include dirname(__FILE__) . "/requirements.php";
     }
+    // Initial setup,triggered from index,php...
+    if ("index.php" === basename($_SERVER['SCRIPT_NAME'])) {
+        // Set bug reporting for ICEcoders error.log file
+        $settingsClass->updateConfigUsersSettings($settingsFile, ["bugFilePaths" => [dirname($_SERVER['SCRIPT_NAME']) . "/data/logs/error/error.log"]]);
+        $settingsClass->updateConfigUsersSettings($settingsFile, ["bugFileCheckTimer" => 10]);
+        $settingsClass->updateConfigUsersSettings($settingsFile, ["bugFileMaxLines" => 10]);
+    }
     $setPWorLogin = "set password";
 }
 
