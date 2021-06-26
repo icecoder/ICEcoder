@@ -14,4 +14,4 @@ Explain what you're unsure about here. The more info the better if it's a compli
 Explain where you're at and what in ICEcoder is causing you issues, we can probably advise!
 
 **Additional context**
-Add any other context or screenshots about the feature request here.
+Add any other context or screenshots about the question here.
