@@ -53,12 +53,12 @@ function phpGrep($path, $base) {
                 continue;
             }
             $finfo = "text";
-            // Must have a MIME type string starting with "text"
+            // Must have a MIME type string starting with "text" (also avoids "empty" files)
             if (function_exists('finfo_open')) {
                 $finfoMIME = finfo_open(FILEINFO_MIME);
                 $finfo = finfo_file($finfoMIME, $filePath);
             }
-            if (strpos($finfo, "text")) {
+            if (0 !== strpos($finfo, "text")) {
                 continue;
             }
             // Check if file appears to be the same (same size and mtime), if so, continue as we'll assume it's not changed
