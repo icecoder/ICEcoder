@@ -30,6 +30,7 @@ while (false !== ($file = readdir($handle))) {
 		array_push($themeArray,basename($file,".css"));
 	}
 }
+closedir($handle);
 sort($themeArray);
 for ($i = 0;$i < count($themeArray); $i++) {
 	echo '<link rel="stylesheet" href="../assets/css/theme/' . $themeArray[$i] . '.css?microtime=' . microtime(true) . '">' . PHP_EOL;

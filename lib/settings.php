@@ -58,7 +58,7 @@ $ICEcoderSettings = $settingsClass->getConfigGlobalSettings();
 include_once dirname(__FILE__) . "/settings-common.php";
 
 // Establish user settings file
-$username = "";
+$username = "admin-";
 if (true === isset($_POST['username']) && "" !== $_POST['username']) {$username = $_POST['username'] . "-";};
 if (true === isset($_SESSION['username']) && "" !== $_SESSION['username']) {$username = $_SESSION['username'] . "-";};
 $settingsFile = 'config-' . $username . str_replace(".", "_", str_replace("www.", "", $_SERVER['SERVER_NAME'])) . '.php';
@@ -84,6 +84,12 @@ if (true === $ICEcoderSettings['enableRegistration'] && false === $settingsClass
 
 // Check users config settings file exists
 if (false === $settingsClass->getConfigUsersFileDetails($settingsFile)['exists']) {
+    // If on the login page and we couldn't find the file, boot back to login page
+    if ("login.php" === basename($_SERVER['SCRIPT_NAME'])) {
+        header('Location: login.php');
+        echo "<script>window.location = 'login.php';</script>";
+        die('Redirecting to login...');
+    }
     $reqsFailures = ["phpUsersConfigFileExists"];
     include dirname(__FILE__) . "/requirements.php";
 }
