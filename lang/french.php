@@ -296,6 +296,7 @@ $text = [
         "No matches found"                         => "Aucun r&eacute;sultat de trouver",
         "selected"                                 => "s&eacute;lectionn&eacute;",
         "found in"                                 => "trouv&eacute; dans",
+        "Renamed"                                  => "Renamed",
         "Replaced"                                 => "Remplac&eacute;",
     ],
 

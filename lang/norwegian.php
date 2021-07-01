@@ -296,6 +296,7 @@ $text = [
         "No matches found"                         => "Ingen treff",
         "selected"                                 => "valgt",
         "found in"                                 => "funnet i",
+        "Renamed"                                  => "Renamed",
         "Replaced"                                 => "Erstattet",
     ],
 

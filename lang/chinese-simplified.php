@@ -297,6 +297,7 @@ $text = [
         "No matches found"                         => "没有找到匹配",
         "selected"                                 => "选择",
         "found in"                                 => "查询结果在",
+        "Renamed"                                  => "Renamed",
         "Replaced"                                 => "已替换"
     ],
 

@@ -296,6 +296,7 @@ $text = [
         "No matches found"                         => "Geen overeenkomsten gevonden",
         "selected"                                 => "geselecteerd",
         "found in"                                 => "gevonden in",
+        "Renamed"                                  => "Renamed",
         "Replaced"                                 => "Vervangen",
     ],
 

@@ -195,7 +195,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                         $ret .= str_replace($base, "", $fullPath) . "</a><div id=\\\"foundCount" . $r . "\\\">" .
                             $t['Found'] . " " . substr_count(strtolower(toUTF8noBOM(getData($fullPath), false)), strtolower($q)) . " " . $t['times'] . "</div>";
                         if (isset($_GET['replace'])) {
-                            $ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('" . $fullPath . "'); this.style.display=\'none\'\\\">" . $t['replace'] . "</div>";
+                            $ret .= "<div class=\\\"replace\\\" id=\\\"replace\\\" onClick=\\\"replaceInFileSingle('" . $fullPath . "', " . $r . "); this.style.display=\'none\'\\\">" . $t['replace'] . "</div>";
                         };
                         $ret .= '<hr>';
                         echo 'foundArray.push("' . $fullPath . '");' . PHP_EOL;
@@ -251,9 +251,13 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         parent.ICEcoder.showHide('hide', parent.document.getElementById('blackMask'));
     };
 
-    const replaceInFileSingle = function(fileRef) {
+    const replaceInFileSingle = function(fileRef, idNum) {
         // TODO: findText in this line
         parent.ICEcoder.replaceInFile(fileRef, true === parent.ICEcoder.findRegex ? findText : parent.ICEcoder.escapeRegex(findText), '<?php if (isset($_GET['replace'])) {echo xssClean($_GET['replace'], 'script');}; ?>');
+        if (idNum) {
+            const newText = document.getElementById('foundCount' + idNum).innerHTML = document.getElementById('foundCount' + idNum).innerHTML.replace('<?php echo $t['Found'];?>', '<?php echo $t['Replaced'];?>');
+            parent.ICEcoder.findUpdateMultiInfoID = ['foundCount' + idNum, newText];
+        }
     };
 
     const replaceInFilesAll = function() {
@@ -269,7 +273,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         // TODO: get this working with regex
         newName = spansArray[arrayRef].id.replace(/\|/g, "/").replace(/_perms/g, "").replace(rExp, "<?php if (isset($_GET['replace'])) {echo xssClean($_GET['replace'], 'script');}; ?>");
         parent.ICEcoder.renameFile(fileRef,newName);
-        parent.ICEcoder.findUpdateMultiInfoID = ['foundCount' + arrayRef, 'Renamed'];
+        parent.ICEcoder.findUpdateMultiInfoID = ['foundCount' + arrayRef, '<?php echo $t['Renamed'];?>'];
     };
 
     const renameAll = function() {
