@@ -266,9 +266,10 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
     const renameSingle = function(arrayRef) {
         fileRef = spansArray[arrayRef].id.replace(/\|/g, "/").replace(/_perms/g, "");
         const rExp = new RegExp(true === parent.ICEcoder.findRegex ? findText : parent.ICEcoder.escapeRegex(findText), "gi");
-        // TODO: get this working
+        // TODO: get this working with regex
         newName = spansArray[arrayRef].id.replace(/\|/g, "/").replace(/_perms/g, "").replace(rExp, "<?php if (isset($_GET['replace'])) {echo xssClean($_GET['replace'], 'script');}; ?>");
         parent.ICEcoder.renameFile(fileRef,newName);
+        parent.ICEcoder.findUpdateMultiInfoID = ['foundCount' + arrayRef, 'Renamed'];
     };
 
     const renameAll = function() {

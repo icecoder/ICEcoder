@@ -32,6 +32,7 @@ var ICEcoder = {
     resultsLines:          [],            // Array of lines containing results (simpler version of results)
     findResult:            0,             // Array position of current find in results
     findRegex:             false,         // If find attempts are done using regex
+    findUpdateMultiInfoID: [],            // ID of multiple results modal elem to update & text, when rename/replace is successful
     scrollbarVisible:      false,         // Indicates if the main pane has a scrollbar
     mouseDown:             false,         // If the mouse is down
     mouseDownInCM:         false,         // If the mouse is down within CodeMirror instance (can be false, 'editor' or 'gutter')
@@ -3596,8 +3597,15 @@ var ICEcoder = {
                                 console.log(statusObj);
                                 ICEcoder.serverMessage();
                                 ICEcoder.serverQueue('del');
+                            // Successful, process the requested action to take now
                             } else {
                                 eval(statusObj.action.doNext);
+                                // If we need to update the multiple results pane with new info now a task is done successfully
+                                if (ICEcoder.findUpdateMultiInfoID[0]) {
+                                    get('multipleResultsIFrame').contentWindow.document.getElementById(ICEcoder.findUpdateMultiInfoID[0])
+                                        .innerHTML = ICEcoder.findUpdateMultiInfoID[1];
+                                    ICEcoder.findUpdateMultiInfoID = [];
+                                }
                             }
                             // Some other response? Display a message about that
                         } else {
