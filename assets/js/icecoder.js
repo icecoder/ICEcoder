@@ -4489,7 +4489,7 @@ var ICEcoder = {
                 : this.savedPoints[closeTabNum - 1] !== this.getcMInstance(closeTabNum).changeGeneration()
             )
         )) {
-            okToRemove = this.ask(t['You have made...']);
+            okToRemove = this.ask(t['You have made...'] + "\n\n" + this.openFiles[closeTabNum - 1]);
         }
 
         if (true === okToRemove) {
