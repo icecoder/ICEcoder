@@ -93,10 +93,10 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         for (let i = 0; i < spansArray.length; i++) {
             let foundInSelected = false;
             const targetURL = spansArray[i].id.replace(/\|/g, "/").toLowerCase();
+            const targetURLDisplay = spansArray[i].id.replace(/\|/g, "/"); // Original filename incl casing
             const targetName = targetURL.substring(targetURL.lastIndexOf("/") + 1);
             let haveMatch = false;
             while ((match = rExp.exec(targetName)) !== null) {
-                console.log(match);
                 haveMatch = true;
             }
             if (
@@ -120,23 +120,20 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                 if (-1 < userTarget.indexOf("all") || (-1 < userTarget.indexOf("selected") && foundInSelected)) {
                     resultsDisplay +=
                         '<a href="javascript:parent.ICEcoder.openFile(\'<?php echo $docRoot;?>' +
-                        targetURL.replace(/\|/g, "/").replace(/_perms/g,"") +
+                        targetURLDisplay.replace(/\|/g, "/").replace(/_perms/g,"") +
                         '\');parent.ICEcoder.goFindAfterOpenInt = setInterval(function(){goFindAfterOpen(\'<?php echo $docRoot;?>' +
-                        targetURL.replace(/\|/g, "/").replace(/_perms/g, "") +
+                        targetURLDisplay.replace(/\|/g, "/").replace(/_perms/g, "") +
                         '\')}, 20);parent.ICEcoder.showHide(\'hide\', parent.document.getElementById(\'blackMask\'))">';
                     // TODO: get this line working
                     resultsDisplay +=
-                        targetURL.replace(/\|/g, "/").replace(/_perms/g, "").replace(/<?php
+                        targetURLDisplay.replace(/\|/g, "/").replace(/_perms/g, "").replace(/<?php
                             echo str_replace("/", "\/",strtolower(preg_quote($findText))); ?>/g, "<b>" +
                             parent.ICEcoder.xssClean(findText).toLowerCase() + "</b>");
                         resultsDisplay += '</a><br>';
-                    <?php if (false === isset($_GET['replace'])) { ?>
-                    resultsDisplay += '<div id="foundCount' + i +'">' + spansArray[i].innerHTML + '</div>';
-                    <?php ;} else { ?>
-                    // TODO: get this line working
+                    <?php if (true === isset($_GET['replace'])) { ?>
                     resultsDisplay +=
-                        '<div id="foundCount' + i + '">' + spansArray[i].innerHTML +
-                        ', <?php echo $t['rename to'];?> ' +
+                        '<div id="foundCount' + i + '">' +
+                        '<?php echo $t['rename to'];?> ' +
                         targetURL.replace(/\|/g, "/").replace(/_perms/g, "").replace(/<?php echo str_replace("/", "\/",strtolower(preg_quote($findText))); ?>/g,"<b><?php
                             if (isset($_GET['replace'])) {echo str_replace("&amp;", "&", xssClean($_GET['replace'], 'script'));};
                         ?></b>")+'</div>';
