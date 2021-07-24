@@ -2820,10 +2820,16 @@ var ICEcoder = {
 
     // Test an input for balanced regex brackets
     regexIsBalanced: function(input) {
-        let brackets = "[]{}()";
+        const brackets = "[]{}()";
+        const bracketsSlash = brackets + "\\";
         let stack = [];
         let remainder = "";
-      
+
+        // Remove backslash escaped brackets & slashes before testing
+        for (let i = 0; i < bracketsSlash.length; i++) {
+            input = input.replace(new RegExp('\\\\\\' + bracketsSlash[i], 'g'), 'ICECODERC' + i)
+        }
+
         // Go thru each char in input
         for (let char of input) {
             // Find index of this char in brackets string
@@ -2845,6 +2851,12 @@ var ICEcoder = {
                 }
             }
         }
+
+        // Replace backslash escaped brackets & slashes
+        for (let i = 0; i < bracketsSlash.length; i++) {
+            remainder = remainder.replace(new RegExp('ICECODERC' + i, 'g'), '\\' + bracketsSlash[i])
+        }
+
         // If we have items left on our stack, we have an unbalanced input
         return {
             "balanced" : stack.length === 0,
@@ -2881,17 +2893,24 @@ var ICEcoder = {
 
     // Find & replace text according to user selections
     findReplace: function(find, selectNext, canActionChanges, findPrevious) {
-        let replace, results, thisCM, thisSelection, rBlocks, rExpMatch0String, replaceQS, targetQS, filesQS;
+        let replace, results, rExp, thisCM, thisSelection, rBlocks, rExpMatch0String, replaceQS, targetQS, filesQS;
 
         // Get our replace value and results display
         replace		= get('replace').value;
         results		= get('results');
 
-        // If we're finding with regex and have unbalanced bracket pairs, or nothing but brackets, or only have ^ or $ or .*
-        // highlight find box red and return, avoids CPU crash
+        // If we're finding with regex and have a problem with it, highlight find box red and return, avoids CPU crash
         if (true === parent.ICEcoder.findRegex) {
             const balancedInfo = this.regexIsBalanced(find); 
-            if (false === balancedInfo['balanced'] || "" === balancedInfo['remainder'].replace(/\[\]\{\}\(\)/g, "") || "" === find.replace(/\^|\$|\.\*/g, "")) {
+
+            // Turn input box red if empty, or no balancedInfo data, or we have unbalanced bracket pairs, or the remainder
+            // is empty aside from brackets, or find or only has ^ or $ or .*
+            if ("" !== find && (
+                false === balancedInfo ||
+                false === balancedInfo['balanced'] ||
+                ("" === balancedInfo['remainder'].replace(/\[\]\{\}\(\)/g, "")) ||
+                "" === find.replace(/\^|\$|\.\*/g, "")
+            )) {
                 results.innerHTML = "No results";
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
                 this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
@@ -2902,17 +2921,21 @@ var ICEcoder = {
             }
         }
 
-        // Determine our find rExp
-        const rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegex(find), "gi");
+        // Determine our find rExp, inside a try/catch incase there's an uncaught issue with format
+        try {
+             rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegex(find), "gi");
+        } catch(e) {
+            return false;
+        }
 
         // Get CM pane
         thisCM = this.getThisCM();
 
-        // Get this selection, either as regex escaped version or regular, for comparisons
-        thisSelection = true === parent.ICEcoder.findRegex ? ICEcoder.escapeRegex(thisCM.getSelection()) : thisCM.getSelection();
-
         // Finding in this document only
         if (thisCM && 0 < find.length && t['this document'] === document.findAndReplace.target.value) {
+            // Get this selection, either as regex escaped version or regular, for comparisons
+            thisSelection = true === parent.ICEcoder.findRegex ? ICEcoder.escapeRegex(thisCM.getSelection()) : thisCM.getSelection();
+
             // Replacing?
             if (t['and'] === document.findAndReplace.connector.value && true === canActionChanges) {
                 // Find & replace the next instance, or all?
