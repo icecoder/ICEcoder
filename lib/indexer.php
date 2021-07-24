@@ -199,6 +199,7 @@ function phpGrep($path, $base) {
             }
         }
     }
+    closedir($fp);
     return $ret;
 }
 
