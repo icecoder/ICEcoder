@@ -101,7 +101,6 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                 haveMatch = true;
             }
             if (
-                // TODO: Find in filenames not working with regex, see all instances of findText and $findText below
                 true === haveMatch && -1 < targetURL.indexOf('_perms')) {
                     if (-1 < userTarget.indexOf("selected")) {
                         for (let j = 0; j < parent.ICEcoder.selectedFiles.length; j++) {
@@ -123,23 +122,25 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                     if (-1 < targetURLElem.parentNode.parentNode.className.indexOf('pft-directory')) {
                         continue;
                     }
+                    const tidiedFileName = targetURLDisplay.replace(/\|/g, "/").replace(/_perms/g, "");
                     resultsDisplay +=
                         '<a href="javascript:parent.ICEcoder.openFile(\'<?php echo $docRoot;?>' +
-                        targetURLDisplay.replace(/\|/g, "/").replace(/_perms/g,"") +
+                        tidiedFileName +
                         '\');parent.ICEcoder.goFindAfterOpenInt = setInterval(function(){goFindAfterOpen(\'<?php echo $docRoot;?>' +
-                        targetURLDisplay.replace(/\|/g, "/").replace(/_perms/g, "") +
+                        tidiedFileName +
                         '\')}, 20);parent.ICEcoder.showHide(\'hide\', parent.document.getElementById(\'blackMask\'))">';
-                    // TODO: get this line working
-                    resultsDisplay +=
-                        targetURLDisplay.replace(/\|/g, "/").replace(/_perms/g, "").replace(/<?php
-                            echo str_replace("/", "\/",strtolower(preg_quote($findText))); ?>/g, "<b>" +
-                            parent.ICEcoder.xssClean(findText).toLowerCase() + "</b>");
-                        resultsDisplay += '</a><br>';
+
+
+                    // Highlight our matches in filename via single regex () capturing group to use with $1
+                    const re = /(<?php echo str_replace("/", "\/",xssClean($findText, 'script')); ?>)/gi;
+                    resultsDisplay += tidiedFileName.replace(re, '<b>$1</b>') + '</a><br>';
+
+                    // If replacing in filename
                     <?php if (true === isset($_GET['replace'])) { ?>
                     resultsDisplay +=
                         '<div id="foundCount' + i + '">' +
                         '<?php echo $t['rename to'];?> ' +
-                        targetURL.replace(/\|/g, "/").replace(/_perms/g, "").replace(/<?php echo str_replace("/", "\/",strtolower(preg_quote($findText))); ?>/g,"<b><?php
+                        tidiedFileName.replace(re, "<b><?php
                             if (isset($_GET['replace'])) {echo str_replace("&amp;", "&", xssClean($_GET['replace'], 'script'));};
                         ?></b>")+'</div>';
                         <?php
@@ -178,7 +179,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                     }
                     // Exclude the dirs/files we wish to exclude from find & replace tasks (string in path name)
                     for ($i = 0; $i < count($ICEcoder['findFilesExclude']); $i++) {
-                        if (false !== strpos($fullpath, str_replace("*", "", $ICEcoder['findFilesExclude'][$i]))) {
+                        if (false !== strpos($fullPath, str_replace("*", "", $ICEcoder['findFilesExclude'][$i]))) {
                             $bFile = true;
                         };
                     }
@@ -234,7 +235,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
     targetName = "<?php echo $targetName;?>";
     selectedText = foundInSelected ? "<?php echo $t['selected'];?> " : "";
     document.getElementById('title').innerHTML =
-        findText.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;") +
+    parent.ICEcoder.xssClean(findText) +
         " <?php echo $t['found in'];?> " + foundArray.length + " " + selectedText + targetName + plural;
     document.getElementById('results').innerHTML = resultsDisplay;
 
