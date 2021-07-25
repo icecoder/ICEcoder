@@ -3073,7 +3073,7 @@ var ICEcoder = {
     },
 
     findInCMContent: function(thisCM, rExp, selectNext) {
-        let avgBlockH, addPadding, rBlocks, haveMatch, rExpMatch0String, rBlockTop;
+        let avgBlockH, addPadding, rBlocks, haveMatch, rExpMatch0String, rBlockTop, lastRBlockTop;
 
         // Start new iterators for line & last line
         let i = 0;
@@ -3098,6 +3098,7 @@ var ICEcoder = {
         rBlocks = "";
 
         rExpMatch0String = "";
+        lastRBlockTop = 0;
 
         thisCM.eachLine(function(line) {
             i++;
@@ -3130,8 +3131,9 @@ var ICEcoder = {
                 results.push([i, match.index]);
             }
             // If we have a match, add the DOM elem into our rBlocks string
-            if (true === haveMatch) {
+            if (true === haveMatch && rBlockTop !== lastRBlockTop) {
                 rBlocks += '<div class="rBlock" style="height:' + avgBlockH + 'px; top: ' + rBlockTop + 'px" id="rBlock' + i +'"></div>';
+                lastRBlockTop = rBlockTop;
             }
         });
 
