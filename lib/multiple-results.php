@@ -92,6 +92,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         const spansArray = parent.ICEcoder.filesFrame.contentWindow.document.getElementsByTagName('span');
         for (let i = 0; i < spansArray.length; i++) {
             let foundInSelected = false;
+            const targetURLElem = spansArray[i];
             const targetURL = spansArray[i].id.replace(/\|/g, "/").toLowerCase();
             const targetURLDisplay = spansArray[i].id.replace(/\|/g, "/"); // Original filename incl casing
             const targetName = targetURL.substring(targetURL.lastIndexOf("/") + 1);
@@ -118,6 +119,10 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                     }
                 }
                 if (-1 < userTarget.indexOf("all") || (-1 < userTarget.indexOf("selected") && foundInSelected)) {
+                    // Skip displaying directories
+                    if (-1 < targetURLElem.parentNode.parentNode.className.indexOf('pft-directory')) {
+                        continue;
+                    }
                     resultsDisplay +=
                         '<a href="javascript:parent.ICEcoder.openFile(\'<?php echo $docRoot;?>' +
                         targetURLDisplay.replace(/\|/g, "/").replace(/_perms/g,"") +
@@ -165,15 +170,15 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                 } else if(stristr(toUTF8noBOM(getData($fullPath), false), $q)) {
                     $bFile = false;
                     $foundInSelFile = false;
-                    // Exclude banned files
+                    // Exclude banned dirs/files (string in path name)
                     for ($i = 0; $i < count($ICEcoder['bannedFiles']); $i++) {
-                        if (false !== strpos($f, str_replace("*", "", $ICEcoder['bannedFiles'][$i]))) {
+                        if (false !== strpos($fullPath, str_replace("*", "", $ICEcoder['bannedFiles'][$i]))) {
                             $bFile = true;
                         };
                     }
-                    // Exclude the dirs & files we wish to exclude from find & replace tasks
+                    // Exclude the dirs/files we wish to exclude from find & replace tasks (string in path name)
                     for ($i = 0; $i < count($ICEcoder['findFilesExclude']); $i++) {
-                        if (false !== strpos($f, str_replace("*", "", $ICEcoder['findFilesExclude'][$i]))) {
+                        if (false !== strpos($fullpath, str_replace("*", "", $ICEcoder['findFilesExclude'][$i]))) {
                             $bFile = true;
                         };
                     }
@@ -203,6 +208,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                     }
                 }
             }
+            closedir($fp);
             return $ret;
         }
 
