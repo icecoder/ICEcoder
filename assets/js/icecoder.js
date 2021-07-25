@@ -3065,7 +3065,7 @@ var ICEcoder = {
     },
 
     findInCMContent: function(thisCM, rExp, selectNext) {
-        let avgBlockH, addPadding, rBlocks, haveMatch, blockColor, rExpMatch0String;
+        let avgBlockH, addPadding, rBlocks, haveMatch, rExpMatch0String;
 
         // Start new iterators for line & last line
         let i = 0;
@@ -3113,10 +3113,10 @@ var ICEcoder = {
             }
             // If the avg block height for results in results bar is above 0.5 pixels high, we can add a DOM elem
             if (0.5 <= avgBlockH) {
-                // Grey for a matching line, transparent if no match
-                blockColor = haveMatch ? "rgba(128,128,128,0.3)" : "transparent";
                 // Add the DOM elem into our rBlocks string
-                rBlocks += '<div style="position: absolute; display: block; width: 12px; height:' + avgBlockH + 'px; background: ' + blockColor + '; top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px" id="rBlock' + i +'"></div>';
+                if (true === haveMatch) {
+                    rBlocks += '<div style="position: absolute; display: block; width: 12px; height:' + avgBlockH + 'px; background: rgba(128,128,128,0.3); top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px" id="rBlock' + i +'"></div>';
+                }
             }
         });
 
