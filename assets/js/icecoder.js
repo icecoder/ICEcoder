@@ -95,8 +95,11 @@ var ICEcoder = {
         // Set layout
         this.setLayout();
 
+        // State we've over the root dir, enact a selection of it, then state
+        // we're not over it it anymore
         this.overFileFolder('folder', '|');
-        this.selectFileFolder('init');
+        this.selectFileFolder(false, false, false);
+        this.overFileFolder('folder', '');
         this.filesFrame.contentWindow.focus();
 
         // Hide the loading screen & auto open last files?
