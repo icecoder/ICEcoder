@@ -98,7 +98,7 @@ var ICEcoder = {
         // State we've over the root dir, enact a selection of it, then state
         // we're not over it it anymore
         this.overFileFolder('folder', '|');
-        this.selectFileFolder(false, false, false);
+        this.selectFileFolder('init');
         this.overFileFolder('folder', '');
         this.filesFrame.contentWindow.focus();
 
