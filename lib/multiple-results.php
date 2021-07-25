@@ -49,9 +49,9 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
     let foundInSelected = false;
     const userTarget = parent.document.findAndReplace.target.value;
     const findText = parent.document.findAndReplace.find.value;
-    const rExp = new RegExp(true === parent.ICEcoder.findRegex ? findText : parent.ICEcoder.escapeRegex(findText), "gi");
+    const regexFindText = true === parent.ICEcoder.findRegex ? findText : parent.ICEcoder.escapeRegex(findText);
+    const rExp = new RegExp("(" + regexFindText + ")", "gi");
     <?php
-    $findText = str_replace("ICEcoder:", "", str_replace("&#39;", "\'", $_GET['find']));
     // Find in open docs?
     // TODO: This doesn't actually replace if using regex, it doesn't error - tabs show a change, but nothing replaced
     if (false === isset($_GET['target'])) {
@@ -101,15 +101,15 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                 haveMatch = true;
             }
             if (
-                true === haveMatch && -1 < targetURL.indexOf('_perms')) {
+                true === haveMatch && -1 === targetURL.indexOf('_perms')) {
                     if (-1 < userTarget.indexOf("selected")) {
                         for (let j = 0; j < parent.ICEcoder.selectedFiles.length; j++) {
                         if (
-                            // If the pipe delimited targetURL starts with this pipe delimited, non _perms elem selectedFile
-                            0 === targetURL.replace(/\//g, "|").indexOf(parent.ICEcoder.selectedFiles[j].replace(/\//g, "|").replace(/_perms/g, "").toLowerCase())
+                            // If the pipe delimited targetURL starts with this pipe delimited selectedFile
+                            0 === targetURL.replace(/\//g, "|").indexOf(parent.ICEcoder.selectedFiles[j].replace(/\//g, "|").toLowerCase())
                             && (
-                            // If the slash delimited, non _perms elem matches the slasj delimited, non _perms elem
-                            targetURL.replace(/\|/g, "/").replace(/_perms/g, "") === parent.ICEcoder.selectedFiles[j].replace(/\|/g, "/").replace(/_perms/g, "").toLowerCase()
+                            // If the slash delimited elem matches this slash delimited elem
+                            targetURL.replace(/\|/g, "/") === parent.ICEcoder.selectedFiles[j].replace(/\|/g, "/").toLowerCase()
                             ||
                             // Path length for targetURL is greater than path length for this selectedFile and targetURL char at selectedFiles length ends with a slash
                             (targetURL.replace(/\|/g, "/").split("/").length > parent.ICEcoder.selectedFiles[j].replace(/\|/g, "/").split("/").length && "/" === targetURL.charAt(parent.ICEcoder.selectedFiles[j].length)))) {
@@ -122,7 +122,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
                     if (-1 < targetURLElem.parentNode.parentNode.className.indexOf('pft-directory')) {
                         continue;
                     }
-                    const tidiedFileName = targetURLDisplay.replace(/\|/g, "/").replace(/_perms/g, "");
+                    const tidiedFileName = targetURLDisplay.replace(/\|/g, "/");
                     resultsDisplay +=
                         '<a href="javascript:parent.ICEcoder.openFile(\'<?php echo $docRoot;?>' +
                         tidiedFileName +
@@ -132,15 +132,14 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
 
 
                     // Highlight our matches in filename via single regex () capturing group to use with $1
-                    const re = /(<?php echo str_replace("/", "\/",xssClean($findText, 'script')); ?>)/gi;
-                    resultsDisplay += tidiedFileName.replace(re, '<b>$1</b>') + '</a><br>';
+                    resultsDisplay += tidiedFileName.replace(rExp, '<b>$1</b>') + '</a><br>';
 
                     // If replacing in filename
                     <?php if (true === isset($_GET['replace'])) { ?>
                     resultsDisplay +=
                         '<div id="foundCount' + i + '">' +
                         '<?php echo $t['rename to'];?> ' +
-                        tidiedFileName.replace(re, "<b><?php
+                        tidiedFileName.replace(rExp, "<b><?php
                             if (isset($_GET['replace'])) {echo str_replace("&amp;", "&", xssClean($_GET['replace'], 'script'));};
                         ?></b>")+'</div>';
                         <?php
@@ -214,6 +213,7 @@ if (true === isset($_GET['target']) && false !== strpos($_GET['target'], "filena
         }
 
         // TODO: consider $findText here, is OK?
+        $findText = str_replace("ICEcoder:", "", str_replace("&#39;", "\'", $_GET['find']));
         $results = phpGrep($findText, $docRoot . $iceRoot, $docRoot . $iceRoot);
         echo 'resultsDisplay += "' . $results . '";';
         ?>
