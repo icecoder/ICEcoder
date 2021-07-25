@@ -2971,7 +2971,12 @@ var ICEcoder = {
             rExpMatch0String = rData.rExpMatch0String;
 
             // Increment findResult one more if our selection is what we want to find and we want to find next
-            if (find.toLowerCase() === thisSelection.toLowerCase() && false === findPrevious) {
+            // but we're not replacing (replacing removes from array so should not increment thru array index also)
+            if (
+                find.toLowerCase() === thisSelection.toLowerCase() &&
+                false === findPrevious &&
+                (t['and'] !== document.findAndReplace.connector.value || false === canActionChanges)
+            ) {
                 this.findResult++;
             }
 
