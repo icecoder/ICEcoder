@@ -3115,7 +3115,7 @@ var ICEcoder = {
             if (0.5 <= avgBlockH) {
                 // Add the DOM elem into our rBlocks string
                 if (true === haveMatch) {
-                    rBlocks += '<div style="position: absolute; display: block; width: 12px; height:' + avgBlockH + 'px; background: rgba(128,128,128,0.3); top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px" id="rBlock' + i +'"></div>';
+                    rBlocks += '<div class="rBlock" style="height:' + avgBlockH + 'px; top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px" id="rBlock' + i +'"></div>';
                 }
             }
         });
