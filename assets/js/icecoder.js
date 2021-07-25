@@ -1180,6 +1180,11 @@ var ICEcoder = {
     goToLine: function(lineNo, charNo, noFocus) {
         let thisCM, hiddenLines, tgtLineNo;
 
+        // Return early if trying to find line and no files open
+        if (0 === this.openFiles.length) {
+            return false;
+        }
+
         lineNo = lineNo ? lineNo - 1 : get('goToLineNo').value - 1;
         charNo = charNo ? charNo : 0;
 
@@ -2921,9 +2926,7 @@ var ICEcoder = {
                 ("" === balancedInfo['remainder'].replace(/\[\]\{\}\(\)/g, "")) ||
                 "" === find.replace(/\^|\$|\.\*/g, "")
             )) {
-                results.innerHTML = "No results";
-                this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
-                this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+                this.clearResultsDisplays();
                 get('find').style.background = "#800";
                 return false;
             } else {
@@ -3025,9 +3028,7 @@ var ICEcoder = {
                 return true;
 
             } else {
-                results.innerHTML = "No results";
-                this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
-                this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+                this.clearResultsDisplays();
 
                 return false;
             }
@@ -3067,11 +3068,15 @@ var ICEcoder = {
                     '" id="multipleResultsIFrame" style="width: 700px; height: 500px"></iframe>';
             // We have nothing to search for, blank it all out
             } else {
-                results.innerHTML = "No results";
-                this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
-                this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+                this.clearResultsDisplays();
             }
         }
+    },
+
+    clearResultsDisplays: function() {
+        results.innerHTML = this.openFiles.length > 0 ? "No results" : "";
+        this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
+        this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
     },
 
     findInCMContent: function(thisCM, rExp, selectNext) {
@@ -4589,6 +4594,8 @@ var ICEcoder = {
             // Grey out the view icon
             if (0 === this.openFiles.length) {
                 this.fMIconVis('fMView', 0.3);
+                // Also clear any find results
+                this.clearResultsDisplays();
             } else {
                 // Switch the mode & the tab
                 this.switchMode();
