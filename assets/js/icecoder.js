@@ -2893,7 +2893,7 @@ var ICEcoder = {
 
     // Find & replace text according to user selections
     findReplace: function(find, selectNext, canActionChanges, findPrevious) {
-        let replace, results, rExp, thisCM, thisSelection, rBlocks, rExpMatch0String, replaceQS, targetQS, filesQS;
+        let replace, results, rExp, thisCM, thisSelection, rBlocks, rExpMatch0String, replaceQS, targetQS, filesQS, currRBlock;
 
         // Get our replace value and results display
         replace		= get('replace').value;
@@ -3006,6 +3006,12 @@ var ICEcoder = {
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = rBlocks;
                 this.content.contentWindow.document.getElementById('resultsBar').style.display = "inline-block";
 
+                // Mark the currRBlock (result for current line) in red
+                currRBlock = this.content.contentWindow.document.getElementById('rBlock' + (thisCM.getCursor().line + 1));
+                if (currRBlock) {
+                    currRBlock.style.background = "rgba(192,0,0,0.3)";
+                }
+
                 return true;
 
             } else {
@@ -3107,10 +3113,10 @@ var ICEcoder = {
             }
             // If the avg block height for results in results bar is above 0.5 pixels high, we can add a DOM elem
             if (0.5 <= avgBlockH) {
-                // Red for current line, grey for another line, transparent if no match
-                blockColor = haveMatch ? thisCM.getCursor().line + 1 == i ? "rgba(192,0,0,0.3)" : "rgba(128,128,128,0.3)" : "transparent";
+                // Grey for a matching line, transparent if no match
+                blockColor = haveMatch ? "rgba(128,128,128,0.3)" : "transparent";
                 // Add the DOM elem into our rBlocks string
-                rBlocks += '<div style="position: absolute; display: block; width: 12px; height:' + avgBlockH + 'px; background: ' + blockColor + '; top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px"></div>';
+                rBlocks += '<div style="position: absolute; display: block; width: 12px; height:' + avgBlockH + 'px; background: ' + blockColor + '; top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px" id="rBlock' + i +'"></div>';
             }
         });
 
