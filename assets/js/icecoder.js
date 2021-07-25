@@ -2896,6 +2896,8 @@ var ICEcoder = {
             // Considers selecting next on value input, according to user setting
             ICEcoder.findReplace(get('find').value, true === ICEcoder.selectNextOnFindInput, false, false);
             get("find").focus();
+        } else {
+            ICEcoder.findReplace(get('find').value, false, false, false);
         }
     },
 
