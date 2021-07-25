@@ -440,15 +440,7 @@ var ICEcoder = {
         if ("CTRL" !== this.draggingWithKey && (this.ctrlCmdKeyDown(evt) || 17 === key || this.isCmdKey(key))) {
             return true;
         }
-        if (undefined !== typeof this.doFindTimeout) {
-            clearInterval(this.doFindTimeout);
-        }
-        // If we have something to find in this document, find in 50 ms (unless cancelled by another keypress)
-        if ("" !== get('find').value && t['this document'] === document.findAndReplace.target.value) {
-            this.doFindTimeout = setTimeout(function (ic) {
-                ic.findReplace(get('find').value, false, false, false);
-            }, 50, this);
-        }
+
         this.setEditorStats();
     },
 
@@ -474,7 +466,7 @@ var ICEcoder = {
             thisCM.replaceRange("", {line: thisCMPrevLine, ch: 0}, {line: thisCMPrevLine, ch: 1000000}, "+input");
         }
 
-        // Set the cursor to text height, not line height
+        // Set the cursor to text height, not line height and update any old highlighted results message
         setTimeout(function(ic) {
             let paneMatch;
 
@@ -498,6 +490,11 @@ var ICEcoder = {
                     thisCM.setOption("cursorHeight", 1);
                 }
 
+            }
+
+            // If we have no selection but still have highlighted result message, run updateResultsDisplay
+            if ("" === thisCM.getSelection() && 0 === get('results').innerHTML.indexOf("Highlighted result")) {
+                ic.updateResultsDisplay('show');
             }
         }, 0, this);
     },
@@ -618,6 +615,17 @@ var ICEcoder = {
         // Highlight Git diff colors in gutter
         if (this.indexData) {
             this.highlightGitDiffs();
+        }
+
+        // Clear any previous doFindTimeout var
+        if (undefined !== typeof this.doFindTimeout) {
+            clearInterval(this.doFindTimeout);
+        }
+        // If we have something to find in this document, find in 50 ms (unless cancelled by another keypress)
+        if ("" !== get('find').value && t['this document'] === document.findAndReplace.target.value) {
+            this.doFindTimeout = setTimeout(function (ic) {
+                ic.findReplace(get('find').value, false, false, false);
+            }, 50, this);
         }
 
         // Update HTML edited files live
@@ -3009,7 +3017,7 @@ var ICEcoder = {
                 // Mark the currRBlock (result for current line) in red
                 currRBlock = this.content.contentWindow.document.getElementById('rBlock' + (thisCM.getCursor().line + 1));
                 if (currRBlock) {
-                    currRBlock.style.background = "rgba(192,0,0,0.3)";
+                    currRBlock.style.background = "#06c";
                 }
 
                 return true;
@@ -3065,7 +3073,7 @@ var ICEcoder = {
     },
 
     findInCMContent: function(thisCM, rExp, selectNext) {
-        let avgBlockH, addPadding, rBlocks, haveMatch, rExpMatch0String;
+        let avgBlockH, addPadding, rBlocks, haveMatch, rExpMatch0String, rBlockTop;
 
         // Start new iterators for line & last line
         let i = 0;
@@ -3080,8 +3088,8 @@ var ICEcoder = {
         const lineNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").line + 1;
         const chNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").ch;
 
-        // Work out the avg block is either line height or fraction of space available
-        avgBlockH = !this.scrollBarVisible ? thisCM.defaultTextHeight() : parseInt(this.content.style.height, 10) / thisCM.lineCount();
+        // Work out the avg block - is either line height or fraction of space available, but a min of 1px
+        avgBlockH = Math.max(1, !this.scrollBarVisible ? thisCM.defaultTextHeight() : parseInt(this.content.style.height, 10) / thisCM.lineCount());
 
         // Need to add padding if there's no scrollbar, so current line highlighting lines up with it
         addPadding = !this.scrollBarVisible ? thisCM.heightAtLine(0) : 0;
@@ -3096,6 +3104,16 @@ var ICEcoder = {
             haveMatch = false;
             // If we have matches for our regex for this line
             while ((match = rExp.exec(line.text)) !== null) {
+                // rBlockTop is either:
+                // - the default text height (if no scrollbar), or
+                // - screen height divided by num lines (if scrollbar)
+                // multiply whichever by the line number, plus add padding
+                rBlockTop = parseInt(((
+                    !ICEcoder.scrollBarVisible
+                    ? thisCM.defaultTextHeight()
+                    : parseInt(this.content.style.height, 10) / thisCM.lineCount())
+                * (i - 1)) + addPadding, 10);
+
                 rExpMatch0String = match[0];
                 haveMatch = true;
                 // Not the same as last line, add to resultsLines
@@ -3111,12 +3129,9 @@ var ICEcoder = {
                 // Push the line & char position coords into results
                 results.push([i, match.index]);
             }
-            // If the avg block height for results in results bar is above 0.5 pixels high, we can add a DOM elem
-            if (0.5 <= avgBlockH) {
-                // Add the DOM elem into our rBlocks string
-                if (true === haveMatch) {
-                    rBlocks += '<div class="rBlock" style="height:' + avgBlockH + 'px; top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px" id="rBlock' + i +'"></div>';
-                }
+            // If we have a match, add the DOM elem into our rBlocks string
+            if (true === haveMatch) {
+                rBlocks += '<div class="rBlock" style="height:' + avgBlockH + 'px; top: ' + rBlockTop + 'px" id="rBlock' + i +'"></div>';
             }
         });
 
