@@ -2850,7 +2850,7 @@ var ICEcoder = {
         for (let char of input) {
             // Find index of this char in brackets string
             let bracketsIndex = brackets.indexOf(char)
-      
+
             // Not one of the bracket chars, continue to next char
             if (bracketsIndex === -1) {
                 remainder += char;
@@ -2904,6 +2904,7 @@ var ICEcoder = {
             // Considers selecting next on value input, according to user setting
             ICEcoder.findReplace(get('find').value, true === ICEcoder.selectNextOnFindInput, false, false);
             get("find").focus();
+        // Reset results display
         } else {
             ICEcoder.findReplace(get('find').value, false, false, false);
         }
