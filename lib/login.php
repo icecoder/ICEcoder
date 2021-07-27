@@ -103,7 +103,8 @@ echo true === $settingPW ? "Setup" : "Login";
 			echo '<div class="text" style="position: relative"><input type="checkbox" name="disableFurtherRegistration" value="true" style="position: absolute; margin: -1px 0 0 -20px" checked> ' . $t['disable further registrations'] . '</div>';
 		}
 		if ("" === $ICEcoder["password"] || true === $ICEcoder["multiUser"]) {
-			echo '<div class="text" style="position: relative"><input type="checkbox" name="checkUpdates" value="true" style="position: absolute; margin: -1px 0 0 -20px" checked> ' . $t['auto-check for updates'] . '</div>';
+			$tickCheckUpdates = true === $ICEcoder['checkUpdates'] ? " checked" : "";
+			echo '<div class="text" style="position: relative"><input type="checkbox" name="checkUpdates" value="true" style="position: absolute; margin: -1px 0 0 -20px"' . $tickCheckUpdates . '> ' . $t['auto-check for updates'] . '</div>';
 		}
 		if (false === $ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\'' . $t['To put into...'] . '\'); document.settingsUpdate.' . $inputFocus . '.focus();">' . $t['multi-user'] . '?</a></div>';};
 		?>

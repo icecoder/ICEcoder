@@ -228,7 +228,7 @@ if (true === $ICEcoder['loginRequired'] && false === isset($_POST['password']) &
     // If the password hasn't been set and we're setting it
     if ("" === $ICEcoder["password"] && true === isset($_POST['submit']) && -1 < strpos($_POST['submit'], "set password")) {
         $password = generateHash($_POST['password']);
-        $settingsClass->updateConfigUsersSettings($settingsFile, ["password" => $password, "checkUpdates" => $_POST["checkUpdates"]]);
+        $settingsClass->updateConfigUsersSettings($settingsFile, ["password" => $password, "checkUpdates" => isset($_POST["checkUpdates"])]);
         $settingsClass->createIPSettingsFileIfNotExist();
         if (true === isset($_POST['disableFurtherRegistration'])) {
             $settingsClass->updateConfigGlobalSettings(['enableRegistration' => false]);
