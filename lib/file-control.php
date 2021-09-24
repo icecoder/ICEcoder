@@ -177,7 +177,7 @@ if (!$error && "save" === $_GET['action']) {
 
 if (!$error && "newFolder" === $_GET['action']) {
     if (!$demoMode && is_writable($docRoot . $fileLoc)) {
-        mkdir($file, octdec($ICEcoder['newDirPerms']));
+        mkdir($file, octdec((string) $ICEcoder['newDirPerms']));
         $fileClass->updateFileManager('add', $fileLoc, $fileName, '', '', '', 'folder');
         $finalAction = "newFolder";
         // Run any extra processes
@@ -364,7 +364,7 @@ if (!$error && "getRemoteFile" === $_GET['action']) {
 
 if (!$error && "perms" === $_GET['action']) {
     if (!$demoMode && is_writable($file)) {
-        chmod($file, octdec(numClean($_GET['perms'])));
+        chmod($file, octdec((string) numClean($_GET['perms'])));
         $fileClass->updateFileManager('chmod', $fileLoc, $fileName, numClean($_GET['perms']), '', '', '');
         $finalAction = "perms";
         // Run any custom processes

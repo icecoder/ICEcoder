@@ -30,6 +30,7 @@ while (false !== ($file = readdir($handle))) {
 		array_push($themeArray,basename($file,".css"));
 	}
 }
+closedir($handle);
 sort($themeArray);
 for ($i = 0;$i < count($themeArray); $i++) {
 	echo '<link rel="stylesheet" href="../assets/css/theme/' . $themeArray[$i] . '.css?microtime=' . microtime(true) . '">' . PHP_EOL;
@@ -546,6 +547,7 @@ const checkCase = function(evt) {
 const checkCanSubmit = function() {
 	// Password isn't strong enough, shake requirements
 	if("" !== get("password").value && false === pwStrength(get("password").value)) {
+		switchTab('accounts');
 		shake("newPasswordText");
 		shake("password");
 		shake("pwReqs");
@@ -557,6 +559,7 @@ const checkCanSubmit = function() {
 function validatePasswords() {
 	if (true === checkCanSubmit()) {
 		if (document.settings.password.value !== document.settings.passwordConfirm.value) {
+			switchTab('accounts');
             shake("passwordConfirmText");
             shake("passwordConfirm");
 		} else {

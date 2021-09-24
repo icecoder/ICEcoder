@@ -192,6 +192,7 @@ h2 {font-size: 18px; font-weight: normal; color: #fff}
 .screenCenter .text {position: relative; display: block; margin-top: 15px; font-size: 10px; color: #888}
 .screenCenter .text input {margin-top: 1px}
 .screenCenter .text a {position: relative; display: block; margin-top: 15px; font-size: 10px; color: #888; text-decoration: none}
+.screenCenter .adminUser {margin-bottom: 15px; color: #bbb}
 .screenCenter .password {border: 0; background-color: #333; color: #fff; height: 20px}
 .screenCenter .password:focus {outline: none; background: rgba(0,198,255,0.5); color: #fff}
 .screenCenter .button {border: 0; background: #444; color: #eee; height: 22px; cursor: pointer}

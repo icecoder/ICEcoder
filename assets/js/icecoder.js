@@ -32,6 +32,7 @@ var ICEcoder = {
     resultsLines:          [],            // Array of lines containing results (simpler version of results)
     findResult:            0,             // Array position of current find in results
     findRegex:             false,         // If find attempts are done using regex
+    findUpdateMultiInfoID: [],            // ID of multiple results modal elem to update & text, when rename/replace is successful
     scrollbarVisible:      false,         // Indicates if the main pane has a scrollbar
     mouseDown:             false,         // If the mouse is down
     mouseDownInCM:         false,         // If the mouse is down within CodeMirror instance (can be false, 'editor' or 'gutter')
@@ -94,8 +95,11 @@ var ICEcoder = {
         // Set layout
         this.setLayout();
 
+        // State we've over the root dir, enact a selection of it, then state
+        // we're not over it it anymore
         this.overFileFolder('folder', '|');
         this.selectFileFolder('init');
+        this.overFileFolder('folder', '');
         this.filesFrame.contentWindow.focus();
 
         // Hide the loading screen & auto open last files?
@@ -439,15 +443,7 @@ var ICEcoder = {
         if ("CTRL" !== this.draggingWithKey && (this.ctrlCmdKeyDown(evt) || 17 === key || this.isCmdKey(key))) {
             return true;
         }
-        if (undefined !== typeof this.doFindTimeout) {
-            clearInterval(this.doFindTimeout);
-        }
-        // If we have something to find in this document, find in 50 ms (unless cancelled by another keypress)
-        if ("" !== get('find').value && t['this document'] === document.findAndReplace.target.value) {
-            this.doFindTimeout = setTimeout(function (ic) {
-                ic.findReplace(get('find').value, false, false, false);
-            }, 50, this);
-        }
+
         this.setEditorStats();
     },
 
@@ -473,7 +469,7 @@ var ICEcoder = {
             thisCM.replaceRange("", {line: thisCMPrevLine, ch: 0}, {line: thisCMPrevLine, ch: 1000000}, "+input");
         }
 
-        // Set the cursor to text height, not line height
+        // Set the cursor to text height, not line height and update any old highlighted results message
         setTimeout(function(ic) {
             let paneMatch;
 
@@ -497,6 +493,11 @@ var ICEcoder = {
                     thisCM.setOption("cursorHeight", 1);
                 }
 
+            }
+
+            // If we have no selection but still have highlighted result message, run updateResultsDisplay
+            if ("" === thisCM.getSelection() && 0 === get('results').innerHTML.indexOf("Highlighted result")) {
+                ic.updateResultsDisplay('show');
             }
         }, 0, this);
     },
@@ -617,6 +618,17 @@ var ICEcoder = {
         // Highlight Git diff colors in gutter
         if (this.indexData) {
             this.highlightGitDiffs();
+        }
+
+        // Clear any previous doFindTimeout var
+        if (undefined !== typeof this.doFindTimeout) {
+            clearInterval(this.doFindTimeout);
+        }
+        // If we have something to find in this document, find in 50 ms (unless cancelled by another keypress)
+        if ("" !== get('find').value && t['this document'] === document.findAndReplace.target.value) {
+            this.doFindTimeout = setTimeout(function (ic) {
+                ic.findReplace(get('find').value, false, false, false);
+            }, 50, this);
         }
 
         // Update HTML edited files live
@@ -1170,6 +1182,11 @@ var ICEcoder = {
     // Go to a specific line number
     goToLine: function(lineNo, charNo, noFocus) {
         let thisCM, hiddenLines, tgtLineNo;
+
+        // Return early if trying to find line and no files open
+        if (0 === this.openFiles.length) {
+            return false;
+        }
 
         lineNo = lineNo ? lineNo - 1 : get('goToLineNo').value - 1;
         charNo = charNo ? charNo : 0;
@@ -1980,19 +1997,31 @@ var ICEcoder = {
         const re = /^([^ ]*)\s+(on\s+)?(line\s+)?(\d+)/;
         const reMatch = re.exec(fileLink);
 
+        // "on" or "line" word used followed by line number
         if (null !== reMatch) {
             line = reMatch[4];
             fileLink = reMatch[1];
-        } else if (fileLink.indexOf('://') > 0){
+        // :// protocol host separator used
+        } else if (fileLink.indexOf('://') > 0) {
+            // We have a : then number (and : not same index as ://)
             if (fileLink.lastIndexOf(':') !== fileLink.indexOf('://')) {
                 line = fileLink.split(':')[2];
-                fileLink = fileLink.substr(0,fileLink.lastIndexOf(":"));
+                fileLink = fileLink.substr(0, fileLink.lastIndexOf(":"));
             }
-        } else if (fileLink.indexOf(':') > 0){
+        // :/ drive path separator used, likely Windows
+        } else if (fileLink.indexOf(':/') > 0) {
+            // We have a : then number (and : not same index as :/)
+            if (fileLink.lastIndexOf(':') !== fileLink.indexOf(':/')) {
+                line = fileLink.split(':')[2];
+                fileLink = fileLink.substr(0, fileLink.lastIndexOf(":"));
+            }
+        // We have a :
+        } else if (fileLink.indexOf(':') > 0) {
             line = fileLink.split(':')[1];
             fileLink = fileLink.split(':')[0];
         }
-        if ((fileLink.indexOf('(') > 0) && (fileLink.indexOf(')') > 0)){
+        // () Brackets used
+        if ((fileLink.indexOf('(') > 0) && (fileLink.indexOf(')') > 0)) {
             line = fileLink.split('(')[1].split(')')[0];
             fileLink = fileLink.split('(')[0];
         }
@@ -2806,6 +2835,52 @@ var ICEcoder = {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     },
 
+    // Test an input for balanced regex brackets
+    regexIsBalanced: function(input) {
+        const brackets = "[]{}()";
+        const bracketsSlash = brackets + "\\";
+        let stack = [];
+        let remainder = "";
+
+        // Remove backslash escaped brackets & slashes before testing
+        for (let i = 0; i < bracketsSlash.length; i++) {
+            input = input.replace(new RegExp('\\\\\\' + bracketsSlash[i], 'g'), 'ICECODERC' + i)
+        }
+
+        // Go thru each char in input
+        for (let char of input) {
+            // Find index of this char in brackets string
+            let bracketsIndex = brackets.indexOf(char)
+
+            // Not one of the bracket chars, continue to next char
+            if (bracketsIndex === -1) {
+                remainder += char;
+                continue;
+            }
+
+            // If a bracket start: [ { ( push closing bracket onto stack
+            if (bracketsIndex % 2 === 0) {
+              stack.push(bracketsIndex + 1)
+            } else {
+                // When popping brackets off the stack, compare and return false if not matching
+                if (stack.pop() !== bracketsIndex) {
+                  return false;
+                }
+            }
+        }
+
+        // Replace backslash escaped brackets & slashes
+        for (let i = 0; i < bracketsSlash.length; i++) {
+            remainder = remainder.replace(new RegExp('ICECODERC' + i, 'g'), '\\' + bracketsSlash[i])
+        }
+
+        // If we have items left on our stack, we have an unbalanced input
+        return {
+            "balanced" : stack.length === 0,
+            "remainder" : remainder
+        };
+    },
+
     // Toggle on/off regex matching during find
     findRegexToggle: function() {
         // Toggle to opposite bool value and set background according to value
@@ -2830,39 +2905,55 @@ var ICEcoder = {
             // Considers selecting next on value input, according to user setting
             ICEcoder.findReplace(get('find').value, true === ICEcoder.selectNextOnFindInput, false, false);
             get("find").focus();
+        // Reset results display
+        } else {
+            ICEcoder.findReplace(get('find').value, false, false, false);
         }
     },
 
     // Find & replace text according to user selections
     findReplace: function(find, selectNext, canActionChanges, findPrevious) {
-        let replace, results, thisCM, thisSelection, rBlocks, rExpMatch0String, replaceQS, targetQS, filesQS;
+        let replace, results, rExp, thisCM, thisSelection, rBlocks, rExpMatch0String, replaceQS, targetQS, filesQS, currRBlock;
 
-        // Determine our find rExp, replace value and results display
-        const rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegex(find), "gi");
+        // Get our replace value and results display
         replace		= get('replace').value;
         results		= get('results');
 
-        // TODO: This is still a problem if you have unterminated character classes
-        // Simply enable regex finding and press [ or ( ... { doesn't seem to be a problem
-        // Solution: We could check also that the number of [] () pairs match
+        // If we're finding with regex and have a problem with it, highlight find box red and return, avoids CPU crash
+        if (true === parent.ICEcoder.findRegex) {
+            const balancedInfo = this.regexIsBalanced(find); 
 
-        // Return early if we're finding with regex and only have ^ or $ or .*, avoids CPU crash
-        if (true === parent.ICEcoder.findRegex && "" === find.replace(/\^|\$|\.\*/g, "")) {
-            results.innerHTML = "No results";
-            this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
-            this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+            // Turn input box red if empty, or no balancedInfo data, or we have unbalanced bracket pairs, or the remainder
+            // is empty aside from brackets, or find or only has ^ or $ or .*
+            if ("" !== find && (
+                false === balancedInfo ||
+                false === balancedInfo['balanced'] ||
+                ("" === balancedInfo['remainder'].replace(/\[\]\{\}\(\)/g, "")) ||
+                "" === find.replace(/\^|\$|\.\*/g, "")
+            )) {
+                this.clearResultsDisplays();
+                get('find').style.background = "#800";
+                return false;
+            } else {
+                get('find').style.background = "";
+            }
+        }
 
+        // Determine our find rExp, inside a try/catch incase there's an uncaught issue with format
+        try {
+             rExp = new RegExp(true === parent.ICEcoder.findRegex ? find : ICEcoder.escapeRegex(find), "gi");
+        } catch(e) {
             return false;
         }
 
         // Get CM pane
         thisCM = this.getThisCM();
 
-        // Get this selection, either as regex escaped version or regular, for comparisons
-        thisSelection = true === parent.ICEcoder.findRegex ? ICEcoder.escapeRegex(thisCM.getSelection()) : thisCM.getSelection();
-
         // Finding in this document only
         if (thisCM && 0 < find.length && t['this document'] === document.findAndReplace.target.value) {
+            // Get this selection, either as regex escaped version or regular, for comparisons
+            thisSelection = true === parent.ICEcoder.findRegex ? ICEcoder.escapeRegex(thisCM.getSelection()) : thisCM.getSelection();
+
             // Replacing?
             if (t['and'] === document.findAndReplace.connector.value && true === canActionChanges) {
                 // Find & replace the next instance, or all?
@@ -2885,7 +2976,12 @@ var ICEcoder = {
             rExpMatch0String = rData.rExpMatch0String;
 
             // Increment findResult one more if our selection is what we want to find and we want to find next
-            if (find.toLowerCase() === thisSelection.toLowerCase() && false === findPrevious) {
+            // but we're not replacing (replacing removes from array so should not increment thru array index also)
+            if (
+                find.toLowerCase() === thisSelection.toLowerCase() &&
+                false === findPrevious &&
+                (t['and'] !== document.findAndReplace.connector.value || false === canActionChanges)
+            ) {
                 this.findResult++;
             }
 
@@ -2933,12 +3029,16 @@ var ICEcoder = {
                 this.content.contentWindow.document.getElementById('resultsBar').innerHTML = rBlocks;
                 this.content.contentWindow.document.getElementById('resultsBar').style.display = "inline-block";
 
+                // Mark the currRBlock (result for current line) in red
+                currRBlock = this.content.contentWindow.document.getElementById('rBlock' + (thisCM.getCursor().line + 1));
+                if (currRBlock) {
+                    currRBlock.style.background = "#06c";
+                }
+
                 return true;
 
             } else {
-                results.innerHTML = "No results";
-                this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
-                this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+                this.clearResultsDisplays();
 
                 return false;
             }
@@ -2978,15 +3078,19 @@ var ICEcoder = {
                     '" id="multipleResultsIFrame" style="width: 700px; height: 500px"></iframe>';
             // We have nothing to search for, blank it all out
             } else {
-                results.innerHTML = "No results";
-                this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
-                this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+                this.clearResultsDisplays();
             }
         }
     },
 
+    clearResultsDisplays: function() {
+        results.innerHTML = this.openFiles.length > 0 ? "No results" : "";
+        this.content.contentWindow.document.getElementById('resultsBar').innerHTML = "";
+        this.content.contentWindow.document.getElementById('resultsBar').style.display = "none";
+    },
+
     findInCMContent: function(thisCM, rExp, selectNext) {
-        let avgBlockH, addPadding, rBlocks, haveMatch, blockColor, rExpMatch0String;
+        let avgBlockH, addPadding, rBlocks, haveMatch, rExpMatch0String, rBlockTop, lastRBlockTop;
 
         // Start new iterators for line & last line
         let i = 0;
@@ -3001,8 +3105,8 @@ var ICEcoder = {
         const lineNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").line + 1;
         const chNum = thisCM.getCursor(true === selectNext ? "anchor" : "head").ch;
 
-        // Work out the avg block is either line height or fraction of space available
-        avgBlockH = !this.scrollBarVisible ? thisCM.defaultTextHeight() : parseInt(this.content.style.height, 10) / thisCM.lineCount();
+        // Work out the avg block - is either line height or fraction of space available, but a min of 1px
+        avgBlockH = Math.max(1, !this.scrollBarVisible ? thisCM.defaultTextHeight() : parseInt(this.content.style.height, 10) / thisCM.lineCount());
 
         // Need to add padding if there's no scrollbar, so current line highlighting lines up with it
         addPadding = !this.scrollBarVisible ? thisCM.heightAtLine(0) : 0;
@@ -3011,12 +3115,23 @@ var ICEcoder = {
         rBlocks = "";
 
         rExpMatch0String = "";
+        lastRBlockTop = 0;
 
         thisCM.eachLine(function(line) {
             i++;
             haveMatch = false;
             // If we have matches for our regex for this line
             while ((match = rExp.exec(line.text)) !== null) {
+                // rBlockTop is either:
+                // - the default text height (if no scrollbar), or
+                // - screen height divided by num lines (if scrollbar)
+                // multiply whichever by the line number, plus add padding
+                rBlockTop = parseInt(((
+                    !ICEcoder.scrollBarVisible
+                    ? thisCM.defaultTextHeight()
+                    : parseInt(this.content.style.height, 10) / thisCM.lineCount())
+                * (i - 1)) + addPadding, 10);
+
                 rExpMatch0String = match[0];
                 haveMatch = true;
                 // Not the same as last line, add to resultsLines
@@ -3032,12 +3147,10 @@ var ICEcoder = {
                 // Push the line & char position coords into results
                 results.push([i, match.index]);
             }
-            // If the avg block height for results in results bar is above 0.5 pixels high, we can add a DOM elem
-            if (0.5 <= avgBlockH) {
-                // Red for current line, grey for another line, transparent if no match
-                blockColor = haveMatch ? thisCM.getCursor().line + 1 == i ? "rgba(192,0,0,0.3)" : "rgba(128,128,128,0.3)" : "transparent";
-                // Add the DOM elem into our rBlocks string
-                rBlocks += '<div style="position: absolute; display: block; width: 12px; height:' + avgBlockH + 'px; background: ' + blockColor + '; top: ' + parseInt((avgBlockH * (i - 1)) + addPadding, 10) + 'px"></div>';
+            // If we have a match, add the DOM elem into our rBlocks string
+            if (true === haveMatch && rBlockTop !== lastRBlockTop) {
+                rBlocks += '<div class="rBlock" style="height:' + avgBlockH + 'px; top: ' + rBlockTop + 'px" id="rBlock' + i +'"></div>';
+                lastRBlockTop = rBlockTop;
             }
         });
 
@@ -3547,8 +3660,15 @@ var ICEcoder = {
                                 console.log(statusObj);
                                 ICEcoder.serverMessage();
                                 ICEcoder.serverQueue('del');
+                            // Successful, process the requested action to take now
                             } else {
                                 eval(statusObj.action.doNext);
+                                // If we need to update the multiple results pane with new info now a task is done successfully
+                                if (ICEcoder.findUpdateMultiInfoID[0]) {
+                                    get('multipleResultsIFrame').contentWindow.document.getElementById(ICEcoder.findUpdateMultiInfoID[0])
+                                        .innerHTML = ICEcoder.findUpdateMultiInfoID[1];
+                                    ICEcoder.findUpdateMultiInfoID = [];
+                                }
                             }
                             // Some other response? Display a message about that
                         } else {
@@ -3846,7 +3966,6 @@ var ICEcoder = {
         thisCSS[strCSS][4].style['margin-left'] = settings.visibleTabs ? '-1px' : '0';
         thisCSS[strCSS][2].style.cssText = "background-color: " + activeLineBG + " !important";
         thisCSS[strCSS][5].style.cssText = "color: " + activeLineNum + " !important";
-        console.log(thisCSS[strCSS][2])
 
         // Set many of the ICEcoder settings
         this.lineWrapping = settings.lineWrapping;
@@ -4124,9 +4243,7 @@ var ICEcoder = {
 
                 xhr.onreadystatechange=function() {
                     if (4 === xhr.readyState && 200 === xhr.status) {
-                        // console.log(xhr.responseText);
                         var statusArray = JSON.parse(xhr.responseText);
-                        // console.log(statusArray);
 
                         get('bugIcon').style.color =
                             statusArray['result'] == "off" ? "" :
@@ -4147,7 +4264,6 @@ var ICEcoder = {
 
                     }
                 };
-                // console.log('Calling '+bugCheckURL+' via XHR');
                 xhr.open("GET", bugCheckURL, true);
                 xhr.send();
 
@@ -4448,7 +4564,7 @@ var ICEcoder = {
                 : this.savedPoints[closeTabNum - 1] !== this.getcMInstance(closeTabNum).changeGeneration()
             )
         )) {
-            okToRemove = this.ask(t['You have made...']);
+            okToRemove = this.ask(t['You have made...'] + "\n\n" + this.openFiles[closeTabNum - 1]);
         }
 
         if (true === okToRemove) {
@@ -4492,6 +4608,8 @@ var ICEcoder = {
             // Grey out the view icon
             if (0 === this.openFiles.length) {
                 this.fMIconVis('fMView', 0.3);
+                // Also clear any find results
+                this.clearResultsDisplays();
             } else {
                 // Switch the mode & the tab
                 this.switchMode();

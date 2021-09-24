@@ -296,6 +296,7 @@ $text = [
         "No matches found"                         => "جستجو نتیجه ای نداشت",
         "selected"                                 => "انتخاب شده",
         "found in"                                 => "یافتن در",
+        "Renamed"                                  => "Renamed",
         "Replaced"                                 => "جایگزین شود",
     ],
 

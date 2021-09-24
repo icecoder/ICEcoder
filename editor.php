@@ -84,26 +84,18 @@ if (false !== array_search($ICEcoder["theme"], ["base16-light", "chrome-devtools
 .CodeMirror-foldgutter-folded {background: #800; color: #ddd}
 .CodeMirror-foldgutter-folded:after {position: relative; top: -4px}
 h2 {color: rgba(0,198,255,0.7)}
-.heading {color: #888}
 .cm-s-diff {left: 50%}
-.diffGreen {background: #0b0 !important; color: #000 !important}
-.diffRed {background: #800 !important; color: #fff !important}
-.diffGrey {background: #444 !important; color: #fff !important}
-.diffGreyLighter {background: #888 !important; color: #1d1d1b !important}
-.diffNone {}
-.info {font-size: 10px; color: rgba(0,198,255,0.7); cursor: help}
-.dataItems {float: left; line-height: 14px}
-.dataItems span {line-height: 21px}
 </style>
+<link rel="stylesheet" href="assets/css/editor.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="assets/css/file-types.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="assets/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body style="color: #fff; margin: 0" onkeydown="return parent.ICEcoder.interceptKeys('content', event);" onkeyup="parent.ICEcoder.resetKeys(event);" onblur="parent.ICEcoder.resetKeys(event);" oncontextmenu="return false">
 
-<div style="display: none; margin: 32px 43px 0 43px; padding: 10px; width: 500px; font-family: arial; font-size: 10px; color: #ddd; background: #333" id="dataMessage"></div>
+<div class="dataMessage" id="dataMessage"></div>
 
-<div style="margin: 20px 43px 32px 43px; font-family: arial; font-size: 10px; color: #ddd">
+<div class="dataItemsContainer">
 	<div class="dataItems" style="width: 300px; margin-right: 50px">
 		<h2><?php echo $t['server'];?></h2>
 		<span class="heading"><?php echo $t['Server name, OS...'];?></span><br>
@@ -294,7 +286,7 @@ function createNewCMInstanceEvents(num, pane) {
 }
 </script>
 
-<div style="position: absolute; display: none; width: 12px; height: 100%; top: 0; right: 0; overflow: hidden; pointer-events: none; z-index: 2" id="resultsBar"></div>
+<div class="resultsBar" id="resultsBar"></div>
 
 <script>
 CodeMirror.commands.autocomplete = function(cM) {

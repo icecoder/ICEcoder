@@ -58,7 +58,7 @@ $ICEcoderSettings = $settingsClass->getConfigGlobalSettings();
 include_once dirname(__FILE__) . "/settings-common.php";
 
 // Establish user settings file
-$username = "";
+$username = "admin-";
 if (true === isset($_POST['username']) && "" !== $_POST['username']) {$username = $_POST['username'] . "-";};
 if (true === isset($_SESSION['username']) && "" !== $_SESSION['username']) {$username = $_SESSION['username'] . "-";};
 $settingsFile = 'config-' . $username . str_replace(".", "_", str_replace("www.", "", $_SERVER['SERVER_NAME'])) . '.php';
@@ -72,11 +72,24 @@ if (true === $ICEcoderSettings['enableRegistration'] && false === $settingsClass
         $reqsFailures = ["phpUsersConfigCreateConfig"];
         include dirname(__FILE__) . "/requirements.php";
     }
+    // Initial setup,triggered from index,php...
+    if ("index.php" === basename($_SERVER['SCRIPT_NAME'])) {
+        // Set bug reporting for ICEcoders error.log file
+        $settingsClass->updateConfigUsersSettings($settingsFile, ["bugFilePaths" => [dirname($_SERVER['SCRIPT_NAME']) . "/data/logs/error/error.log"]]);
+        $settingsClass->updateConfigUsersSettings($settingsFile, ["bugFileCheckTimer" => 10]);
+        $settingsClass->updateConfigUsersSettings($settingsFile, ["bugFileMaxLines" => 10]);
+    }
     $setPWorLogin = "set password";
 }
 
 // Check users config settings file exists
 if (false === $settingsClass->getConfigUsersFileDetails($settingsFile)['exists']) {
+    // If on the login page and we couldn't find the file, boot back to login page
+    if ("login.php" === basename($_SERVER['SCRIPT_NAME'])) {
+        header('Location: login.php');
+        echo "<script>window.location = 'login.php';</script>";
+        die('Redirecting to login...');
+    }
     $reqsFailures = ["phpUsersConfigFileExists"];
     include dirname(__FILE__) . "/requirements.php";
 }
@@ -215,7 +228,7 @@ if (true === $ICEcoder['loginRequired'] && false === isset($_POST['password']) &
     // If the password hasn't been set and we're setting it
     if ("" === $ICEcoder["password"] && true === isset($_POST['submit']) && -1 < strpos($_POST['submit'], "set password")) {
         $password = generateHash($_POST['password']);
-        $settingsClass->updateConfigUsersSettings($settingsFile, ["password" => $password, "checkUpdates" => $_POST["checkUpdates"]]);
+        $settingsClass->updateConfigUsersSettings($settingsFile, ["password" => $password, "checkUpdates" => isset($_POST["checkUpdates"])]);
         $settingsClass->createIPSettingsFileIfNotExist();
         if (true === isset($_POST['disableFurtherRegistration'])) {
             $settingsClass->updateConfigGlobalSettings(['enableRegistration' => false]);

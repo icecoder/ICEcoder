@@ -12,7 +12,19 @@ if (false === $ICEcoder['loginRequired']) {
 
 $t = $text['login'];
 
-$settingPW = $ICEcoder["enableRegistration"] && ($ICEcoder["multiUser"] || "" === $ICEcoder["password"]);
+$settingPW = true === $ICEcoder["enableRegistration"] && (true === $ICEcoder["multiUser"] || "" === $ICEcoder["password"]);
+
+// If multiUser, detect which users we have
+if ($ICEcoder["multiUser"]) {		
+	$configUsernames = [];
+	$handle = opendir('../data/');
+	while (false !== ($file = readdir($handle))) {
+		if ($file !== "config-global.php" && 0 === strpos($file, "config-")) {
+			$configUsernames[explode("-", $file)[1]] = true;
+		}
+	}
+	closedir($handle);
+}
 ?>
 <!DOCTYPE html>
 
@@ -20,7 +32,7 @@ $settingPW = $ICEcoder["enableRegistration"] && ($ICEcoder["multiUser"] || "" ==
 <head>
 <title>ICEcoder <?php
 echo $ICEcoder["versionNo"] . " : ";
-echo $settingPW ? "Setup" : "Login";
+echo true === $settingPW ? "Setup" : "Login";
 ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
@@ -30,7 +42,7 @@ echo $settingPW ? "Setup" : "Login";
 <link rel="icon" type="image/png" href="../assets/images/favicon.png">
 </head>
 
-<body style="background-color: #181817" onLoad="<?php if (false === isset($_GET["get"])) {$inputFocus = true === $ICEcoder["multiUser"] ? "username" : "password"; echo "document.settingsUpdate." . $inputFocus . ".focus(); ";}; ?>setTimeout(function(){document.getElementById('screenContainer').style.opacity = '1'}, 50)">
+<body style="background-color: #181817" onLoad="<?php if (false === isset($_GET["get"])) {$inputFocus = true === $ICEcoder["multiUser"] && (true === $ICEcoder["enableRegistration"] || 1 < count($configUsernames)) ? "username" : "password"; echo "document.settingsUpdate." . $inputFocus . ".focus(); ";}; ?>setTimeout(function(){document.getElementById('screenContainer').style.opacity = '1'}, 50)">
 
 <div class="screenContainer" id="screenContainer" style="background-color: #181817; opacity: 0; transition: opacity 0.1s ease-out">
 	<div class="screenVCenter">
@@ -38,19 +50,29 @@ echo $settingPW ? "Setup" : "Login";
 		<img src="../assets/images/icecoder.png" alt="ICEcoder">
 		<div class="version" style="margin-bottom: 22px"><?php echo $ICEcoder["versionNo"];?></div>
 
-		<form name="settingsUpdate" action="login.php" method="POST"<?php if ($settingPW) {?> onsubmit="return checkCanSubmit();"<?php } ?>>
+		<form name="settingsUpdate" action="login.php" method="POST"<?php if (true === $settingPW) {?> onsubmit="return checkCanSubmit();"<?php } ?>>
+		<?php
+		if (true === $settingPW && false === $ICEcoder["multiUser"]) {
+			echo '<div class="text adminUser">User: admin</div>';
+		}
+		?>
         <?php
-		if ($ICEcoder["multiUser"]) {echo '<input type="text" name="username" class="password"><br><br>';};
+		// Display username field if multiUser enabled
+		if (true === $ICEcoder["multiUser"]) {
+			// Also set value to "admin" if only 1 user (has to be admin)
+			$showAdminValue = 1 === count($configUsernames) ? ' value="admin"' : '';
+			echo '<input type="text" name="username"' . $showAdminValue . ' class="password"><br><br>';
+		};
 		?>
 		<input type="password" name="password" class="password" id="password"<?php
-            if ($settingPW) {
+            if (true === $settingPW) {
                 ?> onkeyup="checkCase(event); pwStrength(this.value)" onchange="pwStrength(this.value)" onpaste="pwStrength(this.value)"<?php
             } else {
                 ?> onkeyup="checkCase(event)"<?php
             }
             ?>><div class="iconCapsLock" style="display: none" id="iconCapsLock" title="Caps lock on"><?php echo file_get_contents(dirname(__FILE__) . "/../assets/images/icons/alert-triangle.svg");?></div><br>
 		<?php
-		if ($settingPW) {
+		if (true === $settingPW) {
 			echo '<div id="pwReqs">'.
 				 '<div class="text" style="display: inline-block" id="pwChars">10+</div> &nbsp; ' .
 				 '<div class="text" style="display: inline-block" id="pwUpper">upper</div> &nbsp; ' .
@@ -81,7 +103,8 @@ echo $settingPW ? "Setup" : "Login";
 			echo '<div class="text" style="position: relative"><input type="checkbox" name="disableFurtherRegistration" value="true" style="position: absolute; margin: -1px 0 0 -20px" checked> ' . $t['disable further registrations'] . '</div>';
 		}
 		if ("" === $ICEcoder["password"] || true === $ICEcoder["multiUser"]) {
-			echo '<div class="text" style="position: relative"><input type="checkbox" name="checkUpdates" value="true" style="position: absolute; margin: -1px 0 0 -20px" checked> ' . $t['auto-check for updates'] . '</div>';
+			$tickCheckUpdates = true === $ICEcoder['checkUpdates'] ? " checked" : "";
+			echo '<div class="text" style="position: relative"><input type="checkbox" name="checkUpdates" value="true" style="position: absolute; margin: -1px 0 0 -20px"' . $tickCheckUpdates . '> ' . $t['auto-check for updates'] . '</div>';
 		}
 		if (false === $ICEcoder["multiUser"]) { echo '<div class="text"><a href="javascript:alert(\'' . $t['To put into...'] . '\'); document.settingsUpdate.' . $inputFocus . '.focus();">' . $t['multi-user'] . '?</a></div>';};
 		?>
