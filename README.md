@@ -6,6 +6,8 @@ ICEcoder is a browser based code editor, which provides a modern approach to bui
 
 <img src="https://icecoder.net/images/icecoder-8-1-browser-code-editor.png" alt="ICEcoder code editor">
 
+<img src=https://fv9-3.failiem.lv/thumb_show.php?i=2sdsj9ysd&view" alt="ICEcoder code editor with Torres Digital Theme">
+
 ### Requirements
 
 You can run ICEcoder either online or locally, on Linux, Windows or Mac based platforms. The only requirement is to have PHP 7 available (7.4 recommended). You can have this either as a vanilla installation or via a program such as WAMP or XAMPP (for Windows) or MAMP (for Mac).
