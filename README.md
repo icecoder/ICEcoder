@@ -6,7 +6,7 @@ ICEcoder is a browser based code editor, which provides a modern approach to bui
 
 <img src="https://icecoder.net/images/icecoder-8-1-browser-code-editor.png" alt="ICEcoder code editor">
 
-<img src=https://fv9-3.failiem.lv/thumb_show.php?i=2sdsj9ysd&view" alt="ICEcoder code editor with Torres Digital Theme">
+<img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/bafbc8128114241.614f9668c8199.jpg" alt="ICEcoder code editor with Torres Digital Theme">
 
 ### Requirements
 
