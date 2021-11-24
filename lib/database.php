@@ -11,5 +11,5 @@ function adminer_object() {
 }
 
 // include original Adminer or Adminer Editor
-include "./database-adminer-480-en.php";
+include "./database-adminer-481-en.php";
 ?>
