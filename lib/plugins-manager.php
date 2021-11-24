@@ -242,7 +242,7 @@ function deletePlugin($dir) {
                     }
 
                     $reloadExtra = "true" === $pluginsData[$i]['reload'] ? '<br><span style="color: #888">' . $t['Reload after install...'] . '</span>' : '';
-                    echo '<td style="padding: 0 10px 18px 0; width: 28px; text-align: center"><img src="https://icecoder.net/' . $pluginsData[$i]['icon'] . '" alt="'.$pluginsData[$i]['name'] . '"></td>';
+                    echo '<td style="padding: 0 10px 18px 0; width: 28px; text-align: center"><img src="https://plugins.icecoder.net/' . $pluginsData[$i]['icon'] . '" alt="'.$pluginsData[$i]['name'] . '"></td>';
                     echo '<td style="padding: 8px 10px 8px 0; width: 250px; white-space: nowrap">' . $pluginsData[$i]['name'] . $reloadExtra . '</td>';
                     $styleExtra = (1 === $i % 2 || $i === count($pluginsData) - 1) ? "0" : "30px";
                     echo '<td style="padding: 3px ' . $styleExtra . ' 8px 0">' . $installUninstallButton . '</td>';
