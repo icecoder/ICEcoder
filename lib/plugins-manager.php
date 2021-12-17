@@ -63,7 +63,7 @@ if (false === $demoMode && isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']
 
         $ICEcoder["plugins"][] = [
             $pluginsData[$_GET['plugin']]['name'],
-            $pluginsData[$_GET['plugin']]['icon'],
+            str_replace("images/", "plugins/", $pluginsData[$_GET['plugin']]['icon']),
             $pluginsData[$_GET['plugin']]['style'],
             $pluginsData[$_GET['plugin']]['URL'],
             $pluginsData[$_GET['plugin']]['target'],
