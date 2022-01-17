@@ -150,7 +150,7 @@ h2 {color: rgba(0,198,255,0.7)}
             ?>
             <h2><?php echo $t['multi-user']; ?></h2>
             <span class="heading"><?php echo $t['Username']; ?></span><br>
-            <?php echo $_SESSION['username'];?><br><br>
+            <?php echo xssClean($_SESSION['username'], "html");?><br><br>
             <?php
         }
         ?>
