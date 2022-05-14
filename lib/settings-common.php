@@ -25,15 +25,24 @@ if(false === isset($_SESSION)) {
 	ini_set('session.httponly', true);                           // Only allow http protocol (ie, not JS) access to the cookie
 	ini_set('session.cookie_httponly', true);                    // Only allow cookie via http protocol (ie, not JS) access to the cookie
 //	ini_set('session.save_path', dirname(__FILE__) . '/../tmp'); // Localise the session files to /tmp
-	if(false === isset($_COOKIE['ICEcoder'])) {
-		$_COOKIE['ICEcoder'] = session_create_id();
-	}
-	session_id($_COOKIE['ICEcoder']);
 
+	if (false === isset($_COOKIE['ICEcoder'])) {
+		// PHP v7.1+
+		if (function_exists('session_create_id')) {
+			$_COOKIE['ICEcoder'] = session_create_id();
+			session_id($_COOKIE['ICEcoder']);
+		// PHP v7.0 fallback
+		} else {
+			session_start();
+			$_COOKIE['ICEcoder'] = session_id();
+		}
+	}
 	if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 		ini_set('session.cookie_secure', '1');                   // Only allows access to session ID when protocol is HTTPS, switched on under 'if https' condition
 	}
-	session_start();                                             // Finally, start the session!
+	if (false === isset($_SESSION)) {
+		session_start();
+	}
 	if (false === isset($_SESSION['csrf'])){
 		session_regenerate_id(true);                             // Create a new ID to help prevent fixation & hijacking
 		$_COOKIE['ICEcoder'] = session_id();
