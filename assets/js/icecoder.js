@@ -2899,10 +2899,14 @@ var ICEcoder = {
     },
 
     findOnInput: function() {
+    	let thisCM, selectNext;
         // Realtime finding - only action for finding in current doc
         if ("" !== get('find').value && t['this document'] === document.findAndReplace.target.value) {
-            // Considers selecting next on value input, according to user setting
-            ICEcoder.findReplace(get('find').value, true === ICEcoder.selectNextOnFindInput, false, false);
+            // Get CM pane
+            thisCM = this.getThisCM();
+            // Consider selecting next on value input, according to not having result selected already and user setting
+            selectNext = thisCM.getSelection() !== get('find').value && true === ICEcoder.selectNextOnFindInput;
+            ICEcoder.findReplace(get('find').value, selectNext, false, false);
             get("find").focus();
         // Reset results display
         } else {
