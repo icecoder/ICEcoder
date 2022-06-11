@@ -2,6 +2,10 @@
 include "headers.php";
 include "settings.php";
 $t = $text['help'];
+
+$assetsPath = "assets" === $settingsClass->assetsRoot
+    ? "../" . $settingsClass->assetsRoot
+    : $settingsClass->assetsRoot;
 ?>
 <!DOCTYPE html>
 
@@ -10,8 +14,8 @@ $t = $text['help'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> help</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="../assets/css/resets.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" type="text/css" href="../assets/css/help.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $assetsPath;?>/css/resets.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $assetsPath;?>/css/help.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="help" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'help')" onload="this.focus();">

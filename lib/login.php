@@ -25,6 +25,10 @@ if ($ICEcoder["multiUser"]) {
 	}
 	closedir($handle);
 }
+
+$assetsPath = "assets" === $settingsClass->assetsRoot
+    ? "../" . $settingsClass->assetsRoot
+    : $settingsClass->assetsRoot
 ?>
 <!DOCTYPE html>
 
@@ -37,9 +41,9 @@ echo true === $settingPW ? "Setup" : "Login";
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="stylesheet" type="text/css" href="../assets/css/resets.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" type="text/css" href="../assets/css/icecoder.css?microtime=<?php echo microtime(true);?>">
-<link rel="icon" type="image/png" href="../assets/images/favicon.png">
+<link rel="stylesheet" type="text/css" href="<?php echo $assetsPath;?>/css/resets.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $assetsPath;?>/css/icecoder.css?microtime=<?php echo microtime(true);?>">
+<link rel="icon" type="image/png" href="<?php echo $assetsPath;?>/images/favicon.png">
 </head>
 
 <body style="background-color: #181817" onLoad="<?php if (false === isset($_GET["get"])) {$inputFocus = true === $ICEcoder["multiUser"] && (true === $ICEcoder["enableRegistration"] || 1 < count($configUsernames)) ? "username" : "password"; echo "document.settingsUpdate." . $inputFocus . ".focus(); ";}; ?>setTimeout(function(){document.getElementById('screenContainer').style.opacity = '1'}, 50)">
@@ -47,7 +51,7 @@ echo true === $settingPW ? "Setup" : "Login";
 <div class="screenContainer" id="screenContainer" style="background-color: #181817; opacity: 0; transition: opacity 0.1s ease-out">
 	<div class="screenVCenter">
 		<div class="screenCenter">
-		<img src="../assets/images/icecoder.png" alt="ICEcoder">
+		<img src="<?php echo $assetsPath;?>/images/icecoder.png" alt="ICEcoder">
 		<div class="version" style="margin-bottom: 22px"><?php echo $ICEcoder["versionNo"];?></div>
 
 		<form name="settingsUpdate" action="login.php" method="POST"<?php if (true === $settingPW) {?> onsubmit="return checkCanSubmit();"<?php } ?>>

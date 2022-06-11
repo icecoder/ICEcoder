@@ -8,6 +8,10 @@ $t = $text['multiple-results'];
 $selectedFiles = true === isset($_GET['selectedFiles'])
     ? explode(":", $_GET['selectedFiles'])
     : [];
+
+$assetsPath = "assets" === $settingsClass->assetsRoot
+    ? "../" . $settingsClass->assetsRoot
+    : $settingsClass->assetsRoot
 ?>
 <!DOCTYPE html>
 
@@ -16,8 +20,8 @@ $selectedFiles = true === isset($_GET['selectedFiles'])
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> multiple results screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="../assets/css/resets.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" type="text/css" href="../assets/css/multiple-results.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $assetsPath;?>/css/resets.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $assetsPath;?>/css/multiple-results.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="results" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'multipleResults')" onload="parent.document.getElementById('loadingMask').style.visibility = 'hidden'; this.focus();">

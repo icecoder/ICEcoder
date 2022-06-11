@@ -2,6 +2,10 @@
 include "headers.php";
 include "settings.php";
 $t = $text['settings-screen'];
+
+$assetsPath = "assets" === $settingsClass->assetsRoot
+    ? "../" . $settingsClass->assetsRoot
+    : $settingsClass->assetsRoot
 ?>
 <!DOCTYPE html>
 
@@ -10,9 +14,9 @@ $t = $text['settings-screen'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> settings screen</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="../assets/css/settings-screen.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="../assets/css/codemirror.css?microtime=<?php echo microtime(true);?>">
-<script src="../assets/js/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $assetsPath;?>/css/settings-screen.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $assetsPath;?>/css/codemirror.css?microtime=<?php echo microtime(true);?>">
+<script src="<?php echo $assetsPath;?>/js/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 
 <style type="text/css">
 .CodeMirror {position: absolute; width: 309px; height: 180px; font-size: <?php echo $ICEcoder["fontSize"];?>; transition: font-size 0.25s ease}
@@ -21,7 +25,7 @@ $t = $text['settings-screen'];
 .cm-tab {border-left-width: <?php echo $ICEcoder["visibleTabs"] ? "1px" : "0";?>; margin-left: <?php echo $ICEcoder["visibleTabs"] ? "-1px" : "0";?>; border-left-style: solid; border-left-color: rgba(255,255,255,0.2)}
 </style>
 
-<link rel="stylesheet" href="../assets/css/theme/icecoder.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $assetsPath;?>/css/theme/icecoder.css?microtime=<?php echo microtime(true);?>">
 <?php
 $themeArray = [];
 $handle = opendir('../assets/css/theme/');
@@ -33,22 +37,17 @@ while (false !== ($file = readdir($handle))) {
 closedir($handle);
 sort($themeArray);
 for ($i = 0;$i < count($themeArray); $i++) {
-	echo '<link rel="stylesheet" href="../assets/css/theme/' . $themeArray[$i] . '.css?microtime=' . microtime(true) . '">' . PHP_EOL;
+	echo '<link rel="stylesheet" href="' . $assetsPath . '/css/theme/' . $themeArray[$i] . '.css?microtime=' . microtime(true) . '">' . PHP_EOL;
 }
 
-// Do we have a tab to switch to?
-$tabSwitchExtra = "";
-if (true === isset($_GET['tab'])) {
-    $tabSwitchExtra = "switchTab('" . $_GET['tab'] . "');";
-}
 ?>
-<link rel="stylesheet" href="../assets/css/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $assetsPath;?>/css/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 </head>
 
-<body class="settings" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'settings')" onload="<?php echo $tabSwitchExtra;?>this.focus();">
+<body class="settings" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'settings')" onload="this.focus();">
 
 <div class="infoPane">
-	<a href="https://icecoder.net" target="_blank"><img src="../assets/images/icecoder.png" alt="ICEcoder" class="logo"></a>
+	<a href="https://icecoder.net" target="_blank"><img src="<?php echo $assetsPath;?>/images/icecoder.png" alt="ICEcoder" class="logo"></a>
 
 	<h1 style="margin: 10px 0"><?php echo $t['settings'];?></h1>
 
@@ -205,14 +204,18 @@ if (true === isset($_GET['tab'])) {
 		// Display number of days backups available
 		$backupDirBase = str_replace("\\", "/", dirname(__FILE__)) . "/../data/backups/";
 		$backupDirHost = "localhost";
-		$backupDirsList = scandir($backupDirBase . $backupDirHost);
-		// Remove . and .. from array
-		for ($i = 0; $i < count($backupDirsList); $i++) {
-			if ($backupDirsList[$i] === "." || $backupDirsList[$i] === "..") {
-				array_splice($backupDirsList, $i, 1);
-				$i--;
-			}
-		}
+        if (true === is_dir($backupDirBase . $backupDirHost)) {
+            $backupDirsList = scandir($backupDirBase . $backupDirHost);
+            // Remove . and .. from array
+            for ($i = 0; $i < count($backupDirsList); $i++) {
+                if ($backupDirsList[$i] === "." || $backupDirsList[$i] === "..") {
+                    array_splice($backupDirsList, $i, 1);
+                    $i--;
+                }
+            }
+        } else {
+            $backupDirsList = [];
+        }
 		// Display text re the number of days backups have taken place
 		$backupNumDays = "" != $backupDirsList[0] && count($backupDirsList) > 0 ? count($backupDirsList) : 0;
 		echo $backupNumDays . " " . (1 !== $backupNumDays ? $t['days'] : $t['day']) . " " . $t['of backups stored...'];
@@ -594,6 +597,12 @@ function switchTab(tab) {
 function submitSettings() {
     <?php echo true === $ICEcoder['demoMode'] ? "parent.ICEcoder.message('Sorry, can\'t commit settings in demo mode')" : "validatePasswords()"; ?>;
 }
+<?php
+// Do we have a tab to switch to?
+if (true === isset($_GET['tab'])) {
+    echo "switchTab('" . $_GET['tab'] . "');";
+}
+?>
 </script>
 
 <div class="update" id="updateButton" onclick="submitSettings()">update</div>

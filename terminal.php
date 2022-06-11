@@ -9,7 +9,7 @@ include "lib/settings.php";
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
-<link rel="stylesheet" type="text/css" href="assets/css/terminal.css?microtime=<?php echo microtime(true);?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo $settingsClass->assetsRoot;?>/css/terminal.css?microtime=<?php echo microtime(true);?>" />
 <script type="text/javascript" language="JavaScript">
 commandHistory = [];
 currentLine = 0;

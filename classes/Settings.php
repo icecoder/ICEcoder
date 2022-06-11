@@ -7,8 +7,10 @@ class Settings
     public function __construct()
     {
         // Set version number and document root as core settings
-        $this->versionNo = "8.1";
-        $this->docRoot = $_SERVER['DOCUMENT_ROOT'];
+        // Defaults to the right
+        $this->versionNo = "8.1";                           // "8.1";
+        $this->docRoot = $_SERVER['DOCUMENT_ROOT'];         // $_SERVER['DOCUMENT_ROOT']
+        $this->assetsRoot = "assets";                       // "assets" (relative or absolute)
     }
 
     public function getCoreDetails()
@@ -16,6 +18,7 @@ class Settings
         return [
             "versionNo" => $this->versionNo,
             "docRoot" => $this->docRoot,
+            "assetsRoot" => $this->assetsRoot,
         ];
     }
 

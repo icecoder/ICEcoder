@@ -10,16 +10,16 @@ $t = $text['editor'];
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="assets/css/codemirror.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="assets/css/show-hint.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="assets/css/lint.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $settingsClass->assetsRoot;?>/css/codemirror.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $settingsClass->assetsRoot;?>/css/show-hint.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $settingsClass->assetsRoot;?>/css/lint.css?microtime=<?php echo microtime(true);?>">
 <!--
 codemirror-compressed.js
 - incls: codemirror
 - modes: clike, coffeescript, css, erlang, go, htmlmixed, javascript, julia, lua, markdown, perl, php, python, ruby, sass, sql, xml, yaml
 - addon: brace-fold, closebrackets, closetag, css-hint, foldcode, foldgutter, html-hint, javascript-hint, javascript-lint, lint, match-highlighter, matchbrackets, runmode, searchcursor, show-hint, simplescrollbars, sql-hint, trailingspace, xml-fold, xml-hint
 //-->
-<script src="assets/js/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="<?php echo $settingsClass->assetsRoot;?>/js/codemirror-compressed.js?microtime=<?php echo microtime(true);?>"></script>
 <?php
 $pluginFiles = [
 	"jshint/jshint-2.5.6.min.js",
@@ -36,7 +36,7 @@ for ($i = 0; $i < count($pluginFiles); $i++) {
 }
 ?>
 <link rel="stylesheet" href="<?php
-echo dirname(basename(__DIR__)) . '/assets/css/theme/';
+echo $settingsClass->assetsRoot . '/css/theme/';
 echo "default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css';
 echo "?microtime=" . microtime(true);
 // Light themes
@@ -53,9 +53,9 @@ if (false !== array_search($ICEcoder["theme"], ["base16-light", "chrome-devtools
 	$activeLineNum = "#ccc";
 }
 ?>">
-<script src="assets/js/mmd.js?microtime=<?php echo microtime(true);?>"></script>
-<link rel="stylesheet" href="assets/css/foldgutter.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="assets/css/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
+<script src="<?php echo $settingsClass->assetsRoot;?>/js/mmd.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" href="<?php echo $settingsClass->assetsRoot;?>/css/foldgutter.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $settingsClass->assetsRoot;?>/css/simplescrollbars.css?microtime=<?php echo microtime(true);?>">
 
 <style type="text/css">
 /* Make sure this next one remains the 1st item, updated with JS */
@@ -86,9 +86,9 @@ if (false !== array_search($ICEcoder["theme"], ["base16-light", "chrome-devtools
 h2 {color: rgba(0,198,255,0.7)}
 .cm-s-diff {left: 50%}
 </style>
-<link rel="stylesheet" href="assets/css/editor.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="assets/css/file-types.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" href="assets/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $settingsClass->assetsRoot;?>/css/editor.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $settingsClass->assetsRoot;?>/css/file-types.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" href="<?php echo $settingsClass->assetsRoot;?>/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body style="color: #fff; margin: 0" onkeydown="return parent.ICEcoder.interceptKeys('content', event);" onkeyup="parent.ICEcoder.resetKeys(event);" onblur="parent.ICEcoder.resetKeys(event);" oncontextmenu="return false">

@@ -10,8 +10,9 @@ var ICEcoder = {
     // INIT
     // ====
 
-    // URL we're viewing ICEcoder from
+    // URLs we're viewing ICEcoder and its assets from
     iceLoc:                window.location.origin + window.location.pathname.replace(/\/$/, ""),
+    assetsLoc:              get('icecoderJSFile').dataset.assetsRoot,
 
     // Define settings
     filesW:	               250,           // Width of files pane
@@ -4429,7 +4430,7 @@ var ICEcoder = {
         this.openFiles.push(shortURL);
 
         // Setup a new tab
-        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; parent.ICEcoder.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; parent.ICEcoder.overCloseLink = false"></a>';
+        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.assetsLoc + '/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; parent.ICEcoder.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; parent.ICEcoder.overCloseLink = false"></a>';
         get('tab' + (this.openFiles.length)).style.display = "inline-block";
         fileName = this.openFiles[this.openFiles.length - 1];
         fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
@@ -4477,7 +4478,7 @@ var ICEcoder = {
         this.openFiles[tabNum - 1] = newName;
 
         // Setup a new tab
-        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.iceLoc + '/assets/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; parent.ICEcoder.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; parent.ICEcoder.overCloseLink = false"></a>';
+        closeTabLink = '<a nohref onClick="ICEcoder.closeTab(parseInt(this.parentNode.id.slice(3), 10))"><img src="' + this.assetsLoc + '/images/nav-close.gif" class="closeTab" onMouseOver="prevBG = this.style.backgroundColor; this.style.backgroundColor = \'#333\'; parent.ICEcoder.overCloseLink = true" onMouseOut="this.style.backgroundColor = prevBG; parent.ICEcoder.overCloseLink = false"></a>';
         fileName = this.openFiles[tabNum - 1];
         fileExt = fileName.substr(fileName.lastIndexOf(".") + 1);
         get('tab' + tabNum).innerHTML = closeTabLink + "<span style=\"display: inline-block; width: 19px\"></span>" + fileName.slice(fileName.lastIndexOf("/")).replace(/\//, "");
@@ -5301,7 +5302,7 @@ var ICEcoder = {
                 "height": 55,
                 "top": -55,
                 "left": 0,
-                "title": "<img src=\"" + this.iceLoc + "/assets/images/icecoder.png\" style=\"position: absolute; margin: -105px 0 0 -55px\"><br><br>Code editor awesomeness ...in your browser",
+                "title": "<img src=\"" + this.assetsLoc + "/images/icecoder.png\" style=\"position: absolute; margin: -105px 0 0 -55px\"><br><br>Code editor awesomeness ...in your browser",
                 "message": "View the quick start tutorial? (Well worthwhile!) or <a onclick=\"ICEcoder.viewTutorial(99, 0)\" style=\"font-size: 14px; text-decoration: underline; cursor: pointer\">skip it</a>.",
                 "button": "view tutorial"
             },

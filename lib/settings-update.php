@@ -95,7 +95,8 @@ if (false === $demoMode && true === isset($_SESSION['loggedIn']) && true === $_S
 
 	// Work out the theme to use now
     $themeURL =
-        "assets/css/theme/" .
+        $settingsClass->assetsRoot .
+        "/css/theme/" .
         ("default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css') .
 	    "?microtime=" . microtime(true);
 

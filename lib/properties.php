@@ -9,6 +9,10 @@ $fileName=realpath($docRoot . $iceRoot . str_replace("|", "/", $_GET['fileName']
 if (!file_exists($fileName) || 0 !== strpos(str_replace("\\", "/", $fileName),$docRoot)) {
         die("<script>alert('Sorry - problem with file/folder requested'); window.history.back();</script>");
 }
+
+$assetsPath = "assets" === $settingsClass->assetsRoot
+    ? "../" . $settingsClass->assetsRoot
+    : $settingsClass->assetsRoot
 ?>
 <!DOCTYPE html>
 
@@ -17,8 +21,8 @@ if (!file_exists($fileName) || 0 !== strpos(str_replace("\\", "/", $fileName),$d
 <title>ICEcoder <?php echo $ICEcoder["versionNo"];?> file/folder properties</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" type="text/css" href="../assets/css/resets.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" type="text/css" href="../assets/css/properties.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $assetsPath;?>/css/resets.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $assetsPath;?>/css/properties.css?microtime=<?php echo microtime(true);?>">
 </head>
 
 <body class="properties" onkeyup="parent.ICEcoder.handleModalKeyUp(event, 'properties')" onload="this.focus();">

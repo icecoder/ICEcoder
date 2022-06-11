@@ -47,15 +47,15 @@ $isMac = false !== strpos($_SERVER['HTTP_USER_AGENT'], "Macintosh") ? true : fal
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
-<link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/assets/css/resets.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/assets/css/icecoder.css?microtime=<?php echo microtime(true);?>">
-<link rel="stylesheet" type="text/css" href="<?php echo $iceURLPath;?>/assets/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $settingsClass->assetsRoot;?>/css/resets.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $settingsClass->assetsRoot;?>/css/icecoder.css?microtime=<?php echo microtime(true);?>">
+<link rel="stylesheet" type="text/css" href="<?php echo $settingsClass->assetsRoot;?>/css/file-type-icons.css?microtime=<?php echo microtime(true);?>">
 <link rel="stylesheet" href="<?php
-echo $iceURLPath . "/assets/css/theme/";
+echo $settingsClass->assetsRoot . "/css/theme/";
 echo "default" === $ICEcoder["theme"] ? 'icecoder.css' : $ICEcoder["theme"] . '.css';
 echo "?microtime=" . microtime(true);
 ?>">
-<link rel="icon" type="image/png" href="<?php echo $iceURLPath;?>/assets/images/favicon.png">
+<link rel="icon" type="image/png" href="<?php echo $settingsClass->assetsRoot;?>/images/favicon.png">
 <script>
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
 
@@ -85,7 +85,7 @@ $t = $text['index'];
 ?>
 }
 </script>
-<script language="JavaScript" src="<?php echo $iceURLPath;?>/assets/js/icecoder.js?microtime=<?php echo microtime(true);?>"></script>
+<script language="JavaScript" src="<?php echo $settingsClass->assetsRoot;?>/js/icecoder.js?microtime=<?php echo microtime(true);?>" id="icecoderJSFile" data-assets-root="<?php echo $settingsClass->assetsRoot;?>"></script>
 <?php
 $havePrettier = false;
 foreach ($ICEcoder['plugins'] as $plugin) {
@@ -106,10 +106,10 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 <?php
 }
 ?>
-<script src="<?php echo $iceURLPath;?>/assets/js/mmd.js?microtime=<?php echo microtime(true);?>"></script>
-<script src="<?php echo $iceURLPath;?>/assets/js/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
-<script src="<?php echo $iceURLPath;?>/assets/js/difflib.js?microtime=<?php echo microtime(true);?>"></script>
-<link rel="stylesheet" href="<?php echo $iceURLPath;?>/assets/css/farbtastic.css?microtime=<?php echo microtime(true);?>" type="text/css">
+<script src="<?php echo $settingsClass->assetsRoot;?>/js/mmd.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="<?php echo $settingsClass->assetsRoot;?>/js/farbtastic.js?microtime=<?php echo microtime(true);?>"></script>
+<script src="<?php echo $settingsClass->assetsRoot;?>/js/difflib.js?microtime=<?php echo microtime(true);?>"></script>
+<link rel="stylesheet" href="<?php echo $settingsClass->assetsRoot;?>/css/farbtastic.css?microtime=<?php echo microtime(true);?>" type="text/css">
 </head>
 
 <body onload="<?php
@@ -180,7 +180,7 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 <div id="plugins" class="plugins" style="<?php echo $ICEcoder["pluginPanelAligned"];?>: 0" onmouseover="ICEcoder.showHidePlugins('show')" onmouseout="ICEcoder.showHidePlugins('hide')" onclick="ICEcoder.showHidePlugins('hide')">
 	<div style="padding: 15px">
 		<a nohref onclick="ICEcoder.showColorPicker(document.getElementById('color') ? document.getElementById('color').value : '#123456')" title="Farbtastic
-<?php echo $t['Color picker'];?>"><img src="<?php echo $iceURLPath;?>/assets/images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
+<?php echo $t['Color picker'];?>"><img src="<?php echo $settingsClass->assetsRoot;?>/images/color-picker.png" style="cursor: pointer" alt="Color Picker"></a><br><br>
 		<div id="pluginsOptional"><?php echo $pluginsDisplay; ?></div>
 		<a nohref onclick="ICEcoder.pluginsManager()" title="<?php echo $t['Plugins Manager'];?>" style="color: #ddd; margin-left: 2px; cursor: pointer"><?php echo file_get_contents(dirname(__FILE__) . "/assets/images/icons/plus.svg");?></a>
 	</div>
@@ -303,8 +303,8 @@ if (true === $havePrettier && true === file_exists(dirname(__FILE__) . "/plugins
 
 <div id="editor" class="editor">
 	<div id="tabsBar" class="tabsBar" oncontextmenu="return false">
-		<a nohref onClick="ICEcoder.closeAllTabs()"><img src="<?php echo $iceURLPath;?>/assets/images/nav-close-all.gif" class="closeAllTabs" title="<?php echo $t['Close all tabs'];?>"></a>
-		<a nohref onClick="ICEcoder.alphaTabs()"><img src="<?php echo $iceURLPath;?>/assets/images/nav-alpha.png" class="alphaTabs" title="<?php echo $t['Alphabetize tabs'];?>"></a>
+		<a nohref onClick="ICEcoder.closeAllTabs()"><img src="<?php echo $settingsClass->assetsRoot;?>/images/nav-close-all.gif" class="closeAllTabs" title="<?php echo $t['Close all tabs'];?>"></a>
+		<a nohref onClick="ICEcoder.alphaTabs()"><img src="<?php echo $settingsClass->assetsRoot;?>/images/nav-alpha.png" class="alphaTabs" title="<?php echo $t['Alphabetize tabs'];?>"></a>
 		<?php
 		for ($i = 1; $i <= 100; $i++) {
 			echo '<div id="tab' . $i . '" class="tab" onmousedown="if (false === ICEcoder.overCloseLink) {ICEcoder.switchTab(parseInt(this.id.slice(3), 10)); ICEcoder.tabDragStart(parseInt(this.id.slice(3), 10))}; if (1 === event.button) {ICEcoder.closeTab(parseInt(this.id.slice(3), 10)); return false}; thisColor = ICEcoder.colorSelectedText;" onmouseover="thisColor = this.style.color; this.style.color = ICEcoder.colorSelectedText" onmouseout="this.style.color = thisColor" ondblclick="ICEcoder.focusUnfocusTab()"></div>';
