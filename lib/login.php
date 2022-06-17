@@ -65,7 +65,7 @@ echo true === $settingPW ? "Setup" : "Login";
 		if (true === $ICEcoder["multiUser"]) {
 			// Also set value to "admin" if only 1 user (has to be admin)
 			$showAdminValue = 1 === count($configUsernames) ? ' value="admin"' : '';
-			echo '<input type="text" name="username"' . $showAdminValue . ' class="password" id="username" onkeydown="return checkUernameKey(event.key)" onkeyup="checkUsername(this.value, true)" onchange="checkUsername(this.value, true)" onpaste="checkUsername(this.value, true)"><br><br>';
+			echo '<input type="text" name="username"' . $showAdminValue . ' class="password" id="username" onkeydown="return checkUsernameKey(event.key)" onkeyup="checkUsername(this.value, true)" onchange="checkUsername(this.value, true)" onpaste="checkUsername(this.value, true)"><br><br>';
 		};
 		?>
 		<input type="password" name="password" class="password" id="password"<?php
@@ -129,7 +129,7 @@ const get = function(elem) {
 };
 
 // Check keydown in username field meets simple rules (alphanums, underscore and hyphen only)
-const checkUernameKey = function(key) {
+const checkUsernameKey = function(key) {
     return /[\w_\-]/g.test(key);
 }
 
@@ -181,8 +181,8 @@ const checkCase = function(evt) {
 // Check if we can submit, else shake requirements
 const checkCanSubmit = function() {
     <?php
-		// Check username field if multiUser enabled
-		if (true === $ICEcoder["multiUser"]) {
+    // Check username field if multiUser enabled
+    if (true === $ICEcoder["multiUser"]) {
     ?>// Username isn't simple, can't submit
     if(false === checkUsername(get("username").value, false)) {
         return false;
