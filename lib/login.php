@@ -65,7 +65,7 @@ echo true === $settingPW ? "Setup" : "Login";
 		if (true === $ICEcoder["multiUser"]) {
 			// Also set value to "admin" if only 1 user (has to be admin)
 			$showAdminValue = 1 === count($configUsernames) ? ' value="admin"' : '';
-			echo '<input type="text" name="username"' . $showAdminValue . ' class="password"><br><br>';
+			echo '<input type="text" name="username"' . $showAdminValue . ' class="password" id="username" onkeydown="return checkUernameKey(event.key)" onkeyup="checkUsername(this.value, true)" onchange="checkUsername(this.value, true)" onpaste="checkUsername(this.value, true)"><br><br>';
 		};
 		?>
 		<input type="password" name="password" class="password" id="password"<?php
@@ -128,6 +128,21 @@ const get = function(elem) {
 	return document.getElementById(elem);
 };
 
+// Check keydown in username field meets simple rules (alphanums, underscore and hyphen only)
+const checkUernameKey = function(key) {
+    return /[\w_\-]/g.test(key);
+}
+
+// Check username value meets simple rules (alphanums, underscore and hyphen only)
+const checkUsername = function(username, amend) {
+    // Amend username if OK to do this
+    if (true === amend) {
+        get("username").value = username.replace(/[^\w_\-]/g, "");
+    }
+    // Return a bool based on meeting the requirements
+    return username.replace(/[^\w_\-]/g, "").length === username.length;
+};
+
 // Check password strength and color requirements not met
 const pwStrength = function(pw) {
 	// Set variables
@@ -165,7 +180,16 @@ const checkCase = function(evt) {
 
 // Check if we can submit, else shake requirements
 const checkCanSubmit = function() {
-	// Password isn't strong enough, shake requirements
+    <?php
+		// Check username field if multiUser enabled
+		if (true === $ICEcoder["multiUser"]) {
+    ?>// Username isn't simple, can't submit
+    if(false === checkUsername(get("username").value, false)) {
+        return false;
+    }
+    <?php
+    }
+    ?>// Password isn't strong enough, shake requirements
 	if(false === pwStrength(get("password").value)) {
 		var posArray = [24, -24, 12, -12, 6, -6, 3, -3, 0];
 		var pos = -1;

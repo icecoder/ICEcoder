@@ -57,9 +57,13 @@ $ICEcoderSettings = $settingsClass->getConfigGlobalSettings();
 // Load common functions
 include_once dirname(__FILE__) . "/settings-common.php";
 
+$postUsername = true === isset($_POST['username']) && is_string($_POST['username'])
+    ? preg_replace("/[^\w_\-]/", "", $_POST['username'])
+    : "";
+
 // Establish user settings file
 $username = "admin-";
-if (true === isset($_POST['username']) && "" !== $_POST['username']) {$username = $_POST['username'] . "-";};
+if ("" !== $postUsername) {$username = $postUsername . "-";};
 if (true === isset($_SESSION['username']) && "" !== $_SESSION['username']) {$username = $_SESSION['username'] . "-";};
 $settingsFile = 'config-' . $username . str_replace(".", "_", str_replace("www.", "", $_SERVER['SERVER_NAME'])) . '.php';
 
@@ -164,7 +168,7 @@ if (true === isset($_POST['submit']) && "login" === $setPWorLogin) {
     if (verifyHash($_POST['password'], $ICEcoder["password"]) === $ICEcoder["password"]) {
         session_regenerate_id();
         if ($ICEcoder["multiUser"]) {
-            $_SESSION['username'] = $_POST['username'];
+            $_SESSION['username'] = $postUsername;
         }
         $_SESSION['loggedIn'] = true;
         $extraProcessesClass = new ExtraProcesses();
@@ -235,7 +239,7 @@ if (true === $ICEcoder['loginRequired'] && false === isset($_POST['password']) &
         }
         // Set the session user level
         if ($ICEcoder["multiUser"]) {
-            $_SESSION['username'] = $_POST['username'];
+            $_SESSION['username'] = $postUsername;
         }
         $_SESSION['loggedIn'] = true;
         $extraProcessesClass = new ExtraProcesses();
