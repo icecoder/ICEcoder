@@ -45,7 +45,7 @@ function returnHTMLPromptCommand($cmd) {
 // If proc_open isn't enabled, display prompt, command and a message re needing this enabled
 if (false === proc_open_enabled()) {
     echo json_encode([
-        "output" => returnHTMLPromptCommand($_REQUEST['command'] . "<br><br>Sorry but you can't use this terminal if your proc_open is disabled"),
+        "output" => returnHTMLPromptCommand($_POST['command'] . "<br><br>Sorry but you can't use this terminal if your proc_open is disabled"),
         "user" => $user,
         "cwd" => $cwd
     ]);
@@ -55,7 +55,7 @@ if (false === proc_open_enabled()) {
 // If in demo mode, display message and go no further
 if (true === $demoMode) {
     echo json_encode([
-        "output" => returnHTMLPromptCommand($_REQUEST['command'] . "<br><br>Sorry, shell usage not enabled in demo mode"),
+        "output" => returnHTMLPromptCommand($_POST['command'] . "<br><br>Sorry, shell usage not enabled in demo mode"),
         "user" => $user,
         "cwd" => $cwd
     ]);
@@ -63,9 +63,9 @@ if (true === $demoMode) {
 }
 
 // If no command, display message and go no further
-if (false === isset($_REQUEST['command'])) {
+if (false === isset($_POST['command'])) {
     echo json_encode([
-        "output" => returnHTMLPromptCommand($_REQUEST['command'] . "<br><br>Sorry, no command received"),
+        "output" => returnHTMLPromptCommand($_POST['command'] . "<br><br>Sorry, no command received"),
         "user" => $user,
         "cwd" => $cwd
     ]);
@@ -73,16 +73,16 @@ if (false === isset($_REQUEST['command'])) {
 }
 
 // Strip any slashes from command
-$_REQUEST['command'] = stripslashes($_REQUEST['command']);
+$_POST['command'] = stripslashes($_POST['command']);
 
 // Start output with the prompt and command they provided last
-$output = returnHTMLPromptCommand($_REQUEST['command']);
+$output = returnHTMLPromptCommand($_POST['command']);
 
 // If command contains cd but no dir
-if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', $_REQUEST['command'])) {
+if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', $_POST['command'])) {
 	$_SESSION['cwd'] = $cwd;
 // Else cd to a dir
-} elseif (preg_match('/^[[:blank:]]*cd[[:blank:]]+([^;]+)$/', $_REQUEST['command'], $regs)) {
+} elseif (preg_match('/^[[:blank:]]*cd[[:blank:]]+([^;]+)$/', $_POST['command'], $regs)) {
 	// The current command is 'cd', which we have to handle as an internal shell command
     $newDir = "/" === $regs[1][0] ? $regs[1] : $_SESSION['cwd'] . "/" . $regs[1];
 
@@ -110,15 +110,15 @@ if (preg_match('/^[[:blank:]]*cd[[:blank:]]*$/', $_REQUEST['command'])) {
 	// The command is not a 'cd' command
 
 	// Alias expansion
-	$length = strcspn($_REQUEST['command'], " \t");
-	$token = substr($_REQUEST['command'], 0, $length);
+	$length = strcspn($_POST['command'], " \t");
+	$token = substr($_POST['command'], 0, $length);
 	if (true === isset($aliases[$token])) {
-		$_REQUEST['command'] = $aliases[$token] . substr($_REQUEST['command'], $length);
+		$_POST['command'] = $aliases[$token] . substr($_POST['command'], $length);
 	}
 
 	// Open a proc with array and $io return
 	$p = proc_open(
-		$_REQUEST['command'],
+		$_POST['command'],
 		array(
 			1 => array('pipe', 'w'),
 			2 => array('pipe', 'w')
