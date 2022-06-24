@@ -19,7 +19,7 @@ if (false === $settingsClass->getDataDirDetails()['readable']) {
     include dirname(__FILE__) . "/requirements.php";
 }
 
-if (false === $settingsClass->getDataDirDetails()['writable']) {
+if (false === $ICEcoder["demoMode"] && false === $settingsClass->getDataDirDetails()['writable']) {
     $reqsFailures = ["phpDataDirNotWritable"];
     include dirname(__FILE__) . "/requirements.php";
 }
@@ -46,7 +46,7 @@ if (false === $settingsClass->getConfigGlobalFileDetails()['readable']) {
 }
 
 // Check we can write global config settings file
-if (false === $settingsClass->getConfigGlobalFileDetails()['writable']) {
+if (false === $ICEcoder["demoMode"] && false === $settingsClass->getConfigGlobalFileDetails()['writable']) {
     $reqsFailures = ["phpGlobalConfigWriteFile"];
     include dirname(__FILE__) . "/requirements.php";
 }
@@ -105,7 +105,7 @@ if (false === $settingsClass->getConfigUsersFileDetails($settingsFile)['readable
 }
 
 // Check we can write users config settings file
-if (false === $settingsClass->getConfigUsersFileDetails($settingsFile)['writable']) {
+if (false === $ICEcoder["demoMode"] && false === $settingsClass->getConfigUsersFileDetails($settingsFile)['writable']) {
     $reqsFailures = ["phpUsersConfigWriteFile"];
     include dirname(__FILE__) . "/requirements.php";
 }
