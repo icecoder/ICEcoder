@@ -19,7 +19,7 @@ if (false === ini_get('allow_url_fopen')) {
 }
 
 // Check we have a working session
-if (false === $ICEcoder["demoMode"] && (false === isset($_SESSION) || "" === session_id())) {
+if (false === isset($_SESSION) || "" === session_id()) {
 	array_push($reqsFailures, "phpSession");
 }
 
