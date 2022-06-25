@@ -111,7 +111,7 @@ class File
     public function load() {
         global $file, $fileLoc, $fileName, $t, $lineNumber;
         echo 'action="load";';
-        $lineNumber = max(isset($_REQUEST['lineNumber']) ? intval($_REQUEST['lineNumber']) : 1, 1);
+        $lineNumber = max(isset($_GET['lineNumber']) ? intval($_GET['lineNumber']) : 1, 1);
         // Check this file isn't on the banned list at all
         $canOpen = true;
         for ($i = 0; $i < count($_SESSION['bannedFiles']); $i++) {
