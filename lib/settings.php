@@ -186,9 +186,6 @@ if (true === isset($_POST['submit']) && "login" === $setPWorLogin) {
 $serverType = $systemClass->getOS();
 $docRoot = rtrim(str_replace("\\", "/", $ICEcoder['docRoot']));
 $iceRoot = rtrim(str_replace("\\", "/", $ICEcoder["root"]));
-if ($_SESSION['loggedIn'] && "index.php" === basename($_SERVER['SCRIPT_NAME'])) {
-    echo "<script>docRoot = '" . $docRoot . "'; iceRoot='" . $iceRoot . "'</script>";
-}
 
 // Establish the dir ICEcoders running from
 $ICEcoderDirFullPath = rtrim(str_replace("\\", "/", dirname($_SERVER['SCRIPT_FILENAME'])), "/lib");

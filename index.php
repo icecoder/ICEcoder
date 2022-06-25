@@ -57,6 +57,7 @@ echo "?microtime=" . microtime(true);
 ?>">
 <link rel="icon" type="image/png" href="<?php echo $settingsClass->assetsRoot;?>/images/favicon.png">
 <script>
+docRoot = "<?php echo $ICEcoder['docRoot']; ?>";
 iceRoot = "<?php echo $ICEcoder['root']; ?>";
 
 window.onbeforeunload = function() {

@@ -1,6 +1,6 @@
 <?php
 // Classes
-require_once dirname(__FILE__)."../classes/_ExtraProcesses.php";
+require_once dirname(__FILE__)."/../classes/_ExtraProcesses.php";
 require_once dirname(__FILE__)."/../classes/Backup.php";
 require_once dirname(__FILE__)."/../classes/File.php";
 require_once dirname(__FILE__)."/../classes/Settings.php";
