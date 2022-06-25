@@ -204,18 +204,18 @@ for ($i = 0;$i < count($themeArray); $i++) {
 		// Display number of days backups available
 		$backupDirBase = str_replace("\\", "/", dirname(__FILE__)) . "/../data/backups/";
 		$backupDirHost = "localhost";
-        if (true === is_dir($backupDirBase . $backupDirHost)) {
-            $backupDirsList = scandir($backupDirBase . $backupDirHost);
-            // Remove . and .. from array
-            for ($i = 0; $i < count($backupDirsList); $i++) {
-                if ($backupDirsList[$i] === "." || $backupDirsList[$i] === "..") {
-                    array_splice($backupDirsList, $i, 1);
-                    $i--;
-                }
-            }
-        } else {
-            $backupDirsList = [];
-        }
+		if (true === is_dir($backupDirBase . $backupDirHost)) {
+			$backupDirsList = scandir($backupDirBase . $backupDirHost);
+			// Remove . and .. from array
+			for ($i = 0; $i < count($backupDirsList); $i++) {
+				if ($backupDirsList[$i] === "." || $backupDirsList[$i] === "..") {
+					array_splice($backupDirsList, $i, 1);
+					$i--;
+				}
+			}
+		} else {
+			$backupDirsList = [];
+		}
 		// Display text re the number of days backups have taken place
 		$backupNumDays = "" != $backupDirsList[0] && count($backupDirsList) > 0 ? count($backupDirsList) : 0;
 		echo $backupNumDays . " " . (1 !== $backupNumDays ? $t['days'] : $t['day']) . " " . $t['of backups stored...'];
