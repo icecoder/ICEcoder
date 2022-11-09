@@ -1,10 +1,12 @@
 # ICEcoder
 
+<img src="https://assets.icecoder.net/images/icecoder.png" alt="ICEcoder code editor">
+
+
 ## Code editor awesomeness ...in your browser
 
 ICEcoder is a browser based code editor, which provides a modern approach to building websites. By allowing you to code directly within the web browser, online or offline, it means you only need one program (your browser) to develop sites, plus can test on actual web servers. After development, you can also maintain the website easily, all of which make for speedy and smart development.
 
-<img src="https://assets.icecoder.net/images/icecoder.png" alt="ICEcoder code editor">
 
 ### ICECoder with Torres Digital Theme 
 
