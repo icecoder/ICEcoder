@@ -1,4 +1,4 @@
-# ICEcoder
+# ❄️ ICEcoder for All !✨
 
 <img src="https://assets.icecoder.net/images/icecoder.png" alt="ICEcoder code editor">
 
