@@ -1,3 +1,7 @@
+# ICEcoder is for sale! Please contact info@icecoder.net. Serious offers only.
+
+---
+
 # ICEcoder
 
 ## Code editor awesomeness ...in your browser
